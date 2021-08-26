@@ -51,6 +51,23 @@ const Item = styled.div`
   }
 `;
 
+const RightWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  > img {
+    width: 68px;
+    height: 48px;
+    margin-bottom: 120px;
+  }
+  > div {
+    font-size: 16px;
+    line-height: 24px;
+    color: rgba(255, 255, 255, 0.35);
+    white-space: nowrap;
+  }
+`;
+
 export default function Footer() {
   return (
     <Wrapper>
@@ -60,8 +77,8 @@ export default function Footer() {
             <Label>{item.label}</Label>
             <ItemsWrapper>
               {item.items.map((item, index) => (
-                <ExternalLink href={item.link}>
-                  <Item key={index}>
+                <ExternalLink href={item.link} key={index}>
+                  <Item>
                     {item.icon && <img src={`/imgs/icons/${item.icon}`} />}
                     {item.name}
                   </Item>
@@ -71,6 +88,10 @@ export default function Footer() {
           </List>
         ))}
       </LeftWrapper>
+      <RightWrapper>
+        <img src="/imgs/opensquare-footer-logo.svg" />
+        <div>{`© ${new Date().getFullYear()} OpenSquare. All Rights Reserved.`}</div>
+      </RightWrapper>
     </Wrapper>
   );
 }
