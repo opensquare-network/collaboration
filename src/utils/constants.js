@@ -99,3 +99,15 @@ export const LIST_POST_ITEMS = [
     status: "End",
   },
 ];
+
+export const TIMELINE_ITEMS_1 = [
+  { name: "Created", time: "Aug 26th, 2021 - 6:45 am (UTC)" },
+  { name: "Start", time: "Aug 26th, 2021 - 6:45 am (UTC)" },
+  { name: "Active", active: true },
+];
+
+export const TIMELINE_ITEMS_2 = [
+  { name: "Created", time: "Aug 26th, 2021 - 6:45 am (UTC)" },
+  { name: "Start", time: "Aug 26th, 2021 - 6:45 am (UTC)" },
+  { name: "End", time: "Aug 26th, 2021 - 6:45 am (UTC)" },
+];
