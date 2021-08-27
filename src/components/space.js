@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 import { SPACE_ITEMS } from "utils/constants";
+import InternalLink from "./internalLink";
 
 const Title = styled.div`
   font-weight: bold;
@@ -54,6 +55,9 @@ const Name = styled.div`
   font-size: 18px;
   line-height: 24px;
   color: #2e343d;
+  :hover {
+    text-decoration: underline;
+  }
 `;
 
 const Symbol = styled.div`
@@ -100,7 +104,9 @@ export default function Space() {
                 {item.icon && <img src={`/imgs/icons/${item.icon}`} />}
                 {!item.icon && <DefaultIcon />}
               </Icon>
-              <Name>{item.name}</Name>
+              <InternalLink href="/list">
+                <Name>{item.name}</Name>
+              </InternalLink>
               <Symbol>{item.symbol ?? "-"}</Symbol>
             </IconWrapper>
             <Divider />

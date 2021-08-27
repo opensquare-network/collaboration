@@ -3,7 +3,6 @@ import styled from "styled-components";
 import Header from "./header";
 import Main from "./main";
 import Footer from "./footer";
-import Home from "./home";
 
 const Wrapper = styled.div`
   min-height: 100vh;
@@ -13,13 +12,11 @@ const Wrapper = styled.div`
   flex-direction: column;
 `;
 
-export default function Layout() {
+export default function Layout({ bgHeight, children }) {
   return (
     <Wrapper>
       <Header />
-      <Main>
-        <Home />
-      </Main>
+      <Main bgHeight={bgHeight}>{children}</Main>
       <Footer />
     </Wrapper>
   );

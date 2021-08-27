@@ -1,13 +1,18 @@
 import styled from "styled-components";
 
+import Container from "./container";
+
 const Wrapper = styled.header`
+  flex: 0 0 auto;
+  background: #ffffff;
+`;
+
+const ContentWrapper = styled.div`
   height: 80px;
-  flex: 0 0 80px;
   padding: 0 52px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #ffffff;
 `;
 
 const LeftWrapper = styled.div`
@@ -52,15 +57,19 @@ const Button = styled.div`
 export default function Header() {
   return (
     <Wrapper>
-      <LeftWrapper>
-        <Logo src="/imgs/opensquare-logo.svg" />
-        <Divider />
-        <AppWrapper>
-          <img src="/imgs/icons/apps.svg" />
-          Voting
-        </AppWrapper>
-      </LeftWrapper>
-      <Button>Connect Wallet</Button>
+      <Container>
+        <ContentWrapper>
+          <LeftWrapper>
+            <Logo src="/imgs/opensquare-logo.svg" />
+            <Divider />
+            <AppWrapper>
+              <img src="/imgs/icons/apps.svg" />
+              Voting
+            </AppWrapper>
+          </LeftWrapper>
+          <Button>Connect Wallet</Button>
+        </ContentWrapper>
+      </Container>
     </Wrapper>
   );
 }

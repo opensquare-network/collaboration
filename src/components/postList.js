@@ -18,7 +18,7 @@ const PostsWrapper = styled.div`
 export default function PostList({ title, posts }) {
   return (
     <div>
-      <Title>{title}</Title>
+      {title && <Title>{title}</Title>}
       <PostsWrapper>
         {posts.map((item, index) => (
           <Post key={index} data={item} />

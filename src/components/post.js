@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 import Author from "./author";
+import InternalLink from "components/internalLink";
 
 const Wrapper = styled.div`
   background: #ffffff;
@@ -15,7 +16,6 @@ const Title = styled.div`
   font-weight: 500;
   font-size: 18px;
   line-height: 24px;
-  cursor: pointer;
   :hover {
     text-decoration: underline;
   }
@@ -45,25 +45,27 @@ const LeftWrapper = styled.div`
 `;
 
 const Status = styled.div`
-  background: #04d2c5;
   padding: 3px 12px;
   font-weight: bold;
   font-size: 12px;
   line-height: 18px;
   color: #ffffff;
+  background: ${(p) => (p.active ? "#04d2c5" : "#e2e8f0")};
 `;
 
 export default function Post({ data }) {
   return (
     <Wrapper>
-      <Title>{data.title}</Title>
+      <InternalLink href="/detail">
+        <Title>{data.title}</Title>
+      </InternalLink>
       <Divider />
       <InfoWrapper>
         <LeftWrapper>
           <Author username={data.author} />
           <div>{data.time}</div>
         </LeftWrapper>
-        <Status>{data.status}</Status>
+        <Status active={data.status === "Active"}>{data.status}</Status>
       </InfoWrapper>
     </Wrapper>
   );
