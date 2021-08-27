@@ -2,14 +2,18 @@ import styled from "styled-components";
 
 import ExternalLink from "./externalLink";
 import { FOOTER_ITEMS } from "utils/constants";
+import Container from "./container";
 
 const Wrapper = styled.footer`
+  flex: 0 0 auto;
+  background: #191e27;
+`;
+
+const ContentWrapper = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  flex: 0 0 auto;
   padding: 80px 52px;
-  background: #191e27;
 `;
 
 const LeftWrapper = styled.div`
@@ -71,27 +75,31 @@ const RightWrapper = styled.div`
 export default function Footer() {
   return (
     <Wrapper>
-      <LeftWrapper>
-        {FOOTER_ITEMS.map((item, index) => (
-          <List key={index}>
-            <Label>{item.label}</Label>
-            <ItemsWrapper>
-              {item.items.map((item, index) => (
-                <ExternalLink href={item.link} key={index}>
-                  <Item>
-                    {item.icon && <img src={`/imgs/icons/${item.icon}`} />}
-                    {item.name}
-                  </Item>
-                </ExternalLink>
-              ))}
-            </ItemsWrapper>
-          </List>
-        ))}
-      </LeftWrapper>
-      <RightWrapper>
-        <img src="/imgs/opensquare-footer-logo.svg" />
-        <div>{`© ${new Date().getFullYear()} OpenSquare. All Rights Reserved.`}</div>
-      </RightWrapper>
+      <Container>
+        <ContentWrapper>
+          <LeftWrapper>
+            {FOOTER_ITEMS.map((item, index) => (
+              <List key={index}>
+                <Label>{item.label}</Label>
+                <ItemsWrapper>
+                  {item.items.map((item, index) => (
+                    <ExternalLink href={item.link} key={index}>
+                      <Item>
+                        {item.icon && <img src={`/imgs/icons/${item.icon}`} />}
+                        {item.name}
+                      </Item>
+                    </ExternalLink>
+                  ))}
+                </ItemsWrapper>
+              </List>
+            ))}
+          </LeftWrapper>
+          <RightWrapper>
+            <img src="/imgs/opensquare-footer-logo.svg" />
+            <div>{`© ${new Date().getFullYear()} OpenSquare. All Rights Reserved.`}</div>
+          </RightWrapper>
+        </ContentWrapper>
+      </Container>
     </Wrapper>
   );
 }

@@ -56,3 +56,58 @@ export const POST_ITEMS = [
     status: "Active",
   },
 ];
+
+export const LIST_NAV_ITEMS = [
+  { name: "Space", link: "/" },
+  { name: "Kusama" },
+];
+
+export const DETAIL_NAV_ITEMS = [
+  { name: "Space", link: "/" },
+  { name: "Kusama", link: "/list", back: true },
+  { name: "Prososal" },
+];
+
+export const LIST_TAB_ITEMS = ["All Proposals", "Active", "Pending", "Closed"];
+
+export const LIST_POST_ITEMS = [
+  {
+    title: "Sit semper pretium enim, quisque aenean euismod odio.",
+    author: "Butterbean",
+    time: "End in 2 days",
+    status: "Active",
+  },
+  {
+    title:
+      "Ut dignissim ornare eu neque id. Facilisis eget blandit leo quis ut auctor.",
+    author: "Shogun",
+    time: "End in 2 days",
+    status: "End",
+  },
+  {
+    title:
+      "Ipsum mattis nec etiam in maecenas commodo lorem. Non porta dignissim nulla ornare.",
+    author: "TheChief",
+    time: "End in 2 days",
+    status: "End",
+  },
+  {
+    title:
+      "Fermentum viverra lorem diam integer sodales feugiat nunc purus. Nullam vitae venenatis maecenas mi. Ac mauris id magna elementum. Lectus gravida pellentesque vel proin bibendum cursus accumsan, mattis.",
+    author: "TheGrimReaper",
+    time: "End in 2 days",
+    status: "End",
+  },
+];
+
+export const TIMELINE_ITEMS_1 = [
+  { name: "Created", time: "Aug 26th, 2021 - 6:45 am (UTC)" },
+  { name: "Start", time: "Aug 26th, 2021 - 6:45 am (UTC)" },
+  { name: "Active", active: true },
+];
+
+export const TIMELINE_ITEMS_2 = [
+  { name: "Created", time: "Aug 26th, 2021 - 6:45 am (UTC)" },
+  { name: "Start", time: "Aug 26th, 2021 - 6:45 am (UTC)" },
+  { name: "End", time: "Aug 26th, 2021 - 6:45 am (UTC)" },
+];
