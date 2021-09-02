@@ -1,6 +1,7 @@
 import styled, { css } from "styled-components";
 
 import InternalLink from "./internalLink";
+import CaretLeft from "/public/imgs/icons/caret-left.svg";
 
 const Wrapper = styled.div`
   display: flex;
@@ -39,6 +40,9 @@ const BackButton = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  > svg {
+    fill: #a1a8b3;
+  }
 `;
 
 export default function Nav({ data }) {
@@ -49,7 +53,8 @@ export default function Nav({ data }) {
       {back && (
         <InternalLink href={back.link}>
           <BackButton>
-            <img src="/imgs/icons/caret-left.svg" />
+            {/* <img src="/imgs/icons/caret-left.svg" /> */}
+            <CaretLeft />
           </BackButton>
         </InternalLink>
       )}
