@@ -2,6 +2,7 @@ import styled, { css } from "styled-components";
 import { useState } from "react";
 
 import PostVotes from "./postVotes";
+import PostDiscussion from "./postDiscussion";
 
 const Wrapper = styled.div`
   background: #ffffff;
@@ -40,7 +41,7 @@ export default function PostTab() {
     },
     {
       name: "Discussion",
-      component: <div>discussion</div>,
+      component: <PostDiscussion />,
     },
   ];
 

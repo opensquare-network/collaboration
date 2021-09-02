@@ -123,3 +123,23 @@ export const VOTE_ITEMS = [
   { author: "15kU...2i86", vote: "XXXXX", value: "100.05 KSM" },
   { author: "15kU...2i86", vote: "XXXXX", value: "100.05 KSM" },
 ];
+
+export const DISCUSSION_ITEMS = [
+  {
+    author: "15kU...2i86",
+    time: "2 days ago",
+    content:
+      "Mauris cum ac ut eu pellentesque arcu. Habitant cursus porttitor feugiat proin. Maecenas enim tristique fermentum parturient nisi, nulla sit leo.",
+  },
+  {
+    author: "Butterbean",
+    time: "2 days ago",
+    content: "Mattis mollis at cum a ornare porttitor aliquam nunc, mi.",
+  },
+  {
+    author: "15kU...2i86",
+    time: "2 days ago",
+    content:
+      "Amet, eget orci faucibus at egestas nibh sed parturient enim. Libero nullam et egestas vel a. Egestas bibendum consequat non sed ac malesuada sed orci. Mauris nibh tempus in dolor.",
+  },
+];
