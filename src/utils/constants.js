@@ -111,3 +111,15 @@ export const TIMELINE_ITEMS_2 = [
   { name: "Start", time: "Aug 26th, 2021 - 6:45 am (UTC)" },
   { name: "End", time: "Aug 26th, 2021 - 6:45 am (UTC)" },
 ];
+
+export const VOTE_ITEMS = [
+  {
+    author: "15kU...2i86",
+    vote: "XXXXX",
+    value: "100.05 KSM",
+    content:
+      "Mauris cum ac ut eu pellentesque arcu. Habitant cursus porttitor feugiat proin. Maecenas enim tristique fermentum parturient nisi, nulla sit leo.",
+  },
+  { author: "15kU...2i86", vote: "XXXXX", value: "100.05 KSM" },
+  { author: "15kU...2i86", vote: "XXXXX", value: "100.05 KSM" },
+];

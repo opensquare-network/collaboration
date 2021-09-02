@@ -6,6 +6,7 @@ import Nav from "components/nav";
 import PostDetail from "../components/postDetail";
 import PostInfo from "../components/postInfo";
 import PostResults from "../components/postResults";
+import PostTab from "components/postTab";
 
 const Wrapper = styled.div`
   display: flex;
@@ -15,6 +16,9 @@ const Wrapper = styled.div`
 
 const MainWrapper = styled.div`
   flex: 1 1 auto;
+  > :not(:first-child) {
+    margin-top: 20px;
+  }
 `;
 
 const SiderWrapper = styled.div`
@@ -32,6 +36,7 @@ export default function Index() {
       <Wrapper>
         <MainWrapper>
           <PostDetail />
+          <PostTab />
         </MainWrapper>
         <SiderWrapper>
           <PostInfo />
