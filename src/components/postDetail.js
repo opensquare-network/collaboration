@@ -1,6 +1,8 @@
 import styled from "styled-components";
 
 import Author from "./author";
+import PostVote from "./postVote";
+import postVote from "./postVote";
 
 const Wrapper = styled.div`
   padding: 40px 48px;
@@ -103,6 +105,8 @@ export default function PostDetail() {
         Massa, ut mattis elementum tellus, viverra ut adipiscing. Non platea id
         habitant vel morbi mollis consectetur.
       </Content>
+      <Divider />
+      <PostVote />
     </Wrapper>
   );
 }
