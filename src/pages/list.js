@@ -12,6 +12,11 @@ const HeaderWrapper = styled.div`
   > :not(:first-child) {
     margin-top: 40px;
   }
+  @media screen and (max-width: 900px) {
+    > :not(:first-child) {
+      margin-top: 20px;
+    }
+  }
 `;
 
 const PostWrapper = styled.div`

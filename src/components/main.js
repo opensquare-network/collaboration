@@ -4,6 +4,9 @@ const Wrapper = styled.main`
   position: relative;
   flex-grow: 1;
   padding: 40px 0;
+  @media screen and (max-width: 600px) {
+    padding: 20px 0;
+  }
 `;
 
 const Background = styled.div`
@@ -18,8 +21,12 @@ const Background = styled.div`
 
 const ChildrenWrapper = styled.div`
   position: relative;
-  max-width: 1080px;
+  max-width: 1144px;
+  padding: 0 32px;
   margin: 0 auto;
+  @media screen and (max-width: 600px) {
+    padding: 0 20px;
+  }
 `;
 
 export default function Main({ bgHeight, children }) {

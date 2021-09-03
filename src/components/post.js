@@ -31,6 +31,7 @@ const InfoWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
 `;
 
 const LeftWrapper = styled.div`
@@ -38,6 +39,7 @@ const LeftWrapper = styled.div`
   align-items: center;
   line-height: 24px;
   color: #a1a8b3;
+  flex-wrap: wrap;
   > :not(:first-child)::before {
     content: "·";
     margin: 0 8px;

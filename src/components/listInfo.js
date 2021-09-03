@@ -4,6 +4,9 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  @media screen and (max-width: 900px) {
+    display: none;
+  }
 `;
 
 const LogoWrapper = styled.div`
