@@ -90,7 +90,11 @@ export default function Pagination() {
         Math.abs(index + 1 - page) >= 2 ? (
           <Ellipsis key={index}>...</Ellipsis>
         ) : (
-          <Item active={page === index + 1} onClick={() => setPage(index + 1)}>
+          <Item
+            key={index}
+            active={page === index + 1}
+            onClick={() => setPage(index + 1)}
+          >
             {index + 1}
           </Item>
         )

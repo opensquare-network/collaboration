@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Author from "./author";
 import { DISCUSSION_ITEMS } from "utils/constants";
 import Pagination from "./pagination";
+import RichInput from "./richInput";
 
 const Item = styled.div`
   padding-top: 20px;
@@ -41,6 +42,10 @@ const PaginationWrapper = styled.div`
   justify-content: center;
 `;
 
+const RichInputWrapper = styled.div`
+  margin-top: 20px;
+`;
+
 export default function PostDiscussion() {
   return (
     <div>
@@ -58,6 +63,9 @@ export default function PostDiscussion() {
       <PaginationWrapper>
         <Pagination />
       </PaginationWrapper>
+      <RichInputWrapper>
+        <RichInput />
+      </RichInputWrapper>
     </div>
   );
 }
