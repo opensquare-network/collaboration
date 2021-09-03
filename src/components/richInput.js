@@ -1,7 +1,10 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { useState } from "react";
 
 import MarkdownEditor from "./markdownEditor";
+import Mardown from "./markdown";
+
+const MarkdownWrapper = styled.div``;
 
 const ButtonsWrapper = styled.div`
   margin-top: 20px;
@@ -31,14 +34,55 @@ const ButtonPrimary = styled.div`
   color: #ffffff;
 `;
 
+const PreviewWrapper = styled.div`
+  display: flex;
+`;
+
+const PrivewBar = styled.div`
+  width: 4px;
+  background: #eeeeee;
+  flex: 0 0 auto;
+`;
+
+const PreviewContent = styled.div`
+  margin-left: 8px;
+  flex-grow: 1;
+  max-width: 600px;
+`;
+
+const MarkdownEditorWrapper = styled.div`
+  ${(p) =>
+    p.preview &&
+    css`
+      height: 0;
+      opacity: 0;
+      pointer-events: none;
+    `}
+`;
+
 export default function RichInput() {
   const [content, setContent] = useState("");
+  const [preview, setPreview] = useState(false);
 
   return (
     <div>
-      <MarkdownEditor content={content} setContent={setContent} />
+      <MarkdownWrapper>
+        <MarkdownEditorWrapper preview={preview}>
+          <MarkdownEditor content={content} setContent={setContent} />
+        </MarkdownEditorWrapper>
+        {preview && (
+          <PreviewWrapper>
+            <PrivewBar />
+            <PreviewContent>
+              <Mardown content={content} />
+            </PreviewContent>
+          </PreviewWrapper>
+        )}
+      </MarkdownWrapper>
       <ButtonsWrapper>
-        <Button>Preview</Button>
+        <Button onClick={() => setPreview(!preview)}>
+          {preview ? "Edit" : "Preview"}
+        </Button>
         <ButtonPrimary>Comment</ButtonPrimary>
       </ButtonsWrapper>
     </div>
