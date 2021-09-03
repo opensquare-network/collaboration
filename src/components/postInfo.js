@@ -11,6 +11,14 @@ const Wrapper = styled.div`
   > :not(:first-child) {
     margin-top: 32px;
   }
+  @media screen and (max-width: 900px) {
+    padding: 32px;
+    margin: 0 -32px;
+  }
+  @media screen and (max-width: 600px) {
+    padding: 20px;
+    margin: 0 -20px;
+  }
 `;
 
 const TitleWrapper = styled.div`

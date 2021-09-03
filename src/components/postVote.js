@@ -13,6 +13,7 @@ const TitleWrapper = styled.div`
   justify-content: space-between;
   font-weight: 600;
   line-height: 24px;
+  flex-wrap: wrap;
   > :first-child {
     font-size: 18px;
   }

@@ -12,6 +12,9 @@ const Wrapper = styled.div`
   display: flex;
   align-items: flex-start;
   margin-top: 22px;
+  @media screen and (max-width: 900px) {
+    flex-direction: column;
+  }
 `;
 
 const MainWrapper = styled.div`
@@ -25,6 +28,12 @@ const SiderWrapper = styled.div`
   flex: 0 0 290px;
   margin-left: 20px;
   > :not(:first-child) {
+    margin-top: 20px;
+  }
+  @media screen and (max-width: 900px) {
+    flex-basis: auto;
+    width: 100%;
+    margin-left: 0;
     margin-top: 20px;
   }
 `;

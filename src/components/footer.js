@@ -14,18 +14,33 @@ const ContentWrapper = styled.div`
   align-items: flex-start;
   justify-content: space-between;
   padding: 80px 52px;
+  @media screen and (max-width: 1144px) {
+    padding: 80px 32px;
+  }
+  @media screen and (max-width: 1000px) {
+    padding: 40px;
+    flex-direction: column;
+    > :not(:first-child) {
+      margin-top: 32px;
+    }
+  }
 `;
 
 const LeftWrapper = styled.div`
-  display: flex;
-  align-items: flex-start;
+  display: grid;
+  row-gap: 32px;
+  column-gap: 40px;
+  grid-template-columns: repeat(4, 1fr);
+  @media screen and (max-width: 760px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media screen and (max-width: 360px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 `;
 
 const List = styled.div`
   width: 160px;
-  :not(:first-child) {
-    margin-left: 40px;
-  }
 `;
 
 const Label = styled.div`
@@ -65,10 +80,19 @@ const RightWrapper = styled.div`
     margin-bottom: 120px;
   }
   > div {
+    text-align: right;
     font-size: 16px;
     line-height: 24px;
     color: rgba(255, 255, 255, 0.35);
-    white-space: nowrap;
+  }
+  @media screen and (max-width: 1000px) {
+    align-items: flex-start;
+    > img {
+      margin-bottom: 16px;
+    }
+    > div {
+      text-align: left;
+    }
   }
 `;
 

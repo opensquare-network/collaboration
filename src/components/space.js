@@ -12,11 +12,27 @@ const Title = styled.div`
 
 const ItemsWrapper = styled.div`
   display: flex;
-  justify-content: space-between;
+  overflow-x: scroll;
+  > :not(:first-child) {
+    margin-left: 20px;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  @media screen and (max-width: 1144px) {
+    margin: 0 -32px;
+    padding: 0 32px;
+  }
+  @media screen and (max-width: 600px) {
+    margin: 0 -20px;
+    padding: 0 20px;
+  }
 `;
 
 const Item = styled.div`
-  width: 203.2px;
+  width: 200px;
   height: 241px;
   flex: 0 0 auto;
   border: 1px solid #f0f3f8;

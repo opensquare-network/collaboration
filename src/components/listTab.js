@@ -6,6 +6,27 @@ import { LIST_TAB_ITEMS } from "utils/constants";
 const Wrapper = styled.div`
   display: flex;
   align-items: flex-start;
+  justify-content: space-between;
+  overflow-x: scroll;
+  white-space: nowrap;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  @media screen and (max-width: 700px) {
+    margin: 0 -32px;
+    padding: 0 32px;
+  }
+  @media screen and (max-width: 600px) {
+    margin: 0 -20px;
+    padding: 0 20px;
+  }
+`;
+
+const ItemWrapper = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 const Item = styled.div`
@@ -32,7 +53,7 @@ const Button = styled.div`
   font-size: 16px;
   line-height: 24px;
   color: #04d2c5;
-  margin-left: auto;
+  margin-left: 40px;
   > img {
     width: 24px;
     height: 24px;
@@ -45,15 +66,17 @@ export default function ListTab() {
 
   return (
     <Wrapper>
-      {LIST_TAB_ITEMS.map((item, index) => (
-        <Item
-          key={index}
-          active={tabIndex === index}
-          onClick={() => setTabIndex(index)}
-        >
-          {item}
-        </Item>
-      ))}
+      <ItemWrapper>
+        {LIST_TAB_ITEMS.map((item, index) => (
+          <Item
+            key={index}
+            active={tabIndex === index}
+            onClick={() => setTabIndex(index)}
+          >
+            {item}
+          </Item>
+        ))}
+      </ItemWrapper>
       <Button>
         <img src="/imgs/icons/add.svg" />
         New Proposal
