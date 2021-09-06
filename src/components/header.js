@@ -18,7 +18,7 @@ const ContentWrapper = styled.div`
   @media screen and (max-width: 1144px) {
     padding: 20px 32px;
   }
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 800px) {
     padding: 15px 20px;
   }
 `;
@@ -32,7 +32,7 @@ const Logo = styled.div`
   width: 226px;
   height: 40px;
   background-image: url("/imgs/opensquare-logo.svg");
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 800px) {
     padding: 15px 20px;
     width: 48px;
     height: 30px;
@@ -70,7 +70,7 @@ const Button = styled.div`
 `;
 
 const ButtonWrapper = styled.div`
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 800px) {
     background: #ffffff;
     position: absolute;
     left: 0;
@@ -88,7 +88,7 @@ const ButtonWrapper = styled.div`
 
 const IconWrapper = styled.div`
   display: none;
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 800px) {
     display: block;
     cursor: pointer;
   }
@@ -99,7 +99,7 @@ export default function Header() {
   const windowSize = useWindowSize();
 
   useEffect(() => {
-    if (windowSize.width && windowSize.width > 600) {
+    if (windowSize.width && windowSize.width > 800) {
       setShow(false);
     }
   }, [windowSize]);
@@ -122,7 +122,7 @@ export default function Header() {
                 src={show ? "/imgs/icons/close.svg" : "/imgs/icons/menu.svg"}
               />
             </IconWrapper>
-            {(windowSize.width > 600 || show) && (
+            {(windowSize.width > 800 || show) && (
               <ButtonWrapper>
                 <Button>Connect Wallet</Button>
               </ButtonWrapper>

@@ -4,7 +4,7 @@ const Wrapper = styled.main`
   position: relative;
   flex-grow: 1;
   padding: 40px 0;
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 800px) {
     padding: 20px 0;
   }
 `;
@@ -24,7 +24,7 @@ const ChildrenWrapper = styled.div`
   max-width: 1144px;
   padding: 0 32px;
   margin: 0 auto;
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 800px) {
     padding: 0 20px;
   }
 `;
