@@ -3,7 +3,8 @@ import ReactMarkdown from "react-markdown";
 
 const Wrapper = styled.div`
   .markdown-content {
-    word-wrap: break-word;
+    word-break: break-word;
+    text-align: justify;
 
     h1,
     h2,
@@ -102,6 +103,14 @@ const Wrapper = styled.div`
     p a::selection {
       background-color: transparent !important;
       color: inherit;
+    }
+
+    > :first-child {
+      margin-top: 0;
+    }
+
+    > :last-child {
+      margin-bottom: 0;
     }
   }
 `;

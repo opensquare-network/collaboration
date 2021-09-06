@@ -35,19 +35,9 @@ const ButtonPrimary = styled.div`
 `;
 
 const PreviewWrapper = styled.div`
-  display: flex;
-`;
-
-const PrivewBar = styled.div`
-  width: 4px;
-  background: #eeeeee;
-  flex: 0 0 auto;
-`;
-
-const PreviewContent = styled.div`
-  margin-left: 8px;
-  flex-grow: 1;
-  max-width: 600px;
+  padding-left: 8px;
+  border-left: 4px solid #eeeeee;
+  min-height: 159px;
 `;
 
 const MarkdownEditorWrapper = styled.div`
@@ -67,15 +57,14 @@ export default function RichInput() {
   return (
     <div>
       <MarkdownWrapper>
+        {/* {!preview && ( */}
         <MarkdownEditorWrapper preview={preview}>
           <MarkdownEditor content={content} setContent={setContent} />
         </MarkdownEditorWrapper>
+        {/* )} */}
         {preview && (
           <PreviewWrapper>
-            <PrivewBar />
-            <PreviewContent>
-              <Mardown content={content} />
-            </PreviewContent>
+            <Mardown content={content} />
           </PreviewWrapper>
         )}
       </MarkdownWrapper>

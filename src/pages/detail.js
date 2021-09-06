@@ -12,7 +12,7 @@ const Wrapper = styled.div`
   display: flex;
   align-items: flex-start;
   margin-top: 22px;
-  @media screen and (max-width: 900px) {
+  @media screen and (max-width: 800px) {
     flex-direction: column;
   }
 `;
@@ -30,7 +30,7 @@ const SiderWrapper = styled.div`
   > :not(:first-child) {
     margin-top: 20px;
   }
-  @media screen and (max-width: 900px) {
+  @media screen and (max-width: 800px) {
     flex-basis: auto;
     width: 100%;
     margin-left: 0;
