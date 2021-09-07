@@ -21,6 +21,10 @@ const ItemsWrapper = styled.div`
   ::-webkit-scrollbar {
     display: none;
   }
+  @media screen and (max-width: 1144px) {
+    margin: 0 -32px;
+    padding: 0 32px;
+  }
   @media screen and (max-width: 800px) {
     margin: 0 -20px;
     padding: 0 20px;

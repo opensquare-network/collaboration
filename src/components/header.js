@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 
 import Container from "./container";
 import { useWindowSize } from "utils/hooks";
+import Account from "./account";
 
 const Wrapper = styled.header`
   flex: 0 0 auto;
@@ -59,17 +60,7 @@ const AppWrapper = styled.div`
   }
 `;
 
-const Button = styled.div`
-  padding: 8px 16px;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 24px;
-  color: #ffffff;
-  background: #191e27;
-  cursor: pointer;
-`;
-
-const ButtonWrapper = styled.div`
+const AccountWrapper = styled.div`
   @media screen and (max-width: 800px) {
     background: #ffffff;
     position: absolute;
@@ -123,9 +114,9 @@ export default function Header() {
               />
             </IconWrapper>
             {(windowSize.width > 800 || show) && (
-              <ButtonWrapper>
-                <Button>Connect Wallet</Button>
-              </ButtonWrapper>
+              <AccountWrapper>
+                <Account />
+              </AccountWrapper>
             )}
           </div>
         </ContentWrapper>
