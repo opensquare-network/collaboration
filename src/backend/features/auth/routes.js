@@ -1,6 +1,8 @@
 const Router = require("koa-router");
+
 const authController = require("./auth.controller");
 const { SupportChians } = require("../../constants");
+const requireAuth = require("../../middleware/require-auth");
 
 const routeChains = SupportChians.join("|");
 
@@ -23,5 +25,6 @@ router.post("/auth/refresh", authController.refresh);
 
 router.get("/auth/connect/:address", authController.connectStart);
 router.post("/auth/connect/:attemptId", authController.connectConfirm);
+router.get("/auth/profile", requireAuth, authController.profile);
 
 module.exports = router;

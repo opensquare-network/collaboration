@@ -1,8 +1,11 @@
 import styled from "styled-components";
 import { useState, useRef } from "react";
 import dynamic from "next/dynamic";
+import { useSelector, useDispatch } from "react-redux";
 
 import { useOnClickOutside } from "utils/hooks";
+import { accountSelector, logout } from "store/reducers/accountSlice";
+import { addressEllipsis } from "utils";
 
 const Connect = dynamic(() => import("./connect"), {
   ssr: false,
@@ -61,32 +64,33 @@ const LogoutWrapper = styled.div`
 `;
 
 export default function Account() {
-  const [isLogin, setIsLogin] = useState(false);
   const [show, setShow] = useState(false);
   const ref = useRef();
+  const account = useSelector(accountSelector);
+  const dispatch = useDispatch();
 
   useOnClickOutside(ref, () => setShow(false));
 
   return (
     <>
-      {!isLogin && <Connect />}
-      {isLogin && (
+      {!account && <Connect />}
+      {account && (
         <Wrapper ref={ref} onClick={() => setShow(!show)}>
           <AccountWrapper>
             <img src="/imgs/avatar.png" />
-            12wt...Rm6c
+            {addressEllipsis(account.address)}
           </AccountWrapper>
           {show && (
             <MenuWrapper onClick={(e) => e.stopPropagation()}>
               <AccountWrapper>
                 <img src="/imgs/avatar.png" />
-                12wt...Rm6c
+                {addressEllipsis(account.address)}
               </AccountWrapper>
               <MenuDivider />
               <MenuItem>
                 <LogoutWrapper
                   onClick={() => {
-                    setIsLogin(false);
+                    dispatch(logout());
                     setShow(false);
                   }}
                 >

@@ -5,6 +5,8 @@ import {
   web3Accounts,
   web3Enable,
 } from "@polkadot/extension-dapp";
+import { useDispatch } from "react-redux";
+import { fetchAccountProfile } from "store/reducers/accountSlice";
 
 import { useIsMounted } from "utils/hooks";
 import { signMessage } from "services/chainApi";
@@ -21,6 +23,7 @@ const Button = styled.div`
 `;
 
 export default function Connect() {
+  const dispatch = useDispatch();
   const isMounted = useIsMounted();
   const [hasExtension, setHasExtension] = useState(true);
 
@@ -35,16 +38,16 @@ export default function Connect() {
         );
         if (result) {
           const signature = await signMessage(result?.challenge, address);
-          console.log({ signature });
           const { error: confirmError, result: confirmResult } =
             await nextApi.post(`auth/connect/${result?.attemptId}`, {
               challengeAnswer: signature,
             });
+          dispatch(fetchAccountProfile());
           if (confirmResult) {
             console.log("connect successfully!");
           }
           if (confirmError) {
-            console.log(error.message);
+            console.log(confirmError.message);
           }
         }
         if (error) {

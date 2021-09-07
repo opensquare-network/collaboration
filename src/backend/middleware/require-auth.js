@@ -19,8 +19,8 @@ async function requireAuth(ctx, next) {
     throw new HttpError(401, "Please make sure you are logged in");
   }
 
-  const user = await jwtService.validate(token);
-  ctx.user = user;
+  const address = await jwtService.validate(token);
+  ctx.address = address;
 
   await next();
 }

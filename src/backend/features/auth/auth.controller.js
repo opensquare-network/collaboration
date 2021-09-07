@@ -242,13 +242,33 @@ async function connectConfirm(ctx) {
 
   const success = isValidSignature(challenge, challengeAnswer, address);
 
+  const accessToken = await authService.getSignedToken(address);
+  const refreshToken = await authService.getRefreshToken(address);
+
   if (!success) {
     throw new HttpError(400, {
       challengeAnswer: ["Incorrect challenge answer."],
     });
   }
 
-  ctx.body = true;
+  ctx.cookies.set("auth-token", accessToken, {
+    httpOnly: true,
+    sameSite: "lax",
+    maxAge: 30 * 24 * 60 * 60 * 1000,
+  });
+
+  ctx.body = {
+    address,
+    accessToken,
+    refreshToken,
+  };
+}
+
+async function profile(ctx) {
+  const address = ctx.address;
+  ctx.body = {
+    address,
+  };
 }
 
 module.exports = {
@@ -261,4 +281,5 @@ module.exports = {
   // resetPassword,
   connectStart,
   connectConfirm,
+  profile,
 };

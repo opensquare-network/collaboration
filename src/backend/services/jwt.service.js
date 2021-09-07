@@ -18,14 +18,15 @@ async function validate(accessToken) {
     throw new HttpError(401, t(e.message));
   }
 
-  const userCol = await getUserCollection();
-  const user = await userCol.findOne({ _id: ObjectId(decoded.id) });
+  // const userCol = await getUserCollection();
+  // const user = await userCol.findOne({ _id: ObjectId(decoded.id) });
 
-  if (!user) {
-    throw new HttpError(401, "Current user is not exists");
-  }
+  // if (!user) {
+  //   throw new HttpError(401, "Current user is not exists");
+  // }
+  const address = decoded.address;
 
-  return user;
+  return address;
 }
 
 function getSignedToken(user) {

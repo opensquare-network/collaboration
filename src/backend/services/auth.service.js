@@ -21,40 +21,38 @@ async function validate(accessToken) {
   return user;
 }
 
-async function getSignedToken(user) {
+async function getSignedToken(address) {
   const content = {
-    id: user._id,
-    email: user.email,
-    username: user.username,
+    address,
     iat: Math.floor(Date.now() / 1000),
   };
 
   return jwt.sign(content, process.env.JWT_SECRET_KEY, { expiresIn: "7d" });
 }
 
-async function getRefreshToken(user) {
+async function getRefreshToken(address) {
   const randHex = randomBytes(12).toString("hex");
-  const token = `${user._id}-${randHex}`;
+  const token = `${address}-${randHex}`;
 
   const oneMonth = 30 * 24 * 60 * 60 * 1000;
   const expires = new Date(Date.now() + oneMonth);
 
-  const userCol = await getUserCollection();
-  const result = await userCol.updateOne(
-    { _id: user._id },
-    {
-      $set: {
-        refreshToken: {
-          expires,
-          token,
-        },
-      },
-    }
-  );
+  // const userCol = await getUserCollection();
+  // const result = await userCol.updateOne(
+  //   { _id: user._id },
+  //   {
+  //     $set: {
+  //       refreshToken: {
+  //         expires,
+  //         token,
+  //       },
+  //     },
+  //   }
+  // );
 
-  if (!result.result.ok) {
-    throw new HttpError(500, "Error in generating refresh token");
-  }
+  // if (!result.result.ok) {
+  //   throw new HttpError(500, "Error in generating refresh token");
+  // }
 
   return token;
 }
