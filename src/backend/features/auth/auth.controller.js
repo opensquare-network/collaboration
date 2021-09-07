@@ -194,6 +194,63 @@ async function refresh(ctx) {
   };
 }
 
+async function connectStart(ctx) {
+  const { address } = ctx.params;
+
+  const attemptCol = await getAttemptCollection();
+  const result = await attemptCol.insertOne({
+    type: "connect",
+    address,
+    challenge: randomBytes(12).toString("hex"),
+    createdAt: new Date(),
+  });
+
+  if (!result.result.ok) {
+    throw new HttpError(500, "Db error: start connect.");
+  }
+
+  const attempt = result.ops[0];
+
+  ctx.body = {
+    attemptId: attempt._id,
+    challenge: attempt.challenge,
+  };
+}
+
+async function connectConfirm(ctx) {
+  const { attemptId } = ctx.params;
+  const { challengeAnswer } = ctx.request.body;
+  // const user = ctx.user;
+
+  const attemptCol = await getAttemptCollection();
+  const attempt = await attemptCol.findOne({
+    _id: ObjectId(attemptId),
+    type: "connect",
+  });
+
+  if (!attempt) {
+    throw new HttpError(400, "Incorrect connect attempt id");
+  }
+
+  const { address, challenge } = attempt;
+
+  if (!challengeAnswer) {
+    throw new HttpError(400, {
+      challengeAnswer: ["Challenge answer is not provided."],
+    });
+  }
+
+  const success = isValidSignature(challenge, challengeAnswer, address);
+
+  if (!success) {
+    throw new HttpError(400, {
+      challengeAnswer: ["Incorrect challenge answer."],
+    });
+  }
+
+  ctx.body = true;
+}
+
 module.exports = {
   signup,
   login,
@@ -202,6 +259,6 @@ module.exports = {
   refresh,
   // forgetPassword,
   // resetPassword,
-  // addressLoginStart,
-  // addressLoginConfirm,
+  connectStart,
+  connectConfirm,
 };

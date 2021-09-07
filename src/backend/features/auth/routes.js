@@ -21,4 +21,7 @@ router.post("/auth/refresh", authController.refresh);
 // );
 // router.post("/auth/login/:attemptId", authController.addressLoginConfirm);
 
+router.get("/auth/connect/:address", authController.connectStart);
+router.post("/auth/connect/:attemptId", authController.connectConfirm);
+
 module.exports = router;

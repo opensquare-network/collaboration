@@ -1,17 +1,12 @@
 import styled from "styled-components";
 import { useState, useRef } from "react";
+import dynamic from "next/dynamic";
 
 import { useOnClickOutside } from "utils/hooks";
 
-const Button = styled.div`
-  padding: 8px 16px;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 24px;
-  color: #ffffff;
-  background: #191e27;
-  cursor: pointer;
-`;
+const Connect = dynamic(() => import("./connect"), {
+  ssr: false,
+});
 
 const Wrapper = styled.div`
   border: 1px solid #e2e8f0;
@@ -74,9 +69,7 @@ export default function Account() {
 
   return (
     <>
-      {!isLogin && (
-        <Button onClick={() => setIsLogin(true)}>Connect Wallet</Button>
-      )}
+      {!isLogin && <Connect />}
       {isLogin && (
         <Wrapper ref={ref} onClick={() => setShow(!show)}>
           <AccountWrapper>

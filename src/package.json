@@ -11,6 +11,9 @@
   "dependencies": {
     "@alicloud/pop-core": "^1.7.10",
     "@koa/cors": "^3.1.0",
+    "@polkadot/api": "^5.8.3",
+    "@polkadot/extension-dapp": "^0.39.3",
+    "@polkadot/keyring": "^7.3.1",
     "@polkadot/util": "^7.3.1",
     "@polkadot/util-crypto": "^7.3.1",
     "@svgr/webpack": "^5.5.0",
@@ -24,7 +27,7 @@
     "koa-helmet": "^6.1.0",
     "koa-logger": "^3.2.1",
     "koa-router": "^10.1.1",
-    "mongodb": "^4.1.1",
+    "mongoose": "^5.13.4",
     "next": "11.1.1 ",
     "react": "17.0.2",
     "react-dom": "17.0.2",

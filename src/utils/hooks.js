@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export function useWindowSize() {
   const [windowSize, setWindowSize] = useState({
@@ -34,4 +34,16 @@ export function useOnClickOutside(ref, handler) {
       document.removeEventListener("touchstart", listener);
     };
   });
+}
+
+export function useIsMounted() {
+  const isMounted = useRef(true);
+
+  useEffect(() => {
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
+
+  return isMounted;
 }
