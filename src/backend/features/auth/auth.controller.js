@@ -271,6 +271,12 @@ async function profile(ctx) {
   };
 }
 
+async function connect(ctx) {
+  const { data, signature, address } = ctx.request.body;
+  const success = isValidSignature(data, signature, address);
+  ctx.body = success;
+}
+
 module.exports = {
   signup,
   login,
@@ -282,4 +288,5 @@ module.exports = {
   connectStart,
   connectConfirm,
   profile,
+  connect,
 };

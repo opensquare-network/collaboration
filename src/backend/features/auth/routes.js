@@ -26,5 +26,6 @@ router.post("/auth/refresh", authController.refresh);
 router.get("/auth/connect/:address", authController.connectStart);
 router.post("/auth/connect/:attemptId", authController.connectConfirm);
 router.get("/auth/profile", requireAuth, authController.profile);
+router.post("/auth/connect", authController.connect);
 
 module.exports = router;

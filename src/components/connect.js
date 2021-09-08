@@ -11,6 +11,7 @@ import { randomBytes } from "crypto";
 
 import { useIsMounted } from "utils/hooks";
 import { signMessage } from "services/chainApi";
+import nextApi from "services/nextApi";
 
 export default function Connect({ show, setShow }) {
   const dispatch = useDispatch();
@@ -56,6 +57,13 @@ export default function Connect({ show, setShow }) {
         })
       );
       setShow(false);
+      // nextApi
+      //   .post("auth/connect", {
+      //     data: JSON.stringify({ token, expires }),
+      //     signature,
+      //     address,
+      //   })
+      //   .then((result) => console.log({ result }));
     } catch (error) {
       console.log(error);
     }
