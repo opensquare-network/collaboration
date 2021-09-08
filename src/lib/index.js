@@ -40,9 +40,9 @@ export function withLoginUser(getServerSideProps) {
 export function withLoginUserRedux(fnComponent) {
   return ({ account, ...props }) => {
     const dispatch = useDispatch();
-    useIsomorphicLayoutEffect(() => {
-      dispatch(setAccount(account));
-    }, [account]);
+    // useIsomorphicLayoutEffect(() => {
+    //   dispatch(setAccount(account));
+    // }, [account]);
 
     const storeAccount = useSelector(accountSelector);
     return fnComponent({

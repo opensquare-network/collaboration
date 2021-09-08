@@ -64,24 +64,42 @@ const LogoutWrapper = styled.div`
   line-height: 24px;
 `;
 
+const Button = styled.div`
+  padding: 8px 16px;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  color: #ffffff;
+  background: #191e27;
+  cursor: pointer;
+`;
+
 export default function Account() {
-  const [show, setShow] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
+  const [showConnet, setShowConnect] = useState(false);
   const ref = useRef();
   const account = useSelector(accountSelector);
   const dispatch = useDispatch();
 
-  useOnClickOutside(ref, () => setShow(false));
+  useOnClickOutside(ref, () => setShowMenu(false));
 
   return (
     <>
-      {!account && <Connect />}
+      {!account && (
+        <>
+          <Button onClick={() => setShowConnect(!showConnet)}>
+            Connect Wallet
+          </Button>
+          <Connect show={showConnet} setShow={setShowConnect} />
+        </>
+      )}
       {account && (
-        <Wrapper ref={ref} onClick={() => setShow(!show)}>
+        <Wrapper ref={ref} onClick={() => setShowMenu(!showMenu)}>
           <AccountWrapper>
             <Avatar address={account.address} />
             {addressEllipsis(account.address)}
           </AccountWrapper>
-          {show && (
+          {showMenu && (
             <MenuWrapper onClick={(e) => e.stopPropagation()}>
               <AccountWrapper>
                 <Avatar address={account.address} />
@@ -92,7 +110,7 @@ export default function Account() {
                 <LogoutWrapper
                   onClick={() => {
                     dispatch(logout());
-                    setShow(false);
+                    setShowMenu(false);
                   }}
                 >
                   Log out

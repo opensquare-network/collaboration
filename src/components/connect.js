@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import { useState, useEffect } from "react";
 import {
   isWeb3Injected,
@@ -13,21 +12,10 @@ import { randomBytes } from "crypto";
 import { useIsMounted } from "utils/hooks";
 import { signMessage } from "services/chainApi";
 
-const ButtonWrapper = styled.div`
-  padding: 8px 16px;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 24px;
-  color: #ffffff;
-  background: #191e27;
-  cursor: pointer;
-`;
-
-export default function Connect() {
+export default function Connect({ show, setShow }) {
   const dispatch = useDispatch();
   const isMounted = useIsMounted();
   const [hasExtension, setHasExtension] = useState(true);
-  const [show, setShow] = useState(false);
   const [addresses, setAddresses] = useState();
   const [address, setAddress] = useState();
 
@@ -35,11 +23,10 @@ export default function Connect() {
     if (hasExtension) {
       await web3Enable("voting");
       const extensionAccounts = await web3Accounts();
-      if (isMounted) {
-        const addresses = (extensionAccounts || []).map((item) => item.address);
+      const addresses = (extensionAccounts || []).map((item) => item.address);
+      if (isMounted.current) {
         setAddresses(addresses);
         setAddress(addresses[0]);
-        setShow(true);
       }
     } else {
       const newWindow = window.open(
@@ -55,11 +42,11 @@ export default function Connect() {
     const token = randomBytes(12).toString("hex");
     const oneWeek = 7 * 24 * 60 * 60 * 1000;
     const expires = new Date(Date.now() + oneWeek).toISOString();
-    const signature = await signMessage(
-      JSON.stringify({ token, expires }),
-      address
-    );
-    if (isMounted) {
+    try {
+      const signature = await signMessage(
+        JSON.stringify({ token, expires }),
+        address
+      );
       dispatch(
         setAccount({
           expires,
@@ -69,21 +56,26 @@ export default function Connect() {
         })
       );
       setShow(false);
+    } catch (error) {
+      console.log(error);
     }
   };
 
   useEffect(() => {
     (async () => {
       await web3Enable("voting");
-      if (!isWeb3Injected && isMounted.current) {
-        setHasExtension(false);
+      if (!isWeb3Injected) {
+        if (isMounted.current) {
+          setHasExtension(false);
+        }
+      } else {
+        getAddresses();
       }
     })();
   }, [isMounted]);
 
   return (
     <>
-      <ButtonWrapper onClick={getAddresses}>Connect Wallet</ButtonWrapper>
       <Modal open={show} dimmer onClose={() => setShow(false)} size="tiny">
         <Modal.Header>Select your address</Modal.Header>
         <Modal.Content>
