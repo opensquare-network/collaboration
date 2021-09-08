@@ -22,7 +22,6 @@ export const fetchAccountProfile = () => async (dispatch) => {
 };
 
 export const logout = () => async (dispatch) => {
-  await nextApi.post("auth/logout");
   dispatch(setAccount(null));
 };
 

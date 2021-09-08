@@ -6,13 +6,14 @@ import {
   web3Enable,
 } from "@polkadot/extension-dapp";
 import { useDispatch } from "react-redux";
-import { fetchAccountProfile } from "store/reducers/accountSlice";
+import { setAccount } from "store/reducers/accountSlice";
+import { Modal, Select, Button } from "semantic-ui-react";
+import { randomBytes } from "crypto";
 
 import { useIsMounted } from "utils/hooks";
 import { signMessage } from "services/chainApi";
-import nextApi from "services/nextApi";
 
-const Button = styled.div`
+const ButtonWrapper = styled.div`
   padding: 8px 16px;
   font-weight: 600;
   font-size: 16px;
@@ -26,33 +27,19 @@ export default function Connect() {
   const dispatch = useDispatch();
   const isMounted = useIsMounted();
   const [hasExtension, setHasExtension] = useState(true);
+  const [show, setShow] = useState(false);
+  const [addresses, setAddresses] = useState();
+  const [address, setAddress] = useState();
 
-  const onClick = async () => {
+  const getAddresses = async () => {
     if (hasExtension) {
       await web3Enable("voting");
       const extensionAccounts = await web3Accounts();
-      const address = extensionAccounts?.[0]?.address;
-      if (address) {
-        const { result, error } = await nextApi.fetch(
-          `auth/connect/${address}`
-        );
-        if (result) {
-          const signature = await signMessage(result?.challenge, address);
-          const { error: confirmError, result: confirmResult } =
-            await nextApi.post(`auth/connect/${result?.attemptId}`, {
-              challengeAnswer: signature,
-            });
-          dispatch(fetchAccountProfile());
-          if (confirmResult) {
-            console.log("connect successfully!");
-          }
-          if (confirmError) {
-            console.log(confirmError.message);
-          }
-        }
-        if (error) {
-          console.log(error.message);
-        }
+      if (isMounted) {
+        const addresses = (extensionAccounts || []).map((item) => item.address);
+        setAddresses(addresses);
+        setAddress(addresses[0]);
+        setShow(true);
       }
     } else {
       const newWindow = window.open(
@@ -61,6 +48,27 @@ export default function Connect() {
         "noopener,noreferrer"
       );
       if (newWindow) newWindow.opener = null;
+    }
+  };
+
+  const getConnection = async () => {
+    const token = randomBytes(12).toString("hex");
+    const oneWeek = 7 * 24 * 60 * 60 * 1000;
+    const expires = new Date(Date.now() + oneWeek).toISOString();
+    const signature = await signMessage(
+      JSON.stringify({ token, expires }),
+      address
+    );
+    if (isMounted) {
+      dispatch(
+        setAccount({
+          expires,
+          token,
+          signature,
+          address,
+        })
+      );
+      setShow(false);
     }
   };
 
@@ -73,5 +81,31 @@ export default function Connect() {
     })();
   }, [isMounted]);
 
-  return <Button onClick={onClick}>Connect Wallet</Button>;
+  return (
+    <>
+      <ButtonWrapper onClick={getAddresses}>Connect Wallet</ButtonWrapper>
+      <Modal open={show} dimmer onClose={() => setShow(false)} size="tiny">
+        <Modal.Header>Select your address</Modal.Header>
+        <Modal.Content>
+          <Select
+            options={(addresses || []).map((item, index) => ({
+              key: index,
+              value: item,
+              text: item,
+            }))}
+            value={address}
+            onChange={(e, { value }) => setAddress(value)}
+          />
+        </Modal.Content>
+        <Modal.Actions>
+          <Button negative onClick={() => setShow(false)}>
+            Cancel
+          </Button>
+          <Button positive onClick={getConnection}>
+            Confirm
+          </Button>
+        </Modal.Actions>
+      </Modal>
+    </>
+  );
 }

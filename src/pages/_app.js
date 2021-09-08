@@ -2,6 +2,7 @@ import Head from "next/head";
 import { Provider } from "react-redux";
 
 import { store } from "../store";
+import "semantic-ui-css/semantic.min.css";
 import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }) {
