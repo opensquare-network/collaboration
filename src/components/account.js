@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useOnClickOutside } from "utils/hooks";
 import { accountSelector, logout } from "store/reducers/accountSlice";
 import { addressEllipsis } from "utils";
+import Avatar from "./avatar";
 
 const Connect = dynamic(() => import("./connect"), {
   ssr: false,
@@ -24,7 +25,7 @@ const AccountWrapper = styled.div`
   font-weight: 600;
   font-size: 14px;
   line-height: 24px;
-  > img {
+  > :first-child {
     width: 24px;
     height: 24px;
     margin-right: 8px;
@@ -77,13 +78,13 @@ export default function Account() {
       {account && (
         <Wrapper ref={ref} onClick={() => setShow(!show)}>
           <AccountWrapper>
-            <img src="/imgs/avatar.png" />
+            <Avatar address={account.address} />
             {addressEllipsis(account.address)}
           </AccountWrapper>
           {show && (
             <MenuWrapper onClick={(e) => e.stopPropagation()}>
               <AccountWrapper>
-                <img src="/imgs/avatar.png" />
+                <Avatar address={account.address} />
                 {addressEllipsis(account.address)}
               </AccountWrapper>
               <MenuDivider />
