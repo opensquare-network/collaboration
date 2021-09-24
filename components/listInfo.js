@@ -67,14 +67,14 @@ const AboutDivider = styled.div`
   margin: 0 40px;
 `;
 
-export default function ListInfo() {
+export default function ListInfo({ data }) {
   return (
     <Wrapper>
       <LogoWrapper>
-        <LogoImg src="/imgs/icons/kusama.svg" />
+        <LogoImg src={`/imgs/icons/${data.icon}`} />
         <div>
-          <LogoName>Kusama</LogoName>
-          <LogoSymbol>KSM</LogoSymbol>
+          <LogoName>{data.name}</LogoName>
+          <LogoSymbol>{data.symbol}</LogoSymbol>
         </div>
       </LogoWrapper>
       <AboutWrapper>

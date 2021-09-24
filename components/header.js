@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
+import Link from "next/link";
 
 import Container from "./container";
 import { useWindowSize } from "utils/hooks";
@@ -33,6 +34,7 @@ const Logo = styled.div`
   width: 226px;
   height: 40px;
   background-image: url("/imgs/opensquare-logo.svg");
+  cursor: pointer;
   @media screen and (max-width: 800px) {
     padding: 15px 20px;
     width: 48px;
@@ -100,10 +102,12 @@ export default function Header() {
       <Container>
         <ContentWrapper>
           <LeftWrapper>
-            <Logo />
+            <Link href="/" passHref>
+              <Logo />
+            </Link>
             <Divider />
             <AppWrapper>
-              <img src="/imgs/icons/apps.svg" />
+              <img src="/imgs/icons/apps.svg" alt="" />
               Voting
             </AppWrapper>
           </LeftWrapper>
@@ -111,6 +115,7 @@ export default function Header() {
             <IconWrapper onClick={() => setShow(!show)}>
               <img
                 src={show ? "/imgs/icons/close.svg" : "/imgs/icons/menu.svg"}
+                alt=""
               />
             </IconWrapper>
             {(windowSize.width > 800 || show) && (
