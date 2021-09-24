@@ -35,5 +35,9 @@
     "semantic-ui-react": "^2.0.3",
     "styled-components": "^5.3.1",
     "validator": "^13.6.0"
+  },
+  "devDependencies": {
+    "eslint": "7.32.0",
+    "eslint-config-next": "11.1.2"
   }
 }
