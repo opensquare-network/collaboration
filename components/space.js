@@ -117,10 +117,10 @@ export default function Space() {
           <Item key={index}>
             <IconWrapper>
               <Icon>
-                {item.icon && <img src={`/imgs/icons/${item.icon}`} />}
+                {item.icon && <img src={`/imgs/icons/${item.icon}`} alt="" />}
                 {!item.icon && <DefaultIcon />}
               </Icon>
-              <InternalLink href="/list">
+              <InternalLink href={`/space/${item.value}`}>
                 <Name>{item.name}</Name>
               </InternalLink>
               <Symbol>{item.symbol ?? "-"}</Symbol>

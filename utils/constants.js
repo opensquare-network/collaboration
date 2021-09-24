@@ -59,11 +59,23 @@ export const FOOTER_ITEMS = [
 ];
 
 export const SPACE_ITEMS = [
-  { icon: "polkadot.svg", name: "Polkadot", symbol: "DOT", active: 5 },
-  { icon: "kusama.svg", name: "Kusama", symbol: "KSM", active: 5 },
-  { icon: "karura.svg", name: "Karura", active: 5 },
-  { icon: "khala.svg", name: "Khala", active: 5 },
-  { name: "XXX" },
+  {
+    value: "polkadot",
+    icon: "polkadot.svg",
+    name: "Polkadot",
+    symbol: "DOT",
+    active: 5,
+  },
+  {
+    value: "kusama",
+    icon: "kusama.svg",
+    name: "Kusama",
+    symbol: "KSM",
+    active: 5,
+  },
+  { value: "karura", icon: "karura.svg", name: "Karura", active: 5 },
+  { value: "khala", icon: "khala.svg", name: "Khala", active: 5 },
+  { value: "xxx", name: "XXX" },
 ];
 
 export const POST_ITEMS = [

@@ -74,7 +74,7 @@ export default function ListTab() {
         ))}
       </ItemWrapper>
       <Button>
-        <img src="/imgs/icons/add.svg" />
+        <img src="/imgs/icons/add.svg" alt="" />
         New Proposal
       </Button>
     </Wrapper>
