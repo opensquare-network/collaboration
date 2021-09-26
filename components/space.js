@@ -15,16 +15,16 @@ const ItemsWrapper = styled.div`
   gap: 20px;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   overflow: scroll;
-  justify-content: space-around;
   ${no_scroll_bar};
+
   ${(p) =>
     p.show &&
     css`
-      gap: auto;
+      justify-content: space-around;
       grid-template-columns: repeat(auto-fill, 200px);
     `}
 
-  @media screen and(max-width: 1144px) {
+  @media screen and (max-width: 1144px) {
     margin: 0 -32px;
     padding: 0 32px;
   }
