@@ -40,30 +40,16 @@ export default function Connect({ show, setShow }) {
   };
 
   const getConnection = async () => {
-    const token = randomBytes(12).toString("hex");
     const oneWeek = 7 * 24 * 60 * 60 * 1000;
     const expires = new Date(Date.now() + oneWeek).toISOString();
     try {
-      const signature = await signMessage(
-        JSON.stringify({ token, expires }),
-        address
-      );
       dispatch(
         setAccount({
           expires,
-          token,
-          signature,
           address,
         })
       );
       setShow(false);
-      // nextApi
-      //   .post("auth/connect", {
-      //     data: JSON.stringify({ token, expires }),
-      //     signature,
-      //     address,
-      //   })
-      //   .then((result) => console.log({ result }));
     } catch (error) {
       console.log(error);
     }
