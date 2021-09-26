@@ -1,3 +1,5 @@
+import styled from "styled-components";
+import { text_ellipsis } from "../styles/globalCss";
 import { useState, useEffect, useCallback } from "react";
 import {
   isWeb3Injected,
@@ -7,10 +9,16 @@ import {
 import { useDispatch } from "react-redux";
 import { setAccount } from "store/reducers/accountSlice";
 import { Modal, Select, Button } from "semantic-ui-react";
-
 import { useIsMounted } from "utils/hooks";
 
-export default function Connect({ show, setShow }) {
+const MySelect = styled(Select)`
+  .divider.text {
+    max-width: calc(100vw - 88px);
+    ${text_ellipsis};
+  }
+`
+
+export default function Connect({show, setShow}) {
   const dispatch = useDispatch();
   const isMounted = useIsMounted();
   const [hasExtension, setHasExtension] = useState(true);
@@ -70,14 +78,14 @@ export default function Connect({ show, setShow }) {
       <Modal open={show} dimmer onClose={() => setShow(false)} size="tiny">
         <Modal.Header>Select your address</Modal.Header>
         <Modal.Content>
-          <Select
+          <MySelect
             options={(addresses || []).map((item, index) => ({
               key: index,
               value: item,
               text: item,
             }))}
             value={address}
-            onChange={(e, { value }) => setAddress(value)}
+            onChange={(e, {value}) => setAddress(value)}
           />
         </Modal.Content>
         <Modal.Actions>

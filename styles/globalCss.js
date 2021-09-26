@@ -14,6 +14,12 @@ export const no_scroll_bar = css`
   }
 `;
 
+export const text_ellipsis = css`
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+`
+
 export function makeSquare(sideLength) {
   return `width: ${sideLength}px;height: ${sideLength}px;`
 }
