@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 import { SPACE_ITEMS } from "utils/constants";
 import InternalLink from "./internalLink";
+import { no_scroll_bar, shadow_100, makeSquare } from "../styles/globalCss";
 
 const Title = styled.div`
   font-weight: bold;
@@ -13,15 +14,13 @@ const Title = styled.div`
 const ItemsWrapper = styled.div`
   display: flex;
   overflow-x: scroll;
+  ${no_scroll_bar};
+
   > :not(:first-child) {
     margin-left: 20px;
   }
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-  ::-webkit-scrollbar {
-    display: none;
-  }
-  @media screen and (max-width: 1144px) {
+
+  @media screen and(max-width: 1144px) {
     margin: 0 -32px;
     padding: 0 32px;
   }
@@ -36,8 +35,7 @@ const Item = styled.div`
   height: 241px;
   flex: 0 0 auto;
   border: 1px solid #f0f3f8;
-  box-shadow: 0px 4px 31px rgba(26, 33, 44, 0.04),
-    0px 0.751293px 3.88168px rgba(26, 33, 44, 0.03);
+  ${shadow_100};
   background: #ffffff;
   padding: 32px;
 `;
@@ -49,18 +47,16 @@ const IconWrapper = styled.div`
 `;
 
 const Icon = styled.div`
-  width: 64px;
-  height: 64px;
+  ${makeSquare(64)};
   margin-bottom: 16px;
+
   > img {
-    width: 64px;
-    height: 64px;
+    ${makeSquare(64)};
   }
 `;
 
 const DefaultIcon = styled.div`
-  width: 64px;
-  height: 64px;
+  ${makeSquare(64)};
   border-radius: 50%;
   background: #fbfcfe;
   border: 1px solid #e2e8f0;
@@ -71,6 +67,7 @@ const Name = styled.div`
   font-size: 18px;
   line-height: 24px;
   color: #2e343d;
+
   :hover {
     text-decoration: underline;
   }
@@ -97,8 +94,7 @@ const ActiveWrapper = styled.div`
 `;
 
 const ActiveCircle = styled.div`
-  width: 6px;
-  height: 6px;
+  ${makeSquare(6)};
   border-radius: 50%;
   background: #56ca2f;
   margin-right: 8px;
@@ -117,17 +113,17 @@ export default function Space() {
           <Item key={index}>
             <IconWrapper>
               <Icon>
-                {item.icon && <img src={`/imgs/icons/${item.icon}`} alt="" />}
-                {!item.icon && <DefaultIcon />}
+                {item.icon && <img src={`/imgs/icons/${item.icon}`} alt=""/>}
+                {!item.icon && <DefaultIcon/>}
               </Icon>
               <InternalLink href={`/space/${item.value}`}>
                 <Name>{item.name}</Name>
               </InternalLink>
               <Symbol>{item.symbol ?? "-"}</Symbol>
             </IconWrapper>
-            <Divider />
+            <Divider/>
             <ActiveWrapper>
-              <ActiveCircle />
+              <ActiveCircle/>
               Active
               <ActiveCount>{item.active ?? 0}</ActiveCount>
             </ActiveWrapper>
