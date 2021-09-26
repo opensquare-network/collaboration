@@ -15,7 +15,7 @@ const ItemsWrapper = styled.div`
   gap: 20px;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   overflow: scroll;
-  justify-content: space-between;
+  justify-content: space-around;
   ${no_scroll_bar};
   ${(p) =>
     p.show &&
