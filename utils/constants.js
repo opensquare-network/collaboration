@@ -76,8 +76,6 @@ export const SPACE_ITEMS = [
   { value: "karura", icon: "karura.svg", name: "Karura", active: 5 },
   { value: "khala", icon: "khala.svg", name: "Khala", active: 5 },
   { value: "xxx", name: "XXX" },
-  { value: "xxx", name: "XXX" },
-  { value: "xxx", name: "XXX" },
 ];
 
 export const POST_ITEMS = [
