@@ -1,4 +1,6 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+import { useState } from "react";
+
 import { SPACE_ITEMS } from "utils/constants";
 import InternalLink from "./internalLink";
 import { no_scroll_bar, shadow_100, makeSquare } from "../styles/globalCss";
@@ -6,17 +8,21 @@ import { h3_36_bold, p_18_semibold } from "../styles/textStyles";
 
 const Title = styled.div`
   ${h3_36_bold};
-  margin-bottom: 40px;
 `;
 
 const ItemsWrapper = styled.div`
-  display: flex;
-  overflow-x: scroll;
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  overflow: scroll;
+  justify-content: space-between;
   ${no_scroll_bar};
-
-  > :not(:first-child) {
-    margin-left: 20px;
-  }
+  ${(p) =>
+    p.show &&
+    css`
+      gap: auto;
+      grid-template-columns: repeat(auto-fill, 200px);
+    `}
 
   @media screen and(max-width: 1144px) {
     margin: 0 -32px;
@@ -100,26 +106,48 @@ const ActiveCount = styled.div`
   margin-left: auto;
 `;
 
+const TitleWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 40px;
+`;
+
+const SpaceButton = styled.div`
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  color: #506176;
+`;
+
 export default function Space() {
+  const [show, setShow] = useState(false);
+
   return (
     <div>
-      <Title>Space</Title>
-      <ItemsWrapper>
-        {SPACE_ITEMS.map((item, index) => (
+      <TitleWrapper>
+        <Title>Space</Title>
+        <SpaceButton onClick={() => setShow(!show)}>
+          {show ? "Hide Spaces" : `All Spaces(${SPACE_ITEMS.length})`}
+        </SpaceButton>
+      </TitleWrapper>
+      <ItemsWrapper show={show}>
+        {(show ? SPACE_ITEMS : SPACE_ITEMS.slice(0, 5)).map((item, index) => (
           <Item key={index}>
             <IconWrapper>
               <Icon>
-                {item.icon && <img src={`/imgs/icons/${item.icon}`} alt=""/>}
-                {!item.icon && <DefaultIcon/>}
+                {item.icon && <img src={`/imgs/icons/${item.icon}`} alt="" />}
+                {!item.icon && <DefaultIcon />}
               </Icon>
               <InternalLink href={`/space/${item.value}`}>
                 <Name>{item.name}</Name>
               </InternalLink>
               <Symbol>{item.symbol ?? "-"}</Symbol>
             </IconWrapper>
-            <Divider/>
+            <Divider />
             <ActiveWrapper>
-              <ActiveCircle/>
+              <ActiveCircle />
               Active
               <ActiveCount>{item.active ?? 0}</ActiveCount>
             </ActiveWrapper>
