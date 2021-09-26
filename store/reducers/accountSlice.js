@@ -1,7 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import nextApi from "services/nextApi";
-
 const accountSlice = createSlice({
   name: "account",
   initialState: {

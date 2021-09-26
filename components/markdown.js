@@ -120,9 +120,10 @@ export default function Mardown({ content }) {
     <Wrapper>
       <ReactMarkdown
         className="markdown-content"
-        children={content}
         linkTarget="_blank"
-      />
+      >
+        {content}
+      </ReactMarkdown>
     </Wrapper>
   );
 }

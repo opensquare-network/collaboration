@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 
 import Layout from "components/layout";
 import Nav from "components/nav";
-import { LIST_NAV_ITEMS } from "utils/constants";
 import ListInfo from "components/listInfo";
 import ListTab from "components/listTab";
 import PostList from "components/postList";
@@ -41,4 +40,12 @@ export default function List() {
       </PostWrapper>
     </Layout>
   );
+}
+
+export async function getServerSideProps(context) {
+  return {
+    props: {
+
+    }
+  }
 }
