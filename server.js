@@ -46,15 +46,6 @@ app.prepare().then(() => {
     }
   });
 
-  // const io = require("socket.io")(httpServer, {
-  //   cors: {
-  //     origin: "*",
-  //     methods: ["GET", "POST"],
-  //   },
-  // });
-
-  // ioHandler(io);
-
   httpServer.listen(PORT, (err) => {
     if (err) throw err;
     console.log(`> Ready on http://127.0.0.1:${PORT}`);

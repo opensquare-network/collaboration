@@ -5,11 +5,12 @@ const routeSpaces = SPACES.join("|");
 
 const router = new Router();
 
-const chainFeatureRouters = [
+const spaceFeatureRoutes = [
   require("./features/proposals/routes"),
 ];
 
 const commonFeatureRouters = [
+  require("./features/spaces/routes"),
 ];
 
 module.exports = (app) => {
@@ -17,7 +18,7 @@ module.exports = (app) => {
     router.use(r.routes(), r.allowedMethods({ throw: true }));
   }
 
-  for (const r of chainFeatureRouters) {
+  for (const r of spaceFeatureRoutes) {
     router.use(
       `/:chain(${routeSpaces})`,
       r.routes(),

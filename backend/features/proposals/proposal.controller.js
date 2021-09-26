@@ -57,7 +57,7 @@ async function getPosts(ctx) {
     return;
   }
 
-  ctx.body = await postService.getPostsByChain(space, page, pageSize);
+  ctx.body = await postService.getPostsBySpace(space, page, pageSize);
 }
 
 async function getPostById(ctx) {

@@ -18,7 +18,10 @@
     "@polkadot/util-crypto": "^7.3.1",
     "@reduxjs/toolkit": "^1.6.1",
     "@svgr/webpack": "^5.5.0",
+    "axios": "^0.21.4",
+    "cheerio": "^1.0.0-rc.10",
     "http-proxy": "^1.18.1",
+    "ipfs-only-hash": "^4.0.0",
     "koa": "^2.13.1",
     "koa-bodyparser": "^4.3.0",
     "koa-helmet": "^6.1.0",
@@ -34,7 +37,8 @@
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.0.3",
     "styled-components": "^5.3.1",
-    "validator": "^13.6.0"
+    "validator": "^13.6.0",
+    "xss": "^1.0.9"
   },
   "devDependencies": {
     "eslint": "7.32.0",
