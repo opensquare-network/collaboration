@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 import Post from "./post";
 import { p_20_semibold } from "../styles/textStyles";
+import NoPost from "./noPost";
 
 const Title = styled.div`
   ${p_20_semibold};
@@ -22,6 +23,7 @@ export default function PostList({ title, posts }) {
         {posts.map((item, index) => (
           <Post key={index} data={item} />
         ))}
+        <NoPost />
       </PostsWrapper>
     </div>
   );
