@@ -14,11 +14,11 @@ export const DEFAULT_KUSAMA_NODES = [
   },
 ];
 
-export const DEFAULT_POLKADOT_NODE_URL = "wss://rpc.polkadot.io/";
+export const DEFAULT_POLKADOT_NODE_URL = "wss://rpc.polkadot.io";
 export const DEFAULT_POLKADOT_NODES = [
   {
     name: "Parity",
-    url: "wss://rpc.polkadot.io/",
+    url: "wss://rpc.polkadot.io",
   },
   {
     name: "OnFinality",
@@ -26,7 +26,7 @@ export const DEFAULT_POLKADOT_NODES = [
   },
   {
     name: "Patract Elara",
-    url: "wss://polkadot.elara.patract.io/",
+    url: "wss://polkadot.elara.patract.io",
   },
 ];
 
@@ -34,27 +34,30 @@ export const FOOTER_ITEMS = [
   {
     label: "Product",
     items: [
-      { name: "CoinAsk", link: "https://www.coinask.io/" },
-      { name: "doTreasury", link: "https://www.dotreasury.com/" },
-      { name: "statescan" },
+      { name: "CoinAsk", link: "https://www.coinask.io" },
+      { name: "doTreasury", link: "https://www.dotreasury.com" },
+      { name: "statescan", link:"https://statescan.io" },
     ],
   },
   {
     label: "Resources",
-    items: [{ name: "Lightpaper" }, { name: "Media Kits" }],
+    items: [
+      { name: "Lightpaper", link: "https://github.com/opensquare-network/papers"  },
+      { name: "Media Kits" , link: "https://drive.google.com/drive/folders/1nA6PTJJYfnpvB8wu9cgQaHopMRM4bqQg?usp=sharing" },
+    ],
   },
   {
     label: "Social Links",
     items: [
-      { name: "Github", icon: "github.svg" },
-      { name: "Telegram", icon: "telegram.svg" },
-      { name: "Twitter", icon: "twitter.svg" },
-      { name: "Subsocial", icon: "subsocial.svg" },
+      { name: "Github", icon: "github.svg" , link: "https://github.com/opensquare-network" },
+      { name: "Telegram", icon: "telegram.svg" , link: "https://t.me/opensquare" },
+      { name: "Twitter", icon: "twitter.svg" , link: "https://twitter.com/OpensquareN" },
+      { name: "Subsocial", icon: "subsocial.svg" , link: "https://app.subsocial.network/@opensquare" },
     ],
   },
   {
     label: "Contact",
-    items: [{ name: "Email", icon: "mail.svg" }],
+    items: [{ name: "Email", icon: "mail.svg" , link: "mailto:hi@opensquare.network" }],
   },
 ];
 
@@ -111,13 +114,13 @@ export const POST_ITEMS = [
 ];
 
 export const LIST_NAV_ITEMS = [
-  { name: "Space", link: "/" },
+  { name: "Space", link: "" },
   { name: "Kusama" },
 ];
 
 export const DETAIL_NAV_ITEMS = [
-  { name: "Space", link: "/" },
-  { name: "Kusama", link: "/", back: true },
+  { name: "Space", link: "" },
+  { name: "Kusama", link: "", back: true },
   { name: "Prososal" },
 ];
 
