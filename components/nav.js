@@ -2,13 +2,12 @@ import styled, { css } from "styled-components";
 
 import InternalLink from "./internalLink";
 import CaretLeft from "/public/imgs/icons/caret-left.svg";
+import { p_16_semibold } from "../styles/textStyles";
 
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 24px;
+  ${p_16_semibold};
 `;
 
 const ItemsWrapper = styled.div`

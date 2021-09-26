@@ -1,13 +1,11 @@
 import styled from "styled-components";
-
 import { SPACE_ITEMS } from "utils/constants";
 import InternalLink from "./internalLink";
 import { no_scroll_bar, shadow_100, makeSquare } from "../styles/globalCss";
+import { h3_36_bold, p_18_semibold } from "../styles/textStyles";
 
 const Title = styled.div`
-  font-weight: bold;
-  font-size: 36px;
-  line-height: 40px;
+  ${h3_36_bold};
   margin-bottom: 40px;
 `;
 
@@ -63,9 +61,7 @@ const DefaultIcon = styled.div`
 `;
 
 const Name = styled.div`
-  font-weight: 600;
-  font-size: 18px;
-  line-height: 24px;
+  ${p_18_semibold};
   color: #2e343d;
 
   :hover {

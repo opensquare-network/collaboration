@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { h4_24_bold, p_16_semibold } from "../styles/textStyles";
 
 const Wrapper = styled.div`
   display: flex;
@@ -21,9 +22,7 @@ const LogoImg = styled.img`
 `;
 
 const LogoName = styled.div`
-  font-weight: bold;
-  font-size: 24px;
-  line-height: 32px;
+  ${h4_24_bold};
 `;
 
 const LogoSymbol = styled.div`
@@ -49,9 +48,7 @@ const AboutIcon = styled.img`
 `;
 
 const AboutName = styled.div`
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 24px;
+  ${p_16_semibold};
 `;
 
 const AboutDetail = styled.div`

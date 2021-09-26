@@ -1,5 +1,6 @@
 import styled, { css } from "styled-components";
 import { useState } from "react";
+import { p_16_semibold } from "../styles/textStyles";
 
 const Wrapper = styled.div`
   > :not(:first-child) {
@@ -32,9 +33,7 @@ const Button = styled.div`
   border: 1px solid #e2e8f0;
   padding: 12px;
   text-align: center;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 24px;
+  ${p_16_semibold};
   cursor: pointer;
   :hover {
     border-color: #b7c0cc;
@@ -67,9 +66,7 @@ const ButtonPrimary = styled.div`
   background: #191e27;
   padding: 12px;
   text-align: center;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 24px;
+  ${p_16_semibold};
   cursor: pointer;
   color: #ffffff;
 `;

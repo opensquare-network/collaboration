@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 import Author from "./author";
 import PostVote from "./postVote";
+import { p_16_normal, p_18_semibold, p_20_semibold } from "../styles/textStyles";
 
 const Wrapper = styled.div`
   padding: 40px;
@@ -16,9 +17,7 @@ const Wrapper = styled.div`
 `;
 
 const Title = styled.div`
-  font-weight: 600;
-  font-size: 20px;
-  line-height: 32px;
+  ${p_20_semibold};
   margin-bottom: 16px;
 `;
 
@@ -57,15 +56,12 @@ const Divider = styled.div`
 `;
 
 const SubTitle = styled.div`
-  font-weight: 600;
-  font-size: 18px;
-  line-height: 24px;
+  ${p_18_semibold};
   margin-bottom: 16px;
 `;
 
 const Content = styled.div`
-  font-size: 16px;
-  line-height: 24px;
+  ${p_16_normal};
   color: #a1a8b3;
 `;
 

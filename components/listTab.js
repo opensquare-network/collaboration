@@ -2,6 +2,7 @@ import styled, { css } from "styled-components";
 import { useState } from "react";
 
 import { LIST_TAB_ITEMS } from "utils/constants";
+import { p_16_semibold } from "../styles/textStyles";
 
 const Wrapper = styled.div`
   display: flex;
@@ -27,9 +28,7 @@ const ItemWrapper = styled.div`
 
 const Item = styled.div`
   cursor: pointer;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 24px;
+  ${p_16_semibold};
   padding-bottom: 20px;
   :not(:first-child) {
     margin-left: 40px;
@@ -46,9 +45,7 @@ const Button = styled.div`
   display: flex;
   align-items: center;
   cursor: pointer;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 24px;
+  ${p_16_semibold};
   color: #04d2c5;
   margin-left: 40px;
   > img {

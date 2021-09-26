@@ -3,6 +3,7 @@ import { useState } from "react";
 
 import PostVotes from "./postVotes";
 import PostDiscussion from "./postDiscussion";
+import { p_16_semibold } from "../styles/textStyles";
 
 const Wrapper = styled.div`
   background: #ffffff;
@@ -22,9 +23,7 @@ const TabWrapper = styled.div`
 `;
 
 const TabItem = styled.div`
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 24px;
+  ${p_16_semibold};
   padding-bottom: 20px;
   cursor: pointer;
   :not(:first-child) {

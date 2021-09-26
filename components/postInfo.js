@@ -1,6 +1,7 @@
 import styled, { css } from "styled-components";
 
 import { TIMELINE_ITEMS_1, TIMELINE_ITEMS_2 } from "utils/constants";
+import { p_16_semibold } from "../styles/textStyles";
 
 const Wrapper = styled.div`
   padding: 40px 32px;
@@ -18,9 +19,7 @@ const Wrapper = styled.div`
 `;
 
 const TitleWrapper = styled.div`
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 24px;
+  ${p_16_semibold};
   display: flex;
   align-items: center;
   justify-content: space-between;

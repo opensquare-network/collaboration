@@ -3,6 +3,7 @@ import styled from "styled-components";
 import ExternalLink from "./externalLink";
 import { FOOTER_ITEMS } from "utils/constants";
 import Container from "./container";
+import { p_16_normal, p_16_semibold } from "../styles/textStyles";
 
 const Wrapper = styled.footer`
   flex: 0 0 auto;
@@ -44,9 +45,7 @@ const List = styled.div`
 `;
 
 const Label = styled.div`
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 24px;
+  ${p_16_semibold};
   margin-bottom: 24px;
   color: #ffffff;
 `;
@@ -60,8 +59,7 @@ const ItemsWrapper = styled.div`
 const Item = styled.div`
   display: flex;
   align-items: center;
-  font-size: 16px;
-  line-height: 24px;
+  ${p_16_normal};
   color: rgba(255, 255, 255, 0.65);
   > img {
     width: 24px;
@@ -81,8 +79,7 @@ const RightWrapper = styled.div`
   }
   > div {
     text-align: right;
-    font-size: 16px;
-    line-height: 24px;
+    ${p_16_normal};
     color: rgba(255, 255, 255, 0.35);
   }
   @media screen and (max-width: 1000px) {
