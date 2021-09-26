@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   isWeb3Injected,
   web3Accounts,
@@ -7,11 +7,8 @@ import {
 import { useDispatch } from "react-redux";
 import { setAccount } from "store/reducers/accountSlice";
 import { Modal, Select, Button } from "semantic-ui-react";
-import { randomBytes } from "crypto";
 
 import { useIsMounted } from "utils/hooks";
-import { signMessage } from "services/chainApi";
-import nextApi from "services/nextApi";
 
 export default function Connect({ show, setShow }) {
   const dispatch = useDispatch();
@@ -20,7 +17,7 @@ export default function Connect({ show, setShow }) {
   const [addresses, setAddresses] = useState();
   const [address, setAddress] = useState();
 
-  const getAddresses = async () => {
+  const getAddresses = useCallback(async () => {
     if (hasExtension) {
       await web3Enable("voting");
       const extensionAccounts = await web3Accounts();
@@ -37,7 +34,7 @@ export default function Connect({ show, setShow }) {
       );
       if (newWindow) newWindow.opener = null;
     }
-  };
+  }, [hasExtension, isMounted]);
 
   const getConnection = async () => {
     const oneWeek = 7 * 24 * 60 * 60 * 1000;
@@ -66,7 +63,7 @@ export default function Connect({ show, setShow }) {
         getAddresses();
       }
     })();
-  }, [isMounted]);
+  }, [isMounted, getAddresses]);
 
   return (
     <>

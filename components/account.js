@@ -114,7 +114,7 @@ export default function Account() {
                   }}
                 >
                   Log out
-                  <img src="/imgs/icons/logout.svg" />
+                  <img src="/imgs/icons/logout.svg" alt="" />
                 </LogoutWrapper>
               </MenuItem>
             </MenuWrapper>

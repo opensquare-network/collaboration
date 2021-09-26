@@ -74,7 +74,7 @@ export default function PostResult() {
     <Wrapper>
       <TitleWrapper>
         Results
-        <img src="/imgs/icons/strategy.svg" />
+        <img src="/imgs/icons/strategy.svg" alt="" />
       </TitleWrapper>
       <Divider />
       <div>
