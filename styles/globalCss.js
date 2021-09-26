@@ -8,6 +8,7 @@ export const shadow_100 = css`
 export const no_scroll_bar = css`
   -ms-overflow-style: none;
   scrollbar-width: none;
+
   ::-webkit-scrollbar {
     display: none;
   }

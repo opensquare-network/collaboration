@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 import Author from "./author";
 import InternalLink from "components/internalLink";
+import { p_18_medium } from "../styles/textStyles";
 
 const Wrapper = styled.div`
   background: #ffffff;
@@ -13,9 +14,7 @@ const Wrapper = styled.div`
 
 const Title = styled.div`
   display: inline-block;
-  font-weight: 500;
-  font-size: 18px;
-  line-height: 24px;
+  ${p_18_medium};
   :hover {
     text-decoration: underline;
   }

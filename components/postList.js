@@ -1,11 +1,10 @@
 import styled from "styled-components";
 
 import Post from "./post";
+import { p_20_semibold } from "../styles/textStyles";
 
 const Title = styled.div`
-  font-weight: bold;
-  font-size: 20px;
-  line-height: 32px;
+  ${p_20_semibold};
   margin-bottom: 24px;
 `;
 

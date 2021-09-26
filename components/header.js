@@ -5,6 +5,7 @@ import Link from "next/link";
 import Container from "./container";
 import { useWindowSize } from "utils/hooks";
 import Account from "./account";
+import { p_18_semibold } from "../styles/textStyles";
 
 const Wrapper = styled.header`
   flex: 0 0 auto;
@@ -53,9 +54,7 @@ const Divider = styled.div`
 const AppWrapper = styled.div`
   display: flex;
   align-items: center;
-  font-weight: 600;
-  font-size: 18px;
-  line-height: 24px;
+  ${p_18_semibold};
   > img {
     width: 24px;
     margin-right: 8px;

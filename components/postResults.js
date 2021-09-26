@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { p_16_semibold } from "../styles/textStyles";
 
 const Wrapper = styled.div`
   padding: 40px 32px;
@@ -13,9 +14,7 @@ const Wrapper = styled.div`
 `;
 
 const TitleWrapper = styled.div`
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 24px;
+  ${p_16_semibold};
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -31,9 +30,7 @@ const VoteItem = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 24px;
+  ${p_16_semibold};
   :not(:first-child) {
     margin-top: 4px;
   }

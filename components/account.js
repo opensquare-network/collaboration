@@ -7,6 +7,7 @@ import { useOnClickOutside } from "utils/hooks";
 import { accountSelector, logout } from "store/reducers/accountSlice";
 import { addressEllipsis } from "utils";
 import Avatar from "./avatar";
+import { p_16_semibold } from "../styles/textStyles";
 
 const Connect = dynamic(() => import("./connect"), {
   ssr: false,
@@ -70,9 +71,7 @@ const LogoutWrapper = styled.div`
 
 const Button = styled.div`
   padding: 8px 16px;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 24px;
+  ${p_16_semibold};
   color: #ffffff;
   background: #191e27;
   cursor: pointer;
