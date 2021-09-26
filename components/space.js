@@ -1,21 +1,41 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { SPACE_ITEMS } from "utils/constants";
 import InternalLink from "./internalLink";
 import { no_scroll_bar, shadow_100, makeSquare } from "../styles/globalCss";
-import { h3_36_bold, p_18_semibold } from "../styles/textStyles";
+import { h3_36_bold, p_16_semibold, p_18_semibold } from "../styles/textStyles";
+import { useState } from "react";
 
 const Title = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   ${h3_36_bold};
   margin-bottom: 40px;
 `;
 
 const ItemsWrapper = styled.div`
   display: flex;
-  overflow-x: scroll;
+  justify-content: start;
+  ${(p) =>
+          p.folded &&
+          css`
+            overflow-x: scroll;
+            flex-wrap: nowrap;
+          `}
+  ${(p) =>
+          !p.folded &&
+          css`
+            flex-wrap: wrap;
+          `}
   ${no_scroll_bar};
-
+  
   > :not(:first-child) {
+    margin-bottom: 20px;
     margin-left: 20px;
+  }
+  
+  > :nth-child(6n){
+    margin-left: 0;
   }
 
   @media screen and(max-width: 1144px) {
@@ -61,7 +81,7 @@ const DefaultIcon = styled.div`
 `;
 
 const Name = styled.div`
-  ${p_18_semibold};
+  ${p_16_semibold};
   color: #2e343d;
 
   :hover {
@@ -100,11 +120,22 @@ const ActiveCount = styled.div`
   margin-left: auto;
 `;
 
+const FoldButton = styled.p`
+  ${p_18_semibold};
+  cursor: pointer;
+`
+
 export default function Space() {
+  const [folded, setFolded] = useState(true);
   return (
     <div>
-      <Title>Space</Title>
-      <ItemsWrapper>
+      <Title>
+        Space
+        <FoldButton onClick={() => {
+          setFolded(!folded)
+        }}>All Spaces(20)</FoldButton>
+      </Title>
+      <ItemsWrapper folded={folded}>
         {SPACE_ITEMS.map((item, index) => (
           <Item key={index}>
             <IconWrapper>
