@@ -1,7 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import nextApi from "services/nextApi";
-
 const accountSlice = createSlice({
   name: "account",
   initialState: {
@@ -36,10 +34,10 @@ export const accountSelector = (state) => {
         const account = JSON.parse(item);
         if (account) {
           if (account.expires && new Date(account.expires) < new Date()) {
+            window.localStorage.clear("account");
+          } else {
             setAccount(account);
             return account;
-          } else {
-            window.localStorage.clear("account");
           }
         }
       }
