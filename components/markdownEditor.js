@@ -65,7 +65,7 @@ export default function MarkdownEditor({ content, setContent }) {
           ],
         ]}
         getIcon={(commandName) => {
-          return <img src={`/imgs/icons/markdown/${commandName}.svg`} />;
+          return <img src={`/imgs/icons/markdown/${commandName}.svg`} alt="" />;
         }}
         childProps={{
           textArea: {

@@ -134,7 +134,7 @@ export default function PostInfo() {
       <div>
         <TitleWrapper>
           Information
-          <img src="/imgs/icons/info.svg" />
+          <img src="/imgs/icons/info.svg" alt="" />
         </TitleWrapper>
         <Divider />
         <div>
@@ -151,7 +151,7 @@ export default function PostInfo() {
       <div>
         <TitleWrapper>
           Timeline
-          <img src="/imgs/icons/timeline.svg" />
+          <img src="/imgs/icons/timeline.svg" alt="" />
         </TitleWrapper>
         <Divider />
       </div>

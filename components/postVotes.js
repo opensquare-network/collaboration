@@ -68,7 +68,7 @@ export default function PostVotes() {
             <ContentWrapper>
               <Content>{item.content}</Content>
               <LikeWrapper>
-                <img src="/imgs/icons/thumb-up.svg" />
+                <img src="/imgs/icons/thumb-up.svg" alt="" />
                 <span>0</span>
               </LikeWrapper>
             </ContentWrapper>

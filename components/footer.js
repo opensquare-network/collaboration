@@ -109,7 +109,9 @@ export default function Footer() {
                   {item.items.map((item, index) => (
                     <ExternalLink href={item.link} key={index}>
                       <Item>
-                        {item.icon && <img src={`/imgs/icons/${item.icon}`} />}
+                        {item.icon && (
+                          <img src={`/imgs/icons/${item.icon}`} alt="" />
+                        )}
                         {item.name}
                       </Item>
                     </ExternalLink>
@@ -119,7 +121,7 @@ export default function Footer() {
             ))}
           </LeftWrapper>
           <RightWrapper>
-            <img src="/imgs/opensquare-footer-logo.svg" />
+            <img src="/imgs/opensquare-footer-logo.svg" alt="" />
             <div>{`© ${new Date().getFullYear()} OpenSquare. All Rights Reserved.`}</div>
           </RightWrapper>
         </ContentWrapper>

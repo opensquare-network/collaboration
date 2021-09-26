@@ -30,7 +30,7 @@ const Item = styled.div`
   font-weight: 600;
   font-size: 16px;
   line-height: 24px;
-  padding-bottom: 17px;
+  padding-bottom: 20px;
   :not(:first-child) {
     margin-left: 40px;
   }
@@ -38,6 +38,7 @@ const Item = styled.div`
     p.active &&
     css`
       border-bottom: 3px solid #04d2c5;
+      padding-bottom: 17px;
     `}
 `;
 
