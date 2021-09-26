@@ -108,7 +108,7 @@ export const LIST_NAV_ITEMS = [
 
 export const DETAIL_NAV_ITEMS = [
   { name: "Space", link: "/" },
-  { name: "Kusama", link: "/list", back: true },
+  { name: "Kusama", link: "/", back: true },
   { name: "Prososal" },
 ];
 

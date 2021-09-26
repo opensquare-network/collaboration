@@ -62,6 +62,10 @@ const LogoutWrapper = styled.div`
   justify-content: space-between;
   font-weight: 600;
   line-height: 24px;
+  color: #506176;
+  :hover {
+    color: #1e2134;
+  }
 `;
 
 const Button = styled.div`
