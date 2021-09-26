@@ -4,7 +4,7 @@ import { useState } from "react";
 import { SPACE_ITEMS } from "utils/constants";
 import InternalLink from "./internalLink";
 import { no_scroll_bar, shadow_100, makeSquare } from "../styles/globalCss";
-import { h3_36_bold, p_18_semibold } from "../styles/textStyles";
+import { h3_36_bold, p_18_semibold, p_16_semibold } from "../styles/textStyles";
 
 const Title = styled.div`
   ${h3_36_bold};
@@ -115,9 +115,7 @@ const TitleWrapper = styled.div`
 
 const SpaceButton = styled.div`
   cursor: pointer;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 24px;
+  ${p_16_semibold};
   color: #506176;
 `;
 
