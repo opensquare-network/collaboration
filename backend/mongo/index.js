@@ -31,6 +31,5 @@ module.exports = {
   getDb,
   getPostCollection: () => getCollection("post"),
   getCommentCollection: () => getCollection("comment"),
-  getReactionCollection: () => getCollection("reaction"),
   getStatusCollection: () => getCollection("status"),
 };

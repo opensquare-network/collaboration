@@ -5,14 +5,16 @@ const { extractPage } = require("../../utils");
 
 async function createPost(ctx) {
   const {
-    data: {
-      space,
-      title,
-      content,
-      contentType: paramContentType,
-    },
+    data,
     address,
+    signature,
   } = ctx.request.body;
+  const {
+    space,
+    title,
+    content,
+    contentType: paramContentType,
+  } = data;
 
   if (!title) {
     throw new HttpError(400, { title: ["Post title is missing"] });
@@ -39,47 +41,10 @@ async function createPost(ctx) {
     title,
     content,
     contentType,
-    address
-  );
-}
-
-async function updatePost(ctx) {
-  const {
-    data: {
-      postId,
-      title,
-      content,
-      contentType: paramContentType,
-    },
+    data,
     address,
-  } = ctx.request.body;
-
-  if (!title) {
-    throw new HttpError(400, { title: ["Post title is missing"] });
-  }
-
-  if (!content) {
-    throw new HttpError(400, { content: ["Post content is missing"] });
-  }
-
-  if (
-    paramContentType !== undefined &&
-    paramContentType !== ContentType.Markdown &&
-    paramContentType !== ContentType.Html
-  ) {
-    throw new HttpError(400, { contentType: ["Unknown content type"] });
-  }
-
-  const contentType = paramContentType
-    ? paramContentType
-    : ContentType.Markdown;
-
-  ctx.body = await postService.updatePost(
-    postId,
-    title,
-    content,
-    contentType,
-    address
+    signature,
+    ctx.pinHash,
   );
 }
 
@@ -103,13 +68,15 @@ async function getPostById(ctx) {
 
 async function postComment(ctx) {
   const {
-    data: {
-      postId,
-      content,
-      contentType: paramContentType
-    },
+    data,
     address,
+    signature,
   } = ctx.request.body;
+  const {
+    postId,
+    content,
+    contentType: paramContentType
+  } = data;
 
   if (!content) {
     throw new HttpError(400, { content: ["Comment content is missing"] });
@@ -131,7 +98,10 @@ async function postComment(ctx) {
     postId,
     content,
     contentType,
+    data,
     address,
+    signature,
+    ctx.pinHash,
   );
 }
 
@@ -146,44 +116,10 @@ async function getComments(ctx) {
   ctx.body = await postService.getComments(chain, postId, page, pageSize);
 }
 
-async function setPostReaction(ctx) {
-  const {
-    data: {
-      postId,
-      reaction
-    },
-    address,
-  } = ctx.request.body;
-
-  if (reaction === undefined) {
-    throw new HttpError(400, "Reaction is missing");
-  }
-
-  ctx.body = await postService.setPostReaction(
-    postId,
-    reaction,
-    address
-  );
-}
-
-async function unsetPostReaction(ctx) {
-  const {
-    data: {
-      postId
-    },
-    address,
-  } = ctx.request.body;
-  ctx.body = await postService.unsetPostReaction(postId, address);
-}
-
-
 module.exports = {
   createPost,
-  updatePost,
   getPosts,
   getPostById,
   postComment,
   getComments,
-  setPostReaction,
-  unsetPostReaction,
 };
