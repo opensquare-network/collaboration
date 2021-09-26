@@ -66,6 +66,9 @@ const Item = styled.div`
     height: 24px;
     margin-right: 8px;
   }
+  &:hover{
+    color: rgb(255, 255, 255);
+  }
 `;
 
 const RightWrapper = styled.div`
