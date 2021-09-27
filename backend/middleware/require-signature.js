@@ -32,20 +32,23 @@ async function requireSignature(ctx, next) {
   const msg = JSON.stringify(data);
   await verifySignature(msg, address, signature);
 
+  const { buf, cid } = await ipfsService.getObjectBufAndCid({
+    msg,
+    address,
+    signature,
+    version: "1",
+  });
+
   let pinHash = undefined;
   try {
-    const pinResult = await ipfsService.pinJsonToIpfsWithTimeout({
-      msg,
-      address,
-      signature,
-      version: "1",
-    }, 3000);
+    const pinResult = await ipfsService.pinJsonToIpfsWithTimeout(buf, cid, 3000);
     pinHash = pinResult.PinHash;
   } catch (e) {
     console.error(e);
   }
 
   ctx.pinHash = pinHash;
+  ctx.cid = cid;
 
   await next();
 

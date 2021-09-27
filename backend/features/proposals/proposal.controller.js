@@ -44,6 +44,7 @@ async function createPost(ctx) {
     data,
     address,
     signature,
+    ctx.cid,
     ctx.pinHash,
   );
 }
@@ -73,7 +74,7 @@ async function postComment(ctx) {
     signature,
   } = ctx.request.body;
   const {
-    postId,
+    proposalCid,
     content,
     contentType: paramContentType
   } = data;
@@ -95,12 +96,13 @@ async function postComment(ctx) {
     : ContentType.Markdown;
 
   ctx.body = await postService.postComment(
-    postId,
+    proposalCid,
     content,
     contentType,
     data,
     address,
     signature,
+    ctx.cid,
     ctx.pinHash,
   );
 }

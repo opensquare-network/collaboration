@@ -18,6 +18,7 @@ async function createPost(
   data,
   address,
   signature,
+  cid,
   pinHash,
 ) {
   if (title.length > PostTitleLengthLimitation) {
@@ -44,6 +45,7 @@ async function createPost(
       lastActivityAt: new Date(),
       createdAt: now,
       updatedAt: now,
+      cid,
       pinHash,
     }
   );
@@ -117,29 +119,28 @@ async function getPostById(postId) {
 }
 
 async function postComment(
-  postId,
+  proposalCid,
   content,
   contentType,
   data,
   address,
   signature,
+  cid,
   pinHash,
 ) {
-  const postObjId = ObjectId(postId);
-
   const postCol = await getPostCollection();
-  const post = await postCol.findOne({_id: postObjId});
+  const post = await postCol.findOne({cid: proposalCid});
   if (!post) {
     throw new HttpError(400, "Post not found.");
   }
 
   const commentCol = await getCommentCollection();
-  const height = await commentCol.countDocuments({ post: postObjId });
+  const height = await commentCol.countDocuments({ post: post._id });
 
   const now = new Date();
 
   const newComment = {
-    post: postObjId,
+    post: post._id,
     content: contentType === ContentType.Html ? safeHtml(content) : content,
     contentType,
     data,
@@ -148,6 +149,7 @@ async function postComment(
     height: height + 1,
     createdAt: now,
     updatedAt: now,
+    cid,
     pinHash,
   };
   const result = await commentCol.insertOne(newComment);
@@ -159,7 +161,7 @@ async function postComment(
   const newCommentId = result.ops[0]._id;
 
   const updatePostResult = await postCol.updateOne(
-    { _id: postObjId },
+    { cid: proposalCid },
     {
       $set: {
         lastActivityAt: new Date()

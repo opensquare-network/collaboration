@@ -31,18 +31,22 @@ const trimTailSlash = (url) =>
   url.endsWith("/") ? url.substr(0, url.length - 1) : url;
 
 class IpfsService {
-  async pinJsonToIpfsWithTimeout(data, timeout) {
+  async pinJsonToIpfsWithTimeout(buf, cid, timeout) {
     const errorMsg = "Pin json to ipfs timeout";
     return await Promise.race([
       new Promise((_, reject) => setTimeout(() => reject(new Error(errorMsg)), timeout)),
-      this.pinJsonToIpfs(data),
+      this.pinJsonToIpfs(buf, cid),
     ]);
   }
 
-  async pinJsonToIpfs(data) {
+  async getObjectBufAndCid(data) {
     const jsonData = JSON.stringify(data);
     const buf = Buffer.from(jsonData);
     const cid = await Hash.of(buf);
+    return { buf, cid };
+  }
+
+  async pinJsonToIpfs(buf, cid) {
     const fullPrivateKey = `-----BEGIN PRIVATE KEY-----\n${DECOO_API_SECRET_KEY}\n-----END PRIVATE KEY-----`;
     const secret = crypto
       .privateEncrypt(fullPrivateKey, Buffer.from(cid))
