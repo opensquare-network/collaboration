@@ -8,7 +8,9 @@ const Wrapper = styled.div`
 export default function InternalLink({ href, children }) {
   return href ? (
     <Wrapper>
-      <Link href={href}>{children}</Link>
+      <Link href={href} passHref>
+        {children}
+      </Link>
     </Wrapper>
   ) : (
     <>{children}</>

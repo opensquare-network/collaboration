@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/router";
 
 export function useWindowSize() {
   const [windowSize, setWindowSize] = useState({
@@ -46,4 +47,10 @@ export function useIsMounted() {
   }, []);
 
   return isMounted;
+}
+
+export function useNode() {
+  const router = useRouter();
+  const { node } = router.query;
+  return node;
 }

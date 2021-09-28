@@ -52,7 +52,6 @@ export default function Nav({ data }) {
       {back && (
         <InternalLink href={back.link}>
           <BackButton>
-            {/* <img src="/imgs/icons/caret-left.svg" /> */}
             <CaretLeft />
           </BackButton>
         </InternalLink>

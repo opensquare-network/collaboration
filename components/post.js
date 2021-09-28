@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 import Author from "./author";
 import InternalLink from "components/internalLink";
-import { p_18_medium } from "../styles/textStyles";
+import { p_18_medium } from "styles/textStyles";
 
 const Wrapper = styled.div`
   background: #ffffff;
@@ -57,7 +57,7 @@ const Status = styled.div`
 export default function Post({ data }) {
   return (
     <Wrapper>
-      <InternalLink href="/detail">
+      <InternalLink href="/space/polkadot/1">
         <Title>{data.title}</Title>
       </InternalLink>
       <Divider />

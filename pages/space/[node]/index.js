@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { useRouter } from "next/router";
 
 import Layout from "components/layout";
 import Nav from "components/nav";
@@ -7,6 +6,7 @@ import ListInfo from "components/listInfo";
 import ListTab from "components/listTab";
 import PostList from "components/postList";
 import { LIST_POST_ITEMS, SPACE_ITEMS } from "utils/constants";
+import { useNode } from "utils/hooks";
 
 const HeaderWrapper = styled.div`
   > :not(:first-child) {
@@ -24,9 +24,8 @@ const PostWrapper = styled.div`
 `;
 
 export default function List() {
-  const router = useRouter();
-  const { id } = router.query;
-  const item = SPACE_ITEMS.find((item) => item.value === id);
+  const node = useNode();
+  const item = SPACE_ITEMS.find((item) => item.value === node);
 
   return (
     <Layout bgHeight="252px">
@@ -44,8 +43,6 @@ export default function List() {
 
 export async function getServerSideProps(context) {
   return {
-    props: {
-
-    }
-  }
+    props: {},
+  };
 }
