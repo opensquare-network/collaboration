@@ -3,10 +3,10 @@ const spaces = require("../spaces");
 
 const apiInstanceMap = new Map();
 
-const getApi = async (chain) => {
-  const nodeSetting = spaces[chain]?.nodeSetting;
+const getApi = async (space) => {
+  const nodeSetting = spaces[space]?.nodeSetting;
   if (!nodeSetting) {
-    throw new Error("Unknown chain name");
+    throw new Error("Unknown space name");
   }
 
   const nodeUrl = nodeSetting.nodeUrl;
