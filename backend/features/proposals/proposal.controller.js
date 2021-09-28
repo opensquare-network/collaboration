@@ -55,8 +55,8 @@ async function createProposal(ctx) {
 
   if (
     !Array.isArray(choices)
-    && choices.length > 0
-    && choices.some(item => typeof item !== "string")
+    || choices.length === 0
+    || choices.some(item => typeof item !== "string")
   ) {
     throw new HttpError(400, { choices: ["Choices must be array of string"] });
   }

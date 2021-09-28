@@ -218,30 +218,43 @@ async function vote(
     throw new HttpError(400, "Proposal not found.");
   }
 
+  if (!proposal.choices?.includes(choice)) {
+    throw new HttpError(400, "Invalid vote choice");
+  }
+
   const voteCol = await getVoteCollection();
   const height = await voteCol.countDocuments({ proposal: proposal._id });
 
   const now = new Date();
 
-  const newVote = {
-    proposal: proposal._id,
-    choice,
-    data,
-    address,
-    signature,
-    height: height + 1,
-    createdAt: now,
-    updatedAt: now,
-    cid,
-    pinHash,
-  };
-  const result = await voteCol.insertOne(newVote);
+  const result = await voteCol.findOneAndUpdate(
+    {
+      proposal: proposal._id,
+      address,
+    },
+    {
+      $set: {
+        choice,
+        data,
+        signature,
+        updatedAt: now,
+        cid,
+        pinHash,
+      },
+      $setOnInsert: {
+        height: height + 1,
+        createdAt: now,
+      }
+    },
+    {
+      upsert: true,
+      returnDocument: "after",
+    },
+  );
 
-  if (!result.result.ok) {
+  if (!result.ok) {
     throw new HttpError(500, "Failed to create comment");
   }
-
-  const newVoteId = result.ops[0]._id;
 
   const updateResult = await proposalCol.updateOne(
     { cid: proposalCid },
@@ -256,7 +269,7 @@ async function vote(
     throw new HttpError(500, "Unable to update proposal last activity time");
   }
 
-  return newVoteId;
+  return result.value?._id;
 }
 
 module.exports = {
