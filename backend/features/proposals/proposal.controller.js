@@ -1,6 +1,6 @@
 const { HttpError } = require("../../exc");
 const postService = require("../../services/post.service");
-const { ContentType } = require("../../constants");
+const { ContentType, ChoiceType } = require("../../constants");
 const { extractPage } = require("../../utils");
 
 async function createPost(ctx) {
@@ -14,14 +14,38 @@ async function createPost(ctx) {
     title,
     content,
     contentType,
+    choiceType,
+    startDate,
+    endDate,
+    snapshotHeight,
   } = data;
 
   if (!title) {
-    throw new HttpError(400, { title: ["Post title is missing"] });
+    throw new HttpError(400, { title: ["Title is missing"] });
   }
 
   if (!content) {
-    throw new HttpError(400, { content: ["Post content is missing"] });
+    throw new HttpError(400, { content: ["Content is missing"] });
+  }
+
+  if (!choiceType) {
+    throw new HttpError(400, { content: ["Choice type is missing"] });
+  }
+
+  if (!startDate) {
+    throw new HttpError(400, { content: ["Start date is missing"] });
+  }
+
+  if (!endDate) {
+    throw new HttpError(400, { content: ["End date is missing"] });
+  }
+
+  if (snapshotHeight === undefined) {
+    throw new HttpError(400, { content: ["Snapshot height is missing"] });
+  }
+
+  if (choiceType !== ChoiceType.Single) {
+    throw new HttpError(400, { choiceType: ["Unknown choice type"] });
   }
 
   if (
@@ -36,6 +60,10 @@ async function createPost(ctx) {
     title,
     content,
     contentType,
+    choiceType,
+    startDate,
+    endDate,
+    snapshotHeight,
     data,
     address,
     signature,

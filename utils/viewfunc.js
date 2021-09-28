@@ -1,12 +1,16 @@
 import nextApi from "../services/nextApi";
 import { signApiData } from "../services/chainApi";
 
-export async function createPost(space, title, content, contentType) {
+export async function createProposal(space, title, content, contentType, choiceType, startDate, endDate, snapshotHeight) {
   const signedData = await signApiData({
     space,
     title,
     content,
     contentType,
+    choiceType,
+    startDate,
+    endDate,
+    snapshotHeight,
     version: "1",
   });
 
