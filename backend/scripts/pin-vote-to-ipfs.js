@@ -1,23 +1,23 @@
 const dotenv = require("dotenv");
 dotenv.config();
 
-const { getProposalCollection } = require("../mongo");
+const { getVoteCollection } = require("../mongo");
 const ipfsService = require("../services/ipfs.service");
 
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 async function startPin() {
-  const postCol = await getProposalCollection();
-  const posts = await postCol.find({ pinHash: null }).toArray();
-  for (const post of posts) {
+  const voteCol = await getVoteCollection();
+  const votes = await voteCol.find({ pinHash: null }).toArray();
+  for (const vote of votes) {
     let pinHash = undefined;
 
     try {
-      const msg = JSON.stringify(post.data);
+      const msg = JSON.stringify(vote.data);
       const pinResult = await ipfsService.pinJsonToIpfs({
         msg,
-        address: post.address,
-        signature: post.signature,
+        address: vote.address,
+        signature: vote.signature,
         version: "1",
       });
       pinHash = pinResult.PinHash;
@@ -27,8 +27,8 @@ async function startPin() {
     }
 
     if (pinHash) {
-      await postCol.updateOne({ _id: post._id }, { $set:{ pinHash } });
-      console.log(`Save pin hash to: ${post._id}`);
+      await voteCol.updateOne({ _id: vote._id }, { $set:{ pinHash } });
+      console.log(`Save pin hash to: ${vote._id}`);
     }
   }
 }

@@ -7,6 +7,7 @@ export async function createProposal(
   content,
   contentType,
   choiceType,
+  choices,
   startDate,
   endDate,
   snapshotHeight
@@ -17,6 +18,7 @@ export async function createProposal(
     content,
     contentType,
     choiceType,
+    choices,
     startDate,
     endDate,
     snapshotHeight,
@@ -35,4 +37,14 @@ export async function addComment(proposalCid, content, contentType) {
   });
 
   return await nextApi.post(`${chain}/comments`, signedData);
+}
+
+export async function addVote(proposalCid, choice) {
+  const signedData = await signApiData({
+    proposalCid,
+    choice,
+    version: "1",
+  });
+
+  return await nextApi.post(`${chain}/votes`, signedData);
 }

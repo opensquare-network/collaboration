@@ -1,9 +1,9 @@
 const { HttpError } = require("../../exc");
-const postService = require("../../services/post.service");
+const proposalService = require("../../services/proposal.service");
 const { ContentType, ChoiceType } = require("../../constants");
 const { extractPage } = require("../../utils");
 
-async function createPost(ctx) {
+async function createProposal(ctx) {
   const {
     data,
     address,
@@ -15,6 +15,7 @@ async function createPost(ctx) {
     content,
     contentType,
     choiceType,
+    choices,
     startDate,
     endDate,
     snapshotHeight,
@@ -48,6 +49,18 @@ async function createPost(ctx) {
     throw new HttpError(400, { choiceType: ["Unknown choice type"] });
   }
 
+  if (!choices) {
+    throw new HttpError(400, { choices: ["Choices is missing"] });
+  }
+
+  if (
+    !Array.isArray(choices)
+    || choices.length === 0
+    || choices.some(item => typeof item !== "string")
+  ) {
+    throw new HttpError(400, { choices: ["Choices must be array of string"] });
+  }
+
   if (
     contentType !== ContentType.Markdown &&
     contentType !== ContentType.Html
@@ -55,12 +68,13 @@ async function createPost(ctx) {
     throw new HttpError(400, { contentType: ["Unknown content type"] });
   }
 
-  ctx.body = await postService.createPost(
+  ctx.body = await proposalService.createProposal(
     space,
     title,
     content,
     contentType,
     choiceType,
+    choices,
     startDate,
     endDate,
     snapshotHeight,
@@ -72,7 +86,7 @@ async function createPost(ctx) {
   );
 }
 
-async function getPosts(ctx) {
+async function getProposals(ctx) {
   const { space } = ctx.params;
 
   const { page, pageSize } = extractPage(ctx);
@@ -81,13 +95,13 @@ async function getPosts(ctx) {
     return;
   }
 
-  ctx.body = await postService.getPostsBySpace(space, page, pageSize);
+  ctx.body = await proposalService.getProposalBySpace(space, page, pageSize);
 }
 
-async function getPostById(ctx) {
-  const { postId } = ctx.params;
+async function getProposalById(ctx) {
+  const { proposalId } = ctx.params;
 
-  ctx.body = await postService.getPostById(postId);
+  ctx.body = await proposalService.getProposalById(proposalId);
 }
 
 async function postComment(ctx) {
@@ -113,7 +127,7 @@ async function postComment(ctx) {
     throw new HttpError(400, { contentType: ["Unknown content type"] });
   }
 
-  ctx.body = await postService.postComment(
+  ctx.body = await proposalService.postComment(
     proposalCid,
     content,
     contentType,
@@ -132,14 +146,57 @@ async function getComments(ctx) {
     return;
   }
 
-  const { chain, postId } = ctx.params;
-  ctx.body = await postService.getComments(chain, postId, page, pageSize);
+  const { proposalId } = ctx.params;
+  ctx.body = await proposalService.getComments(proposalId, page, pageSize);
+}
+
+async function vote(ctx) {
+  const {
+    data,
+    address,
+    signature,
+  } = ctx.request.body;
+  const {
+    proposalCid,
+    choice,
+  } = data;
+
+  if (!proposalCid) {
+    throw new HttpError(400, { proposalCid: ["Proposal CID is missing"] });
+  }
+
+  if (!choice) {
+    throw new HttpError(400, { choice: ["Choice is missing"] });
+  }
+
+  ctx.body = await proposalService.vote(
+    proposalCid,
+    choice,
+    data,
+    address,
+    signature,
+    ctx.cid,
+    ctx.pinHash,
+  );
+}
+
+async function getVotes(ctx) {
+  const { page, pageSize } = extractPage(ctx);
+  if (pageSize === 0 || page < 1) {
+    ctx.status = 400;
+    return;
+  }
+
+  const { proposalId } = ctx.params;
+  ctx.body = await proposalService.getVotes(proposalId, page, pageSize);
 }
 
 module.exports = {
-  createPost,
-  getPosts,
-  getPostById,
+  createProposal,
+  getProposals,
+  getProposalById,
   postComment,
+  vote,
   getComments,
+  getVotes,
 };
