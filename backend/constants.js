@@ -18,11 +18,16 @@ const ContentType = Object.freeze({
   Html: "html",
 });
 
+const ChoiceType =Object.freeze({
+  Single: "single",
+});
+
 const PostTitleLengthLimitation = 160;
 
 module.exports = {
   SPACES,
   SS58Format,
   ContentType,
+  ChoiceType,
   PostTitleLengthLimitation,
 };
