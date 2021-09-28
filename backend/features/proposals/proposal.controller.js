@@ -1,5 +1,5 @@
 const { HttpError } = require("../../exc");
-const proposalService = require("../../services/post.service");
+const proposalService = require("../../services/proposal.service");
 const { ContentType, ChoiceType } = require("../../constants");
 const { extractPage } = require("../../utils");
 
