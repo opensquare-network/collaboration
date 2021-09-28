@@ -1,8 +1,13 @@
 import styled from "styled-components";
+import { useSelector } from "react-redux";
+import { useState } from "react";
 
 import Content from "./content";
 import Choices from "./choices";
 import More from "./more";
+import { accountSelector } from "store/reducers/accountSlice";
+import { createProposal } from "utils/viewfunc";
+import { useChain } from "utils/hooks";
 
 const Wrapper = styled.div`
   display: flex;
@@ -36,10 +41,35 @@ const SiderWrapper = styled.div`
 `;
 
 export default function PostCreate() {
+  const account = useSelector(accountSelector);
+  const chain = useChain();
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+
+  const onSubmit = async () => {
+    const result = await createProposal(
+      chain,
+      title,
+      content,
+      "markdown",
+      "signle",
+      new Date().getTime(),
+      new Date().getTime(),
+      0
+    );
+    console.log({ result });
+  };
+
   return (
     <Wrapper>
       <MainWrapper>
-        <Content />
+        <Content
+          title={title}
+          setTitle={setTitle}
+          content={content}
+          setContent={setContent}
+          onSubmit={onSubmit}
+        />
         <Choices />
       </MainWrapper>
       <SiderWrapper>

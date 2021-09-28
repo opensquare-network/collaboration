@@ -6,7 +6,7 @@ import PostDetail from "components/postDetail";
 import PostInfo from "components/postInfo";
 import PostResults from "components/postResults";
 import PostTab from "components/postTab";
-import { useNode } from "utils/hooks";
+import { useChain } from "utils/hooks";
 import { SPACE_ITEMS } from "utils/constants";
 
 const Wrapper = styled.div`
@@ -40,8 +40,8 @@ const SiderWrapper = styled.div`
 `;
 
 export default function Index() {
-  const node = useNode();
-  const item = SPACE_ITEMS.find((item) => item.value === node);
+  const chain = useChain();
+  const item = SPACE_ITEMS.find((item) => item.value === chain);
 
   return (
     <Layout bgHeight="183px">

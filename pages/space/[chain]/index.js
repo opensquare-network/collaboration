@@ -6,7 +6,7 @@ import ListInfo from "components/listInfo";
 import ListTab from "components/listTab";
 import PostList from "components/postList";
 import { LIST_POST_ITEMS, SPACE_ITEMS } from "utils/constants";
-import { useNode } from "utils/hooks";
+import { useChain } from "utils/hooks";
 
 const HeaderWrapper = styled.div`
   > :not(:first-child) {
@@ -24,8 +24,8 @@ const PostWrapper = styled.div`
 `;
 
 export default function List() {
-  const node = useNode();
-  const item = SPACE_ITEMS.find((item) => item.value === node);
+  const chain = useChain();
+  const item = SPACE_ITEMS.find((item) => item.value === chain);
 
   return (
     <Layout bgHeight="252px">

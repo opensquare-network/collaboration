@@ -1,12 +1,12 @@
 import Layout from "components/layout";
 import Nav from "components/nav";
 import PostCreate from "@/components/postCreate";
-import { useNode } from "utils/hooks";
+import { useChain } from "utils/hooks";
 import { SPACE_ITEMS } from "utils/constants";
 
 export default function Create() {
-  const node = useNode();
-  const item = SPACE_ITEMS.find((item) => item.value === node);
+  const chain = useChain();
+  const item = SPACE_ITEMS.find((item) => item.value === chain);
 
   return (
     <Layout bgHeight="183px">

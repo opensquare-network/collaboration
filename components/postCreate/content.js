@@ -32,16 +32,30 @@ const Title = styled.div`
   line-height: 24px;
 `;
 
-export default function Content() {
+export default function Content({
+  title,
+  setTitle,
+  content,
+  setContent,
+  onSubmit,
+}) {
   return (
     <Wrapper>
       <InnerWrapper>
         <Title>Title</Title>
-        <Input placeholder="Please text here..." />
+        <Input
+          placeholder="Please text here..."
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
       </InnerWrapper>
       <InnerWrapper>
         <Title>Proposal</Title>
-        <RichInput />
+        <RichInput
+          content={content}
+          setContent={setContent}
+          onSubmit={onSubmit}
+        />
       </InnerWrapper>
     </Wrapper>
   );
