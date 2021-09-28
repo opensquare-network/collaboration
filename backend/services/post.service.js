@@ -129,9 +129,9 @@ async function postComment(
   pinHash,
 ) {
   const postCol = await getPostCollection();
-  const post = await postCol.findOne({cid: proposalCid});
+  const post = await postCol.findOne({ cid: proposalCid });
   if (!post) {
-    throw new HttpError(400, "Post not found.");
+    throw new HttpError(400, "Proposal not found.");
   }
 
   const commentCol = await getCommentCollection();
@@ -192,15 +192,6 @@ async function getComments(postId, page, pageSize) {
     .skip((page - 1) * pageSize)
     .limit(pageSize)
     .toArray();
-
-  const db = await getDb();
-  await db.lookupMany({
-    from: "reaction",
-    for: comments,
-    as: "reactions",
-    localField: "_id",
-    foreignField: "comment",
-  });
 
   return {
     items: comments,
