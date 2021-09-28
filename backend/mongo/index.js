@@ -29,7 +29,7 @@ async function getCollection(colName) {
 module.exports = {
   initDb,
   getDb,
-  getProposalCollection: () => getCollection("post"),
+  getProposalCollection: () => getCollection("proposal"),
   getVoteCollection: () => getCollection("vote"),
   getCommentCollection: () => getCollection("comment"),
   getStatusCollection: () => getCollection("status"),

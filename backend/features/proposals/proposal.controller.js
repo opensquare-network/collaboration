@@ -146,8 +146,8 @@ async function getComments(ctx) {
     return;
   }
 
-  const { chain, proposalId } = ctx.params;
-  ctx.body = await proposalService.getComments(chain, proposalId, page, pageSize);
+  const { proposalId } = ctx.params;
+  ctx.body = await proposalService.getComments(proposalId, page, pageSize);
 }
 
 async function vote(ctx) {
@@ -180,6 +180,17 @@ async function vote(ctx) {
   );
 }
 
+async function getVotes(ctx) {
+  const { page, pageSize } = extractPage(ctx);
+  if (pageSize === 0 || page < 1) {
+    ctx.status = 400;
+    return;
+  }
+
+  const { proposalId } = ctx.params;
+  ctx.body = await proposalService.getVotes(proposalId, page, pageSize);
+}
+
 module.exports = {
   createProposal,
   getProposals,
@@ -187,4 +198,5 @@ module.exports = {
   postComment,
   vote,
   getComments,
+  getVotes,
 };

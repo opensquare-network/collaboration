@@ -90,7 +90,14 @@ async function getProposalBySpace(space, page, pageSize) {
       for: proposals,
       as: "commentsCount",
       localField: "_id",
-      foreignField: "post",
+      foreignField: "proposal",
+    }),
+    db.lookupCount({
+      from: "vote",
+      for: proposals,
+      as: "votesCount",
+      localField: "_id",
+      foreignField: "proposal",
     }),
   ]);
 
@@ -272,6 +279,31 @@ async function vote(
   return result.value?._id;
 }
 
+async function getVotes(proposalId, page, pageSize) {
+  const q = { proposal: ObjectId(proposalId) };
+
+  const voteCol = await getVoteCollection();
+  const total = await voteCol.count(q);
+
+  if (page === "last") {
+    const totalPages = Math.ceil(total / pageSize);
+    page = Math.max(totalPages, 1);
+  }
+
+  const votes = await voteCol.find(q)
+    .sort({ createdAt: 1 })
+    .skip((page - 1) * pageSize)
+    .limit(pageSize)
+    .toArray();
+
+  return {
+    items: votes,
+    total,
+    page,
+    pageSize,
+  };
+}
+
 module.exports = {
   createProposal,
   getProposalBySpace,
@@ -279,4 +311,5 @@ module.exports = {
   postComment,
   getComments,
   vote,
+  getVotes,
 };
