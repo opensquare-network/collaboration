@@ -3,6 +3,7 @@ const bodyParser = require("koa-bodyparser");
 const logger = require("koa-logger");
 const helmet = require("koa-helmet");
 const cors = require("@koa/cors");
+const { startUpdateHeight } = require("./services/chain.service");
 
 const app = new Koa();
 
@@ -26,6 +27,8 @@ app.use(async (ctx, next) => {
 require("./routes")(app);
 
 const koaHandler = app.callback();
+
+startUpdateHeight();
 
 module.exports = {
   koaHandler,

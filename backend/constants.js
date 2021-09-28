@@ -1,9 +1,4 @@
-const SPACES = [
-  "kusama",
-  "polkadot",
-  "karura",
-  "khala",
-];
+const SPACES = Object.keys(require("./spaces"));
 
 const SS58Format = Object.freeze({
   Polkadot: 0,

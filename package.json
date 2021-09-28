@@ -10,6 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@acala-network/type-definitions": "^2.3.1",
     "@koa/cors": "^3.1.0",
     "@polkadot/api": "^5.8.3",
     "@polkadot/extension-dapp": "^0.39.3",

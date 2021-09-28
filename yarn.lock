@@ -2,6 +2,13 @@
 # yarn lockfile v1
 
 
+"@acala-network/type-definitions@^2.3.1":
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/@acala-network/type-definitions/-/type-definitions-2.3.1.tgz#f9985d43331dd6680b452832b9869fdfaeb14f51"
+  integrity sha512-qEnOZj/569pCfWEO/Vo8j4Dx00DFxrYrPhYjeysLu062LludkwgqNNlnpwR4/QJdMpMtezei40CM64bVA44WmQ==
+  dependencies:
+    "@open-web3/orml-type-definitions" "^0.9.4-38"
+
 "@assemblyscript/loader@^0.9.4":
   version "0.9.4"
   resolved "https://registry.yarnpkg.com/@assemblyscript/loader/-/loader-0.9.4.tgz#a483c54c1253656bb33babd464e3154a173e1577"
@@ -1527,6 +1534,13 @@
   dependencies:
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
+
+"@open-web3/orml-type-definitions@^0.9.4-38":
+  version "0.9.4-38"
+  resolved "https://registry.yarnpkg.com/@open-web3/orml-type-definitions/-/orml-type-definitions-0.9.4-38.tgz#fc7642f6a518da2618ae39fa76fe046ee57c1e80"
+  integrity sha512-kV0++JlRLEf7Z1y+Jm+792zqx6Q7dzpGP73rJJmQrBaeTML5mQzu4veZ24TVtcLV6hsGjUU/ixrJODNj6CCuZQ==
+  dependencies:
+    lodash.merge "^4.6.2"
 
 "@polkadot/api-derive@5.8.3":
   version "5.8.3"
