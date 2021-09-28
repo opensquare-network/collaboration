@@ -10,6 +10,8 @@ const {
 } = require("../mongo");
 const { HttpError } = require("../exc");
 const { ContentType } = require("../constants");
+const { getLatestHeight } = require("./chain.service");
+
 
 async function createProposal(
   space,
@@ -31,6 +33,11 @@ async function createProposal(
     throw new HttpError(400, {
       title: [ "Title must be no more than %d characters" ],
     });
+  }
+
+  const lastHeight = getLatestHeight(space);
+  if (lastHeight && snapshotHeight > lastHeight) {
+    throw new HttpError(400, "Snapshot height is not allow to larger than the current finalized height");
   }
 
   const postUid = await nextPostUid();
