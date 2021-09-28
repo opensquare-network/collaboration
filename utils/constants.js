@@ -36,28 +36,52 @@ export const FOOTER_ITEMS = [
     items: [
       { name: "CoinAsk", link: "https://www.coinask.io" },
       { name: "doTreasury", link: "https://www.dotreasury.com" },
-      { name: "statescan", link:"https://statescan.io" },
+      { name: "statescan", link: "https://statescan.io" },
     ],
   },
   {
     label: "Resources",
     items: [
-      { name: "Lightpaper", link: "https://github.com/opensquare-network/papers"  },
-      { name: "Media Kits" , link: "https://drive.google.com/drive/folders/1nA6PTJJYfnpvB8wu9cgQaHopMRM4bqQg?usp=sharing" },
+      {
+        name: "Lightpaper",
+        link: "https://github.com/opensquare-network/papers",
+      },
+      {
+        name: "Media Kits",
+        link: "https://drive.google.com/drive/folders/1nA6PTJJYfnpvB8wu9cgQaHopMRM4bqQg?usp=sharing",
+      },
     ],
   },
   {
     label: "Social Links",
     items: [
-      { name: "Github", icon: "github.svg" , link: "https://github.com/opensquare-network" },
-      { name: "Telegram", icon: "telegram.svg" , link: "https://t.me/opensquare" },
-      { name: "Twitter", icon: "twitter.svg" , link: "https://twitter.com/OpensquareN" },
-      { name: "Subsocial", icon: "subsocial.svg" , link: "https://app.subsocial.network/@opensquare" },
+      {
+        name: "Github",
+        icon: "github.svg",
+        link: "https://github.com/opensquare-network",
+      },
+      {
+        name: "Telegram",
+        icon: "telegram.svg",
+        link: "https://t.me/opensquare",
+      },
+      {
+        name: "Twitter",
+        icon: "twitter.svg",
+        link: "https://twitter.com/OpensquareN",
+      },
+      {
+        name: "Subsocial",
+        icon: "subsocial.svg",
+        link: "https://app.subsocial.network/@opensquare",
+      },
     ],
   },
   {
     label: "Contact",
-    items: [{ name: "Email", icon: "mail.svg" , link: "mailto:hi@opensquare.network" }],
+    items: [
+      { name: "Email", icon: "mail.svg", link: "mailto:hi@opensquare.network" },
+    ],
   },
 ];
 
@@ -111,17 +135,6 @@ export const POST_ITEMS = [
     time: "End in 2 days",
     status: "Active",
   },
-];
-
-export const LIST_NAV_ITEMS = [
-  { name: "Space", link: "" },
-  { name: "Kusama" },
-];
-
-export const DETAIL_NAV_ITEMS = [
-  { name: "Space", link: "" },
-  { name: "Kusama", link: "", back: true },
-  { name: "Prososal" },
 ];
 
 export const LIST_TAB_ITEMS = ["All Proposals", "Active", "Pending", "Closed"];

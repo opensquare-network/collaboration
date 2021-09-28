@@ -4,22 +4,26 @@ import "react-mde/lib/styles/css/react-mde-all.css";
 
 const Wrapper = styled.div`
   .react-mde {
-    border-color: #e2e8f0;
+    border-top-color: #e2e8f0;
+    border-bottom-color: #e2e8f0;
+    border-left: none;
+    border-right: none;
     textarea {
       border: none;
       padding: 12px 16px;
-      font-size: 14px;
-      line-height: 140%;
+      font-size: 16px;
+      line-height: 24px;
       outline: none;
       font-family: inherit;
+      background-color: #fbfcfe;
       ::placeholder {
-        color: #e3e7ed;
+        color: #9da9bb;
       }
     }
     .mde-header {
       display: flex;
       justify-content: space-between;
-      background-color: #fbfcfe;
+      background-color: #ffffff;
       border-bottom: 1px solid #e2e8f0;
       .mde-tabs {
         display: none;

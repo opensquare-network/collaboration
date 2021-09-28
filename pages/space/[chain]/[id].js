@@ -1,12 +1,13 @@
 import styled from "styled-components";
-import Layout from "components/layout";
 
-import { DETAIL_NAV_ITEMS } from "utils/constants";
+import Layout from "components/layout";
 import Nav from "components/nav";
-import PostDetail from "../components/postDetail";
-import PostInfo from "../components/postInfo";
-import PostResults from "../components/postResults";
+import PostDetail from "components/postDetail";
+import PostInfo from "components/postInfo";
+import PostResults from "components/postResults";
 import PostTab from "components/postTab";
+import { useChain } from "utils/hooks";
+import { SPACE_ITEMS } from "utils/constants";
 
 const Wrapper = styled.div`
   display: flex;
@@ -39,9 +40,20 @@ const SiderWrapper = styled.div`
 `;
 
 export default function Index() {
+  const chain = useChain();
+  const item = SPACE_ITEMS.find((item) => item.value === chain);
+
   return (
     <Layout bgHeight="183px">
-      <Nav data={DETAIL_NAV_ITEMS} />
+      {item && (
+        <Nav
+          data={[
+            { name: "Space", link: "/" },
+            { name: item?.name, link: `/space/${item?.value}`, back: true },
+            { name: "Proposal" },
+          ]}
+        />
+      )}
       <Wrapper>
         <MainWrapper>
           <PostDetail />
