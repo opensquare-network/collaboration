@@ -25,7 +25,7 @@ function extractPage(ctx) {
   } else {
     try {
       page = parseInt(queryPage || "");
-      page = isNaN(page) ? 1 : Math.max(1, page);
+      page = isNaN(page) ? 0 : Math.max(0, page);
     } catch (e) {
       page = 0;
     }
