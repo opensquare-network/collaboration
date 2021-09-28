@@ -57,11 +57,9 @@ export default function RichInput() {
   return (
     <div>
       <MarkdownWrapper>
-        {/* {!preview && ( */}
         <MarkdownEditorWrapper preview={preview}>
           <MarkdownEditor content={content} setContent={setContent} />
         </MarkdownEditorWrapper>
-        {/* )} */}
         {preview && (
           <PreviewWrapper>
             <Mardown content={content} />

@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import Layout from "components/layout";
 
+import Layout from "components/layout";
 import Nav from "components/nav";
 import PostDetail from "components/postDetail";
 import PostInfo from "components/postInfo";
@@ -45,13 +45,15 @@ export default function Index() {
 
   return (
     <Layout bgHeight="183px">
-      <Nav
-        data={[
-          { name: "Space", link: "/" },
-          { name: item?.name, link: `/space/${item?.value}`, back: true },
-          { name: "Proposal" },
-        ]}
-      />
+      {item && (
+        <Nav
+          data={[
+            { name: "Space", link: "/" },
+            { name: item?.name, link: `/space/${item?.value}`, back: true },
+            { name: "Proposal" },
+          ]}
+        />
+      )}
       <Wrapper>
         <MainWrapper>
           <PostDetail />

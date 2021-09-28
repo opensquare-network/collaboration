@@ -30,7 +30,9 @@ export default function List() {
   return (
     <Layout bgHeight="252px">
       <HeaderWrapper>
-        <Nav data={[{ name: "Space", link: "/" }, { name: item.name }]} />
+        {item && (
+          <Nav data={[{ name: "Space", link: "/" }, { name: item.name }]} />
+        )}
         <ListInfo data={item} />
         <ListTab />
       </HeaderWrapper>
