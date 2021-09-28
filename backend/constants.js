@@ -1,9 +1,15 @@
-const SupportChians = ["kusama", "karura"];
+const SPACES = [
+  "kusama",
+  "polkadot",
+  "karura",
+  "khala",
+];
 
 const SS58Format = Object.freeze({
   Polkadot: 0,
   Kusama: 2,
   Karura: 8,
+  Khala: 30,
   Substrate: 42,
 });
 
@@ -15,7 +21,7 @@ const ContentType = Object.freeze({
 const PostTitleLengthLimitation = 160;
 
 module.exports = {
-  SupportChians,
+  SPACES,
   SS58Format,
   ContentType,
   PostTitleLengthLimitation,

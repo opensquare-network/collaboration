@@ -74,6 +74,16 @@ export const signMessage = async (text, address) => {
   return result.signature;
 };
 
+export const signApiData = async (data, address) => {
+  const signature = await signMessage(JSON.stringify(data));
+
+  return {
+    data,
+    address,
+    signature,
+  };
+}
+
 const extractBlockTime = (extrinsics) => {
   const setTimeExtrinsic = extrinsics.find(
     (ex) => ex.method.section === "timestamp" && ex.method.method === "set"
