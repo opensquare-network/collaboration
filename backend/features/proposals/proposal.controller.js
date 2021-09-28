@@ -13,7 +13,7 @@ async function createPost(ctx) {
     space,
     title,
     content,
-    contentType: paramContentType,
+    contentType,
   } = data;
 
   if (!title) {
@@ -25,16 +25,11 @@ async function createPost(ctx) {
   }
 
   if (
-    paramContentType !== undefined &&
-    paramContentType !== ContentType.Markdown &&
-    paramContentType !== ContentType.Html
+    contentType !== ContentType.Markdown &&
+    contentType !== ContentType.Html
   ) {
     throw new HttpError(400, { contentType: ["Unknown content type"] });
   }
-
-  const contentType = paramContentType
-    ? paramContentType
-    : ContentType.Markdown;
 
   ctx.body = await postService.createPost(
     space,
@@ -76,7 +71,7 @@ async function postComment(ctx) {
   const {
     proposalCid,
     content,
-    contentType: paramContentType
+    contentType
   } = data;
 
   if (!content) {
@@ -84,16 +79,11 @@ async function postComment(ctx) {
   }
 
   if (
-    paramContentType !== undefined &&
-    paramContentType !== ContentType.Markdown &&
-    paramContentType !== ContentType.Html
+    contentType !== ContentType.Markdown &&
+    contentType !== ContentType.Html
   ) {
     throw new HttpError(400, { contentType: ["Unknown content type"] });
   }
-
-  const contentType = paramContentType
-    ? paramContentType
-    : ContentType.Markdown;
 
   ctx.body = await postService.postComment(
     proposalCid,
