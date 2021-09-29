@@ -20,7 +20,7 @@ module.exports = (app) => {
 
   for (const r of spaceFeatureRoutes) {
     router.use(
-      `/:chain(${routeSpaces})`,
+      `/:space(${routeSpaces})`,
       r.routes(),
       r.allowedMethods({ throw: true })
     );

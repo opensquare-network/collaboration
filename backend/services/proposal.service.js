@@ -78,15 +78,17 @@ async function createProposal(
 }
 
 async function getProposalBySpace(space, page, pageSize) {
+  const q = { space };
+
   const proposalCol = await getProposalCollection();
-  const total = await proposalCol.countDocuments();
+  const total = await proposalCol.countDocuments(q);
 
   if (page === "last") {
     const totalPages = Math.ceil(total / pageSize);
     page = Math.max(totalPages, 1);
   }
 
-  const proposals = await proposalCol.find({ space })
+  const proposals = await proposalCol.find(q)
     .sort({ lastActivityAt: -1 })
     .skip((page - 1) * pageSize)
     .limit(pageSize)
