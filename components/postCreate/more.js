@@ -1,8 +1,7 @@
 import styled from "styled-components";
-import DatePicker from "react-datepicker";
 
 import Input from "components/input";
-import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from "components/datePicker";
 
 const Wrapper = styled.div`
   background: #ffffff;
@@ -60,7 +59,15 @@ const Button = styled.div`
   text-align: center;
 `;
 
-export default function More({ onPushlish }) {
+export default function More({
+  startDate,
+  setStartDate,
+  endDate,
+  setEndDate,
+  height,
+  setHeight,
+  onPublish,
+}) {
   return (
     <Wrapper>
       <InnerWrapper>
@@ -75,17 +82,30 @@ export default function More({ onPushlish }) {
           <Title>Period</Title>
           <img src="/imgs/icons/timestamp.svg" alt="" />
         </TitleWrapper>
-        <DatePicker />
-        <DatePicker />
+        <DatePicker
+          date={startDate}
+          setDate={setStartDate}
+          placeholder="Start date"
+        />
+        <DatePicker
+          date={endDate}
+          setDate={setEndDate}
+          placeholder="End date"
+        />
       </InnerWrapper>
       <InnerWrapper>
         <TitleWrapper>
           <Title>Snapshot height</Title>
           <img src="/imgs/icons/block.svg" alt="" />
         </TitleWrapper>
-        <Input placeholder="0" type="number" />
+        <Input
+          placeholder="0"
+          type="number"
+          value={height}
+          onChange={(e) => setHeight(e.target.value)}
+        />
       </InnerWrapper>
-      <Button onClick={onPushlish}>Publish</Button>
+      <Button onClick={onPublish}>Publish</Button>
     </Wrapper>
   );
 }

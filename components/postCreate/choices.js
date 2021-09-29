@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { useState } from "react";
 
 import Choice from "./choice";
 
@@ -53,6 +52,7 @@ const Button = styled.div`
 
 export default function Choices({ choices, setChoices }) {
   const onAdd = () => {
+    if (choices.length >= 10) return;
     setChoices([...choices, ""]);
   };
 
