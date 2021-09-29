@@ -1,5 +1,3 @@
-const SPACES = Object.keys(require("./spaces"));
-
 const SS58Format = Object.freeze({
   Polkadot: 0,
   Kusama: 2,
@@ -20,7 +18,6 @@ const ChoiceType =Object.freeze({
 const PostTitleLengthLimitation = 160;
 
 module.exports = {
-  SPACES,
   SS58Format,
   ContentType,
   ChoiceType,

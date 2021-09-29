@@ -1,13 +1,12 @@
-const { getApi } = require("./polkadotApi");
-const { SPACES } = require("../constants");
+const spaceServices = require("../spaces");
 
 let latestHeights = {};
 let unsubscribeNewHeads = {};
 
 async function startUpdateHeight() {
   await Promise.all(
-    SPACES.map(async (space) => {
-      const api = await getApi(space);
+    Object.keys(spaceServices).map(async (space) => {
+      const api = await spaceServices[space].getApi();
       unsubscribeNewHeads[space] = await api.rpc.chain.subscribeFinalizedHeads((header) => {
         latestHeights[space] = header.number.toNumber();
       });

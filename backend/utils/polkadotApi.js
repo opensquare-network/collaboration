@@ -1,14 +1,8 @@
 const { ApiPromise, WsProvider } = require("@polkadot/api");
-const spaces = require("../spaces");
 
 const apiInstanceMap = new Map();
 
-const getApi = async (space) => {
-  const nodeSetting = spaces[space]?.nodeSetting;
-  if (!nodeSetting) {
-    throw new Error("Unknown space name");
-  }
-
+const getApi = async (nodeSetting) => {
   const nodeUrl = nodeSetting.nodeUrl;
   const typesBundle = nodeSetting.typesBundle;
 
@@ -24,6 +18,19 @@ const getApi = async (space) => {
   return apiInstanceMap.get(nodeUrl);
 };
 
+async function getSystemBalance(api, blockHash, address) {
+  const account = await api.query.system.account.at(blockHash, address);
+  const accountData = account.toJSON()?.data;
+  return accountData;
+}
+
+async function getBlockHash(api, blockHeight) {
+  const hash = await api.rpc.chain.getBlockHash(blockHeight);
+  return hash;
+}
+
 module.exports = {
   getApi,
+  getSystemBalance,
+  getBlockHash,
 };

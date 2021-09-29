@@ -11,6 +11,8 @@ const {
 const { HttpError } = require("../exc");
 const { ContentType } = require("../constants");
 const { getLatestHeight } = require("./chain.service");
+const { getBlockHash } = require("../utils/polkadotApi");
+const spaceServices = require("../spaces");
 
 
 async function createProposal(
@@ -236,6 +238,15 @@ async function vote(
     throw new HttpError(400, "Invalid vote choice");
   }
 
+  const space = proposal.space;
+  const spaceService = spaceServices[space];
+  if (!spaceService) {
+    throw new HttpError(500, "Unknown space name");
+  }
+  const api = await spaceService.getApi();
+  const blockHash = await getBlockHash(api, proposal.snapshotHeight);
+  const balance = await spaceService.balanceOf(api, blockHash, address);
+
   const voteCol = await getVoteCollection();
   const height = await voteCol.countDocuments({ proposal: proposal._id });
 
@@ -254,6 +265,7 @@ async function vote(
         updatedAt: now,
         cid,
         pinHash,
+        balance,
       },
       $setOnInsert: {
         height: height + 1,
