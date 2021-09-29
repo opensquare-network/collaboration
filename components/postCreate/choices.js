@@ -1,5 +1,7 @@
 import styled from "styled-components";
 
+import Choice from "./choice";
+
 const Wrapper = styled.div`
   background: #ffffff;
   border: 1px solid #f0f3f8;
@@ -35,50 +37,55 @@ const ItemList = styled.div`
   }
 `;
 
-const Item = styled.div`
-  padding: 12px 24px;
-  border: 1px solid #e2e8f0;
-  display: flex;
-  align-items: center;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 24px;
-  justify-content: space-between;
-  .text {
-    color: #9da9bb;
-    font-weight: 600;
-  }
-`;
-
 const Button = styled.div`
   padding: 12px 24px;
-  border: 1px solid #b7c0cc;
+  border: 1px solid #e2e8f0;
   text-align: center;
   font-weight: 600;
   font-size: 16px;
   line-height: 24px;
   cursor: pointer;
+  :hover {
+    border-color: #b7c0cc;
+  }
 `;
 
-export default function Choices() {
+export default function Choices({ choices, setChoices }) {
+  const onAdd = () => {
+    if (choices.length >= 10) return;
+    setChoices([...choices, ""]);
+  };
+
+  const onChange = (value, index) => {
+    setChoices(
+      choices.map((item, id) => {
+        if (index === id) return value;
+        return item;
+      })
+    );
+  };
+
+  const onDelete = (index) => {
+    setChoices(choices.filter((_, id) => index !== id));
+  };
+
   return (
     <Wrapper>
       <InnerWrapper>
         <Title>Choices</Title>
         <ItemList>
-          <Item>
-            <div>#1</div>
-            <div className="text">FOR</div>
-            <img src="/imgs/icons/substract.svg" alt="" />
-          </Item>
-          <Item>
-            <div>#2</div>
-            <div className="text">AGAINST</div>
-            <img src="/imgs/icons/substract.svg" alt="" />
-          </Item>
+          {(choices || []).map((item, index) => (
+            <Choice
+              key={index}
+              index={index}
+              value={item}
+              onChange={onChange}
+              onDelete={onDelete}
+            />
+          ))}
         </ItemList>
       </InnerWrapper>
-      <Button>Add</Button>
+      <Button onClick={onAdd}>Add</Button>
     </Wrapper>
   );
 }

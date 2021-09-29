@@ -50,7 +50,12 @@ const MarkdownEditorWrapper = styled.div`
     `}
 `;
 
-export default function RichInput({ content, setContent, onSubmit }) {
+export default function RichInput({
+  content,
+  setContent,
+  onSubmit,
+  showButtons = true,
+}) {
   const [preview, setPreview] = useState(false);
 
   return (
@@ -65,12 +70,14 @@ export default function RichInput({ content, setContent, onSubmit }) {
           </PreviewWrapper>
         )}
       </MarkdownWrapper>
-      <ButtonsWrapper>
-        <Button onClick={() => setPreview(!preview)}>
-          {preview ? "Edit" : "Preview"}
-        </Button>
-        <ButtonPrimary onClick={onSubmit}>Comment</ButtonPrimary>
-      </ButtonsWrapper>
+      {showButtons && (
+        <ButtonsWrapper>
+          <Button onClick={() => setPreview(!preview)}>
+            {preview ? "Edit" : "Preview"}
+          </Button>
+          <ButtonPrimary onClick={onSubmit}>Comment</ButtonPrimary>
+        </ButtonsWrapper>
+      )}
     </div>
   );
 }

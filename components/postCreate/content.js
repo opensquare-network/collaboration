@@ -32,13 +32,7 @@ const Title = styled.div`
   line-height: 24px;
 `;
 
-export default function Content({
-  title,
-  setTitle,
-  content,
-  setContent,
-  onSubmit,
-}) {
+export default function Content({ title, setTitle, content, setContent }) {
   return (
     <Wrapper>
       <InnerWrapper>
@@ -54,7 +48,7 @@ export default function Content({
         <RichInput
           content={content}
           setContent={setContent}
-          onSubmit={onSubmit}
+          showButtons={false}
         />
       </InnerWrapper>
     </Wrapper>

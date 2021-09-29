@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 import Input from "components/input";
+import DatePicker from "components/datePicker";
 
 const Wrapper = styled.div`
   background: #ffffff;
@@ -47,7 +48,26 @@ const SystemWrapper = styled.div`
   border: 1px solid #e2e8f0;
 `;
 
-export default function More() {
+const Button = styled.div`
+  padding: 12px;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  color: #ffffff;
+  background: #191e27;
+  cursor: pointer;
+  text-align: center;
+`;
+
+export default function More({
+  startDate,
+  setStartDate,
+  endDate,
+  setEndDate,
+  height,
+  setHeight,
+  onPublish,
+}) {
   return (
     <Wrapper>
       <InnerWrapper>
@@ -62,14 +82,30 @@ export default function More() {
           <Title>Period</Title>
           <img src="/imgs/icons/timestamp.svg" alt="" />
         </TitleWrapper>
+        <DatePicker
+          date={startDate}
+          setDate={setStartDate}
+          placeholder="Start date"
+        />
+        <DatePicker
+          date={endDate}
+          setDate={setEndDate}
+          placeholder="End date"
+        />
       </InnerWrapper>
       <InnerWrapper>
         <TitleWrapper>
           <Title>Snapshot height</Title>
           <img src="/imgs/icons/block.svg" alt="" />
         </TitleWrapper>
-        <Input placeholder="0" type="number" />
+        <Input
+          placeholder="0"
+          type="number"
+          value={height}
+          onChange={(e) => setHeight(e.target.value)}
+        />
       </InnerWrapper>
+      <Button onClick={onPublish}>Publish</Button>
     </Wrapper>
   );
 }

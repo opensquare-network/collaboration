@@ -10,7 +10,8 @@ export async function createProposal(
   choices,
   startDate,
   endDate,
-  snapshotHeight
+  snapshotHeight,
+  address,
 ) {
   const signedData = await signApiData({
     space,
@@ -23,28 +24,28 @@ export async function createProposal(
     endDate,
     snapshotHeight,
     version: "1",
-  });
+  }, address);
 
   return await nextApi.post(`${space}/proposals`, signedData);
 }
 
-export async function addComment(space, proposalCid, content, contentType) {
+export async function addComment(space, proposalCid, content, contentType, address) {
   const signedData = await signApiData({
     proposalCid,
     content,
     contentType,
     version: "1",
-  });
+  }, address);
 
   return await nextApi.post(`${space}/comments`, signedData);
 }
 
-export async function addVote(space, proposalCid, choice) {
+export async function addVote(space, proposalCid, choice, address) {
   const signedData = await signApiData({
     proposalCid,
     choice,
     version: "1",
-  });
+  }, address);
 
   return await nextApi.post(`${space}/votes`, signedData);
 }

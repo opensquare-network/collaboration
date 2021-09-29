@@ -1,13 +1,14 @@
 import styled from "styled-components";
 import { useSelector } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 
 import Content from "./content";
 import Choices from "./choices";
 import More from "./more";
 import { accountSelector } from "store/reducers/accountSlice";
-// import { createProposal } from "utils/viewfunc";
 import { useChain } from "utils/hooks";
+import { addToast } from "store/reducers/toastSlice";
 
 const Wrapper = styled.div`
   display: flex;
@@ -41,23 +42,56 @@ const SiderWrapper = styled.div`
 `;
 
 export default function PostCreate() {
+  const dispatch = useDispatch();
   const account = useSelector(accountSelector);
   const chain = useChain();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [choices, setChoices] = useState(["", ""]);
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
+  const [height, setHeight] = useState("");
+  const [viewFunc, setViewFunc] = useState(null);
 
-  const onSubmit = async () => {
-    // const result = await createProposal(
-    //   "polkadot",
+  useEffect(() => {
+    import("utils/viewfunc").then((viewFunc) => {
+      setViewFunc(viewFunc);
+    });
+  }, []);
+
+  const onPublish = async () => {
+    // console.log({
+    //   chain,
     //   title,
     //   content,
-    //   "markdown",
-    //   "signle",
-    //   new Date().getTime(),
-    //   new Date().getTime(),
-    //   0
-    // );
-    // console.log({ result });
+    //   choices: choices.filter(Boolean),
+    //   startDate: startDate?.getTime(),
+    //   endDate: endDate?.getTime(),
+    //   height,
+    // });
+    if (!viewFunc) {
+      return;
+    }
+    const result = await viewFunc.createProposal(
+      chain,
+      title,
+      content,
+      "markdown",
+      "single",
+      choices.filter(Boolean),
+      startDate?.getTime(),
+      startDate?.getTime(),
+      height,
+      account.address
+    );
+    console.log({ result });
+    if (result.error) {
+      dispatch(addToast({ type: "error", message: result.error.message }));
+    } else {
+      dispatch(
+        addToast({ type: "success", message: "Create proposal successfully!" })
+      );
+    }
   };
 
   return (
@@ -68,12 +102,19 @@ export default function PostCreate() {
           setTitle={setTitle}
           content={content}
           setContent={setContent}
-          onSubmit={onSubmit}
         />
-        <Choices />
+        <Choices choices={choices} setChoices={setChoices} />
       </MainWrapper>
       <SiderWrapper>
-        <More />
+        <More
+          startDate={startDate}
+          setStartDate={setStartDate}
+          endDate={endDate}
+          setEndDate={setEndDate}
+          height={height}
+          setHeight={setHeight}
+          onPublish={onPublish}
+        />
       </SiderWrapper>
     </Wrapper>
   );

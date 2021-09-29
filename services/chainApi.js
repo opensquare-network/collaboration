@@ -1,5 +1,5 @@
 import { ApiPromise, WsProvider } from "@polkadot/api";
-import { isWeb3Injected, web3FromAddress } from "@polkadot/extension-dapp";
+import { web3Enable, isWeb3Injected, web3FromAddress } from "@polkadot/extension-dapp";
 import { stringToHex } from "@polkadot/util";
 
 import {
@@ -58,10 +58,15 @@ export const getTipCountdown = async (chain) => {
 };
 
 export const signMessage = async (text, address) => {
-  if (!isWeb3Injected || !address) {
-    return "";
+  if (!isWeb3Injected) {
+    throw new Error("Polkadot Extension is not installed");
   }
 
+  if (!address) {
+    throw new Error("Sign addres is missing");
+  }
+
+  await web3Enable("opensquare.io");
   const injector = await web3FromAddress(address);
 
   const data = stringToHex(text);
@@ -75,7 +80,7 @@ export const signMessage = async (text, address) => {
 };
 
 export const signApiData = async (data, address) => {
-  const signature = await signMessage(JSON.stringify(data));
+  const signature = await signMessage(JSON.stringify(data), address);
 
   return {
     data,
