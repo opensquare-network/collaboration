@@ -9,8 +9,25 @@ import { setAccount } from "store/reducers/accountSlice";
 import { Modal, Select, Button } from "semantic-ui-react";
 
 import { useIsMounted } from "utils/hooks";
+import styled from "styled-components";
+import { p_20_semibold } from "../styles/textStyles";
 
-export default function Connect({ show, setShow }) {
+const Wrapper = styled.div`
+  
+`
+const ModalHeader = styled.h1`
+  ${p_20_semibold};
+  margin-top: 24px !important;
+`
+
+const GotoPolkadotButton = styled(Button)`
+  display: block !important;
+  margin-left: auto !important;
+  margin-bottom: 32px !important;
+  margin-right: 32px !important;
+`
+
+export default function Connect({show, setShow}) {
   const dispatch = useDispatch();
   const isMounted = useIsMounted();
   const [hasExtension, setHasExtension] = useState(true);
@@ -19,33 +36,24 @@ export default function Connect({ show, setShow }) {
   const [isPolkadotAccessible, setIsPolkadotAccessible] = useState(false);
 
   const getAddresses = useCallback(async () => {
-    if (hasExtension) {
-      if(!show){
-        return ;
-      }
-      const web3Apps = await web3Enable("voting");
-      const polkadotEnabled = (web3Apps.some(web3App => web3App?.name==='polkadot-js'));
-      setIsPolkadotAccessible(polkadotEnabled);
-      if(!polkadotEnabled){
-        //todo: repalce this with a toast
-        alert("Cannot access Polkadot, please check installation and permission.");
-        return;
-      }
-
-      const extensionAccounts = await web3Accounts();
-      const addresses = (extensionAccounts || []).map((item) => item.address);
-      if (isMounted.current) {
-        setAddresses(addresses);
-        setAddress(addresses[0]);
-      }
-    } else {
-      const newWindow = window.open(
-        "https://polkadot.js.org/extension/",
-        "_blank",
-        "noopener,noreferrer"
-      );
-      if (newWindow) newWindow.opener = null;
-    }
+    // if (hasExtension) {
+    //   if(!show){
+    //     return ;
+    //   }
+    //   const extensionAccounts = await web3Accounts();
+    //   const addresses = (extensionAccounts || []).map((item) => item.address);
+    //   if (isMounted.current) {
+    //     setAddresses(addresses);
+    //     setAddress(addresses[0]);
+    //   }
+    // } else {
+    //   const newWindow = window.open(
+    //     "https://polkadot.js.org/extension/",
+    //     "_blank",
+    //     "noopener,noreferrer"
+    //   );
+    //   if (newWindow) newWindow.opener = null;
+    // }
   }, [hasExtension, isMounted, show]);
 
   const getConnection = async () => {
@@ -66,30 +74,30 @@ export default function Connect({ show, setShow }) {
 
   useEffect(() => {
     (async () => {
-      if(!show){
-        return ;
-      }
-      const web3Apps = await web3Enable("voting");
-      const polkadotEnabled = (web3Apps.some(web3App => web3App?.name==='polkadot-js'));
-      setIsPolkadotAccessible(polkadotEnabled);
-      if(!polkadotEnabled){
-        //todo: repalce this with a toast
-        alert("Cannot access Polkadot, please check installation and permission.");
+      if (!show) {
         return;
       }
       if (!isWeb3Injected) {
         if (isMounted.current) {
-          setHasExtension(false);
+          return setHasExtension(false);
         }
-      } else {
-        getAddresses();
       }
+      console.log(isWeb3Injected)
+      const web3Apps = await web3Enable("voting");
+      const polkadotEnabled = (web3Apps.some(web3App => web3App?.name === 'polkadot-js'));
+      setIsPolkadotAccessible(polkadotEnabled);
+      if (!polkadotEnabled) {
+        //todo: repalce this with a toast
+        alert("Cannot access Polkadot, please check installation and permission.");
+        return;
+      }
+      getAddresses();
     })();
   }, [isMounted, getAddresses, show]);
 
   return (
-    <>
-      <Modal open={show&& isPolkadotAccessible} dimmer onClose={() => setShow(false)} size="tiny">
+    <Wrapper>
+      <Modal open={show && isPolkadotAccessible} dimmer onClose={() => setShow(false)} size="tiny">
         <Modal.Header>Select your address</Modal.Header>
         <Modal.Content>
           <Select
@@ -99,7 +107,7 @@ export default function Connect({ show, setShow }) {
               text: item,
             }))}
             value={address}
-            onChange={(e, { value }) => setAddress(value)}
+            onChange={(e, {value}) => setAddress(value)}
           />
         </Modal.Content>
         <Modal.Actions>
@@ -111,6 +119,28 @@ export default function Connect({ show, setShow }) {
           </Button>
         </Modal.Actions>
       </Modal>
-    </>
+
+      <Modal
+        open={!hasExtension}
+        // dimmer
+        closeIcon
+        onClose={() => {
+        }}
+        size="mini"
+      >
+        <Modal.Header>
+          <ModalHeader>
+            Connect Wallet
+          </ModalHeader>
+        </Modal.Header>
+        <Modal.Content>
+          Polkadot-js extension not detected. No web3 account could be found. Visit this page on a computer with
+          polkadot-js extension.
+        </Modal.Content>
+        <GotoPolkadotButton color="orange" onClick={() => setShow(false)}>
+          Polkadot{`{.js}`} Extension
+        </GotoPolkadotButton>
+      </Modal>
+    </Wrapper>
   );
 }
