@@ -58,3 +58,6 @@ a {
 * {
   box-sizing: border-box;
 }
+.header {
+  border-bottom: none !important;
+}
