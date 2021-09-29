@@ -6,7 +6,7 @@ import Content from "./content";
 import Choices from "./choices";
 import More from "./more";
 import { accountSelector } from "store/reducers/accountSlice";
-// import { createProposal } from "utils/viewfunc";
+import { createProposal } from "utils/viewfunc";
 import { useChain } from "utils/hooks";
 
 const Wrapper = styled.div`
@@ -47,17 +47,18 @@ export default function PostCreate() {
   const [content, setContent] = useState("");
 
   const onSubmit = async () => {
-    // const result = await createProposal(
-    //   "polkadot",
-    //   title,
-    //   content,
-    //   "markdown",
-    //   "signle",
-    //   new Date().getTime(),
-    //   new Date().getTime(),
-    //   0
-    // );
-    // console.log({ result });
+    const result = await createProposal(
+      "polkadot",
+      title,
+      content,
+      "markdown",
+      "signle",
+      ["test", "test2"],
+      new Date().getTime(),
+      new Date().getTime(),
+      0
+    );
+    console.log({ result });
   };
 
   return (

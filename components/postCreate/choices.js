@@ -47,6 +47,10 @@ const Item = styled.div`
   .text {
     color: #9da9bb;
     font-weight: 600;
+    text-align: center;
+  }
+  :hover {
+    border-color: #b7c0cc;
   }
 `;
 
@@ -68,7 +72,7 @@ export default function Choices() {
         <ItemList>
           <Item>
             <div>#1</div>
-            <div className="text">FOR</div>
+            <input className="text" />
             <img src="/imgs/icons/substract.svg" alt="" />
           </Item>
           <Item>
