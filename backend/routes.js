@@ -1,7 +1,7 @@
 const Router = require("koa-router");
-const { SPACES } = require("./constants");
+const spaceServices = require("./spaces");
 
-const routeSpaces = SPACES.join("|");
+const routeSpaces = Object.keys(spaceServices).join("|");
 
 const router = new Router();
 
