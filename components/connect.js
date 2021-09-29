@@ -6,12 +6,13 @@ import {
 } from "@polkadot/extension-dapp";
 import { useDispatch } from "react-redux";
 import { setAccount } from "store/reducers/accountSlice";
-import { Modal, Button } from "semantic-ui-react";
+import { Modal, Image, Button } from "semantic-ui-react";
 import AccountSelector from "./accountSelector";
 
 import { useIsMounted } from "utils/hooks";
 import styled from "styled-components";
 import { p_20_semibold } from "../styles/textStyles";
+import SvgClose from "public/imgs/icons/close.svg";
 
 const Wrapper = styled.div`
 
@@ -28,11 +29,74 @@ const GotoPolkadotButton = styled(Button)`
   margin-right: 32px !important;
 `
 
+const StyledModal = styled(Modal)`
+  max-width: 400px !important;
+  border-radius: 0px !important;
+`;
+
+const StyledCard = styled.div`
+  margin: 0 !important;
+  padding: 32px !important;
+  position: relative !important;
+  width: 100% !important;
+`;
+
+const StyledTitle = styled.header`
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 32px;
+  color: #1E2134;
+  margin-bottom: 8px;
+`;
+
+const StyledText = styled.p`
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  color: #1E2134;
+`;
+
+const CloseBar = styled.div`
+  display: flex;
+  flex-direction: row-reverse;
+  > svg path {
+    fill: #9DA9BB;
+  }
+`;
+
+const ActionBar = styled.div`
+  display: flex;
+  flex-direction: row-reverse;
+  margin-top: 28px;
+`;
+
+const StyledButtonPrimary = styled.button`
+  &.ui.button:hover,
+  &.ui.button:active,
+  &.ui.button:focus {
+    background: #f23252 !important;
+  }
+  padding: 8px 16px;
+  border: 0;
+  outline: none;
+  cursor: pointer;
+
+  background: #191E27 !important;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+
+  color: #FFFFFF;
+`;
+
 export default function Connect({show, setShow}) {
   const dispatch = useDispatch();
   const isMounted = useIsMounted();
   const [hasExtension, setHasExtension] = useState(true);
-  const [accounts, setAccounts] = useState();
+  const [accounts, setAccounts] = useState([]);
   const [address, setAddress] = useState();
   const [isPolkadotAccessible, setIsPolkadotAccessible] = useState(true);
 
@@ -106,27 +170,32 @@ export default function Connect({show, setShow}) {
 
   return (
     <Wrapper>
-      <Modal open={show && hasExtension && isPolkadotAccessible} dimmer onClose={closeModal} size="tiny">
-        <Modal.Header>Select your address</Modal.Header>
-        <Modal.Content>
+      <StyledModal open={show && hasExtension && isPolkadotAccessible} dimmer onClose={closeModal} size="tiny">
+        <StyledCard>
+          <CloseBar>
+            <SvgClose onClick={closeModal} />
+          </CloseBar>
+          <StyledTitle>Connect Wallet</StyledTitle>
+          <StyledText>Account</StyledText>
+
           <AccountSelector
             accounts={accounts}
             onSelect={
-              (account) => setAddress(account.address)
+              (account) => setAddress(account?.address)
             }
           />
-        </Modal.Content>
-        <Modal.Actions>
-          <Button negative onClick={closeModal}>
-            Cancel
-          </Button>
-          <Button positive onClick={getConnection}>
-            Confirm
-          </Button>
-        </Modal.Actions>
-      </Modal>
 
-      <Modal
+          <ActionBar>
+            <StyledButtonPrimary
+              onClick={getConnection}
+            >
+              Connect
+            </StyledButtonPrimary>
+          </ActionBar>
+        </StyledCard>
+      </StyledModal>
+
+      <StyledModal
         open={show && !hasExtension}
         closeIcon
         onClose={closeModal}
@@ -144,9 +213,9 @@ export default function Connect({show, setShow}) {
         <GotoPolkadotButton color="orange" onClick={closeModal}>
           Polkadot{`{.js}`} Extension
         </GotoPolkadotButton>
-      </Modal>
+      </StyledModal>
 
-      <Modal
+      <StyledModal
         open={show && hasExtension && !isPolkadotAccessible}
         closeIcon
         onClose={closeModal}
@@ -163,7 +232,7 @@ export default function Connect({show, setShow}) {
         <GotoPolkadotButton color="orange" onClick={closeModal}>
           How to allow access?
         </GotoPolkadotButton>
-      </Modal>
+      </StyledModal>
     </Wrapper>
   );
 }

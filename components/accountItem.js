@@ -5,16 +5,20 @@ import Avatar from "./avatar";
 import Address from "./address";
 
 const Text = styled.p`
-  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  color: #1E2134;
+  margin: 0;
+`;
+
+const TextMinor = styled(Text)`
   font-style: normal;
   font-weight: normal;
   font-size: 14px;
   line-height: 24px;
-  color: #1D253C;
-  margin: 0;
-`;
-const TextMinor = styled(Text)`
-  color: rgba(29, 37, 60, 0.64);
+  color: #9DA9BB;
 `;
 
 const ItemWrapper = styled.div`
@@ -39,7 +43,7 @@ const ItemWrapper = styled.div`
 const AccountItem = ({ header, accountName, accountAddress }) => {
   return (
     <ItemWrapper header={header}>
-      <Avatar address={accountAddress} />
+      <Avatar address={accountAddress} size={40} />
       <div>
         <Text>{accountName}</Text>
         <TextMinor>

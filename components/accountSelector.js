@@ -66,7 +66,6 @@ const AccountSelector = ({ accounts, onSelect = () => {} }) => {
   }));
   return (
     <Wrapper>
-      <Label>Choose linked account</Label>
       <DropdownWrapper>
         <StyledDropdown
           selection
