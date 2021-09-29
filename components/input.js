@@ -12,6 +12,11 @@ const styledInput = styled.input`
   ::placeholder {
     color: #9da9bb;
   }
+  ::-webkit-outer-spin-button,
+  ::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 `;
 
 export default styledInput;

@@ -1,6 +1,8 @@
 import styled from "styled-components";
+import DatePicker from "react-datepicker";
 
 import Input from "components/input";
+import "react-datepicker/dist/react-datepicker.css";
 
 const Wrapper = styled.div`
   background: #ffffff;
@@ -47,7 +49,18 @@ const SystemWrapper = styled.div`
   border: 1px solid #e2e8f0;
 `;
 
-export default function More() {
+const Button = styled.div`
+  padding: 12px;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  color: #ffffff;
+  background: #191e27;
+  cursor: pointer;
+  text-align: center;
+`;
+
+export default function More({ onPushlish }) {
   return (
     <Wrapper>
       <InnerWrapper>
@@ -62,6 +75,8 @@ export default function More() {
           <Title>Period</Title>
           <img src="/imgs/icons/timestamp.svg" alt="" />
         </TitleWrapper>
+        <DatePicker />
+        <DatePicker />
       </InnerWrapper>
       <InnerWrapper>
         <TitleWrapper>
@@ -70,6 +85,7 @@ export default function More() {
         </TitleWrapper>
         <Input placeholder="0" type="number" />
       </InnerWrapper>
+      <Button onClick={onPushlish}>Publish</Button>
     </Wrapper>
   );
 }

@@ -44,23 +44,21 @@ export default function PostCreate() {
   const chain = useChain();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [choices, setChoices] = useState(["", ""]);
   const [viewFunc, setViewFunc] = useState(null);
 
   useEffect(() => {
-    import("utils/viewfunc").then(
-      (viewFunc) => {
-        setViewFunc(viewFunc);
-      }
-    );
+    import("utils/viewfunc").then((viewFunc) => {
+      setViewFunc(viewFunc);
+    });
   }, []);
 
-  const onSubmit = async () => {
+  const onPublish = async () => {
     if (!viewFunc) {
       return;
     }
-
     const result = await viewFunc.createProposal(
-      "polkadot",
+      chain,
       title,
       content,
       "markdown",
@@ -69,7 +67,7 @@ export default function PostCreate() {
       new Date().getTime(),
       new Date().getTime(),
       0,
-      account.address,
+      account.address
     );
     console.log({ result });
   };
@@ -82,12 +80,11 @@ export default function PostCreate() {
           setTitle={setTitle}
           content={content}
           setContent={setContent}
-          onSubmit={onSubmit}
         />
-        <Choices />
+        <Choices choices={choices} setChoices={setChoices} />
       </MainWrapper>
       <SiderWrapper>
-        <More />
+        <More onPublish={onPublish} />
       </SiderWrapper>
     </Wrapper>
   );

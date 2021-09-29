@@ -51,9 +51,7 @@ const Button = styled.div`
   }
 `;
 
-export default function Choices() {
-  const [choices, setChoices] = useState([]);
-
+export default function Choices({ choices, setChoices }) {
   const onAdd = () => {
     setChoices([...choices, ""]);
   };
@@ -68,7 +66,7 @@ export default function Choices() {
   };
 
   const onDelete = (index) => {
-    setChoices(choices.filter((item, id) => index !== id));
+    setChoices(choices.filter((_, id) => index !== id));
   };
 
   return (
