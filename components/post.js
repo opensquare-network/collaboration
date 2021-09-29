@@ -64,7 +64,7 @@ export default function Post({ data }) {
       <Divider />
       <InfoWrapper>
         <LeftWrapper>
-          <Author username={addressEllipsis(data.address)} />
+          <Author address={data.address} />
           <div>{timeDuration(data.createdAt)}</div>
         </LeftWrapper>
         {data.status && (
