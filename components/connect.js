@@ -10,17 +10,37 @@ import { Modal, Button } from "semantic-ui-react";
 import AccountSelector from "./accountSelector";
 
 import { useIsMounted } from "utils/hooks";
+import styled from "styled-components";
+import { p_20_semibold } from "../styles/textStyles";
 
-export default function Connect({ show, setShow }) {
+const Wrapper = styled.div`
+
+`
+const ModalHeader = styled.h1`
+  ${p_20_semibold};
+  margin-top: 24px !important;
+`
+
+const GotoPolkadotButton = styled(Button)`
+  display: block !important;
+  margin-left: auto !important;
+  margin-bottom: 32px !important;
+  margin-right: 32px !important;
+`
+
+export default function Connect({show, setShow}) {
   const dispatch = useDispatch();
   const isMounted = useIsMounted();
   const [hasExtension, setHasExtension] = useState(true);
   const [accounts, setAccounts] = useState();
   const [address, setAddress] = useState();
+  const [isPolkadotAccessible, setIsPolkadotAccessible] = useState(true);
 
   const getAddresses = useCallback(async () => {
     if (hasExtension) {
-      await web3Enable("voting");
+      if(!show){
+        return ;
+      }
       const extensionAccounts = await web3Accounts();
       const accounts = (extensionAccounts || []).map((item) => {
         const {
@@ -44,7 +64,7 @@ export default function Connect({ show, setShow }) {
       );
       if (newWindow) newWindow.opener = null;
     }
-  }, [hasExtension, isMounted]);
+  }, [hasExtension, isMounted, show]);
 
   const getConnection = async () => {
     const oneWeek = 7 * 24 * 60 * 60 * 1000;
@@ -58,26 +78,35 @@ export default function Connect({ show, setShow }) {
       );
       setShow(false);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
   useEffect(() => {
     (async () => {
-      await web3Enable("voting");
+      if (!show) {
+        return;
+      }
       if (!isWeb3Injected) {
         if (isMounted.current) {
-          setHasExtension(false);
+          return setHasExtension(false);
         }
-      } else {
-        getAddresses();
       }
+      const web3Apps = await web3Enable("voting");
+      const polkadotEnabled = web3Apps?.length > 0;
+      setIsPolkadotAccessible(polkadotEnabled);
+      if (!polkadotEnabled) {
+        return;
+      }
+      getAddresses();
     })();
-  }, [isMounted, getAddresses]);
+  }, [isMounted, getAddresses, show]);
+
+  const closeModal = () => setShow(false);
 
   return (
-    <>
-      <Modal open={show} dimmer onClose={() => setShow(false)} size="tiny">
+    <Wrapper>
+      <Modal open={show && hasExtension && isPolkadotAccessible} dimmer onClose={closeModal} size="tiny">
         <Modal.Header>Select your address</Modal.Header>
         <Modal.Content>
           <AccountSelector
@@ -88,7 +117,7 @@ export default function Connect({ show, setShow }) {
           />
         </Modal.Content>
         <Modal.Actions>
-          <Button negative onClick={() => setShow(false)}>
+          <Button negative onClick={closeModal}>
             Cancel
           </Button>
           <Button positive onClick={getConnection}>
@@ -96,6 +125,45 @@ export default function Connect({ show, setShow }) {
           </Button>
         </Modal.Actions>
       </Modal>
-    </>
+
+      <Modal
+        open={show && !hasExtension}
+        closeIcon
+        onClose={closeModal}
+        size="mini"
+      >
+        <Modal.Header>
+          <ModalHeader>
+            Connect Wallet
+          </ModalHeader>
+        </Modal.Header>
+        <Modal.Content>
+          Polkadot-js extension not detected. No web3 account could be found. Visit this page on a computer with
+          polkadot-js extension.
+        </Modal.Content>
+        <GotoPolkadotButton color="orange" onClick={closeModal}>
+          Polkadot{`{.js}`} Extension
+        </GotoPolkadotButton>
+      </Modal>
+
+      <Modal
+        open={show && hasExtension && !isPolkadotAccessible}
+        closeIcon
+        onClose={closeModal}
+        size="mini"
+      >
+        <Modal.Header>
+          <ModalHeader>
+            Connect Wallet
+          </ModalHeader>
+        </Modal.Header>
+        <Modal.Content>
+          Polkadot-js extension is detected. But not accessible, please go to your broswer extensions and find Polkadot-js, and check permissions.
+        </Modal.Content>
+        <GotoPolkadotButton color="orange" onClick={closeModal}>
+          How to allow access?
+        </GotoPolkadotButton>
+      </Modal>
+    </Wrapper>
   );
 }

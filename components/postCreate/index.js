@@ -67,8 +67,13 @@ export default function PostCreate() {
     //   choices: choices.filter(Boolean),
     //   startDate: startDate?.getTime(),
     //   endDate: endDate?.getTime(),
-    //   height,
+    //   height: Number(height),
     // });
+    // return;
+    if (!account) {
+      dispatch(addToast({ type: "error", message: "Please connect wallet" }));
+      return;
+    }
     if (!viewFunc) {
       return;
     }
@@ -81,8 +86,8 @@ export default function PostCreate() {
       choices.filter(Boolean),
       startDate?.getTime(),
       startDate?.getTime(),
-      height,
-      account.address
+      Number(height),
+      account?.address
     );
     console.log({ result });
     if (result.error) {

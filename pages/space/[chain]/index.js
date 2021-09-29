@@ -5,8 +5,9 @@ import Nav from "components/nav";
 import ListInfo from "components/listInfo";
 import ListTab from "components/listTab";
 import PostList from "components/postList";
-import { LIST_POST_ITEMS, SPACE_ITEMS } from "utils/constants";
+import { EmptyQuery, SPACE_ITEMS } from "utils/constants";
 import { useChain } from "utils/hooks";
+import nextApi from "services/nextApi";
 
 const HeaderWrapper = styled.div`
   > :not(:first-child) {
@@ -23,7 +24,7 @@ const PostWrapper = styled.div`
   margin-top: 24px;
 `;
 
-export default function List() {
+export default function List({ posts }) {
   const chain = useChain();
   const item = SPACE_ITEMS.find((item) => item.value === chain);
 
@@ -37,14 +38,22 @@ export default function List() {
         <ListTab />
       </HeaderWrapper>
       <PostWrapper>
-        <PostList posts={LIST_POST_ITEMS} />
+        <PostList posts={posts} />
       </PostWrapper>
     </Layout>
   );
 }
 
 export async function getServerSideProps(context) {
+  const { chain, page } = context.query;
+  const nPage = parseInt(page) || 1;
+
+  const { result: posts } = await nextApi.fetch(`${chain}/proposals`, {
+    page: nPage - 1,
+    pageSize: 25,
+  });
+
   return {
-    props: {},
+    props: { posts: posts ?? EmptyQuery },
   };
 }
