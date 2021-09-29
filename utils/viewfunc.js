@@ -25,10 +25,10 @@ export async function createProposal(
     version: "1",
   });
 
-  return await nextApi.post(`${chain}/proposals`, signedData);
+  return await nextApi.post(`${space}/proposals`, signedData);
 }
 
-export async function addComment(proposalCid, content, contentType) {
+export async function addComment(space, proposalCid, content, contentType) {
   const signedData = await signApiData({
     proposalCid,
     content,
@@ -36,15 +36,15 @@ export async function addComment(proposalCid, content, contentType) {
     version: "1",
   });
 
-  return await nextApi.post(`${chain}/comments`, signedData);
+  return await nextApi.post(`${space}/comments`, signedData);
 }
 
-export async function addVote(proposalCid, choice) {
+export async function addVote(space, proposalCid, choice) {
   const signedData = await signApiData({
     proposalCid,
     choice,
     version: "1",
   });
 
-  return await nextApi.post(`${chain}/votes`, signedData);
+  return await nextApi.post(`${space}/votes`, signedData);
 }
