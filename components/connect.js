@@ -68,7 +68,7 @@ export default function Connect({show, setShow}) {
       );
       setShow(false);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -82,7 +82,6 @@ export default function Connect({show, setShow}) {
           return setHasExtension(false);
         }
       }
-      console.log(isWeb3Injected)
       const web3Apps = await web3Enable("voting");
       const polkadotEnabled = (web3Apps.some(web3App => web3App?.name === 'polkadot-js'));
       setIsPolkadotAccessible(polkadotEnabled);
