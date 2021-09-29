@@ -19,6 +19,9 @@ export default function Connect({ show, setShow }) {
 
   const getAddresses = useCallback(async () => {
     if (hasExtension) {
+      if(!show){
+        return ;
+      }
       await web3Enable("voting");
       const extensionAccounts = await web3Accounts();
       const addresses = (extensionAccounts || []).map((item) => item.address);
@@ -32,9 +35,9 @@ export default function Connect({ show, setShow }) {
         "_blank",
         "noopener,noreferrer"
       );
-      if (newWindow) newWindow.opener = null;
+      if (newWindow) newWindow.openeshowr = null;
     }
-  }, [hasExtension, isMounted]);
+  }, [hasExtension, isMounted, show]);
 
   const getConnection = async () => {
     const oneWeek = 7 * 24 * 60 * 60 * 1000;
@@ -54,6 +57,9 @@ export default function Connect({ show, setShow }) {
 
   useEffect(() => {
     (async () => {
+      if(!show){
+        return ;
+      }
       await web3Enable("voting");
       if (!isWeb3Injected) {
         if (isMounted.current) {
@@ -63,7 +69,7 @@ export default function Connect({ show, setShow }) {
         getAddresses();
       }
     })();
-  }, [isMounted, getAddresses]);
+  }, [isMounted, getAddresses, show]);
 
   return (
     <>
