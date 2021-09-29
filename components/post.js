@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Author from "./author";
 import InternalLink from "components/internalLink";
 import { p_18_medium } from "styles/textStyles";
+import { addressEllipsis, timeDuration } from "utils";
 
 const Wrapper = styled.div`
   background: #ffffff;
@@ -63,10 +64,12 @@ export default function Post({ data }) {
       <Divider />
       <InfoWrapper>
         <LeftWrapper>
-          <Author username={data.author} />
-          <div>{data.time}</div>
+          <Author username={addressEllipsis(data.address)} />
+          <div>{timeDuration(data.createdAt)}</div>
         </LeftWrapper>
-        <Status active={data.status === "Active"}>{data.status}</Status>
+        {data.status && (
+          <Status active={data.status === "Active"}>{data.status}</Status>
+        )}
       </InfoWrapper>
     </Wrapper>
   );
