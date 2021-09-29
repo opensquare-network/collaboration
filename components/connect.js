@@ -33,27 +33,27 @@ export default function Connect({show, setShow}) {
   const [hasExtension, setHasExtension] = useState(true);
   const [addresses, setAddresses] = useState();
   const [address, setAddress] = useState();
-  const [isPolkadotAccessible, setIsPolkadotAccessible] = useState(false);
+  const [isPolkadotAccessible, setIsPolkadotAccessible] = useState(true);
 
   const getAddresses = useCallback(async () => {
-    // if (hasExtension) {
-    //   if(!show){
-    //     return ;
-    //   }
-    //   const extensionAccounts = await web3Accounts();
-    //   const addresses = (extensionAccounts || []).map((item) => item.address);
-    //   if (isMounted.current) {
-    //     setAddresses(addresses);
-    //     setAddress(addresses[0]);
-    //   }
-    // } else {
-    //   const newWindow = window.open(
-    //     "https://polkadot.js.org/extension/",
-    //     "_blank",
-    //     "noopener,noreferrer"
-    //   );
-    //   if (newWindow) newWindow.opener = null;
-    // }
+    if (hasExtension) {
+      if(!show){
+        return ;
+      }
+      const extensionAccounts = await web3Accounts();
+      const addresses = (extensionAccounts || []).map((item) => item.address);
+      if (isMounted.current) {
+        setAddresses(addresses);
+        setAddress(addresses[0]);
+      }
+    } else {
+      const newWindow = window.open(
+        "https://polkadot.js.org/extension/",
+        "_blank",
+        "noopener,noreferrer"
+      );
+      if (newWindow) newWindow.opener = null;
+    }
   }, [hasExtension, isMounted, show]);
 
   const getConnection = async () => {
@@ -87,8 +87,6 @@ export default function Connect({show, setShow}) {
       const polkadotEnabled = (web3Apps.some(web3App => web3App?.name === 'polkadot-js'));
       setIsPolkadotAccessible(polkadotEnabled);
       if (!polkadotEnabled) {
-        //todo: repalce this with a toast
-        alert("Cannot access Polkadot, please check installation and permission.");
         return;
       }
       getAddresses();
@@ -139,6 +137,26 @@ export default function Connect({show, setShow}) {
         </Modal.Content>
         <GotoPolkadotButton color="orange" onClick={() => setShow(false)}>
           Polkadot{`{.js}`} Extension
+        </GotoPolkadotButton>
+      </Modal>
+
+      <Modal
+        open={hasExtension && !isPolkadotAccessible}
+        closeIcon
+        onClose={() => {
+        }}
+        size="mini"
+      >
+        <Modal.Header>
+          <ModalHeader>
+            Connect Wallet
+          </ModalHeader>
+        </Modal.Header>
+        <Modal.Content>
+          Polkadot-js extension is detected. But not accessible, please go to your broswer extensions and find Polkadot-js, and check permissions.
+        </Modal.Content>
+        <GotoPolkadotButton color="orange" onClick={() => setShow(false)}>
+          How to allow access?
         </GotoPolkadotButton>
       </Modal>
     </Wrapper>
