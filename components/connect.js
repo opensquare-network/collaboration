@@ -23,10 +23,25 @@ const ModalHeader = styled.h1`
 `
 
 const GotoPolkadotButton = styled(Button)`
-  display: block !important;
-  margin-left: auto !important;
-  margin-bottom: 32px !important;
-  margin-right: 32px !important;
+  &.ui.button:hover,
+  &.ui.button:active,
+  &.ui.button:focus {
+    background: #E37F06 !important;
+  }
+  padding: 8px 16px;
+  border: 0;
+  outline: none;
+  cursor: pointer;
+
+  background: #E37F06 !important;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  color: #FFFFFF;
+
+  border-radius: 0px !important;
+
 `
 
 const StyledModal = styled(Modal)`
@@ -58,6 +73,14 @@ const StyledText = styled.p`
   color: #1E2134;
 `;
 
+const StyledDescription = styled.p`
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+  color: #506176;
+`;
+
 const CloseBar = styled.div`
   display: flex;
   flex-direction: row-reverse;
@@ -76,7 +99,7 @@ const StyledButtonPrimary = styled.button`
   &.ui.button:hover,
   &.ui.button:active,
   &.ui.button:focus {
-    background: #f23252 !important;
+    background: #191E27 !important;
   }
   padding: 8px 16px;
   border: 0;
@@ -90,6 +113,9 @@ const StyledButtonPrimary = styled.button`
   line-height: 24px;
 
   color: #FFFFFF;
+
+  border-radius: 0px !important;
+
 `;
 
 export default function Connect({show, setShow}) {
@@ -120,13 +146,6 @@ export default function Connect({show, setShow}) {
         setAccounts(accounts);
         setAddress(accounts[0].address);
       }
-    } else {
-      const newWindow = window.open(
-        "https://polkadot.js.org/extension/",
-        "_blank",
-        "noopener,noreferrer"
-      );
-      if (newWindow) newWindow.opener = null;
     }
   }, [hasExtension, isMounted, show]);
 
@@ -197,41 +216,69 @@ export default function Connect({show, setShow}) {
 
       <StyledModal
         open={show && !hasExtension}
-        closeIcon
+        dimmer
         onClose={closeModal}
-        size="mini"
+        size="tiny"
       >
-        <Modal.Header>
-          <ModalHeader>
-            Connect Wallet
-          </ModalHeader>
-        </Modal.Header>
-        <Modal.Content>
-          Polkadot-js extension not detected. No web3 account could be found. Visit this page on a computer with
-          polkadot-js extension.
-        </Modal.Content>
-        <GotoPolkadotButton color="orange" onClick={closeModal}>
-          Polkadot{`{.js}`} Extension
-        </GotoPolkadotButton>
+        <StyledCard>
+          <CloseBar>
+            <SvgClose onClick={closeModal} />
+          </CloseBar>
+          <StyledTitle>Connect Wallet</StyledTitle>
+
+          <StyledDescription>
+            Polkadot-js extension not detected. No web3 account could be found. Visit this page on a computer with
+            polkadot-js extension.
+          </StyledDescription>
+
+          <ActionBar>
+            <GotoPolkadotButton color="orange" onClick={() => {
+              closeModal();
+              const newWindow = window.open(
+                "https://polkadot.js.org/extension/",
+                "_blank",
+                "noopener,noreferrer"
+              );
+              if (newWindow) newWindow.opener = null;
+            }}>
+              Polkadot{`{.js}`} Extension
+            </GotoPolkadotButton>
+          </ActionBar>
+
+        </StyledCard>
+
       </StyledModal>
 
       <StyledModal
         open={show && hasExtension && !isPolkadotAccessible}
-        closeIcon
+        dimmer
         onClose={closeModal}
-        size="mini"
+        size="tiny"
       >
-        <Modal.Header>
-          <ModalHeader>
-            Connect Wallet
-          </ModalHeader>
-        </Modal.Header>
-        <Modal.Content>
+        <StyledCard>
+          <CloseBar>
+            <SvgClose onClick={closeModal} />
+          </CloseBar>
+          <StyledTitle>Connect Wallet</StyledTitle>
+
+          <StyledDescription>
           Polkadot-js extension is detected. But not accessible, please go to your broswer extensions and find Polkadot-js, and check permissions.
-        </Modal.Content>
-        <GotoPolkadotButton color="orange" onClick={closeModal}>
-          How to allow access?
-        </GotoPolkadotButton>
+          </StyledDescription>
+
+          <ActionBar>
+            <GotoPolkadotButton color="orange" onClick={() => {
+              closeModal();
+              const newWindow = window.open(
+                "https://polkadot.js.org/extension/",
+                "_blank",
+                "noopener,noreferrer"
+              );
+              if (newWindow) newWindow.opener = null;
+            }}>
+              How to allow access?
+            </GotoPolkadotButton>
+          </ActionBar>
+        </StyledCard>
       </StyledModal>
     </Wrapper>
   );
