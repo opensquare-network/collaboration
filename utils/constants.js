@@ -212,3 +212,10 @@ export const DISCUSSION_ITEMS = [
       "Amet, eget orci faucibus at egestas nibh sed parturient enim. Libero nullam et egestas vel a. Egestas bibendum consequat non sed ac malesuada sed orci. Mauris nibh tempus in dolor.",
   },
 ];
+
+export const EmptyQuery = {
+  total: 0,
+  page: 0,
+  pageSize: 10,
+  items: [],
+};

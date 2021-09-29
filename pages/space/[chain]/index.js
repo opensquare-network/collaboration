@@ -5,7 +5,7 @@ import Nav from "components/nav";
 import ListInfo from "components/listInfo";
 import ListTab from "components/listTab";
 import PostList from "components/postList";
-import { LIST_POST_ITEMS, SPACE_ITEMS } from "utils/constants";
+import { EmptyQuery, SPACE_ITEMS } from "utils/constants";
 import { useChain } from "utils/hooks";
 import nextApi from "services/nextApi";
 
@@ -27,8 +27,6 @@ const PostWrapper = styled.div`
 export default function List({ posts }) {
   const chain = useChain();
   const item = SPACE_ITEMS.find((item) => item.value === chain);
-
-  console.log({ posts });
 
   return (
     <Layout bgHeight="252px">
@@ -56,6 +54,6 @@ export async function getServerSideProps(context) {
   });
 
   return {
-    props: { posts },
+    props: { posts: posts ?? EmptyQuery },
   };
 }
