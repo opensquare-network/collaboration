@@ -6,7 +6,7 @@ import {
 } from "@polkadot/extension-dapp";
 import { useDispatch } from "react-redux";
 import { setAccount } from "store/reducers/accountSlice";
-import { Modal, Image, Button } from "semantic-ui-react";
+import { Modal, Button } from "semantic-ui-react";
 import AccountSelector from "./accountSelector";
 
 import { useIsMounted } from "utils/hooks";
@@ -14,13 +14,7 @@ import styled from "styled-components";
 import { p_16_normal, p_16_semibold, p_20_semibold } from "../styles/textStyles";
 import SvgClose from "public/imgs/icons/close.svg";
 
-const Wrapper = styled.div`
-
-`
-const ModalHeader = styled.h1`
-  ${p_20_semibold};
-  margin-top: 24px !important;
-`
+const Wrapper = styled.div``
 
 const GotoPolkadotButton = styled(Button)`
   &.ui.button:hover,
