@@ -44,7 +44,7 @@ export default function Connect({ show, setShow }) {
         "_blank",
         "noopener,noreferrer"
       );
-      if (newWindow) newWindow.openeshowr = null;
+      if (newWindow) newWindow.opener = null;
     }
   }, [hasExtension, isMounted, show]);
 
