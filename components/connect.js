@@ -6,7 +6,8 @@ import {
 } from "@polkadot/extension-dapp";
 import { useDispatch } from "react-redux";
 import { setAccount } from "store/reducers/accountSlice";
-import { Modal, Select, Button } from "semantic-ui-react";
+import { Modal, Button } from "semantic-ui-react";
+import AccountSelector from "./accountSelector";
 
 import { useIsMounted } from "utils/hooks";
 
@@ -14,17 +15,26 @@ export default function Connect({ show, setShow }) {
   const dispatch = useDispatch();
   const isMounted = useIsMounted();
   const [hasExtension, setHasExtension] = useState(true);
-  const [addresses, setAddresses] = useState();
+  const [accounts, setAccounts] = useState();
   const [address, setAddress] = useState();
 
   const getAddresses = useCallback(async () => {
     if (hasExtension) {
       await web3Enable("voting");
       const extensionAccounts = await web3Accounts();
-      const addresses = (extensionAccounts || []).map((item) => item.address);
+      const accounts = (extensionAccounts || []).map((item) => {
+        const {
+          address,
+          meta: { name },
+        } = item;
+        return {
+          address,
+          name,
+        };
+      });
       if (isMounted.current) {
-        setAddresses(addresses);
-        setAddress(addresses[0]);
+        setAccounts(accounts);
+        setAddress(accounts[0].address);
       }
     } else {
       const newWindow = window.open(
@@ -70,14 +80,11 @@ export default function Connect({ show, setShow }) {
       <Modal open={show} dimmer onClose={() => setShow(false)} size="tiny">
         <Modal.Header>Select your address</Modal.Header>
         <Modal.Content>
-          <Select
-            options={(addresses || []).map((item, index) => ({
-              key: index,
-              value: item,
-              text: item,
-            }))}
-            value={address}
-            onChange={(e, { value }) => setAddress(value)}
+          <AccountSelector
+            accounts={accounts}
+            onSelect={
+              (account) => setAddress(account.address)
+            }
           />
         </Modal.Content>
         <Modal.Actions>
