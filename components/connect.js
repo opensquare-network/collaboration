@@ -83,7 +83,7 @@ export default function Connect({show, setShow}) {
         }
       }
       const web3Apps = await web3Enable("voting");
-      const polkadotEnabled = (web3Apps.some(web3App => web3App?.name === 'polkadot-js'));
+      const polkadotEnabled = web3Apps?.length > 0;
       setIsPolkadotAccessible(polkadotEnabled);
       if (!polkadotEnabled) {
         return;
