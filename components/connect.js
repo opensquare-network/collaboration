@@ -6,32 +6,102 @@ import {
 } from "@polkadot/extension-dapp";
 import { useDispatch } from "react-redux";
 import { setAccount } from "store/reducers/accountSlice";
-import { Modal, Select, Button } from "semantic-ui-react";
+import { Modal, Button } from "semantic-ui-react";
+import AccountSelector from "./accountSelector";
 
 import { useIsMounted } from "utils/hooks";
 import styled from "styled-components";
-import { p_20_semibold } from "../styles/textStyles";
+import { p_16_normal, p_16_semibold, p_20_semibold } from "../styles/textStyles";
+import SvgClose from "public/imgs/icons/close.svg";
 
-const Wrapper = styled.div`
-  
-`
-const ModalHeader = styled.h1`
-  ${p_20_semibold};
-  margin-top: 24px !important;
-`
+const Wrapper = styled.div``
 
 const GotoPolkadotButton = styled(Button)`
-  display: block !important;
-  margin-left: auto !important;
-  margin-bottom: 32px !important;
-  margin-right: 32px !important;
+  &.ui.button:hover,
+  &.ui.button:active,
+  &.ui.button:focus {
+    background: #E37F06 !important;
+  }
+  padding: 8px 16px;
+  border: 0;
+  outline: none;
+  cursor: pointer;
+
+  background: #E37F06 !important;
+  ${p_16_semibold};
+  color: #FFFFFF;
+
+  border-radius: 0 !important;
+
 `
+
+const StyledModal = styled(Modal)`
+  max-width: 400px !important;
+  border-radius: 0 !important;
+`;
+
+const StyledCard = styled.div`
+  margin: 0 !important;
+  padding: 32px !important;
+  position: relative !important;
+  width: 100% !important;
+`;
+
+const StyledTitle = styled.header`
+  ${p_20_semibold};
+  color: #1E2134;
+  margin-bottom: 8px;
+`;
+
+const StyledText = styled.p`
+  ${p_16_semibold};
+  color: #1E2134;
+`;
+
+const StyledDescription = styled.p`
+  ${p_16_normal};
+  color: #506176;
+`;
+
+const CloseBar = styled.div`
+  display: flex;
+  flex-direction: row-reverse;
+  > svg path {
+    fill: #9DA9BB;
+  }
+`;
+
+const ActionBar = styled.div`
+  display: flex;
+  flex-direction: row-reverse;
+  margin-top: 28px;
+`;
+
+const StyledButtonPrimary = styled.button`
+  &.ui.button:hover,
+  &.ui.button:active,
+  &.ui.button:focus {
+    background: #191E27 !important;
+  }
+  padding: 8px 16px;
+  border: 0;
+  outline: none;
+  cursor: pointer;
+
+  background: #191E27 !important;
+  ${p_16_semibold};
+
+  color: #FFFFFF;
+
+  border-radius: 0px !important;
+
+`;
 
 export default function Connect({show, setShow}) {
   const dispatch = useDispatch();
   const isMounted = useIsMounted();
   const [hasExtension, setHasExtension] = useState(true);
-  const [addresses, setAddresses] = useState();
+  const [accounts, setAccounts] = useState([]);
   const [address, setAddress] = useState();
   const [isPolkadotAccessible, setIsPolkadotAccessible] = useState(true);
 
@@ -41,18 +111,20 @@ export default function Connect({show, setShow}) {
         return ;
       }
       const extensionAccounts = await web3Accounts();
-      const addresses = (extensionAccounts || []).map((item) => item.address);
+      const accounts = (extensionAccounts || []).map((item) => {
+        const {
+          address,
+          meta: { name },
+        } = item;
+        return {
+          address,
+          name,
+        };
+      });
       if (isMounted.current) {
-        setAddresses(addresses);
-        setAddress(addresses[0]);
+        setAccounts(accounts);
+        setAddress(accounts[0].address);
       }
-    } else {
-      const newWindow = window.open(
-        "https://polkadot.js.org/extension/",
-        "_blank",
-        "noopener,noreferrer"
-      );
-      if (newWindow) newWindow.opener = null;
     }
   }, [hasExtension, isMounted, show]);
 
@@ -96,67 +168,97 @@ export default function Connect({show, setShow}) {
 
   return (
     <Wrapper>
-      <Modal open={show && hasExtension && isPolkadotAccessible} dimmer onClose={closeModal} size="tiny">
-        <Modal.Header>Select your address</Modal.Header>
-        <Modal.Content>
-          <Select
-            options={(addresses || []).map((item, index) => ({
-              key: index,
-              value: item,
-              text: item,
-            }))}
-            value={address}
-            onChange={(e, {value}) => setAddress(value)}
+      <StyledModal open={show && hasExtension && isPolkadotAccessible} dimmer onClose={closeModal} size="tiny">
+        <StyledCard>
+          <CloseBar>
+            <SvgClose onClick={closeModal} />
+          </CloseBar>
+          <StyledTitle>Connect Wallet</StyledTitle>
+          <StyledText>Account</StyledText>
+
+          <AccountSelector
+            accounts={accounts}
+            onSelect={
+              (account) => setAddress(account?.address)
+            }
           />
-        </Modal.Content>
-        <Modal.Actions>
-          <Button negative onClick={closeModal}>
-            Cancel
-          </Button>
-          <Button positive onClick={getConnection}>
-            Confirm
-          </Button>
-        </Modal.Actions>
-      </Modal>
 
-      <Modal
+          <ActionBar>
+            <StyledButtonPrimary
+              onClick={getConnection}
+            >
+              Connect
+            </StyledButtonPrimary>
+          </ActionBar>
+        </StyledCard>
+      </StyledModal>
+
+      <StyledModal
         open={show && !hasExtension}
-        closeIcon
+        dimmer
         onClose={closeModal}
-        size="mini"
+        size="tiny"
       >
-        <Modal.Header>
-          <ModalHeader>
-            Connect Wallet
-          </ModalHeader>
-        </Modal.Header>
-        <Modal.Content>
-          Polkadot-js extension not detected. No web3 account could be found. Visit this page on a computer with
-          polkadot-js extension.
-        </Modal.Content>
-        <GotoPolkadotButton color="orange" onClick={closeModal}>
-          Polkadot{`{.js}`} Extension
-        </GotoPolkadotButton>
-      </Modal>
+        <StyledCard>
+          <CloseBar>
+            <SvgClose onClick={closeModal} />
+          </CloseBar>
+          <StyledTitle>Connect Wallet</StyledTitle>
 
-      <Modal
+          <StyledDescription>
+            Polkadot-js extension not detected. No web3 account could be found. Visit this page on a computer with
+            polkadot-js extension.
+          </StyledDescription>
+
+          <ActionBar>
+            <GotoPolkadotButton color="orange" onClick={() => {
+              closeModal();
+              const newWindow = window.open(
+                "https://polkadot.js.org/extension/",
+                "_blank",
+                "noopener,noreferrer"
+              );
+              if (newWindow) newWindow.opener = null;
+            }}>
+              Polkadot{`{.js}`} Extension
+            </GotoPolkadotButton>
+          </ActionBar>
+
+        </StyledCard>
+
+      </StyledModal>
+
+      <StyledModal
         open={show && hasExtension && !isPolkadotAccessible}
-        closeIcon
+        dimmer
         onClose={closeModal}
-        size="mini"
+        size="tiny"
       >
-        <Modal.Header>
-          <ModalHeader>
-            Connect Wallet
-          </ModalHeader>
-        </Modal.Header>
-        <Modal.Content>
+        <StyledCard>
+          <CloseBar>
+            <SvgClose onClick={closeModal} />
+          </CloseBar>
+          <StyledTitle>Connect Wallet</StyledTitle>
+
+          <StyledDescription>
           Polkadot-js extension is detected. But not accessible, please go to your broswer extensions and find Polkadot-js, and check permissions.
-        </Modal.Content>
-        <GotoPolkadotButton color="orange" onClick={closeModal}>
-          How to allow access?
-        </GotoPolkadotButton>
-      </Modal>
+          </StyledDescription>
+
+          <ActionBar>
+            <GotoPolkadotButton color="orange" onClick={() => {
+              closeModal();
+              const newWindow = window.open(
+                "https://polkadot.js.org/extension/",
+                "_blank",
+                "noopener,noreferrer"
+              );
+              if (newWindow) newWindow.opener = null;
+            }}>
+              How to allow access?
+            </GotoPolkadotButton>
+          </ActionBar>
+        </StyledCard>
+      </StyledModal>
     </Wrapper>
   );
 }
