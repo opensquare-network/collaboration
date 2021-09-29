@@ -92,9 +92,11 @@ export default function Connect({show, setShow}) {
     })();
   }, [isMounted, getAddresses, show]);
 
+  const closeModal = () => setShow(false);
+
   return (
     <Wrapper>
-      <Modal open={show && isPolkadotAccessible} dimmer onClose={() => setShow(false)} size="tiny">
+      <Modal open={show && hasExtension && isPolkadotAccessible} dimmer onClose={closeModal} size="tiny">
         <Modal.Header>Select your address</Modal.Header>
         <Modal.Content>
           <Select
@@ -108,7 +110,7 @@ export default function Connect({show, setShow}) {
           />
         </Modal.Content>
         <Modal.Actions>
-          <Button negative onClick={() => setShow(false)}>
+          <Button negative onClick={closeModal}>
             Cancel
           </Button>
           <Button positive onClick={getConnection}>
@@ -118,11 +120,9 @@ export default function Connect({show, setShow}) {
       </Modal>
 
       <Modal
-        open={!hasExtension}
-        // dimmer
+        open={show && !hasExtension}
         closeIcon
-        onClose={() => {
-        }}
+        onClose={closeModal}
         size="mini"
       >
         <Modal.Header>
@@ -134,16 +134,15 @@ export default function Connect({show, setShow}) {
           Polkadot-js extension not detected. No web3 account could be found. Visit this page on a computer with
           polkadot-js extension.
         </Modal.Content>
-        <GotoPolkadotButton color="orange" onClick={() => setShow(false)}>
+        <GotoPolkadotButton color="orange" onClick={closeModal}>
           Polkadot{`{.js}`} Extension
         </GotoPolkadotButton>
       </Modal>
 
       <Modal
-        open={hasExtension && !isPolkadotAccessible}
+        open={show && hasExtension && !isPolkadotAccessible}
         closeIcon
-        onClose={() => {
-        }}
+        onClose={closeModal}
         size="mini"
       >
         <Modal.Header>
@@ -154,7 +153,7 @@ export default function Connect({show, setShow}) {
         <Modal.Content>
           Polkadot-js extension is detected. But not accessible, please go to your broswer extensions and find Polkadot-js, and check permissions.
         </Modal.Content>
-        <GotoPolkadotButton color="orange" onClick={() => setShow(false)}>
+        <GotoPolkadotButton color="orange" onClick={closeModal}>
           How to allow access?
         </GotoPolkadotButton>
       </Modal>
