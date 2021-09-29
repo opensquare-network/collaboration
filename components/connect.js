@@ -11,7 +11,7 @@ import AccountSelector from "./accountSelector";
 
 import { useIsMounted } from "utils/hooks";
 import styled from "styled-components";
-import { p_20_semibold } from "../styles/textStyles";
+import { p_16_normal, p_16_semibold, p_20_semibold } from "../styles/textStyles";
 import SvgClose from "public/imgs/icons/close.svg";
 
 const Wrapper = styled.div`
@@ -34,19 +34,16 @@ const GotoPolkadotButton = styled(Button)`
   cursor: pointer;
 
   background: #E37F06 !important;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 24px;
+  ${p_16_semibold};
   color: #FFFFFF;
 
-  border-radius: 0px !important;
+  border-radius: 0 !important;
 
 `
 
 const StyledModal = styled(Modal)`
   max-width: 400px !important;
-  border-radius: 0px !important;
+  border-radius: 0 !important;
 `;
 
 const StyledCard = styled.div`
@@ -57,27 +54,18 @@ const StyledCard = styled.div`
 `;
 
 const StyledTitle = styled.header`
-  font-style: normal;
-  font-weight: 600;
-  font-size: 20px;
-  line-height: 32px;
+  ${p_20_semibold};
   color: #1E2134;
   margin-bottom: 8px;
 `;
 
 const StyledText = styled.p`
-  font-style: normal;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 24px;
+  ${p_16_semibold};
   color: #1E2134;
 `;
 
 const StyledDescription = styled.p`
-  font-style: normal;
-  font-weight: normal;
-  font-size: 16px;
-  line-height: 24px;
+  ${p_16_normal};
   color: #506176;
 `;
 
@@ -107,10 +95,7 @@ const StyledButtonPrimary = styled.button`
   cursor: pointer;
 
   background: #191E27 !important;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 24px;
+  ${p_16_semibold};
 
   color: #FFFFFF;
 

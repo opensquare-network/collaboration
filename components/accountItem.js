@@ -3,21 +3,16 @@ import styled, { css } from "styled-components";
 
 import Avatar from "./avatar";
 import Address from "./address";
+import { p_14_normal, p_16_semibold } from "../styles/textStyles";
 
 const Text = styled.p`
-  font-style: normal;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 24px;
+  ${p_16_semibold};
   color: #1E2134;
   margin: 0;
 `;
 
 const TextMinor = styled(Text)`
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 24px;
+  ${p_14_normal};
   color: #9DA9BB;
 `;
 

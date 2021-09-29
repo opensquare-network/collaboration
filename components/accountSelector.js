@@ -3,24 +3,15 @@ import styled from "styled-components";
 import { Dropdown } from "semantic-ui-react";
 
 import AccountItem from "./accountItem";
+import { p_14_normal } from "../styles/textStyles";
 
 const Wrapper = styled.div`
-  /* margin-bottom: 24px; */
 `;
 
 const Text = styled.p`
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 24px;
+  ${p_14_normal};
   color: #1D253C;
   margin: 0;
-`;
-
-const Label = styled(Text)`
-  font-weight: 500;
-  margin-bottom: 8px;
 `;
 
 const DropdownWrapper = styled.div`
