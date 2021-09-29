@@ -16,13 +16,22 @@ export default function Connect({ show, setShow }) {
   const [hasExtension, setHasExtension] = useState(true);
   const [addresses, setAddresses] = useState();
   const [address, setAddress] = useState();
+  const [isPolkadotAccessible, setIsPolkadotAccessible] = useState(false);
 
   const getAddresses = useCallback(async () => {
     if (hasExtension) {
       if(!show){
         return ;
       }
-      await web3Enable("voting");
+      const web3Apps = await web3Enable("voting");
+      const polkadotEnabled = (web3Apps.some(web3App => web3App?.name==='polkadot-js'));
+      setIsPolkadotAccessible(polkadotEnabled);
+      if(!polkadotEnabled){
+        //todo: repalce this with a toast
+        alert("Cannot access Polkadot, please check installation and permission.");
+        return;
+      }
+
       const extensionAccounts = await web3Accounts();
       const addresses = (extensionAccounts || []).map((item) => item.address);
       if (isMounted.current) {
@@ -60,7 +69,14 @@ export default function Connect({ show, setShow }) {
       if(!show){
         return ;
       }
-      await web3Enable("voting");
+      const web3Apps = await web3Enable("voting");
+      const polkadotEnabled = (web3Apps.some(web3App => web3App?.name==='polkadot-js'));
+      setIsPolkadotAccessible(polkadotEnabled);
+      if(!polkadotEnabled){
+        //todo: repalce this with a toast
+        alert("Cannot access Polkadot, please check installation and permission.");
+        return;
+      }
       if (!isWeb3Injected) {
         if (isMounted.current) {
           setHasExtension(false);
@@ -73,7 +89,7 @@ export default function Connect({ show, setShow }) {
 
   return (
     <>
-      <Modal open={show} dimmer onClose={() => setShow(false)} size="tiny">
+      <Modal open={show&& isPolkadotAccessible} dimmer onClose={() => setShow(false)} size="tiny">
         <Modal.Header>Select your address</Modal.Header>
         <Modal.Content>
           <Select
