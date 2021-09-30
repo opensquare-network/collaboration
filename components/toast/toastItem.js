@@ -1,41 +1,114 @@
-import React, { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 import { removeToast } from "store/reducers/toastSlice";
+import Close from "public/imgs/icons/close.svg";
+import { TOAST_TYPES } from "utils/constants";
+import { useIsMounted } from "utils/hooks";
 
 const Wrapper = styled.div`
-  padding: 12px 16px;
+  padding: 20px;
+  width: 400px;
   background: #ffffff;
-  box-shadow: 0px 6px 25px rgba(0, 0, 0, 0.04),
-    0px 1.80882px 5.94747px rgba(0, 0, 0, 0.0260636),
-    0px 0.751293px 0.932578px rgba(0, 0, 0, 0.02),
-    0px 0.271728px 0px rgba(0, 0, 0, 0.0139364);
-  border-radius: 8px;
-  font-size: 14px;
-  line-height: 20px;
+  filter: drop-shadow(0px 4px 31px rgba(26, 33, 44, 0.06))
+    drop-shadow(0px 0.751293px 8px rgba(26, 33, 44, 0.04));
   color: rgba(17, 17, 17, 0.65);
   display: flex;
-  align-items: center;
-  > :not(:first-child) {
-    margin-left: 8px;
+  align-items: flex-start;
+  border-left: 4px solid #ffffff;
+  ${(p) =>
+    p.color &&
+    css`
+      border-left-color: ${p.color};
+    `}
+  @media screen and (max-width: 500px) {
+    width: auto;
+  }
+  transform: translateX(200%);
+  transition: all 0.25s ease-out;
+  &.tran {
+    transform: translateX(0) !important;
   }
 `;
 
+const LeftWrapper = styled.div`
+  flex: 1 1 auto;
+`;
+
+const Title = styled.div`
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  margin-bottom: 4px;
+`;
+
+const Content = styled.div`
+  font-size: 14px;
+  line-height: 24px;
+  color: #506176;
+`;
+
+const RightWrapper = styled.div`
+  flex: 0 0 auto;
+  cursor: pointer;
+  > svg {
+    path {
+      fill: #9da9bb;
+    }
+    fill: #9da9bb;
+    :hover {
+      fill: #2e343d;
+      path {
+        fill: #2e343d;
+      }
+    }
+  }
+`;
+
+const getToastColor = (type) => {
+  switch (type) {
+    case TOAST_TYPES.SUCCESS:
+      return "#4CAF50";
+    case TOAST_TYPES.ERROR:
+      return "#EE4444";
+    case TOAST_TYPES.INFO:
+      return "#6848FF";
+    default:
+      return "#9DA9BB";
+  }
+};
+
 const ToastItem = ({ type, message, id }) => {
   const dispatch = useDispatch();
+  const color = getToastColor(type);
+  const isMounted = useIsMounted();
+  const [tranClass, setTranClass] = useState("");
 
   useEffect(() => {
     setTimeout(() => {
       dispatch(removeToast(id));
-    }, 2000);
+    }, 5000);
+  });
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (isMounted.current) {
+        setTranClass("tran");
+      }
+    }, 100);
   });
 
   if (!message) return null;
   return (
-    <Wrapper>
-      <img src={`/imgs/icons/toast-${type}.svg`} alt="icon" />
-      <div>{message}</div>
+    <Wrapper color={color} className={tranClass}>
+      <LeftWrapper>
+        <Title>{type}</Title>
+        <Content>{message}</Content>
+      </LeftWrapper>
+      <RightWrapper>
+        <Close onClick={() => dispatch(removeToast(id))} />
+      </RightWrapper>
     </Wrapper>
   );
 };

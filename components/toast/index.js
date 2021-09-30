@@ -14,13 +14,16 @@ const Wrapper = styled.div`
 `;
 
 const ToastList = styled.div`
-  margin: 60px auto auto;
+  margin: 60px 32px 0 auto;
   width: fit-content;
   display: flex;
   flex-direction: column-reverse;
-  align-items: center;
   > :not(:last-child) {
-    margin-top: 16px;
+    margin-top: 20px;
+  }
+  @media screen and (max-width: 500px) {
+    margin: 60px 32px 0;
+    width: auto;
   }
 `;
 

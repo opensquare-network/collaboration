@@ -9,6 +9,7 @@ import More from "./more";
 import { accountSelector } from "store/reducers/accountSlice";
 import { useChain } from "utils/hooks";
 import { addToast } from "store/reducers/toastSlice";
+import { TOAST_TYPES } from "utils/constants";
 
 const Wrapper = styled.div`
   display: flex;
@@ -60,16 +61,6 @@ export default function PostCreate() {
   }, []);
 
   const onPublish = async () => {
-    // console.log({
-    //   chain,
-    //   title,
-    //   content,
-    //   choices: choices.filter(Boolean),
-    //   startDate: startDate?.getTime(),
-    //   endDate: endDate?.getTime(),
-    //   height: Number(height),
-    // });
-    // return;
     if (!account) {
       dispatch(addToast({ type: "error", message: "Please connect wallet" }));
       return;
