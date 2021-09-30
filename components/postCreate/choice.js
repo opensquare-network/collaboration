@@ -51,7 +51,7 @@ export default function Choice({ index, value, onChange, onDelete }) {
       <div>{`#${index + 1}`}</div>
       <Input
         ref={ref}
-        autoFocus
+        // autoFocus
         onFocus={() => setFocus(true)}
         onBlur={() => setFocus(false)}
         value={value}

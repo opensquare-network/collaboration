@@ -219,3 +219,9 @@ export const EmptyQuery = {
   pageSize: 10,
   items: [],
 };
+
+export const TOAST_TYPES = {
+  SUCCESS: "Success",
+  ERROR: "Error",
+  INFO: "Info",
+};

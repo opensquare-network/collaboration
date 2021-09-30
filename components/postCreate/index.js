@@ -9,6 +9,7 @@ import More from "./more";
 import { accountSelector } from "store/reducers/accountSlice";
 import { useChain } from "utils/hooks";
 import { addToast } from "store/reducers/toastSlice";
+import { TOAST_TYPES } from "utils/constants";
 
 const Wrapper = styled.div`
   display: flex;
@@ -52,6 +53,7 @@ export default function PostCreate() {
   const [endDate, setEndDate] = useState();
   const [height, setHeight] = useState("");
   const [viewFunc, setViewFunc] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     import("utils/viewfunc").then((viewFunc) => {
@@ -60,23 +62,17 @@ export default function PostCreate() {
   }, []);
 
   const onPublish = async () => {
-    // console.log({
-    //   chain,
-    //   title,
-    //   content,
-    //   choices: choices.filter(Boolean),
-    //   startDate: startDate?.getTime(),
-    //   endDate: endDate?.getTime(),
-    //   height: Number(height),
-    // });
-    // return;
+    if (isLoading) return;
     if (!account) {
-      dispatch(addToast({ type: "error", message: "Please connect wallet" }));
+      dispatch(
+        addToast({ type: TOAST_TYPES.ERROR, message: "Please connect wallet" })
+      );
       return;
     }
     if (!viewFunc) {
       return;
     }
+    setIsLoading(true);
     const result = await viewFunc.createProposal(
       chain,
       title,
@@ -89,12 +85,17 @@ export default function PostCreate() {
       Number(height),
       account?.address
     );
-    console.log({ result });
+    setIsLoading(false);
     if (result.error) {
-      dispatch(addToast({ type: "error", message: result.error.message }));
+      dispatch(
+        addToast({ type: TOAST_TYPES.ERROR, message: result.error.message })
+      );
     } else {
       dispatch(
-        addToast({ type: "success", message: "Create proposal successfully!" })
+        addToast({
+          type: TOAST_TYPES.SUCCESS,
+          message: "Create proposal successfully!",
+        })
       );
     }
   };
