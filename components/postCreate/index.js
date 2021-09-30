@@ -53,6 +53,7 @@ export default function PostCreate() {
   const [endDate, setEndDate] = useState();
   const [height, setHeight] = useState("");
   const [viewFunc, setViewFunc] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     import("utils/viewfunc").then((viewFunc) => {
@@ -61,13 +62,17 @@ export default function PostCreate() {
   }, []);
 
   const onPublish = async () => {
+    if (isLoading) return;
     if (!account) {
-      dispatch(addToast({ type: "error", message: "Please connect wallet" }));
+      dispatch(
+        addToast({ type: TOAST_TYPES.ERROR, message: "Please connect wallet" })
+      );
       return;
     }
     if (!viewFunc) {
       return;
     }
+    setIsLoading(true);
     const result = await viewFunc.createProposal(
       chain,
       title,
@@ -80,12 +85,17 @@ export default function PostCreate() {
       Number(height),
       account?.address
     );
-    console.log({ result });
+    setIsLoading(false);
     if (result.error) {
-      dispatch(addToast({ type: "error", message: result.error.message }));
+      dispatch(
+        addToast({ type: TOAST_TYPES.ERROR, message: result.error.message })
+      );
     } else {
       dispatch(
-        addToast({ type: "success", message: "Create proposal successfully!" })
+        addToast({
+          type: TOAST_TYPES.SUCCESS,
+          message: "Create proposal successfully!",
+        })
       );
     }
   };
