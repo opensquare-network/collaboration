@@ -93,7 +93,8 @@ const IconWrapper = styled.div`
 export default function Header() {
   const [showMenu, setShowMenu] = useState(false);
   const ref = useRef();
-  useOnClickOutside(ref, () => setTimeout(()=>{setShowMenu(false)}));
+  //todo : this line seems to be buggy
+  // useOnClickOutside(ref, () => setShowMenu(false));
 
   return (
     <Wrapper>

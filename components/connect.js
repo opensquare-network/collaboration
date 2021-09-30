@@ -97,7 +97,7 @@ const StyledButtonPrimary = styled.button`
 
 `;
 
-export default function Connect({show, setShow}) {
+export default function Connect({show, setShow,setShowMenu}) {
   const dispatch = useDispatch();
   const isMounted = useIsMounted();
   const [hasExtension, setHasExtension] = useState(true);
@@ -139,6 +139,7 @@ export default function Connect({show, setShow}) {
         })
       );
       setShow(false);
+      setShowMenu(false);
     } catch (error) {
       console.error(error);
     }
@@ -164,7 +165,7 @@ export default function Connect({show, setShow}) {
     })();
   }, [isMounted, getAddresses, show]);
 
-  const closeModal = () => setShow(false);
+  const closeModal = () => setShow(false)&&setShowMenu(false);
 
   return (
     <Wrapper>
