@@ -117,26 +117,117 @@ async function getProposalBySpace(space, page, pageSize) {
     .limit(pageSize)
     .toArray();
 
-  const db = await getDb();
-  await Promise.all([
-    db.lookupCount({
-      from: "comment",
-      for: proposals,
-      as: "commentsCount",
-      localField: "_id",
-      foreignField: "proposal",
-    }),
-    db.lookupCount({
-      from: "vote",
-      for: proposals,
-      as: "votesCount",
-      localField: "_id",
-      foreignField: "proposal",
-    }),
-  ]);
+  const now = Date.now();
+  const addStatus = (p) => ({
+    ...p,
+    status: now < p.startDate ? "pending" : now < p.endDate ? "active" : "closed",
+  });
 
   return {
-    items: proposals,
+    items: proposals.map(addStatus),
+    total,
+    page,
+    pageSize,
+  };
+}
+
+async function getPendingProposalBySpace(space, page, pageSize) {
+  const now = Date.now();
+  const q = {
+    space,
+    startDate: { $gt: now }
+  };
+
+  const proposalCol = await getProposalCollection();
+  const total = await proposalCol.countDocuments(q);
+
+  if (page === "last") {
+    const totalPages = Math.ceil(total / pageSize);
+    page = Math.max(totalPages, 1);
+  }
+
+  const proposals = await proposalCol.find(q)
+    .sort({ startDate: 1 })
+    .skip((page - 1) * pageSize)
+    .limit(pageSize)
+    .toArray();
+
+    const addStatus = (p) => ({
+      ...p,
+      status: now < p.startDate ? "pending" : now < p.endDate ? "active" : "closed",
+    });
+
+    return {
+    items: proposals.map(addStatus),
+    total,
+    page,
+    pageSize,
+  };
+}
+
+async function getActiveProposalBySpace(space, page, pageSize) {
+  const now = Date.now();
+  const q = {
+    space,
+    startDate: { $lte: now },
+    endDate: { $gt: now }
+  };
+
+  const proposalCol = await getProposalCollection();
+  const total = await proposalCol.countDocuments(q);
+
+  if (page === "last") {
+    const totalPages = Math.ceil(total / pageSize);
+    page = Math.max(totalPages, 1);
+  }
+
+  const proposals = await proposalCol.find(q)
+    .sort({ endDate: 1 })
+    .skip((page - 1) * pageSize)
+    .limit(pageSize)
+    .toArray();
+
+  const addStatus = (p) => ({
+    ...p,
+    status: now < p.startDate ? "pending" : now < p.endDate ? "active" : "closed",
+  });
+
+  return {
+    items: proposals.map(addStatus),
+    total,
+    page,
+    pageSize,
+  };
+}
+
+async function getClosedProposalBySpace(space, page, pageSize) {
+  const now = Date.now();
+  const q = {
+    space,
+    endDate: { $lte: now }
+  };
+
+  const proposalCol = await getProposalCollection();
+  const total = await proposalCol.countDocuments(q);
+
+  if (page === "last") {
+    const totalPages = Math.ceil(total / pageSize);
+    page = Math.max(totalPages, 1);
+  }
+
+  const proposals = await proposalCol.find(q)
+    .sort({ endDate: -1 })
+    .skip((page - 1) * pageSize)
+    .limit(pageSize)
+    .toArray();
+
+  const addStatus = (p) => ({
+    ...p,
+    status: now < p.startDate ? "pending" : now < p.endDate ? "active" : "closed",
+  });
+
+  return {
+    items: proposals.map(addStatus),
     total,
     page,
     pageSize,
@@ -360,6 +451,9 @@ async function getVotes(proposalId, page, pageSize) {
 module.exports = {
   createProposal,
   getProposalBySpace,
+  getPendingProposalBySpace,
+  getActiveProposalBySpace,
+  getClosedProposalBySpace,
   getProposalById,
   postComment,
   getComments,
