@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { LIST_TAB_ITEMS } from "utils/constants";
 import { p_16_semibold } from "../styles/textStyles";
-import { useChain } from "utils/hooks";
+import { useSpace } from "utils/hooks";
 
 const Wrapper = styled.div`
   display: flex;
@@ -58,7 +58,7 @@ const Button = styled.div`
 `;
 
 export default function ListTab() {
-  const chain = useChain();
+  const space = useSpace();
   const [tabIndex, setTabIndex] = useState(0);
 
   return (
@@ -74,7 +74,7 @@ export default function ListTab() {
           </Item>
         ))}
       </ItemWrapper>
-      <Link href={`/space/${chain}/create`} passHref>
+      <Link href={`/space/${space}/create`} passHref>
         <Button>
           <img src="/imgs/icons/add.svg" alt="" />
           New Post
