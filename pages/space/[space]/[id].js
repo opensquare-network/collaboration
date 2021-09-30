@@ -68,9 +68,9 @@ export default function Index() {
   );
 }
 
-export const getServerSideProps = withLoginUser(async (context) => {
+export async function getServerSideProps(context) {
   return {
     props: {
     },
   };
-});
+}
