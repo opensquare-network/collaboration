@@ -68,6 +68,7 @@ const DefaultIcon = styled.div`
 const Name = styled.div`
   ${p_18_semibold};
   color: #2e343d;
+  text-transform: capitalize;
 
   :hover {
     text-decoration: underline;
