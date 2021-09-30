@@ -21,6 +21,9 @@ const DateButton = styled.div`
   border: 1px solid #e2e8f0;
   display: flex;
   cursor: pointer;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 24px;
   .placeholder {
     color: #9da9bb;
   }
@@ -155,27 +158,129 @@ const ButtonWrapper = styled.div`
   }
 `;
 
+const TimeWrapper = styled.div`
+  z-index: 2;
+  position: absolute;
+  right: 0;
+  padding: 32px;
+  background: #ffffff;
+  box-shadow: 0px 4px 31px rgba(26, 33, 44, 0.06),
+    0px 0.751293px 8px rgba(26, 33, 44, 0.04);
+`;
+
+const TimeHeaderWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 16px;
+  line-height: 24px;
+  white-space: nowrap;
+  > :first-child {
+    font-weight: 600;
+    color: #1e2134;
+  }
+  > :last-child {
+    color: #9da9bb;
+    margin-left: 100px;
+  }
+`;
+
+const TimeInputWrapper = styled.div`
+  width: 304px;
+  height: 48px;
+  background: #fbfcfe;
+  border-bottom: 1px solid #e2e8f0;
+  margin: 20px 0;
+  display: flex;
+  font-size: 16px;
+  line-height: 24px;
+  padding: 12px 16px;
+  justify-content: space-between;
+`;
+
+const TimeInput = styled.input`
+  all: unset;
+  width: 128px;
+  height: 24px;
+  text-align: center;
+`;
+
 export default function Component({ date, setDate, placeholder }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [show, setShow] = useState("date");
+  const [hour, setHour] = useState("");
+  const [minute, setMinute] = useState("");
   const ref = useRef();
   useOnClickOutside(ref, () => setIsOpen(false));
   const handleChange = (e) => {
-    // setIsOpen(!isOpen);
-    console.log(e);
     setDate(e);
   };
   const handleClick = (e) => {
     e.preventDefault();
+    setShow("date");
     setIsOpen(!isOpen);
   };
   const onToday = () => {
-    console.log("onToday");
     if (date) {
+      const today = moment();
+      setDate(
+        moment(date)
+          .set({
+            year: today.year(),
+            month: today.month(),
+            date: today.date(),
+          })
+          .toDate()
+      );
     } else {
       setDate(
         moment().set({ hour: 0, minute: 0, second: 0, millisecond: 0 }).toDate()
       );
     }
+  };
+  const checkInt = (value) => {
+    if (value && value.indexOf(".") > 0) return false;
+    if (isNaN(value) && !Number.isInteger(Number(value))) return false;
+    return true;
+  };
+  const onHourChange = (e) => {
+    let value = e.target.value;
+    if (value.length > 2 && value[0] === "0") {
+      value = value.slice(1, 3);
+    }
+    if (!checkInt(value)) return;
+    if (Number(value) > 23 || Number(value) < 0) return;
+    setHour(value);
+  };
+  const onMinuteChange = (e) => {
+    let value = e.target.value;
+    if (value.length > 2 && value[0] === "0") {
+      value = value.slice(1, 2);
+    }
+    if (!checkInt(value)) return;
+    if (Number(value) > 59 || Number(value) < 0) return;
+    setMinute(value);
+  };
+  const format = (value) => {
+    if (value === null || value === undefined) return "";
+    if (value < 10) return "0" + value;
+    return "" + value;
+  };
+  const formatTime = () => {
+    if (date) {
+      setHour(format(moment(date).hour()));
+      setMinute(format(moment(date).minute()));
+    } else {
+      setHour("");
+      setMinute("");
+    }
+  };
+  const onSelectTime = () => {
+    setDate(
+      moment(date)
+        .set({ hour: Number(hour), minute: Number(minute) })
+        .toDate()
+    );
   };
 
   return (
@@ -187,28 +292,79 @@ export default function Component({ date, setDate, placeholder }) {
           <CaretRight />
         </DateButton>
         {isOpen && (
-          <DateWrapper>
-            <DatePicker
-              selected={date}
-              onChange={handleChange}
-              inline
-              renderCustomHeader={({ date, decreaseMonth, increaseMonth }) => (
-                <div>
-                  <DateHeader>
-                    <ArrowLeft onClick={decreaseMonth} />
-                    <div>{moment(date).format("MMM, YYYY")}</div>
-                    <ArrowRight onClick={increaseMonth} />
-                  </DateHeader>
-                  <Divider />
-                </div>
-              )}
-              formatWeekDay={(nameOfDay) => nameOfDay.substr(0, 3)}
-            />
-            <ButtonWrapper>
-              <Button onClick={onToday}>Today</Button>
-              <Button primary>Next</Button>
-            </ButtonWrapper>
-          </DateWrapper>
+          <>
+            {show === "date" && (
+              <DateWrapper>
+                <DatePicker
+                  selected={date}
+                  onChange={handleChange}
+                  inline
+                  renderCustomHeader={({
+                    date,
+                    decreaseMonth,
+                    increaseMonth,
+                  }) => (
+                    <div>
+                      <DateHeader>
+                        <ArrowLeft onClick={decreaseMonth} />
+                        <div>{moment(date).format("MMM, YYYY")}</div>
+                        <ArrowRight onClick={increaseMonth} />
+                      </DateHeader>
+                      <Divider />
+                    </div>
+                  )}
+                  formatWeekDay={(nameOfDay) => nameOfDay.substr(0, 3)}
+                />
+                <ButtonWrapper>
+                  <Button onClick={onToday}>Today</Button>
+                  <Button
+                    primary
+                    onClick={() => {
+                      if (!date) onToday();
+                      formatTime();
+                      setShow("time");
+                    }}
+                  >
+                    Next
+                  </Button>
+                </ButtonWrapper>
+              </DateWrapper>
+            )}
+            {show === "time" && (
+              <TimeWrapper>
+                <TimeHeaderWrapper>
+                  <div>Select Time</div>
+                  <div>{moment(date).format("MMM,DD YYYY")}</div>
+                </TimeHeaderWrapper>
+                <Divider />
+                <TimeInputWrapper>
+                  <TimeInput
+                    value={hour}
+                    onChange={onHourChange}
+                    placeholder="00"
+                  />
+                  <div>:</div>
+                  <TimeInput
+                    value={minute}
+                    onChange={onMinuteChange}
+                    placeholder="00"
+                  />
+                </TimeInputWrapper>
+                <ButtonWrapper>
+                  <Button onClick={() => setIsOpen(false)}>Cancel</Button>
+                  <Button
+                    primary
+                    onClick={() => {
+                      onSelectTime();
+                      setIsOpen(false);
+                    }}
+                  >
+                    Select
+                  </Button>
+                </ButtonWrapper>
+              </TimeWrapper>
+            )}
+          </>
         )}
       </DateTimeWrapper>
     </Wrapper>

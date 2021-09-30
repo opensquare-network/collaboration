@@ -73,7 +73,6 @@ export default function PostCreate() {
       return;
     }
     setIsLoading(true);
-    let result;
     try {
       result = await viewFunc.createProposal(
         chain,
