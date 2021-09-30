@@ -83,7 +83,7 @@ export default function PostCreate() {
         "single",
         choices.filter(Boolean),
         startDate?.getTime(),
-        startDate?.getTime(),
+        endDate?.getTime(),
         Number(height),
         account?.address
       );
