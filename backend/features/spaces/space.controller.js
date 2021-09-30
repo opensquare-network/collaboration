@@ -1,23 +1,28 @@
 const spaceServices = require("../../spaces");
 
-const SPACES = Object.keys(spaceServices).map(space => {
+const SPACES = Object.keys(spaceServices).reduce((spaces, space) => {
   const spaceService = spaceServices[space];
-  return {
-    [space]: {
-      symbol: spaceService.symbol,
-      network: spaceService.network,
-      ss58Format: spaceService.ss58Format,
-      decimals: spaceService.decimals,
-      proposeThreshold: spaceService.proposeThreshold,
-      weightStrategie: spaceService.weightStrategie,
-    }
+  spaces[space] = {
+    symbol: spaceService.symbol,
+    network: spaceService.network,
+    ss58Format: spaceService.ss58Format,
+    decimals: spaceService.decimals,
+    proposeThreshold: spaceService.proposeThreshold,
+    weightStrategie: spaceService.weightStrategie,
   };
-});
+  return spaces;
+}, {});
 
 async function getSpaces(ctx) {
   ctx.body = SPACES;
 }
 
+async function getSpace(ctx) {
+  const { space } = ctx.params;
+  ctx.body = SPACES[space];
+}
+
 module.exports = {
+  getSpace,
   getSpaces,
 }
