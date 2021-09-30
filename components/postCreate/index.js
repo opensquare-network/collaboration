@@ -7,9 +7,10 @@ import Content from "./content";
 import Choices from "./choices";
 import More from "./more";
 import { accountSelector } from "store/reducers/accountSlice";
-import { useChain } from "utils/hooks";
+import { useSpace } from "utils/hooks";
 import { addToast } from "store/reducers/toastSlice";
 import { TOAST_TYPES } from "utils/constants";
+import nextApi from "services/nextApi";
 
 const Wrapper = styled.div`
   display: flex;
@@ -45,7 +46,7 @@ const SiderWrapper = styled.div`
 export default function PostCreate() {
   const dispatch = useDispatch();
   const account = useSelector(accountSelector);
-  const chain = useChain();
+  const space = useSpace();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [choices, setChoices] = useState(["", ""]);
@@ -60,6 +61,18 @@ export default function PostCreate() {
       setViewFunc(viewFunc);
     });
   }, []);
+
+  useEffect(() => {
+    nextApi.fetch(`spaces/${space}`).then((response) => {
+      if (response.result) {
+        const { network } = response.result;
+        import("services/chainApi").then(async (chainApi) => {
+          const height = await chainApi.getFinalizedHeight(network);
+          setHeight(height);
+        });
+      }
+    });
+  }, [space]);
 
   const onPublish = async () => {
     if (isLoading) return;

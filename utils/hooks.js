@@ -49,8 +49,8 @@ export function useIsMounted() {
   return isMounted;
 }
 
-export function useChain() {
+export function useSpace() {
   const router = useRouter();
-  const { chain } = router.query;
-  return chain;
+  const { space } = router.query;
+  return space;
 }
