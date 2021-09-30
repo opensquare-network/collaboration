@@ -266,7 +266,7 @@ async function vote(
   const now = new Date();
 
   if (proposal.startDate > now.getTime()) {
-    throw new HttpError(400, "The voting not started yet");
+    throw new HttpError(400, "The voting is not started yet");
   }
 
   if (proposal.endDate < now.getTime()) {
