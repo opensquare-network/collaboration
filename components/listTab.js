@@ -1,10 +1,11 @@
 import styled, { css } from "styled-components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
 import { LIST_TAB_ITEMS } from "utils/constants";
 import { p_16_semibold } from "../styles/textStyles";
 import { useChain } from "utils/hooks";
+import { useRouter } from "next/router";
 
 const Wrapper = styled.div`
   display: flex;
@@ -57,9 +58,18 @@ const Button = styled.div`
   }
 `;
 
-export default function ListTab() {
+export default function ListTab({ activeTab, onActiveTab = ()=>{} }) {
+  const router = useRouter();
+  const activeTabIndex = LIST_TAB_ITEMS.findIndex(item => item.value === activeTab);
+  const [tabIndex, setTabIndex] = useState(activeTabIndex);
+
+  useEffect(() => {
+    const currTabIndex = LIST_TAB_ITEMS.findIndex(item => item.value === router.query.tab);
+    setTabIndex(currTabIndex >= 0 ? currTabIndex : 0);
+    onActiveTab(router.query.tab);
+  }, [router]);
+
   const chain = useChain();
-  const [tabIndex, setTabIndex] = useState(0);
 
   return (
     <Wrapper>
@@ -68,9 +78,22 @@ export default function ListTab() {
           <Item
             key={index}
             active={tabIndex === index}
-            onClick={() => setTabIndex(index)}
+            onClick={() => {
+              router.push(
+                {
+                  query: {
+                    space: router.query.space,
+                    tab: item.value,
+                    ...(item.page > 0 ? { page: item.page + 1 } : {}),
+                  },
+                },
+                undefined,
+                { shallow: true }
+              );
+              onActiveTab(item.value);
+            }}
           >
-            {item}
+            {item.name}
           </Item>
         ))}
       </ItemWrapper>

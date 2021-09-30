@@ -137,7 +137,24 @@ export const POST_ITEMS = [
   },
 ];
 
-export const LIST_TAB_ITEMS = ["All Proposals", "Active", "Pending", "Closed"];
+export const LIST_TAB_ITEMS = [
+  {
+    value: "all",
+    name: "All Proposals"
+  },
+  {
+    value: "active",
+    name: "Active"
+  },
+  {
+    value: "pending",
+    name: "Pending"
+  } ,
+  {
+    value: "closed",
+    name: "Closed"
+  }
+];
 
 export const LIST_POST_ITEMS = [
   {
@@ -215,7 +232,7 @@ export const DISCUSSION_ITEMS = [
 
 export const EmptyQuery = {
   total: 0,
-  page: 0,
+  page: 1,
   pageSize: 10,
   items: [],
 };
