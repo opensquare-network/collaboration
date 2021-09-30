@@ -21,6 +21,7 @@ module.exports = {
   getApi: _getApi,
   balanceOf,
   symbol: "DOT",
+  network: "polkadot",
   ss58Format: 0,
   decimals: 10,
   proposeThreshold: "1000000000000",

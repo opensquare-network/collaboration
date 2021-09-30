@@ -21,6 +21,7 @@ module.exports = {
   getApi: _getApi,
   balanceOf,
   symbol: "KHA",
+  network: "kahala",
   ss58Format: 40,
   decimals: 12,
   proposeThreshold: "100000000000000",

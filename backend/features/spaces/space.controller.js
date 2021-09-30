@@ -5,6 +5,7 @@ const SPACES = Object.keys(spaceServices).map(space => {
   return {
     [space]: {
       symbol: spaceService.symbol,
+      network: spaceService.network,
       ss58Format: spaceService.ss58Format,
       decimals: spaceService.decimals,
       proposeThreshold: spaceService.proposeThreshold,
