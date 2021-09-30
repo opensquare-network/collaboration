@@ -1,4 +1,7 @@
 import moment from "moment";
+import BigNumber from "bignumber.js";
+
+BigNumber.config({ EXPONENTIAL_AT: 36 });
 
 export function addressEllipsis(address, start = 4, end = 4) {
   if (!address) return;
@@ -60,4 +63,8 @@ export function timeDuration(time) {
     return `${mm} min${mm > 1 ? "s" : ""} ago`;
   }
   return `${ss} sec${ss > 1 ? "s" : ""} ago`;
+}
+
+export function toPrecision(value, decimals) {
+  return new BigNumber(value).dividedBy(Math.pow(10, decimals)).toString();
 }

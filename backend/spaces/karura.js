@@ -1,7 +1,7 @@
 const BigNumber = require("bignumber.js");
 const { typesBundleForPolkadot } = require("@acala-network/type-definitions");
 const { getApi, getSystemBalance } = require("../utils/polkadotApi");
-const { WeightStrategie } = require("../constants");
+const { WeightStrategy } = require("../constants");
 
 const nodeSetting = {
   nodeUrl: process.env.KARURA_NODE_ENDPOINT || "wss://pub.elara.patract.io/karura",
@@ -27,5 +27,5 @@ module.exports = {
   ss58Format: 8,
   decimals: 12,
   proposeThreshold: "100000000000000",
-  weightStrategie: WeightStrategie.BalanceOf,
+  weightStrategy: WeightStrategy.BalanceOf,
 };

@@ -8,7 +8,7 @@ const SPACES = Object.keys(spaceServices).reduce((spaces, space) => {
     ss58Format: spaceService.ss58Format,
     decimals: spaceService.decimals,
     proposeThreshold: spaceService.proposeThreshold,
-    weightStrategie: spaceService.weightStrategie,
+    weightStrategy: spaceService.weightStrategy,
   };
   return spaces;
 }, {});
