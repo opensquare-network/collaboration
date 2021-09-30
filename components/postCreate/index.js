@@ -88,7 +88,7 @@ export default function PostCreate() {
     setIsLoading(true);
     try {
       result = await viewFunc.createProposal(
-        chain,
+        space,
         title,
         content,
         "markdown",
