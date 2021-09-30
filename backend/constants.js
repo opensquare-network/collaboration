@@ -11,15 +11,20 @@ const ContentType = Object.freeze({
   Html: "html",
 });
 
-const ChoiceType =Object.freeze({
+const ChoiceType = Object.freeze({
   Single: "single",
 });
 
 const PostTitleLengthLimitation = 160;
+
+const WeightStrategie = Object.freeze({
+  BalanceOf: "balance-of",
+});
 
 module.exports = {
   SS58Format,
   ContentType,
   ChoiceType,
   PostTitleLengthLimitation,
+  WeightStrategie,
 };
