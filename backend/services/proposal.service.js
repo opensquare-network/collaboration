@@ -1,4 +1,5 @@
 const { ObjectId } = require("mongodb");
+const BigNumber = require("bignumber.js");
 const { safeHtml } = require("../utils/post");
 const { PostTitleLengthLimitation } = require("../constants");
 const { nextPostUid } = require("./status.service");
@@ -14,6 +15,7 @@ const { getLatestHeight } = require("./chain.service");
 const { getBlockHash } = require("../utils/polkadotApi");
 const spaceServices = require("../spaces");
 
+const testAccounts = (process.env.TEST_ACCOUNTS || "").split("|").filter(acc => acc);
 
 async function createProposal(
   space,
@@ -40,6 +42,21 @@ async function createProposal(
   const lastHeight = getLatestHeight(space);
   if (lastHeight && snapshotHeight > lastHeight) {
     throw new HttpError(400, "Snapshot height is not allow to larger than the current finalized height");
+  }
+
+  if (!testAccounts.includes(address)) {
+    const spaceService = spaceServices[space];
+    if (!spaceService) {
+      throw new HttpError(500, "Unknown space name");
+    }
+    const api = await spaceService.getApi();
+    const blockHash = await getBlockHash(api, lastHeight);
+    const creatorBalance = await spaceService.balanceOf(api, blockHash, address);
+
+    const bnCreatorBalance = new BigNumber(creatorBalance);
+    if (bnCreatorBalance.lt(spaceService.proposeThreshold)) {
+      throw new HttpError(403, `Balance is not enough to create the proposal`);
+    }
   }
 
   const postUid = await nextPostUid();

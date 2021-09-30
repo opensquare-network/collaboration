@@ -1,9 +1,11 @@
-const { WeightStrategie } = require("../constants");
 const BigNumber = require("bignumber.js");
+const { typesBundleForPolkadot } = require("@acala-network/type-definitions");
 const { getApi, getSystemBalance } = require("../utils/polkadotApi");
+const { WeightStrategie } = require("../constants");
 
 const nodeSetting = {
-  nodeUrl: process.env.KUSAMA_NODE_ENDPOINT || "wss://pub.elara.patract.io/kusama",
+  nodeUrl: process.env.KHALA_NODE_ENDPOINT || "wss://khala-api.phala.network/ws",
+  typesBundle: typesBundleForPolkadot,
 };
 
 function _getApi() {
@@ -20,8 +22,8 @@ module.exports = {
   nodeSetting,
   getApi: _getApi,
   balanceOf,
-  symbol: "KSM",
-  ss58Format: 2,
+  symbol: "KHA",
+  ss58Format: 40,
   decimals: 12,
   proposeThreshold: "100000000000000",
   weightStrategie: WeightStrategie.BalanceOf,
