@@ -86,6 +86,7 @@ export default function PostCreate() {
       return;
     }
     setIsLoading(true);
+    let result;
     try {
       result = await viewFunc.createProposal(
         space,
@@ -99,7 +100,10 @@ export default function PostCreate() {
         Number(height),
         account?.address
       );
-    } catch {
+    } catch (error) {
+      dispatch(
+        addToast({ type: TOAST_TYPES.ERROR, message: error.toString() })
+      );
       setIsLoading(false);
       return;
     }
