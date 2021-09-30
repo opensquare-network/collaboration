@@ -1,4 +1,4 @@
-const { WeightStrategie } = require("../constants");
+const { WeightStrategy } = require("../constants");
 const BigNumber = require("bignumber.js");
 const { getApi, getSystemBalance } = require("../utils/polkadotApi");
 
@@ -25,5 +25,5 @@ module.exports = {
   ss58Format: 2,
   decimals: 12,
   proposeThreshold: "100000000000000",
-  weightStrategie: WeightStrategie.BalanceOf,
+  weightStrategy: WeightStrategy.BalanceOf,
 };

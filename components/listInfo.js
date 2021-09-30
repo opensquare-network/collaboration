@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { toPrecision } from "utils";
 import { h4_24_bold, p_16_semibold } from "../styles/textStyles";
 
 const Wrapper = styled.div`
@@ -23,6 +24,7 @@ const LogoImg = styled.img`
 
 const LogoName = styled.div`
   ${h4_24_bold};
+  text-transform: capitalize;
 `;
 
 const LogoSymbol = styled.div`
@@ -55,6 +57,7 @@ const AboutDetail = styled.div`
   font-size: 14px;
   line-height: 24px;
   color: #a1a8b3;
+  text-transform: capitalize;
 `;
 
 const AboutDivider = styled.div`
@@ -64,13 +67,13 @@ const AboutDivider = styled.div`
   margin: 0 40px;
 `;
 
-export default function ListInfo({ data }) {
+export default function ListInfo({ spaceName, data }) {
   return (
     <Wrapper>
       <LogoWrapper>
-        <LogoImg src={`/imgs/icons/${data.icon}`} />
+        <LogoImg src={`/imgs/icons/${spaceName}.svg`} />
         <div>
-          <LogoName>{data.name}</LogoName>
+          <LogoName>{spaceName}</LogoName>
           <LogoSymbol>{data.symbol}</LogoSymbol>
         </div>
       </LogoWrapper>
@@ -79,7 +82,7 @@ export default function ListInfo({ data }) {
           <AboutIcon src="/imgs/icons/network.svg" />
           <div>
             <AboutName>Network</AboutName>
-            <AboutDetail>Kusama Mainnet</AboutDetail>
+            <AboutDetail>{data.network}</AboutDetail>
           </div>
         </AboutItem>
         <AboutDivider />
@@ -87,7 +90,7 @@ export default function ListInfo({ data }) {
           <AboutIcon src="/imgs/icons/threshold.svg" />
           <div>
             <AboutName>Proposal threshold</AboutName>
-            <AboutDetail>100 KSM</AboutDetail>
+            <AboutDetail>{`${toPrecision(data.proposeThreshold, data.decimals)} ${data.symbol}`}</AboutDetail>
           </div>
         </AboutItem>
         <AboutDivider />
@@ -95,7 +98,7 @@ export default function ListInfo({ data }) {
           <AboutIcon src="/imgs/icons/strategy.svg" />
           <div>
             <AboutName>Strategie(s)</AboutName>
-            <AboutDetail>balance-of</AboutDetail>
+            <AboutDetail>{data.weightStrategy}</AboutDetail>
           </div>
         </AboutItem>
       </AboutWrapper>

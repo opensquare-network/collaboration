@@ -17,7 +17,7 @@ const ChoiceType = Object.freeze({
 
 const PostTitleLengthLimitation = 160;
 
-const WeightStrategie = Object.freeze({
+const WeightStrategy = Object.freeze({
   BalanceOf: "balance-of",
 });
 
@@ -26,5 +26,5 @@ module.exports = {
   ContentType,
   ChoiceType,
   PostTitleLengthLimitation,
-  WeightStrategie,
+  WeightStrategy,
 };

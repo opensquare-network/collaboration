@@ -1,7 +1,6 @@
 import styled, { css } from "styled-components";
 import { useState } from "react";
 
-import { SPACE_ITEMS } from "utils/constants";
 import InternalLink from "./internalLink";
 import { no_scroll_bar, shadow_100, makeSquare } from "../styles/globalCss";
 import { h3_36_bold, p_18_semibold, p_16_semibold } from "../styles/textStyles";
@@ -119,35 +118,35 @@ const SpaceButton = styled.div`
   color: #506176;
 `;
 
-export default function Space() {
+export default function Space({ spaces }) {
   const [show, setShow] = useState(false);
+  const spaceNames = Object.keys(spaces);
 
   return (
     <div>
       <TitleWrapper>
         <Title>Space</Title>
         <SpaceButton onClick={() => setShow(!show)}>
-          {show ? "Hide Spaces" : `All Spaces(${SPACE_ITEMS.length})`}
+          {spaceNames.length > 5 && show ? "Hide Spaces" : `All Spaces(${spaceNames.length})`}
         </SpaceButton>
       </TitleWrapper>
       <ItemsWrapper show={show}>
-        {(show ? SPACE_ITEMS : SPACE_ITEMS.slice(0, 5)).map((item, index) => (
+        {(show ? spaceNames : spaceNames.slice(0, 5)).map((item, index) => (
           <Item key={index}>
             <IconWrapper>
               <Icon>
-                {item.icon && <img src={`/imgs/icons/${item.icon}`} alt="" />}
-                {!item.icon && <DefaultIcon />}
+                {<img src={`/imgs/icons/${item}.svg`} alt="" />}
               </Icon>
-              <InternalLink href={`/space/${item.value}`}>
-                <Name>{item.name}</Name>
+              <InternalLink href={`/space/${item}`}>
+                <Name>{item}</Name>
               </InternalLink>
-              <Symbol>{item.symbol ?? "-"}</Symbol>
+              <Symbol>{spaces[item].symbol ?? "-"}</Symbol>
             </IconWrapper>
             <Divider />
             <ActiveWrapper>
               <ActiveCircle />
               Active
-              <ActiveCount>{item.active ?? 0}</ActiveCount>
+              <ActiveCount>{5}</ActiveCount>
             </ActiveWrapper>
           </Item>
         ))}
