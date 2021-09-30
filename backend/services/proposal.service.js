@@ -241,7 +241,10 @@ async function getProposalById(proposalId) {
     throw new HttpError(404, "Post not found");
   }
 
-  return proposal;
+  const now = Date.now();
+  const addStatus = addProposalStatus(now);
+
+  return addStatus(proposal);
 }
 
 async function postComment(
