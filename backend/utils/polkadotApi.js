@@ -17,8 +17,6 @@ const getApi = async (nodeSetting) => {
       options.types = types;
     }
 
-    console.log(options);
-
     apiInstanceMap.set(nodeUrl, ApiPromise.create(options));
   }
   return apiInstanceMap.get(nodeUrl);
