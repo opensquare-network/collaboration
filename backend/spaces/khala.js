@@ -1,11 +1,9 @@
 const BigNumber = require("bignumber.js");
-const { typesBundleForPolkadot } = require("@acala-network/type-definitions");
 const { getApi, getSystemBalance } = require("../utils/polkadotApi");
 const { WeightStrategie } = require("../constants");
 
 const nodeSetting = {
   nodeUrl: process.env.KHALA_NODE_ENDPOINT || "wss://khala-api.phala.network/ws",
-  typesBundle: typesBundleForPolkadot,
 };
 
 function _getApi() {
