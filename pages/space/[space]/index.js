@@ -33,11 +33,11 @@ export default function List({
   closedProposals,
   activeTab,
 }) {
+  const [tab, setTab] = useState(activeTab);
+
   if (!spaceData) {
     return null;
   }
-
-  const [tab, setTab] = useState(activeTab);
 
   let proposalList = EmptyQuery;
   if (!tab || tab === "all") {

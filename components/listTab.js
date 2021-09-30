@@ -66,7 +66,7 @@ export default function ListTab({ space, activeTab, onActiveTab = ()=>{} }) {
     const currTabIndex = LIST_TAB_ITEMS.findIndex(item => item.value === router.query.tab);
     setTabIndex(currTabIndex >= 0 ? currTabIndex : 0);
     onActiveTab(router.query.tab);
-  }, [router]);
+  }, [router, onActiveTab]);
 
   return (
     <Wrapper>
