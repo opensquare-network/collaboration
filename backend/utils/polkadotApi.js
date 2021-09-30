@@ -5,6 +5,7 @@ const apiInstanceMap = new Map();
 const getApi = async (nodeSetting) => {
   const nodeUrl = nodeSetting.nodeUrl;
   const typesBundle = nodeSetting.typesBundle;
+  const types = nodeSetting.types;
 
   if (!apiInstanceMap.has(nodeUrl)) {
     const provider = new WsProvider(nodeUrl, 1000);
@@ -12,6 +13,11 @@ const getApi = async (nodeSetting) => {
     if (typesBundle) {
       options.typesBundle = typesBundle;
     }
+    if (types) {
+      options.types = types;
+    }
+
+    console.log(options);
 
     apiInstanceMap.set(nodeUrl, ApiPromise.create(options));
   }
