@@ -26,21 +26,21 @@ const PostWrapper = styled.div`
 
 export default function List({
   spaceName,
-  space,
+  spaceData,
   proposals,
   pendingProposals,
   activeProposals,
   closedProposals,
   activeTab,
 }) {
-  if (!space) {
+  if (!spaceData) {
     return null;
   }
 
   const [tab, setTab] = useState(activeTab);
 
   let proposalList = EmptyQuery;
-  if (tab === "all") {
+  if (!tab || tab === "all") {
     proposalList = proposals;
   } else if (tab === "pending") {
     proposalList = pendingProposals;
@@ -53,14 +53,12 @@ export default function List({
   return (
     <Layout bgHeight="252px">
       <HeaderWrapper>
-        {space && (
-          <Nav data={[
-            { name: "Space", link: "/" },
-            { name: spaceName }
-          ]} />
-        )}
-        <ListInfo spaceName={spaceName} data={space} />
-        <ListTab activeTab={activeTab} onActiveTab={setTab} />
+        <Nav data={[
+          { name: "Space", link: "/" },
+          { name: spaceName }
+        ]} />
+        <ListInfo spaceName={spaceName} data={spaceData} />
+        <ListTab space={spaceName} activeTab={activeTab} onActiveTab={setTab} />
       </HeaderWrapper>
       <PostWrapper>
         <PostList posts={proposalList} />
@@ -78,7 +76,7 @@ export async function getServerSideProps(context) {
   const pageSize = 25;
 
   const [
-    { result: space },
+    { result: spaceData },
     { result: proposals },
     { result: pendingProposals },
     { result: activeProposals },
@@ -106,7 +104,7 @@ export async function getServerSideProps(context) {
   return {
     props: {
       spaceName,
-      space: space || null,
+      spaceData: spaceData || null,
       activeTab,
       proposals: proposals ?? EmptyQuery,
       pendingProposals: pendingProposals ?? EmptyQuery,

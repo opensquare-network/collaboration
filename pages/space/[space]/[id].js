@@ -6,7 +6,7 @@ import PostDetail from "components/postDetail";
 import PostInfo from "components/postInfo";
 import PostResults from "components/postResults";
 import PostTab from "components/postTab";
-import { useChain } from "utils/hooks";
+import { useSpace } from "utils/hooks";
 import { SPACE_ITEMS } from "utils/constants";
 
 const Wrapper = styled.div`
@@ -40,8 +40,8 @@ const SiderWrapper = styled.div`
 `;
 
 export default function Index() {
-  const chain = useChain();
-  const item = SPACE_ITEMS.find((item) => item.value === chain);
+  const space = useSpace();
+  const item = SPACE_ITEMS.find((item) => item.value === space);
 
   return (
     <Layout bgHeight="183px">
@@ -70,7 +70,6 @@ export default function Index() {
 
 export async function getServerSideProps(context) {
   return {
-    props: {
-    },
+    props: {},
   };
 }

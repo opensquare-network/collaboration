@@ -4,7 +4,6 @@ import Link from "next/link";
 
 import { LIST_TAB_ITEMS } from "utils/constants";
 import { p_16_semibold } from "../styles/textStyles";
-import { useChain } from "utils/hooks";
 import { useRouter } from "next/router";
 
 const Wrapper = styled.div`
@@ -58,7 +57,7 @@ const Button = styled.div`
   }
 `;
 
-export default function ListTab({ activeTab, onActiveTab = ()=>{} }) {
+export default function ListTab({ space, activeTab, onActiveTab = ()=>{} }) {
   const router = useRouter();
   const activeTabIndex = LIST_TAB_ITEMS.findIndex(item => item.value === activeTab);
   const [tabIndex, setTabIndex] = useState(activeTabIndex);
@@ -68,8 +67,6 @@ export default function ListTab({ activeTab, onActiveTab = ()=>{} }) {
     setTabIndex(currTabIndex >= 0 ? currTabIndex : 0);
     onActiveTab(router.query.tab);
   }, [router]);
-
-  const chain = useChain();
 
   return (
     <Wrapper>
@@ -82,7 +79,7 @@ export default function ListTab({ activeTab, onActiveTab = ()=>{} }) {
               router.push(
                 {
                   query: {
-                    space: router.query.space,
+                    space,
                     tab: item.value,
                     ...(item.page > 0 ? { page: item.page + 1 } : {}),
                   },
@@ -97,7 +94,7 @@ export default function ListTab({ activeTab, onActiveTab = ()=>{} }) {
           </Item>
         ))}
       </ItemWrapper>
-      <Link href={`/space/${chain}/create`} passHref>
+      <Link href={`/space/${space}/create`} passHref>
         <Button>
           <img src="/imgs/icons/add.svg" alt="" />
           New Post

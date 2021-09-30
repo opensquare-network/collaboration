@@ -1,5 +1,9 @@
 import { ApiPromise, WsProvider } from "@polkadot/api";
-import { web3Enable, isWeb3Injected, web3FromAddress } from "@polkadot/extension-dapp";
+import {
+  web3Enable,
+  isWeb3Injected,
+  web3FromAddress,
+} from "@polkadot/extension-dapp";
 import { stringToHex } from "@polkadot/util";
 
 import {
@@ -87,7 +91,7 @@ export const signApiData = async (data, address) => {
     address,
     signature,
   };
-}
+};
 
 const extractBlockTime = (extrinsics) => {
   const setTimeExtrinsic = extrinsics.find(
@@ -111,4 +115,11 @@ export const estimateBlocksTime = async (chain, blocks) => {
   const api = await getApi(chain);
   const nsPerBlock = api.consts.babe.expectedBlockTime.toNumber();
   return nsPerBlock * blocks;
+};
+
+export const getFinalizedHeight = async (chain) => {
+  const api = await getApi(chain);
+  const hash = await api.rpc.chain.getFinalizedHead();
+  const block = await api.rpc.chain.getBlock(hash);
+  return block.block.header.number.toNumber();
 };

@@ -7,9 +7,10 @@ import Content from "./content";
 import Choices from "./choices";
 import More from "./more";
 import { accountSelector } from "store/reducers/accountSlice";
-import { useChain } from "utils/hooks";
+import { useSpace } from "utils/hooks";
 import { addToast } from "store/reducers/toastSlice";
 import { TOAST_TYPES } from "utils/constants";
+import nextApi from "services/nextApi";
 
 const Wrapper = styled.div`
   display: flex;
@@ -45,7 +46,7 @@ const SiderWrapper = styled.div`
 export default function PostCreate() {
   const dispatch = useDispatch();
   const account = useSelector(accountSelector);
-  const chain = useChain();
+  const space = useSpace();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [choices, setChoices] = useState(["", ""]);
@@ -61,6 +62,18 @@ export default function PostCreate() {
     });
   }, []);
 
+  useEffect(() => {
+    nextApi.fetch(`spaces/${space}`).then((response) => {
+      if (response.result) {
+        const { network } = response.result;
+        import("services/chainApi").then(async (chainApi) => {
+          const height = await chainApi.getFinalizedHeight(network);
+          setHeight(height);
+        });
+      }
+    });
+  }, [space]);
+
   const onPublish = async () => {
     if (isLoading) return;
     if (!account) {
@@ -73,24 +86,29 @@ export default function PostCreate() {
       return;
     }
     setIsLoading(true);
-    const result = await viewFunc.createProposal(
-      chain,
-      title,
-      content,
-      "markdown",
-      "single",
-      choices.filter(Boolean),
-      startDate?.getTime(),
-      startDate?.getTime(),
-      Number(height),
-      account?.address
-    );
+    try {
+      result = await viewFunc.createProposal(
+        chain,
+        title,
+        content,
+        "markdown",
+        "single",
+        choices.filter(Boolean),
+        startDate?.getTime(),
+        endDate?.getTime(),
+        Number(height),
+        account?.address
+      );
+    } catch {
+      setIsLoading(false);
+      return;
+    }
     setIsLoading(false);
-    if (result.error) {
+    if (result?.error) {
       dispatch(
         addToast({ type: TOAST_TYPES.ERROR, message: result.error.message })
       );
-    } else {
+    } else if (result) {
       dispatch(
         addToast({
           type: TOAST_TYPES.SUCCESS,
@@ -120,6 +138,7 @@ export default function PostCreate() {
           height={height}
           setHeight={setHeight}
           onPublish={onPublish}
+          isLoading={isLoading}
         />
       </SiderWrapper>
     </Wrapper>

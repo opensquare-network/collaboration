@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 
 import Container from "./container";
-import { useWindowSize } from "utils/hooks";
+import { useOnClickOutside, useWindowSize } from "utils/hooks";
 import Account from "./account";
 import { p_18_semibold } from "../styles/textStyles";
 
@@ -18,11 +18,18 @@ const ContentWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
   @media screen and (max-width: 1144px) {
     padding: 20px 32px;
   }
   @media screen and (max-width: 800px) {
     padding: 15px 20px;
+  }
+  > svg {
+    margin: 20px -20px;
+    @media screen and (min-width: 800px) {
+      display: none;
+    }
   }
 `;
 
@@ -35,11 +42,13 @@ const Logo = styled.div`
   width: 226px;
   height: 40px;
   background-image: url("/imgs/opensquare-logo.svg");
+  background-position: center;
+  background-repeat: no-repeat;
   cursor: pointer;
   @media screen and (max-width: 800px) {
     padding: 15px 20px;
     width: 48px;
-    height: 30px;
+    height: 32px;
     background-image: url("/imgs/opensquare-logo-icon.svg");
   }
 `;
@@ -48,13 +57,14 @@ const Divider = styled.div`
   width: 1px;
   height: 16px;
   background: #e2e8f0;
-  margin: 0 24px;
+  margin: 0 16px;
 `;
 
 const AppWrapper = styled.div`
   display: flex;
   align-items: center;
   ${p_18_semibold};
+
   > img {
     width: 24px;
     margin-right: 8px;
@@ -64,12 +74,6 @@ const AppWrapper = styled.div`
 const AccountWrapper = styled.div`
   @media screen and (max-width: 800px) {
     background: #ffffff;
-    position: absolute;
-    left: 0;
-    top: 100%;
-    height: 72px;
-    border-top: 1px solid #f0f3f8;
-    border-bottom: 1px solid #f0f3f8;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -87,42 +91,38 @@ const IconWrapper = styled.div`
 `;
 
 export default function Header() {
-  const [show, setShow] = useState(false);
-  const windowSize = useWindowSize();
-
-  useEffect(() => {
-    if (windowSize.width && windowSize.width > 800) {
-      setShow(false);
-    }
-  }, [windowSize]);
+  const [showMenu, setShowMenu] = useState(false);
+  const ref = useRef();
+  useOnClickOutside(ref, () => setTimeout(()=>{setShowMenu(false)}));
 
   return (
     <Wrapper>
       <Container>
-        <ContentWrapper>
+        <ContentWrapper ref={ref} >
           <LeftWrapper>
             <Link href="/" passHref>
-              <Logo />
+              <Logo/>
             </Link>
-            <Divider />
+            <Divider/>
             <AppWrapper>
-              <img src="/imgs/icons/apps.svg" alt="" />
+              <img src="/imgs/icons/apps.svg" alt=""/>
               Voting
             </AppWrapper>
           </LeftWrapper>
-          <div>
-            <IconWrapper onClick={() => setShow(!show)}>
-              <img
-                src={show ? "/imgs/icons/close.svg" : "/imgs/icons/menu.svg"}
-                alt=""
-              />
-            </IconWrapper>
-            {(windowSize.width > 800 || show) && (
-              <AccountWrapper>
-                <Account />
-              </AccountWrapper>
-            )}
-          </div>
+          <IconWrapper onClick={() => {
+            setShowMenu(!showMenu)
+          }}>
+            <img
+              src={showMenu ? "/imgs/icons/close.svg" : "/imgs/icons/menu.svg"}
+              alt=""
+            />
+          </IconWrapper>
+          <svg width="375" height="1" viewBox="0 0 375 1" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="375" height="1" fill="#F0F3F8"/>
+          </svg>
+          <AccountWrapper onClick={()=>{setShowMenu(!showMenu)}}>
+            <Account showMenu={showMenu} setShowMenu={setShowMenu}/>
+          </AccountWrapper>
         </ContentWrapper>
       </Container>
     </Wrapper>

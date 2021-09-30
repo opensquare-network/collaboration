@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 import Input from "components/input";
 import DatePicker from "components/datePicker";
@@ -57,6 +57,12 @@ const Button = styled.div`
   background: #191e27;
   cursor: pointer;
   text-align: center;
+  ${(p) =>
+    p.isLoading &&
+    css`
+      background: #e2e8f0;
+      pointer-events: none;
+    `}
 `;
 
 export default function More({
@@ -67,6 +73,7 @@ export default function More({
   height,
   setHeight,
   onPublish,
+  isLoading,
 }) {
   return (
     <Wrapper>
@@ -105,7 +112,9 @@ export default function More({
           onChange={(e) => setHeight(e.target.value)}
         />
       </InnerWrapper>
-      <Button onClick={onPublish}>Publish</Button>
+      <Button isLoading={isLoading} onClick={onPublish}>
+        Publish
+      </Button>
     </Wrapper>
   );
 }

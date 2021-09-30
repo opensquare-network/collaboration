@@ -35,6 +35,7 @@ const Input = styled.input`
 `;
 
 const SubstractButton = styled(Substract)`
+  flex: 0 0 auto;
   cursor: pointer;
   fill: #9da9bb;
   :hover {
