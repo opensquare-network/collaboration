@@ -7,7 +7,6 @@ const {
   getProposalCollection,
   getVoteCollection,
   getCommentCollection,
-  getDb,
 } = require("../mongo");
 const { HttpError } = require("../exc");
 const { ContentType } = require("../constants");
@@ -16,6 +15,11 @@ const { getBlockHash } = require("../utils/polkadotApi");
 const spaceServices = require("../spaces");
 
 const testAccounts = (process.env.TEST_ACCOUNTS || "").split("|").filter(acc => acc);
+
+const addProposalStatus = (now) => (p) => ({
+  ...p,
+  status: now < p.startDate ? "pending" : now < p.endDate ? "active" : "closed",
+});
 
 async function createProposal(
   space,
@@ -118,10 +122,7 @@ async function getProposalBySpace(space, page, pageSize) {
     .toArray();
 
   const now = Date.now();
-  const addStatus = (p) => ({
-    ...p,
-    status: now < p.startDate ? "pending" : now < p.endDate ? "active" : "closed",
-  });
+  const addStatus = addProposalStatus(now);
 
   return {
     items: proposals.map(addStatus),
@@ -152,12 +153,9 @@ async function getPendingProposalBySpace(space, page, pageSize) {
     .limit(pageSize)
     .toArray();
 
-    const addStatus = (p) => ({
-      ...p,
-      status: now < p.startDate ? "pending" : now < p.endDate ? "active" : "closed",
-    });
+  const addStatus = addProposalStatus(now);
 
-    return {
+  return {
     items: proposals.map(addStatus),
     total,
     page,
@@ -187,10 +185,7 @@ async function getActiveProposalBySpace(space, page, pageSize) {
     .limit(pageSize)
     .toArray();
 
-  const addStatus = (p) => ({
-    ...p,
-    status: now < p.startDate ? "pending" : now < p.endDate ? "active" : "closed",
-  });
+  const addStatus = addProposalStatus(now);
 
   return {
     items: proposals.map(addStatus),
@@ -221,10 +216,7 @@ async function getClosedProposalBySpace(space, page, pageSize) {
     .limit(pageSize)
     .toArray();
 
-  const addStatus = (p) => ({
-    ...p,
-    status: now < p.startDate ? "pending" : now < p.endDate ? "active" : "closed",
-  });
+  const addStatus = addProposalStatus(now);
 
   return {
     items: proposals.map(addStatus),
