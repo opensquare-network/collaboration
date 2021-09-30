@@ -98,6 +98,42 @@ async function getProposals(ctx) {
   ctx.body = await proposalService.getProposalBySpace(space, page, pageSize);
 }
 
+async function getPendingProposals(ctx) {
+  const { space } = ctx.params;
+
+  const { page, pageSize } = extractPage(ctx);
+  if (pageSize === 0 || page < 1) {
+    ctx.status = 400;
+    return;
+  }
+
+  ctx.body = await proposalService.getPendingProposalBySpace(space, page, pageSize);
+}
+
+async function getActiveProposals(ctx) {
+  const { space } = ctx.params;
+
+  const { page, pageSize } = extractPage(ctx);
+  if (pageSize === 0 || page < 1) {
+    ctx.status = 400;
+    return;
+  }
+
+  ctx.body = await proposalService.getActiveProposalBySpace(space, page, pageSize);
+}
+
+async function getClosedProposals(ctx) {
+  const { space } = ctx.params;
+
+  const { page, pageSize } = extractPage(ctx);
+  if (pageSize === 0 || page < 1) {
+    ctx.status = 400;
+    return;
+  }
+
+  ctx.body = await proposalService.getClosedProposalBySpace(space, page, pageSize);
+}
+
 async function getProposalById(ctx) {
   const { proposalId } = ctx.params;
 
@@ -194,6 +230,9 @@ async function getVotes(ctx) {
 module.exports = {
   createProposal,
   getProposals,
+  getPendingProposals,
+  getActiveProposals,
+  getClosedProposals,
   getProposalById,
   postComment,
   vote,
