@@ -16,6 +16,7 @@ const ItemsWrapper = styled.div`
 
 const Item = styled.div`
   display: flex;
+  text-transform: capitalize;
   :not(:first-child)::before {
     content: "/";
     margin: 0 8px;

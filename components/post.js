@@ -47,6 +47,7 @@ const LeftWrapper = styled.div`
 `;
 
 const Status = styled.div`
+  text-transform: capitalize;
   padding: 3px 12px;
   font-weight: bold;
   font-size: 12px;
@@ -58,7 +59,7 @@ const Status = styled.div`
 export default function Post({ data }) {
   return (
     <Wrapper>
-      <InternalLink href="/space/polkadot/1">
+      <InternalLink href={`/space/${data.space}/${data.postUid}`}>
         <Title>{data.title}</Title>
       </InternalLink>
       <Divider />
@@ -68,7 +69,7 @@ export default function Post({ data }) {
           <div>{timeDuration(data.createdAt)}</div>
         </LeftWrapper>
         {data.status && (
-          <Status active={data.status === "Active"}>{data.status}</Status>
+          <Status active={data.status === "active"}>{data.status}</Status>
         )}
       </InfoWrapper>
     </Wrapper>
