@@ -39,6 +39,12 @@ async function createProposal(
     });
   }
 
+  if (endDate <= startDate) {
+    throw new HttpError(400, "Start date should not larger than end date");
+  }
+
+  const uniqueChoices = Array.from(new Set(choices));
+
   const lastHeight = getLatestHeight(space);
   if (lastHeight && snapshotHeight > lastHeight) {
     throw new HttpError(400, "Snapshot height is not allow to larger than the current finalized height");
@@ -72,7 +78,7 @@ async function createProposal(
       content: contentType === ContentType.Html ? safeHtml(content) : content,
       contentType,
       choiceType,
-      choices,
+      choices: uniqueChoices,
       startDate,
       endDate,
       snapshotHeight,
@@ -257,6 +263,16 @@ async function vote(
     throw new HttpError(400, "Invalid vote choice");
   }
 
+  const now = new Date();
+
+  if (proposal.startDate > now.getTime()) {
+    throw new HttpError(400, "The voting is not started yet");
+  }
+
+  if (proposal.endDate < now.getTime()) {
+    throw new HttpError(400, "The voting had already ended");
+  }
+
   const space = proposal.space;
   const spaceService = spaceServices[space];
   if (!spaceService) {
@@ -269,7 +285,6 @@ async function vote(
   const voteCol = await getVoteCollection();
   const height = await voteCol.countDocuments({ proposal: proposal._id });
 
-  const now = new Date();
 
   const result = await voteCol.findOneAndUpdate(
     {

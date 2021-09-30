@@ -1542,6 +1542,13 @@
   dependencies:
     lodash.merge "^4.6.2"
 
+"@phala/typedefs@^0.2.28":
+  version "0.2.28"
+  resolved "https://registry.yarnpkg.com/@phala/typedefs/-/typedefs-0.2.28.tgz#d4738545456b11d8dda0f5e52612c6b59b8b4be4"
+  integrity sha512-2TLB2bR2XaWgnRVXsfQ1doIbYXI+tBFSFKzaDYcpAaVyeON12pV1YD0qeJIgF6ORsydONR84ULLIQU3L9gTN2A==
+  dependencies:
+    "@polkadot/types" "^5.7.1"
+
 "@polkadot/api-derive@5.8.3":
   version "5.8.3"
   resolved "https://registry.yarnpkg.com/@polkadot/api-derive/-/api-derive-5.8.3.tgz#56915bddce9ebe09137d8999c1cd39447c4dda74"
@@ -1661,6 +1668,16 @@
   version "5.8.3"
   resolved "https://registry.yarnpkg.com/@polkadot/types/-/types-5.8.3.tgz#9f37fe9a2dc30491bae671ba4e31e6d1a3c626ed"
   integrity sha512-iSVCk7Ja8WjLOpjPtZRo9Gaz9AS/b722LH3wWo91TSMT11Vz/lYCWlagNc1nVez6sRsJoEXjD7pKA0ga0t78Lw==
+  dependencies:
+    "@babel/runtime" "^7.15.4"
+    "@polkadot/util" "^7.3.1"
+    "@polkadot/util-crypto" "^7.3.1"
+    rxjs "^7.3.0"
+
+"@polkadot/types@^5.7.1":
+  version "5.9.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/types/-/types-5.9.1.tgz#74cf4695795f2aa365ff85d3873e22c430100bc9"
+  integrity sha512-30vcSlNBxPyWYZaxKDr/BoMhfLCRKB265XxpnnNJmbdZZsL+N4Zp2mJR9/UbA6ypmJBkUjD7b1s9AYsLwUs+8w==
   dependencies:
     "@babel/runtime" "^7.15.4"
     "@polkadot/util" "^7.3.1"

@@ -1,9 +1,11 @@
 const BigNumber = require("bignumber.js");
+const { khala } = require("@phala/typedefs");
 const { getApi, getSystemBalance } = require("../utils/polkadotApi");
 const { WeightStrategie } = require("../constants");
 
 const nodeSetting = {
   nodeUrl: process.env.KHALA_NODE_ENDPOINT || "wss://khala-api.phala.network/ws",
+  types: khala,
 };
 
 function _getApi() {
