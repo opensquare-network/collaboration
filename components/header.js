@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-
 import Container from "./container";
 import { useOnClickOutside, useWindowSize } from "utils/hooks";
 import Account from "./account";
@@ -59,6 +58,16 @@ const Divider = styled.div`
   background: #e2e8f0;
   margin: 0 16px;
 `;
+
+const DividerLine = styled.svg`
+  background: #F0F3F8;
+  height: 1px;
+  width: 100vw;
+  display: none;
+  @media screen and (max-width: 800px) {
+    display: block;
+  }
+`
 
 const AppWrapper = styled.div`
   display: flex;
@@ -119,9 +128,7 @@ export default function Header() {
               alt=""
             />
           </IconWrapper>
-          <svg width="375" height="1" viewBox="0 0 375 1" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="375" height="1" fill="#F0F3F8"/>
-          </svg>
+          <DividerLine />
           <AccountWrapper onClick={()=>{setShowMenu(!showMenu)}}>
             <Account showMenu={showMenu} setShowMenu={setShowMenu}/>
           </AccountWrapper>
