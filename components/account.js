@@ -71,6 +71,7 @@ const MenuWrapper = styled.div`
     width: 100%;
     position: initial;
     padding: 0;
+    border-bottom: 20px solid white;
   }
 
   .connect {
@@ -125,6 +126,14 @@ const DarkButton = styled(Button)`
     width: 100%;
     text-align: center;
   }
+`
+
+const Shade = styled.div`
+  margin-left: -20px;
+  width: 100vw;
+  height: 100vh;
+  background: black;
+  opacity: 0.4;
 `
 
 export default function Account({ showMenu, setShowMenu }) {
@@ -187,7 +196,10 @@ export default function Account({ showMenu, setShowMenu }) {
   }
 
   if (showMenu) {
-    return <Wrapper>{Menu}</Wrapper>
+    return <Wrapper>
+      {Menu}
+      <Shade/>
+    </Wrapper>
   }
 
   return null;

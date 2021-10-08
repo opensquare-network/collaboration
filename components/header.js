@@ -73,12 +73,14 @@ const AppWrapper = styled.div`
 
 const AccountWrapper = styled.div`
   @media screen and (max-width: 800px) {
-    background: #ffffff;
+    //background: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
+    width: calc(100vw - 40px);
     z-index: 1;
+    position: absolute;
+    top: 68px;
   }
 `;
 
