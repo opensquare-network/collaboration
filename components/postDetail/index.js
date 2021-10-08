@@ -38,7 +38,6 @@ const SiderWrapper = styled.div`
 `;
 
 export default function PostDetail({ data }) {
-  console.log({ data });
   return (
     <Wrapper>
       <MainWrapper>

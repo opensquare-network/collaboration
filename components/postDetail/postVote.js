@@ -1,8 +1,13 @@
 import styled, { css } from "styled-components";
 import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 import { p_16_semibold } from "styles/textStyles";
 import Input from "components/input";
+import { useViewfunc, useSpace } from "utils/hooks";
+import { accountSelector } from "store/reducers/accountSlice";
+import { addToast } from "store/reducers/toastSlice";
+import { TOAST_TYPES } from "utils/constants";
 
 const Wrapper = styled.div`
   > :not(:first-child) {
@@ -108,11 +113,56 @@ const Toggle = styled.div`
 `;
 
 export default function PostVote({ data }) {
-  const [vote, setVote] = useState();
+  const dispatch = useDispatch();
+  const account = useSelector(accountSelector);
+  const [choice, setChoice] = useState();
   const [grade, setGrade] = useState("");
   const [proxyVote, setProxyVote] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const viewFunc = useViewfunc();
+  const space = useSpace();
 
-  console.log({ data });
+  const onVote = async () => {
+    if (isLoading) return;
+    if (!account) {
+      dispatch(
+        addToast({ type: TOAST_TYPES.ERROR, message: "Please connect wallet" })
+      );
+      return;
+    }
+    if (!viewFunc) {
+      return;
+    }
+    setIsLoading(true);
+    let result;
+    try {
+      result = await viewFunc.addVote(
+        space,
+        data?.cid,
+        choice,
+        account?.address
+      );
+    } catch (error) {
+      dispatch(
+        addToast({ type: TOAST_TYPES.ERROR, message: error.toString() })
+      );
+      setIsLoading(false);
+      return;
+    }
+    setIsLoading(false);
+    if (result?.error) {
+      dispatch(
+        addToast({ type: TOAST_TYPES.ERROR, message: result.error.message })
+      );
+    } else if (result) {
+      dispatch(
+        addToast({
+          type: TOAST_TYPES.SUCCESS,
+          message: "Add vote successfully!",
+        })
+      );
+    }
+  };
 
   return (
     <Wrapper>
@@ -122,8 +172,8 @@ export default function PostVote({ data }) {
           {(data.choices || []).map((item, index) => (
             <Button
               key={index}
-              active={item === vote}
-              onClick={() => setVote(item)}
+              active={item === choice}
+              onClick={() => setChoice(item)}
             >
               <div className="index">{`#${index + 1}`}</div>
               <div>{item}</div>
@@ -131,7 +181,7 @@ export default function PostVote({ data }) {
           ))}
         </ButtonsWrapper>
       </InnerWrapper>
-      {vote && (
+      {choice && (
         <InnerWrapper>
           <Title>Grade</Title>
           <Input
@@ -151,7 +201,9 @@ export default function PostVote({ data }) {
             </Toggle>
           </ToggleWrapper>
         </ProxyHeader>
-        <ButtonPrimary>{proxyVote ? "Proxy Vote" : "Vote"}</ButtonPrimary>
+        <ButtonPrimary onClick={onVote}>
+          {proxyVote ? "Proxy Vote" : "Vote"}
+        </ButtonPrimary>
       </InnerWrapper>
     </Wrapper>
   );

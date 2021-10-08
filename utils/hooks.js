@@ -54,3 +54,13 @@ export function useSpace() {
   const { space } = router.query;
   return space;
 }
+
+export function useViewfunc() {
+  const [viewFunc, setViewFunc] = useState();
+  useEffect(() => {
+    import("utils/viewfunc").then((viewFunc) => {
+      setViewFunc(viewFunc);
+    });
+  }, []);
+  return viewFunc;
+}
