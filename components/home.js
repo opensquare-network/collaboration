@@ -13,7 +13,7 @@ export default function Home({ spaces, hotestProposals }) {
   return (
     <Wrapper>
       <Space spaces={spaces} />
-      <PostList title="Hotest Proposals" posts={hotestProposals} />
+      <PostList title="Hotest Proposals" posts={hotestProposals} showSpace={true} />
     </Wrapper>
   );
 }

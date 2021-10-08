@@ -47,7 +47,24 @@ const LeftWrapper = styled.div`
   }
 `;
 
-export default function Post({ data }) {
+const FromSpace = styled.div`
+  display: flex;
+`;
+
+const SpaceName = styled.a`
+  text-transform: capitalize;
+  margin-left: 6px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 24px;
+  color: #1E2134 !important;
+  :hover {
+    text-decoration-line: underline;
+  }
+`;
+
+export default function Post({ data, showSpace }) {
   return (
     <Wrapper>
       <InternalLink href={`/space/${data.space}/${data.postUid}`}>
@@ -58,6 +75,13 @@ export default function Post({ data }) {
         <LeftWrapper>
           <Author address={data.address} />
           <div>{timeDuration(data.createdAt)}</div>
+          { showSpace &&
+              <FromSpace>From
+                <InternalLink href={`/space/${data.space}`}>
+                  <SpaceName>{data.space}</SpaceName>
+                </InternalLink>
+              </FromSpace>
+          }
         </LeftWrapper>
         <StatusTag>{data.status}</StatusTag>
       </InfoWrapper>
