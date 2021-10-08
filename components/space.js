@@ -146,7 +146,9 @@ export default function Space({ spaces }) {
             <Divider />
             <ActiveWrapper>
               <ActiveCircle />
+              <InternalLink href={`/space/${item}?tab=active`}>
               Active
+              </InternalLink>
               <ActiveCount>{spaces[item].activeProposalsCount ?? 0}</ActiveCount>
             </ActiveWrapper>
           </Item>
