@@ -1,3 +1,4 @@
+const { getProposalCollection } = require("../../mongo");
 const spaceServices = require("../../spaces");
 
 const SPACES = Object.keys(spaceServices).reduce((spaces, space) => {
@@ -14,7 +15,40 @@ const SPACES = Object.keys(spaceServices).reduce((spaces, space) => {
 }, {});
 
 async function getSpaces(ctx) {
-  ctx.body = SPACES;
+  const now = Date.now();
+  const proposalCol = await getProposalCollection();
+  const activeStats = await proposalCol.aggregate(
+    [
+      {
+        $match: {
+          startDate: { $lte: now },
+          endDate: { $gt: now },
+        }
+      },
+      {
+        $group: {
+          _id: "$space",
+          count: { $sum: 1 }
+        }
+      }
+    ]).toArray();
+
+  const result = Object.keys(SPACES).reduce(
+    (res, key) => {
+      res[key] = { ...SPACES[key], activeProposalsCount: 0 };
+      return res;
+    },
+    {}
+  );
+
+  for (const item of activeStats) {
+    const space = result[item._id];
+    if (space) {
+      space.activeProposalsCount = item.count;
+    }
+  }
+
+  ctx.body = result;
 }
 
 async function getSpace(ctx) {
