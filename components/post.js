@@ -4,6 +4,7 @@ import Author from "./author";
 import InternalLink from "components/internalLink";
 import { p_18_medium } from "styles/textStyles";
 import { timeDuration } from "utils";
+import StatusTag from "./statusTag";
 
 const Wrapper = styled.div`
   background: #ffffff;
@@ -46,16 +47,6 @@ const LeftWrapper = styled.div`
   }
 `;
 
-const Status = styled.div`
-  text-transform: capitalize;
-  padding: 3px 12px;
-  font-weight: bold;
-  font-size: 12px;
-  line-height: 18px;
-  color: #ffffff;
-  background: ${(p) => (p.active ? "#04d2c5" : "#e2e8f0")};
-`;
-
 export default function Post({ data }) {
   return (
     <Wrapper>
@@ -68,9 +59,7 @@ export default function Post({ data }) {
           <Author address={data.address} />
           <div>{timeDuration(data.createdAt)}</div>
         </LeftWrapper>
-        {data.status && (
-          <Status active={data.status === "active"}>{data.status}</Status>
-        )}
+        <StatusTag>{data.status}</StatusTag>
       </InfoWrapper>
     </Wrapper>
   );

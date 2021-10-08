@@ -1,6 +1,6 @@
 import Layout from "components/layout";
 import Nav from "components/nav";
-import PostDetail from "@/components/postDetail";
+import PostDetail from "@/components/postDetail/index";
 import { useSpace } from "utils/hooks";
 import { SPACE_ITEMS } from "utils/constants";
 import ssrNextApi from "services/nextApi";
