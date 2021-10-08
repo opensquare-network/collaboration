@@ -8,6 +8,8 @@ import ListTab from "components/listTab";
 import PostList from "components/postList";
 import { EmptyQuery } from "utils/constants";
 import ssrNextApi from "services/nextApi";
+import QuestionMark from "../../../public/imgs/icons/question-mark.svg";
+import Tooltip from "@/components/tooltip";
 
 const HeaderWrapper = styled.div`
   > :not(:first-child) {

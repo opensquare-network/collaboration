@@ -149,11 +149,12 @@ export const LIST_TAB_ITEMS = [
   {
     value: "pending",
     name: "Pending",
-  },
+    tooltip:"Waiting for the start date.",
+  } ,
   {
     value: "closed",
     name: "Closed",
-  },
+  }
 ];
 
 export const LIST_POST_ITEMS = [
