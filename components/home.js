@@ -10,11 +10,11 @@ const Wrapper = styled.div`
   }
 `;
 
-export default function Home({ spaces }) {
+export default function Home({ spaces, hotestProposals }) {
   return (
     <Wrapper>
       <Space spaces={spaces} />
-      <PostList title="Hotest Proposals" posts={POST_ITEMS} />
+      <PostList title="Hotest Proposals" posts={hotestProposals} />
     </Wrapper>
   );
 }

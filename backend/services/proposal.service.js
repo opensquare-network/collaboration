@@ -494,6 +494,24 @@ async function getStats(proposalId) {
   return result;
 }
 
+async function getHotestProposals() {
+  const now = Date.now();
+  const q = {
+    startDate: { $lte: now },
+    endDate: { $gt: now }
+  };
+
+  const proposalCol = await getProposalCollection();
+  const proposals = await proposalCol
+    .find(q, { sort: { lastActivityAt: -1 } })
+    .limit(5)
+    .toArray();
+
+  const addStatus = addProposalStatus(now);
+
+  return proposals.map(addStatus);
+}
+
 module.exports = {
   createProposal,
   getProposalBySpace,
@@ -506,4 +524,5 @@ module.exports = {
   vote,
   getVotes,
   getStats,
+  getHotestProposals,
 };
