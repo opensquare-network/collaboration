@@ -70,6 +70,12 @@ const ButtonPrimary = styled.div`
   ${p_16_semibold};
   cursor: pointer;
   color: #ffffff;
+  ${(p) =>
+    p.isLoading &&
+    css`
+      background: #e2e8f0;
+      pointer-events: none;
+    `}
 `;
 
 const ProxyHeader = styled.div`
@@ -116,7 +122,7 @@ export default function PostVote({ data }) {
   const dispatch = useDispatch();
   const account = useSelector(accountSelector);
   const [choice, setChoice] = useState();
-  const [grade, setGrade] = useState("");
+  const [remark, setRemark] = useState("");
   const [proxyVote, setProxyVote] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const viewFunc = useViewfunc();
@@ -183,11 +189,11 @@ export default function PostVote({ data }) {
       </InnerWrapper>
       {choice && (
         <InnerWrapper>
-          <Title>Grade</Title>
+          <Title>Remark</Title>
           <Input
             placeholder="What do you think about this proposal? (optional)"
-            value={grade}
-            onChange={(e) => setGrade(e.target.value)}
+            value={remark}
+            onChange={(e) => setRemark(e.target.value)}
           />
         </InnerWrapper>
       )}
@@ -201,7 +207,7 @@ export default function PostVote({ data }) {
             </Toggle>
           </ToggleWrapper>
         </ProxyHeader>
-        <ButtonPrimary onClick={onVote}>
+        <ButtonPrimary isLoading={isLoading} onClick={onVote}>
           {proxyVote ? "Proxy Vote" : "Vote"}
         </ButtonPrimary>
       </InnerWrapper>

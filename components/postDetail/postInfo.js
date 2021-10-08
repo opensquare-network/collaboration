@@ -2,6 +2,8 @@ import styled from "styled-components";
 import moment from "moment";
 
 import { p_16_semibold } from "styles/textStyles";
+import ExternalLink from "../externalLink";
+import { useSpace } from "utils/hooks";
 
 const Wrapper = styled.div`
   padding: 40px 32px;
@@ -45,6 +47,10 @@ const InfoItem = styled.div`
     color: #506176;
     margin-right: 8px;
   }
+  > :last-child {
+    flex-grow: 1;
+    text-align: right;
+  }
 `;
 
 const TimestampWrapper = styled.div`
@@ -65,12 +71,9 @@ const TimestampItem = styled.div`
   }
 `;
 
-const OverflowWrapper = styled.div`
-  overflow: hidden;
-  text-overflow: ellipsis;
-`;
-
 export default function PostInfo({ data }) {
+  const space = useSpace();
+
   return (
     <Wrapper>
       <div>
@@ -86,12 +89,20 @@ export default function PostInfo({ data }) {
           </InfoItem>
           <InfoItem>
             <div>Snapshot</div>
-            <div>{data?.snapshotHeight?.toLocaleString()}</div>
+            <ExternalLink
+              href={`https://${space}.subscan.io/block/${data?.snapshotHeight}`}
+            >
+              {data?.snapshotHeight?.toLocaleString()}
+            </ExternalLink>
           </InfoItem>
-          <InfoItem>
-            <div>IPFS</div>
-            <OverflowWrapper>{data?.pinHash}</OverflowWrapper>
-          </InfoItem>
+          {data?.pinHash && (
+            <InfoItem>
+              <div>IPFS</div>
+              <ExternalLink
+                href={`https://ipfs-hk.decoo.io/ipfs/${data?.pinHash}`}
+              >{`#${data?.pinHash?.slice(0, 7)}`}</ExternalLink>
+            </InfoItem>
+          )}
         </div>
       </div>
       <div>
