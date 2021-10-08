@@ -13,6 +13,7 @@ const { ContentType } = require("../constants");
 const { getLatestHeight } = require("./chain.service");
 const { getBlockHash } = require("../utils/polkadotApi");
 const spaceServices = require("../spaces");
+const { toDecimal128 } = require("../utils");
 
 const testAccounts = (process.env.TEST_ACCOUNTS || "").split("|").filter(acc => acc);
 
@@ -241,6 +242,30 @@ async function getProposalById(proposalId) {
     throw new HttpError(404, "Post not found");
   }
 
+  const voteCol = await getVoteCollection();
+  const votesCount = await voteCol.countDocuments({ proposal: proposal._id });
+  const votedWeights = await voteCol.aggregate([
+    {
+      $match: {
+        proposal: proposal._id
+      }
+    },
+    {
+      $group: {
+        _id: null,
+        balanceOf: { $sum: "$weights.balanceOf" },
+        sqrtOfBalanceOf: { $sum: "$weights.sqrtOfBalanceOf" },
+      }
+    },
+    {
+      $project: {
+        _id: 0,
+      }
+    }
+  ]).toArray();
+  proposal.votesCount = votesCount;
+  proposal.votedWeights = votedWeights[0];
+
   const now = Date.now();
   const addStatus = addProposalStatus(now);
 
@@ -366,12 +391,10 @@ async function vote(
   }
   const api = await spaceService.getApi();
   const blockHash = await getBlockHash(api, proposal.snapshotHeight);
-  const balance = await spaceService.balanceOf(api, blockHash, address);
+  const balanceOf = await spaceService.balanceOf(api, blockHash, address);
+  const sqrtOfBalanceOf = new BigNumber(balanceOf).sqrt().toString();
 
   const voteCol = await getVoteCollection();
-  const height = await voteCol.countDocuments({ proposal: proposal._id });
-
-
   const result = await voteCol.findOneAndUpdate(
     {
       proposal: proposal._id,
@@ -385,10 +408,12 @@ async function vote(
         updatedAt: now,
         cid,
         pinHash,
-        balance,
+        weights: {
+          balanceOf: toDecimal128(balanceOf),
+          sqrtOfBalanceOf: toDecimal128(sqrtOfBalanceOf),
+        },
       },
       $setOnInsert: {
-        height: height + 1,
         createdAt: now,
       }
     },
@@ -443,6 +468,32 @@ async function getVotes(proposalId, page, pageSize) {
   };
 }
 
+async function getStats(proposalId) {
+  const q = { proposal: ObjectId(proposalId) };
+
+  const voteCol = await getVoteCollection();
+  const result = await voteCol.aggregate([
+    { $match: q },
+    {
+      $group: {
+        _id: "$choice",
+        balanceOf: { $sum: "$weights.balanceOf" },
+        sqrtOfBalanceOf: { $sum: "$weights.sqrtOfBalanceOf" },
+      }
+    },
+    {
+      $project: {
+        _id: 0,
+        choice: "$_id",
+        balanceOf: 1,
+        sqrtOfBalanceOf: 1,
+      }
+    }
+  ]).toArray();
+
+  return result;
+}
+
 module.exports = {
   createProposal,
   getProposalBySpace,
@@ -454,4 +505,5 @@ module.exports = {
   getComments,
   vote,
   getVotes,
+  getStats,
 };

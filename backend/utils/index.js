@@ -1,4 +1,6 @@
 const crypto = require("crypto");
+const BigNumber = require("bignumber.js");
+const { Decimal128 } = require("mongodb");
 const {
   decodeAddress,
   encodeAddress,
@@ -67,10 +69,15 @@ function validateAddress(address, chain) {
   }
 }
 
+function toDecimal128(num) {
+  return Decimal128.fromString(new BigNumber(num).toString());
+}
+
 module.exports = {
   extractPage,
   handler,
   md5,
   isValidSignature,
   validateAddress,
+  toDecimal128,
 };
