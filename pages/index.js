@@ -1,21 +1,22 @@
 import Layout from "components/layout";
 import Home from "components/home";
-import { withLoginUser, withLoginUserRedux } from "../lib";
 import { ssrNextApi } from "services/nextApi";
 
-export default withLoginUserRedux(({ spaces }) => {
+export default function Index({ spaces, hotestProposals }) {
   return (
     <Layout bgHeight="183px">
-      <Home spaces={spaces} />
+      <Home spaces={spaces} hotestProposals={hotestProposals} />
     </Layout>
   );
-});
+}
 
-export const getServerSideProps = withLoginUser(async (context) => {
+export async function getServerSideProps(context) {
   const { result: spaces } = await ssrNextApi.fetch("spaces");
+  const { result: hotestProposals } = await ssrNextApi.fetch("home/hotest");
   return {
     props: {
       spaces: spaces || {},
+      hotestProposals: hotestProposals || [],
     },
   };
-});
+}

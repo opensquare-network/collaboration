@@ -20,10 +20,10 @@ export default function PostList({ title, posts }) {
     <div>
       {title && <Title>{title}</Title>}
       <PostsWrapper>
-        {(posts.items || []).map((item, index) => (
+        {(posts || []).map((item, index) => (
           <Post key={index} data={item} />
         ))}
-        {(!posts.items || posts.items.length === 0) && <NoPost />}
+        {(!posts || posts.length === 0) && <NoPost />}
       </PostsWrapper>
     </div>
   );
