@@ -255,7 +255,7 @@ export default function Component({ date, setDate, placeholder }) {
   const onMinuteChange = (e) => {
     let value = e.target.value;
     if (value.length > 2 && value[0] === "0") {
-      value = value.slice(1, 2);
+      value = value.slice(1, 3);
     }
     if (!checkInt(value)) return;
     if (Number(value) > 59 || Number(value) < 0) return;

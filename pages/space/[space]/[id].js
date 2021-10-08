@@ -1,45 +1,12 @@
-import styled from "styled-components";
-
 import Layout from "components/layout";
 import Nav from "components/nav";
-import PostDetail from "components/postDetail";
-import PostInfo from "components/postInfo";
-import PostResults from "components/postResults";
-import PostTab from "components/postTab";
+import PostDetail from "@/components/postDetail";
 import { useSpace } from "utils/hooks";
 import { SPACE_ITEMS } from "utils/constants";
+import ssrNextApi from "services/nextApi";
+import { EmptyQuery } from "utils/constants";
 
-const Wrapper = styled.div`
-  display: flex;
-  align-items: flex-start;
-  margin-top: 22px;
-  @media screen and (max-width: 800px) {
-    flex-direction: column;
-  }
-`;
-
-const MainWrapper = styled.div`
-  flex: 1 1 auto;
-  > :not(:first-child) {
-    margin-top: 20px;
-  }
-`;
-
-const SiderWrapper = styled.div`
-  flex: 0 0 290px;
-  margin-left: 20px;
-  > :not(:first-child) {
-    margin-top: 20px;
-  }
-  @media screen and (max-width: 800px) {
-    flex-basis: auto;
-    width: 100%;
-    margin-left: 0;
-    margin-top: 20px;
-  }
-`;
-
-export default function Index() {
+export default function Index({ detail }) {
   const space = useSpace();
   const item = SPACE_ITEMS.find((item) => item.value === space);
 
@@ -54,22 +21,21 @@ export default function Index() {
           ]}
         />
       )}
-      <Wrapper>
-        <MainWrapper>
-          <PostDetail />
-          <PostTab />
-        </MainWrapper>
-        <SiderWrapper>
-          <PostInfo />
-          <PostResults />
-        </SiderWrapper>
-      </Wrapper>
+      <PostDetail data={detail} />
     </Layout>
   );
 }
 
 export async function getServerSideProps(context) {
+  const { id, space: spaceName } = context.params;
+
+  const { result: detail } = await ssrNextApi.fetch(
+    `${spaceName}/proposals/${id}`
+  );
+
   return {
-    props: {},
+    props: {
+      detail: detail ?? EmptyQuery,
+    },
   };
 }

@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 import { useState } from "react";
-import { p_16_semibold } from "../styles/textStyles";
+import { p_16_semibold } from "styles/textStyles";
 
 const Wrapper = styled.div`
   > :not(:first-child) {

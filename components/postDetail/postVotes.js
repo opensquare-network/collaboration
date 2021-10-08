@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 import { VOTE_ITEMS } from "utils/constants";
-import Author from "./author";
-import Pagination from "./pagination";
+import Author from "components/author";
+import Pagination from "components/pagination";
 
 const Item = styled.div`
   padding: 20px 0;

@@ -1,9 +1,9 @@
 import styled from "styled-components";
 
-import Author from "./author";
+import Author from "components/author";
 import { DISCUSSION_ITEMS } from "utils/constants";
-import Pagination from "./pagination";
-import RichInput from "./richInput";
+import Pagination from "components/pagination";
+import RichInput from "components/richInput";
 
 const Item = styled.div`
   padding-top: 20px;
