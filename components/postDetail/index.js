@@ -23,6 +23,7 @@ const MainWrapper = styled.div`
 
 const SiderWrapper = styled.div`
   flex: 0 0 290px;
+  max-width: 290px;
   margin-left: 20px;
   > :not(:first-child) {
     margin-top: 20px;
@@ -32,10 +33,12 @@ const SiderWrapper = styled.div`
     width: 100%;
     margin-left: 0;
     margin-top: 20px;
+    max-width: none;
   }
 `;
 
 export default function PostDetail({ data }) {
+  console.log({ data });
   return (
     <Wrapper>
       <MainWrapper>
@@ -43,7 +46,7 @@ export default function PostDetail({ data }) {
         <PostTab />
       </MainWrapper>
       <SiderWrapper>
-        <PostInfo />
+        <PostInfo data={data} />
         <PostResults />
       </SiderWrapper>
     </Wrapper>

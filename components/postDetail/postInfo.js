@@ -43,6 +43,7 @@ const InfoItem = styled.div`
   }
   > :first-child {
     color: #a1a8b3;
+    margin-right: 8px;
   }
 `;
 
@@ -127,7 +128,12 @@ const TimelineDetail = styled.div`
   padding-bottom: 8px;
 `;
 
-export default function PostInfo() {
+const OverflowWrapper = styled.div`
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
+export default function PostInfo({ data }) {
   return (
     <Wrapper>
       <div>
@@ -143,7 +149,11 @@ export default function PostInfo() {
           </InfoItem>
           <InfoItem>
             <div>Snapshot</div>
-            <div>65,408,852</div>
+            <div>{data?.snapshotHeight?.toLocaleString()}</div>
+          </InfoItem>
+          <InfoItem>
+            <div>IPFS</div>
+            <OverflowWrapper>{data?.pinHash}</OverflowWrapper>
           </InfoItem>
         </div>
       </div>
