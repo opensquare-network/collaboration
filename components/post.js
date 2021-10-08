@@ -51,15 +51,17 @@ const FromSpace = styled.div`
   display: flex;
 `;
 
-const SpaceName = styled.div`
+const SpaceName = styled.a`
   text-transform: capitalize;
   margin-left: 6px;
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
   line-height: 24px;
-  text-decoration-line: underline;
-  color: #1E2134;
+  color: #1E2134 !important;
+  :hover {
+    text-decoration-line: underline;
+  }
 `;
 
 export default function Post({ data, showSpace }) {
@@ -74,7 +76,11 @@ export default function Post({ data, showSpace }) {
           <Author address={data.address} />
           <div>{timeDuration(data.createdAt)}</div>
           { showSpace &&
-              <FromSpace>From <SpaceName>{data.space}</SpaceName></FromSpace>
+              <FromSpace>From
+                <InternalLink href={`/space/${data.space}`}>
+                  <SpaceName>{data.space}</SpaceName>
+                </InternalLink>
+              </FromSpace>
           }
         </LeftWrapper>
         <StatusTag>{data.status}</StatusTag>
