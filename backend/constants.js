@@ -19,6 +19,7 @@ const PostTitleLengthLimitation = 160;
 
 const WeightStrategy = Object.freeze({
   BalanceOf: "balance-of",
+  SqrtOfBalanceOf: "sqrt-of-balance-of",
 });
 
 module.exports = {

@@ -254,6 +254,7 @@ async function getProposalById(proposalId) {
       $group: {
         _id: null,
         balanceOf: { $sum: "$weights.balanceOf" },
+        sqrtOfBalanceOf: { $sum: "$weights.sqrtOfBalanceOf" },
       }
     },
     {
@@ -391,6 +392,7 @@ async function vote(
   const api = await spaceService.getApi();
   const blockHash = await getBlockHash(api, proposal.snapshotHeight);
   const balanceOf = await spaceService.balanceOf(api, blockHash, address);
+  const sqrtOfBalanceOf = new BigNumber(balanceOf).sqrt().toString();
 
   const voteCol = await getVoteCollection();
   const result = await voteCol.findOneAndUpdate(
@@ -408,6 +410,7 @@ async function vote(
         pinHash,
         weights: {
           balanceOf: toDecimal128(balanceOf),
+          sqrtOfBalanceOf: toDecimal128(sqrtOfBalanceOf),
         },
       },
       $setOnInsert: {
@@ -475,6 +478,7 @@ async function getStats(proposalId) {
       $group: {
         _id: "$choice",
         balanceOf: { $sum: "$weights.balanceOf" },
+        sqrtOfBalanceOf: { $sum: "$weights.sqrtOfBalanceOf" },
       }
     },
     {
@@ -482,6 +486,7 @@ async function getStats(proposalId) {
         _id: 0,
         choice: "$_id",
         balanceOf: 1,
+        sqrtOfBalanceOf: 1,
       }
     }
   ]).toArray();
