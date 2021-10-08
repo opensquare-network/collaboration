@@ -53,10 +53,7 @@ export default function List({
   return (
     <Layout bgHeight="252px">
       <HeaderWrapper>
-        <Nav data={[
-          { name: "Space", link: "/" },
-          { name: spaceName }
-        ]} />
+        <Nav data={[{ name: "Space", link: "/" }, { name: spaceName }]} />
         <ListInfo spaceName={spaceName} data={spaceData} />
         <ListTab space={spaceName} activeTab={activeTab} onActiveTab={setTab} />
       </HeaderWrapper>

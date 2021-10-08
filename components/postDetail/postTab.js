@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import PostVotes from "./postVotes";
 import PostDiscussion from "./postDiscussion";
-import { p_16_semibold } from "../styles/textStyles";
+import { p_16_semibold } from "styles/textStyles";
 
 const Wrapper = styled.div`
   background: #ffffff;

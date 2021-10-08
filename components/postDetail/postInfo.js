@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 
 import { TIMELINE_ITEMS_1, TIMELINE_ITEMS_2 } from "utils/constants";
-import { p_16_semibold } from "../styles/textStyles";
+import { p_16_semibold } from "styles/textStyles";
 
 const Wrapper = styled.div`
   padding: 40px 32px;

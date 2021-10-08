@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { p_16_semibold } from "../styles/textStyles";
+import { p_16_semibold } from "styles/textStyles";
 
 const Wrapper = styled.div`
   padding: 40px 32px;
