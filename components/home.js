@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 import Space from "./space";
 import PostList from "./postList";
-import { POST_ITEMS } from "utils/constants";
 
 const Wrapper = styled.div`
   > :not(:first-child) {
