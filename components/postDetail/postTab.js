@@ -36,11 +36,11 @@ const TabItem = styled.div`
     `}
 `;
 
-export default function PostTab() {
-  const data = [
+export default function PostTab({ data }) {
+  const tabs = [
     {
       name: "Votes",
-      component: <PostVotes />,
+      component: <PostVotes data={data} />,
     },
     {
       name: "Discussion",
@@ -48,12 +48,12 @@ export default function PostTab() {
     },
   ];
 
-  const [activeTab, setActiveTab] = useState(data[0].name);
+  const [activeTab, setActiveTab] = useState(tabs[0].name);
 
   return (
     <Wrapper>
       <TabWrapper>
-        {data.map((item, index) => (
+        {tabs.map((item, index) => (
           <TabItem
             active={item.name === activeTab}
             key={index}
@@ -63,7 +63,7 @@ export default function PostTab() {
           </TabItem>
         ))}
       </TabWrapper>
-      {data.find((item) => item.name === activeTab)?.component}
+      {tabs.find((item) => item.name === activeTab)?.component}
     </Wrapper>
   );
 }

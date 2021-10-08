@@ -1,10 +1,11 @@
 import styled from "styled-components";
 
-import Author from "components/author";
 import PostVote from "./postVote";
-import { p_16_normal, p_18_semibold, p_20_semibold } from "styles/textStyles";
+import Author from "components/author";
+import { p_16_normal, p_16_semibold, p_20_semibold } from "styles/textStyles";
 import { timeDuration } from "utils";
 import Mardown from "components/markdown";
+import StatusTag from "components/statusTag";
 
 const Wrapper = styled.div`
   padding: 40px;
@@ -42,15 +43,6 @@ const LeftWrapper = styled.div`
   }
 `;
 
-const Status = styled.div`
-  padding: 3px 12px;
-  font-weight: bold;
-  font-size: 12px;
-  line-height: 18px;
-  color: #ffffff;
-  background: ${(p) => (p.active ? "#04d2c5" : "#e2e8f0")};
-`;
-
 const Divider = styled.div`
   height: 1px;
   background: #f0f3f8;
@@ -58,17 +50,16 @@ const Divider = styled.div`
 `;
 
 const SubTitle = styled.div`
-  ${p_18_semibold};
+  ${p_16_semibold};
   margin-bottom: 16px;
 `;
 
 const Content = styled.div`
   ${p_16_normal};
-  color: #a1a8b3;
+  color: #506176;
 `;
 
 export default function PostContent({ data }) {
-  console.log({ data });
   return (
     <Wrapper>
       <Title>{data?.title}</Title>
@@ -77,15 +68,15 @@ export default function PostContent({ data }) {
           <Author address={data.address} />
           <div>{timeDuration(data.createdAt)}</div>
         </LeftWrapper>
-        {data?.status && (
-          <Status active={data.status === "active"}>{data.status}</Status>
-        )}
+        <StatusTag>{data.status}</StatusTag>
       </InfoWrapper>
       <Divider />
       <SubTitle>Description</SubTitle>
-      <Mardown content={data?.content} />
+      <Content>
+        <Mardown content={data?.content} />
+      </Content>
       <Divider />
-      <PostVote />
+      <PostVote data={data} />
     </Wrapper>
   );
 }
