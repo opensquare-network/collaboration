@@ -11,8 +11,14 @@ export default function Index({ spaces, hotestProposals }) {
 }
 
 export async function getServerSideProps(context) {
-  const { result: spaces } = await ssrNextApi.fetch("spaces");
-  const { result: hotestProposals } = await ssrNextApi.fetch("home/hotest");
+  const [
+    { result: spaces },
+    { result: hotestProposals },
+  ] = await Promise.all([
+    ssrNextApi.fetch("spaces"),
+    ssrNextApi.fetch("home/hotest"),
+  ]);
+
   return {
     props: {
       spaces: spaces || {},

@@ -15,13 +15,13 @@ const PostsWrapper = styled.div`
   }
 `;
 
-export default function PostList({ title, posts }) {
+export default function PostList({ title, posts, showSpace = false }) {
   return (
     <div>
       {title && <Title>{title}</Title>}
       <PostsWrapper>
         {(posts || []).map((item, index) => (
-          <Post key={index} data={item} />
+          <Post key={index} data={item} showSpace={showSpace} />
         ))}
         {(!posts || posts.length === 0) && <NoPost />}
       </PostsWrapper>
