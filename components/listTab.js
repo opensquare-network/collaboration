@@ -30,6 +30,9 @@ const ItemWrapper = styled.div`
 `;
 
 const Item = styled.div`
+  @media screen and (max-width: 800px) {
+   position: relative;
+  }
   overflow: visible;
   cursor: pointer;
   ${p_16_semibold};
