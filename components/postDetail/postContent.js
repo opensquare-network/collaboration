@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 import PostVote from "./postVote";
 import Author from "components/author";
-import { p_16_normal, p_18_semibold, p_20_semibold } from "styles/textStyles";
+import { p_16_normal, p_16_semibold, p_20_semibold } from "styles/textStyles";
 import { timeDuration } from "utils";
 import Mardown from "components/markdown";
 import StatusTag from "components/statusTag";
@@ -50,7 +50,7 @@ const Divider = styled.div`
 `;
 
 const SubTitle = styled.div`
-  ${p_18_semibold};
+  ${p_16_semibold};
   margin-bottom: 16px;
 `;
 
@@ -76,7 +76,7 @@ export default function PostContent({ data }) {
         <Mardown content={data?.content} />
       </Content>
       <Divider />
-      <PostVote />
+      <PostVote data={data} />
     </Wrapper>
   );
 }

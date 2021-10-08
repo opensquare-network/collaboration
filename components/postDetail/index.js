@@ -43,7 +43,7 @@ export default function PostDetail({ data }) {
     <Wrapper>
       <MainWrapper>
         <PostContent data={data} />
-        <PostTab />
+        <PostTab data={data} />
       </MainWrapper>
       <SiderWrapper>
         <PostInfo data={data} />
