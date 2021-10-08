@@ -147,7 +147,7 @@ export default function Space({ spaces }) {
             <ActiveWrapper>
               <ActiveCircle />
               Active
-              <ActiveCount>{5}</ActiveCount>
+              <ActiveCount>{spaces[item].activeProposalsCount ?? 0}</ActiveCount>
             </ActiveWrapper>
           </Item>
         ))}
