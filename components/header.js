@@ -73,7 +73,6 @@ const AppWrapper = styled.div`
 
 const AccountWrapper = styled.div`
   @media screen and (max-width: 800px) {
-    //background: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;

@@ -19,7 +19,14 @@ const Wrapper = styled.div`
   position: relative;
   cursor: pointer;
   @media screen and (max-width: 800px) {
-    padding: 20px 0;
+    //padding: 20px 0;
+    padding: 0;
+    > :first-child{
+      margin-top: 20px;
+    }
+    > :last-child{
+      margin-bottom: 20px;
+    }
     margin: 0;
     width: 100%;
     text-align: center;
@@ -66,6 +73,7 @@ const MenuWrapper = styled.div`
   padding: 16px;
   z-index: 1;
   @media screen and (max-width: 800px) {
+    margin-top: 20px;
     border: none;
     box-shadow: none;
     width: 100%;
@@ -129,6 +137,9 @@ const DarkButton = styled(Button)`
 `
 
 const Shade = styled.div`
+  @media screen and (min-width: 800px) {
+    display: none;  
+  }
   margin-left: -20px;
   width: 100vw;
   height: 100vh;
@@ -187,7 +198,8 @@ export default function Account({ showMenu, setShowMenu }) {
           {addressEllipsis(account.address)}
         </div>
       </AccountWrapperPC>
-      {(showMenu) && Menu}
+      {showMenu && Menu}
+      {showMenu &&<Shade/>}
     </Wrapper>;
   }
 
