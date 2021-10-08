@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
+import { ssrNextApi } from "services/nextApi";
 
 export function useWindowSize() {
   const [windowSize, setWindowSize] = useState({
@@ -63,4 +64,17 @@ export function useViewfunc() {
     });
   }, []);
   return viewFunc;
+}
+
+export function useNetwork() {
+  const [network, setNetwork] = useState();
+  const space = useSpace();
+  useEffect(() => {
+    ssrNextApi.fetch(`spaces/${space}`).then((response) => {
+      if (response?.result?.network) {
+        setNetwork(response.result.network);
+      }
+    });
+  }, [space]);
+  return network;
 }
