@@ -1,10 +1,11 @@
 import styled, { css } from "styled-components";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-
+import QuestionMark from "../public/imgs/icons/question-mark.svg";
 import { LIST_TAB_ITEMS } from "utils/constants";
 import { p_16_semibold } from "../styles/textStyles";
 import { useRouter } from "next/router";
+import Tooltip from "@/components/tooltip";
 
 const Wrapper = styled.div`
   display: flex;
@@ -29,6 +30,7 @@ const ItemWrapper = styled.div`
 `;
 
 const Item = styled.div`
+  overflow: visible;
   cursor: pointer;
   ${p_16_semibold};
   padding-bottom: 20px;
@@ -41,6 +43,10 @@ const Item = styled.div`
       border-bottom: 3px solid #04d2c5;
       padding-bottom: 17px;
     `}
+  > div:last-child{
+    margin-top: 3px;
+    margin-left: 5px;
+  }
 `;
 
 const Button = styled.div`
@@ -91,6 +97,11 @@ export default function ListTab({ space, activeTab, onActiveTab = ()=>{} }) {
             }}
           >
             {item.name}
+            {
+              item.tooltip && <Tooltip content={item.tooltip}>
+                <QuestionMark/>
+              </Tooltip>
+            }
           </Item>
         ))}
       </ItemWrapper>

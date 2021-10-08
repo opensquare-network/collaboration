@@ -145,15 +145,18 @@ export const LIST_TAB_ITEMS = [
   {
     value: "active",
     name: "Active",
+    tooltip:"Tooltip is a message which appears when a cursor is positioned over an icon, image, hyperlink, or other element in a graphical user interface.",
   },
   {
     value: "pending",
     name: "Pending",
-  },
+    tooltip:"Tooltip is a message which appears when a cursor is positioned over an icon, image, hyperlink, or other element in a graphical user interface.",
+  } ,
   {
     value: "closed",
     name: "Closed",
-  },
+    tooltip:"Tooltip is a message which appears when a cursor is positioned over an icon, image, hyperlink, or other element in a graphical user interface.",
+  }
 ];
 
 export const LIST_POST_ITEMS = [
