@@ -1,3 +1,4 @@
+const { getLatestHeight } = require("../../services/chain.service");
 const { getProposalCollection } = require("../../mongo");
 const spaceServices = require("../../spaces");
 
@@ -53,7 +54,10 @@ async function getSpaces(ctx) {
 
 async function getSpace(ctx) {
   const { space } = ctx.params;
-  ctx.body = SPACES[space];
+  ctx.body = {
+    ...SPACES[space],
+    latestFinalizedHeight: getLatestHeight(space),
+  };
 }
 
 module.exports = {

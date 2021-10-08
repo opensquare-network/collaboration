@@ -65,11 +65,8 @@ export default function PostCreate() {
   useEffect(() => {
     nextApi.fetch(`spaces/${space}`).then((response) => {
       if (response.result) {
-        const { network } = response.result;
-        import("services/chainApi").then(async (chainApi) => {
-          const height = await chainApi.getFinalizedHeight(network);
-          setHeight(height);
-        });
+        const { latestFinalizedHeight } = response.result;
+        setHeight(latestFinalizedHeight);
       }
     });
   }, [space]);
