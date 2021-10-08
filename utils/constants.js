@@ -140,20 +140,20 @@ export const POST_ITEMS = [
 export const LIST_TAB_ITEMS = [
   {
     value: "all",
-    name: "All Proposals"
+    name: "All Proposals",
   },
   {
     value: "active",
-    name: "Active"
+    name: "Active",
   },
   {
     value: "pending",
-    name: "Pending"
-  } ,
+    name: "Pending",
+  },
   {
     value: "closed",
-    name: "Closed"
-  }
+    name: "Closed",
+  },
 ];
 
 export const LIST_POST_ITEMS = [
@@ -184,18 +184,6 @@ export const LIST_POST_ITEMS = [
     time: "End in 2 days",
     status: "End",
   },
-];
-
-export const TIMELINE_ITEMS_1 = [
-  { name: "Created", time: "Aug 26th, 2021 - 6:45 am (UTC)" },
-  { name: "Start", time: "Aug 26th, 2021 - 6:45 am (UTC)" },
-  { name: "Active", active: true },
-];
-
-export const TIMELINE_ITEMS_2 = [
-  { name: "Created", time: "Aug 26th, 2021 - 6:45 am (UTC)" },
-  { name: "Start", time: "Aug 26th, 2021 - 6:45 am (UTC)" },
-  { name: "End", time: "Aug 26th, 2021 - 6:45 am (UTC)" },
 ];
 
 export const VOTE_ITEMS = [

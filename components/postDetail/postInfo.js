@@ -1,6 +1,6 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
+import moment from "moment";
 
-import { TIMELINE_ITEMS_1, TIMELINE_ITEMS_2 } from "utils/constants";
 import { p_16_semibold } from "styles/textStyles";
 
 const Wrapper = styled.div`
@@ -35,97 +35,34 @@ const InfoItem = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 14px;
   line-height: 24px;
   :not(:first-child) {
     margin-top: 4px;
   }
   > :first-child {
-    color: #a1a8b3;
+    color: #506176;
     margin-right: 8px;
   }
 `;
 
-const Timeline = styled.div`
+const TimestampWrapper = styled.div`
   :not(:first-child) {
-    margin-top: 12px;
+    margin-top: 4px;
   }
 `;
 
-const TimelineWrapper = styled.div`
-  :first-child {
-    .up-bar {
-      visibility: hidden;
-    }
-  }
-  :last-child {
-    .down-bar {
-      visibility: hidden;
-    }
-  }
-  ${(p) =>
-    p.active &&
-    css`
-      .circle {
-        background: #56ca2f !important;
-      }
-    `}
-`;
-
-const TimelineItem = styled.div`
+const TimestampItem = styled.div`
   display: flex;
-`;
-
-const TimelineNode = styled.div`
-  display: flex;
-  flex-direction: column;
   align-items: center;
-  width: 12px;
-  margin-right: 8px;
-  .up-bar {
-    height: 6px;
-    width: 2px;
-    background: #e2e8f0;
-  }
-  .circle {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #e2e8f0;
-    margin: 4px 0;
-  }
-  .down-bar {
-    flex-grow: 1;
-    width: 2px;
-    background: #e2e8f0;
-  }
-`;
-
-const TimelineName = styled.div`
-  font-weight: 600;
+  justify-content: space-between;
+  font-weight: 500;
   font-size: 14px;
   line-height: 24px;
-`;
-
-const TimelineBar = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 12px;
-  margin-right: 8px;
-  .down-bar {
-    flex-grow: 1;
-    width: 2px;
-    background: #e2e8f0;
+  > :first-child {
+    color: #506176;
   }
-`;
-
-const TimelineDetail = styled.div`
-  font-size: 12px;
-  line-height: 18px;
-  color: #a1a8b3;
-  padding-bottom: 8px;
 `;
 
 const OverflowWrapper = styled.div`
@@ -159,53 +96,31 @@ export default function PostInfo({ data }) {
       </div>
       <div>
         <TitleWrapper>
-          Timeline
+          Timestamp
           <img src="/imgs/icons/timeline.svg" alt="" />
         </TitleWrapper>
         <Divider />
       </div>
-      <div>
-        <Timeline>
-          {TIMELINE_ITEMS_1.map((item, index) => (
-            <TimelineWrapper key={index} active={item.active}>
-              <TimelineItem>
-                <TimelineNode>
-                  <div className="up-bar" />
-                  <div className="circle" />
-                  <div className="down-bar" />
-                </TimelineNode>
-                <TimelineName>{item.name}</TimelineName>
-              </TimelineItem>
-              <TimelineItem>
-                <TimelineBar>
-                  <div className="down-bar" />
-                </TimelineBar>
-                <TimelineDetail>{item.time}</TimelineDetail>
-              </TimelineItem>
-            </TimelineWrapper>
-          ))}
-        </Timeline>
-        <Timeline>
-          {TIMELINE_ITEMS_2.map((item, index) => (
-            <TimelineWrapper key={index} active={item.active}>
-              <TimelineItem>
-                <TimelineNode>
-                  <div className="up-bar" />
-                  <div className="circle" />
-                  <div className="down-bar" />
-                </TimelineNode>
-                <TimelineName>{item.name}</TimelineName>
-              </TimelineItem>
-              <TimelineItem>
-                <TimelineBar>
-                  <div className="down-bar" />
-                </TimelineBar>
-                <TimelineDetail>{item.time}</TimelineDetail>
-              </TimelineItem>
-            </TimelineWrapper>
-          ))}
-        </Timeline>
-      </div>
+      <TimestampWrapper>
+        {data?.createdAt && (
+          <TimestampItem>
+            <div>Created</div>
+            <div>{moment(data.createdAt).format("MMM DD, YYYY H:mm")}</div>
+          </TimestampItem>
+        )}
+        {data?.startDate && (
+          <TimestampItem>
+            <div>Start date</div>
+            <div>{moment(data.startDate).format("MMM DD, YYYY H:mm")}</div>
+          </TimestampItem>
+        )}
+        {data?.endDate && (
+          <TimestampItem>
+            <div>End date</div>
+            <div>{moment(data.endDate).format("MMM DD, YYYY H:mm")}</div>
+          </TimestampItem>
+        )}
+      </TimestampWrapper>
     </Wrapper>
   );
 }
