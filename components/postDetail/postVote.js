@@ -8,6 +8,7 @@ import { useViewfunc, useSpace } from "utils/hooks";
 import { accountSelector } from "store/reducers/accountSlice";
 import { addToast } from "store/reducers/toastSlice";
 import { TOAST_TYPES } from "utils/constants";
+import PostAccounts from "./postAccounts";
 
 const Wrapper = styled.div`
   > :not(:first-child) {
@@ -207,6 +208,7 @@ export default function PostVote({ data }) {
             </Toggle>
           </ToggleWrapper>
         </ProxyHeader>
+        {proxyVote && <PostAccounts />}
         <ButtonPrimary isLoading={isLoading} onClick={onVote}>
           {proxyVote ? "Proxy Vote" : "Vote"}
         </ButtonPrimary>
