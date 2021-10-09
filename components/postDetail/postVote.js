@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { p_16_semibold } from "styles/textStyles";
@@ -8,7 +8,9 @@ import { useViewfunc, useSpace } from "utils/hooks";
 import { accountSelector } from "store/reducers/accountSlice";
 import { addToast } from "store/reducers/toastSlice";
 import { TOAST_TYPES } from "utils/constants";
-import PostAccounts from "./postAccounts";
+import { ssrNextApi } from "services/nextApi";
+import { isEmpty, bigNumber2Locale, fromAssetUnit } from "utils";
+import PostAddress from "./postAddress";
 
 const Wrapper = styled.div`
   > :not(:first-child) {
@@ -119,36 +121,59 @@ const Toggle = styled.div`
     `}
 `;
 
-export default function PostVote({ data }) {
+export default function PostVote({ data, network }) {
   const dispatch = useDispatch();
   const account = useSelector(accountSelector);
   const [choice, setChoice] = useState();
   const [remark, setRemark] = useState("");
   const [proxyVote, setProxyVote] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const viewFunc = useViewfunc();
+  const [address, setAddress] = useState("");
+  const [info, setInfo] = useState();
+  const [balance, setBalance] = useState();
+  const viewfunc = useViewfunc();
   const space = useSpace();
+
+  useEffect(() => {
+    if (space && account?.address) {
+      ssrNextApi
+        .fetch(`spaces/${space}/account/${account.address}/balance`, {
+          snapshot: data?.snapshotHeight,
+        })
+        .then((response) => {
+          setBalance(response?.result);
+        });
+    }
+  }, [data?.snapshotHeight, space, account?.address]);
 
   const onVote = async () => {
     if (isLoading) return;
-    if (!account) {
+    if (!viewfunc) {
+      return;
+    }
+    if (proxyVote && !selectedAddress) {
       dispatch(
-        addToast({ type: TOAST_TYPES.ERROR, message: "Please connect wallet" })
+        addToast({
+          type: TOAST_TYPES.ERROR,
+          message: "Please select an proxy address",
+        })
       );
       return;
     }
-    if (!viewFunc) {
+    if (!proxyVote && !account) {
+      dispatch(
+        addToast({
+          type: TOAST_TYPES.ERROR,
+          message: "Please connect wallet",
+        })
+      );
       return;
     }
     setIsLoading(true);
     let result;
+    const address = proxyVote ? selectedAddress : account?.address;
     try {
-      result = await viewFunc.addVote(
-        space,
-        data?.cid,
-        choice,
-        account?.address
-      );
+      result = await viewfunc.addVote(space, data?.cid, choice, address);
     } catch (error) {
       dispatch(
         addToast({ type: TOAST_TYPES.ERROR, message: error.toString() })
@@ -200,7 +225,13 @@ export default function PostVote({ data }) {
       )}
       <InnerWrapper>
         <ProxyHeader>
-          <div>Available 100.00 KSM</div>
+          <div>
+            {!isEmpty(balance)
+              ? `Available ${bigNumber2Locale(
+                  fromAssetUnit(balance, network?.decimals)
+                )} ${network?.symbol}`
+              : ""}
+          </div>
           <ToggleWrapper>
             <div>Proxy vote</div>
             <Toggle active={proxyVote} onClick={() => setProxyVote(!proxyVote)}>
@@ -208,7 +239,15 @@ export default function PostVote({ data }) {
             </Toggle>
           </ToggleWrapper>
         </ProxyHeader>
-        {proxyVote && <PostAccounts />}
+        {proxyVote && (
+          <PostAddress
+            address={address}
+            setAddress={setAddress}
+            network={network}
+            info={info}
+            setInfo={setInfo}
+          />
+        )}
         <ButtonPrimary isLoading={isLoading} onClick={onVote}>
           {proxyVote ? "Proxy Vote" : "Vote"}
         </ButtonPrimary>

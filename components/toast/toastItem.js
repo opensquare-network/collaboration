@@ -47,6 +47,8 @@ const Content = styled.div`
   font-size: 14px;
   line-height: 24px;
   color: #506176;
+  word-wrap: break-word;
+  word-break: break-all;
 `;
 
 const RightWrapper = styled.div`

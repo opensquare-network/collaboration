@@ -6,7 +6,7 @@ import { SPACE_ITEMS } from "utils/constants";
 import ssrNextApi from "services/nextApi";
 import { EmptyQuery } from "utils/constants";
 
-export default function Index({ detail }) {
+export default function Index({ detail, network }) {
   const space = useSpace();
   const item = SPACE_ITEMS.find((item) => item.value === space);
 
@@ -21,7 +21,7 @@ export default function Index({ detail }) {
           ]}
         />
       )}
-      <PostDetail data={detail} />
+      <PostDetail data={detail} network={network} />
     </Layout>
   );
 }
@@ -33,9 +33,12 @@ export async function getServerSideProps(context) {
     `${spaceName}/proposals/${id}`
   );
 
+  const { result: network } = await ssrNextApi.fetch(`spaces/${spaceName}`);
+
   return {
     props: {
-      detail: detail ?? EmptyQuery,
+      detail,
+      network,
     },
   };
 }
