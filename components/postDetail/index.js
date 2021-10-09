@@ -38,10 +38,7 @@ const SiderWrapper = styled.div`
   }
 `;
 
-export default function PostDetail({ data }) {
-  const network = useNetwork();
-  console.log({ network });
-
+export default function PostDetail({ data, network }) {
   return (
     <Wrapper>
       <MainWrapper>

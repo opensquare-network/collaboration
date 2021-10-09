@@ -10,7 +10,7 @@ import { addToast } from "store/reducers/toastSlice";
 import { TOAST_TYPES } from "utils/constants";
 import { ssrNextApi } from "services/nextApi";
 import { isEmpty, bigNumber2Locale, fromAssetUnit } from "utils";
-import PostAccounts from "./postAccounts";
+import PostAddress from "./postAddress";
 
 const Wrapper = styled.div`
   > :not(:first-child) {
@@ -128,8 +128,8 @@ export default function PostVote({ data, network }) {
   const [remark, setRemark] = useState("");
   const [proxyVote, setProxyVote] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [addresses, setAddresses] = useState();
-  const [selectedAddress, setSelectedAddress] = useState();
+  const [address, setAddress] = useState("");
+  const [info, setInfo] = useState();
   const [balance, setBalance] = useState();
   const viewfunc = useViewfunc();
   const space = useSpace();
@@ -142,18 +142,6 @@ export default function PostVote({ data, network }) {
         })
         .then((response) => {
           setBalance(response?.result);
-        });
-      ssrNextApi
-        .fetch(`spaces/${space}/account/${account.address}/proxies`, {
-          snapshot: data?.snapshotHeight,
-        })
-        .then((response) => {
-          setAddresses(response?.result);
-          setSelectedAddress(response?.result?.[0]);
-          // setAddresses(["Enp2Twdwwsk16n2jFHU9cNTDoEbn2KQD7TTczMZWfoL5Yd7"]);
-          // setSelectedAddress(
-          //   ["Enp2Twdwwsk16n2jFHU9cNTDoEbn2KQD7TTczMZWfoL5Yd7"][0]
-          // );
         });
     }
   }, [data?.snapshotHeight, space, account?.address]);
@@ -252,10 +240,12 @@ export default function PostVote({ data, network }) {
           </ToggleWrapper>
         </ProxyHeader>
         {proxyVote && (
-          <PostAccounts
-            addresses={addresses}
-            selectedAddress={selectedAddress}
-            setSelectedAddress={setSelectedAddress}
+          <PostAddress
+            address={address}
+            setAddress={setAddress}
+            network={network}
+            info={info}
+            setInfo={setInfo}
           />
         )}
         <ButtonPrimary isLoading={isLoading} onClick={onVote}>

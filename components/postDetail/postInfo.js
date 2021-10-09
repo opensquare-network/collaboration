@@ -82,7 +82,7 @@ export default function PostInfo({ data, network }) {
         <div>
           <InfoItem>
             <div>Strategie(s)</div>
-            <div>balance-of</div>
+            <div>{network?.weightStrategy}</div>
           </InfoItem>
           <InfoItem>
             <div>Snapshot</div>
