@@ -105,7 +105,7 @@ export default function Header() {
   const ref = useRef();
   useOnClickOutside(ref, (event) => {
     // connect modal is at body level, doesn't contained in the <Header/>, so exclude manually
-    if(document.querySelector(".modals").contains(event.target)){
+    if(document?.querySelector(".modals")?.contains(event.target)){
       return;
     }
     setShowMenu(false);
