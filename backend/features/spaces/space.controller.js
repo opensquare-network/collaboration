@@ -90,9 +90,9 @@ async function getSpaceAccountProxies(ctx) {
   const blockHeight = snapshot ? parseInt(snapshot) : getLatestHeight(space);
   const blockHash = await getBlockHash(api, blockHeight);
   const data = await api.query.proxy.proxies.at(blockHash, address);
-  const [proxies] = data.toJSON();
+  const [proxies] = data.toJSON() || [];
 
-  ctx.body = proxies
+  ctx.body = (proxies || [])
     .filter(item => {
       if (![
         "Any",
