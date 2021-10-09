@@ -195,6 +195,7 @@ async function vote(ctx) {
   const {
     proposalCid,
     choice,
+    realVoter,
   } = data;
 
   if (!proposalCid) {
@@ -208,6 +209,7 @@ async function vote(ctx) {
   ctx.body = await proposalService.vote(
     proposalCid,
     choice,
+    realVoter,
     data,
     address,
     signature,

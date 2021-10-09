@@ -22,6 +22,34 @@ const addProposalStatus = (now) => (p) => ({
   status: now < p.startDate ? "pending" : now < p.endDate ? "active" : "closed",
 });
 
+async function checkDelegation(api, delegatee, delegator, blockHash) {
+  const data = await api.query.proxy.proxies.at(blockHash, delegator);
+  const [proxies] = data.toJSON() || [];
+
+  const proxy = (proxies || [])
+    .find(item => {
+      if (![
+        "Any",
+        "NonTransfer",
+        "Governance",
+      ].includes(item.proxyType)) {
+        return false;
+      }
+
+      if (item.delegate !== delegatee) {
+        return false;
+      }
+
+      return true;
+    });
+
+  if (!proxy) {
+    throw new HttpError(400, "You are not a proxy of the given address");
+  }
+
+  return true;
+}
+
 async function createProposal(
   space,
   title,
@@ -358,6 +386,7 @@ async function getComments(proposalId, page, pageSize) {
 async function vote(
   proposalCid,
   choice,
+  realVoter,
   data,
   address,
   signature,
@@ -391,19 +420,27 @@ async function vote(
   }
   const api = await spaceService.getApi();
   const blockHash = await getBlockHash(api, proposal.snapshotHeight);
-  const balanceOf = await spaceService.balanceOf(api, blockHash, address);
+
+  if (realVoter && realVoter !== address) {
+    await checkDelegation(api, address, realVoter, blockHash);
+  }
+
+  const voter = realVoter || address;
+
+  const balanceOf = await spaceService.balanceOf(api, blockHash, voter);
   const sqrtOfBalanceOf = new BigNumber(balanceOf).sqrt().toString();
 
   const voteCol = await getVoteCollection();
   const result = await voteCol.findOneAndUpdate(
     {
       proposal: proposal._id,
-      address,
+      voter,
     },
     {
       $set: {
         choice,
         data,
+        address,
         signature,
         updatedAt: now,
         cid,
