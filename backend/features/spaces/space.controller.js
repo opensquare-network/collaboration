@@ -82,34 +82,8 @@ async function getSpaceAccountBalance(ctx) {
   ctx.body = result;
 }
 
-async function getSpaceAccountProxies(ctx) {
-  const { space, address } = ctx.params;
-  const { snapshot } = ctx.query;
-  const spaceService = spaceServices[space];
-  const api = await spaceService.getApi();
-  const blockHeight = snapshot ? parseInt(snapshot) : getLatestHeight(space);
-  const blockHash = await getBlockHash(api, blockHeight);
-  const data = await api.query.proxy.proxies.at(blockHash, address);
-  const [proxies] = data.toJSON() || [];
-
-  ctx.body = (proxies || [])
-    .filter(item => {
-      if (![
-        "Any",
-        "NonTransfer",
-        "Governance",
-      ].includes(item.proxyType)) {
-        return false;
-      }
-
-      return true;
-    })
-    .map(item => item.delegate);
-}
-
 module.exports = {
   getSpace,
   getSpaces,
   getSpaceAccountBalance,
-  getSpaceAccountProxies,
 }

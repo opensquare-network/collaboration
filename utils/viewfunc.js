@@ -40,10 +40,11 @@ export async function addComment(space, proposalCid, content, contentType, addre
   return await nextApi.post(`${space}/comments`, signedData);
 }
 
-export async function addVote(space, proposalCid, choice, address) {
+export async function addVote(space, proposalCid, choice, address, realVoter) {
   const signedData = await signApiData({
     proposalCid,
     choice,
+    realVoter,
     version: "1",
   }, address);
 
