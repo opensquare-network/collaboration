@@ -149,7 +149,7 @@ export const LIST_TAB_ITEMS = [
   {
     value: "pending",
     name: "Pending",
-    tooltip:"Waiting for the start date.",
+    tooltip:"Waiting for the start date",
   } ,
   {
     value: "closed",
