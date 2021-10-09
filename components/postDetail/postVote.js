@@ -151,16 +151,7 @@ export default function PostVote({ data, network }) {
     if (!viewfunc) {
       return;
     }
-    if (proxyVote && !selectedAddress) {
-      dispatch(
-        addToast({
-          type: TOAST_TYPES.ERROR,
-          message: "Please select an proxy address",
-        })
-      );
-      return;
-    }
-    if (!proxyVote && !account) {
+    if (!account) {
       dispatch(
         addToast({
           type: TOAST_TYPES.ERROR,
@@ -171,7 +162,7 @@ export default function PostVote({ data, network }) {
     }
     setIsLoading(true);
     let result;
-    const address = proxyVote ? selectedAddress : account?.address;
+    const address = account?.address;
     try {
       result = await viewfunc.addVote(space, data?.cid, choice, address);
     } catch (error) {
