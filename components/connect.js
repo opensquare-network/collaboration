@@ -129,7 +129,6 @@ export default function Connect({show, setShow,setShowMenu}) {
   }, [hasExtension, isMounted, show]);
 
   const getConnection = async () => {
-    console.log('connect!!!')
     const oneWeek = 7 * 24 * 60 * 60 * 1000;
     const expires = new Date(Date.now() + oneWeek).toISOString();
     try {
