@@ -169,7 +169,7 @@ export default function PostVote({ data, network }) {
         choice,
         remark,
         account?.address,
-        proxAddress
+        proxyVote ? proxAddress : null
       );
     } catch (error) {
       dispatch(
