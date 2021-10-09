@@ -164,7 +164,7 @@ export default function PostVote({ data, network }) {
     let result;
     const address = account?.address;
     try {
-      result = await viewfunc.addVote(space, data?.cid, choice, address);
+      result = await viewfunc.addVote(space, data?.cid, choice, remark, address);
     } catch (error) {
       dispatch(
         addToast({ type: TOAST_TYPES.ERROR, message: error.toString() })

@@ -195,6 +195,7 @@ async function vote(ctx) {
   const {
     proposalCid,
     choice,
+    remark,
     realVoter,
   } = data;
 
@@ -209,6 +210,7 @@ async function vote(ctx) {
   ctx.body = await proposalService.vote(
     proposalCid,
     choice,
+    remark,
     realVoter,
     data,
     address,
