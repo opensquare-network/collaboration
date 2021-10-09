@@ -242,20 +242,12 @@ export default function Connect({show, setShow,setShowMenu}) {
           <StyledTitle>Connect Wallet</StyledTitle>
 
           <StyledDescription>
-          Polkadot-js extension is detected. But not accessible, please go to your broswer extensions and find Polkadot-js, and check permissions.
+          Polkadot-js extension is detected but unaccessible, please go to Polkadot-js extension, settings, and check Manage Website Access section.
           </StyledDescription>
 
           <ActionBar>
-            <GotoPolkadotButton color="orange" onClick={() => {
-              closeModal();
-              const newWindow = window.open(
-                "https://polkadot.js.org/extension/",
-                "_blank",
-                "noopener,noreferrer"
-              );
-              if (newWindow) newWindow.opener = null;
-            }}>
-              How to allow access?
+            <GotoPolkadotButton color="orange" onClick={closeModal}>
+              Got it.
             </GotoPolkadotButton>
           </ActionBar>
         </StyledCard>
