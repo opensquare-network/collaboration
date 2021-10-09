@@ -103,8 +103,13 @@ const IconWrapper = styled.div`
 export default function Header() {
   const [showMenu, setShowMenu] = useState(false);
   const ref = useRef();
-  //todo : this line seems to be buggy
-  // useOnClickOutside(ref, () => setShowMenu(false));
+  useOnClickOutside(ref, (event) => {
+    // connect modal is at body level, doesn't contained in the <Header/>, so exclude manually
+    if(document.querySelector(".modals").contains(event.target)){
+      return;
+    }
+    setShowMenu(false);
+  } );
 
   return (
     <Wrapper>
