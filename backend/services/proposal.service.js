@@ -386,6 +386,7 @@ async function getComments(proposalId, page, pageSize) {
 async function vote(
   proposalCid,
   choice,
+  remark,
   realVoter,
   data,
   address,
@@ -439,6 +440,7 @@ async function vote(
     {
       $set: {
         choice,
+        remark,
         data,
         address,
         signature,
