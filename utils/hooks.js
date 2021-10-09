@@ -56,6 +56,26 @@ export function useSpace() {
   return space;
 }
 
+export function useSymbol(space) {
+  const map = new Map([
+    ['polkadot', 'DOT'],
+    ['kusama', 'KSM'],
+    ['karura', 'KAR'],
+    ['khala', 'PHA'],
+  ]);
+  return map.get(space) ?? "";
+}
+
+export function useVoteThreshold(space) {
+  const map = new Map([
+    ['polkadot', 1],
+    ['kusama', 0.01],
+    ['karura', 1],
+    ['khala', 10],
+  ]);
+  return map.get(space) ?? 0;
+}
+
 export function useViewfunc() {
   const [viewFunc, setViewFunc] = useState();
   useEffect(() => {

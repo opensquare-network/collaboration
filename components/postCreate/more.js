@@ -2,6 +2,8 @@ import styled, { css } from "styled-components";
 
 import Input from "components/input";
 import DatePicker from "components/datePicker";
+import Row from "@/components/row";
+import { useSpace, useSymbol, useVoteThreshold } from "../../utils/hooks";
 
 const Wrapper = styled.div`
   background: #ffffff;
@@ -65,16 +67,25 @@ const Button = styled.div`
     `}
 `;
 
+const Hint = styled.div`
+  color: #EE4444;
+`
+
 export default function More({
   startDate,
   setStartDate,
   endDate,
   setEndDate,
   height,
+  balance,
   setHeight,
   onPublish,
   isLoading,
 }) {
+  const space = useSpace();
+  const symbol = useSymbol(space);
+  const threshold = useVoteThreshold(space);
+
   return (
     <Wrapper>
       <InnerWrapper>
@@ -112,7 +123,18 @@ export default function More({
           onChange={(e) => setHeight(e.target.value)}
         />
       </InnerWrapper>
-      <Button isLoading={isLoading} onClick={onPublish}>
+      <InnerWrapper>
+        <TitleWrapper>
+          <Title>Information</Title>
+          <img src="/imgs/icons/info.svg" alt="" />
+        </TitleWrapper>
+        <Row header="Balance" content={`${balance} ${symbol}`}/>
+        {balance < 1 && <Hint>You need to have a minimum of {threshold} {symbol} in order to publish a proposal.</Hint>}
+      </InnerWrapper>
+      <Button
+        isLoading={isLoading || threshold > balance}
+        onClick={onPublish}
+      >
         Publish
       </Button>
     </Wrapper>

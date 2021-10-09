@@ -53,6 +53,7 @@ export default function PostCreate() {
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
   const [height, setHeight] = useState("");
+  const [balance, setBalance] = useState(0);
   const [viewFunc, setViewFunc] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -63,13 +64,32 @@ export default function PostCreate() {
   }, []);
 
   useEffect(() => {
-    nextApi.fetch(`spaces/${space}`).then((response) => {
+    nextApi
+      .fetch(`spaces/${space}`)
+      .then((response) => {
       if (response.result) {
         const { latestFinalizedHeight } = response.result;
         setHeight(latestFinalizedHeight);
       }
-    });
+    })
   }, [space]);
+
+  useEffect(()=> {
+    if (!height > 0) {
+      return;
+    }
+    if (!localStorage?.account) {
+      return;
+    }
+    const address = JSON.parse(localStorage?.account)?.address ?? ``;
+    if(!address){
+      return;
+    }
+    nextApi.fetch(`/api/spaces/polkadot/account/${address}/balance?snapshot=${height}`)
+      .then(res => {
+        setBalance(res?.result ?? 0);
+      })
+  }, [height]);
 
   const onPublish = async () => {
     if (isLoading) return;
@@ -138,6 +158,7 @@ export default function PostCreate() {
           setEndDate={setEndDate}
           height={height}
           setHeight={setHeight}
+          balance={balance}
           onPublish={onPublish}
           isLoading={isLoading}
         />
