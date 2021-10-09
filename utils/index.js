@@ -72,3 +72,27 @@ export function toPrecision(value, decimals) {
 export function isEmpty(foo) {
   return typeof foo === "undefined" || foo === null;
 }
+
+export function fromSymbolUnit(value, symbol) {
+  const precision = getPrecision(symbol);
+  return new BigNumber(value).dividedBy(Math.pow(10, precision)).toString();
+}
+
+export function toSymbolUnit(value, symbol) {
+  const precision = getPrecision(symbol);
+  return new BigNumber(value).multipliedBy(Math.pow(10, precision)).toString();
+}
+
+export function fromAssetUnit(value, decimals) {
+  return new BigNumber(value).dividedBy(Math.pow(10, decimals)).toString();
+}
+
+export function bigNumber2Locale(x) {
+  let result = "";
+  const [Int, Decimals] = x.split(".");
+  result += Int.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  if (Decimals) {
+    result += `.${Decimals}`;
+  }
+  return result;
+}

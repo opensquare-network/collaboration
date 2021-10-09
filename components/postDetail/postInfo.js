@@ -3,7 +3,6 @@ import moment from "moment";
 
 import { p_16_semibold } from "styles/textStyles";
 import ExternalLink from "../externalLink";
-import { useNetwork } from "utils/hooks";
 
 const Wrapper = styled.div`
   padding: 40px 32px;
@@ -71,9 +70,7 @@ const TimestampItem = styled.div`
   }
 `;
 
-export default function PostInfo({ data }) {
-  const network = useNetwork();
-
+export default function PostInfo({ data, network }) {
   return (
     <Wrapper>
       <div>
@@ -90,7 +87,7 @@ export default function PostInfo({ data }) {
           <InfoItem>
             <div>Snapshot</div>
             <ExternalLink
-              href={`https://${network}.subscan.io/block/${data?.snapshotHeight}`}
+              href={`https://${network?.network}.subscan.io/block/${data?.snapshotHeight}`}
             >
               {data?.snapshotHeight?.toLocaleString()}
             </ExternalLink>

@@ -72,7 +72,7 @@ export function useNetwork() {
   useEffect(() => {
     nextApi.fetch(`spaces/${space}`).then((response) => {
       if (response?.result?.network) {
-        setNetwork(response.result.network);
+        setNetwork(response.result);
       }
     });
   }, [space]);

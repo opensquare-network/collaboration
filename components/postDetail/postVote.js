@@ -9,7 +9,7 @@ import { accountSelector } from "store/reducers/accountSlice";
 import { addToast } from "store/reducers/toastSlice";
 import { TOAST_TYPES } from "utils/constants";
 import { ssrNextApi } from "services/nextApi";
-import { isEmpty } from "utils";
+import { isEmpty, bigNumber2Locale, fromAssetUnit } from "utils";
 import PostAccounts from "./postAccounts";
 
 const Wrapper = styled.div`
@@ -121,7 +121,7 @@ const Toggle = styled.div`
     `}
 `;
 
-export default function PostVote({ data }) {
+export default function PostVote({ data, network }) {
   const dispatch = useDispatch();
   const account = useSelector(accountSelector);
   const [choice, setChoice] = useState();
@@ -237,7 +237,13 @@ export default function PostVote({ data }) {
       )}
       <InnerWrapper>
         <ProxyHeader>
-          <div>{!isEmpty(balance) ? `Available ${balance}` : ""}</div>
+          <div>
+            {!isEmpty(balance)
+              ? `Available ${bigNumber2Locale(
+                  fromAssetUnit(balance, network?.decimals)
+                )} ${network?.symbol}`
+              : ""}
+          </div>
           <ToggleWrapper>
             <div>Proxy vote</div>
             <Toggle active={proxyVote} onClick={() => setProxyVote(!proxyVote)}>

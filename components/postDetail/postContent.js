@@ -59,7 +59,7 @@ const Content = styled.div`
   color: #506176;
 `;
 
-export default function PostContent({ data }) {
+export default function PostContent({ data, network }) {
   return (
     <Wrapper>
       <Title>{data?.title}</Title>
@@ -76,7 +76,7 @@ export default function PostContent({ data }) {
         <Mardown content={data?.content} />
       </Content>
       <Divider />
-      <PostVote data={data} />
+      <PostVote data={data} network={network} />
     </Wrapper>
   );
 }

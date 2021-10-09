@@ -4,6 +4,7 @@ import PostContent from "./postContent";
 import PostTab from "./postTab";
 import PostInfo from "./postInfo";
 import PostResults from "./postResults";
+import { useNetwork } from "utils/hooks";
 
 const Wrapper = styled.div`
   display: flex;
@@ -38,14 +39,17 @@ const SiderWrapper = styled.div`
 `;
 
 export default function PostDetail({ data }) {
+  const network = useNetwork();
+  console.log({ network });
+
   return (
     <Wrapper>
       <MainWrapper>
-        <PostContent data={data} />
+        <PostContent data={data} network={network} />
         <PostTab data={data} />
       </MainWrapper>
       <SiderWrapper>
-        <PostInfo data={data} />
+        <PostInfo data={data} network={network} />
         <PostResults />
       </SiderWrapper>
     </Wrapper>
