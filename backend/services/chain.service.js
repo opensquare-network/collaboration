@@ -14,12 +14,12 @@ async function startUpdateHeight() {
   );
 }
 
-function getLatestHeight(chain) {
-  return latestHeights[chain];
+function getLatestHeight(space) {
+  return latestHeights[space];
 }
 
-function getUnSubscribeNewHeadFunction(chain) {
-  return unsubscribeNewHeads[chain];
+function getUnSubscribeNewHeadFunction(space) {
+  return unsubscribeNewHeads[space];
 }
 
 module.exports = {
