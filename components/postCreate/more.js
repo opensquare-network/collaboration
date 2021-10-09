@@ -129,7 +129,7 @@ export default function More({
           <img src="/imgs/icons/info.svg" alt="" />
         </TitleWrapper>
         <Row header="Balance" content={`${balance} ${symbol}`}/>
-        {balance < 1 && <Hint>You need to have a minimum of {threshold} {symbol} in order to publish a proposal.</Hint>}
+        {threshold > balance && <Hint>You need to have a minimum of {threshold} {symbol} in order to publish a proposal.</Hint>}
       </InnerWrapper>
       <Button
         isLoading={isLoading || threshold > balance}
