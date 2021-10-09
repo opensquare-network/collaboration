@@ -33,6 +33,11 @@ export async function getServerSideProps(context) {
     `${spaceName}/proposals/${id}`
   );
 
+  // const result = await ssrNextApi.fetch(`${spaceName}/proposals/${id}/votes`, {
+  //   page: 0,
+  //   pageSize: 20,
+  // });
+
   return {
     props: {
       detail: detail ?? EmptyQuery,

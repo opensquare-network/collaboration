@@ -68,3 +68,7 @@ export function timeDuration(time) {
 export function toPrecision(value, decimals) {
   return new BigNumber(value).dividedBy(Math.pow(10, decimals)).toString();
 }
+
+export function isEmpty(foo) {
+  return typeof foo === "undefined" || foo === null;
+}

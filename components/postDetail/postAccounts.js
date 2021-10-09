@@ -3,6 +3,7 @@ import { useState, useRef } from "react";
 
 import { useOnClickOutside, useWindowSize } from "utils/hooks";
 import { addressEllipsis } from "utils";
+import Avatar from "components/avatar";
 import CaretDown from "public/imgs/icons/caret-right.svg";
 
 const Wrapper = styled.div`
@@ -38,10 +39,6 @@ const AccountWrapper = styled.div`
   > :not(:first-child) {
     margin-left: 16px;
   }
-  > img {
-    width: 40px;
-    height: 40px;
-  }
 `;
 
 const AccountDetail = styled.div`
@@ -76,26 +73,34 @@ const OptionItem = styled.div`
   }
 `;
 
-export default function PostAccounts() {
+export default function PostAccounts({
+  addresses,
+  selectedAddress,
+  setSelectedAddress,
+}) {
   const [show, setShow] = useState(false);
-  const ref = useRef();
   const { width } = useWindowSize();
+  const ref = useRef();
   useOnClickOutside(ref, () => setShow(false));
+
+  if (!addresses || addresses.length === 0) return null;
 
   return (
     <Wrapper>
       <SelectWrapper ref={ref}>
         <Select onClick={() => setShow(!show)}>
           <AccountWrapper>
-            <img src="/imgs/avatar.png" alt="" />
+            <Avatar address={selectedAddress} size={40} />
             <AccountDetail>
-              <div>Popouloss</div>
               <div>
-                {width && width <= 1020
-                  ? addressEllipsis(
-                      "G4X89RHHZN4b2urdizWas8hctos3L1qXSmTEvggqobC1rXk"
-                    )
-                  : "G4X89RHHZN4b2urdizWas8hctos3L1qXSmTEvggqobC1rXk"}
+                {width && width <= 1200
+                  ? addressEllipsis(selectedAddress)
+                  : selectedAddress}
+              </div>
+              <div>
+                {width && width <= 1200
+                  ? addressEllipsis(selectedAddress)
+                  : selectedAddress}
               </div>
             </AccountDetail>
           </AccountWrapper>
@@ -103,21 +108,27 @@ export default function PostAccounts() {
         </Select>
         {show && (
           <Option>
-            <OptionItem onClick={() => setShow(false)}>
-              <AccountWrapper>
-                <img src="/imgs/avatar.png" alt="" />
-                <AccountDetail>
-                  <div>Popouloss</div>
-                  <div>
-                    {width && width <= 620
-                      ? addressEllipsis(
-                          "G4X89RHHZN4b2urdizWas8hctos3L1qXSmTEvggqobC1rXk"
-                        )
-                      : "G4X89RHHZN4b2urdizWas8hctos3L1qXSmTEvggqobC1rXk"}
-                  </div>
-                </AccountDetail>
-              </AccountWrapper>
-            </OptionItem>
+            {(addresses || []).map((item, index) => (
+              <OptionItem
+                key={index}
+                onClick={() => {
+                  setSelectedAddress(item);
+                  setShow(false);
+                }}
+              >
+                <AccountWrapper>
+                  <Avatar address={item} size={40} />
+                  <AccountDetail>
+                    <div>
+                      {width && width <= 1200 ? addressEllipsis(item) : item}
+                    </div>
+                    <div>
+                      {width && width <= 1200 ? addressEllipsis(item) : item}
+                    </div>
+                  </AccountDetail>
+                </AccountWrapper>
+              </OptionItem>
+            ))}
           </Option>
         )}
       </SelectWrapper>
