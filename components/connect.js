@@ -165,7 +165,7 @@ export default function Connect({show, setShow,setShowMenu}) {
     })();
   }, [isMounted, getAddresses, show]);
 
-  const closeModal = () => setShow(false)&&setShowMenu(false);
+  const closeModal = () => setShow(false);
 
   return (
     <Wrapper>
