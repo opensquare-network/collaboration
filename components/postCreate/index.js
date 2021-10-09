@@ -75,21 +75,15 @@ export default function PostCreate() {
   }, [space]);
 
   useEffect(()=> {
-    if (!height > 0) {
-      return;
-    }
-    if (!localStorage?.account) {
-      return;
-    }
-    const address = JSON.parse(localStorage?.account)?.address ?? ``;
-    if(!address){
+    const address = account?.address ?? ``;
+    if(!address || !height > 0){
       return;
     }
     nextApi.fetch(`/api/spaces/polkadot/account/${address}/balance?snapshot=${height}`)
       .then(res => {
         setBalance(res?.result ?? 0);
       })
-  }, [height]);
+  }, [height, account?.address]);
 
   const onPublish = async () => {
     if (isLoading) return;
