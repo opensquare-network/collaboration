@@ -79,7 +79,7 @@ export default function PostCreate() {
     if(!address || !height > 0){
       return;
     }
-    nextApi.fetch(`/api/spaces/${space}/account/${address}/balance?snapshot=${height}`)
+    nextApi.fetch(`spaces/${space}/account/${address}/balance?snapshot=${height}`)
       .then(res => {
         setBalance(res?.result ?? 0);
       })
