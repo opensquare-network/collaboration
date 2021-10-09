@@ -37,8 +37,8 @@ export async function getServerSideProps(context) {
 
   return {
     props: {
-      detail,
-      network,
+      detail: detail ?? null,
+      network: network ?? null,
     },
   };
 }

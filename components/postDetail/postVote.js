@@ -128,7 +128,7 @@ export default function PostVote({ data, network }) {
   const [remark, setRemark] = useState("");
   const [proxyVote, setProxyVote] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [address, setAddress] = useState("");
+  const [proxAddress, setProxyAddress] = useState("");
   const [info, setInfo] = useState();
   const [balance, setBalance] = useState();
   const viewfunc = useViewfunc();
@@ -162,9 +162,15 @@ export default function PostVote({ data, network }) {
     }
     setIsLoading(true);
     let result;
-    const address = account?.address;
     try {
-      result = await viewfunc.addVote(space, data?.cid, choice, remark, address);
+      result = await viewfunc.addVote(
+        space,
+        data?.cid,
+        choice,
+        remark,
+        account?.address,
+        proxAddress
+      );
     } catch (error) {
       dispatch(
         addToast({ type: TOAST_TYPES.ERROR, message: error.toString() })
@@ -232,8 +238,8 @@ export default function PostVote({ data, network }) {
         </ProxyHeader>
         {proxyVote && (
           <PostAddress
-            address={address}
-            setAddress={setAddress}
+            address={proxAddress}
+            setAddress={setProxyAddress}
             network={network}
             info={info}
             setInfo={setInfo}
