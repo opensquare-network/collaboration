@@ -58,13 +58,10 @@ export async function getServerSideProps(context) {
     { result: comments },
   ] = await Promise.all([
     ssrNextApi.fetch(`spaces/${spaceName}`),
-    ssrNextApi.fetch(`${spaceName}/proposals/${detail?._id}/votes`, {
-      page: nPage,
-    }),
-    ssrNextApi.fetch(`${spaceName}/proposals/${detail._id}/stats`),
     ssrNextApi.fetch(`${spaceName}/proposals/${detail?._id}/comments`, {
       page: activeTab === "votes" ? nPage : 1,
     }),
+    ssrNextApi.fetch(`${spaceName}/proposals/${detail._id}/stats`),
     await ssrNextApi.fetch(`${spaceName}/proposals/${detail?._id}/comments`, {
       page: activeTab === "discussion" ? nPage : 1,
     }),
