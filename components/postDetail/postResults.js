@@ -1,12 +1,14 @@
 import styled from "styled-components";
-import { p_16_semibold } from "styles/textStyles";
+import { p_14_medium, p_16_semibold } from "styles/textStyles";
+import BigNumber from "bignumber.js";
+import { toPrecision } from "../../utils";
 
 const Wrapper = styled.div`
   padding: 40px 32px;
   background: #ffffff;
   border: 1px solid #f0f3f8;
   box-shadow: 0px 4px 31px rgba(26, 33, 44, 0.04),
-    0px 0.751293px 3.88168px rgba(26, 33, 44, 0.03);
+  0px 0.751293px 3.88168px rgba(26, 33, 44, 0.03);
   @media screen and (max-width: 800px) {
     padding: 20px;
     margin: 0 -20px;
@@ -31,9 +33,11 @@ const VoteItem = styled.div`
   align-items: center;
   justify-content: space-between;
   ${p_16_semibold};
+
   :not(:first-child) {
     margin-top: 4px;
   }
+
   > :first-child {
     color: #a1a8b3;
   }
@@ -66,46 +70,64 @@ const ProgressBar = styled.div`
   width: ${(p) => p.percent};
 `;
 
-export default function PostResult() {
+const OptionIndex = styled.div`
+  ${p_14_medium};
+  color: #C0C8D4;
+`
+
+export default function PostResult({data, voteStatus, network}) {
+  const votedAmount = voteStatus?.reduce(function(sum, current) {
+    return sum.plus(new BigNumber(current.balanceOf.$numberDecimal));
+  }, new BigNumber("0")) ?? new BigNumber("0");
+
+  const optionList = [];
+  data?.choices?.forEach((choice,index) => {
+    for(let voteStat of voteStatus) {
+      if (voteStat.choice !== choice) {
+        continue;
+      }
+      const voteBalance = new BigNumber(voteStat.balanceOf.$numberDecimal);
+      const percentage = (voteStat.balanceOf.$numberDecimal > 0
+        ? (voteBalance).dividedBy(votedAmount) * 100
+        : 0).toFixed(2);
+      optionList.push({index: index + 1, voteBalance, percentage})
+      return;
+    }
+    optionList.push({index: index + 1, voteBalance:new BigNumber("0"), percentage:"0"});
+  })
+
   return (
     <Wrapper>
       <TitleWrapper>
         Results
-        <img src="/imgs/icons/strategy.svg" alt="" />
+        <img src="/imgs/icons/strategy.svg" alt=""/>
       </TitleWrapper>
-      <Divider />
+      <Divider/>
       <div>
         <VoteItem>
           <div>Voted</div>
-          <div>balance-of</div>
+          <div>{toPrecision(votedAmount.toString(), network.decimals)} {network.symbol}</div>
         </VoteItem>
         <VoteItem>
-          <div>Snapshot</div>
-          <div>65,408,852</div>
+          <div>Number of voters</div>
+          <div>{data?.votesCount}</div>
         </VoteItem>
       </div>
-      <Divider />
-      <ProgressItem>
-        <div>32.42%</div>
-        <div>12852 KSM</div>
-      </ProgressItem>
-      <ProgressBackground>
-        <ProgressBar percent="32.42%" />
-      </ProgressBackground>
-      <ProgressItem>
-        <div>16.59%</div>
-        <div>6852 KSM</div>
-      </ProgressItem>
-      <ProgressBackground>
-        <ProgressBar percent="16.59%" />
-      </ProgressBackground>
-      <ProgressItem>
-        <div>50.23%</div>
-        <div>21852 KSM</div>
-      </ProgressItem>
-      <ProgressBackground>
-        <ProgressBar percent="50.23%" />
-      </ProgressBackground>
+      <Divider/>
+      {
+        optionList.map((vote) => {
+          return <div key={vote.index}>
+          <ProgressItem>
+            <OptionIndex>#{vote.index}</OptionIndex>
+            <div>{vote.percentage}%</div>
+            <div>{toPrecision(vote.voteBalance.toString(), network.decimals)} {network.symbol}</div>
+          </ProgressItem>
+          <ProgressBackground>
+            <ProgressBar percent={`${vote.percentage}%`}/>
+          </ProgressBackground>
+        </div>
+        })
+      }
     </Wrapper>
   );
 }

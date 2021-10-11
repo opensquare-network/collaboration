@@ -1,4 +1,5 @@
 const { ApiPromise, WsProvider } = require("@polkadot/api");
+const { isTestAccount } = require("../utils");
 
 const apiInstanceMap = new Map();
 
@@ -23,6 +24,13 @@ const getApi = async (nodeSetting) => {
 };
 
 async function getSystemBalance(api, blockHash, address) {
+  if (isTestAccount(address)) {
+    return {
+      free: process.env.TEST_ACCOUNT_BALANCE || "10000000000000",
+      reserved: 0,
+    };
+  }
+
   const account = await api.query.system.account.at(blockHash, address);
   const accountData = account.toJSON()?.data;
   return accountData;
