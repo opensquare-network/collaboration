@@ -179,7 +179,7 @@ export default function PostVote({ data, network }) {
         choice,
         remark,
         account?.address,
-        proxyVote ? proxAddress : null
+        proxyVote ? proxAddress : undefined
       );
     } catch (error) {
       dispatch(
