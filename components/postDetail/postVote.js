@@ -9,7 +9,12 @@ import { accountSelector } from "store/reducers/accountSlice";
 import { addToast } from "store/reducers/toastSlice";
 import { TOAST_TYPES } from "utils/constants";
 import { ssrNextApi } from "services/nextApi";
-import { isEmpty, bigNumber2Locale, fromAssetUnit } from "utils";
+import {
+  isEmpty,
+  bigNumber2Locale,
+  fromAssetUnit,
+  toApproximatelyFixed,
+} from "utils";
 import PostAddress from "./postAddress";
 
 const Wrapper = styled.div`
@@ -229,8 +234,8 @@ export default function PostVote({ data, network }) {
         <ProxyHeader>
           <div>
             {!isEmpty(balance)
-              ? `Available ${bigNumber2Locale(
-                  fromAssetUnit(balance, network?.decimals)
+              ? `Available ${toApproximatelyFixed(
+                  bigNumber2Locale(fromAssetUnit(balance, network?.decimals))
                 )} ${network?.symbol}`
               : ""}
           </div>
