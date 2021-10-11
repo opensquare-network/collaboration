@@ -105,6 +105,15 @@ export default function PostDiscussion({ data, network, comments }) {
       );
       return;
     }
+    if (!cotent) {
+      dispatch(
+        addToast({
+          type: TOAST_TYPES.ERROR,
+          message: "Content is missing",
+        })
+      );
+      return;
+    }
     setIsLoading(true);
     let result;
     try {
@@ -165,7 +174,7 @@ export default function PostDiscussion({ data, network, comments }) {
           </ContentWrapper>
         </Item>
       ))}
-      {(!comments?.items || comments.items.length === 0) && (
+      {!comments?.items?.length > 0 && (
         <NoCommentWrapper>No current comments</NoCommentWrapper>
       )}
       <PaginationWrapper>

@@ -37,7 +37,13 @@ const TabItem = styled.div`
     `}
 `;
 
-export default function PostTab({ data, network, votes, comments }) {
+export default function PostTab({
+  data,
+  network,
+  votes,
+  comments,
+  defaultPage,
+}) {
   const router = useRouter();
   const { space, id } = router.query;
   const [activeTab, setActiveTab] = useState();
@@ -81,6 +87,11 @@ export default function PostTab({ data, network, votes, comments }) {
                     space,
                     id,
                     ...(item.default ? {} : { tab: item.value }),
+                    ...(item.value === defaultPage?.tab
+                      ? defaultPage.page > 1
+                        ? { page: defaultPage.page }
+                        : {}
+                      : {}),
                   },
                 },
                 undefined,
