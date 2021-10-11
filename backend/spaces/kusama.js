@@ -24,6 +24,6 @@ module.exports = {
   network: "kusama",
   ss58Format: 2,
   decimals: 12,
-  proposeThreshold: "10000000000",
+  proposeThreshold: process.env.SPACE_PROPOSE_THRESHOLD_KUSAMA || "10000000000",
   weightStrategy: WeightStrategy.BalanceOf,
 };
