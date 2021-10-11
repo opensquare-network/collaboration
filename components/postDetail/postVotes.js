@@ -45,7 +45,7 @@ const BalanceWrapper = styled.div`
 `;
 
 export default function PostVotes({ network, votes }) {
-  console.log({ votes, network });
+  // console.log({ votes, network });
 
   return (
     <div>

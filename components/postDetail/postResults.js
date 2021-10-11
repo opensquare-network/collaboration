@@ -66,7 +66,7 @@ const ProgressBar = styled.div`
   width: ${(p) => p.percent};
 `;
 
-export default function PostResult() {
+export default function PostResult({voteStatus}) {
   return (
     <Wrapper>
       <TitleWrapper>
@@ -77,11 +77,11 @@ export default function PostResult() {
       <div>
         <VoteItem>
           <div>Voted</div>
-          <div>balance-of</div>
+          <div>{voteStatus?.votedWeights?.balanceOf?.$numberDecimal}</div>
         </VoteItem>
         <VoteItem>
-          <div>Snapshot</div>
-          <div>65,408,852</div>
+          <div>Number of voters</div>
+          <div>{voteStatus?.votesCount}</div>
         </VoteItem>
       </div>
       <Divider />

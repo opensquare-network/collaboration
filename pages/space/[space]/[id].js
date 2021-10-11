@@ -6,12 +6,13 @@ import { SPACE_ITEMS } from "utils/constants";
 import ssrNextApi from "services/nextApi";
 import { EmptyQuery } from "utils/constants";
 
-export default function Index({ detail, network, votes }) {
+export default function Index({ detail, network, votes,voteStatus }) {
   const space = useSpace();
   const item = SPACE_ITEMS.find((item) => item.value === space);
-
+  console.log(voteStatus)
   return (
     <Layout bgHeight="183px">
+      {/*{JSON.stringify(voteStatus)}*/}
       {item && (
         <Nav
           data={[
@@ -21,7 +22,7 @@ export default function Index({ detail, network, votes }) {
           ]}
         />
       )}
-      <PostDetail data={detail} network={network} votes={votes} />
+      <PostDetail data={detail} network={network} votes={votes} voteStatus={voteStatus} />
     </Layout>
   );
 }
@@ -40,12 +41,15 @@ export async function getServerSideProps(context) {
     `${spaceName}/proposals/${detail?._id}/votes`,
     { page: nPage }
   );
+  const {result: voteStatus} = await ssrNextApi.fetch(`${spaceName}/proposals/${detail._id}`)
+
 
   return {
     props: {
       detail: detail ?? null,
       network: network ?? null,
       votes: votes ?? EmptyQuery,
+      voteStatus: voteStatus,
     },
   };
 }
