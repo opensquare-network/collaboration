@@ -26,6 +26,6 @@ module.exports = {
   network: "kahala",
   ss58Format: 40,
   decimals: 12,
-  proposeThreshold: "100000000000000",
+  proposeThreshold: "10000000000000",
   weightStrategy: WeightStrategy.BalanceOf,
 };

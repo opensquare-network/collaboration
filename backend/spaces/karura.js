@@ -26,6 +26,6 @@ module.exports = {
   network: "karura",
   ss58Format: 8,
   decimals: 12,
-  proposeThreshold: "100000000000000",
+  proposeThreshold: "1000000000000",
   weightStrategy: WeightStrategy.BalanceOf,
 };
