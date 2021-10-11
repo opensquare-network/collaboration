@@ -13,7 +13,6 @@ const Item = styled.div`
 const InfoWrapper = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
   font-weight: 500;
   line-height: 24px;
 `;
@@ -59,6 +58,14 @@ const Square = styled.div`
   }
 `;
 
+const EqualWrapper = styled.div`
+  display: flex;
+  flex: 1 1 33.3%;
+  :last-child {
+    justify-content: flex-end;
+  }
+`;
+
 const NoVoteWrapper = styled.div`
   display: flex;
   height: 104px;
@@ -71,32 +78,37 @@ const NoVoteWrapper = styled.div`
 `;
 
 export default function PostVotes({ network, votes }) {
-
   return (
     <div>
       {(votes?.items || []).map((item, index) => (
         <Item key={index}>
           <InfoWrapper>
-            <Author address={item.address} size={20} />
-            <div>
-              <Label>Vote</Label>
-              <span>{item.choice}</span>
-            </div>
-            <BalanceWrapper>
-              <div>{`${bigNumber2Locale(
-                fromAssetUnit(
-                  item.weights.balanceOf.$numberDecimal,
-                  network?.decimals
-                )
-              )} ${network?.symbol}`}</div>
-              {item?.pinHash && (
-                <ExternalLink
-                  href={`https://ipfs-hk.decoo.io/ipfs/${item.pinHash}`}
-                >
-                  <Square />
-                </ExternalLink>
-              )}
-            </BalanceWrapper>
+            <EqualWrapper>
+              <Author address={item.address} size={20} />
+            </EqualWrapper>
+            <EqualWrapper>
+              <div>
+                <Label>Vote</Label>
+                <span>{item.choice}</span>
+              </div>
+            </EqualWrapper>
+            <EqualWrapper>
+              <BalanceWrapper>
+                <div>{`${bigNumber2Locale(
+                  fromAssetUnit(
+                    item.weights?.balanceOf.$numberDecimal,
+                    network?.decimals
+                  )
+                )} ${network?.symbol}`}</div>
+                {item?.pinHash && (
+                  <ExternalLink
+                    href={`https://ipfs-hk.decoo.io/ipfs/${item.pinHash}`}
+                  >
+                    <Square />
+                  </ExternalLink>
+                )}
+              </BalanceWrapper>
+            </EqualWrapper>
           </InfoWrapper>
           {item.remark && (
             <ContentWrapper>
