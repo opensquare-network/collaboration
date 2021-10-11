@@ -81,10 +81,9 @@ export default function More({
   setHeight,
   onPublish,
   isLoading,
+                               threshold,
+                               symbol,
 }) {
-  const space = useSpace();
-  const symbol = useSymbol(space);
-  const threshold = useVoteThreshold(space);
 
   return (
     <Wrapper>

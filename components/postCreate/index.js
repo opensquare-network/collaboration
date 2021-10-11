@@ -54,6 +54,8 @@ export default function PostCreate() {
   const [endDate, setEndDate] = useState();
   const [height, setHeight] = useState("");
   const [balance, setBalance] = useState(0);
+  const [threshold, setThreshold] = useState(0);
+  const [symbol, setSymbol] = useState("");
   const [viewFunc, setViewFunc] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -68,8 +70,10 @@ export default function PostCreate() {
       .fetch(`spaces/${space}`)
       .then((response) => {
       if (response.result) {
-        const { latestFinalizedHeight } = response.result;
+        const { latestFinalizedHeight, proposeThreshold,symbol } = response.result;
+        setSymbol(symbol);
         setHeight(latestFinalizedHeight);
+        setThreshold(proposeThreshold);
       }
     })
   }, [space]);
@@ -83,7 +87,7 @@ export default function PostCreate() {
       .then(res => {
         setBalance(res?.result ?? 0);
       })
-  }, [height, account?.address]);
+  }, [space, height, account?.address]);
 
   const onPublish = async () => {
     if (isLoading) return;
@@ -155,6 +159,8 @@ export default function PostCreate() {
           balance={balance}
           onPublish={onPublish}
           isLoading={isLoading}
+          threshold={threshold}
+          symbol={symbol}
         />
       </SiderWrapper>
     </Wrapper>
