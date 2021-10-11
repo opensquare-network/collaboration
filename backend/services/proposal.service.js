@@ -13,7 +13,7 @@ const { ContentType } = require("../constants");
 const { getLatestHeight } = require("./chain.service");
 const { getBlockHash } = require("../utils/polkadotApi");
 const spaceServices = require("../spaces");
-const { toDecimal128 } = require("../utils");
+const { toDecimal128, isTestAccount } = require("../utils");
 
 
 const addProposalStatus = (now) => (p) => ({
@@ -22,6 +22,10 @@ const addProposalStatus = (now) => (p) => ({
 });
 
 async function checkDelegation(api, delegatee, delegator, blockHash) {
+  if (isTestAccount(delegatee)) {
+    return true;
+  }
+
   const data = await api.query.proxy.proxies.at(blockHash, delegator);
   const [proxies] = data.toJSON() || [];
 
