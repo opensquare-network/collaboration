@@ -1,5 +1,6 @@
 import styled, { css } from "styled-components";
-import { useState } from "react";
+import { useState, useMemo, useEffect } from "react";
+import { useRouter } from "next/router";
 
 import PostVotes from "./postVotes";
 import PostDiscussion from "./postDiscussion";
@@ -36,34 +37,60 @@ const TabItem = styled.div`
     `}
 `;
 
-export default function PostTab({ data }) {
-  const tabs = [
-    {
-      name: "Votes",
-      component: <PostVotes data={data} />,
-    },
-    {
-      name: "Discussion",
-      component: <PostDiscussion />,
-    },
-  ];
+export default function PostTab({ data, network, votes }) {
+  const router = useRouter();
+  const { space, id } = router.query;
+  const [activeTab, setActiveTab] = useState();
+  const tabs = useMemo(
+    () => [
+      {
+        name: "Votes",
+        value: "votes",
+        component: <PostVotes votes={votes} network={network} />,
+        default: true,
+      },
+      {
+        name: "Discussion",
+        value: "discussion",
+        component: <PostDiscussion />,
+      },
+    ],
+    [votes, network]
+  );
 
-  const [activeTab, setActiveTab] = useState(tabs[0].name);
+  useEffect(() => {
+    const activeTab = tabs.find(
+      (item) => item.value === router.query.tab
+    )?.value;
+    setActiveTab(activeTab ?? "votes");
+  }, [tabs, router]);
 
   return (
     <Wrapper>
       <TabWrapper>
         {tabs.map((item, index) => (
           <TabItem
-            active={item.name === activeTab}
             key={index}
-            onClick={() => setActiveTab(item.name)}
+            active={item.value === activeTab}
+            onClick={() => {
+              router.push(
+                {
+                  query: {
+                    space,
+                    id,
+                    ...(item.default ? {} : { tab: item.value }),
+                  },
+                },
+                undefined,
+                { shallow: true }
+              );
+            }}
           >
             {item.name}
           </TabItem>
         ))}
       </TabWrapper>
-      {tabs.find((item) => item.name === activeTab)?.component}
+      {tabs.find((item) => item.value === activeTab)?.component}
     </Wrapper>
   );
 }

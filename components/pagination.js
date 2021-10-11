@@ -1,6 +1,9 @@
 import { useState } from "react";
 import styled, { css } from "styled-components";
+import { useRouter } from "next/router";
+import Link from "next/link";
 
+import { encodeURIQuery } from "../utils/index";
 import CaretLeft from "/public/imgs/icons/caret-left.svg";
 import CaretRight from "/public/imgs/icons/caret-right.svg";
 
@@ -75,33 +78,58 @@ const Ellipsis = styled.div`
   }
 `;
 
-export default function Pagination() {
-  const totalPages = 9;
-  const [page, setPage] = useState(1);
+export default function Pagination({ page, pageSize, total }) {
+  const router = useRouter();
+  const totalPages = Math.ceil(total / pageSize)
+    ? Math.ceil(total / pageSize)
+    : 1;
+  const prevPage = Math.max(1, page - 1);
+  const nextPage = Math.min(totalPages, page + 1);
 
   return (
     <Wrapper>
-      <Nav disabled={page === 1}>
-        <CaretLeft onClick={() => setPage(page - 1)} />
-      </Nav>
+      <Link
+        href={`${router.pathname}?${encodeURIQuery({
+          ...router.query,
+          page: prevPage,
+        })}`}
+        passHref
+      >
+        <Nav disabled={page === 1}>
+          <CaretLeft />
+        </Nav>
+      </Link>
       {Array.from(Array(totalPages)).map((_, index) =>
         index + 1 > 1 &&
         index + 1 < totalPages &&
         Math.abs(index + 1 - page) >= 2 ? (
           <Ellipsis key={index}>...</Ellipsis>
         ) : (
-          <Item
+          <Link
             key={index}
-            active={page === index + 1}
-            onClick={() => setPage(index + 1)}
+            href={`${router.pathname}?${encodeURIQuery({
+              ...router.query,
+              page: index + 1,
+            })}`}
+            passHref
           >
-            {index + 1}
-          </Item>
+            <Item key={index} active={page === index + 1}>
+              {index + 1}
+            </Item>
+          </Link>
         )
       )}
-      <Nav disabled={page === totalPages}>
-        <CaretRight onClick={() => setPage(page + 1)} />
-      </Nav>
+      <Link
+        href={`${router.pathname}?${encodeURIQuery({
+          ...router.query,
+          page: nextPage,
+        })}`}
+        passHref
+      >
+        <Nav disabled={page === totalPages}>
+          <CaretRight />
+        </Nav>
+      </Link>
     </Wrapper>
   );
 }
