@@ -54,6 +54,8 @@ const Icon = styled.div`
   margin-bottom: 16px;
 
   > img {
+    border: 1px solid #ddd;
+    border-radius: 32px;
     ${makeSquare(64)};
   }
 `;
