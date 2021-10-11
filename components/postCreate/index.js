@@ -55,6 +55,7 @@ export default function PostCreate() {
   const [height, setHeight] = useState("");
   const [balance, setBalance] = useState(0);
   const [threshold, setThreshold] = useState(0);
+  const [decimals,setDecimals] = useState(0);
   const [symbol, setSymbol] = useState("");
   const [viewFunc, setViewFunc] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -70,10 +71,11 @@ export default function PostCreate() {
       .fetch(`spaces/${space}`)
       .then((response) => {
       if (response.result) {
-        const { latestFinalizedHeight, proposeThreshold,symbol } = response.result;
+        const { latestFinalizedHeight, proposeThreshold, symbol, decimals } = response.result;
         setSymbol(symbol);
         setHeight(latestFinalizedHeight);
         setThreshold(proposeThreshold);
+        setDecimals(decimals);
       }
     })
   }, [space]);
@@ -161,6 +163,7 @@ export default function PostCreate() {
           isLoading={isLoading}
           threshold={threshold}
           symbol={symbol}
+          decimals={decimals}
         />
       </SiderWrapper>
     </Wrapper>

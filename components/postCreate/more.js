@@ -4,6 +4,7 @@ import Input from "components/input";
 import DatePicker from "components/datePicker";
 import Row from "@/components/row";
 import { useSpace, useSymbol, useVoteThreshold } from "../../utils/hooks";
+import { toPrecision } from "../../utils";
 
 const Wrapper = styled.div`
   background: #ffffff;
@@ -83,6 +84,7 @@ export default function More({
   isLoading,
                                threshold,
                                symbol,
+                               decimals,
 }) {
 
   return (
@@ -128,7 +130,7 @@ export default function More({
           <img src="/imgs/icons/info.svg" alt="" />
         </TitleWrapper>
         <Row header="Balance" content={`${balance} ${symbol}`}/>
-        {threshold > balance && <Hint>You need to have a minimum of {threshold} {symbol} in order to publish a proposal.</Hint>}
+        {threshold > balance && <Hint>You need to have a minimum of {toPrecision(threshold, decimals)} {symbol} in order to publish a proposal.</Hint>}
       </InnerWrapper>
       <Button
         isLoading={isLoading || threshold > balance}
