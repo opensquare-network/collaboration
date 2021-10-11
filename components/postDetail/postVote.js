@@ -1,6 +1,7 @@
 import styled, { css } from "styled-components";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useRouter } from "next/router";
 
 import { p_16_semibold } from "styles/textStyles";
 import Input from "components/input";
@@ -8,8 +9,13 @@ import { useViewfunc, useSpace, useIsMounted } from "utils/hooks";
 import { accountSelector } from "store/reducers/accountSlice";
 import { addToast } from "store/reducers/toastSlice";
 import { TOAST_TYPES } from "utils/constants";
+import {
+  isEmpty,
+  bigNumber2Locale,
+  fromAssetUnit,
+  toApproximatelyFixed,
+} from "utils";
 import nextApi from "services/nextApi";
-import { isEmpty, bigNumber2Locale, fromAssetUnit } from "utils";
 import PostAddress from "./postAddress";
 
 const Wrapper = styled.div`
@@ -134,6 +140,7 @@ export default function PostVote({ data, network }) {
   const viewfunc = useViewfunc();
   const space = useSpace();
   const isMounted = useIsMounted();
+  const router = useRouter();
 
   useEffect(() => {
     if (space && account?.address) {
@@ -165,6 +172,15 @@ export default function PostVote({ data, network }) {
       );
       return;
     }
+    if (!choice) {
+      dispatch(
+        addToast({
+          type: TOAST_TYPES.ERROR,
+          message: "Choice is missing",
+        })
+      );
+      return;
+    }
     setIsLoading(true);
     let result;
     try {
@@ -174,7 +190,7 @@ export default function PostVote({ data, network }) {
         choice,
         remark,
         account?.address,
-        proxyVote ? proxAddress : null
+        proxyVote ? proxAddress : undefined
       );
     } catch (error) {
       dispatch(
@@ -189,6 +205,9 @@ export default function PostVote({ data, network }) {
         addToast({ type: TOAST_TYPES.ERROR, message: result.error.message })
       );
     } else if (result) {
+      router.replace({
+        query: router.query,
+      });
       dispatch(
         addToast({
           type: TOAST_TYPES.SUCCESS,
@@ -229,8 +248,8 @@ export default function PostVote({ data, network }) {
         <ProxyHeader>
           <div>
             {!isEmpty(balance)
-              ? `Available ${bigNumber2Locale(
-                  fromAssetUnit(balance, network?.decimals)
+              ? `Available ${toApproximatelyFixed(
+                  bigNumber2Locale(fromAssetUnit(balance, network?.decimals))
                 )} ${network?.symbol}`
               : ""}
           </div>

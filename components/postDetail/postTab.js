@@ -37,7 +37,13 @@ const TabItem = styled.div`
     `}
 `;
 
-export default function PostTab({ data, network, votes }) {
+export default function PostTab({
+  data,
+  network,
+  votes,
+  comments,
+  defaultPage,
+}) {
   const router = useRouter();
   const { space, id } = router.query;
   const [activeTab, setActiveTab] = useState();
@@ -52,10 +58,12 @@ export default function PostTab({ data, network, votes }) {
       {
         name: "Discussion",
         value: "discussion",
-        component: <PostDiscussion />,
+        component: (
+          <PostDiscussion data={data} comments={comments} network={network} />
+        ),
       },
     ],
-    [votes, network]
+    [votes, network, data, comments]
   );
 
   useEffect(() => {
@@ -79,6 +87,11 @@ export default function PostTab({ data, network, votes }) {
                     space,
                     id,
                     ...(item.default ? {} : { tab: item.value }),
+                    ...(item.value === defaultPage?.tab
+                      ? defaultPage.page > 1
+                        ? { page: defaultPage.page }
+                        : {}
+                      : {}),
                   },
                 },
                 undefined,
