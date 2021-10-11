@@ -3,7 +3,6 @@ import styled, { css } from "styled-components";
 import Input from "components/input";
 import DatePicker from "components/datePicker";
 import Row from "@/components/row";
-import { useSpace, useSymbol, useVoteThreshold } from "../../utils/hooks";
 import { toPrecision } from "../../utils";
 import BigNumber from "bignumber.js";
 
