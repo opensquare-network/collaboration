@@ -115,13 +115,10 @@ const Wrapper = styled.div`
   }
 `;
 
-export default function Mardown({ content }) {
+export default function Markdown({ content }) {
   return (
     <Wrapper>
-      <ReactMarkdown
-        className="markdown-content"
-        linkTarget="_blank"
-      >
+      <ReactMarkdown className="markdown-content" linkTarget="_blank">
         {content}
       </ReactMarkdown>
     </Wrapper>

@@ -59,6 +59,17 @@ const Square = styled.div`
   }
 `;
 
+const NoVoteWrapper = styled.div`
+  display: flex;
+  height: 104px;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  line-height: 24px;
+  color: #c0c8d5;
+  border-bottom: 1px solid #f0f3f8;
+`;
+
 export default function PostVotes({ network, votes }) {
   console.log({ votes, network });
 
@@ -95,6 +106,9 @@ export default function PostVotes({ network, votes }) {
           )}
         </Item>
       ))}
+      {(!votes?.items || votes.items.length === 0) && (
+        <NoVoteWrapper>No current votes</NoVoteWrapper>
+      )}
       <PaginationWrapper>
         <Pagination
           page={votes.page}

@@ -2,7 +2,7 @@ import styled, { css } from "styled-components";
 import { useState } from "react";
 
 import MarkdownEditor from "./markdownEditor";
-import Mardown from "./markdown";
+import Markdown from "./markdown";
 
 const MarkdownWrapper = styled.div``;
 
@@ -66,7 +66,7 @@ export default function RichInput({
         </MarkdownEditorWrapper>
         {preview && (
           <PreviewWrapper>
-            <Mardown content={content} />
+            <Markdown content={content} />
           </PreviewWrapper>
         )}
       </MarkdownWrapper>
