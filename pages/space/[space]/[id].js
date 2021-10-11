@@ -10,12 +10,12 @@ export default function Index({
   detail,
   network,
   votes,
+  voteStatus,
   comments,
   defaultPage,
 }) {
   const space = useSpace();
   const item = SPACE_ITEMS.find((item) => item.value === space);
-
   return (
     <Layout bgHeight="183px">
       {item && (
@@ -27,10 +27,12 @@ export default function Index({
           ]}
         />
       )}
+      
       <PostDetail
         data={detail}
         network={network}
         votes={votes}
+        voteStatus={voteStatus}
         comments={comments}
         defaultPage={defaultPage}
       />
@@ -47,21 +49,31 @@ export async function getServerSideProps(context) {
   const { result: detail } = await ssrNextApi.fetch(
     `${spaceName}/proposals/${id}`
   );
-  const { result: network } = await ssrNextApi.fetch(`spaces/${spaceName}`);
-  const { result: votes } = await ssrNextApi.fetch(
-    `${spaceName}/proposals/${detail?._id}/votes`,
-    { page: tab === "votes" ? nPage : 1 }
-  );
-  const { result: comments } = await ssrNextApi.fetch(
-    `${spaceName}/proposals/${detail?._id}/comments`,
-    { page: tab === "discussion" ? nPage : 1 }
-  );
+
+  const [
+    { result: network },
+    { result: votes },
+    { result: voteStatus },
+    { result: comments },
+  ] = await Promise.all([
+    ssrNextApi.fetch(`spaces/${spaceName}`),
+    ssrNextApi.fetch(
+      `${spaceName}/proposals/${detail?._id}/votes`,
+      { page: nPage }
+    ),
+    ssrNextApi.fetch(`${spaceName}/proposals/${detail._id}/stats`),
+    ssrNextApi.fetch(
+      `${spaceName}/proposals/${detail?._id}/comments`,
+      { page: tab === "discussion" ? nPage : 1 }
+    ),
+  ]);
 
   return {
     props: {
       detail: detail ?? null,
       network: network ?? null,
       votes: votes ?? EmptyQuery,
+      voteStatus: voteStatus,
       comments: comments ?? EmptyQuery,
       defaultPage: { tab: tab ?? null, page: nPage },
     },

@@ -71,7 +71,6 @@ const NoVoteWrapper = styled.div`
 `;
 
 export default function PostVotes({ network, votes }) {
-  console.log({ votes, network });
 
   return (
     <div>
