@@ -115,21 +115,6 @@ export default function PostResult({data, voteStatus, network}) {
         </div>
         })
       }
-
-      {/*<ProgressItem>*/}
-      {/*  <div>16.59%</div>*/}
-      {/*  <div>6852 KSM</div>*/}
-      {/*</ProgressItem>*/}
-      {/*<ProgressBackground>*/}
-      {/*  <ProgressBar percent="16.59%" />*/}
-      {/*</ProgressBackground>*/}
-      {/*<ProgressItem>*/}
-      {/*  <div>50.23%</div>*/}
-      {/*  <div>21852 KSM</div>*/}
-      {/*</ProgressItem>*/}
-      {/*<ProgressBackground>*/}
-      {/*  <ProgressBar percent="50.23%" />*/}
-      {/*</ProgressBackground>*/}
     </Wrapper>
   );
 }
