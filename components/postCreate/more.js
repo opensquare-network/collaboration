@@ -130,7 +130,7 @@ export default function More({
           <Title>Information</Title>
           <img src="/imgs/icons/info.svg" alt="" />
         </TitleWrapper>
-        <Row header="Balance" content={`${balance} ${symbol}`}/>
+        <Row header="Balance" content={`${toPrecision(balance, decimals)} ${symbol}`}/>
         {!thresholdFulfilled && <Hint>You need to have a minimum of {toPrecision(threshold, decimals)} {symbol} in order to publish a proposal.</Hint>}
       </InnerWrapper>
       <Button

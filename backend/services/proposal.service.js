@@ -15,7 +15,6 @@ const { getBlockHash } = require("../utils/polkadotApi");
 const spaceServices = require("../spaces");
 const { toDecimal128 } = require("../utils");
 
-const testAccounts = (process.env.TEST_ACCOUNTS || "").split("|").filter(acc => acc);
 
 const addProposalStatus = (now) => (p) => ({
   ...p,
@@ -83,19 +82,17 @@ async function createProposal(
     throw new HttpError(400, "Snapshot height is not allow to larger than the current finalized height");
   }
 
-  if (!testAccounts.includes(address)) {
-    const spaceService = spaceServices[space];
-    if (!spaceService) {
-      throw new HttpError(500, "Unknown space name");
-    }
-    const api = await spaceService.getApi();
-    const blockHash = await getBlockHash(api, lastHeight);
-    const creatorBalance = await spaceService.balanceOf(api, blockHash, address);
+  const spaceService = spaceServices[space];
+  if (!spaceService) {
+    throw new HttpError(500, "Unknown space name");
+  }
+  const api = await spaceService.getApi();
+  const blockHash = await getBlockHash(api, lastHeight);
+  const creatorBalance = await spaceService.balanceOf(api, blockHash, address);
 
-    const bnCreatorBalance = new BigNumber(creatorBalance);
-    if (bnCreatorBalance.lt(spaceService.proposeThreshold)) {
-      throw new HttpError(403, `Balance is not enough to create the proposal`);
-    }
+  const bnCreatorBalance = new BigNumber(creatorBalance);
+  if (bnCreatorBalance.lt(spaceService.proposeThreshold)) {
+    throw new HttpError(403, `Balance is not enough to create the proposal`);
   }
 
   const postUid = await nextPostUid();

@@ -73,6 +73,11 @@ function toDecimal128(num) {
   return Decimal128.fromString(new BigNumber(num).toString());
 }
 
+const testAccounts = (process.env.TEST_ACCOUNTS || "").split("|").filter(acc => acc);
+function isTestAccount(address) {
+  return testAccounts.includes(address);
+}
+
 module.exports = {
   extractPage,
   handler,
@@ -80,4 +85,5 @@ module.exports = {
   isValidSignature,
   validateAddress,
   toDecimal128,
+  isTestAccount,
 };
