@@ -96,3 +96,9 @@ export function bigNumber2Locale(x) {
   }
   return result;
 }
+
+export function encodeURIQuery(q) {
+  return Object.keys(q)
+    .map((k) => `${k}=${encodeURIComponent(q[k])}`)
+    .join("&");
+}

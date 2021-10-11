@@ -22,10 +22,10 @@ const Name = styled.div`
   margin-left: 8px;
 `;
 
-export default function Author({ address }) {
+export default function Author({ address, size = 24 }) {
   return (
     <Wrapper>
-      <Avatar address={address} />
+      <Avatar address={address} size={size} />
       <Name>{addressEllipsis(address)}</Name>
     </Wrapper>
   );

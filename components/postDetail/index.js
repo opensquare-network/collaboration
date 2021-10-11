@@ -38,12 +38,12 @@ const SiderWrapper = styled.div`
   }
 `;
 
-export default function PostDetail({ data, network }) {
+export default function PostDetail({ data, network, votes }) {
   return (
     <Wrapper>
       <MainWrapper>
         <PostContent data={data} network={network} />
-        <PostTab data={data} />
+        <PostTab data={data} network={network} votes={votes} />
       </MainWrapper>
       <SiderWrapper>
         <PostInfo data={data} network={network} />

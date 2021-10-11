@@ -37,7 +37,7 @@ const TabItem = styled.div`
     `}
 `;
 
-export default function PostTab({ data }) {
+export default function PostTab({ data, network, votes }) {
   const router = useRouter();
   const { space, id } = router.query;
   const [activeTab, setActiveTab] = useState();
@@ -46,7 +46,7 @@ export default function PostTab({ data }) {
       {
         name: "Votes",
         value: "votes",
-        component: <PostVotes data={data} />,
+        component: <PostVotes votes={votes} network={network} />,
         default: true,
       },
       {
@@ -55,7 +55,7 @@ export default function PostTab({ data }) {
         component: <PostDiscussion />,
       },
     ],
-    [data]
+    [votes, network]
   );
 
   useEffect(() => {
