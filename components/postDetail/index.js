@@ -45,7 +45,7 @@ export default function PostDetail({
   data,
   network,
   votes,
-  voteStatus
+  voteStatus,
   comments,
   defaultPage,
 }) {
