@@ -4,7 +4,6 @@ import PostDetail from "@/components/postDetail/index";
 import { useSpace } from "utils/hooks";
 import { SPACE_ITEMS } from "utils/constants";
 import ssrNextApi from "services/nextApi";
-import { EmptyQuery } from "utils/constants";
 
 export default function Index({ detail, network }) {
   const space = useSpace();
