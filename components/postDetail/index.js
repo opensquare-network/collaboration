@@ -4,7 +4,6 @@ import PostContent from "./postContent";
 import PostTab from "./postTab";
 import PostInfo from "./postInfo";
 import PostResults from "./postResults";
-import { useNetwork } from "utils/hooks";
 
 const Wrapper = styled.div`
   display: flex;
@@ -19,6 +18,9 @@ const MainWrapper = styled.div`
   flex: 1 1 auto;
   > :not(:first-child) {
     margin-top: 20px;
+  }
+  @media screen and (max-width: 800px) {
+    width: 100%;
   }
 `;
 
