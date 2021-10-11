@@ -1,15 +1,18 @@
 import styled from "styled-components";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useRouter } from "next/router";
 
 import Author from "components/author";
-import { DISCUSSION_ITEMS } from "utils/constants";
 import Pagination from "components/pagination";
 import RichInput from "components/richInput";
 import { useViewfunc, useSpace } from "utils/hooks";
 import { accountSelector } from "store/reducers/accountSlice";
 import { addToast } from "store/reducers/toastSlice";
 import { TOAST_TYPES } from "utils/constants";
+import { timeDuration } from "utils";
+import Markdown from "components/markdown";
+import ExternalLink from "components/externalLink";
 
 const Item = styled.div`
   padding-top: 20px;
@@ -52,15 +55,30 @@ const RichInputWrapper = styled.div`
   margin-top: 20px;
 `;
 
-export default function PostDiscussion({ data }) {
+const InfoWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const Square = styled.div`
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  background: url("/imgs/icons/ipfs.svg");
+  :hover {
+    background: url("/imgs/icons/ipfs-active.svg");
+  }
+`;
+
+export default function PostDiscussion({ data, network, comments }) {
   const [content, setContent] = useState("");
   const viewfunc = useViewfunc();
   const space = useSpace();
   const account = useSelector(accountSelector);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
-
-  console.log({ data, account });
+  const router = useRouter();
 
   const onSubmit = async () => {
     if (isLoading) return;
@@ -100,6 +118,9 @@ export default function PostDiscussion({ data }) {
       );
     } else if (result) {
       setContent("");
+      router.replace({
+        query: router.query,
+      });
       dispatch(
         addToast({
           type: TOAST_TYPES.SUCCESS,
@@ -111,19 +132,34 @@ export default function PostDiscussion({ data }) {
 
   return (
     <div>
-      {DISCUSSION_ITEMS.map((item, index) => (
+      {(comments?.items || []).map((item, index) => (
         <Item key={index}>
-          <DividerWrapper>
-            <Author username={item.author} />
-            <div>{item.time}</div>
-          </DividerWrapper>
+          <InfoWrapper>
+            <DividerWrapper>
+              <Author address={item.address} size={20} />
+              <div>{timeDuration(item.createdAt)}</div>
+            </DividerWrapper>
+            {item?.pinHash && (
+              <ExternalLink
+                href={`https://ipfs-hk.decoo.io/ipfs/${item.pinHash}`}
+              >
+                <Square />
+              </ExternalLink>
+            )}
+          </InfoWrapper>
           <ContentWrapper>
-            <Content>{item.content}</Content>
+            <Content>
+              <Markdown content={item.content} />
+            </Content>
           </ContentWrapper>
         </Item>
       ))}
       <PaginationWrapper>
-        <Pagination />
+        <Pagination
+          page={comments?.page}
+          total={comments?.total}
+          pageSize={comments?.pageSize}
+        />
       </PaginationWrapper>
       <RichInputWrapper>
         <RichInput
