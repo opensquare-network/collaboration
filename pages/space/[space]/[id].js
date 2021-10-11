@@ -43,6 +43,7 @@ export async function getServerSideProps(context) {
   const { page, tab } = context.query;
 
   const nPage = parseInt(page) || 1;
+  const activeTab = tab ?? "votes";
 
   const { result: detail } = await ssrNextApi.fetch(
     `${spaceName}/proposals/${id}`
@@ -50,11 +51,11 @@ export async function getServerSideProps(context) {
   const { result: network } = await ssrNextApi.fetch(`spaces/${spaceName}`);
   const { result: votes } = await ssrNextApi.fetch(
     `${spaceName}/proposals/${detail?._id}/votes`,
-    { page: tab === "votes" ? nPage : 1 }
+    { page: activeTab === "votes" ? nPage : 1 }
   );
   const { result: comments } = await ssrNextApi.fetch(
     `${spaceName}/proposals/${detail?._id}/comments`,
-    { page: tab === "discussion" ? nPage : 1 }
+    { page: activeTab === "discussion" ? nPage : 1 }
   );
 
   return {
@@ -63,7 +64,7 @@ export async function getServerSideProps(context) {
       network: network ?? null,
       votes: votes ?? EmptyQuery,
       comments: comments ?? EmptyQuery,
-      defaultPage: { tab: tab ?? null, page: nPage },
+      defaultPage: { tab: activeTab ?? null, page: nPage },
     },
   };
 }
