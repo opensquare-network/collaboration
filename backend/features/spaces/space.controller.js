@@ -66,6 +66,7 @@ async function getSpace(ctx) {
 async function getSpaceAccountBalance(ctx) {
   const { space, address } = ctx.params;
   const { snapshot } = ctx.query;
+
   const spaceService = spaceServices[space];
   const api = await spaceService.getApi();
   const blockHeight = snapshot ? parseInt(snapshot) : getLatestHeight(space);
