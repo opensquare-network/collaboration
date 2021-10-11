@@ -5,6 +5,7 @@ import DatePicker from "components/datePicker";
 import Row from "@/components/row";
 import { useSpace, useSymbol, useVoteThreshold } from "../../utils/hooks";
 import { toPrecision } from "../../utils";
+import BigNumber from "bignumber.js";
 
 const Wrapper = styled.div`
   background: #ffffff;
@@ -82,10 +83,11 @@ export default function More({
   setHeight,
   onPublish,
   isLoading,
-                               threshold,
-                               symbol,
-                               decimals,
+  threshold,
+  symbol,
+  decimals,
 }) {
+  const thresholdFulfilled = (new BigNumber(balance)).comparedTo(new BigNumber(threshold)) >= 0;
 
   return (
     <Wrapper>
@@ -130,10 +132,10 @@ export default function More({
           <img src="/imgs/icons/info.svg" alt="" />
         </TitleWrapper>
         <Row header="Balance" content={`${balance} ${symbol}`}/>
-        {threshold > balance && <Hint>You need to have a minimum of {toPrecision(threshold, decimals)} {symbol} in order to publish a proposal.</Hint>}
+        {!thresholdFulfilled && <Hint>You need to have a minimum of {toPrecision(threshold, decimals)} {symbol} in order to publish a proposal.</Hint>}
       </InnerWrapper>
       <Button
-        isLoading={isLoading || threshold > balance}
+        isLoading={isLoading || !thresholdFulfilled}
         onClick={onPublish}
       >
         Publish
