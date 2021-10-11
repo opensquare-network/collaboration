@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { p_16_semibold } from "styles/textStyles";
 import Input from "components/input";
-import { useViewfunc, useSpace } from "utils/hooks";
+import { useViewfunc, useSpace, useIsMounted } from "utils/hooks";
 import { accountSelector } from "store/reducers/accountSlice";
 import { addToast } from "store/reducers/toastSlice";
 import { TOAST_TYPES } from "utils/constants";
@@ -133,6 +133,7 @@ export default function PostVote({ data, network }) {
   const [balance, setBalance] = useState();
   const viewfunc = useViewfunc();
   const space = useSpace();
+  const isMounted = useIsMounted();
 
   useEffect(() => {
     if (space && account?.address) {
@@ -141,10 +142,14 @@ export default function PostVote({ data, network }) {
           snapshot: data?.snapshotHeight,
         })
         .then((response) => {
-          setBalance(response?.result);
+          if (isMounted.current) {
+            setBalance(response?.result);
+          }
         });
+    } else {
+      setBalance(null);
     }
-  }, [data?.snapshotHeight, space, account?.address]);
+  }, [data?.snapshotHeight, space, account?.address, isMounted]);
 
   const onVote = async () => {
     if (isLoading) return;
