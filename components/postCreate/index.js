@@ -11,6 +11,7 @@ import { useSpace } from "utils/hooks";
 import { addToast } from "store/reducers/toastSlice";
 import { TOAST_TYPES } from "utils/constants";
 import nextApi from "services/nextApi";
+import { useRouter } from "next/router";
 
 const Wrapper = styled.div`
   display: flex;
@@ -47,6 +48,7 @@ export default function PostCreate() {
   const dispatch = useDispatch();
   const account = useSelector(accountSelector);
   const space = useSpace();
+  const router = useRouter();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [choices, setChoices] = useState(["", ""]);
@@ -117,6 +119,13 @@ export default function PostCreate() {
         Number(height),
         account?.address
       );
+      if(result.result) {
+        router.push(
+          {pathname: `/space/${space}/${result.result}`},
+          undefined,
+          {shallow: true}
+        );
+      }
     } catch (error) {
       dispatch(
         addToast({ type: TOAST_TYPES.ERROR, message: error.toString() })
