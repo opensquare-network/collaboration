@@ -71,6 +71,17 @@ const Square = styled.div`
   }
 `;
 
+const NoCommentWrapper = styled.div`
+  display: flex;
+  height: 104px;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  line-height: 24px;
+  color: #c0c8d5;
+  border-bottom: 1px solid #f0f3f8;
+`;
+
 export default function PostDiscussion({ data, network, comments }) {
   const [content, setContent] = useState("");
   const viewfunc = useViewfunc();
@@ -154,6 +165,9 @@ export default function PostDiscussion({ data, network, comments }) {
           </ContentWrapper>
         </Item>
       ))}
+      {(!comments?.items || comments.items.length === 0) && (
+        <NoCommentWrapper>No current comments</NoCommentWrapper>
+      )}
       <PaginationWrapper>
         <Pagination
           page={comments?.page}
