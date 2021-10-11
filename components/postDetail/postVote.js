@@ -8,7 +8,7 @@ import { useViewfunc, useSpace } from "utils/hooks";
 import { accountSelector } from "store/reducers/accountSlice";
 import { addToast } from "store/reducers/toastSlice";
 import { TOAST_TYPES } from "utils/constants";
-import { ssrNextApi } from "services/nextApi";
+import nextApi from "services/nextApi";
 import { isEmpty, bigNumber2Locale, fromAssetUnit } from "utils";
 import PostAddress from "./postAddress";
 
@@ -136,7 +136,7 @@ export default function PostVote({ data, network }) {
 
   useEffect(() => {
     if (space && account?.address) {
-      ssrNextApi
+      nextApi
         .fetch(`spaces/${space}/account/${account.address}/balance`, {
           snapshot: data?.snapshotHeight,
         })
