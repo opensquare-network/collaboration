@@ -2,6 +2,9 @@ import styled, { css } from "styled-components";
 
 import Input from "components/input";
 import DatePicker from "components/datePicker";
+import Row from "@/components/row";
+import { toPrecision } from "../../utils";
+import BigNumber from "bignumber.js";
 
 const Wrapper = styled.div`
   background: #ffffff;
@@ -65,16 +68,26 @@ const Button = styled.div`
     `}
 `;
 
+const Hint = styled.div`
+  color: #EE4444;
+`
+
 export default function More({
   startDate,
   setStartDate,
   endDate,
   setEndDate,
   height,
+  balance,
   setHeight,
   onPublish,
   isLoading,
+  threshold,
+  symbol,
+  decimals,
 }) {
+  const thresholdFulfilled = (new BigNumber(balance)).comparedTo(new BigNumber(threshold)) >= 0;
+
   return (
     <Wrapper>
       <InnerWrapper>
@@ -112,7 +125,18 @@ export default function More({
           onChange={(e) => setHeight(e.target.value)}
         />
       </InnerWrapper>
-      <Button isLoading={isLoading} onClick={onPublish}>
+      <InnerWrapper>
+        <TitleWrapper>
+          <Title>Information</Title>
+          <img src="/imgs/icons/info.svg" alt="" />
+        </TitleWrapper>
+        <Row header="Balance" content={`${balance} ${symbol}`}/>
+        {!thresholdFulfilled && <Hint>You need to have a minimum of {toPrecision(threshold, decimals)} {symbol} in order to publish a proposal.</Hint>}
+      </InnerWrapper>
+      <Button
+        isLoading={isLoading || !thresholdFulfilled}
+        onClick={onPublish}
+      >
         Publish
       </Button>
     </Wrapper>

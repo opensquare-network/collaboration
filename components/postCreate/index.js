@@ -53,6 +53,10 @@ export default function PostCreate() {
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
   const [height, setHeight] = useState("");
+  const [balance, setBalance] = useState(0);
+  const [threshold, setThreshold] = useState(0);
+  const [decimals,setDecimals] = useState(0);
+  const [symbol, setSymbol] = useState("");
   const [viewFunc, setViewFunc] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -63,13 +67,29 @@ export default function PostCreate() {
   }, []);
 
   useEffect(() => {
-    nextApi.fetch(`spaces/${space}`).then((response) => {
+    nextApi
+      .fetch(`spaces/${space}`)
+      .then((response) => {
       if (response.result) {
-        const { latestFinalizedHeight } = response.result;
+        const { latestFinalizedHeight, proposeThreshold, symbol, decimals } = response.result;
+        setSymbol(symbol);
         setHeight(latestFinalizedHeight);
+        setThreshold(proposeThreshold);
+        setDecimals(decimals);
       }
-    });
+    })
   }, [space]);
+
+  useEffect(()=> {
+    const address = account?.address ?? ``;
+    if(!address || !height > 0){
+      return;
+    }
+    nextApi.fetch(`spaces/${space}/account/${address}/balance?snapshot=${height}`)
+      .then(res => {
+        setBalance(res?.result ?? 0);
+      })
+  }, [space, height, account?.address]);
 
   const onPublish = async () => {
     if (isLoading) return;
@@ -138,8 +158,12 @@ export default function PostCreate() {
           setEndDate={setEndDate}
           height={height}
           setHeight={setHeight}
+          balance={balance}
           onPublish={onPublish}
           isLoading={isLoading}
+          threshold={threshold}
+          symbol={symbol}
+          decimals={decimals}
         />
       </SiderWrapper>
     </Wrapper>
