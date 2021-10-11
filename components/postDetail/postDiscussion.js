@@ -1,9 +1,15 @@
 import styled from "styled-components";
+import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 import Author from "components/author";
 import { DISCUSSION_ITEMS } from "utils/constants";
 import Pagination from "components/pagination";
 import RichInput from "components/richInput";
+import { useViewfunc, useSpace } from "utils/hooks";
+import { accountSelector } from "store/reducers/accountSlice";
+import { addToast } from "store/reducers/toastSlice";
+import { TOAST_TYPES } from "utils/constants";
 
 const Item = styled.div`
   padding-top: 20px;
@@ -46,7 +52,63 @@ const RichInputWrapper = styled.div`
   margin-top: 20px;
 `;
 
-export default function PostDiscussion() {
+export default function PostDiscussion({ data }) {
+  const [content, setContent] = useState("");
+  const viewfunc = useViewfunc();
+  const space = useSpace();
+  const account = useSelector(accountSelector);
+  const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
+
+  console.log({ data, account });
+
+  const onSubmit = async () => {
+    if (isLoading) return;
+    if (!viewfunc) {
+      return;
+    }
+    if (!account) {
+      dispatch(
+        addToast({
+          type: TOAST_TYPES.ERROR,
+          message: "Please connect wallet",
+        })
+      );
+      return;
+    }
+    setIsLoading(true);
+    let result;
+    try {
+      result = await viewfunc.addComment(
+        space,
+        data?.cid,
+        content,
+        "markdown",
+        account?.address
+      );
+    } catch (error) {
+      dispatch(
+        addToast({ type: TOAST_TYPES.ERROR, message: error.toString() })
+      );
+      setIsLoading(false);
+      return;
+    }
+    setIsLoading(false);
+    if (result?.error) {
+      dispatch(
+        addToast({ type: TOAST_TYPES.ERROR, message: result.error.message })
+      );
+    } else if (result) {
+      setContent("");
+      dispatch(
+        addToast({
+          type: TOAST_TYPES.SUCCESS,
+          message: "Add comment successfully!",
+        })
+      );
+    }
+  };
+
   return (
     <div>
       {DISCUSSION_ITEMS.map((item, index) => (
@@ -64,7 +126,11 @@ export default function PostDiscussion() {
         <Pagination />
       </PaginationWrapper>
       <RichInputWrapper>
-        <RichInput />
+        <RichInput
+          content={content}
+          setContent={setContent}
+          onSubmit={onSubmit}
+        />
       </RichInputWrapper>
     </div>
   );

@@ -52,10 +52,10 @@ export default function PostTab({ data, network, votes }) {
       {
         name: "Discussion",
         value: "discussion",
-        component: <PostDiscussion />,
+        component: <PostDiscussion data={data} />,
       },
     ],
-    [votes, network]
+    [votes, network, data]
   );
 
   useEffect(() => {
