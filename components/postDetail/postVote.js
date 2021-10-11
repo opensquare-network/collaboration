@@ -172,6 +172,15 @@ export default function PostVote({ data, network }) {
       );
       return;
     }
+    if (!choice) {
+      dispatch(
+        addToast({
+          type: TOAST_TYPES.ERROR,
+          message: "Choice is missing",
+        })
+      );
+      return;
+    }
     setIsLoading(true);
     let result;
     try {

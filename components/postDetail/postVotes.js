@@ -106,7 +106,7 @@ export default function PostVotes({ network, votes }) {
           )}
         </Item>
       ))}
-      {(!votes?.items || votes.items.length === 0) && (
+      {!votes?.items?.length > 0 && (
         <NoVoteWrapper>No current votes</NoVoteWrapper>
       )}
       <PaginationWrapper>
