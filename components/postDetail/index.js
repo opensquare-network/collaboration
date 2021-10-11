@@ -47,7 +47,7 @@ export default function PostDetail({ data, network, votes, voteStatus }) {
       </MainWrapper>
       <SiderWrapper>
         <PostInfo data={data} network={network} />
-        <PostResults voteStatus={voteStatus} />
+        <PostResults data={data} voteStatus={voteStatus} network={network} />
       </SiderWrapper>
     </Wrapper>
   );

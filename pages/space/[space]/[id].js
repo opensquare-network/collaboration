@@ -9,10 +9,8 @@ import { EmptyQuery } from "utils/constants";
 export default function Index({ detail, network, votes,voteStatus }) {
   const space = useSpace();
   const item = SPACE_ITEMS.find((item) => item.value === space);
-  console.log(voteStatus)
   return (
     <Layout bgHeight="183px">
-      {/*{JSON.stringify(voteStatus)}*/}
       {item && (
         <Nav
           data={[
@@ -29,19 +27,26 @@ export default function Index({ detail, network, votes,voteStatus }) {
 
 export async function getServerSideProps(context) {
   const { id, space: spaceName } = context.params;
-  const { tab, page } = context.query;
+  const { page } = context.query;
 
   const nPage = parseInt(page) || 1;
 
   const { result: detail } = await ssrNextApi.fetch(
     `${spaceName}/proposals/${id}`
   );
-  const { result: network } = await ssrNextApi.fetch(`spaces/${spaceName}`);
-  const { result: votes } = await ssrNextApi.fetch(
-    `${spaceName}/proposals/${detail?._id}/votes`,
-    { page: nPage }
-  );
-  const {result: voteStatus} = await ssrNextApi.fetch(`${spaceName}/proposals/${detail._id}`)
+
+  const [
+    { result: network },
+    { result: votes },
+    { result: voteStatus },
+  ] = await Promise.all([
+    ssrNextApi.fetch(`spaces/${spaceName}`),
+    ssrNextApi.fetch(
+      `${spaceName}/proposals/${detail?._id}/votes`,
+      { page: nPage }
+    ),
+    ssrNextApi.fetch(`${spaceName}/proposals/${detail._id}/stats`),
+  ]);
 
 
   return {
