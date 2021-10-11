@@ -79,6 +79,23 @@ export default function PostResult({data, voteStatus, network}) {
   const votedAmount = voteStatus?.reduce(function(sum, current) {
     return sum.plus(new BigNumber(current.balanceOf.$numberDecimal));
   }, new BigNumber("0")) ?? new BigNumber("0");
+
+  const optionList = [];
+  data?.choices?.forEach((choice,index) => {
+    for(let voteStat of voteStatus) {
+      if (voteStat.choice !== choice) {
+        continue;
+      }
+      const voteBalance = new BigNumber(voteStat.balanceOf.$numberDecimal);
+      const percentage = (voteStat.balanceOf.$numberDecimal > 0
+        ? (voteBalance).dividedBy(votedAmount)
+        : 0).toFixed(2);
+      optionList.push({index: index + 1, voteBalance, percentage})
+      return;
+    }
+    optionList.push({index: index + 1, voteBalance:new BigNumber("0"), percentage:"0"});
+  })
+
   return (
     <Wrapper>
       <TitleWrapper>
@@ -98,19 +115,15 @@ export default function PostResult({data, voteStatus, network}) {
       </div>
       <Divider/>
       {
-        voteStatus?.map((vote, index) => {
-          const voteBalance = new BigNumber(vote.balanceOf.$numberDecimal);
-          const percentage = (vote.balanceOf.$numberDecimal > 0
-            ? (voteBalance).dividedBy(votedAmount)
-            : 0).toFixed(2);
-          return <div key={index}>
+        optionList.map((vote) => {
+          return <div key={vote.index}>
           <ProgressItem>
-            <OptionIndex>#{index+1}</OptionIndex>
-            <div>{percentage}%</div>
-            <div>{toPrecision(vote.balanceOf.$numberDecimal, network.decimals)} {network.symbol}</div>
+            <OptionIndex>#{vote.index}</OptionIndex>
+            <div>{vote.percentage}%</div>
+            <div>{toPrecision(vote.voteBalance.toString(), network.decimals)} {network.symbol}</div>
           </ProgressItem>
           <ProgressBackground>
-            <ProgressBar percent={`${percentage}%`}/>
+            <ProgressBar percent={`${vote.percentage}%`}/>
           </ProgressBackground>
         </div>
         })
