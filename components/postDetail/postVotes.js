@@ -96,7 +96,7 @@ export default function PostVotes({ network, votes }) {
               <BalanceWrapper>
                 <div>{`${bigNumber2Locale(
                   fromAssetUnit(
-                    item.weights.balanceOf.$numberDecimal,
+                    item.weights?.balanceOf.$numberDecimal,
                     network?.decimals
                   )
                 )} ${network?.symbol}`}</div>
