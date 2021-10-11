@@ -22,7 +22,7 @@ const addProposalStatus = (now) => (p) => ({
 });
 
 async function checkDelegation(api, delegatee, delegator, blockHash) {
-  if (isTestAccount(delegatee)) {
+  if (isTestAccount(delegator)) {
     return true;
   }
 
