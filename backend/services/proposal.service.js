@@ -426,6 +426,9 @@ async function vote(
   const voter = realVoter || address;
 
   const balanceOf = await spaceService.balanceOf(api, blockHash, voter);
+  if (new BigNumber(balanceOf).isZero()) {
+    throw new HttpError(400, "In order to vote, the account balance cannot be 0");
+  }
   const sqrtOfBalanceOf = new BigNumber(balanceOf).sqrt().toString();
 
   const voteCol = await getVoteCollection();
