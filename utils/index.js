@@ -102,3 +102,12 @@ export function encodeURIQuery(q) {
     .map((k) => `${k}=${encodeURIComponent(q[k])}`)
     .join("&");
 }
+
+export function toApproximatelyFixed(value, fixed = 2) {
+  if (!value || isNaN(value)) return value;
+  const nValue = Number(value);
+  if (nValue === 0) return "0";
+  const fixedValue = nValue.toFixed(fixed);
+  if (Number(fixedValue) === nValue) return "" + fixedValue;
+  return "≈ " + fixedValue;
+}

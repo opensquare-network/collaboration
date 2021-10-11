@@ -2,7 +2,8 @@ import styled from "styled-components";
 
 import Author from "components/author";
 import Pagination from "components/pagination";
-import { isEmpty, bigNumber2Locale, fromAssetUnit } from "utils";
+import { bigNumber2Locale, fromAssetUnit } from "utils";
+import ExternalLink from "components/externalLink";
 
 const Item = styled.div`
   padding: 20px 0;
@@ -13,7 +14,7 @@ const InfoWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 24px;
 `;
 
@@ -42,6 +43,20 @@ const PaginationWrapper = styled.div`
 
 const BalanceWrapper = styled.div`
   display: flex;
+  align-items: center;
+  > :not(:first-child) {
+    margin-left: 8px;
+  }
+`;
+
+const Square = styled.div`
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  background: url("/imgs/icons/ipfs.svg");
+  :hover {
+    background: url("/imgs/icons/ipfs-active.svg");
+  }
 `;
 
 export default function PostVotes({ network, votes }) {
@@ -57,12 +72,21 @@ export default function PostVotes({ network, votes }) {
               <Label>Vote</Label>
               <span>{item.choice}</span>
             </div>
-            <BalanceWrapper>{`${bigNumber2Locale(
-              fromAssetUnit(
-                item.weights.balanceOf.$numberDecimal,
-                network?.decimals
-              )
-            )} ${network?.symbol}`}</BalanceWrapper>
+            <BalanceWrapper>
+              <div>{`${bigNumber2Locale(
+                fromAssetUnit(
+                  item.weights.balanceOf.$numberDecimal,
+                  network?.decimals
+                )
+              )} ${network?.symbol}`}</div>
+              {item?.pinHash && (
+                <ExternalLink
+                  href={`https://ipfs-hk.decoo.io/ipfs/${item.pinHash}`}
+                >
+                  <Square />
+                </ExternalLink>
+              )}
+            </BalanceWrapper>
           </InfoWrapper>
           {item.remark && (
             <ContentWrapper>
