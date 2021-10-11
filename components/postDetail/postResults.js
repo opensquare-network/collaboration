@@ -88,7 +88,7 @@ export default function PostResult({data, voteStatus, network}) {
       }
       const voteBalance = new BigNumber(voteStat.balanceOf.$numberDecimal);
       const percentage = (voteStat.balanceOf.$numberDecimal > 0
-        ? (voteBalance).dividedBy(votedAmount)
+        ? (voteBalance).dividedBy(votedAmount) * 100
         : 0).toFixed(2);
       optionList.push({index: index + 1, voteBalance, percentage})
       return;
