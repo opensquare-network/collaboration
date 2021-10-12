@@ -11,14 +11,16 @@ export function validateProposal(formData) {
   if (!(formData.endDate > formData.startDate)) {
     return `The end date must be greater than start date.`;
   }
+  if (!(fields.choices.length >= 2)) {
+    return `Choices must be more than one.`;
+  }
   return false;
 }
 
 export async function createProposal(proposal) {
-  const address = proposal.address;
-  delete proposal.address;
+  const {address, ...data} = proposal;
   const signedData = await signApiData({
-    ...proposal,
+    ...data,
     version: "1",
   }, address);
 
