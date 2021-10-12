@@ -74,7 +74,15 @@ export default function Post({ data, showSpace }) {
       <InfoWrapper>
         <LeftWrapper>
           <Author address={data.address} />
-          <div>{timeDuration(data.createdAt)}</div>
+          <div>{
+            data.status === "pending"
+            ? "Start " + timeDuration(data.startDate)
+            : data.status === "active"
+            ? "End " + timeDuration(data.endDate)
+            : data.status === "closed"
+            ? "Ended " + timeDuration(data.endDate)
+            : ""
+          }</div>
           { showSpace &&
               <FromSpace>From
                 <InternalLink href={`/space/${data.space}`}>
