@@ -1,8 +1,6 @@
-const BigNumber = require("bignumber.js");
 const { getLatestHeight } = require("../../services/chain.service");
 const { getProposalCollection } = require("../../mongo");
 const spaceServices = require("../../spaces");
-const { WeightStrategy } = require("../../constants");
 const { getBlockHash } = require("../../utils/polkadotApi");
 
 const SPACES = Object.keys(spaceServices).reduce((spaces, space) => {
@@ -73,14 +71,7 @@ async function getSpaceAccountBalance(ctx) {
   const blockHash = await getBlockHash(api, blockHeight);
   const balanceOf = await spaceService.balanceOf(api, blockHash, address);
 
-  let result = balanceOf;
-  if (spaceService.weightStrategy === WeightStrategy.BalanceOf) {
-    // do noting
-  } else if (spaceService.weightStrategy === WeightStrategy.SqrtOfBalanceOf) {
-    result = new BigNumber(balanceOf).sqrt().toString();
-  }
-
-  ctx.body = result;
+  ctx.body = balanceOf;
 }
 
 module.exports = {

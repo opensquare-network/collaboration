@@ -14,7 +14,7 @@ const { getLatestHeight } = require("./chain.service");
 const { getBlockHash } = require("../utils/polkadotApi");
 const spaceServices = require("../spaces");
 const ipfsService = require("./ipfs.service");
-const { toDecimal128, isTestAccount } = require("../utils");
+const { toDecimal128, isTestAccount, sqrtOfBalance } = require("../utils");
 
 
 const addProposalStatus = (now) => (p) => ({
@@ -451,7 +451,7 @@ async function vote(
   if (new BigNumber(balanceOf).isZero()) {
     throw new HttpError(400, "In order to vote, the account balance cannot be 0");
   }
-  const sqrtOfBalanceOf = new BigNumber(balanceOf).sqrt().toString();
+  const sqrtOfBalanceOf = sqrtOfBalance(balanceOf, spaceService.decimals);
 
   const { cid, pinHash } = await pinData(data, address, signature);
 
