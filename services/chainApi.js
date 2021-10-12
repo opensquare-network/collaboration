@@ -84,10 +84,15 @@ export const signMessage = async (text, address) => {
 };
 
 export const signApiData = async (data, address) => {
-  const signature = await signMessage(JSON.stringify(data), address);
+  const dataToSign = {
+    ...data,
+    timestamp: parseInt(Date.now() / 1000),
+  };
+  const msg = JSON.stringify(dataToSign);
+  const signature = await signMessage(msg, address);
 
   return {
-    data,
+    data: dataToSign,
     address,
     signature,
   };
