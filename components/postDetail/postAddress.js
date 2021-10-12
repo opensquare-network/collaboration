@@ -90,6 +90,8 @@ export default function PostAddress({
   setAddress,
   info,
   setInfo,
+  setProxyBalance,
+  getProxyBalance,
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const [isInput, setIsInput] = useState(false);
@@ -103,6 +105,7 @@ export default function PostAddress({
     fetchIdentity(network?.network, address)
       .then((response) => {
         setInfo(response?.info);
+        getProxyBalance();
       })
       .finally(() => {
         setIsLoading(false);
@@ -119,8 +122,9 @@ export default function PostAddress({
   useEffect(() => {
     if (isInput) {
       ref.current.focus();
+      setProxyBalance(null);
     }
-  }, [isInput]);
+  }, [isInput, setProxyBalance]);
 
   return (
     <Wrapper>
