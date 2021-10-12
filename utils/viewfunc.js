@@ -1,32 +1,30 @@
 import nextApi from "../services/nextApi";
 import { signApiData } from "../services/chainApi";
 
-export async function createProposal(
-  space,
-  title,
-  content,
-  contentType,
-  choiceType,
-  choices,
-  startDate,
-  endDate,
-  snapshotHeight,
-  address,
-) {
+export function validateProposal(formData) {
+  const fields = ['space', 'title', 'content', 'contentType', 'choiceType', 'choices', 'startDate', 'endDate', 'snapshotHeight', 'address',];
+  for (let field of fields) {
+    if (!formData[field] || formData[field]?.length === 0) {
+      return `${field} must not be empty.`;
+    }
+  }
+  if (!(formData.endDate > formData.startDate)) {
+    return `The end date must be greater than start date.`;
+  }
+  if (!(fields.choices.length >= 2)) {
+    return `Choices must be more than one.`;
+  }
+  return false;
+}
+
+export async function createProposal(proposal) {
+  const {address, ...data} = proposal;
   const signedData = await signApiData({
-    space,
-    title,
-    content,
-    contentType,
-    choiceType,
-    choices,
-    startDate,
-    endDate,
-    snapshotHeight,
+    ...data,
     version: "1",
   }, address);
 
-  return await nextApi.post(`${space}/proposals`, signedData);
+  return await nextApi.post(`${proposal.space}/proposals`, signedData);
 }
 
 export async function addComment(space, proposalCid, content, contentType, address) {

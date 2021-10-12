@@ -104,21 +104,27 @@ export default function PostCreate() {
     if (!viewFunc) {
       return;
     }
+    const proposal = {
+      space, title, content,
+      contentType: "markdown",
+      choiceType: "single",
+      choices: choices.filter(Boolean),
+      startDate: startDate?.getTime(),
+      endDate: endDate?.getTime(),
+      snapshotHeight: Number(height),
+      address: account?.address,
+    };
+    const formError =  viewFunc.validateProposal(proposal);
+    if(formError){
+      dispatch(
+        addToast({ type: TOAST_TYPES.ERROR, message: formError })
+      );
+      return;
+    }
     setIsLoading(true);
     let result;
     try {
-      result = await viewFunc.createProposal(
-        space,
-        title,
-        content,
-        "markdown",
-        "single",
-        choices.filter(Boolean),
-        startDate?.getTime(),
-        endDate?.getTime(),
-        Number(height),
-        account?.address
-      );
+      result = await viewFunc.createProposal(proposal);
       if(result.result) {
         router.push(
           {pathname: `/space/${space}/${result.result}`},
