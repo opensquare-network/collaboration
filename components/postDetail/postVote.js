@@ -295,7 +295,7 @@ export default function PostVote({ data, network }) {
             {proxyVote && (
               <div>
                 {!isEmpty(proxyBalance)
-                  ? `Available ${toApproximatelyFixed(
+                  ? `Proxy Available ${toApproximatelyFixed(
                       bigNumber2Locale(
                         fromAssetUnit(proxyBalance, network?.decimals)
                       )
