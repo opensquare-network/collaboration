@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 
-import { p_16_semibold } from "styles/textStyles";
+import { p_14_medium, p_16_semibold } from "styles/textStyles";
 import Input from "components/input";
 import { useViewfunc, useSpace, useIsMounted } from "utils/hooks";
 import { accountSelector } from "store/reducers/accountSlice";
@@ -65,12 +65,18 @@ const Button = styled.div`
     `}
   .index {
     position: absolute;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 24px;
+    ${p_14_medium};
     color: #c0c8d5;
   }
+  .option{
+    margin-left: 47px;
+    margin-right: 47px;
+  }
 `;
+
+const Option = styled.div`
+  ${p_16_semibold};
+`
 
 const ButtonPrimary = styled.div`
   background: #191e27;
@@ -229,7 +235,7 @@ export default function PostVote({ data, network }) {
               onClick={() => setChoice(item)}
             >
               <div className="index">{`#${index + 1}`}</div>
-              <div>{item}</div>
+              <div className="option">{item}</div>
             </Button>
           ))}
         </ButtonsWrapper>

@@ -4,6 +4,8 @@ import Author from "components/author";
 import Pagination from "components/pagination";
 import { bigNumber2Locale, fromAssetUnit } from "utils";
 import ExternalLink from "components/externalLink";
+import Ellipsis from "@/components/ellipsis";
+import Flex from "@/components/flex";
 
 const Item = styled.div`
   padding: 20px 0;
@@ -61,6 +63,7 @@ const Square = styled.div`
 const EqualWrapper = styled.div`
   display: flex;
   flex: 1 1 33.3%;
+  max-width: 50%;
   :last-child {
     justify-content: flex-end;
   }
@@ -86,11 +89,11 @@ export default function PostVotes({ network, votes }) {
             <EqualWrapper>
               <Author address={item.address} size={20} />
             </EqualWrapper>
-            <EqualWrapper>
-              <div>
+            <EqualWrapper style={{justifyContent: "center"}}>
+              <Flex style={{maxWidth: "50%"}}>
                 <Label>Vote</Label>
-                <span>{item.choice}</span>
-              </div>
+                <Ellipsis>{item.choice}</Ellipsis>
+              </Flex>
             </EqualWrapper>
             <EqualWrapper>
               <BalanceWrapper>
