@@ -66,7 +66,15 @@ export default function PostContent({ data, network }) {
       <InfoWrapper>
         <LeftWrapper>
           <Author address={data.address} />
-          <div>{timeDuration(data.createdAt)}</div>
+          <div>{
+            data.status === "pending"
+            ? "Starting " + timeDuration(data.startDate)
+            : data.status === "active"
+            ? "Ending " + timeDuration(data.endDate)
+            : data.status === "closed"
+            ? "Ended " + timeDuration(data.endDate)
+            : ""
+          }</div>
         </LeftWrapper>
         <StatusTag>{data.status}</StatusTag>
       </InfoWrapper>
