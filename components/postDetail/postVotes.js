@@ -63,6 +63,7 @@ const Square = styled.div`
 const EqualWrapper = styled.div`
   display: flex;
   flex: 1 1 33.3%;
+  max-width: 50%;
   :last-child {
     justify-content: flex-end;
   }
@@ -88,7 +89,7 @@ export default function PostVotes({ network, votes }) {
             <EqualWrapper>
               <Author address={item.address} size={20} />
             </EqualWrapper>
-            <EqualWrapper>
+            <EqualWrapper style={{justifyContent: "center"}}>
               <Flex style={{maxWidth: "50%"}}>
                 <Label>Vote</Label>
                 <Ellipsis>{item.choice}</Ellipsis>
