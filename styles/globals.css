@@ -61,3 +61,11 @@ a {
 .header {
   border-bottom: none !important;
 }
+
+#nprogress .bar {
+  background: #04d2c5 !important;
+}
+
+#nprogress .peg {
+  box-shadow: 0 0 10px #04d2c5, 0 0 5px #04d2c5 !important;
+}
