@@ -107,6 +107,7 @@ export default function PostAddress({
         setInfo(response?.info);
         getProxyBalance();
       })
+      .catch(() => {})
       .finally(() => {
         setIsLoading(false);
         setIsInput(false);
