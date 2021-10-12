@@ -16,23 +16,22 @@ const PostsWrapper = styled.div`
   }
 `;
 
-export default function PostList({ title, posts, showSpace = false, showPagination= true }) {
-  return (
-    <div>
+export default function PostList({ title, posts, showSpace = false}) {
+  const items = Array.isArray(posts) ? posts : posts?.items ?? [];
+  return (<div>
       {title && <Title>{title}</Title>}
       <PostsWrapper>
-        {(posts?.items || []).map((item, index) => (
+        {(items).map((item, index) => (
           <Post key={index} data={item} showSpace={showSpace} />
         ))}
-        {(!posts || posts.length === 0) && <NoPost />}
+        {items.length === 0 && <NoPost />}
         {
-          showPagination && <Pagination
+          posts?.page && <Pagination
             page={posts?.page}
             total={posts?.total}
             pageSize={posts?.pageSize}
           />
         }
       </PostsWrapper>
-    </div>
-  );
+  </div>);
 }
