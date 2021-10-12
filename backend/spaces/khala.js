@@ -23,7 +23,7 @@ module.exports = {
   getApi: _getApi,
   balanceOf,
   symbol: "KHA",
-  network: "kahala",
+  network: "khala",
   ss58Format: 40,
   decimals: 12,
   proposeThreshold: process.env.SPACE_PROPOSE_THRESHOLD_KHALA || "10000000000000",
