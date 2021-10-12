@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 import Author from "components/author";
 import Pagination from "components/pagination";
-import { bigNumber2Locale, fromAssetUnit } from "utils";
+import { bigNumber2Locale, fromAssetUnit, toApproximatelyFixed } from "utils";
 import ExternalLink from "components/externalLink";
 import Ellipsis from "@/components/ellipsis";
 import Flex from "@/components/flex";
@@ -89,18 +89,22 @@ export default function PostVotes({ network, votes }) {
             <EqualWrapper>
               <Author address={item.address} size={20} />
             </EqualWrapper>
-            <EqualWrapper style={{justifyContent: "center"}}>
-              <Flex style={{maxWidth: "50%"}}>
+            <EqualWrapper style={{ justifyContent: "center" }}>
+              <Flex style={{ maxWidth: "50%" }}>
                 <Label>Vote</Label>
                 <Ellipsis>{item.choice}</Ellipsis>
               </Flex>
             </EqualWrapper>
             <EqualWrapper>
               <BalanceWrapper>
-                <div>{`${bigNumber2Locale(
-                  fromAssetUnit(
-                    item.weights?.balanceOf.$numberDecimal,
-                    network?.decimals
+                <div>{`${toApproximatelyFixed(
+                  bigNumber2Locale(
+                    fromAssetUnit(
+                      network?.weightStrategy === "sqrt-of-balance-of"
+                        ? item.weights?.sqrtOfBalanceOf.$numberDecimal
+                        : item.weights?.balanceOf.$numberDecimal,
+                      network?.decimals
+                    )
                   )
                 )} ${network?.symbol}`}</div>
                 {item?.pinHash && (
