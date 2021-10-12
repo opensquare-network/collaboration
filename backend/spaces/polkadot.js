@@ -25,5 +25,5 @@ module.exports = {
   ss58Format: 0,
   decimals: 10,
   proposeThreshold: process.env.SPACE_PROPOSE_THRESHOLD_POLKADOT || "10000000000",
-  weightStrategy: WeightStrategy.BalanceOf,
+  weightStrategy: process.env.SPACE_WEIGHT_STRATEGY_POLKADOT || WeightStrategy.BalanceOf,
 };

@@ -27,5 +27,5 @@ module.exports = {
   ss58Format: 40,
   decimals: 12,
   proposeThreshold: process.env.SPACE_PROPOSE_THRESHOLD_KHALA || "10000000000000",
-  weightStrategy: WeightStrategy.BalanceOf,
+  weightStrategy: process.env.SPACE_WEIGHT_STRATEGY_KHALA || WeightStrategy.BalanceOf,
 };
