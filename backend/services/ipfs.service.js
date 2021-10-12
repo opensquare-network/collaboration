@@ -87,12 +87,13 @@ async function pinCollectionDataToIpfs(col) {
   for (const item of items) {
     try {
       const msg = JSON.stringify(item.data);
-      const pinResult = await pinJsonToIpfs({
+      const { buf, cid } = await getObjectBufAndCid({
         msg,
         address: item.address,
         signature: item.signature,
         version: "1",
       });
+      const pinResult = await pinJsonToIpfs(buf, cid);
       pinHash = pinResult.PinHash;
 
       if (pinHash) {
@@ -101,6 +102,7 @@ async function pinCollectionDataToIpfs(col) {
       }
     } catch (e) {
       console.error(e);
+      console.log(item);
     }
   }
 }

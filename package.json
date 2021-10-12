@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "NODE_ENV=production node server.js",
     "lint": "next lint",
-    "test": "jest"
+    "test": "jest",
+    "pin": "pm2 start ecosystem.config.js --only voting-pin-to-ipfs --env production"
   },
   "dependencies": {
     "@acala-network/type-definitions": "^2.3.1",
@@ -24,6 +25,7 @@
     "axios": "^0.21.4",
     "bignumber.js": "^9.0.1",
     "cheerio": "^1.0.0-rc.10",
+    "dotenv": "^10.0.0",
     "http-proxy": "^1.18.1",
     "ipfs-only-hash": "^4.0.0",
     "koa": "^2.13.1",
