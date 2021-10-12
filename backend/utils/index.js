@@ -78,18 +78,18 @@ function isTestAccount(address) {
   return testAccounts.includes(address);
 }
 
-function toSymbolUnit(value, decimals) {
+function fromSymbolUnit(value, decimals) {
   return new BigNumber(value).div(Math.pow(10, decimals)).toString();
 }
 
-function fromSymbolUnit(value, decimals) {
+function toSymbolUnit(value, decimals) {
   return new BigNumber(value).times(Math.pow(10, decimals)).toString();
 }
 
 function sqrtOfBalance(balance, decimals) {
-  const value = toSymbolUnit(balance, decimals);
+  const value = fromSymbolUnit(balance, decimals);
   const sqrt = new BigNumber(value).sqrt().toString();
-  const result = fromSymbolUnit(sqrt, decimals);
+  const result = toSymbolUnit(sqrt, decimals);
   return result;
 }
 
