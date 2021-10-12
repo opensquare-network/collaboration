@@ -1,6 +1,5 @@
 const { HttpError } = require("../exc");
 const { isValidSignature } = require("../utils");
-const ipfsService = require("../services/ipfs.service");
 
 async function verifySignature(msg, address, signature) {
   if (!signature) {

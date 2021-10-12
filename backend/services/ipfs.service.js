@@ -30,59 +30,85 @@ if (!DECOO_API_UPLOAD_ENDPOINT) {
 const trimTailSlash = (url) =>
   url.endsWith("/") ? url.substr(0, url.length - 1) : url;
 
-class IpfsService {
-  async pinJsonToIpfsWithTimeout(buf, cid, timeout) {
-    const errorMsg = "Pin json to ipfs timeout";
-    return await Promise.race([
-      new Promise((_, reject) => setTimeout(() => reject(new Error(errorMsg)), timeout)),
-      this.pinJsonToIpfs(buf, cid),
-    ]);
-  }
-
-  async getObjectBufAndCid(data) {
-    const jsonData = JSON.stringify(data);
-    const buf = Buffer.from(jsonData);
-    const cid = await Hash.of(buf);
-    return { buf, cid };
-  }
-
-  async pinJsonToIpfs(buf, cid) {
-    const fullPrivateKey = `-----BEGIN PRIVATE KEY-----\n${DECOO_API_SECRET_KEY}\n-----END PRIVATE KEY-----`;
-    const secret = crypto
-      .privateEncrypt(fullPrivateKey, Buffer.from(cid))
-      .toString("base64");
-    const formdata = new FormData();
-    formdata.append("file", buf, {
-      filename: "grade-" + Date.now() + ".json",
-      contentType: "application/json",
-    });
-    formdata.append("cid", cid);
-    formdata.append("secret", secret);
-
-    const tokenResult = await axios.get(
-      `${trimTailSlash(DECOO_API_OAUTH_ENDPOINT)}/oauth/accessToken`,
-      {
-        headers: {
-          authorization: `Bearer ${DECOO_API_TOKEN}`,
-        },
-      }
-    );
-    const accessToken = tokenResult.data.Data;
-
-    const pinResult = await axios.post(
-      `${trimTailSlash(DECOO_API_UPLOAD_ENDPOINT)}/pinning/pinFile`,
-      formdata,
-      {
-        headers: {
-          ...formdata.getHeaders(),
-          useraccesstoken: accessToken,
-        },
-      }
-    );
-
-    return pinResult.data;
-  }
-
+async function pinJsonToIpfsWithTimeout(buf, cid, timeout) {
+  const errorMsg = "Pin json to ipfs timeout";
+  return await Promise.race([
+    new Promise((_, reject) => setTimeout(() => reject(new Error(errorMsg)), timeout)),
+    pinJsonToIpfs(buf, cid),
+  ]);
 }
 
-module.exports = new IpfsService();
+async function getObjectBufAndCid(data) {
+  const jsonData = JSON.stringify(data);
+  const buf = Buffer.from(jsonData);
+  const cid = await Hash.of(buf);
+  return { buf, cid };
+}
+
+async function pinJsonToIpfs(buf, cid) {
+  const fullPrivateKey = `-----BEGIN PRIVATE KEY-----\n${DECOO_API_SECRET_KEY}\n-----END PRIVATE KEY-----`;
+  const secret = crypto
+    .privateEncrypt(fullPrivateKey, Buffer.from(cid))
+    .toString("base64");
+  const formdata = new FormData();
+  formdata.append("file", buf, {
+    filename: "grade-" + Date.now() + ".json",
+    contentType: "application/json",
+  });
+  formdata.append("cid", cid);
+  formdata.append("secret", secret);
+
+  const tokenResult = await axios.get(
+    `${trimTailSlash(DECOO_API_OAUTH_ENDPOINT)}/oauth/accessToken`,
+    {
+      headers: {
+        authorization: `Bearer ${DECOO_API_TOKEN}`,
+      },
+    }
+  );
+  const accessToken = tokenResult.data.Data;
+
+  const pinResult = await axios.post(
+    `${trimTailSlash(DECOO_API_UPLOAD_ENDPOINT)}/pinning/pinFile`,
+    formdata,
+    {
+      headers: {
+        ...formdata.getHeaders(),
+        useraccesstoken: accessToken,
+      },
+    }
+  );
+
+  return pinResult.data;
+}
+
+async function pinCollectionDataToIpfs(col) {
+  const items = await col.find({ pinHash: null }).toArray();
+  for (const item of items) {
+    try {
+      const msg = JSON.stringify(item.data);
+      const pinResult = await pinJsonToIpfs({
+        msg,
+        address: item.address,
+        signature: item.signature,
+        version: "1",
+      });
+      pinHash = pinResult.PinHash;
+
+      if (pinHash) {
+        await col.updateOne({ _id: item._id }, { $set:{ pinHash } });
+        console.log(`Save pin hash ${pinHash} to: ${item._id}`);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }
+}
+
+
+module.exports = {
+  pinJsonToIpfsWithTimeout,
+  getObjectBufAndCid,
+  pinJsonToIpfs,
+  pinCollectionDataToIpfs,
+};

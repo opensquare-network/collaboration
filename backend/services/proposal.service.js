@@ -13,7 +13,7 @@ const { ContentType } = require("../constants");
 const { getLatestHeight } = require("./chain.service");
 const { getBlockHash } = require("../utils/polkadotApi");
 const spaceServices = require("../spaces");
-const ipfsService = require("./ipfs.service");
+const { getObjectBufAndCid, pinJsonToIpfsWithTimeout } = require("./ipfs.service");
 const { toDecimal128, isTestAccount, sqrtOfBalance } = require("../utils");
 
 
@@ -23,17 +23,17 @@ const addProposalStatus = (now) => (p) => ({
 });
 
 async function pinData(data, address, signature) {
-  const { buf, cid } = await ipfsService.getObjectBufAndCid({
+  const { buf, cid } = await getObjectBufAndCid({
     msg: JSON.stringify(data),
     address,
     signature,
     version: "1",
   });
 
-  let pinHash = undefined;
+  let pinHash = null;
   try {
-    const pinResult = await ipfsService.pinJsonToIpfsWithTimeout(buf, cid, 3000);
-    pinHash = pinResult.PinHash;
+    const pinResult = await pinJsonToIpfsWithTimeout(buf, cid, 3000);
+    pinHash = pinResult.PinHash ?? null;
   } catch (e) {
     console.error(e);
   }
