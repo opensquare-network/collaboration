@@ -102,7 +102,6 @@ async function pinCollectionDataToIpfs(col) {
       }
     } catch (e) {
       console.error(e);
-      console.log(item);
     }
   }
 }
