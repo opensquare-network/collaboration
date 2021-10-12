@@ -7,6 +7,7 @@ const router = new Router();
 
 const spaceFeatureRoutes = [
   require("./features/proposals/routes"),
+  require("./features/accounts/routes"),
 ];
 
 const commonFeatureRouters = [

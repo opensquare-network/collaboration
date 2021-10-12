@@ -160,7 +160,7 @@ export default function PostVote({ data, network }) {
   useEffect(() => {
     if (space && account?.address) {
       nextApi
-        .fetch(`spaces/${space}/account/${account.address}/balance`, {
+        .fetch(`${space}/account/${account.address}/balance`, {
           snapshot: data?.snapshotHeight,
         })
         .then((response) => {
@@ -176,7 +176,7 @@ export default function PostVote({ data, network }) {
   const getProxyBalance = () => {
     if (space && proxAddress) {
       nextApi
-        .fetch(`spaces/${space}/account/${proxAddress}/balance`, {
+        .fetch(`${space}/account/${proxAddress}/balance`, {
           snapshot: data?.snapshotHeight,
         })
         .then((response) => {
