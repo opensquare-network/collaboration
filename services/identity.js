@@ -53,6 +53,17 @@ const delayQuery = debounce(() => {
             resolve(identity);
           }
         }
+      })
+      .catch(() => {
+        for (const [idName, [, , reject]] of pending) {
+          const [chainOfIdName] = idName.split("/");
+          if (chainOfIdName !== chain) {
+            continue;
+          }
+          if (reject) {
+            reject();
+          }
+        }
       });
   }
 }, 0);
