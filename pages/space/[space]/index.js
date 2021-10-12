@@ -72,7 +72,7 @@ export async function getServerSideProps(context) {
   const nPage = parseInt(page) || 1;
   const activeTab = tab || "all";
 
-  const pageSize = 25;
+  const pageSize = 5;
 
   const [
     { result: spaceData },
