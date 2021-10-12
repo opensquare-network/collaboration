@@ -10,7 +10,7 @@ loadEnvConfig(projectDir);
 const ssrUrl = new URL(process.env.NEXT_PUBLIC_SSR_API_END_POINT);
 const proxy = httpProxy.createProxyServer({
   target: {
-    protocal: ssrUrl.protocal,
+    protocol: ssrUrl.protocol,
     host: ssrUrl.host,
     port: ssrUrl.port,
   },
