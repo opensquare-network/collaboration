@@ -557,7 +557,7 @@ async function getStats(proposalId) {
   return result;
 }
 
-async function getHotestProposals() {
+async function getHottestProposals() {
   const now = Date.now();
   const q = {
     startDate: { $lte: now },
@@ -587,5 +587,5 @@ module.exports = {
   vote,
   getVotes,
   getStats,
-  getHotestProposals,
+  getHottestProposals,
 };

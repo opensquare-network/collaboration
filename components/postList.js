@@ -16,7 +16,7 @@ const PostsWrapper = styled.div`
   }
 `;
 
-export default function PostList({ title, posts, showSpace = false }) {
+export default function PostList({ title, posts, showSpace = false, showPagination= true }) {
   return (
     <div>
       {title && <Title>{title}</Title>}
@@ -25,11 +25,13 @@ export default function PostList({ title, posts, showSpace = false }) {
           <Post key={index} data={item} showSpace={showSpace} />
         ))}
         {(!posts || posts.length === 0) && <NoPost />}
-        <Pagination
-          page={posts?.page}
-          total={posts?.total}
-          pageSize={posts?.pageSize}
-        />
+        {
+          showPagination && <Pagination
+            page={posts?.page}
+            total={posts?.total}
+            pageSize={posts?.pageSize}
+          />
+        }
       </PostsWrapper>
     </div>
   );
