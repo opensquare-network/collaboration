@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Fragment } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 
@@ -68,15 +68,20 @@ const Button = styled.div`
     ${p_14_medium};
     color: #c0c8d5;
   }
-  .option{
+  .option {
     margin-left: 47px;
     margin-right: 47px;
   }
+  ${(p) =>
+    p.disabled &&
+    css`
+      pointer-events: none;
+    `}
 `;
 
 const Option = styled.div`
   ${p_16_semibold};
-`
+`;
 
 const ButtonPrimary = styled.div`
   background: #191e27;
@@ -86,7 +91,7 @@ const ButtonPrimary = styled.div`
   cursor: pointer;
   color: #ffffff;
   ${(p) =>
-    p.isLoading &&
+    (p.isLoading || p.disabled) &&
     css`
       background: #e2e8f0;
       pointer-events: none;
@@ -103,6 +108,7 @@ const ProxyHeader = styled.div`
 `;
 
 const ToggleWrapper = styled.div`
+  margin-left: auto;
   display: flex;
   align-items: center;
   > :not(:first-child) {
@@ -143,10 +149,13 @@ export default function PostVote({ data, network }) {
   const [proxAddress, setProxyAddress] = useState("");
   const [info, setInfo] = useState();
   const [balance, setBalance] = useState();
+  const [proxyBalance, setProxyBalance] = useState();
   const viewfunc = useViewfunc();
   const space = useSpace();
   const isMounted = useIsMounted();
   const router = useRouter();
+
+  const status = data?.status;
 
   useEffect(() => {
     if (space && account?.address) {
@@ -163,6 +172,22 @@ export default function PostVote({ data, network }) {
       setBalance(null);
     }
   }, [data?.snapshotHeight, space, account?.address, isMounted]);
+
+  const getProxyBalance = () => {
+    if (space && proxAddress) {
+      nextApi
+        .fetch(`spaces/${space}/account/${proxAddress}/balance`, {
+          snapshot: data?.snapshotHeight,
+        })
+        .then((response) => {
+          if (isMounted.current) {
+            setProxyBalance(response?.result);
+          }
+        });
+    } else {
+      setProxyBalance(null);
+    }
+  };
 
   const onVote = async () => {
     if (isLoading) return;
@@ -226,13 +251,16 @@ export default function PostVote({ data, network }) {
   return (
     <Wrapper>
       <InnerWrapper>
-        <Title>Cast your vote</Title>
+        <Title>
+          {status && status !== "closed" ? "Cast your vote" : "Options"}
+        </Title>
         <ButtonsWrapper>
           {(data.choices || []).map((item, index) => (
             <Button
               key={index}
               active={item === choice}
               onClick={() => setChoice(item)}
+              disabled={!status || status === "closed"}
             >
               <div className="index">{`#${index + 1}`}</div>
               <div className="option">{item}</div>
@@ -250,35 +278,61 @@ export default function PostVote({ data, network }) {
           />
         </InnerWrapper>
       )}
-      <InnerWrapper>
-        <ProxyHeader>
-          <div>
-            {!isEmpty(balance)
-              ? `Available ${toApproximatelyFixed(
-                  bigNumber2Locale(fromAssetUnit(balance, network?.decimals))
-                )} ${network?.symbol}`
-              : ""}
-          </div>
-          <ToggleWrapper>
-            <div>Proxy vote</div>
-            <Toggle active={proxyVote} onClick={() => setProxyVote(!proxyVote)}>
-              <div />
-            </Toggle>
-          </ToggleWrapper>
-        </ProxyHeader>
-        {proxyVote && (
-          <PostAddress
-            address={proxAddress}
-            setAddress={setProxyAddress}
-            network={network}
-            info={info}
-            setInfo={setInfo}
-          />
-        )}
-        <ButtonPrimary isLoading={isLoading} onClick={onVote}>
-          {proxyVote ? "Proxy Vote" : "Vote"}
-        </ButtonPrimary>
-      </InnerWrapper>
+      {status !== "closed" && (
+        <InnerWrapper>
+          <ProxyHeader>
+            {!proxyVote && (
+              <div>
+                {!isEmpty(balance)
+                  ? `Available ${toApproximatelyFixed(
+                      bigNumber2Locale(
+                        fromAssetUnit(balance, network?.decimals)
+                      )
+                    )} ${network?.symbol}`
+                  : ""}
+              </div>
+            )}
+            {proxyVote && (
+              <div>
+                {!isEmpty(proxyBalance)
+                  ? `Available ${toApproximatelyFixed(
+                      bigNumber2Locale(
+                        fromAssetUnit(proxyBalance, network?.decimals)
+                      )
+                    )} ${network?.symbol}`
+                  : ""}
+              </div>
+            )}
+            <ToggleWrapper>
+              <div>Proxy vote</div>
+              <Toggle
+                active={proxyVote}
+                onClick={() => setProxyVote(!proxyVote)}
+              >
+                <div />
+              </Toggle>
+            </ToggleWrapper>
+          </ProxyHeader>
+          {proxyVote && (
+            <PostAddress
+              address={proxAddress}
+              setAddress={setProxyAddress}
+              network={network}
+              info={info}
+              setInfo={setInfo}
+              setProxyBalance={setProxyBalance}
+              getProxyBalance={getProxyBalance}
+            />
+          )}
+          <ButtonPrimary
+            isLoading={isLoading}
+            onClick={onVote}
+            disabled={status === "pending"}
+          >
+            {proxyVote ? "Proxy Vote" : "Vote"}
+          </ButtonPrimary>
+        </InnerWrapper>
+      )}
     </Wrapper>
   );
 }
