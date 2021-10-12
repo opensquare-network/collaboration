@@ -1,14 +1,20 @@
 const dotenv = require("dotenv");
 dotenv.config();
 
-const { getVoteCollection } = require("../mongo");
+const { getProposalCollection, getVoteCollection, getCommentCollection } = require("../mongo");
 const { pinCollectionDataToIpfs } = require("../services/ipfs.service");
 
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 async function startPin() {
+  const proposalCol = await getProposalCollection();
   const voteCol = await getVoteCollection();
-  await pinCollectionDataToIpfs(voteCol);
+  const commentCol = await getCommentCollection();
+  await Promise.all([
+    pinCollectionDataToIpfs(proposalCol),
+    pinCollectionDataToIpfs(voteCol),
+    pinCollectionDataToIpfs(commentCol),
+  ]);
 }
 
 async function main() {
