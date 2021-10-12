@@ -105,7 +105,7 @@ export default function PostDiscussion({ data, network, comments }) {
       );
       return;
     }
-    if (!cotent) {
+    if (!content) {
       dispatch(
         addToast({
           type: TOAST_TYPES.ERROR,
