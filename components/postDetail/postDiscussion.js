@@ -139,7 +139,10 @@ export default function PostDiscussion({ data, network, comments }) {
     } else if (result) {
       setContent("");
       router.replace({
-        query: router.query,
+        query: {
+          ...router.query,
+          page: "last",
+        },
       });
       dispatch(
         addToast({
