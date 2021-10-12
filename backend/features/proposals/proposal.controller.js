@@ -81,8 +81,6 @@ async function createProposal(ctx) {
     data,
     address,
     signature,
-    ctx.cid,
-    ctx.pinHash,
   );
 }
 
@@ -170,8 +168,6 @@ async function postComment(ctx) {
     data,
     address,
     signature,
-    ctx.cid,
-    ctx.pinHash,
   );
 }
 
@@ -215,8 +211,6 @@ async function vote(ctx) {
     data,
     address,
     signature,
-    ctx.cid,
-    ctx.pinHash,
   );
 }
 

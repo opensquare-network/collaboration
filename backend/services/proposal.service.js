@@ -13,6 +13,7 @@ const { ContentType } = require("../constants");
 const { getLatestHeight } = require("./chain.service");
 const { getBlockHash } = require("../utils/polkadotApi");
 const spaceServices = require("../spaces");
+const ipfsService = require("./ipfs.service");
 const { toDecimal128, isTestAccount } = require("../utils");
 
 
@@ -20,6 +21,25 @@ const addProposalStatus = (now) => (p) => ({
   ...p,
   status: now < p.startDate ? "pending" : now < p.endDate ? "active" : "closed",
 });
+
+async function pinData(data, address, signature) {
+  const { buf, cid } = await ipfsService.getObjectBufAndCid({
+    msg: JSON.stringify(data),
+    address,
+    signature,
+    version: "1",
+  });
+
+  let pinHash = undefined;
+  try {
+    const pinResult = await ipfsService.pinJsonToIpfsWithTimeout(buf, cid, 3000);
+    pinHash = pinResult.PinHash;
+  } catch (e) {
+    console.error(e);
+  }
+
+  return { cid, pinHash };
+}
 
 async function checkDelegation(api, delegatee, delegator, blockHash) {
   if (isTestAccount(delegator)) {
@@ -66,8 +86,6 @@ async function createProposal(
   data,
   address,
   signature,
-  cid,
-  pinHash,
 ) {
   if (title.length > PostTitleLengthLimitation) {
     throw new HttpError(400, {
@@ -98,6 +116,8 @@ async function createProposal(
   if (bnCreatorBalance.lt(spaceService.proposeThreshold)) {
     throw new HttpError(403, `Balance is not enough to create the proposal`);
   }
+
+  const { cid, pinHash } = await pinData(data, address, signature);
 
   const postUid = await nextPostUid();
 
@@ -308,14 +328,14 @@ async function postComment(
   data,
   address,
   signature,
-  cid,
-  pinHash,
 ) {
   const proposalCol = await getProposalCollection();
   const proposal = await proposalCol.findOne({ cid: proposalCid });
   if (!proposal) {
     throw new HttpError(400, "Proposal not found.");
   }
+
+  const { cid, pinHash } = await pinData(data, address, signature);
 
   const commentCol = await getCommentCollection();
   const height = await commentCol.countDocuments({ proposal: proposal._id });
@@ -392,8 +412,6 @@ async function vote(
   data,
   address,
   signature,
-  cid,
-  pinHash,
 ) {
   const proposalCol = await getProposalCollection();
   const proposal = await proposalCol.findOne({ cid: proposalCid });
@@ -434,6 +452,8 @@ async function vote(
     throw new HttpError(400, "In order to vote, the account balance cannot be 0");
   }
   const sqrtOfBalanceOf = new BigNumber(balanceOf).sqrt().toString();
+
+  const { cid, pinHash } = await pinData(data, address, signature);
 
   const voteCol = await getVoteCollection();
   const result = await voteCol.findOneAndUpdate(
