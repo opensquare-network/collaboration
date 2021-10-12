@@ -3,6 +3,6 @@ const homeController = require("./home.controller");
 
 const router = new Router();
 
-router.get("/home/hotest", homeController.getHotestProposals);
+router.get("/home/hottest", homeController.getHottestProposals);
 
 module.exports = router;
