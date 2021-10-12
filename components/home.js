@@ -13,7 +13,7 @@ export default function Home({ spaces, hottestProposals }) {
   return (
     <Wrapper>
       <Space spaces={spaces} />
-      <PostList title="Hottest Proposals" posts={hottestProposals} showSpace={true} showPagination={false} />
+      <PostList title="Hottest Proposals" posts={{items: hottestProposals}} showSpace={true} showPagination={false} />
     </Wrapper>
   );
 }
