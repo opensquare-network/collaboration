@@ -76,9 +76,9 @@ export default function Post({ data, showSpace }) {
           <Author address={data.address} />
           <div>{
             data.status === "pending"
-            ? "Start " + timeDuration(data.startDate)
+            ? "Starting " + timeDuration(data.startDate)
             : data.status === "active"
-            ? "End " + timeDuration(data.endDate)
+            ? "Ending " + timeDuration(data.endDate)
             : data.status === "closed"
             ? "Ended " + timeDuration(data.endDate)
             : ""
