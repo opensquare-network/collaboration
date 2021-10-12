@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { p_14_medium, p_16_semibold } from "styles/textStyles";
 import BigNumber from "bignumber.js";
-import { toPrecision } from "../../utils";
+import { toFixedPrecision, toPrecision } from "../../utils";
 
 const Wrapper = styled.div`
   padding: 40px 32px;
@@ -77,23 +77,32 @@ const OptionIndex = styled.div`
 
 export default function PostResult({data, voteStatus, network}) {
   const votedAmount = voteStatus?.reduce(function(sum, current) {
-    return sum.plus(new BigNumber(current.balanceOf.$numberDecimal));
+    return sum.plus(new BigNumber(
+      network.weightStrategy === "sqrt-of-balance-of"
+        ? current.sqrtOfBalanceOf.$numberDecimal
+        : current.balanceOf.$numberDecimal
+    ));
   }, new BigNumber("0")) ?? new BigNumber("0");
 
   const optionList = [];
   data?.choices?.forEach((choice,index) => {
-    for(let voteStat of voteStatus) {
+    for (let voteStat of voteStatus) {
       if (voteStat.choice !== choice) {
         continue;
       }
-      const voteBalance = new BigNumber(voteStat.balanceOf.$numberDecimal);
+
+      const voteBalance = new BigNumber(
+        network.weightStrategy === "sqrt-of-balance-of"
+          ? voteStat.sqrtOfBalanceOf.$numberDecimal
+          : voteStat.balanceOf.$numberDecimal
+      );
       const percentage = (voteStat.balanceOf.$numberDecimal > 0
         ? (voteBalance).dividedBy(votedAmount) * 100
         : 0).toFixed(2);
       optionList.push({index: index + 1, voteBalance, percentage})
       return;
     }
-    optionList.push({index: index + 1, voteBalance:new BigNumber("0"), percentage:"0"});
+    optionList.push({index: index + 1, voteBalance: new BigNumber("0"), percentage: "0"});
   })
 
   return (
@@ -106,7 +115,7 @@ export default function PostResult({data, voteStatus, network}) {
       <div>
         <VoteItem>
           <div>Voted</div>
-          <div>{toPrecision(votedAmount.toString(), network.decimals)} {network.symbol}</div>
+          <div>{toFixedPrecision(votedAmount.toString(), network.decimals)} {network.symbol}</div>
         </VoteItem>
         <VoteItem>
           <div>Number of voters</div>
@@ -120,7 +129,7 @@ export default function PostResult({data, voteStatus, network}) {
           <ProgressItem>
             <OptionIndex>#{vote.index}</OptionIndex>
             <div>{vote.percentage}%</div>
-            <div>{toPrecision(vote.voteBalance.toString(), network.decimals)} {network.symbol}</div>
+            <div>{toFixedPrecision(vote.voteBalance.toString(), network.decimals)} {network.symbol}</div>
           </ProgressItem>
           <ProgressBackground>
             <ProgressBar percent={`${vote.percentage}%`}/>
