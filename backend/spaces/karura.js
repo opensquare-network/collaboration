@@ -27,5 +27,5 @@ module.exports = {
   ss58Format: 8,
   decimals: 12,
   proposeThreshold: process.env.SPACE_PROPOSE_THRESHOLD_KARURA || "1000000000000",
-  weightStrategy: WeightStrategy.BalanceOf,
+  weightStrategy: process.env.SPACE_WEIGHT_STRATEGY_KARURA || WeightStrategy.BalanceOf,
 };
