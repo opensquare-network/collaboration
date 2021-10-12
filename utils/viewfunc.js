@@ -15,10 +15,12 @@ export function validateProposal(formData) {
 }
 
 export async function createProposal(proposal) {
+  const address = proposal.address;
+  delete proposal.address;
   const signedData = await signApiData({
     ...proposal,
     version: "1",
-  }, proposal.address);
+  }, address);
 
   return await nextApi.post(`${proposal.space}/proposals`, signedData);
 }
