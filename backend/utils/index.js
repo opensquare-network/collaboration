@@ -75,7 +75,7 @@ function toDecimal128(num) {
 
 const testAccounts = (process.env.TEST_ACCOUNTS || "").split("|").filter(acc => acc);
 function isTestAccount(address) {
-  return testAccounts.includes(address);
+  return testAccounts.includes(encodeAddress(address, 42));
 }
 
 function fromSymbolUnit(value, decimals) {
