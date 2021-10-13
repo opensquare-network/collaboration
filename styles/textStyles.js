@@ -79,6 +79,14 @@ export const p_16_semibold = css`
   line-height: 24px;
 `
 
+export const p_16_medium = css`
+  font-family: Inter, serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+`
+
 export const p_16_normal = css`
   font-family: Inter, serif;
   font-style: normal;
