@@ -1,9 +1,8 @@
 import styled, { css } from "styled-components";
+import { p_16_medium } from "../styles/textStyles";
 
 const Wrapper = styled.div`
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 24px;
+  ${p_16_medium};
   text-align: center;
   padding: 7px 15px;
   border: 1px solid #b7c0cc;
