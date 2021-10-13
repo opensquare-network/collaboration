@@ -67,7 +67,7 @@ const SpaceName = styled.a`
 export default function Post({ data, showSpace }) {
   return (
     <Wrapper>
-      <InternalLink href={`/space/${data.space}/${data.postUid}`}>
+      <InternalLink href={`/space/${data.space}/${data.cid}`}>
         <Title>{data.title}</Title>
       </InternalLink>
       <Divider />
