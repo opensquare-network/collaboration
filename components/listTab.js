@@ -47,8 +47,8 @@ const Item = styled.div`
       padding-bottom: 17px;
     `}
   > div:last-child{
-    margin-top: 3px;
-    margin-left: 5px;
+    margin-top: 4px;
+    margin-left: 4px;
   }
 `;
 
