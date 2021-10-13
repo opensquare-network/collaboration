@@ -32,7 +32,7 @@ const VoteItem = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  ${p_16_semibold};
+  ${p_14_medium};
 
   :not(:first-child) {
     margin-top: 4px;
@@ -48,9 +48,7 @@ const ProgressItem = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 24px;
+  ${p_14_medium};
 `;
 
 const ProgressBackground = styled.div`
