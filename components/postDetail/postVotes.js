@@ -87,7 +87,11 @@ export default function PostVotes({ network, votes }) {
         <Item key={index}>
           <InfoWrapper>
             <EqualWrapper>
-              <Author address={item.voter ?? item.address} size={20} />
+              <Author
+                address={item.voter ?? item.address}
+                network={network?.network}
+                size={20}
+              />
             </EqualWrapper>
             <EqualWrapper style={{ justifyContent: "center" }}>
               <Flex style={{ maxWidth: "50%" }}>

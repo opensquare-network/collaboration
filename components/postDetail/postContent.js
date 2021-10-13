@@ -65,7 +65,7 @@ export default function PostContent({ data, network }) {
       <Title>{data?.title}</Title>
       <InfoWrapper>
         <LeftWrapper>
-          <Author address={data.address} />
+          <Author address={data.address} network={network?.network} />
           <PostTime post={data} />
         </LeftWrapper>
         <StatusTag>{data.status}</StatusTag>

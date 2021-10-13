@@ -159,7 +159,11 @@ export default function PostDiscussion({ data, network, comments }) {
         <Item key={index}>
           <InfoWrapper>
             <DividerWrapper>
-              <Author address={item.address} size={20} />
+              <Author
+                address={item.address}
+                network={network.network}
+                size={20}
+              />
               <div>{timeDuration(item.createdAt)}</div>
             </DividerWrapper>
             {item?.pinHash && (

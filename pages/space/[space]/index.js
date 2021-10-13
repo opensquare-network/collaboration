@@ -60,7 +60,7 @@ export default function List({
         <ListTab space={spaceName} activeTab={activeTab} onActiveTab={setTab} />
       </HeaderWrapper>
       <PostWrapper>
-        <PostList posts={proposalList} />
+        <PostList posts={proposalList} network={spaceData} />
       </PostWrapper>
     </Layout>
   );
