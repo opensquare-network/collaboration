@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import copy from "copy-to-clipboard";
 
 import { addToast } from "store/reducers/toastSlice";
-import { p_12_normal } from "../styles/textStyles";
+import { p_14_normal } from "../styles/textStyles";
 
 const Wrapper = styled.div`
   display: inline-block;
@@ -55,9 +55,9 @@ const Popup = styled.div`
   position: relative;
   background: rgba(25, 30, 39, 0.9);
   max-width: 330px;
-  min-width: 180px;
-  padding: 6px 12px;
-  ${p_12_normal};
+  min-width: 194px;
+  padding: 8px 12px;
+  ${p_14_normal};
   color: #ffffff;
   word-wrap: break-word;
   white-space: break-spaces;
@@ -69,7 +69,7 @@ const Triangle = styled.div`
   height: 0;
   border-left: 6px solid transparent;
   border-right: 6px solid transparent;
-  border-top: 6px solid rgba(0, 0, 0, 0.65);
+  border-top: 6px solid rgba(25, 30, 39, 0.9);
   left: 50%;
   top: 100%;
   transform: translateX(-50%);
