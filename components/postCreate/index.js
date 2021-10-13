@@ -124,13 +124,9 @@ export default function PostCreate() {
     setIsLoading(true);
     let result;
     try {
-      result = await viewFunc.createProposal(proposal);
-      if(result.result) {
-        router.push(
-          {pathname: `/space/${space}/${result.result}`},
-          undefined,
-          {shallow: true}
-        );
+      const { result } = await viewFunc.createProposal(proposal);
+      if (result) {
+        router.push(`/space/${space}/${result.cid}`);
       }
     } catch (error) {
       dispatch(

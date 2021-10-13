@@ -151,7 +151,10 @@ async function createProposal(
     throw new HttpError(500, "Failed to create post");
   }
 
-  return postUid;
+  return {
+    cid,
+    postUid,
+  };
 }
 
 async function getProposalBySpace(space, page, pageSize) {
@@ -280,8 +283,10 @@ async function getProposalById(proposalId) {
   const q = {};
   if (ObjectId.isValid(proposalId)) {
     q._id = ObjectId(proposalId);
-  } else {
+  } else if (proposalId.match(/^[0-9]+$/)) {
     q.postUid = proposalId;
+  } else {
+    q.cid = proposalId;
   }
 
   const proposalCol = await getProposalCollection();
