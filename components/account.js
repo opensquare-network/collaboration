@@ -160,13 +160,12 @@ const IdentityWrapper = styled.div`
   }
 `;
 
-export default function Account({ showMenu, setShowMenu }) {
+export default function Account({ network, showMenu, setShowMenu }) {
   const [showConnectModal, setShowConnectModal] = useState(false);
   const account = useSelector(accountSelector);
   const dispatch = useDispatch();
   const windowSize = useWindowSize();
   const [identity, setIdentity] = useState();
-  const network = useNetwork();
   const isMounted = useIsMounted();
   const [address, setAddress] = useState(account?.address);
   const chain = network?.relay || network;

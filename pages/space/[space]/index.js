@@ -53,7 +53,7 @@ export default function List({
   }
 
   return (
-    <Layout bgHeight="264px">
+    <Layout bgHeight="264px" network={spaceData}>
       <HeaderWrapper>
         <Nav
           data={[{ name: "Space", link: "/", back: true }, { name: spaceName }]}

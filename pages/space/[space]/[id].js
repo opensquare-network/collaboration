@@ -17,7 +17,7 @@ export default function Index({
   const space = useSpace();
   const item = SPACE_ITEMS.find((item) => item.value === space);
   return (
-    <Layout bgHeight="183px">
+    <Layout bgHeight="183px" network={network}>
       {item && (
         <Nav
           data={[
