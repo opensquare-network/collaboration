@@ -3,6 +3,11 @@ import Link from "next/link";
 
 const Wrapper = styled.div`
   cursor: pointer;
+  > a {
+    :hover {
+      color: inherit;
+    }
+  }
 `;
 
 export default function InternalLink({ href, children }) {
