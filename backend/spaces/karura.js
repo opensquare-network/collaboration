@@ -1,7 +1,7 @@
 const BigNumber = require("bignumber.js");
 const { typesBundleForPolkadot } = require("@acala-network/type-definitions");
 const { getApi, getSystemBalance } = require("../utils/polkadotApi");
-const { WeightStrategy } = require("../constants");
+const { WeightStrategy, Networks } = require("../constants");
 
 const nodeSetting = {
   nodeUrl: process.env.KARURA_NODE_ENDPOINT || "wss://pub.elara.patract.io/karura",
@@ -19,13 +19,11 @@ async function balanceOf(api, blockHash, address) {
 }
 
 module.exports = {
+  ...Networks.Karura,
+  relay: Networks.Kusama,
   nodeSetting,
   getApi: _getApi,
   balanceOf,
-  symbol: "KAR",
-  network: "karura",
-  ss58Format: 8,
-  decimals: 12,
   proposeThreshold: process.env.SPACE_PROPOSE_THRESHOLD_KARURA || "1000000000000",
   weightStrategy: process.env.SPACE_WEIGHT_STRATEGY_KARURA || WeightStrategy.BalanceOf,
 };

@@ -90,7 +90,7 @@ export default function PostVotes({ network, votes }) {
             <EqualWrapper>
               <Author
                 address={item.voter ?? item.address}
-                network={network?.network}
+                network={network}
                 size={20}
               />
             </EqualWrapper>
