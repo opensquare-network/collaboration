@@ -60,10 +60,16 @@ const Button = styled.div`
   background: #191e27;
   cursor: pointer;
   text-align: center;
+  &:hover{
+    background: #404753;
+  }
   ${(p) =>
     p.isLoading &&
     css`
       background: #e2e8f0;
+      &:hover{
+        background: #e2e8f0;
+      }
       pointer-events: none;
     `}
 `;
