@@ -95,15 +95,14 @@ export default function PostCreate() {
 
   const onPublish = async () => {
     if (isLoading) return;
+
     if (!account) {
       dispatch(
         addToast({ type: TOAST_TYPES.ERROR, message: "Please connect wallet" })
       );
       return;
     }
-    if (!viewFunc) {
-      return;
-    }
+
     const proposal = {
       space, title, content,
       contentType: "markdown",
@@ -115,38 +114,49 @@ export default function PostCreate() {
       address: account?.address,
     };
     const formError =  viewFunc.validateProposal(proposal);
-    if(formError){
-      dispatch(
-        addToast({ type: TOAST_TYPES.ERROR, message: formError })
-      );
-      return;
-    }
-    setIsLoading(true);
-    let result;
-    try {
-      const { result } = await viewFunc.createProposal(proposal);
-      if (result) {
-        router.push(`/space/${space}/${result.cid}`);
-      }
-    } catch (error) {
-      dispatch(
-        addToast({ type: TOAST_TYPES.ERROR, message: error.toString() })
-      );
-      setIsLoading(false);
-      return;
-    }
-    setIsLoading(false);
-    if (result?.error) {
-      dispatch(
-        addToast({ type: TOAST_TYPES.ERROR, message: result.error.message })
-      );
-    } else if (result) {
+    if (formError) {
       dispatch(
         addToast({
-          type: TOAST_TYPES.SUCCESS,
-          message: "Create proposal successfully!",
+          type: TOAST_TYPES.ERROR,
+          message: formError,
         })
       );
+      return;
+    }
+
+    if (!viewFunc) {
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const { result, error } = await viewFunc.createProposal(proposal);
+      if (result) {
+        dispatch(
+          addToast({
+            type: TOAST_TYPES.SUCCESS,
+            message: "Create proposal successfully!",
+          })
+        );
+        router.push(`/space/${space}/${result.cid}`);
+      }
+      if (error) {
+        dispatch(
+          addToast({
+            type: TOAST_TYPES.ERROR,
+            message: error.message,
+          })
+        );
+      }
+    } catch (e) {
+      dispatch(
+        addToast({
+          type: TOAST_TYPES.ERROR,
+          message: e.toString(),
+        })
+      );
+    } finally {
+      setIsLoading(false);
     }
   };
 
