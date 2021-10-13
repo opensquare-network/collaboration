@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 import ExternalLink from "./externalLink";
 import { FOOTER_ITEMS } from "utils/constants";
-import Container from "./container";
 import { p_16_normal, p_16_semibold } from "../styles/textStyles";
 
 const Wrapper = styled.footer`
@@ -14,17 +13,22 @@ const ContentWrapper = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  padding: 80px 52px;
+  padding: 80px 0;
   @media screen and (max-width: 1144px) {
     padding: 80px 32px;
   }
-  @media screen and (max-width: 1000px) {
-    padding: 40px;
+  @media screen and (max-width: 900px) {
+    padding: 40px 20px 20px;
     flex-direction: column;
     > :not(:first-child) {
-      margin-top: 32px;
+      margin-top: 40px;
     }
   }
+`;
+
+const Container = styled.div`
+  max-width: 1080px;
+  margin: 0 auto;
 `;
 
 const LeftWrapper = styled.div`
@@ -66,7 +70,7 @@ const Item = styled.div`
     height: 24px;
     margin-right: 8px;
   }
-  &:hover{
+  &:hover {
     color: rgb(255, 255, 255);
   }
 `;
@@ -85,15 +89,23 @@ const RightWrapper = styled.div`
     ${p_16_normal};
     color: rgba(255, 255, 255, 0.35);
   }
-  @media screen and (max-width: 1000px) {
+  @media screen and (max-width: 900px) {
     align-items: flex-start;
     > img {
-      margin-bottom: 16px;
+      margin-bottom: 0;
     }
     > div {
       text-align: left;
     }
   }
+`;
+
+const BottomWrapper = styled.div`
+  font-size: 14px;
+  line-height: 24px;
+  color: rgba(255, 255, 255, 0.35);
+  padding-bottom: 20px;
+  text-align: center;
 `;
 
 export default function Footer() {
@@ -122,9 +134,11 @@ export default function Footer() {
           </LeftWrapper>
           <RightWrapper>
             <img src="/imgs/opensquare-footer-logo.svg" alt="" />
-            <div>{`© ${new Date().getFullYear()} OpenSquare. All Rights Reserved.`}</div>
           </RightWrapper>
         </ContentWrapper>
+        <BottomWrapper>
+          {`© ${new Date().getFullYear()} OpenSquare. All Rights Reserved.`}
+        </BottomWrapper>
       </Container>
     </Wrapper>
   );
