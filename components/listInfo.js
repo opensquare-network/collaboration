@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { toPrecision } from "utils";
-import { h4_24_bold, p_16_semibold } from "../styles/textStyles";
+import { p_14_normal, p_16_semibold, p_20_semibold } from "../styles/textStyles";
+import SpaceLogo from "@/components/spaceLogo";
 
 const Wrapper = styled.div`
   display: flex;
@@ -16,20 +17,13 @@ const LogoWrapper = styled.div`
   align-items: center;
 `;
 
-const LogoImg = styled.img`
-  width: 64px;
-  height: 64px;
-  margin-right: 24px;
-`;
-
 const LogoName = styled.div`
-  ${h4_24_bold};
+  ${p_20_semibold};
   text-transform: capitalize;
 `;
 
 const LogoSymbol = styled.div`
-  font-size: 14px;
-  line-height: 24px;
+  ${p_14_normal};
   color: #a1a8b3;
 `;
 
@@ -71,7 +65,7 @@ export default function ListInfo({ spaceName, data }) {
   return (
     <Wrapper>
       <LogoWrapper>
-        <LogoImg src={`/imgs/icons/${spaceName}.svg`} />
+        <SpaceLogo src={`/imgs/icons/${spaceName}.svg`} />
         <div>
           <LogoName>{spaceName}</LogoName>
           <LogoSymbol>{data.symbol}</LogoSymbol>

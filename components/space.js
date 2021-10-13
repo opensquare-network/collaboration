@@ -4,6 +4,7 @@ import { useState } from "react";
 import InternalLink from "./internalLink";
 import { no_scroll_bar, shadow_100, makeSquare } from "../styles/globalCss";
 import { h3_36_bold, p_18_semibold, p_16_semibold } from "../styles/textStyles";
+import SpaceLogo from "@/components/spaceLogo";
 
 const Title = styled.div`
   ${h3_36_bold};
@@ -52,19 +53,6 @@ const IconWrapper = styled.div`
 const Icon = styled.div`
   ${makeSquare(64)};
   margin-bottom: 16px;
-
-  > img {
-    border: 1px solid #ddd;
-    border-radius: 32px;
-    ${makeSquare(64)};
-  }
-`;
-
-const DefaultIcon = styled.div`
-  ${makeSquare(64)};
-  border-radius: 50%;
-  background: #fbfcfe;
-  border: 1px solid #e2e8f0;
 `;
 
 const Name = styled.div`
@@ -138,7 +126,7 @@ export default function Space({ spaces }) {
           <Item key={index}>
             <IconWrapper>
               <Icon>
-                {<img src={`/imgs/icons/${item}.svg`} alt="" />}
+                <SpaceLogo src={`/imgs/icons/${item}.svg`} />
               </Icon>
               <InternalLink href={`/space/${item}`}>
                 <Name>{item}</Name>
