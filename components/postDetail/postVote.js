@@ -17,6 +17,7 @@ import {
 } from "utils";
 import nextApi from "services/nextApi";
 import PostAddress from "./postAddress";
+import { encodeAddress } from "@polkadot/util-crypto";
 
 const Wrapper = styled.div`
   > :not(:first-child) {
@@ -220,8 +221,8 @@ export default function PostVote({ data, network }) {
         data?.cid,
         choice,
         remark,
-        account?.address,
-        proxyVote ? proxAddress : undefined
+        encodeAddress(account?.address, network.ss58Format),
+        proxyVote ? encodeAddress(proxAddress, network.ss58Format) : undefined
       );
     } catch (error) {
       dispatch(

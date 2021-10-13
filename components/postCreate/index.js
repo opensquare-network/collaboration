@@ -12,6 +12,7 @@ import { addToast } from "store/reducers/toastSlice";
 import { TOAST_TYPES } from "utils/constants";
 import nextApi from "services/nextApi";
 import { useRouter } from "next/router";
+import { encodeAddress } from "@polkadot/util-crypto";
 
 const Wrapper = styled.div`
   display: flex;
@@ -44,7 +45,7 @@ const SiderWrapper = styled.div`
   }
 `;
 
-export default function PostCreate() {
+export default function PostCreate({ network }) {
   const dispatch = useDispatch();
   const account = useSelector(accountSelector);
   const space = useSpace();
@@ -54,33 +55,21 @@ export default function PostCreate() {
   const [choices, setChoices] = useState(["", ""]);
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
-  const [height, setHeight] = useState("");
+  const [height, setHeight] = useState(network.latestFinalizedHeight);
   const [balance, setBalance] = useState(0);
-  const [threshold, setThreshold] = useState(0);
-  const [decimals,setDecimals] = useState(0);
-  const [symbol, setSymbol] = useState("");
   const [viewFunc, setViewFunc] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  const threshold = network.proposeThreshold;
+  const decimals = network.decimals;
+  const symbol = network.symbol;
+
 
   useEffect(() => {
     import("utils/viewfunc").then((viewFunc) => {
       setViewFunc(viewFunc);
     });
   }, []);
-
-  useEffect(() => {
-    nextApi
-      .fetch(`spaces/${space}`)
-      .then((response) => {
-      if (response.result) {
-        const { latestFinalizedHeight, proposeThreshold, symbol, decimals } = response.result;
-        setSymbol(symbol);
-        setHeight(latestFinalizedHeight);
-        setThreshold(proposeThreshold);
-        setDecimals(decimals);
-      }
-    })
-  }, [space]);
 
   useEffect(()=> {
     const address = account?.address ?? ``;
@@ -108,14 +97,16 @@ export default function PostCreate() {
     }
 
     const proposal = {
-      space, title, content,
+      space,
+      title,
+      content,
       contentType: "markdown",
       choiceType: "single",
       choices: choices.filter(Boolean),
       startDate: startDate?.getTime(),
       endDate: endDate?.getTime(),
       snapshotHeight: Number(height),
-      address: account?.address,
+      address: encodeAddress(account?.address, network.ss58Format),
     };
     const formError =  viewFunc.validateProposal(proposal);
     if (formError) {
