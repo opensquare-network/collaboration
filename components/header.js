@@ -135,7 +135,7 @@ export default function Header() {
               alt=""
             />
           </IconWrapper>
-          <DividerLine />
+          {/* <DividerLine /> */}
           <AccountWrapper
             onClick={() => {
               setShowMenu(!showMenu);
