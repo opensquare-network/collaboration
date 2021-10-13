@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { toPrecision } from "utils";
-import { h4_24_bold, p_16_semibold } from "../styles/textStyles";
+import { h4_24_bold, p_14_normal, p_16_semibold, p_20_semibold } from "../styles/textStyles";
 
 const Wrapper = styled.div`
   display: flex;
@@ -23,13 +23,12 @@ const LogoImg = styled.img`
 `;
 
 const LogoName = styled.div`
-  ${h4_24_bold};
+  ${p_20_semibold};
   text-transform: capitalize;
 `;
 
 const LogoSymbol = styled.div`
-  font-size: 14px;
-  line-height: 24px;
+  ${p_14_normal};
   color: #a1a8b3;
 `;
 
