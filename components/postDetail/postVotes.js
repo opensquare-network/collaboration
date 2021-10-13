@@ -15,6 +15,7 @@ const Item = styled.div`
 const InfoWrapper = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
   font-weight: 500;
   line-height: 24px;
 `;
@@ -45,6 +46,7 @@ const PaginationWrapper = styled.div`
 const BalanceWrapper = styled.div`
   display: flex;
   align-items: center;
+  white-space: nowrap;
   > :not(:first-child) {
     margin-left: 8px;
   }
@@ -62,8 +64,7 @@ const Square = styled.div`
 
 const EqualWrapper = styled.div`
   display: flex;
-  flex: 1 1 33.3%;
-  max-width: 50%;
+  overflow: hidden;
   :last-child {
     justify-content: flex-end;
   }
@@ -93,8 +94,8 @@ export default function PostVotes({ network, votes }) {
                 size={20}
               />
             </EqualWrapper>
-            <EqualWrapper style={{ justifyContent: "center" }}>
-              <Flex style={{ maxWidth: "50%" }}>
+            <EqualWrapper>
+              <Flex style={{ maxWidth: "30vw" }}>
                 <Label>Vote</Label>
                 <Ellipsis>{item.choice}</Ellipsis>
               </Flex>
