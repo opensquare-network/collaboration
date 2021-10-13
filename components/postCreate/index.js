@@ -103,6 +103,10 @@ export default function PostCreate() {
       return;
     }
 
+    if (!viewFunc) {
+      return;
+    }
+
     const proposal = {
       space, title, content,
       contentType: "markdown",
@@ -121,10 +125,6 @@ export default function PostCreate() {
           message: formError,
         })
       );
-      return;
-    }
-
-    if (!viewFunc) {
       return;
     }
 
