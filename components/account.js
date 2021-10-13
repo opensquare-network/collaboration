@@ -172,7 +172,7 @@ export default function Account({ showMenu, setShowMenu }) {
   const chain = network?.relay || network;
 
   useEffect(() => {
-    if (account?.address && network?.ss58Format) {
+    if (account?.address && network?.ss58Format !== undefined) {
       const spaceAddr = encodeAddress(account?.address, network.ss58Format);
       setAddress(spaceAddr);
     }
