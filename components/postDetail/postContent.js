@@ -3,7 +3,7 @@ import styled from "styled-components";
 import PostVote from "./postVote";
 import Author from "components/author";
 import { p_16_normal, p_16_semibold, p_20_semibold } from "styles/textStyles";
-import { timeDuration } from "utils";
+import PostTime from "components/postTime";
 import Markdown from "components/markdown";
 import StatusTag from "components/statusTag";
 
@@ -66,7 +66,7 @@ export default function PostContent({ data, network }) {
       <InfoWrapper>
         <LeftWrapper>
           <Author address={data.address} />
-          <div>{timeDuration(data.createdAt)}</div>
+          <PostTime post={data} />
         </LeftWrapper>
         <StatusTag>{data.status}</StatusTag>
       </InfoWrapper>

@@ -3,8 +3,8 @@ import styled from "styled-components";
 import Author from "./author";
 import InternalLink from "components/internalLink";
 import { p_18_medium } from "styles/textStyles";
-import { timeDuration } from "utils";
 import StatusTag from "./statusTag";
+import PostTime from "./postTime";
 
 const Wrapper = styled.div`
   background: #ffffff;
@@ -74,15 +74,7 @@ export default function Post({ data, showSpace }) {
       <InfoWrapper>
         <LeftWrapper>
           <Author address={data.address} />
-          <div>{
-            data.status === "pending"
-            ? "Starting " + timeDuration(data.startDate)
-            : data.status === "active"
-            ? "Ending " + timeDuration(data.endDate)
-            : data.status === "closed"
-            ? "Ended " + timeDuration(data.endDate)
-            : ""
-          }</div>
+          <PostTime post={data} />
           { showSpace &&
               <FromSpace>From
                 <InternalLink href={`/space/${data.space}`}>
