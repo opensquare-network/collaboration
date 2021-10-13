@@ -6,7 +6,7 @@ import CaretLeft from "/public/imgs/icons/caret-left.svg";
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 16px;
   line-height: 24px;
 `;
