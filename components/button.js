@@ -16,6 +16,9 @@ const Wrapper = styled.div`
       border: none;
       color: #ffffff;
       background: #191e27;
+      &:hover{
+        background: #404753;
+      }
     `}
 `;
 
