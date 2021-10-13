@@ -65,8 +65,12 @@ export function timeDuration(time) {
   return `${ss} sec${ss > 1 ? "s" : ""} ago`;
 }
 
-export function toFixedPrecision(value, decimals, fixed = 2) {
-  return new BigNumber(value).dividedBy(Math.pow(10, decimals)).toFixed(fixed).toString();
+export function toFixedPrecision(value, decimals, fixed = 2, toLocale = true) {
+  const result = new BigNumber(value).dividedBy(Math.pow(10, decimals)).toFixed(fixed).toString();
+  if(toLocale){
+    return bigNumber2Locale(result);
+  }
+  return result;
 }
 
 export function toPrecision(value, decimals) {
