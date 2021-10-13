@@ -19,6 +19,16 @@
       format("woff");
 }
 
+/*!* font-inter-600 - latin *!*/
+@font-face {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 600;
+    src: url("../fonts/inter-v3-latin-600.woff2") format("woff2"),
+        /* Super Modern Browsers */ url("../fonts/inter-v3-latin-600.woff") format("woff"),
+        /* Modern Browsers */ url("../fonts/inter-v3-latin-600.ttf") format("truetype");
+}
+
 /* font-inter-700 - latin */
 @font-face {
   font-family: "Inter";
@@ -29,15 +39,6 @@
       format("woff");
 }
 
-/*!* font-inter-600 - latin *!*/
-/*@font-face {*/
-/*    font-family: "Inter";*/
-/*    font-style: normal;*/
-/*    font-weight: 600;*/
-/*    src: url("../fonts/inter-v3-latin-600.woff2") format("woff2"),*/
-/*        !* Super Modern Browsers *! url("../fonts/inter-v3-latin-600.woff") format("woff"),*/
-/*        !* Modern Browsers *! url("../fonts/inter-v3-latin-600.ttf") format("truetype");*/
-/*}*/
 
 html,
 body {
