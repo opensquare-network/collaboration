@@ -7,6 +7,7 @@ import { fetchIdentity } from "services/identity";
 import ExternalLink from "./externalLink";
 import IdentityIcon from "components/identityIcon";
 import { useIsMounted } from "utils/hooks";
+import { encodeAddress } from "@polkadot/util-crypto";
 
 const Wrapper = styled.div`
   display: flex;
@@ -34,21 +35,23 @@ const IdentityWrapper = styled.div`
 export default function Author({ address, network, size = 24 }) {
   const [identity, setIdentity] = useState();
   const isMounted = useIsMounted();
+  const chain = network?.relay || network;
 
   useEffect(() => {
-    fetchIdentity(network, address)
+    const idenAddr = encodeAddress(address, chain.ss58Format);
+    fetchIdentity(chain.network, idenAddr)
       .then((identity) => {
         if (isMounted.current) {
           setIdentity(identity);
         }
       })
       .catch(() => {});
-  }, [network, address, isMounted]);
+  }, [chain, address, isMounted]);
 
   return (
     <Wrapper>
       <Avatar address={address} size={size} />
-      <ExternalLink href={`https://${network}.subscan.io/account/${address}`}>
+      <ExternalLink href={`https://${network?.network}.subscan.io/account/${address}`}>
         {identity?.info ? (
           <IdentityWrapper>
             <IdentityIcon status={identity.info.status} />

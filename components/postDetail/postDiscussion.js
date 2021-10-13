@@ -162,7 +162,7 @@ export default function PostDiscussion({ data, network, comments }) {
             <DividerWrapper>
               <Author
                 address={item.address}
-                network={network.network}
+                network={network}
                 size={20}
               />
               <div>{timeDuration(item.createdAt)}</div>

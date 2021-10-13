@@ -9,6 +9,7 @@ const SPACES = Object.keys(spaceServices).reduce((spaces, space) => {
     network: spaceService.network,
     ss58Format: spaceService.ss58Format,
     decimals: spaceService.decimals,
+    relay: spaceService.relay,
     proposeThreshold: spaceService.proposeThreshold,
     weightStrategy: spaceService.weightStrategy,
   };

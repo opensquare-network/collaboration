@@ -11,6 +11,7 @@ import { shadow_200 } from "../styles/globalCss";
 import { useNetwork, useWindowSize, useIsMounted } from "../utils/hooks";
 import { fetchIdentity } from "services/identity";
 import IdentityIcon from "components/identityIcon";
+import { encodeAddress } from "@polkadot/util-crypto";
 
 const Connect = dynamic(() => import("./connect"), {
   ssr: false,
@@ -167,10 +168,20 @@ export default function Account({ showMenu, setShowMenu }) {
   const [identity, setIdentity] = useState();
   const network = useNetwork();
   const isMounted = useIsMounted();
+  const [address, setAddress] = useState(account?.address);
+  const chain = network?.relay || network;
 
   useEffect(() => {
-    if (network?.network && account?.address) {
-      fetchIdentity(network?.network, account?.address)
+    if (account?.address && network?.ss58Format) {
+      const spaceAddr = encodeAddress(account?.address, network.ss58Format);
+      setAddress(spaceAddr);
+    }
+  }, [network?.ss58Format, account?.address])
+
+  useEffect(() => {
+    if (chain && account?.address) {
+      const idenAddr = encodeAddress(account?.address, chain.ss58Format);
+      fetchIdentity(chain.network, idenAddr)
         .then((identity) => {
           if (isMounted.current) {
             setIdentity(identity);
@@ -178,7 +189,7 @@ export default function Account({ showMenu, setShowMenu }) {
         })
         .catch(() => {});
     }
-  }, [network?.network, account?.address, isMounted]);
+  }, [chain, account?.address, isMounted]);
 
   const onLogout = () => {
     dispatch(logout());
@@ -208,14 +219,14 @@ export default function Account({ showMenu, setShowMenu }) {
         <>
           <AccountWrapper>
             <div>
-              <Avatar address={account?.address} />
+              <Avatar address={address} />
               {identity?.info ? (
                 <IdentityWrapper>
                   <IdentityIcon status={identity.info.status} />
                   <div>{identity.info.display}</div>
                 </IdentityWrapper>
               ) : (
-                <>{addressEllipsis(account?.address)}</>
+                <>{addressEllipsis(address)}</>
               )}
             </div>
             <UserIcon />
@@ -237,7 +248,7 @@ export default function Account({ showMenu, setShowMenu }) {
       <Wrapper>
         <AccountWrapperPC>
           <div>
-            <Avatar address={account.address} />
+            <Avatar address={address} />
 
             {identity?.info ? (
               <IdentityWrapper>
@@ -245,7 +256,7 @@ export default function Account({ showMenu, setShowMenu }) {
                 <div>{identity.info.display}</div>
               </IdentityWrapper>
             ) : (
-              <>{addressEllipsis(account?.address)}</>
+              <>{addressEllipsis(address)}</>
             )}
           </div>
         </AccountWrapperPC>

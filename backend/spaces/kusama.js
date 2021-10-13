@@ -1,4 +1,4 @@
-const { WeightStrategy } = require("../constants");
+const { WeightStrategy, Networks } = require("../constants");
 const BigNumber = require("bignumber.js");
 const { getApi, getSystemBalance } = require("../utils/polkadotApi");
 
@@ -17,13 +17,10 @@ async function balanceOf(api, blockHash, address) {
 }
 
 module.exports = {
+  ...Networks.Kusama,
   nodeSetting,
   getApi: _getApi,
   balanceOf,
-  symbol: "KSM",
-  network: "kusama",
-  ss58Format: 2,
-  decimals: 12,
   proposeThreshold: process.env.SPACE_PROPOSE_THRESHOLD_KUSAMA || "10000000000",
   weightStrategy: process.env.SPACE_WEIGHT_STRATEGY_KUSAMA || WeightStrategy.BalanceOf,
 };

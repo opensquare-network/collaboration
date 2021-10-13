@@ -1,4 +1,4 @@
-const { WeightStrategy } = require("../constants");
+const { WeightStrategy, Networks } = require("../constants");
 const BigNumber = require("bignumber.js");
 const { getApi, getSystemBalance } = require("../utils/polkadotApi");
 
@@ -17,13 +17,10 @@ async function balanceOf(api, blockHash, address) {
 }
 
 module.exports = {
+  ...Networks.Polkadot,
   nodeSetting,
   getApi: _getApi,
   balanceOf,
-  symbol: "DOT",
-  network: "polkadot",
-  ss58Format: 0,
-  decimals: 10,
   proposeThreshold: process.env.SPACE_PROPOSE_THRESHOLD_POLKADOT || "10000000000",
   weightStrategy: process.env.SPACE_WEIGHT_STRATEGY_POLKADOT || WeightStrategy.BalanceOf,
 };

@@ -1,7 +1,7 @@
 const BigNumber = require("bignumber.js");
 const { khala } = require("@phala/typedefs");
 const { getApi, getSystemBalance } = require("../utils/polkadotApi");
-const { WeightStrategy } = require("../constants");
+const { WeightStrategy, Networks } = require("../constants");
 
 const nodeSetting = {
   nodeUrl: process.env.KHALA_NODE_ENDPOINT || "wss://khala-api.phala.network/ws",
@@ -19,13 +19,11 @@ async function balanceOf(api, blockHash, address) {
 }
 
 module.exports = {
+  ...Networks.Khala,
+  relay: Networks.Kusama,
   nodeSetting,
   getApi: _getApi,
   balanceOf,
-  symbol: "KHA",
-  network: "khala",
-  ss58Format: 30,
-  decimals: 12,
   proposeThreshold: process.env.SPACE_PROPOSE_THRESHOLD_KHALA || "10000000000000",
   weightStrategy: process.env.SPACE_WEIGHT_STRATEGY_KHALA || WeightStrategy.BalanceOf,
 };
