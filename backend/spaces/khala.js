@@ -24,7 +24,7 @@ module.exports = {
   balanceOf,
   symbol: "KHA",
   network: "khala",
-  ss58Format: 40,
+  ss58Format: 30,
   decimals: 12,
   proposeThreshold: process.env.SPACE_PROPOSE_THRESHOLD_KHALA || "10000000000000",
   weightStrategy: process.env.SPACE_WEIGHT_STRATEGY_KHALA || WeightStrategy.BalanceOf,
