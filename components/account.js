@@ -11,7 +11,6 @@ import { shadow_200 } from "../styles/globalCss";
 import { useNetwork, useWindowSize, useIsMounted } from "../utils/hooks";
 import { fetchIdentity } from "services/identity";
 import IdentityIcon from "components/identityIcon";
-import ExternalLink from "./externalLink";
 
 const Connect = dynamic(() => import("./connect"), {
   ssr: false,
@@ -210,18 +209,14 @@ export default function Account({ showMenu, setShowMenu }) {
           <AccountWrapper>
             <div>
               <Avatar address={account?.address} />
-              <ExternalLink
-                href={`https://${network?.network}.subscan.io/account/${account?.address}`}
-              >
-                {identity?.info ? (
-                  <IdentityWrapper>
-                    <IdentityIcon status={identity.info.status} />
-                    <div>{identity.info.display}</div>
-                  </IdentityWrapper>
-                ) : (
-                  <>{addressEllipsis(account?.address)}</>
-                )}
-              </ExternalLink>
+              {identity?.info ? (
+                <IdentityWrapper>
+                  <IdentityIcon status={identity.info.status} />
+                  <div>{identity.info.display}</div>
+                </IdentityWrapper>
+              ) : (
+                <>{addressEllipsis(account?.address)}</>
+              )}
             </div>
             <UserIcon />
           </AccountWrapper>
