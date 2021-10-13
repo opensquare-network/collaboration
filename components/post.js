@@ -64,7 +64,11 @@ const SpaceName = styled.a`
   }
 `;
 
-export default function Post({ data, showSpace, network }) {
+export default function Post({ data, showSpace, network, spaces }) {
+  const getSpaceNetwork = (space) => {
+    return spaces?.[space]?.network;
+  };
+
   return (
     <Wrapper>
       <InternalLink href={`/space/${data.space}/${data.cid}`}>
@@ -73,7 +77,10 @@ export default function Post({ data, showSpace, network }) {
       <Divider />
       <InfoWrapper>
         <LeftWrapper>
-          <Author address={data.address} network={network?.network} />
+          <Author
+            address={data.address}
+            network={network?.network ?? getSpaceNetwork(data.space)}
+          />
           <PostTime post={data} />
           {showSpace && (
             <FromSpace>

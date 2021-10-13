@@ -16,7 +16,13 @@ const PostsWrapper = styled.div`
   }
 `;
 
-export default function PostList({ title, posts, network, showSpace = false }) {
+export default function PostList({
+  title,
+  posts,
+  network,
+  spaces,
+  showSpace = false,
+}) {
   const items = Array.isArray(posts) ? posts : posts?.items ?? [];
   return (
     <div>
@@ -28,6 +34,7 @@ export default function PostList({ title, posts, network, showSpace = false }) {
             data={item}
             showSpace={showSpace}
             network={network}
+            spaces={spaces}
           />
         ))}
         {items.length === 0 && <NoPost />}
