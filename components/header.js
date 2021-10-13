@@ -60,14 +60,14 @@ const Divider = styled.div`
 `;
 
 const DividerLine = styled.svg`
-  background: #F0F3F8;
+  background: #f0f3f8;
   height: 1px;
   width: 100vw;
   display: none;
   @media screen and (max-width: 800px) {
     display: block;
   }
-`
+`;
 
 const AppWrapper = styled.div`
   display: flex;
@@ -105,37 +105,43 @@ export default function Header() {
   const ref = useRef();
   useOnClickOutside(ref, (event) => {
     // connect modal is at body level, doesn't contained in the <Header/>, so exclude manually
-    if(document?.querySelector(".modals")?.contains(event.target)){
+    if (document?.querySelector(".modals")?.contains(event.target)) {
       return;
     }
     setShowMenu(false);
-  } );
+  });
 
   return (
     <Wrapper>
       <Container>
-        <ContentWrapper ref={ref} >
+        <ContentWrapper ref={ref}>
           <LeftWrapper>
             <Link href="/" passHref>
-              <Logo/>
+              <Logo />
             </Link>
-            <Divider/>
+            <Divider />
             <AppWrapper>
-              <img src="/imgs/icons/apps.svg" alt=""/>
+              <img src="/imgs/icons/apps.svg" alt="" />
               Voting
             </AppWrapper>
           </LeftWrapper>
-          <IconWrapper onClick={() => {
-            setShowMenu(!showMenu)
-          }}>
+          <IconWrapper
+            onClick={() => {
+              setShowMenu(!showMenu);
+            }}
+          >
             <img
               src={showMenu ? "/imgs/icons/close.svg" : "/imgs/icons/menu.svg"}
               alt=""
             />
           </IconWrapper>
           <DividerLine />
-          <AccountWrapper onClick={()=>{setShowMenu(!showMenu)}}>
-            <Account showMenu={showMenu} setShowMenu={setShowMenu}/>
+          <AccountWrapper
+            onClick={() => {
+              setShowMenu(!showMenu);
+            }}
+          >
+            <Account showMenu={showMenu} setShowMenu={setShowMenu} />
           </AccountWrapper>
         </ContentWrapper>
       </Container>

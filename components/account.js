@@ -6,9 +6,12 @@ import { accountSelector, logout } from "store/reducers/accountSlice";
 import { addressEllipsis } from "utils";
 import Avatar from "./avatar";
 import { p_14_medium, p_16_semibold } from "../styles/textStyles";
-import UserIcon from "../public/imgs/icons/user.svg"
+import UserIcon from "../public/imgs/icons/user.svg";
 import { shadow_200 } from "../styles/globalCss";
-import { useWindowSize } from "../utils/hooks";
+import { useNetwork, useWindowSize, useIsMounted } from "../utils/hooks";
+import { fetchIdentity } from "services/identity";
+import IdentityIcon from "components/identityIcon";
+import ExternalLink from "./externalLink";
 
 const Connect = dynamic(() => import("./connect"), {
   ssr: false,
@@ -21,10 +24,10 @@ const Wrapper = styled.div`
   @media screen and (max-width: 800px) {
     //padding: 20px 0;
     padding: 0;
-    > :first-child{
+    > :first-child {
       margin-top: 20px;
     }
-    > :last-child{
+    > :last-child {
       margin-bottom: 20px;
     }
     margin: 0;
@@ -50,16 +53,17 @@ const AccountWrapper = styled.div`
     margin-right: 8px;
   }
 
-  .button, .connect {
+  .button,
+  .connect {
     width: 100%;
   }
-`
+`;
 
 const AccountWrapperPC = styled(AccountWrapper)`
   @media screen and (max-width: 800px) {
     display: none;
   }
-`
+`;
 
 const MenuWrapper = styled.div`
   cursor: auto;
@@ -114,7 +118,7 @@ const Button = styled.div`
   ${p_16_semibold};
   color: #191e27;
   cursor: pointer;
-  border: 1px solid #E2E8F0;
+  border: 1px solid #e2e8f0;
   @media screen and (max-width: 800px) {
     border: none;
     padding: 0;
@@ -127,80 +131,133 @@ const Button = styled.div`
 
 const DarkButton = styled(Button)`
   color: #ffffff;
-  background: #191E27;
+  background: #191e27;
   @media screen and (max-width: 800px) {
     padding: 8px 16px;
     margin: auto;
     width: 100%;
     text-align: center;
   }
-`
+`;
 
 const Shade = styled.div`
   @media screen and (min-width: 800px) {
-    display: none;  
+    display: none;
   }
   margin-left: -20px;
   width: 100vw;
   height: 100vh;
   background: black;
   opacity: 0.4;
-`
+`;
+
+const IdentityWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  > :not(:first-child) {
+    margin-left: 4px;
+  }
+`;
 
 export default function Account({ showMenu, setShowMenu }) {
   const [showConnectModal, setShowConnectModal] = useState(false);
   const account = useSelector(accountSelector);
   const dispatch = useDispatch();
   const windowSize = useWindowSize();
+  const [identity, setIdentity] = useState();
+  const network = useNetwork();
+  const isMounted = useIsMounted();
+
+  useEffect(() => {
+    if (network?.network && account?.address) {
+      fetchIdentity(network?.network, account?.address)
+        .then((identity) => {
+          if (isMounted.current) {
+            setIdentity(identity);
+          }
+        })
+        .catch(() => {});
+    }
+  }, [network?.network, account?.address, isMounted]);
 
   const onLogout = () => {
     dispatch(logout());
     setShowMenu(false);
-  }
+  };
 
-  const ConnectWallet = <div className="connect">
-    <DarkButton
-      onClick={() => setShowConnectModal(!showConnectModal)}
-      className="button"
-    >
-      Connect Wallet
-    </DarkButton>
-    <Connect show={showConnectModal} setShow={setShowConnectModal} setShowMenu={setShowMenu} />
-  </div>;
+  const ConnectWallet = (
+    <div className="connect">
+      <DarkButton
+        onClick={() => setShowConnectModal(!showConnectModal)}
+        className="button"
+      >
+        Connect Wallet
+      </DarkButton>
+      <Connect
+        show={showConnectModal}
+        setShow={setShowConnectModal}
+        setShowMenu={setShowMenu}
+      />
+    </div>
+  );
 
-  const Menu = <MenuWrapper onClick={(e) => e.stopPropagation()}>
-    {(!account && windowSize.width <= 800) && ConnectWallet}
-    {
-      account && <><AccountWrapper>
-        <div>
-          <Avatar address={account?.address} />
-          {addressEllipsis(account?.address)}
-        </div>
-        <UserIcon />
-      </AccountWrapper>
-        <MenuDivider />
-        <MenuItem>
-          <LogoutWrapper onClick={onLogout}>
-            Log out
-            <img src="/imgs/icons/logout.svg" alt="" />
-          </LogoutWrapper>
-        </MenuItem>
-      </>
-    }
-  </MenuWrapper>;
-
+  const Menu = (
+    <MenuWrapper onClick={(e) => e.stopPropagation()}>
+      {!account && windowSize.width <= 800 && ConnectWallet}
+      {account && (
+        <>
+          <AccountWrapper>
+            <div>
+              <Avatar address={account?.address} />
+              <ExternalLink
+                href={`https://${network?.network}.subscan.io/account/${account?.address}`}
+              >
+                {identity?.info ? (
+                  <IdentityWrapper>
+                    <IdentityIcon status={identity.info.status} />
+                    <div>{identity.info.display}</div>
+                  </IdentityWrapper>
+                ) : (
+                  <>{addressEllipsis(account?.address)}</>
+                )}
+              </ExternalLink>
+            </div>
+            <UserIcon />
+          </AccountWrapper>
+          <MenuDivider />
+          <MenuItem>
+            <LogoutWrapper onClick={onLogout}>
+              Log out
+              <img src="/imgs/icons/logout.svg" alt="" />
+            </LogoutWrapper>
+          </MenuItem>
+        </>
+      )}
+    </MenuWrapper>
+  );
 
   if (account) {
-    return <Wrapper>
-      <AccountWrapperPC>
-        <div>
-          <Avatar address={account.address} />
-          {addressEllipsis(account.address)}
-        </div>
-      </AccountWrapperPC>
-      {showMenu && Menu}
-      {showMenu &&<Shade/>}
-    </Wrapper>;
+    return (
+      <Wrapper>
+        <AccountWrapperPC>
+          <div>
+            <Avatar address={account.address} />
+
+            {identity?.info ? (
+              <IdentityWrapper>
+                <IdentityIcon status={identity.info.status} />
+                <div>{identity.info.display}</div>
+              </IdentityWrapper>
+            ) : (
+              <>{addressEllipsis(account?.address)}</>
+            )}
+          </div>
+        </AccountWrapperPC>
+        {showMenu && Menu}
+        {showMenu && <Shade />}
+      </Wrapper>
+    );
   }
 
   if (windowSize.width > 800 && !account) {
@@ -208,10 +265,12 @@ export default function Account({ showMenu, setShowMenu }) {
   }
 
   if (showMenu) {
-    return <Wrapper>
-      {Menu}
-      <Shade/>
-    </Wrapper>
+    return (
+      <Wrapper>
+        {Menu}
+        <Shade />
+      </Wrapper>
+    );
   }
 
   return null;
