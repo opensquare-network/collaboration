@@ -2,12 +2,13 @@ import styled, { css } from "styled-components";
 
 import InternalLink from "./internalLink";
 import CaretLeft from "/public/imgs/icons/caret-left.svg";
-import { p_16_semibold } from "../styles/textStyles";
 
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
-  ${p_16_semibold};
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
 `;
 
 const ItemsWrapper = styled.div`
@@ -22,10 +23,16 @@ const Item = styled.div`
     margin: 0 8px;
     color: #e3e7ed;
   }
+  :hover {
+    color: #04d2c5;
+  }
   ${(p) =>
     !p.active &&
     css`
       color: #a1a8b3;
+      :hover {
+        color: #a1a8b3;
+      }
     `}
 `;
 
