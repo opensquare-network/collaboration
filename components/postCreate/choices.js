@@ -85,7 +85,7 @@ export default function Choices({ choices, setChoices }) {
           ))}
         </ItemList>
       </InnerWrapper>
-      <Button onClick={onAdd}>Add</Button>
+      <Button onClick={onAdd}>Add choice</Button>
     </Wrapper>
   );
 }
