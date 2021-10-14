@@ -5,6 +5,7 @@ import { useSpace } from "utils/hooks";
 import { SPACE_ITEMS } from "utils/constants";
 import ssrNextApi from "services/nextApi";
 import { EmptyQuery } from "utils/constants";
+import { to404 } from "../../../utils/serverSideUtil";
 
 export default function Index({
   detail,
@@ -51,6 +52,10 @@ export async function getServerSideProps(context) {
   const { result: detail } = await ssrNextApi.fetch(
     `${spaceName}/proposals/${id}`
   );
+
+  if(!detail){
+    to404(context);
+  }
 
   const [
     { result: network },
