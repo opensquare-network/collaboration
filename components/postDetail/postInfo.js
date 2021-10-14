@@ -68,6 +68,10 @@ const TimestampItem = styled.div`
   > :first-child {
     color: #506176;
   }
+  
+  span{
+    text-align: right;
+  }
 `;
 
 export default function PostInfo({ data, network }) {
@@ -113,19 +117,19 @@ export default function PostInfo({ data, network }) {
         {data?.createdAt && (
           <TimestampItem>
             <div>Created</div>
-            <div>{moment(data.createdAt).format("MMM DD, YYYY H:mm")}</div>
+            <span>{moment(data.createdAt).format("MMM DD YYYY HH:mm")}</span>
           </TimestampItem>
         )}
         {data?.startDate && (
           <TimestampItem>
             <div>Start date</div>
-            <div>{moment(data.startDate).format("MMM DD, YYYY H:mm")}</div>
+            <span>{moment(data.startDate).format("MMM DD YYYY HH:mm")}</span>
           </TimestampItem>
         )}
         {data?.endDate && (
           <TimestampItem>
             <div>End date</div>
-            <div>{moment(data.endDate).format("MMM DD, YYYY H:mm")}</div>
+            <span>{moment(data.endDate).format("MMM DD YYYY HH:mm")}</span>
           </TimestampItem>
         )}
       </TimestampWrapper>
