@@ -55,6 +55,7 @@ export default function RichInput({
   setContent,
   onSubmit,
   showButtons = true,
+  showSUbmitButton = true,
 }) {
   const [preview, setPreview] = useState(false);
 
@@ -75,7 +76,9 @@ export default function RichInput({
           <Button onClick={() => setPreview(!preview)}>
             {preview ? "Edit" : "Preview"}
           </Button>
-          <ButtonPrimary onClick={onSubmit}>Comment</ButtonPrimary>
+          {showSUbmitButton && (
+            <ButtonPrimary onClick={onSubmit}>Comment</ButtonPrimary>
+          )}
         </ButtonsWrapper>
       )}
     </div>
