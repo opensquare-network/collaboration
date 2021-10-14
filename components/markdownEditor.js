@@ -2,6 +2,7 @@ import styled from "styled-components";
 import ReactMde from "react-mde";
 import "react-mde/lib/styles/css/react-mde-all.css";
 import { useRef } from "react";
+import { no_scroll_bar } from "../styles/globalCss";
 
 const Wrapper = styled.div`
   .react-mde {
@@ -20,6 +21,7 @@ const Wrapper = styled.div`
       ::placeholder {
         color: #9da9bb;
       }
+      ${no_scroll_bar};
     }
     .mde-header {
       display: flex;
