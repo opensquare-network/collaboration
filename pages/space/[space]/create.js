@@ -3,13 +3,15 @@ import Nav from "components/nav";
 import PostCreate from "@/components/postCreate";
 import { useSpace } from "utils/hooks";
 import { SPACE_ITEMS } from "utils/constants";
+import { ssrNextApi } from "services/nextApi";
+import { to404 } from "../../../utils/serverSideUtil";
 
-export default function Create() {
+export default function Create({ network }) {
   const space = useSpace();
   const item = SPACE_ITEMS.find((item) => item.value === space);
 
   return (
-    <Layout bgHeight="183px">
+    <Layout bgHeight="183px" network={network}>
       {item && (
         <Nav
           data={[
@@ -19,7 +21,27 @@ export default function Create() {
           ]}
         />
       )}
-      <PostCreate />
+      <PostCreate network={network} />
     </Layout>
   );
+}
+
+export async function getServerSideProps(context) {
+  const { space: spaceName } = context.params;
+
+  const [
+    { result: network },
+  ] = await Promise.all([
+    ssrNextApi.fetch(`spaces/${spaceName}`),
+  ]);
+
+  if(Object.keys(network).length === 0){
+    to404(context);
+  }
+
+  return {
+    props: {
+      network: network ?? null,
+    },
+  };
 }

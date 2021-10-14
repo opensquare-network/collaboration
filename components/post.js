@@ -66,7 +66,7 @@ const SpaceName = styled.a`
 
 export default function Post({ data, showSpace, network, spaces }) {
   const getSpaceNetwork = (space) => {
-    return spaces?.[space]?.network;
+    return spaces?.[space];
   };
 
   return (
@@ -79,7 +79,7 @@ export default function Post({ data, showSpace, network, spaces }) {
         <LeftWrapper>
           <Author
             address={data.address}
-            network={network?.network ?? getSpaceNetwork(data.space)}
+            network={network ?? getSpaceNetwork(data.space)}
           />
           <PostTime post={data} />
           {showSpace && (

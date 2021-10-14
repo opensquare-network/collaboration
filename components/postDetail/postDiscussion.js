@@ -13,6 +13,7 @@ import { TOAST_TYPES } from "utils/constants";
 import { timeDuration } from "utils";
 import Markdown from "components/markdown";
 import ExternalLink from "components/externalLink";
+import { encodeAddress } from "@polkadot/util-crypto";
 
 const Item = styled.div`
   padding-top: 20px;
@@ -122,7 +123,7 @@ export default function PostDiscussion({ data, network, comments }) {
         data?.cid,
         content,
         "markdown",
-        account?.address
+        encodeAddress(account?.address, network.ss58Format),
       );
     } catch (error) {
       dispatch(
@@ -161,7 +162,7 @@ export default function PostDiscussion({ data, network, comments }) {
             <DividerWrapper>
               <Author
                 address={item.address}
-                network={network.network}
+                network={network}
                 size={20}
               />
               <div>{timeDuration(item.createdAt)}</div>

@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { useState, useEffect, Fragment } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 
@@ -17,6 +17,8 @@ import {
 } from "utils";
 import nextApi from "services/nextApi";
 import PostAddress from "./postAddress";
+import { encodeAddress } from "@polkadot/util-crypto";
+import ButtonPrimary from "@/components/button";
 
 const Wrapper = styled.div`
   > :not(:first-child) {
@@ -79,24 +81,20 @@ const Button = styled.div`
     `}
 `;
 
-const Option = styled.div`
-  ${p_16_semibold};
-`;
-
-const ButtonPrimary = styled.div`
-  background: #191e27;
-  padding: 12px;
-  text-align: center;
-  ${p_16_semibold};
-  cursor: pointer;
-  color: #ffffff;
-  ${(p) =>
-    (p.isLoading || p.disabled) &&
-    css`
-      background: #e2e8f0;
-      pointer-events: none;
-    `}
-`;
+// const ButtonPrimary = styled.div`
+//   background: #191e27;
+//   padding: 12px;
+//   text-align: center;
+//   ${p_16_semibold};
+//   cursor: pointer;
+//   color: #ffffff;
+//   ${(p) =>
+//     (p.isLoading || p.disabled) &&
+//     css`
+//       background: #e2e8f0;
+//       pointer-events: none;
+//     `}
+// `;
 
 const ProxyHeader = styled.div`
   display: flex;
@@ -220,8 +218,8 @@ export default function PostVote({ data, network }) {
         data?.cid,
         choice,
         remark,
-        account?.address,
-        proxyVote ? proxAddress : undefined
+        encodeAddress(account?.address, network.ss58Format),
+        proxyVote ? encodeAddress(proxAddress, network.ss58Format) : undefined
       );
     } catch (error) {
       dispatch(
@@ -328,6 +326,7 @@ export default function PostVote({ data, network }) {
             />
           )}
           <ButtonPrimary
+            primary large
             isLoading={isLoading}
             onClick={onVote}
             disabled={status === "pending"}

@@ -1,9 +1,8 @@
 import styled, { css } from "styled-components";
+import { p_16_medium } from "../styles/textStyles";
 
 const Wrapper = styled.div`
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 24px;
+  ${p_16_medium};
   text-align: center;
   padding: 7px 15px;
   border: 1px solid #b7c0cc;
@@ -16,6 +15,30 @@ const Wrapper = styled.div`
       border: none;
       color: #ffffff;
       background: #191e27;
+      &:hover{
+        background: #404753;
+      }
+    `}
+  ${(p) =>
+          p.large &&
+          css`
+      padding: 12px 16px;
+    `}
+  ${(p) =>
+          (p.isLoading || p.disabled) &&
+          css`
+      background: #e2e8f0;
+      pointer-events: none;
+    `}
+  ${(p) =>
+          (p.isLoading) &&
+          css`
+      cursor: wait;
+    `}
+  ${(p) =>
+          (p.disabled) &&
+          css`
+      cursor: not-allowed;
     `}
 `;
 

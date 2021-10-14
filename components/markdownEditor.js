@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import ReactMde from "react-mde";
 import "react-mde/lib/styles/css/react-mde-all.css";
+import { useRef } from "react";
 
 const Wrapper = styled.div`
   .react-mde {
@@ -50,11 +51,20 @@ const Wrapper = styled.div`
 `;
 
 export default function MarkdownEditor({ content, setContent }) {
+  const ref = useRef();
   return (
     <Wrapper>
       <ReactMde
+        ref={ref}
         value={content}
-        onChange={setContent}
+        onChange={(content)=>{
+          const textarea = ref?.current?.finalRefs?.textarea?.current;
+          if(textarea){
+            textarea.style.height = "116px";
+            textarea.style.height = textarea.scrollHeight + 'px';
+          }
+          setContent(content)
+        }}
         toolbarCommands={[
           [
             "header",

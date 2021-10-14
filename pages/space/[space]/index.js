@@ -8,8 +8,7 @@ import ListTab from "components/listTab";
 import PostList from "components/postList";
 import { EmptyQuery } from "utils/constants";
 import ssrNextApi from "services/nextApi";
-import QuestionMark from "../../../public/imgs/icons/question-mark.svg";
-import Tooltip from "@/components/tooltip";
+import { to404 } from "../../../utils/serverSideUtil";
 
 const HeaderWrapper = styled.div`
   > :not(:first-child) {
@@ -53,9 +52,11 @@ export default function List({
   }
 
   return (
-    <Layout bgHeight="252px">
+    <Layout bgHeight="264px" network={spaceData}>
       <HeaderWrapper>
-        <Nav data={[{ name: "Space", link: "/" }, { name: spaceName }]} />
+        <Nav
+          data={[{ name: "Space", link: "/", back: true }, { name: spaceName }]}
+        />
         <ListInfo spaceName={spaceName} data={spaceData} />
         <ListTab space={spaceName} activeTab={activeTab} onActiveTab={setTab} />
       </HeaderWrapper>
@@ -99,6 +100,10 @@ export async function getServerSideProps(context) {
       pageSize,
     }),
   ]);
+
+  if(Object.keys(spaceData).length === 0){
+    to404(context);
+  }
 
   return {
     props: {
