@@ -33,6 +33,7 @@ export default function List({
   activeProposals,
   closedProposals,
   activeTab,
+  defaultPage,
 }) {
   const [tab, setTab] = useState(activeTab);
 
@@ -58,7 +59,7 @@ export default function List({
           data={[{ name: "Space", link: "/", back: true }, { name: spaceName }]}
         />
         <ListInfo spaceName={spaceName} data={spaceData} />
-        <ListTab space={spaceName} activeTab={activeTab} onActiveTab={setTab} />
+        <ListTab space={spaceName} activeTab={activeTab} onActiveTab={setTab} defaultPage={defaultPage} />
       </HeaderWrapper>
       <PostWrapper>
         <PostList posts={proposalList} network={spaceData} />
@@ -114,6 +115,7 @@ export async function getServerSideProps(context) {
       pendingProposals: pendingProposals ?? EmptyQuery,
       activeProposals: activeProposals ?? EmptyQuery,
       closedProposals: closedProposals ?? EmptyQuery,
+      defaultPage: { tab: activeTab ?? null, page: nPage },
     },
   };
 }
