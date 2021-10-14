@@ -48,7 +48,7 @@ export default function Content({ title, setTitle, content, setContent }) {
         <RichInput
           content={content}
           setContent={setContent}
-          showButtons={false}
+          showSUbmitButton={false}
         />
       </InnerWrapper>
     </Wrapper>

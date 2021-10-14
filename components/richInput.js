@@ -25,7 +25,6 @@ const Button = styled.div`
   cursor: pointer;
 `;
 
-
 const PreviewWrapper = styled.div`
   padding-left: 8px;
   border-left: 4px solid #eeeeee;
@@ -47,6 +46,7 @@ export default function RichInput({
   setContent,
   onSubmit,
   showButtons = true,
+  showSUbmitButton = true,
 }) {
   const [preview, setPreview] = useState(false);
 
@@ -67,7 +67,11 @@ export default function RichInput({
           <Button onClick={() => setPreview(!preview)}>
             {preview ? "Edit" : "Preview"}
           </Button>
-          <ButtonPrimary primary onClick={onSubmit}>Comment</ButtonPrimary>
+          {showSUbmitButton && (
+            <ButtonPrimary primary onClick={onSubmit}>
+              Comment
+            </ButtonPrimary>
+          )}
         </ButtonsWrapper>
       )}
     </div>
