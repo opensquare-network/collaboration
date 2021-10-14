@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import MarkdownEditor from "./markdownEditor";
 import Markdown from "./markdown";
-import ButtonPrimary from "@/components/button";
+import Button from "@/components/button";
 
 const MarkdownWrapper = styled.div``;
 
@@ -16,14 +16,6 @@ const ButtonsWrapper = styled.div`
   }
 `;
 
-const Button = styled.div`
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 24px;
-  padding: 6px 12px;
-  border: 1px solid #e2e8f0;
-  cursor: pointer;
-`;
 
 const PreviewWrapper = styled.div`
   padding-left: 8px;
@@ -68,9 +60,9 @@ export default function RichInput({
             {preview ? "Edit" : "Preview"}
           </Button>
           {showSUbmitButton && (
-            <ButtonPrimary primary onClick={onSubmit}>
+            <Button primary onClick={onSubmit}>
               Comment
-            </ButtonPrimary>
+            </Button>
           )}
         </ButtonsWrapper>
       )}

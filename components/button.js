@@ -8,6 +8,9 @@ const Wrapper = styled.div`
   border: 1px solid #b7c0cc;
   cursor: pointer;
   color: #1e2134;
+  &:hover{
+    border-color: #404753;
+  }
   ${(p) =>
     p.primary &&
     css`
