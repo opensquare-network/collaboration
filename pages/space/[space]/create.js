@@ -34,6 +34,10 @@ export async function getServerSideProps(context) {
     ssrNextApi.fetch(`spaces/${spaceName}`),
   ]);
 
+  if(Object.keys(network).length === 0){
+    to404(context);
+  }
+
   return {
     props: {
       network: network ?? null,

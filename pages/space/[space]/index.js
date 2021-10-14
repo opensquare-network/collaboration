@@ -101,7 +101,7 @@ export async function getServerSideProps(context) {
     }),
   ]);
 
-  if(Object?.keys(spaceData)?.length === 0){
+  if(Object.keys(spaceData).length === 0){
     to404(context);
   }
 
