@@ -19,6 +19,27 @@ const Wrapper = styled.div`
         background: #404753;
       }
     `}
+  ${(p) =>
+          p.large &&
+          css`
+      padding: 12px 16px;
+    `}
+  ${(p) =>
+          (p.isLoading || p.disabled) &&
+          css`
+      background: #e2e8f0;
+      pointer-events: none;
+    `}
+  ${(p) =>
+          (p.isLoading) &&
+          css`
+      cursor: wait;
+    `}
+  ${(p) =>
+          (p.disabled) &&
+          css`
+      cursor: not-allowed;
+    `}
 `;
 
 export default function Button({ children, ...props }) {

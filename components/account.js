@@ -8,10 +8,11 @@ import Avatar from "./avatar";
 import { p_14_medium, p_16_semibold } from "../styles/textStyles";
 import UserIcon from "../public/imgs/icons/user.svg";
 import { shadow_200 } from "../styles/globalCss";
-import { useNetwork, useWindowSize, useIsMounted } from "../utils/hooks";
+import { useWindowSize, useIsMounted } from "../utils/hooks";
 import { fetchIdentity } from "services/identity";
 import IdentityIcon from "components/identityIcon";
 import { encodeAddress } from "@polkadot/util-crypto";
+import ButtonPrimary from "components/button";
 
 const Connect = dynamic(() => import("./connect"), {
   ssr: false,
@@ -129,9 +130,7 @@ const Button = styled.div`
   }
 `;
 
-const DarkButton = styled(Button)`
-  color: #ffffff;
-  background: #191e27;
+const DarkButton = styled(ButtonPrimary)`
   @media screen and (max-width: 800px) {
     padding: 8px 16px;
     margin: auto;
@@ -198,6 +197,7 @@ export default function Account({ network, showMenu, setShowMenu }) {
   const ConnectWallet = (
     <div className="connect">
       <DarkButton
+        primary
         onClick={() => setShowConnectModal(!showConnectModal)}
         className="button"
       >

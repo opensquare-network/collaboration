@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { setAccount } from "store/reducers/accountSlice";
 import { Modal, Button } from "semantic-ui-react";
 import AccountSelector from "./accountSelector";
+import ButtonPrimary from "components/button";
 
 import { useIsMounted } from "utils/hooks";
 import styled from "styled-components";
@@ -77,25 +78,6 @@ const ActionBar = styled.div`
   margin-top: 28px;
 `;
 
-const StyledButtonPrimary = styled.button`
-  &.ui.button:hover,
-  &.ui.button:active,
-  &.ui.button:focus {
-    background: #191E27 !important;
-  }
-  padding: 8px 16px;
-  border: 0;
-  outline: none;
-  cursor: pointer;
-
-  background: #191E27 !important;
-  ${p_16_semibold};
-
-  color: #FFFFFF;
-
-  border-radius: 0px !important;
-
-`;
 
 export default function Connect({show, setShow,setShowMenu}) {
   const dispatch = useDispatch();
@@ -185,11 +167,11 @@ export default function Connect({show, setShow,setShowMenu}) {
           />
 
           <ActionBar>
-            <StyledButtonPrimary
-              onClick={getConnection}
+            <ButtonPrimary
+              primary onClick={getConnection}
             >
               Connect
-            </StyledButtonPrimary>
+            </ButtonPrimary>
           </ActionBar>
         </StyledCard>
       </StyledModal>
