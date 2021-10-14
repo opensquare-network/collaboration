@@ -4,6 +4,7 @@ import PostCreate from "@/components/postCreate";
 import { useSpace } from "utils/hooks";
 import { SPACE_ITEMS } from "utils/constants";
 import { ssrNextApi } from "services/nextApi";
+import { to404 } from "../../../utils/serverSideUtil";
 
 export default function Create({ network }) {
   const space = useSpace();
