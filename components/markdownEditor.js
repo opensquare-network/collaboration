@@ -60,6 +60,7 @@ export default function MarkdownEditor({ content, setContent }) {
         onChange={(content)=>{
           const textarea = ref?.current?.finalRefs?.textarea?.current;
           if(textarea){
+            textarea.style.height = "116px";
             textarea.style.height = textarea.scrollHeight + 'px';
           }
           setContent(content)
