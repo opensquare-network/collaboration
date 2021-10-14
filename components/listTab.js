@@ -66,7 +66,7 @@ const Button = styled.div`
   }
 `;
 
-export default function ListTab({ space, activeTab, onActiveTab = ()=>{} }) {
+export default function ListTab({ space, activeTab, onActiveTab = ()=>{}, defaultPage }) {
   const router = useRouter();
   const activeTabIndex = LIST_TAB_ITEMS.findIndex(item => item.value === activeTab);
   const [tabIndex, setTabIndex] = useState(activeTabIndex);
@@ -90,7 +90,11 @@ export default function ListTab({ space, activeTab, onActiveTab = ()=>{} }) {
                   query: {
                     space,
                     tab: item.value,
-                    ...(item.page > 0 ? { page: item.page + 1 } : {}),
+                    ...(item.value === defaultPage?.tab
+                      ? defaultPage.page > 1
+                        ? { page: defaultPage.page }
+                        : {}
+                      : {}),
                   },
                 },
                 undefined,
