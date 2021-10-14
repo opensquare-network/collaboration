@@ -8,8 +8,7 @@ import ListTab from "components/listTab";
 import PostList from "components/postList";
 import { EmptyQuery } from "utils/constants";
 import ssrNextApi from "services/nextApi";
-import QuestionMark from "../../../public/imgs/icons/question-mark.svg";
-import Tooltip from "@/components/tooltip";
+import { to404 } from "../../../utils/serverSideUtil";
 
 const HeaderWrapper = styled.div`
   > :not(:first-child) {
@@ -101,6 +100,10 @@ export async function getServerSideProps(context) {
       pageSize,
     }),
   ]);
+
+  if(Object?.keys(spaceData)?.length === 0){
+    to404(context);
+  }
 
   return {
     props: {
