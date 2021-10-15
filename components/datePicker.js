@@ -19,6 +19,9 @@ const DateTimeWrapper = styled.div``;
 const DateButton = styled.div`
   padding: 12px 16px;
   border: 1px solid #e2e8f0;
+  :hover{
+    border-color: #B7C0CC;
+  }
   display: flex;
   cursor: pointer;
   font-weight: 500;

@@ -3,18 +3,21 @@ import ReactMde from "react-mde";
 import "react-mde/lib/styles/css/react-mde-all.css";
 import { useRef } from "react";
 import { no_scroll_bar } from "../styles/globalCss";
+import { p_14_normal } from "../styles/textStyles";
 
 const Wrapper = styled.div`
   .react-mde {
     border-top-color: #e2e8f0;
-    border-bottom-color: #e2e8f0;
+    border-bottom: none;
     border-left: none;
     border-right: none;
     textarea {
-      border: none;
       padding: 12px 16px;
-      font-size: 16px;
-      line-height: 24px;
+      border-bottom: 1px solid #e2e8f0;
+      :hover, :focus, :active{
+        border-color: #B7C0CC;
+      }
+      ${p_14_normal};
       outline: none;
       font-family: inherit;
       background-color: #fbfcfe;
@@ -27,7 +30,7 @@ const Wrapper = styled.div`
       display: flex;
       justify-content: space-between;
       background-color: #ffffff;
-      border-bottom: 1px solid #e2e8f0;
+      border-bottom: none;
       .mde-tabs {
         display: none;
       }

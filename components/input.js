@@ -1,14 +1,17 @@
 import styled from "styled-components";
+import { p_14_normal } from "../styles/textStyles";
 
 const styledInput = styled.input`
   all: unset;
   padding: 12px 16px;
   background: #fbfcfe;
   border-bottom: 1px solid #e2e8f0;
+  :hover, :focus, :active{
+    border-color: #B7C0CC;
+  }
+  ${p_14_normal};
   display: block;
   color: #1e2134;
-  font-size: 16px;
-  line-height: 24px;
   ::placeholder {
     color: #9da9bb;
   }
