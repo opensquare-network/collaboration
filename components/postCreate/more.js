@@ -5,7 +5,7 @@ import DatePicker from "components/datePicker";
 import Row from "@/components/row";
 import { toPrecision } from "../../utils";
 import BigNumber from "bignumber.js";
-import { p_16_medium } from "../../styles/textStyles";
+import { p_14_medium, p_16_medium } from "../../styles/textStyles";
 
 const Wrapper = styled.div`
   background: #ffffff;
@@ -54,7 +54,7 @@ const SystemWrapper = styled.div`
 
 const Button = styled.div`
   padding: 12px;
-  ${p_16_medium};
+  ${p_14_medium};
   color: #ffffff;
   background: #191e27;
   cursor: pointer;
