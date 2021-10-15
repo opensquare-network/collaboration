@@ -98,6 +98,9 @@ async function createProposal(
   }
 
   const uniqueChoices = Array.from(new Set(choices));
+  if (uniqueChoices.length < 2) {
+    throw new HttpError(400, { choices: ["There must be at least 2 different choices"] });
+  }
 
   const lastHeight = getLatestHeight(space);
   if (lastHeight && snapshotHeight > lastHeight) {
