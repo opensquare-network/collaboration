@@ -14,6 +14,9 @@ export function validateProposal(formData) {
   if (!(formData.choices.length >= 2)) {
     return `Choices must be more than one.`;
   }
+  if (formData.choices.length !==  new Set(formData.choices).size){
+    return `Every choice must be unique.`;
+  }
   return false;
 }
 
