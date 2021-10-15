@@ -17,6 +17,10 @@ export function validateProposal(formData) {
   if (formData.choices.length !==  new Set(formData.choices).size){
     return `Every choice must be unique.`;
   }
+  const now = (new Date()).getTime();
+  if(formData.endDate <= now){
+    return `Invalid end date, it must not be earlier than now.`;
+  }
   return false;
 }
 
