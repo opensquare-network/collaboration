@@ -52,7 +52,7 @@ export default function PostTab({
       {
         name: "Votes",
         value: "votes",
-        component: <PostVotes votes={votes} network={network} />,
+        component: <PostVotes data={data} votes={votes} network={network} />,
         default: true,
       },
       {
