@@ -97,6 +97,12 @@ async function createProposal(
     throw new HttpError(400, "Start date should not larger than end date");
   }
 
+  const now = new Date();
+
+  if (endDate < now.getTime()) {
+    throw new HttpError(400, "End date should not ealier than current time");
+  }
+
   const uniqueChoices = Array.from(new Set(choices));
   if (uniqueChoices.length < 2) {
     throw new HttpError(400, { choices: ["There must be at least 2 different choices"] });
@@ -123,8 +129,6 @@ async function createProposal(
   const { cid, pinHash } = await pinData(data, address, signature);
 
   const postUid = await nextPostUid();
-
-  const now = new Date();
 
   const proposalCol = await getProposalCollection();
   const result = await proposalCol.insertOne(
