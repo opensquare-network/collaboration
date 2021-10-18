@@ -33,6 +33,7 @@
     "koa-helmet": "^6.1.0",
     "koa-logger": "^3.2.1",
     "koa-router": "^10.1.1",
+    "lodash.flatten": "^4.4.0",
     "moment": "^2.29.1",
     "mongoose": "^5.13.4",
     "next": "11.1.1 ",
