@@ -3,7 +3,7 @@ import styled from "styled-components";
 const Wrapper = styled.main`
   position: relative;
   flex-grow: 1;
-  padding: 40px 0;
+  padding: 40px 0 64px 0;
   @media screen and (max-width: 800px) {
     padding: 20px 0;
   }
