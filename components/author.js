@@ -38,6 +38,10 @@ export default function Author({ address, network, size = 24 }) {
   const chain = network?.relay || network;
 
   useEffect(() => {
+    if (!address) {
+      return;
+    }
+
     const idenAddr = encodeAddress(address, chain.ss58Format);
     fetchIdentity(chain.network, idenAddr)
       .then((identity) => {
