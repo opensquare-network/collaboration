@@ -28,4 +28,5 @@ module.exports = {
     "node_modules/(?!(@polkadot|@babel)/)",
     "^.+\\.module\\.(css|sass|scss)$",
   ],
+  preset: "@shelf/jest-mongodb"
 };

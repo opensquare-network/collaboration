@@ -1,20 +1,20 @@
 const { ObjectId } = require("mongodb");
 const BigNumber = require("bignumber.js");
-const { safeHtml } = require("../utils/post");
-const { PostTitleLengthLimitation } = require("../constants");
-const { nextPostUid } = require("./status.service");
+const { safeHtml } = require("../../utils/post");
+const { PostTitleLengthLimitation } = require("../../constants");
+const { nextPostUid } = require("../status.service");
 const {
   getProposalCollection,
   getVoteCollection,
   getCommentCollection,
-} = require("../mongo");
-const { HttpError } = require("../exc");
-const { ContentType } = require("../constants");
-const { getLatestHeight } = require("./chain.service");
-const { getBlockHash } = require("../utils/polkadotApi");
-const spaceServices = require("../spaces");
-const { getObjectBufAndCid, pinJsonToIpfsWithTimeout } = require("./ipfs.service");
-const { toDecimal128, isTestAccount, sqrtOfBalance } = require("../utils");
+} = require("../../mongo");
+const { HttpError } = require("../../exc");
+const { ContentType } = require("../../constants");
+const { getLatestHeight } = require("../chain.service");
+const { getBlockHash } = require("../../utils/polkadotApi");
+const spaceServices = require("../../spaces");
+const { getObjectBufAndCid, pinJsonToIpfsWithTimeout } = require("../ipfs.service");
+const { toDecimal128, isTestAccount, sqrtOfBalance } = require("../../utils");
 
 
 const addProposalStatus = (now) => (p) => ({
