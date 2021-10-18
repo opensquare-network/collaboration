@@ -157,7 +157,7 @@ async function createProposal(
     }
   );
 
-  if (!result.result.ok) {
+  if (!result.insertedId) {
     throw new HttpError(500, "Failed to create post");
   }
 
@@ -372,13 +372,13 @@ async function postComment(
   };
   const result = await commentCol.insertOne(newComment);
 
-  if (!result.result.ok) {
+  if (!result.insertedId) {
     throw new HttpError(500, "Failed to create comment");
   }
 
-  const newCommentId = result.ops[0]._id;
+  const newCommentId = result.insertedId;
 
-  const updateResult = await proposalCol.updateOne(
+  await proposalCol.updateOne(
     { cid: proposalCid },
     {
       $set: {
@@ -386,10 +386,6 @@ async function postComment(
       }
     },
   );
-
-  if (!updateResult.result.ok) {
-    throw new HttpError(500, "Unable to update proposal last activity time");
-  }
 
   return newCommentId;
 }
@@ -505,7 +501,7 @@ async function vote(
     throw new HttpError(500, "Failed to create comment");
   }
 
-  const updateResult = await proposalCol.updateOne(
+  await proposalCol.updateOne(
     { cid: proposalCid },
     {
       $set: {
@@ -513,10 +509,6 @@ async function vote(
       }
     },
   );
-
-  if (!updateResult.result.ok) {
-    throw new HttpError(500, "Unable to update proposal last activity time");
-  }
 
   return result.value?._id;
 }
