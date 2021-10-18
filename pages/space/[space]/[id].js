@@ -3,7 +3,7 @@ import Nav from "components/nav";
 import PostDetail from "@/components/postDetail/index";
 import { useSpace } from "utils/hooks";
 import { SPACE_ITEMS } from "utils/constants";
-import ssrNextApi from "services/nextApi";
+import { ssrNextApi } from "services/nextApi";
 import { EmptyQuery } from "utils/constants";
 import { to404 } from "../../../utils/serverSideUtil";
 
