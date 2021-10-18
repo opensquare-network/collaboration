@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 const Wrapper = styled.div`
   text-transform: capitalize;
   padding: 3px 12px;
-  font-weight: bold;
+  font-weight: 500;
   font-size: 12px;
   line-height: 18px;
   color: #ffffff;
