@@ -144,7 +144,7 @@ export default function PostVote({ data, network }) {
   const [remark, setRemark] = useState("");
   const [proxyVote, setProxyVote] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [proxAddress, setProxyAddress] = useState("");
+  const [proxyAddress, setProxyAddress] = useState("");
   const [info, setInfo] = useState();
   const [balance, setBalance] = useState();
   const [proxyBalance, setProxyBalance] = useState();
@@ -172,9 +172,9 @@ export default function PostVote({ data, network }) {
   }, [data?.snapshotHeight, space, account?.address, isMounted]);
 
   const getProxyBalance = () => {
-    if (space && proxAddress) {
+    if (space && proxyAddress) {
       nextApi
-        .fetch(`${space}/account/${proxAddress}/balance`, {
+        .fetch(`${space}/account/${proxyAddress}/balance`, {
           snapshot: data?.snapshotHeight,
         })
         .then((response) => {
@@ -219,7 +219,7 @@ export default function PostVote({ data, network }) {
         choice,
         remark,
         encodeAddress(account?.address, network.ss58Format),
-        proxyVote ? encodeAddress(proxAddress, network.ss58Format) : undefined
+        proxyVote ? encodeAddress(proxyAddress, network.ss58Format) : undefined
       );
     } catch (error) {
       dispatch(
@@ -316,7 +316,7 @@ export default function PostVote({ data, network }) {
           </ProxyHeader>
           {proxyVote && (
             <PostAddress
-              address={proxAddress}
+              address={proxyAddress}
               setAddress={setProxyAddress}
               network={network}
               info={info}

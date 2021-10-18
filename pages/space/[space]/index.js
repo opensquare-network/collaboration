@@ -7,7 +7,7 @@ import ListInfo from "components/listInfo";
 import ListTab from "components/listTab";
 import PostList from "components/postList";
 import { EmptyQuery } from "utils/constants";
-import ssrNextApi from "services/nextApi";
+import { ssrNextApi } from "services/nextApi";
 import { to404 } from "../../../utils/serverSideUtil";
 
 const HeaderWrapper = styled.div`
