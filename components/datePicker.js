@@ -19,8 +19,8 @@ const DateTimeWrapper = styled.div``;
 const DateButton = styled.div`
   padding: 12px 16px;
   border: 1px solid #e2e8f0;
-  :hover{
-    border-color: #B7C0CC;
+  :hover {
+    border-color: #b7c0cc;
   }
   display: flex;
   cursor: pointer;
@@ -48,7 +48,7 @@ const DateWrapper = styled.div`
   position: absolute;
   z-index: 1;
   right: 0;
-  padding: 32px;
+  padding: 24px;
   background: #ffffff;
   box-shadow: 0px 4px 31px rgba(26, 33, 44, 0.06),
     0px 0.751293px 8px rgba(26, 33, 44, 0.04);
@@ -70,9 +70,6 @@ const DateWrapper = styled.div`
     text-align: center;
     color: #506176;
     margin: 0 !important;
-    :not(:first-child) {
-      margin-left: 4px !important;
-    }
   }
 
   .react-datepicker {
@@ -80,17 +77,15 @@ const DateWrapper = styled.div`
     border: none;
   }
 
-  .react-datepicker__week {
-    :not(:first-child) {
-      margin-top: 4px !important;
-    }
+  .react-datepicker__month {
+    margin: 0;
   }
 
   .react-datepicker__day {
     width: 40px;
     height: 40px;
     font-family: Inter;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 24px;
     font-weight: normal;
     color: #1e2134;
@@ -99,9 +94,6 @@ const DateWrapper = styled.div`
     justify-content: center;
     border-radius: 0;
     margin: 0 !important;
-    :not(:first-child) {
-      margin-left: 4px !important;
-    }
     :hover {
       background: #f0f3f8;
     }
@@ -165,7 +157,7 @@ const TimeWrapper = styled.div`
   z-index: 2;
   position: absolute;
   right: 0;
-  padding: 32px;
+  padding: 24px;
   background: #ffffff;
   box-shadow: 0px 4px 31px rgba(26, 33, 44, 0.06),
     0px 0.751293px 8px rgba(26, 33, 44, 0.04);
@@ -189,7 +181,7 @@ const TimeHeaderWrapper = styled.div`
 `;
 
 const TimeInputWrapper = styled.div`
-  width: 304px;
+  width: 280px;
   height: 48px;
   background: #fbfcfe;
   border-bottom: 1px solid #e2e8f0;
@@ -197,7 +189,7 @@ const TimeInputWrapper = styled.div`
   display: flex;
   font-size: 16px;
   line-height: 24px;
-  padding: 12px 16px;
+  padding: 12px 4px;
   justify-content: space-between;
 `;
 
@@ -319,9 +311,9 @@ export default function Component({ date, setDate, placeholder }) {
                   formatWeekDay={(nameOfDay) => nameOfDay.substr(0, 3)}
                 />
                 <ButtonWrapper>
-                  <Button onClick={onToday}>Today</Button>
                   <Button
                     primary
+                    disabled={!date}
                     onClick={() => {
                       if (!date) onToday();
                       formatTime();
