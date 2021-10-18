@@ -12,6 +12,17 @@ const Wrapper = styled.div`
     border-color: #404753;
   }
   ${(p) =>
+          p?.color === "orange" &&
+          css`
+      color: #ffffff;
+      background: #E37F06;
+      border-color: #E37F06;
+      &:hover{
+        background: #E7932E;
+        border-color: #E7932E;
+      }
+    `}
+  ${(p) =>
     p.primary &&
     css`
       padding: 8px 16px;

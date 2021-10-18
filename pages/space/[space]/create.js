@@ -15,7 +15,7 @@ export default function Create({ network }) {
       {item && (
         <Nav
           data={[
-            { name: "Space", link: "/" },
+            { name: "Home", link: "/" },
             { name: item?.name, link: `/space/${item?.value}`, back: true },
             { name: "New Post" },
           ]}
