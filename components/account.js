@@ -78,7 +78,7 @@ const MenuWrapper = styled.div`
   cursor: auto;
   min-width: 209px;
   position: absolute;
-  right: 12px;
+  right: 0;
   top: calc(100% + 10px);
   background: #ffffff;
   border: 1px solid #f0f3f8;

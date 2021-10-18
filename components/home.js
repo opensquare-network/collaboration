@@ -5,7 +5,7 @@ import PostList from "./postList";
 
 const Wrapper = styled.div`
   > :not(:first-child) {
-    margin-top: 40px;
+    margin-top: 24px;
   }
 `;
 

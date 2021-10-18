@@ -11,6 +11,7 @@ import { addressEllipsis } from "utils";
 import { encodeAddress } from "@polkadot/util-crypto";
 import { addToast } from "store/reducers/toastSlice";
 import { TOAST_TYPES } from "utils/constants";
+import { p_14_normal } from "../../styles/textStyles";
 
 const Wrapper = styled.div`
   padding: 20px;
@@ -41,8 +42,7 @@ const Input = styled.input`
   background-color: #ffffff;
   border: 1px solid #e2e8f0;
   padding: 23px 47px 23px 71px;
-  font-size: 16px;
-  line-height: 24px;
+  ${p_14_normal};
   ::placeholder {
     color: #c0c8d5;
   }

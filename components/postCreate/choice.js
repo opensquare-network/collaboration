@@ -2,15 +2,14 @@ import styled, { css } from "styled-components";
 import { useRef, useState } from "react";
 
 import Substract from "public/imgs/icons/substract.svg";
+import { p_14_medium } from "../../styles/textStyles";
 
 const Wrapper = styled.div`
   padding: 12px 24px;
   border: 1px solid #e2e8f0;
   display: flex;
   align-items: center;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 24px;
+  ${p_14_medium};
   justify-content: space-between;
   :hover {
     border-color: #b7c0cc;
