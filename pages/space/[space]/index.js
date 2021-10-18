@@ -56,7 +56,7 @@ export default function List({
     <Layout bgHeight="264px" network={spaceData}>
       <HeaderWrapper>
         <Nav
-          data={[{ name: "Space", link: "/", back: true }, { name: spaceName }]}
+          data={[{ name: "Home", link: "/", back: true }, { name: spaceName }]}
         />
         <ListInfo spaceName={spaceName} data={spaceData} />
         <ListTab space={spaceName} activeTab={activeTab} onActiveTab={setTab} defaultPage={defaultPage} />

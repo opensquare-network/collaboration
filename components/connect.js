@@ -6,35 +6,17 @@ import {
 } from "@polkadot/extension-dapp";
 import { useDispatch } from "react-redux";
 import { setAccount } from "store/reducers/accountSlice";
-import { Modal, Button } from "semantic-ui-react";
+import { Modal } from "semantic-ui-react";
+import Button from "components/button";
 import AccountSelector from "./accountSelector";
-import ButtonPrimary from "components/button";
 
 import { useIsMounted } from "utils/hooks";
 import styled from "styled-components";
-import { p_16_normal, p_16_semibold, p_20_semibold } from "../styles/textStyles";
+import { p_14_normal, p_16_semibold, p_20_semibold } from "../styles/textStyles";
 import SvgClose from "public/imgs/icons/close.svg";
 
 const Wrapper = styled.div``
 
-const GotoPolkadotButton = styled(Button)`
-  &.ui.button:hover,
-  &.ui.button:active,
-  &.ui.button:focus {
-    background: #E37F06 !important;
-  }
-  padding: 8px 16px;
-  border: 0;
-  outline: none;
-  cursor: pointer;
-
-  background: #E37F06 !important;
-  ${p_16_semibold};
-  color: #FFFFFF;
-
-  border-radius: 0 !important;
-
-`
 
 const StyledModal = styled(Modal)`
   max-width: 400px !important;
@@ -43,7 +25,7 @@ const StyledModal = styled(Modal)`
 
 const StyledCard = styled.div`
   margin: 0 !important;
-  padding: 32px !important;
+  padding: 24px !important;
   position: relative !important;
   width: 100% !important;
 `;
@@ -60,7 +42,7 @@ const StyledText = styled.p`
 `;
 
 const StyledDescription = styled.p`
-  ${p_16_normal};
+  ${p_14_normal};
   color: #506176;
 `;
 
@@ -70,6 +52,7 @@ const CloseBar = styled.div`
   > svg path {
     fill: #9DA9BB;
   }
+  cursor: pointer;
 `;
 
 const ActionBar = styled.div`
@@ -167,11 +150,9 @@ export default function Connect({show, setShow,setShowMenu}) {
           />
 
           <ActionBar>
-            <ButtonPrimary
-              primary onClick={getConnection}
-            >
+            <Button primary onClick={getConnection}>
               Connect
-            </ButtonPrimary>
+            </Button>
           </ActionBar>
         </StyledCard>
       </StyledModal>
@@ -194,7 +175,7 @@ export default function Connect({show, setShow,setShowMenu}) {
           </StyledDescription>
 
           <ActionBar>
-            <GotoPolkadotButton color="orange" onClick={() => {
+            <Button color="orange" onClick={() => {
               closeModal();
               const newWindow = window.open(
                 "https://polkadot.js.org/extension/",
@@ -204,7 +185,7 @@ export default function Connect({show, setShow,setShowMenu}) {
               if (newWindow) newWindow.opener = null;
             }}>
               Polkadot{`{.js}`} Extension
-            </GotoPolkadotButton>
+            </Button>
           </ActionBar>
 
         </StyledCard>
@@ -228,9 +209,9 @@ export default function Connect({show, setShow,setShowMenu}) {
           </StyledDescription>
 
           <ActionBar>
-            <GotoPolkadotButton color="orange" onClick={closeModal}>
+            <Button color="orange" onClick={closeModal}>
               Got it.
-            </GotoPolkadotButton>
+            </Button>
           </ActionBar>
         </StyledCard>
       </StyledModal>
