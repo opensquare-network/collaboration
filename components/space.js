@@ -35,13 +35,13 @@ const ItemsWrapper = styled.div`
 `;
 
 const Item = styled.div`
-  width: 200px;
-  height: 241px;
+  width: 164px;
+  height: 217px;
   flex: 0 0 auto;
   border: 1px solid #f0f3f8;
   ${shadow_100};
   background: #ffffff;
-  padding: 32px;
+  padding: 24px;
 `;
 
 const IconWrapper = styled.div`
@@ -100,7 +100,7 @@ const TitleWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 40px;
+  margin-bottom: 24px;
 `;
 
 const SpaceButton = styled.div`
