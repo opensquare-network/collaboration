@@ -81,7 +81,7 @@ const NoVoteWrapper = styled.div`
   border-bottom: 1px solid #f0f3f8;
 `;
 
-export default function PostVotes({ network, votes }) {
+export default function PostVotes({ data, network, votes }) {
   return (
     <div>
       {(votes?.items || []).map((item, index) => (
@@ -105,7 +105,7 @@ export default function PostVotes({ network, votes }) {
                 <div>{`${toApproximatelyFixed(
                   bigNumber2Locale(
                     fromAssetUnit(
-                      network?.weightStrategy === "sqrt-of-balance-of"
+                      data?.weightStrategy === "sqrt-of-balance-of"
                         ? item.weights?.sqrtOfBalanceOf.$numberDecimal
                         : item.weights?.balanceOf.$numberDecimal,
                       network?.decimals

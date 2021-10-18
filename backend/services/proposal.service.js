@@ -117,6 +117,8 @@ async function createProposal(
   if (!spaceService) {
     throw new HttpError(500, "Unknown space name");
   }
+  const weightStrategy = spaceService.weightStrategy;
+
   const api = await spaceService.getApi();
   const blockHash = await getBlockHash(api, lastHeight);
   const creatorBalance = await spaceService.balanceOf(api, blockHash, address);
@@ -143,6 +145,7 @@ async function createProposal(
       startDate,
       endDate,
       snapshotHeight,
+      weightStrategy,
       data,
       address,
       signature,
