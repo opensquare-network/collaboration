@@ -102,39 +102,6 @@ export const SPACE_ITEMS = [
   },
   { value: "karura", icon: "karura.svg", name: "Karura", active: 5 },
   { value: "khala", icon: "khala.svg", name: "Khala", active: 5 },
-  { value: "xxx", name: "XXX" },
-  { value: "Lorem", name: "Lorem" },
-  { value: "Lorem", name: "Lorem" },
-  { value: "Lorem", name: "Lorem" },
-  { value: "Lorem", name: "Lorem" },
-  { value: "Lorem", name: "Lorem" },
-  { value: "Lorem", name: "Lorem" },
-  { value: "Lorem", name: "Lorem" },
-  { value: "Lorem", name: "Lorem" },
-  { value: "Lorem", name: "Lorem" },
-];
-
-export const POST_ITEMS = [
-  {
-    title: "Sit semper pretium enim, quisque aenean euismod odio.",
-    author: "Butterbean",
-    time: "End in 2 days",
-    status: "Active",
-  },
-  {
-    title:
-      "Ut dignissim ornare eu neque id. Facilisis eget blandit leo quis ut auctor.",
-    author: "Shogun",
-    time: "End in 2 days",
-    status: "Active",
-  },
-  {
-    title:
-      "Fermentum viverra lorem diam integer sodales feugiat nunc purus. Nullam vitae venenatis maecenas mi. Ac mauris id magna elementum. Lectus gravida pellentesque vel proin bibendum cursus accumsan, mattis.",
-    author: "TheGrimReaper",
-    time: "End in 2 days",
-    status: "Active",
-  },
 ];
 
 export const LIST_TAB_ITEMS = [
@@ -155,68 +122,6 @@ export const LIST_TAB_ITEMS = [
     value: "closed",
     name: "Closed",
   }
-];
-
-export const LIST_POST_ITEMS = [
-  {
-    title: "Sit semper pretium enim, quisque aenean euismod odio.",
-    author: "Butterbean",
-    time: "End in 2 days",
-    status: "Active",
-  },
-  {
-    title:
-      "Ut dignissim ornare eu neque id. Facilisis eget blandit leo quis ut auctor.",
-    author: "Shogun",
-    time: "End in 2 days",
-    status: "End",
-  },
-  {
-    title:
-      "Ipsum mattis nec etiam in maecenas commodo lorem. Non porta dignissim nulla ornare.",
-    author: "TheChief",
-    time: "End in 2 days",
-    status: "End",
-  },
-  {
-    title:
-      "Fermentum viverra lorem diam integer sodales feugiat nunc purus. Nullam vitae venenatis maecenas mi. Ac mauris id magna elementum. Lectus gravida pellentesque vel proin bibendum cursus accumsan, mattis.",
-    author: "TheGrimReaper",
-    time: "End in 2 days",
-    status: "End",
-  },
-];
-
-export const VOTE_ITEMS = [
-  {
-    author: "15kU...2i86",
-    vote: "XXXXX",
-    value: "100.05 KSM",
-    content:
-      "Mauris cum ac ut eu pellentesque arcu. Habitant cursus porttitor feugiat proin. Maecenas enim tristique fermentum parturient nisi, nulla sit leo.",
-  },
-  { author: "15kU...2i86", vote: "XXXXX", value: "100.05 KSM" },
-  { author: "15kU...2i86", vote: "XXXXX", value: "100.05 KSM" },
-];
-
-export const DISCUSSION_ITEMS = [
-  {
-    author: "15kU...2i86",
-    time: "2 days ago",
-    content:
-      "Mauris cum ac ut eu pellentesque arcu. Habitant cursus porttitor feugiat proin. Maecenas enim tristique fermentum parturient nisi, nulla sit leo.",
-  },
-  {
-    author: "Butterbean",
-    time: "2 days ago",
-    content: "Mattis mollis at cum a ornare porttitor aliquam nunc, mi.",
-  },
-  {
-    author: "15kU...2i86",
-    time: "2 days ago",
-    content:
-      "Amet, eget orci faucibus at egestas nibh sed parturient enim. Libero nullam et egestas vel a. Egestas bibendum consequat non sed ac malesuada sed orci. Mauris nibh tempus in dolor.",
-  },
 ];
 
 export const EmptyQuery = {
