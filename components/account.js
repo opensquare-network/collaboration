@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { accountSelector, logout } from "store/reducers/accountSlice";
 import { addressEllipsis } from "utils";
 import Avatar from "./avatar";
-import { p_14_medium, p_16_semibold } from "../styles/textStyles";
+import { p_14_medium } from "../styles/textStyles";
 import UserIcon from "../public/imgs/icons/user.svg";
 import { shadow_200 } from "../styles/globalCss";
 import { useWindowSize, useIsMounted } from "../utils/hooks";
@@ -19,11 +19,9 @@ const Connect = dynamic(() => import("./connect"), {
 });
 
 const Wrapper = styled.div`
-  padding: 7px 15px;
   position: relative;
   cursor: pointer;
   @media screen and (max-width: 800px) {
-    //padding: 20px 0;
     padding: 0;
     > :first-child {
       margin-top: 20px;
@@ -61,6 +59,11 @@ const AccountWrapper = styled.div`
 `;
 
 const AccountWrapperPC = styled(AccountWrapper)`
+  border: 1px solid #E2E8F0;
+  :hover {
+    border: 1px solid #B7C0CC;
+  }
+  padding: 7px 15px;
   @media screen and (max-width: 800px) {
     display: none;
   }
@@ -111,22 +114,6 @@ const LogoutWrapper = styled.div`
 
   :hover {
     color: #1e2134;
-  }
-`;
-
-const Button = styled.div`
-  padding: 8px 16px;
-  ${p_16_semibold};
-  color: #191e27;
-  cursor: pointer;
-  border: 1px solid #e2e8f0;
-  @media screen and (max-width: 800px) {
-    border: none;
-    padding: 0;
-    margin-left: -40px;
-    margin-right: -40px;
-    width: 100%;
-    text-align: center;
   }
 `;
 
