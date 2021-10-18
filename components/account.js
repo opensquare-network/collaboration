@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { useSelector, useDispatch } from "react-redux";
@@ -59,10 +59,15 @@ const AccountWrapper = styled.div`
 `;
 
 const AccountWrapperPC = styled(AccountWrapper)`
-  border: 1px solid #E2E8F0;
+  border: 1px solid #e2e8f0;
   :hover {
-    border: 1px solid #B7C0CC;
+    border: 1px solid #b7c0cc;
   }
+  ${(p) =>
+    p.show &&
+    css`
+      border: 1px solid #b7c0cc;
+    `}
   padding: 7px 15px;
   @media screen and (max-width: 800px) {
     display: none;
@@ -161,7 +166,7 @@ export default function Account({ network, showMenu, setShowMenu }) {
       const spaceAddr = encodeAddress(account?.address, network.ss58Format);
       setAddress(spaceAddr);
     }
-  }, [network?.ss58Format, account?.address])
+  }, [network?.ss58Format, account?.address]);
 
   useEffect(() => {
     if (chain && account?.address) {
@@ -232,7 +237,7 @@ export default function Account({ network, showMenu, setShowMenu }) {
   if (account) {
     return (
       <Wrapper>
-        <AccountWrapperPC>
+        <AccountWrapperPC show={showMenu}>
           <div>
             <Avatar address={address} />
 

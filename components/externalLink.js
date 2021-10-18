@@ -1,6 +1,15 @@
+import styled from "styled-components";
+
+const Wrapper = styled.a`
+  :hover {
+    color: inherit;
+    text-decoration: underline;
+  }
+`;
+
 export default function ExternalLink({ href, children }) {
   return (
-    <a
+    <Wrapper
       href={href}
       target="_blank"
       rel="noopener noreferrer"
@@ -9,6 +18,6 @@ export default function ExternalLink({ href, children }) {
       }}
     >
       {children}
-    </a>
+    </Wrapper>
   );
 }
