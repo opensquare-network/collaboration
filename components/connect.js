@@ -105,7 +105,7 @@ export default function Connect({show, setShow,setShowMenu}) {
       });
       if (isMounted.current) {
         setAccounts(accounts);
-        setAddress(accounts[0].address);
+        setAddress(accounts[0]?.address);
       }
     }
   }, [hasExtension, isMounted, show]);
