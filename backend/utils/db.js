@@ -1,5 +1,5 @@
 const { MongoClient } = require("mongodb");
-const _ = require("lodash");
+const flatten = require("lodash.flatten");
 
 class DeferredCall {
   constructor(callback) {
@@ -175,7 +175,7 @@ async function connectDb(dbName) {
       }
     });
 
-    return _.flatten(Array.from(itemsMap.values()));
+    return flatten(Array.from(itemsMap.values()));
   }
 
   async function compoundLookupOne({
