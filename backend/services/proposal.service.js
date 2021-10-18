@@ -94,13 +94,13 @@ async function createProposal(
   }
 
   if (endDate <= startDate) {
-    throw new HttpError(400, "Start date should not larger than end date");
+    throw new HttpError(400, "Start date should not be larger than end date");
   }
 
   const now = new Date();
 
   if (endDate < now.getTime()) {
-    throw new HttpError(400, "End date should not ealier than current time");
+    throw new HttpError(400, "End date should not be ealier than current time");
   }
 
   const uniqueChoices = Array.from(new Set(choices));
