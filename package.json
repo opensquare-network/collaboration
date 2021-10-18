@@ -28,8 +28,6 @@
     "dotenv": "^10.0.0",
     "http-proxy": "^1.18.1",
     "ipfs-only-hash": "^4.0.0",
-    "jest": "^27.3.0",
-    "jest-environment-node": "^27.3.0",
     "koa": "^2.13.1",
     "koa-bodyparser": "^4.3.0",
     "koa-helmet": "^6.1.0",
@@ -60,6 +58,8 @@
     "eslint": "7.32.0",
     "eslint-config-next": "11.1.2",
     "identity-obj-proxy": "^3.0.0",
+    "jest": "^27.3.0",
+    "jest-environment-node": "^27.3.0",
     "react-test-renderer": "^17.0.2"
   }
 }
