@@ -6,6 +6,8 @@ import { p_18_medium } from "styles/textStyles";
 import StatusTag from "./statusTag";
 import PostTime from "./postTime";
 import { p_24 } from "../styles/paddings";
+import { useEffect, useState } from "react";
+import { useWindowSize } from "../utils/hooks";
 
 const Wrapper = styled.div`
   background: #ffffff;
@@ -65,10 +67,27 @@ const SpaceName = styled.a`
   }
 `;
 
+const PCOnly = styled.div`
+  @media screen and (max-width: 800px) {
+    display: none;
+  }
+`
+
 export default function Post({ data, showSpace, network, spaces }) {
   const getSpaceNetwork = (space) => {
     return spaces?.[space];
   };
+  const windowSize = useWindowSize();
+
+  const [showRichInfo, setShowRichInfo ] = useState(true);
+
+  useEffect(()=> {
+    if (windowSize.width <= 900) {
+      setShowRichInfo(false);
+    } else {
+      setShowRichInfo(true);
+    }
+  },[windowSize.width, setShowRichInfo]);
 
   return (
     <Wrapper>
@@ -78,12 +97,16 @@ export default function Post({ data, showSpace, network, spaces }) {
       <Divider />
       <InfoWrapper>
         <LeftWrapper>
-          <Author
+          {showRichInfo && <Author
             address={data.address}
             network={network ?? getSpaceNetwork(data.space)}
           />
+          }
+          {
+            !showRichInfo && <img src={`/imgs/icons/project-${data.space}.svg`} alt=""/>
+          }
           <PostTime post={data} />
-          {showSpace && (
+          {showSpace && showRichInfo && (
             <FromSpace>
               From
               <img src={`/imgs/icons/project-${data.space}.svg`} alt=""/>
