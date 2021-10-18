@@ -34,9 +34,9 @@ export const FOOTER_ITEMS = [
   {
     label: "Product",
     items: [
-      { name: "CoinAsk", link: "https://www.coinask.io" },
       { name: "doTreasury", link: "https://www.dotreasury.com" },
-      { name: "statescan", link: "https://statescan.io" },
+      { name: "Statescan", link: "https://statescan.io" },
+      { name: "CoinAsk", link: "https://www.coinask.io" },
     ],
   },
   {
