@@ -24,7 +24,8 @@ module.exports = {
     "^.+\\.(js|jsx|ts|tsx)$": ["babel-jest", { presets: ["next/babel"] }],
   },
   transformIgnorePatterns: [
-    "/node_modules/",
+    // "/node_modules/",
+    "node_modules/(?!(@polkadot|@babel)/)",
     "^.+\\.module\\.(css|sass|scss)$",
   ],
 };

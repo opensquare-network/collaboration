@@ -14,15 +14,15 @@ describe("Util test", () => {
   });
 
   test("toSymbolUnit", async () => {
-    const value = toSymbolUnit("1000000000000", 12);
+    const value = toSymbolUnit("1", 12);
 
-    expect(value).toEqual("1");
+    expect(value).toEqual("1000000000000");
   });
 
   test("fromSymbolUnit", async () => {
-    const value = fromSymbolUnit("1", 12);
+    const value = fromSymbolUnit("1000000000000", 12);
 
-    expect(value).toEqual("1000000000000");
+    expect(value).toEqual("1");
   });
 
   test("sqrtOfBalance", async () => {
