@@ -153,6 +153,11 @@ export default function PostVote({ data, network }) {
   const isMounted = useIsMounted();
   const router = useRouter();
 
+  const reset = ()=>{
+    setChoice(null);
+    setRemark("");
+  }
+
   const status = data?.status;
 
   useEffect(() => {
@@ -246,6 +251,7 @@ export default function PostVote({ data, network }) {
           message: "Add vote successfully!",
         })
       );
+      reset();
     }
   };
 
