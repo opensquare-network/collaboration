@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 import Author from "./author";
 import InternalLink from "components/internalLink";
-import { p_18_medium } from "styles/textStyles";
+import { p_16_medium } from "styles/textStyles";
 import StatusTag from "./statusTag";
 import PostTime from "./postTime";
 import { p_24 } from "../styles/paddings";
@@ -19,7 +19,7 @@ const Wrapper = styled.div`
 
 const Title = styled.div`
   display: inline-block;
-  ${p_18_medium};
+  ${p_16_medium};
   :hover {
     text-decoration: underline;
   }
@@ -52,6 +52,9 @@ const LeftWrapper = styled.div`
 
 const FromSpace = styled.div`
   display: flex;
+  .ml-4px {
+    margin-left: 8px;
+  }
 `;
 
 const SpaceName = styled.a`
@@ -109,7 +112,7 @@ export default function Post({ data, showSpace, network, spaces }) {
           {showSpace && showRichInfo && (
             <FromSpace>
               From
-              <img src={`/imgs/icons/project-${data.space}.svg`} alt=""/>
+              <img className="ml-4px" src={`/imgs/icons/project-${data.space}.svg`} alt=""/>
               <InternalLink href={`/space/${data.space}`}>
                 <SpaceName>{data.space}</SpaceName>
               </InternalLink>
