@@ -1,28 +1,22 @@
 import styled, { css } from "styled-components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import InternalLink from "./internalLink";
 import { no_scroll_bar, shadow_100, makeSquare } from "../styles/globalCss";
 import { h3_36_bold, p_18_semibold, p_16_semibold } from "../styles/textStyles";
 import SpaceLogo from "@/components/spaceLogo";
+import { useWindowSize } from "../utils/hooks";
 
 const Title = styled.div`
   ${h3_36_bold};
 `;
 
 const ItemsWrapper = styled.div`
-  display: grid;
+  display: flex;
   gap: 20px;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  justify-content: start;
   overflow: visible;
   ${no_scroll_bar};
-
-  ${(p) =>
-    p.show &&
-    css`
-      justify-content: space-around;
-      grid-template-columns: repeat(auto-fill, 200px);
-    `}
 
   @media screen and (max-width: 1144px) {
     margin: 0 -32px;
@@ -32,6 +26,12 @@ const ItemsWrapper = styled.div`
     margin: 0 -20px;
     padding: 0 20px;
   }
+  
+  ${(p) =>
+          p.show &&
+          css`
+            flex-wrap: wrap;
+    `}
 `;
 
 const Item = styled.div`
@@ -111,18 +111,28 @@ const SpaceButton = styled.div`
 
 export default function Space({ spaces }) {
   const [show, setShow] = useState(false);
+  const [showCount, setShowCount] = useState(0);
   const spaceNames = Object.keys(spaces);
+  const windowSize = useWindowSize();
+
+  useEffect(()=> {
+    if (windowSize.width > 800) {
+      setShowCount(6);
+    } else {
+      setShowCount(2);
+    }
+  }, [windowSize.width, setShowCount]);
 
   return (
     <div>
       <TitleWrapper>
         <Title>Space</Title>
         <SpaceButton onClick={() => setShow(!show)}>
-          {spaceNames.length > 5 && show ? "Hide Spaces" : `All Spaces(${spaceNames.length})`}
+          {spaceNames.length > showCount && show ? "Hide Spaces" : `All Spaces(${spaceNames.length})`}
         </SpaceButton>
       </TitleWrapper>
       <ItemsWrapper show={show}>
-        {(show ? spaceNames : spaceNames.slice(0, 5)).map((item, index) => (
+        {(show ? spaceNames : spaceNames.slice(0, showCount)).map((item, index) => (
           <Item key={index}>
             <IconWrapper>
               <Icon>
