@@ -70,9 +70,6 @@ const DateWrapper = styled.div`
     text-align: center;
     color: #506176;
     margin: 0 !important;
-    /* :not(:first-child) {
-      margin-left: 4px !important;
-    } */
   }
 
   .react-datepicker {
@@ -82,12 +79,6 @@ const DateWrapper = styled.div`
 
   .react-datepicker__month {
     margin: 0;
-  }
-
-  .react-datepicker__week {
-    /* :not(:first-child) {
-      margin-top: 4px !important;
-    } */
   }
 
   .react-datepicker__day {
@@ -103,9 +94,6 @@ const DateWrapper = styled.div`
     justify-content: center;
     border-radius: 0;
     margin: 0 !important;
-    /* :not(:first-child) {
-      margin-left: 4px !important;
-    } */
     :hover {
       background: #f0f3f8;
     }
@@ -323,7 +311,6 @@ export default function Component({ date, setDate, placeholder }) {
                   formatWeekDay={(nameOfDay) => nameOfDay.substr(0, 3)}
                 />
                 <ButtonWrapper>
-                  {/* <Button onClick={onToday}>Today</Button> */}
                   <Button
                     primary
                     disabled={!date}
