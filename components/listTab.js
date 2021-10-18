@@ -15,12 +15,17 @@ const Wrapper = styled.div`
   white-space: nowrap;
   -ms-overflow-style: none;
   scrollbar-width: none;
+  padding-top: 100px;
+  margin-top: -60px !important;
   ::-webkit-scrollbar {
     display: none;
   }
   @media screen and (max-width: 800px) {
-    margin: 0 -20px;
-    padding: 0 20px;
+    margin-left: -20px;
+    margin-right: -20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-top: -80px !important;
   }
 `;
 
@@ -31,7 +36,7 @@ const ItemWrapper = styled.div`
 
 const Item = styled.div`
   @media screen and (max-width: 800px) {
-   position: relative;
+    position: relative;
   }
   overflow: visible;
   cursor: pointer;
@@ -46,7 +51,7 @@ const Item = styled.div`
       border-bottom: 3px solid #04d2c5;
       padding-bottom: 17px;
     `}
-  > div:last-child{
+  > div:last-child {
     margin-top: 4px;
     margin-left: 4px;
   }
@@ -66,13 +71,22 @@ const Button = styled.div`
   }
 `;
 
-export default function ListTab({ space, activeTab, onActiveTab = ()=>{}, defaultPage }) {
+export default function ListTab({
+  space,
+  activeTab,
+  onActiveTab = () => {},
+  defaultPage,
+}) {
   const router = useRouter();
-  const activeTabIndex = LIST_TAB_ITEMS.findIndex(item => item.value === activeTab);
+  const activeTabIndex = LIST_TAB_ITEMS.findIndex(
+    (item) => item.value === activeTab
+  );
   const [tabIndex, setTabIndex] = useState(activeTabIndex);
 
   useEffect(() => {
-    const currTabIndex = LIST_TAB_ITEMS.findIndex(item => item.value === router.query.tab);
+    const currTabIndex = LIST_TAB_ITEMS.findIndex(
+      (item) => item.value === router.query.tab
+    );
     setTabIndex(currTabIndex >= 0 ? currTabIndex : 0);
     onActiveTab(router.query.tab);
   }, [router, onActiveTab]);
@@ -104,11 +118,11 @@ export default function ListTab({ space, activeTab, onActiveTab = ()=>{}, defaul
             }}
           >
             {item.name}
-            {
-              item.tooltip && <Tooltip content={item.tooltip}>
-                <QuestionMark/>
+            {item.tooltip && (
+              <Tooltip content={item.tooltip}>
+                <QuestionMark />
               </Tooltip>
-            }
+            )}
           </Item>
         ))}
       </ItemWrapper>
