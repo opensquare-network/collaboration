@@ -85,10 +85,6 @@ export default function PostInfo({ data, network }) {
         <Divider />
         <div>
           <InfoItem>
-            <div>Strategie(s)</div>
-            <div>{data?.weightStrategy}</div>
-          </InfoItem>
-          <InfoItem>
             <div>Snapshot</div>
             <ExternalLink
               href={`https://${network?.network}.subscan.io/block/${data?.snapshotHeight}`}

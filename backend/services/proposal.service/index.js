@@ -286,7 +286,7 @@ async function getProposalById(proposalId) {
       $group: {
         _id: null,
         balanceOf: { $sum: "$weights.balanceOf" },
-        sqrtOfBalanceOf: { $sum: "$weights.sqrtOfBalanceOf" },
+        quadraticBalanceOf: { $sum: "$weights.quadraticBalanceOf" },
       }
     },
     {
@@ -430,7 +430,7 @@ async function vote(
   if (new BigNumber(balanceOf).isZero()) {
     throw new HttpError(400, "In order to vote, the account balance cannot be 0");
   }
-  const sqrtOfBalanceOf = sqrtOfBalance(balanceOf, spaceService.decimals);
+  const quadraticBalanceOf = sqrtOfBalance(balanceOf, spaceService.decimals);
 
   const { cid, pinHash } = await pinData(data, address, signature);
 
@@ -452,7 +452,7 @@ async function vote(
         pinHash,
         weights: {
           balanceOf: toDecimal128(balanceOf),
-          sqrtOfBalanceOf: toDecimal128(sqrtOfBalanceOf),
+          quadraticBalanceOf: toDecimal128(quadraticBalanceOf),
         },
       },
       $setOnInsert: {
@@ -516,7 +516,7 @@ async function getStats(proposalId) {
       $group: {
         _id: "$choice",
         balanceOf: { $sum: "$weights.balanceOf" },
-        sqrtOfBalanceOf: { $sum: "$weights.sqrtOfBalanceOf" },
+        quadraticBalanceOf: { $sum: "$weights.quadraticBalanceOf" },
       }
     },
     {
@@ -524,7 +524,7 @@ async function getStats(proposalId) {
         _id: 0,
         choice: "$_id",
         balanceOf: 1,
-        sqrtOfBalanceOf: 1,
+        quadraticBalanceOf: 1,
       }
     }
   ]).toArray();

@@ -22,5 +22,5 @@ module.exports = {
   getApi: _getApi,
   balanceOf,
   proposeThreshold: process.env.SPACE_PROPOSE_THRESHOLD_KUSAMA || "10000000000",
-  weightStrategy: process.env.SPACE_WEIGHT_STRATEGY_KUSAMA || WeightStrategy.BalanceOf,
+  weightStrategy: (process.env.SPACE_WEIGHT_STRATEGY_KUSAMA || WeightStrategy.BalanceOf).split(","),
 };
