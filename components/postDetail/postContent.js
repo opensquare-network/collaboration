@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 import PostVote from "./postVote";
 import Author from "components/author";
-import { p_16_normal, p_16_semibold, p_20_semibold } from "styles/textStyles";
+import { p_14_normal, p_16_semibold, p_20_semibold } from "styles/textStyles";
 import PostTime from "components/postTime";
 import Markdown from "components/markdown";
 import StatusTag from "components/statusTag";
@@ -55,7 +55,7 @@ const SubTitle = styled.div`
 `;
 
 const Content = styled.div`
-  ${p_16_normal};
+  ${p_14_normal};
   color: #506176;
 `;
 

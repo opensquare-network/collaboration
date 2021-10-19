@@ -51,7 +51,7 @@ const Button = styled.div`
   padding: 12px 24px;
   text-align: center;
   position: relative;
-  ${p_16_semibold};
+  ${p_14_medium};
   cursor: pointer;
   :hover {
     border-color: #b7c0cc;
