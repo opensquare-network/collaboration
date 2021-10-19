@@ -16,10 +16,9 @@ const ButtonsWrapper = styled.div`
   }
 `;
 
-
 const PreviewWrapper = styled.div`
-  padding-left: 8px;
-  border-left: 4px solid #eeeeee;
+  padding-left: 12px;
+  border-left: 4px solid #e2e8f0;
   min-height: 159px;
 `;
 
