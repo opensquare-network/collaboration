@@ -79,14 +79,14 @@ const MenuWrapper = styled.div`
   min-width: 209px;
   position: absolute;
   right: 0;
-  top: calc(100% + 10px);
+  top: 100%;
   background: #ffffff;
   border: 1px solid #f0f3f8;
   ${shadow_200};
   padding: 16px;
   z-index: 1;
   @media screen and (max-width: 800px) {
-    margin-top: 20px;
+    margin-top: 19px;
     border: none;
     box-shadow: none;
     width: 100%;
@@ -210,7 +210,7 @@ export default function Account({ network, showMenu, setShowMenu }) {
         <>
           <AccountWrapper>
             <div>
-              <Avatar address={address} />
+              <Avatar address={address} size={20}/>
               {identity?.info ? (
                 <IdentityWrapper>
                   <IdentityIcon status={identity.info.status} />
@@ -239,7 +239,7 @@ export default function Account({ network, showMenu, setShowMenu }) {
       <Wrapper>
         <AccountWrapperPC show={showMenu}>
           <div>
-            <Avatar address={address} />
+            <Avatar address={address} size={20}/>
 
             {identity?.info ? (
               <IdentityWrapper>
