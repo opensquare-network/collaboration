@@ -39,7 +39,7 @@ const VoteItem = styled.div`
   }
 
   > :first-child {
-    color: #a1a8b3;
+    color: #506176;
   }
 `;
 
