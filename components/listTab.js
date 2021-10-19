@@ -57,7 +57,7 @@ const Item = styled.div`
   }
 `;
 
-const Button = styled.div`
+const NewPostLink = styled.div`
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -127,10 +127,10 @@ export default function ListTab({
         ))}
       </ItemWrapper>
       <Link href={`/space/${space}/create`} passHref>
-        <Button>
+        <NewPostLink>
           <img src="/imgs/icons/add.svg" alt="" />
           New Post
-        </Button>
+        </NewPostLink>
       </Link>
     </Wrapper>
   );
