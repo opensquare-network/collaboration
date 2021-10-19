@@ -8,5 +8,5 @@ const Text = styled.span`
 `
 
 export default function Ellipsis({width, children}) {
-  return <Text style={{...(width ? {width} : {})}}>{children}</Text>
+  return <Text style={{...(width ? {maxWidth: width} : {})}}>{children}</Text>
 }

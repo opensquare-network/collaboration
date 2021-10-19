@@ -195,11 +195,10 @@ export default function Account({ network, showMenu, setShowMenu }) {
       >
         Connect Wallet
       </DarkButton>
-      <Connect
-        show={showConnectModal}
+      {showConnectModal && <Connect
         setShow={setShowConnectModal}
         setShowMenu={setShowMenu}
-      />
+      />}
     </div>
   );
 

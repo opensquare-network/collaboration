@@ -2,13 +2,13 @@ import styled from "styled-components";
 
 import PostVote from "./postVote";
 import Author from "components/author";
-import { p_14_normal, p_16_semibold, p_20_semibold } from "styles/textStyles";
+import { p_14_normal, p_16_semibold, p_18_semibold } from "styles/textStyles";
 import PostTime from "components/postTime";
 import Markdown from "components/markdown";
 import StatusTag from "components/statusTag";
 
 const Wrapper = styled.div`
-  padding: 40px;
+  padding: 32px;
   background: #ffffff;
   border: 1px solid #f0f3f8;
   box-shadow: 0px 4px 31px rgba(26, 33, 44, 0.04),
@@ -20,7 +20,7 @@ const Wrapper = styled.div`
 `;
 
 const Title = styled.div`
-  ${p_20_semibold};
+  ${p_18_semibold};
   margin-bottom: 16px;
 `;
 
@@ -46,7 +46,7 @@ const LeftWrapper = styled.div`
 const Divider = styled.div`
   height: 1px;
   background: #f0f3f8;
-  margin: 20px 0;
+  margin: 32px 0;
 `;
 
 const SubTitle = styled.div`

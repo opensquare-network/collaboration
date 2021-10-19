@@ -65,6 +65,9 @@ const TimestampItem = styled.div`
   font-weight: 500;
   font-size: 14px;
   line-height: 24px;
+  :not(:first-child) {
+    margin-top: 4px;
+  }
   > :first-child {
     color: #506176;
   }

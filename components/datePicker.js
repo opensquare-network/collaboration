@@ -57,7 +57,6 @@ const DateWrapper = styled.div`
     background: transparent;
     border: none;
     padding: 0;
-    padding-bottom: 8px;
   }
 
   .react-datepicker__day-name {
@@ -70,6 +69,10 @@ const DateWrapper = styled.div`
     text-align: center;
     color: #506176;
     margin: 0 !important;
+  }
+
+  .react-datepicker__day-names {
+    margin-bottom: 8px;
   }
 
   .react-datepicker {
@@ -176,7 +179,7 @@ const TimeHeaderWrapper = styled.div`
   }
   > :last-child {
     color: #9da9bb;
-    margin-left: 100px;
+    font-size: 14px;
   }
 `;
 
@@ -187,7 +190,7 @@ const TimeInputWrapper = styled.div`
   border-bottom: 1px solid #e2e8f0;
   margin: 20px 0;
   display: flex;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 24px;
   padding: 12px 4px;
   justify-content: space-between;

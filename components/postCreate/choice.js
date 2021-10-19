@@ -27,9 +27,7 @@ const Input = styled.input`
   margin: 0 8px;
   min-width: 0;
   text-align: center;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 24px;
+  ${p_14_medium};
   color: #1e2134;
 `;
 

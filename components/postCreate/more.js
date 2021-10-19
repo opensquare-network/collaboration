@@ -1,18 +1,18 @@
-import styled, { css } from "styled-components";
+import styled  from "styled-components";
 
 import Input from "components/input";
 import DatePicker from "components/datePicker";
 import Row from "@/components/row";
 import { toPrecision } from "../../utils";
 import BigNumber from "bignumber.js";
-import { p_14_medium, p_16_medium } from "../../styles/textStyles";
+import Button from "@/components/button";
 
 const Wrapper = styled.div`
   background: #ffffff;
   border: 1px solid #f0f3f8;
   box-shadow: 0px 4px 31px rgba(26, 33, 44, 0.04),
     0px 0.751293px 3.88168px rgba(26, 33, 44, 0.03);
-  padding: 40px;
+  padding: 32px;
   @media screen and (max-width: 800px) {
     padding: 20px;
     margin: 0 -20px;
@@ -52,26 +52,6 @@ const SystemWrapper = styled.div`
   border: 1px solid #e2e8f0;
 `;
 
-const Button = styled.div`
-  padding: 12px;
-  ${p_14_medium};
-  color: #ffffff;
-  background: #191e27;
-  cursor: pointer;
-  text-align: center;
-  &:hover{
-    background: #404753;
-  }
-  ${(p) =>
-    p.isLoading &&
-    css`
-      background: #e2e8f0;
-      &:hover{
-        background: #e2e8f0;
-      }
-      pointer-events: none;
-    `}
-`;
 
 const Hint = styled.div`
   color: #EE4444;
@@ -138,7 +118,7 @@ export default function More({
         <Row header="Balance" content={`${toPrecision(balance, decimals)} ${symbol}`}/>
         {!thresholdFulfilled && <Hint>You need to have a minimum of {toPrecision(threshold, decimals)} {symbol} in order to publish a proposal.</Hint>}
       </InnerWrapper>
-      <Button
+      <Button large primary
         isLoading={isLoading || !thresholdFulfilled}
         onClick={onPublish}
       >

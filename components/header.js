@@ -38,11 +38,12 @@ const LeftWrapper = styled.div`
 `;
 
 const Logo = styled.div`
-  width: 226px;
-  height: 40px;
+  width: 200px;
+  height: 36px;
   background-image: url("/imgs/opensquare-logo.svg");
   background-position: center;
   background-repeat: no-repeat;
+  background-size: contain;
   cursor: pointer;
   @media screen and (max-width: 800px) {
     padding: 15px 20px;
