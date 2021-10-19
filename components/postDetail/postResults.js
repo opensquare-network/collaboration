@@ -73,35 +73,87 @@ const OptionIndex = styled.div`
   color: #C0C8D4;
 `
 
+const ResultHead = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+`;
+
+const ResultNumber = styled.span`
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  color: #1E2134;
+`;
+
+const ResultName = styled.span`
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 24px;
+  text-align: right;
+  color: #506176;
+`;
+
 export default function PostResult({data, voteStatus, network}) {
-  const votedAmount = voteStatus?.reduce(function(sum, current) {
-    return sum.plus(new BigNumber(
-      data.weightStrategy === "quadratic-balance-of"
-        ? current.sqrtOfBalanceOf.$numberDecimal
-        : current.balanceOf.$numberDecimal
-    ));
-  }, new BigNumber("0")) ?? new BigNumber("0");
+  const votedAmount = data?.votedWeights?.balanceOf?.$numberDecimal || 0;
 
-  const optionList = [];
-  data?.choices?.forEach((choice,index) => {
-    for (let voteStat of voteStatus) {
-      if (voteStat.choice !== choice) {
-        continue;
+  const results = data?.weightStrategy?.map?.((strategy, strategyIndex) => {
+    const total = (
+      strategy === "quadratic-balance-of"
+      ? data?.votedWeights?.quadraticBalanceOf?.$numberDecimal || 0
+      : data?.votedWeights?.balanceOf?.$numberDecimal || 0
+    );
+
+
+    const optionList = [];
+    data?.choices?.forEach((choice, index) => {
+      for (let voteStat of voteStatus) {
+        if (voteStat.choice !== choice) {
+          continue;
+        }
+
+        const voteBalance = new BigNumber(
+          strategy === "quadratic-balance-of"
+            ? voteStat.quadraticBalanceOf.$numberDecimal || 0
+            : voteStat.balanceOf.$numberDecimal || 0
+        );
+        const percentage = (voteStat.balanceOf.$numberDecimal > 0
+          ? (voteBalance).dividedBy(total) * 100
+          : 0).toFixed(2);
+        optionList.push({index: index + 1, voteBalance, percentage})
+        return;
       }
+      optionList.push({index: index + 1, voteBalance: new BigNumber("0"), percentage: "0"});
+    });
 
-      const voteBalance = new BigNumber(
-        data.weightStrategy === "quadratic-balance-of"
-          ? voteStat.sqrtOfBalanceOf.$numberDecimal
-          : voteStat.balanceOf.$numberDecimal
-      );
-      const percentage = (voteStat.balanceOf.$numberDecimal > 0
-        ? (voteBalance).dividedBy(votedAmount) * 100
-        : 0).toFixed(2);
-      optionList.push({index: index + 1, voteBalance, percentage})
-      return;
-    }
-    optionList.push({index: index + 1, voteBalance: new BigNumber("0"), percentage: "0"});
-  })
+    return (
+      <>
+        <ResultHead>
+          <ResultNumber>#{strategyIndex + 1}</ResultNumber>
+          <ResultName>{strategy}</ResultName>
+        </ResultHead>
+        <Divider/>
+        {
+          optionList.map((vote) => {
+            return (
+              <div key={vote.index}>
+                <ProgressItem>
+                  <OptionIndex>#{vote.index}</OptionIndex>
+                  <div>{vote.percentage}%</div>
+                  <div>{toFixedPrecision(vote.voteBalance.toString(), network.decimals)} {network.symbol}</div>
+                </ProgressItem>
+                <ProgressBackground>
+                  <ProgressBar percent={`${vote.percentage}%`}/>
+                </ProgressBackground>
+              </div>
+            );
+          })
+        }
+      </>
+    );
+  });
 
   return (
     <Wrapper>
@@ -113,28 +165,14 @@ export default function PostResult({data, voteStatus, network}) {
       <div>
         <VoteItem>
           <div>Voted</div>
-          <div>{toFixedPrecision(votedAmount.toString(), network.decimals)} {network.symbol}</div>
+          <div>{toFixedPrecision(votedAmount?.toString(), network.decimals)} {network.symbol}</div>
         </VoteItem>
         <VoteItem>
           <div>Number of voters</div>
           <div>{data?.votesCount}</div>
         </VoteItem>
       </div>
-      <Divider/>
-      {
-        optionList.map((vote) => {
-          return <div key={vote.index}>
-          <ProgressItem>
-            <OptionIndex>#{vote.index}</OptionIndex>
-            <div>{vote.percentage}%</div>
-            <div>{toFixedPrecision(vote.voteBalance.toString(), network.decimals)} {network.symbol}</div>
-          </ProgressItem>
-          <ProgressBackground>
-            <ProgressBar percent={`${vote.percentage}%`}/>
-          </ProgressBackground>
-        </div>
-        })
-      }
+      {results}
     </Wrapper>
   );
 }
