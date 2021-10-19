@@ -89,7 +89,7 @@ export default function ListInfo({ spaceName, data }) {
         <AboutItem>
           <AboutIcon src="/imgs/icons/threshold.svg" />
           <div>
-            <AboutName>Proposal threshold</AboutName>
+            <AboutName>Threshold</AboutName>
             <AboutDetail>{`${toPrecision(data.proposeThreshold, data.decimals)} ${data.symbol}`}</AboutDetail>
           </div>
         </AboutItem>
