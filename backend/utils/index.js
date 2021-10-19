@@ -6,9 +6,7 @@ const {
   encodeAddress,
   signatureVerify,
 } = require("@polkadot/util-crypto");
-const { u8aToHex, stringUpperFirst } = require("@polkadot/util");
-const { SS58Format } = require("../constants");
-const { HttpError } = require("../exc");
+const { u8aToHex } = require("@polkadot/util");
 
 function extractPage(ctx) {
   const { page_size: queryPageSize, page: queryPage } = ctx.query;
@@ -55,20 +53,6 @@ function isValidSignature(signedMessage, signature, address) {
   return result.isValid;
 }
 
-function validateAddress(address, chain) {
-  const ss58Format = SS58Format[stringUpperFirst(chain)];
-  if (ss58Format === undefined) {
-    throw new HttpError(400, { chain: ["Unsupported relay chain."] });
-  }
-
-  const validAddress = encodeAddress(address, ss58Format);
-  if (validAddress !== address) {
-    throw new HttpError(400, {
-      address: [`Not a valid ${chain} ss58format address.`],
-    });
-  }
-}
-
 function toDecimal128(num) {
   return Decimal128.fromString(new BigNumber(num).toString());
 }
@@ -98,7 +82,6 @@ module.exports = {
   handler,
   md5,
   isValidSignature,
-  validateAddress,
   toDecimal128,
   isTestAccount,
   toSymbolUnit,

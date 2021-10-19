@@ -26,6 +26,10 @@ async function connectDb(dbName) {
 
   const collections = {};
 
+  async function close() {
+    await client.close();
+  }
+
   function getCollection(colName) {
     if (!collections[colName]) {
       collections[colName] = db.collection(colName);
@@ -260,6 +264,7 @@ async function connectDb(dbName) {
   }
 
   return {
+    close,
     getCollection,
     lookupOne,
     lookupMany,

@@ -1,20 +1,20 @@
 const { ObjectId } = require("mongodb");
 const BigNumber = require("bignumber.js");
-const { safeHtml } = require("../utils/post");
-const { PostTitleLengthLimitation } = require("../constants");
-const { nextPostUid } = require("./status.service");
+const { safeHtml } = require("../../utils/post");
+const { PostTitleLengthLimitation } = require("../../constants");
+const { nextPostUid } = require("../status.service");
 const {
   getProposalCollection,
   getVoteCollection,
   getCommentCollection,
-} = require("../mongo");
-const { HttpError } = require("../exc");
-const { ContentType } = require("../constants");
-const { getLatestHeight } = require("./chain.service");
-const { getBlockHash } = require("../utils/polkadotApi");
-const spaceServices = require("../spaces");
-const { getObjectBufAndCid, pinJsonToIpfsWithTimeout } = require("./ipfs.service");
-const { toDecimal128, isTestAccount, sqrtOfBalance } = require("../utils");
+} = require("../../mongo");
+const { HttpError } = require("../../exc");
+const { ContentType } = require("../../constants");
+const { getLatestHeight } = require("../chain.service");
+const { getBlockHash, checkDelegation } = require("../../utils/polkadotApi");
+const spaceServices = require("../../spaces");
+const { getObjectBufAndCid, pinJsonToIpfsWithTimeout } = require("../ipfs.service");
+const { toDecimal128, sqrtOfBalance } = require("../../utils");
 
 
 const addProposalStatus = (now) => (p) => ({
@@ -39,38 +39,6 @@ async function pinData(data, address, signature) {
   }
 
   return { cid, pinHash };
-}
-
-async function checkDelegation(api, delegatee, delegator, blockHash) {
-  if (isTestAccount(delegator)) {
-    return true;
-  }
-
-  const data = await api.query.proxy.proxies.at(blockHash, delegator);
-  const [proxies] = data.toJSON() || [];
-
-  const proxy = (proxies || [])
-    .find(item => {
-      if (![
-        "Any",
-        "NonTransfer",
-        "Governance",
-      ].includes(item.proxyType)) {
-        return false;
-      }
-
-      if (item.delegate !== delegatee) {
-        return false;
-      }
-
-      return true;
-    });
-
-  if (!proxy) {
-    throw new HttpError(400, "You are not a proxy of the given address");
-  }
-
-  return true;
 }
 
 async function createProposal(
