@@ -177,7 +177,7 @@ export default function PostResult({data, voteStatus, network}) {
           <div>{toFixedPrecision(votedAmount?.toString(), network.decimals)} {network.symbol}</div>
         </VoteItem>
         <VoteItem>
-          <div>Number of voters</div>
+          <div>Voters</div>
           <div>{data?.votesCount}</div>
         </VoteItem>
       </div>
