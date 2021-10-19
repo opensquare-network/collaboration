@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 import PostVote from "./postVote";
 import Author from "components/author";
@@ -47,6 +47,12 @@ const Divider = styled.div`
   height: 1px;
   background: #f0f3f8;
   margin: 32px 0;
+  ${(p) =>
+          p.margin &&
+          css`
+            margin: ${p.margin}px 0;
+          `
+  }
 `;
 
 const SubTitle = styled.div`
@@ -70,7 +76,7 @@ export default function PostContent({ data, network }) {
         </LeftWrapper>
         <StatusTag>{data.status}</StatusTag>
       </InfoWrapper>
-      <Divider />
+      <Divider margin={20} />
       <SubTitle>Description</SubTitle>
       <Content>
         <Markdown content={data?.content} />
