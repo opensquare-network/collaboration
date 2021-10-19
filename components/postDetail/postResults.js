@@ -76,7 +76,7 @@ const OptionIndex = styled.div`
 export default function PostResult({data, voteStatus, network}) {
   const votedAmount = voteStatus?.reduce(function(sum, current) {
     return sum.plus(new BigNumber(
-      data.weightStrategy === "sqrt-of-balance-of"
+      data.weightStrategy === "quadratic-balance-of"
         ? current.sqrtOfBalanceOf.$numberDecimal
         : current.balanceOf.$numberDecimal
     ));
@@ -90,7 +90,7 @@ export default function PostResult({data, voteStatus, network}) {
       }
 
       const voteBalance = new BigNumber(
-        data.weightStrategy === "sqrt-of-balance-of"
+        data.weightStrategy === "quadratic-balance-of"
           ? voteStat.sqrtOfBalanceOf.$numberDecimal
           : voteStat.balanceOf.$numberDecimal
       );

@@ -105,7 +105,7 @@ export default function PostVotes({ data, network, votes }) {
                 <div>{`${toApproximatelyFixed(
                   bigNumber2Locale(
                     fromAssetUnit(
-                      data?.weightStrategy === "sqrt-of-balance-of"
+                      data?.weightStrategy === "quadratic-balance-of"
                         ? item.weights?.sqrtOfBalanceOf.$numberDecimal
                         : item.weights?.balanceOf.$numberDecimal,
                       network?.decimals
