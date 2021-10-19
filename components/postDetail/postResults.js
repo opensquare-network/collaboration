@@ -71,7 +71,7 @@ const ProgressBar = styled.div`
 const OptionIndex = styled.div`
   width: 40px;
   ${p_14_medium};
-  color: #C0C8D4;
+  color: #a1a8b3;
 `
 
 const ResultHead = styled.div`

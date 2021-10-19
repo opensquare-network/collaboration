@@ -68,7 +68,7 @@ const Option = styled(ButtonPrimary)`
   .index {
     position: absolute;
     ${p_14_medium};
-    color: #c0c8d5;
+    color: #A1A8B3;
   }
   .option {
     margin-left: 47px;
