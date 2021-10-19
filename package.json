@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "NODE_ENV=production node server.js",
     "lint": "next lint",
-    "test:backend": "jest backend",
+    "test:backend": "jest backend --runInBand",
     "test":"NODE_ENV=test node --experimental-vm-modules node_modules/jest/bin/jest.js --setupFiles dotenv/config",
     "pin": "pm2 start ecosystem.config.js --only voting-pin-to-ipfs --env production"
   },
