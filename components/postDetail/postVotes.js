@@ -77,7 +77,7 @@ const NoVoteWrapper = styled.div`
   justify-content: center;
   font-size: 14px;
   line-height: 24px;
-  color: #c0c8d5;
+  color: #A1A8B3;
   border-bottom: 1px solid #f0f3f8;
 `;
 

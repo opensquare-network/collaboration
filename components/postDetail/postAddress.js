@@ -44,7 +44,7 @@ const Input = styled.input`
   padding: 23px 47px 23px 71px;
   ${p_14_normal};
   ::placeholder {
-    color: #c0c8d5;
+    color: #A1A8B3;
   }
   :focus {
     border-color: #b7c0cc;
