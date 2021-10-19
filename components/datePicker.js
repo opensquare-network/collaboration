@@ -57,7 +57,6 @@ const DateWrapper = styled.div`
     background: transparent;
     border: none;
     padding: 0;
-    padding-bottom: 8px;
   }
 
   .react-datepicker__day-name {
