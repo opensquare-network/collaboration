@@ -9,6 +9,8 @@ const { createProposal } = require(".");
 const { getDb } = require("../../mongo");
 
 jest.setTimeout(3000000);
+jest.mock("../ipfs.service/pin");
+jest.mock("../../utils/polkadotApi");
 
 describe("Proposal Service Test", () => {
   let db;

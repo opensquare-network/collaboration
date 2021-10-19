@@ -41,8 +41,41 @@ async function getBlockHash(api, blockHeight) {
   return hash;
 }
 
+async function checkDelegation(api, delegatee, delegator, blockHash) {
+  if (isTestAccount(delegator)) {
+    return true;
+  }
+
+  const data = await api.query.proxy.proxies.at(blockHash, delegator);
+  const [proxies] = data.toJSON() || [];
+
+  const proxy = (proxies || [])
+    .find(item => {
+      if (![
+        "Any",
+        "NonTransfer",
+        "Governance",
+      ].includes(item.proxyType)) {
+        return false;
+      }
+
+      if (item.delegate !== delegatee) {
+        return false;
+      }
+
+      return true;
+    });
+
+  if (!proxy) {
+    throw new HttpError(400, "You are not a proxy of the given address");
+  }
+
+  return true;
+}
+
 module.exports = {
   getApi,
   getSystemBalance,
   getBlockHash,
+  checkDelegation,
 };
