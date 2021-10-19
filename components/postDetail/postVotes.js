@@ -63,6 +63,7 @@ const Square = styled.div`
 `;
 
 const EqualWrapper = styled.div`
+  width: 33%;
   display: flex;
   overflow: hidden;
   :last-child {
@@ -97,7 +98,7 @@ export default function PostVotes({ data, network, votes }) {
             <EqualWrapper>
               <Flex style={{ maxWidth: "30vw" }}>
                 <Label>Vote</Label>
-                <Ellipsis>{item.choice}</Ellipsis>
+                <Ellipsis width={189}>{item.choice}</Ellipsis>
               </Flex>
             </EqualWrapper>
             <EqualWrapper>

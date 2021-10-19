@@ -69,6 +69,7 @@ const ProgressBar = styled.div`
 `;
 
 const OptionIndex = styled.div`
+  width: 40px;
   ${p_14_medium};
   color: #C0C8D4;
 `
@@ -95,6 +96,12 @@ const ResultName = styled.span`
   text-align: right;
   color: #506176;
 `;
+
+const FlexAround = styled.div`
+  display: flex;
+  flex-grow: 1;
+  justify-content: space-between;
+`
 
 export default function PostResult({data, voteStatus, network}) {
   const votedAmount = data?.votedWeights?.balanceOf?.$numberDecimal || 0;
@@ -141,8 +148,10 @@ export default function PostResult({data, voteStatus, network}) {
               <div key={vote.index}>
                 <ProgressItem>
                   <OptionIndex>#{vote.index}</OptionIndex>
-                  <div>{vote.percentage}%</div>
-                  <div>{toFixedPrecision(vote.voteBalance.toString(), network.decimals)} {network.symbol}</div>
+                  <FlexAround>
+                    <div>{vote.percentage}%</div>
+                    <div>{toFixedPrecision(vote.voteBalance.toString(), network.decimals)} {network.symbol}</div>
+                  </FlexAround>
                 </ProgressItem>
                 <ProgressBackground>
                   <ProgressBar percent={`${vote.percentage}%`}/>
