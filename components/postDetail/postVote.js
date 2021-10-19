@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 
-import { p_14_medium, p_16_semibold } from "styles/textStyles";
+import { p_14_medium } from "styles/textStyles";
 import Input from "components/input";
 import { useViewfunc, useSpace, useIsMounted } from "utils/hooks";
 import { accountSelector } from "store/reducers/accountSlice";
@@ -46,7 +46,7 @@ const ButtonsWrapper = styled.div`
   }
 `;
 
-const Button = styled.div`
+const Option = styled(ButtonPrimary)`
   border: 1px solid #e2e8f0;
   padding: 12px 24px;
   text-align: center;
@@ -80,21 +80,6 @@ const Button = styled.div`
       pointer-events: none;
     `}
 `;
-
-// const ButtonPrimary = styled.div`
-//   background: #191e27;
-//   padding: 12px;
-//   text-align: center;
-//   ${p_16_semibold};
-//   cursor: pointer;
-//   color: #ffffff;
-//   ${(p) =>
-//     (p.isLoading || p.disabled) &&
-//     css`
-//       background: #e2e8f0;
-//       pointer-events: none;
-//     `}
-// `;
 
 const ProxyHeader = styled.div`
   display: flex;
@@ -263,7 +248,7 @@ export default function PostVote({ data, network }) {
         </Title>
         <ButtonsWrapper>
           {(data.choices || []).map((item, index) => (
-            <Button
+            <Option
               key={index}
               active={item === choice}
               onClick={() => setChoice(item)}
@@ -271,7 +256,7 @@ export default function PostVote({ data, network }) {
             >
               <div className="index">{`#${index + 1}`}</div>
               <div className="option">{item}</div>
-            </Button>
+            </Option>
           ))}
         </ButtonsWrapper>
       </InnerWrapper>

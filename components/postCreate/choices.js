@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 import Choice from "./choice";
+import Button from "@/components/button";
 
 const Wrapper = styled.div`
   background: #ffffff;
@@ -37,18 +38,6 @@ const ItemList = styled.div`
   }
 `;
 
-const Button = styled.div`
-  padding: 12px 24px;
-  border: 1px solid #e2e8f0;
-  text-align: center;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 24px;
-  cursor: pointer;
-  :hover {
-    border-color: #b7c0cc;
-  }
-`;
 
 export default function Choices({ choices, setChoices }) {
   const onAdd = () => {
@@ -85,7 +74,7 @@ export default function Choices({ choices, setChoices }) {
           ))}
         </ItemList>
       </InnerWrapper>
-      <Button onClick={onAdd}>Add choice</Button>
+      <Button onClick={onAdd} large>Add choice</Button>
     </Wrapper>
   );
 }
