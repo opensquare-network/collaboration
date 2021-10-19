@@ -54,6 +54,12 @@ const AboutDetail = styled.div`
   text-transform: capitalize;
 `;
 
+const StrategyAboutDetail = styled.div`
+  font-size: 14px;
+  line-height: 24px;
+  color: #a1a8b3;
+`;
+
 const AboutDivider = styled.div`
   width: 1px;
   height: 16px;
@@ -92,7 +98,7 @@ export default function ListInfo({ spaceName, data }) {
           <AboutIcon src="/imgs/icons/strategy.svg" />
           <div>
             <AboutName>Strategie(s)</AboutName>
-            <AboutDetail>{data.weightStrategy}</AboutDetail>
+            <StrategyAboutDetail>{data.weightStrategy?.join(", ")}</StrategyAboutDetail>
           </div>
         </AboutItem>
       </AboutWrapper>

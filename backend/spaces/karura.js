@@ -25,5 +25,5 @@ module.exports = {
   getApi: _getApi,
   balanceOf,
   proposeThreshold: process.env.SPACE_PROPOSE_THRESHOLD_KARURA || "1000000000000",
-  weightStrategy: process.env.SPACE_WEIGHT_STRATEGY_KARURA || WeightStrategy.BalanceOf,
+  weightStrategy: (process.env.SPACE_WEIGHT_STRATEGY_KARURA || WeightStrategy.BalanceOf).split(","),
 };
