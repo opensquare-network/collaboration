@@ -5,14 +5,14 @@
 const dotenv = require("dotenv");
 dotenv.config();
 
-const { createProposal } = require(".");
-const { getDb } = require("../../mongo");
+const { createProposal } = require("..");
+const { getDb } = require("../../../mongo");
 
 jest.setTimeout(3000000);
-jest.mock("../ipfs.service/pin");
-jest.mock("../../utils/polkadotApi");
+jest.mock("../../ipfs.service/pin");
+jest.mock("../../../utils/polkadotApi");
 
-describe("Proposal Service Test", () => {
+describe("Create Proposal Test", () => {
   let db;
 
   beforeAll(async () => {
@@ -66,7 +66,7 @@ describe("Proposal Service Test", () => {
         startDate,
         endDate,
         snapshotHeight,
-        weightStrategy: 'balance-of',
+        weightStrategy: process.env.SPACE_WEIGHT_STRATEGY_POLKADOT.split(","),
         data: {},
         address: '5EgqZkmeq5c2VVb5TYwMkXHWRQ9V5q6pucoeoiUcWE455Vcp',
         signature: '',
