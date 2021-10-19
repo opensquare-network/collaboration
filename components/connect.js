@@ -49,9 +49,11 @@ const StyledDescription = styled.p`
 const CloseBar = styled.div`
   display: flex;
   flex-direction: row-reverse;
+
   > svg path {
     fill: #9DA9BB;
   }
+
   cursor: pointer;
 `;
 
@@ -62,36 +64,49 @@ const ActionBar = styled.div`
 `;
 
 
-export default function Connect({show, setShow,setShowMenu}) {
+export default function Connect({setShow, setShowMenu}) {
   const dispatch = useDispatch();
   const isMounted = useIsMounted();
-  const [hasExtension, setHasExtension] = useState(true);
+  const [hasExtension, setHasExtension] = useState(null);
   const [accounts, setAccounts] = useState([]);
   const [address, setAddress] = useState();
-  const [isPolkadotAccessible, setIsPolkadotAccessible] = useState(true);
+  const [isPolkadotAccessible, setIsPolkadotAccessible] = useState(null);
 
   const getAddresses = useCallback(async () => {
-    if (hasExtension) {
-      if(!show){
-        return ;
-      }
-      const extensionAccounts = await web3Accounts();
-      const accounts = (extensionAccounts || []).map((item) => {
-        const {
-          address,
-          meta: { name },
-        } = item;
-        return {
-          address,
-          name,
-        };
-      });
-      if (isMounted.current) {
-        setAccounts(accounts);
-        setAddress(accounts[0]?.address);
-      }
+    const extensionAccounts = await web3Accounts();
+    const accounts = (extensionAccounts || []).map((item) => {
+      const {
+        address,
+        meta: {name},
+      } = item;
+      return {
+        address,
+        name,
+      };
+    });
+    if (isMounted.current) {
+      setAccounts(accounts);
+      setAddress(accounts[0]?.address);
     }
-  }, [hasExtension, isMounted, show]);
+  }, [isMounted]);
+
+  useEffect(() => {
+    (async () => {
+      if (!isWeb3Injected) {
+        if (isMounted.current) {
+          return setHasExtension(false);
+        }
+      }
+      const web3Apps = await web3Enable("voting");
+      const polkadotEnabled = web3Apps?.length > 0;
+      setIsPolkadotAccessible(polkadotEnabled);
+      if (!polkadotEnabled) {
+        return;
+      }
+      getAddresses();
+    })();
+  }, [isMounted, getAddresses]);
+
 
   const getConnection = async () => {
     const oneWeek = 7 * 24 * 60 * 60 * 1000;
@@ -108,36 +123,17 @@ export default function Connect({show, setShow,setShowMenu}) {
     } catch (error) {
       console.error(error);
     }
-  };
 
-  useEffect(() => {
-    (async () => {
-      if (!show) {
-        return;
-      }
-      if (!isWeb3Injected) {
-        if (isMounted.current) {
-          return setHasExtension(false);
-        }
-      }
-      const web3Apps = await web3Enable("voting");
-      const polkadotEnabled = web3Apps?.length > 0;
-      setIsPolkadotAccessible(polkadotEnabled);
-      if (!polkadotEnabled) {
-        return;
-      }
-      getAddresses();
-    })();
-  }, [isMounted, getAddresses, show]);
+  };
 
   const closeModal = () => setShow(false);
 
   return (
     <Wrapper>
-      <StyledModal open={show && hasExtension && isPolkadotAccessible} dimmer onClose={closeModal} size="tiny">
+      <StyledModal open={isPolkadotAccessible && accounts.length > 0} dimmer onClose={closeModal} size="tiny">
         <StyledCard>
           <CloseBar>
-            <SvgClose onClick={closeModal} />
+            <SvgClose onClick={closeModal}/>
           </CloseBar>
           <StyledTitle>Connect Wallet</StyledTitle>
           <StyledText>Account</StyledText>
@@ -158,14 +154,48 @@ export default function Connect({show, setShow,setShowMenu}) {
       </StyledModal>
 
       <StyledModal
-        open={show && !hasExtension}
+        open={isPolkadotAccessible && accounts.length === 0}
         dimmer
         onClose={closeModal}
         size="tiny"
       >
         <StyledCard>
           <CloseBar>
-            <SvgClose onClick={closeModal} />
+            <SvgClose onClick={closeModal}/>
+          </CloseBar>
+          <StyledTitle>Connect Wallet</StyledTitle>
+
+          <StyledDescription>
+            Polkadot-js extension is connected, but no account found. Please create or import some accounts first.
+          </StyledDescription>
+
+          <ActionBar>
+            <Button color="orange" onClick={() => {
+              closeModal();
+              const newWindow = window.open(
+                "https://polkadot.js.org/extension/",
+                "_blank",
+                "noopener,noreferrer"
+              );
+              if (newWindow) newWindow.opener = null;
+            }}>
+              Create/Import addresses
+            </Button>
+          </ActionBar>
+
+        </StyledCard>
+
+      </StyledModal>
+
+      <StyledModal
+        open={hasExtension === false}
+        dimmer
+        onClose={closeModal}
+        size="tiny"
+      >
+        <StyledCard>
+          <CloseBar>
+            <SvgClose onClick={closeModal}/>
           </CloseBar>
           <StyledTitle>Connect Wallet</StyledTitle>
 
@@ -193,19 +223,20 @@ export default function Connect({show, setShow,setShowMenu}) {
       </StyledModal>
 
       <StyledModal
-        open={show && hasExtension && !isPolkadotAccessible}
+        open={hasExtension && isPolkadotAccessible === false}
         dimmer
         onClose={closeModal}
         size="tiny"
       >
         <StyledCard>
           <CloseBar>
-            <SvgClose onClick={closeModal} />
+            <SvgClose onClick={closeModal}/>
           </CloseBar>
           <StyledTitle>Connect Wallet</StyledTitle>
 
           <StyledDescription>
-          Polkadot-js extension is detected but unaccessible, please go to Polkadot-js extension, settings, and check Manage Website Access section.
+            Polkadot-js extension is detected but unaccessible, please go to Polkadot-js extension, settings, and check
+            Manage Website Access section.
           </StyledDescription>
 
           <ActionBar>
