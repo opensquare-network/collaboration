@@ -6,6 +6,7 @@ const Wrapper = styled.div`
   > a {
     :hover {
       color: inherit;
+      text-decoration: underline;
     }
   }
 `;

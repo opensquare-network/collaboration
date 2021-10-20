@@ -35,13 +35,12 @@ const ItemsWrapper = styled.div`
 `;
 
 const Item = styled.div`
-  width: 164px;
-  height: 217px;
   flex: 0 0 auto;
   border: 1px solid #f0f3f8;
   ${shadow_100};
   background: #ffffff;
   padding: 24px;
+  cursor: pointer;
 `;
 
 const IconWrapper = styled.div`
@@ -59,10 +58,6 @@ const Name = styled.div`
   ${p_18_semibold};
   color: #2e343d;
   text-transform: capitalize;
-
-  :hover {
-    text-decoration: underline;
-  }
 `;
 
 const Symbol = styled.div`
@@ -72,6 +67,7 @@ const Symbol = styled.div`
 `;
 
 const Divider = styled.div`
+  min-width: 116px;
   height: 1px;
   background: #f0f3f8;
   margin: 12px 0;
@@ -133,14 +129,13 @@ export default function Space({ spaces }) {
       </TitleWrapper>
       <ItemsWrapper show={show}>
         {(show ? spaceNames : spaceNames.slice(0, showCount)).map((item, index) => (
-          <Item key={index}>
+          <InternalLink href={`/space/${item}`} key={index}>
+          <Item>
             <IconWrapper>
               <Icon>
                 <SpaceLogo src={`/imgs/icons/${item}.svg`} />
               </Icon>
-              <InternalLink href={`/space/${item}`}>
                 <Name>{item}</Name>
-              </InternalLink>
               <Symbol>{spaces[item].symbol ?? "-"}</Symbol>
             </IconWrapper>
             <Divider />
@@ -152,6 +147,7 @@ export default function Space({ spaces }) {
               <ActiveCount>{spaces[item].activeProposalsCount ?? 0}</ActiveCount>
             </ActiveWrapper>
           </Item>
+          </InternalLink>
         ))}
       </ItemsWrapper>
     </div>

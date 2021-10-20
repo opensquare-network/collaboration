@@ -76,7 +76,7 @@ export default function PostContent({ data, network }) {
         </LeftWrapper>
         <StatusTag>{data.status}</StatusTag>
       </InfoWrapper>
-      <Divider margin={20} />
+      <Divider margin={16} />
       <SubTitle>Description</SubTitle>
       <Content>
         <Markdown content={data?.content} />
