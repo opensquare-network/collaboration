@@ -7,7 +7,7 @@ import Pagination from "@/components/pagination";
 
 const Title = styled.div`
   ${p_20_semibold};
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 `;
 
 const PostsWrapper = styled.div`
