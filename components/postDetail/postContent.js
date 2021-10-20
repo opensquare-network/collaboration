@@ -62,7 +62,7 @@ const SubTitle = styled.div`
 
 const Content = styled.div`
   ${p_14_normal};
-  color: #506176;
+  color: #1E2134;
 `;
 
 export default function PostContent({ data, network }) {
