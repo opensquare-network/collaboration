@@ -58,6 +58,7 @@ const BackButton = styled.div`
     > svg {
       fill: #1e2134;
     }
+    border-color: #E2E8F0;
   }
 `;
 
