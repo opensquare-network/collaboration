@@ -1,9 +1,17 @@
 const { WeightStrategy, Networks } = require("../constants");
 const BigNumber = require("bignumber.js");
 const { getApi, getSystemBalance } = require("../utils/polkadotApi");
+const {
+  getEnvWeightStrategies,
+  getEnvProposeThreshold,
+  getEnvNodeEndpoint,
+} = require("../env");
+
+const weightStrategy = (getEnvWeightStrategies("polkadot") || WeightStrategy.BalanceOf).split(",");
+const proposeThreshold = getEnvProposeThreshold("polkadot") || "1000000000000";
 
 const nodeSetting = {
-  nodeUrl: process.env.POLKADOT_NODE_ENDPOINT || "wss://pub.elara.patract.io/polkadot",
+  nodeUrl: getEnvNodeEndpoint("polkadot") || "wss://pub.elara.patract.io/polkadot",
 };
 
 function _getApi() {
@@ -21,6 +29,6 @@ module.exports = {
   nodeSetting,
   getApi: _getApi,
   balanceOf,
-  proposeThreshold: process.env.SPACE_PROPOSE_THRESHOLD_POLKADOT || "10000000000",
-  weightStrategy: (process.env.SPACE_WEIGHT_STRATEGY_POLKADOT || WeightStrategy.BalanceOf).split(","),
+  proposeThreshold,
+  weightStrategy,
 };

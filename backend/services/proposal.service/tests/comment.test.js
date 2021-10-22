@@ -2,9 +2,6 @@
  * @jest-environment node
  */
 
-const dotenv = require("dotenv");
-dotenv.config();
-
 const { ObjectId } = require("mongodb");
 const { getComments, postComment } = require("..");
 const { getDb } = require("../../../mongo");

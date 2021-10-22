@@ -2,24 +2,27 @@
  * @jest-environment node
  */
 
-const dotenv = require("dotenv");
-dotenv.config();
-
-const { createProposal } = require("..");
-const { getDb } = require("../../../mongo");
-
 jest.setTimeout(3000000);
 jest.mock("../../ipfs.service/pin");
 jest.mock("../../../utils/polkadotApi");
+jest.mock("../../../env");
+
+const { createProposal } = require("..");
+const { getDb } = require("../../../mongo");
+const { WeightStrategy } = require("../../../constants");
+
 
 describe("Create Proposal Test", () => {
   let db;
+  let proposalCol;
 
   beforeAll(async () => {
     db = await getDb();
+    proposalCol = await db.getCollection("proposal");
   });
 
   afterAll(async () => {
+    await proposalCol.drop();
     await db.close();
   });
 
@@ -52,7 +55,6 @@ describe("Create Proposal Test", () => {
       signature,
     );
 
-    const proposalCol = await db.getCollection("proposal");
     const items = await proposalCol.find({}).toArray();
     expect(items).toMatchObject([
       {
@@ -66,7 +68,7 @@ describe("Create Proposal Test", () => {
         startDate,
         endDate,
         snapshotHeight,
-        weightStrategy: process.env.SPACE_WEIGHT_STRATEGY_POLKADOT.split(","),
+        weightStrategy: [WeightStrategy.BalanceOf],
         data: {},
         address: '5EgqZkmeq5c2VVb5TYwMkXHWRQ9V5q6pucoeoiUcWE455Vcp',
         signature: '',

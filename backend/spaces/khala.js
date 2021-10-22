@@ -2,9 +2,17 @@ const BigNumber = require("bignumber.js");
 const { khala } = require("@phala/typedefs");
 const { getApi, getSystemBalance } = require("../utils/polkadotApi");
 const { WeightStrategy, Networks } = require("../constants");
+const {
+  getEnvWeightStrategies,
+  getEnvProposeThreshold,
+  getEnvNodeEndpoint,
+} = require("../env");
+
+const weightStrategy = (getEnvWeightStrategies("khala") || WeightStrategy.BalanceOf).split(",");
+const proposeThreshold = getEnvProposeThreshold("khala") || "1000000000000";
 
 const nodeSetting = {
-  nodeUrl: process.env.KHALA_NODE_ENDPOINT || "wss://khala-api.phala.network/ws",
+  nodeUrl: getEnvNodeEndpoint("khala") || "wss://khala-api.phala.network/ws",
   types: khala,
 };
 
@@ -24,6 +32,6 @@ module.exports = {
   nodeSetting,
   getApi: _getApi,
   balanceOf,
-  proposeThreshold: process.env.SPACE_PROPOSE_THRESHOLD_KHALA || "10000000000000",
-  weightStrategy: (process.env.SPACE_WEIGHT_STRATEGY_KHALA || WeightStrategy.BalanceOf).split(","),
+  proposeThreshold,
+  weightStrategy,
 };

@@ -2,11 +2,9 @@
  * @jest-environment node
  */
 
-const dotenv = require("dotenv");
-dotenv.config();
-
 jest.setTimeout(3000000);
 jest.mock("./chain.service");
+jest.mock("../env");
 
 const { getSpace, getSpaces } = require("./space.service");
 
@@ -26,8 +24,8 @@ describe("Spaces Test", () => {
         ss58Format: 0,
         decimals: 10,
         relay: undefined,
-        proposeThreshold: '10000000000',
-        weightStrategy: [ 'balance-of', 'quadratic-balance-of' ],
+        proposeThreshold: '1000000000000',
+        weightStrategy: [ 'balance-of' ],
         activeProposalsCount: 0
       },
       kusama: {
@@ -36,7 +34,7 @@ describe("Spaces Test", () => {
         ss58Format: 2,
         decimals: 12,
         relay: undefined,
-        proposeThreshold: '10000000000',
+        proposeThreshold: '1000000000000',
         weightStrategy: [ 'balance-of' ],
         activeProposalsCount: 0
       },
@@ -47,7 +45,7 @@ describe("Spaces Test", () => {
         decimals: 12,
         relay: { symbol: 'KSM', network: 'kusama', ss58Format: 2, decimals: 12 },
         proposeThreshold: '1000000000000',
-        weightStrategy: [ 'balance-of', 'quadratic-balance-of' ],
+        weightStrategy: [ 'balance-of' ],
         activeProposalsCount: 0
       },
       khala: {
@@ -56,8 +54,8 @@ describe("Spaces Test", () => {
         ss58Format: 30,
         decimals: 12,
         relay: { symbol: 'KSM', network: 'kusama', ss58Format: 2, decimals: 12 },
-        proposeThreshold: '10000000000000',
-        weightStrategy: [ 'quadratic-balance-of' ],
+        proposeThreshold: '1000000000000',
+        weightStrategy: [ 'balance-of' ],
         activeProposalsCount: 0
       }
     });
@@ -72,8 +70,8 @@ describe("Spaces Test", () => {
       decimals: 10,
       latestFinalizedHeight: 100000,
       relay: undefined,
-      proposeThreshold: '10000000000',
-      weightStrategy: [ 'balance-of', 'quadratic-balance-of' ],
+      proposeThreshold: '1000000000000',
+      weightStrategy: [ 'balance-of' ],
     });
   });
 });
