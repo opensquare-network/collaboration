@@ -19,6 +19,7 @@ import PostAddress from "./postAddress";
 import { encodeAddress } from "@polkadot/util-crypto";
 import ButtonPrimary from "@/components/button";
 import Option from "@/components/option";
+import { text_secondary_red_500 } from "../../styles/colorStyles";
 
 const Wrapper = styled.div`
   > :not(:first-child) {
@@ -86,6 +87,11 @@ const Toggle = styled.div`
       }
     `}
 `;
+
+const RedText = styled.span`
+  margin-left: 8px;
+  ${text_secondary_red_500};
+`
 
 export default function PostVote({ data, network }) {
   const dispatch = useDispatch();
@@ -267,6 +273,8 @@ export default function PostVote({ data, network }) {
                     )
                   )
                 )} ${network?.symbol}`}
+              {proxyVote ? proxyBalance === 0 : balance === 0 &&
+                <RedText>Insufficient</RedText>}
             </div>
             <ToggleWrapper>
               <div>Proxy vote</div>
