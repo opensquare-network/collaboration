@@ -125,8 +125,7 @@ const Toggle = styled.div`
 export default function PostVote({ data, network }) {
   const dispatch = useDispatch();
   const account = useSelector(accountSelector);
-  const [choice, setChoice] = useState();
-  const [choiceIndex, setChoiceIndex] = useState();
+  const [choiceIndex, setChoiceIndex] = useState(null);
   const [remark, setRemark] = useState("");
   const [proxyVote, setProxyVote] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -140,7 +139,7 @@ export default function PostVote({ data, network }) {
   const router = useRouter();
 
   const reset = () => {
-    setChoice(null);
+    setChoiceIndex(null);
     setRemark("");
   };
 
@@ -192,7 +191,7 @@ export default function PostVote({ data, network }) {
       );
       return;
     }
-    if (!choice) {
+    if (choiceIndex === null) {
       dispatch(
         addToast({
           type: TOAST_TYPES.ERROR,
@@ -207,7 +206,7 @@ export default function PostVote({ data, network }) {
       result = await viewfunc.addVote(
         space,
         data?.cid,
-        choice,
+        data?.choices?.[choiceIndex],
         remark,
         encodeAddress(account?.address, network.ss58Format),
         proxyVote ? encodeAddress(proxyAddress, network.ss58Format) : undefined
@@ -255,13 +254,11 @@ export default function PostVote({ data, network }) {
           {(data.choices || []).map((item, index) => (
             <Option
               key={index}
-              active={item === choice}
+              active={index === choiceIndex}
               onClick={() => {
                 if (index === choiceIndex) {
-                  setChoice(null);
                   setChoiceIndex(null);
                 } else {
-                  setChoice(item);
                   setChoiceIndex(index);
                 }
               }}
@@ -273,7 +270,7 @@ export default function PostVote({ data, network }) {
           ))}
         </ButtonsWrapper>
       </InnerWrapper>
-      {choice && (
+      {choiceIndex !== null && (
         <InnerWrapper>
           <Title>Remark</Title>
           <Input
