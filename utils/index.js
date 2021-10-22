@@ -38,9 +38,21 @@ export function timeDuration(time) {
     return moment(time).fromNow();
   }
   let ss = now.diff(time, "seconds");
-  let mm = now.diff(time, "minutes");
+  let ii = now.diff(time, "minutes");
   let hh = now.diff(time, "hours");
   let dd = now.diff(time, "days");
+  let mm = now.diff(time, "months");
+  let yy = now.diff(time, "years");
+  if (yy) {
+    mm %= 12;
+    if (mm) {
+      return `${yy} year${yy > 1 ? "s" : ""} ${mm} mon${mm > 1 ? "s" : ""} ago`;
+    }
+    return `${yy} year${yy > 1 ? "s" : ""} ago`;
+  }
+  if (mm) {
+    return `${mm} mon${mm > 1 ? "s" : ""} ago`;
+  }
   if (dd) {
     hh %= 24;
     if (hh) {
@@ -49,18 +61,18 @@ export function timeDuration(time) {
     return `${dd} day${dd > 1 ? "s" : ""} ago`;
   }
   if (hh) {
-    mm %= 60;
-    if (mm) {
-      return `${hh} hr${hh > 1 ? "s" : ""} ${mm} min${mm > 1 ? "s" : ""} ago`;
+    ii %= 60;
+    if (ii) {
+      return `${hh} hr${hh > 1 ? "s" : ""} ${ii} min${ii > 1 ? "s" : ""} ago`;
     }
     return `${hh} hr${hh > 1 ? "s" : ""} ago`;
   }
-  if (mm) {
+  if (ii) {
     ss %= 60;
     if (ss) {
-      return `${mm} min${mm > 1 ? "s" : ""} ${ss} sec${ss > 1 ? "s" : ""} ago`;
+      return `${ii} min${ii > 1 ? "s" : ""} ${ss} sec${ss > 1 ? "s" : ""} ago`;
     }
-    return `${mm} min${mm > 1 ? "s" : ""} ago`;
+    return `${ii} min${ii > 1 ? "s" : ""} ago`;
   }
   return `${ss} sec${ss > 1 ? "s" : ""} ago`;
 }
