@@ -268,7 +268,7 @@ export default function PostVote({ data, network }) {
                     )
                   )
                 )} ${network?.symbol}`}
-              {proxyVote ? proxyBalance === 0 : balance === 0 &&
+              {(proxyVote ? proxyBalance === 0 : balance === 0) &&
                 <RedText>Insufficient</RedText>}
             </div>
             <ToggleWrapper>
