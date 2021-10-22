@@ -6,13 +6,17 @@ jest.setTimeout(3000000);
 jest.mock("./chain.service");
 jest.mock("../env");
 
+const { getDb } = require("../mongo");
 const { getSpace, getSpaces } = require("./space.service");
 
 describe("Spaces Test", () => {
+  let db;
   beforeAll(async () => {
+    db = await getDb();
   });
 
   afterAll(async () => {
+    await db.close();
   });
 
   test("getSpaces", async () => {
