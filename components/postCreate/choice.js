@@ -40,7 +40,13 @@ const SubstractButton = styled(Substract)`
   }
 `;
 
-export default function Choice({ index, value, onChange, onDelete }) {
+export default function Choice({
+  index,
+  value,
+  onChange,
+  onDelete,
+  unDeletable,
+}) {
   const [focus, setFocus] = useState(false);
   const ref = useRef();
 
@@ -55,12 +61,14 @@ export default function Choice({ index, value, onChange, onDelete }) {
         value={value}
         onChange={(e) => onChange(e.target.value, index)}
       />
-      <SubstractButton
-        onClick={(e) => {
-          e.stopPropagation();
-          onDelete(index);
-        }}
-      />
+      {!unDeletable && (
+        <SubstractButton
+          onClick={(e) => {
+            e.stopPropagation();
+            onDelete(index);
+          }}
+        />
+      )}
     </Wrapper>
   );
 }

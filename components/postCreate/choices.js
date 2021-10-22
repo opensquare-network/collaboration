@@ -38,7 +38,6 @@ const ItemList = styled.div`
   }
 `;
 
-
 export default function Choices({ choices, setChoices }) {
   const onAdd = () => {
     if (choices.length >= 10) return;
@@ -55,6 +54,7 @@ export default function Choices({ choices, setChoices }) {
   };
 
   const onDelete = (index) => {
+    if (index < 2) return;
     setChoices(choices.filter((_, id) => index !== id));
   };
 
@@ -70,11 +70,14 @@ export default function Choices({ choices, setChoices }) {
               value={item}
               onChange={onChange}
               onDelete={onDelete}
+              unDeletable={index < 2}
             />
           ))}
         </ItemList>
       </InnerWrapper>
-      <Button onClick={onAdd} large>Add choice</Button>
+      <Button onClick={onAdd} large>
+        Add choice
+      </Button>
     </Wrapper>
   );
 }
