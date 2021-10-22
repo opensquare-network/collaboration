@@ -20,8 +20,8 @@ test("timeDuration", () => {
   expect(timeDuration(now - 90000 * 1000)).toBe('1 day 1 hr ago');
   expect(timeDuration(now - Math.pow(10,10))).toBe('3 mons ago');
   expect(timeDuration(now - Math.pow(10,11))).toBe('3 years 2 mons ago');
-}
-     
+})
+
 test("toFixedPrecision", () => {
   expect(toFixedPrecision("3.1415926", 0, 1)).toBe("3.1");
 });
