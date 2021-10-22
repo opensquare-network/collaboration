@@ -35,7 +35,7 @@ const IdentityWrapper = styled.div`
 export default function Author({ address, network, size = 20 }) {
   const [identity, setIdentity] = useState();
   const isMounted = useIsMounted();
-  const chain = network?.relay || network;
+  const chain =  network.network === "khala" ? network : network?.relay || network;
 
   useEffect(() => {
     if (!address) {
