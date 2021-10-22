@@ -12,7 +12,7 @@ const weightStrategy = (getEnvWeightStrategies("khala") || WeightStrategy.Balanc
 const proposeThreshold = getEnvProposeThreshold("khala") || "1000000000000";
 
 const nodeSetting = {
-  nodeUrl: getEnvNodeEndpoint("khala") || "wss://khala-api.phala.network/ws",
+  nodeUrl: getEnvNodeEndpoint("khala") || "wss://khala.api.onfinality.io/public-ws",
   types: khala,
 };
 
