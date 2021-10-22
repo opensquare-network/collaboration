@@ -212,13 +212,17 @@ export default function PostVote({ data, network }) {
         proxyVote ? encodeAddress(proxyAddress, network.ss58Format) : undefined
       );
     } catch (error) {
+      if (error.toString() === "Error: Cancelled") {
+        return;
+      }
       dispatch(
-        addToast({ type: TOAST_TYPES.ERROR, message: error.toString() })
+        addToast({type: TOAST_TYPES.ERROR, message: error.toString()})
       );
       setIsLoading(false);
       return;
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
     if (result?.error) {
       dispatch(
         addToast({ type: TOAST_TYPES.ERROR, message: result.error.message })
