@@ -6,8 +6,9 @@ test("addressEllipsis", () => {
 })
 
 test("timeDuration", () => {
+  Date.now = jest.fn(() => (new Date()).getTime())
   expect(timeDuration((new Date()).getTime()))
-    .toBe('a few secs ago');
+    .toBe('0 sec ago');
 })
 
 test("toFixedPrecision", () => {
@@ -26,6 +27,6 @@ test("isEmpty", () => {
 });
 
 test("fromSymbolUnit", () => {
-  expect(fromSymbolUnit(100000000, 'polkadot'))
+  expect(fromSymbolUnit(10000000000, 'DOT'))
     .toBe("1");
 });

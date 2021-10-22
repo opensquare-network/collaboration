@@ -65,6 +65,17 @@ export function timeDuration(time) {
   return `${ss} sec${ss > 1 ? "s" : ""} ago`;
 }
 
+export function getPrecision(symbol) {
+  switch (symbol) {
+    case "KSM":
+      return 12;
+    case "DOT":
+      return 10;
+    default:
+      return 12;
+  }
+}
+
 export function toFixedPrecision(value, decimals, fixed = 2, toLocale = true) {
   const result = new BigNumber(value).dividedBy(Math.pow(10, decimals)).toFixed(fixed).toString();
   if(toLocale){
