@@ -6,7 +6,6 @@ const { ObjectId } = require("mongodb");
 const { getComments, postComment } = require("..");
 const { getDb } = require("../../../mongo");
 
-jest.setTimeout(3000000);
 jest.mock("../../ipfs.service/pin");
 
 describe("Comment Test", () => {
