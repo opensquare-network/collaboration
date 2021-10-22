@@ -132,7 +132,7 @@ export default function PostVote({ data, network }) {
   const [proxyAddress, setProxyAddress] = useState("");
   const [info, setInfo] = useState();
   const [balance, setBalance] = useState();
-  const [proxyBalance, setProxyBalance] = useState();
+  const [proxyBalance, setProxyBalance] = useState(0);
   const viewfunc = useViewfunc();
   const space = useSpace();
   const isMounted = useIsMounted();
@@ -200,6 +200,15 @@ export default function PostVote({ data, network }) {
       );
       return;
     }
+    if (!(proxyVote ? proxyBalance > 0 : balance > 0)) {
+      dispatch(
+        addToast({
+          type: TOAST_TYPES.ERROR,
+          message: "Balance must be greater than 0 to vote",
+        })
+      );
+      return;
+    }
     setIsLoading(true);
     let result;
     try {
@@ -255,7 +264,7 @@ export default function PostVote({ data, network }) {
             <Option
               key={index}
               active={item === choice}
-              onClick={() => setChoice(item)}
+              onClick={() => setChoice( item === choice ? null : item)}
               disabled={!status || status === "closed"}
             >
               <div className="index">{`#${index + 1}`}</div>
@@ -278,13 +287,13 @@ export default function PostVote({ data, network }) {
         <InnerWrapper>
           <ProxyHeader>
             <div>
-              {!isEmpty(balance)
-                ? `Available ${toApproximatelyFixed(
-                    bigNumber2Locale(
-                      fromAssetUnit(proxyVote ? proxyBalance : balance, network?.decimals)
-                    )
-                  )} ${network?.symbol}`
-                : ""}
+              {(proxyVote ? !isEmpty(proxyBalance) : !isEmpty(balance))
+              &&
+              `Available ${toApproximatelyFixed(
+                bigNumber2Locale(
+                  fromAssetUnit(proxyVote ? proxyBalance : balance, network?.decimals)
+                )
+              )} ${network?.symbol}`}
             </div>
             <ToggleWrapper>
               <div>Proxy vote</div>
