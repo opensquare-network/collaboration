@@ -78,7 +78,7 @@ export default function PostCreate({ network }) {
     }
     nextApi.fetch(`${space}/account/${address}/balance?snapshot=${height}`)
       .then(res => {
-        setBalance(res?.result ?? 0);
+        setBalance(res?.result?.balance ?? 0);
       })
   }, [space, height, account?.address]);
 
