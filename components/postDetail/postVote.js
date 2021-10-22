@@ -68,7 +68,7 @@ const Option = styled(ButtonPrimary)`
   .index {
     position: absolute;
     ${p_14_medium};
-    color: #A1A8B3;
+    color: #a1a8b3;
   }
   .option {
     margin-left: 47px;
@@ -126,6 +126,7 @@ export default function PostVote({ data, network }) {
   const dispatch = useDispatch();
   const account = useSelector(accountSelector);
   const [choice, setChoice] = useState();
+  const [choiceIndex, setChoiceIndex] = useState();
   const [remark, setRemark] = useState("");
   const [proxyVote, setProxyVote] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -138,10 +139,10 @@ export default function PostVote({ data, network }) {
   const isMounted = useIsMounted();
   const router = useRouter();
 
-  const reset = ()=>{
+  const reset = () => {
     setChoice(null);
     setRemark("");
-  }
+  };
 
   const status = data?.status;
 
@@ -216,7 +217,7 @@ export default function PostVote({ data, network }) {
         return;
       }
       dispatch(
-        addToast({type: TOAST_TYPES.ERROR, message: error.toString()})
+        addToast({ type: TOAST_TYPES.ERROR, message: error.toString() })
       );
       setIsLoading(false);
       return;
@@ -255,7 +256,15 @@ export default function PostVote({ data, network }) {
             <Option
               key={index}
               active={item === choice}
-              onClick={() => setChoice(item)}
+              onClick={() => {
+                if (index === choiceIndex) {
+                  setChoice(null);
+                  setChoiceIndex(null);
+                } else {
+                  setChoice(item);
+                  setChoiceIndex(index);
+                }
+              }}
               disabled={!status || status === "closed"}
             >
               <div className="index">{`#${index + 1}`}</div>
@@ -281,7 +290,10 @@ export default function PostVote({ data, network }) {
               {!isEmpty(balance)
                 ? `Available ${toApproximatelyFixed(
                     bigNumber2Locale(
-                      fromAssetUnit(proxyVote ? proxyBalance : balance, network?.decimals)
+                      fromAssetUnit(
+                        proxyVote ? proxyBalance : balance,
+                        network?.decimals
+                      )
                     )
                   )} ${network?.symbol}`
                 : ""}
@@ -308,7 +320,8 @@ export default function PostVote({ data, network }) {
             />
           )}
           <ButtonPrimary
-            primary large
+            primary
+            large
             isLoading={isLoading}
             onClick={onVote}
             disabled={status === "pending"}
