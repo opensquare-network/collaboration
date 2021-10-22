@@ -2,9 +2,17 @@ const BigNumber = require("bignumber.js");
 const { typesBundleForPolkadot } = require("@acala-network/type-definitions");
 const { getApi, getSystemBalance } = require("../utils/polkadotApi");
 const { WeightStrategy, Networks } = require("../constants");
+const {
+  getEnvWeightStrategies,
+  getEnvProposeThreshold,
+  getEnvNodeEndpoint,
+} = require("../env");
+
+const weightStrategy = (getEnvWeightStrategies("karura") || WeightStrategy.BalanceOf).split(",");
+const proposeThreshold = getEnvProposeThreshold("karura") || "1000000000000";
 
 const nodeSetting = {
-  nodeUrl: process.env.KARURA_NODE_ENDPOINT || "wss://pub.elara.patract.io/karura",
+  nodeUrl: getEnvNodeEndpoint("karura") || "wss://pub.elara.patract.io/karura",
   typesBundle: typesBundleForPolkadot,
 };
 
@@ -24,6 +32,6 @@ module.exports = {
   nodeSetting,
   getApi: _getApi,
   balanceOf,
-  proposeThreshold: process.env.SPACE_PROPOSE_THRESHOLD_KARURA || "1000000000000",
-  weightStrategy: (process.env.SPACE_WEIGHT_STRATEGY_KARURA || WeightStrategy.BalanceOf).split(","),
+  proposeThreshold,
+  weightStrategy,
 };
