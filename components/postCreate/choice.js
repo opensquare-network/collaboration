@@ -31,6 +31,11 @@ const Input = styled.input`
   color: #1e2134;
 `;
 
+const SubstractButtonWrapper = styled.div`
+  width: 20px;
+  height: 20px;
+`;
+
 const SubstractButton = styled(Substract)`
   flex: 0 0 auto;
   cursor: pointer;
@@ -61,14 +66,16 @@ export default function Choice({
         value={value}
         onChange={(e) => onChange(e.target.value, index)}
       />
-      {!unDeletable && (
-        <SubstractButton
-          onClick={(e) => {
-            e.stopPropagation();
-            onDelete(index);
-          }}
-        />
-      )}
+      <SubstractButtonWrapper>
+        {!unDeletable && (
+          <SubstractButton
+            onClick={(e) => {
+              e.stopPropagation();
+              onDelete(index);
+            }}
+          />
+        )}
+      </SubstractButtonWrapper>
     </Wrapper>
   );
 }
