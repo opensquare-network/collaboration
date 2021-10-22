@@ -68,7 +68,7 @@ const Option = styled(ButtonPrimary)`
   .index {
     position: absolute;
     ${p_14_medium};
-    color: #A1A8B3;
+    color: #a1a8b3;
   }
   .option {
     margin-left: 47px;
@@ -125,7 +125,7 @@ const Toggle = styled.div`
 export default function PostVote({ data, network }) {
   const dispatch = useDispatch();
   const account = useSelector(accountSelector);
-  const [choice, setChoice] = useState();
+  const [choiceIndex, setChoiceIndex] = useState(null);
   const [remark, setRemark] = useState("");
   const [proxyVote, setProxyVote] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -138,10 +138,10 @@ export default function PostVote({ data, network }) {
   const isMounted = useIsMounted();
   const router = useRouter();
 
-  const reset = ()=>{
-    setChoice(null);
+  const reset = () => {
+    setChoiceIndex(null);
     setRemark("");
-  }
+  };
 
   const status = data?.status;
 
@@ -191,7 +191,7 @@ export default function PostVote({ data, network }) {
       );
       return;
     }
-    if (!choice) {
+    if (choiceIndex === null) {
       dispatch(
         addToast({
           type: TOAST_TYPES.ERROR,
@@ -215,7 +215,7 @@ export default function PostVote({ data, network }) {
       result = await viewfunc.addVote(
         space,
         data?.cid,
-        choice,
+        data?.choices?.[choiceIndex],
         remark,
         encodeAddress(account?.address, network.ss58Format),
         proxyVote ? encodeAddress(proxyAddress, network.ss58Format) : undefined
@@ -225,7 +225,7 @@ export default function PostVote({ data, network }) {
         return;
       }
       dispatch(
-        addToast({type: TOAST_TYPES.ERROR, message: error.toString()})
+        addToast({ type: TOAST_TYPES.ERROR, message: error.toString() })
       );
       setIsLoading(false);
       return;
@@ -263,8 +263,14 @@ export default function PostVote({ data, network }) {
           {(data.choices || []).map((item, index) => (
             <Option
               key={index}
-              active={item === choice}
-              onClick={() => setChoice( item === choice ? null : item)}
+              active={index === choiceIndex}
+              onClick={() => {
+                if (index === choiceIndex) {
+                  setChoiceIndex(null);
+                } else {
+                  setChoiceIndex(index);
+                }
+              }}
               disabled={!status || status === "closed"}
             >
               <div className="index">{`#${index + 1}`}</div>
@@ -273,7 +279,7 @@ export default function PostVote({ data, network }) {
           ))}
         </ButtonsWrapper>
       </InnerWrapper>
-      {choice && (
+      {choiceIndex !== null && (
         <InnerWrapper>
           <Title>Remark</Title>
           <Input
@@ -287,13 +293,15 @@ export default function PostVote({ data, network }) {
         <InnerWrapper>
           <ProxyHeader>
             <div>
-              {(proxyVote ? !isEmpty(proxyBalance) : !isEmpty(balance))
-              &&
-              `Available ${toApproximatelyFixed(
-                bigNumber2Locale(
-                  fromAssetUnit(proxyVote ? proxyBalance : balance, network?.decimals)
-                )
-              )} ${network?.symbol}`}
+              {(proxyVote ? !isEmpty(proxyBalance) : !isEmpty(balance)) &&
+                `Available ${toApproximatelyFixed(
+                  bigNumber2Locale(
+                    fromAssetUnit(
+                      proxyVote ? proxyBalance : balance,
+                      network?.decimals
+                    )
+                  )
+                )} ${network?.symbol}`}
             </div>
             <ToggleWrapper>
               <div>Proxy vote</div>
@@ -317,7 +325,8 @@ export default function PostVote({ data, network }) {
             />
           )}
           <ButtonPrimary
-            primary large
+            primary
+            large
             isLoading={isLoading}
             onClick={onVote}
             disabled={status === "pending"}

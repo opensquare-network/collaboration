@@ -31,6 +31,11 @@ const Input = styled.input`
   color: #1e2134;
 `;
 
+const SubstractButtonWrapper = styled.div`
+  width: 20px;
+  height: 20px;
+`;
+
 const SubstractButton = styled(Substract)`
   flex: 0 0 auto;
   cursor: pointer;
@@ -40,7 +45,13 @@ const SubstractButton = styled(Substract)`
   }
 `;
 
-export default function Choice({ index, value, onChange, onDelete }) {
+export default function Choice({
+  index,
+  value,
+  onChange,
+  onDelete,
+  unDeletable,
+}) {
   const [focus, setFocus] = useState(false);
   const ref = useRef();
 
@@ -55,12 +66,16 @@ export default function Choice({ index, value, onChange, onDelete }) {
         value={value}
         onChange={(e) => onChange(e.target.value, index)}
       />
-      <SubstractButton
-        onClick={(e) => {
-          e.stopPropagation();
-          onDelete(index);
-        }}
-      />
+      <SubstractButtonWrapper>
+        {!unDeletable && (
+          <SubstractButton
+            onClick={(e) => {
+              e.stopPropagation();
+              onDelete(index);
+            }}
+          />
+        )}
+      </SubstractButtonWrapper>
     </Wrapper>
   );
 }
