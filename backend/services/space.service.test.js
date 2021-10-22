@@ -2,7 +2,6 @@
  * @jest-environment node
  */
 
-jest.setTimeout(3000000);
 jest.mock("./chain.service");
 jest.mock("../env");
 

@@ -4,8 +4,6 @@
 
 const { toSymbolUnit, fromSymbolUnit, sqrtOfBalance, toDecimal128 } = require(".");
 
-jest.setTimeout(3000000);
-
 describe("Util Test", () => {
   beforeAll(async () => {
   });

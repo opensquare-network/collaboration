@@ -9,7 +9,6 @@ const { ObjectId, Decimal128 } = require("mongodb");
 const { vote, getVotes } = require("..");
 const { getDb } = require("../../../mongo");
 
-jest.setTimeout(3000000);
 jest.mock("../../ipfs.service/pin");
 jest.mock("../../../utils/polkadotApi");
 
