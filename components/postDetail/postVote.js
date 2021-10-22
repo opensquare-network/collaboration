@@ -212,13 +212,17 @@ export default function PostVote({ data, network }) {
         proxyVote ? encodeAddress(proxyAddress, network.ss58Format) : undefined
       );
     } catch (error) {
+      if (error.toString() === "Error: Cancelled") {
+        return;
+      }
       dispatch(
-        addToast({ type: TOAST_TYPES.ERROR, message: error.toString() })
+        addToast({type: TOAST_TYPES.ERROR, message: error.toString()})
       );
       setIsLoading(false);
       return;
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
     if (result?.error) {
       dispatch(
         addToast({ type: TOAST_TYPES.ERROR, message: result.error.message })
@@ -273,28 +277,15 @@ export default function PostVote({ data, network }) {
       {status !== "closed" && (
         <InnerWrapper>
           <ProxyHeader>
-            {!proxyVote && (
-              <div>
-                {!isEmpty(balance)
-                  ? `Available ${toApproximatelyFixed(
-                      bigNumber2Locale(
-                        fromAssetUnit(balance, network?.decimals)
-                      )
-                    )} ${network?.symbol}`
-                  : ""}
-              </div>
-            )}
-            {proxyVote && (
-              <div>
-                {!isEmpty(proxyBalance)
-                  ? `Proxy Available ${toApproximatelyFixed(
-                      bigNumber2Locale(
-                        fromAssetUnit(proxyBalance, network?.decimals)
-                      )
-                    )} ${network?.symbol}`
-                  : ""}
-              </div>
-            )}
+            <div>
+              {!isEmpty(balance)
+                ? `Available ${toApproximatelyFixed(
+                    bigNumber2Locale(
+                      fromAssetUnit(proxyVote ? proxyBalance : balance, network?.decimals)
+                    )
+                  )} ${network?.symbol}`
+                : ""}
+            </div>
             <ToggleWrapper>
               <div>Proxy vote</div>
               <Toggle
