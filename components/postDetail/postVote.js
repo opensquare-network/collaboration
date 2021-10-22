@@ -161,6 +161,10 @@ export default function PostVote({ data, network }) {
     }
   }, [data?.snapshotHeight, space, account?.address, isMounted]);
 
+  useEffect(()=> {
+    setIsLoading(!((proxyVote ? proxyBalance : balance) > 0));
+  }, [balance, proxyVote, proxyBalance]);
+
   const getProxyBalance = () => {
     if (space && proxyAddress) {
       nextApi
@@ -196,15 +200,6 @@ export default function PostVote({ data, network }) {
         addToast({
           type: TOAST_TYPES.ERROR,
           message: "Choice is missing",
-        })
-      );
-      return;
-    }
-    if (!(proxyVote ? proxyBalance > 0 : balance > 0)) {
-      dispatch(
-        addToast({
-          type: TOAST_TYPES.ERROR,
-          message: "Balance must be greater than 0 to vote",
         })
       );
       return;
