@@ -1,4 +1,5 @@
 const { ApiPromise, WsProvider } = require("@polkadot/api");
+const { HttpError } = require("../exc");
 const { isTestAccount } = require("../utils");
 
 const apiInstanceMap = new Map();
