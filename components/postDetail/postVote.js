@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 
-import { p_14_medium } from "styles/textStyles";
 import Input from "components/input";
 import { useViewfunc, useSpace, useIsMounted } from "utils/hooks";
 import { accountSelector } from "store/reducers/accountSlice";
@@ -19,6 +18,7 @@ import nextApi from "services/nextApi";
 import PostAddress from "./postAddress";
 import { encodeAddress } from "@polkadot/util-crypto";
 import ButtonPrimary from "@/components/button";
+import Option from "@/components/option";
 
 const Wrapper = styled.div`
   > :not(:first-child) {
@@ -44,41 +44,6 @@ const ButtonsWrapper = styled.div`
   > :not(:first-child) {
     margin-top: 8px;
   }
-`;
-
-const Option = styled(ButtonPrimary)`
-  border: 1px solid #e2e8f0;
-  padding: 12px 24px;
-  text-align: center;
-  position: relative;
-  ${p_14_medium};
-  cursor: pointer;
-  :hover {
-    border-color: #b7c0cc;
-  }
-  ${(p) =>
-    p.active &&
-    css`
-      border-color: #6848ff !important;
-      color: #6848ff;
-      .index {
-        color: #6848ff !important;
-      }
-    `}
-  .index {
-    position: absolute;
-    ${p_14_medium};
-    color: #a1a8b3;
-  }
-  .option {
-    margin-left: 47px;
-    margin-right: 47px;
-  }
-  ${(p) =>
-    p.disabled &&
-    css`
-      pointer-events: none;
-    `}
 `;
 
 const ProxyHeader = styled.div`

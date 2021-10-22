@@ -49,7 +49,6 @@ const Item = styled.a`
   cursor: pointer;
   min-width: 28px;
   height: 28px;
-  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
