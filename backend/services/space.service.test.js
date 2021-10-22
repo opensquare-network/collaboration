@@ -52,7 +52,7 @@ describe("Spaces Test", () => {
         activeProposalsCount: 0
       },
       khala: {
-        symbol: 'KHA',
+        symbol: 'PHA',
         network: 'khala',
         ss58Format: 30,
         decimals: 12,

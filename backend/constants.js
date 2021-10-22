@@ -26,7 +26,7 @@ const Networks = Object.freeze({
     decimals: 12,
   },
   Khala: {
-    symbol: "KHA",
+    symbol: "PHA",
     network: "khala",
     relay: "kusama",
     ss58Format: SS58Format.Khala,
