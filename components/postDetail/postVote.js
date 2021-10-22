@@ -20,6 +20,7 @@ import { encodeAddress } from "@polkadot/util-crypto";
 import ButtonPrimary from "@/components/button";
 import Option from "@/components/option";
 import { text_secondary_red_500 } from "../../styles/colorStyles";
+import BigNumber from "bignumber.js";
 
 const Wrapper = styled.div`
   > :not(:first-child) {
@@ -108,6 +109,7 @@ export default function PostVote({ data, network }) {
   const space = useSpace();
   const isMounted = useIsMounted();
   const router = useRouter();
+  const zero = new BigNumber("0");
 
   const reset = () => {
     setChoiceIndex(null);
@@ -133,7 +135,10 @@ export default function PostVote({ data, network }) {
   }, [data?.snapshotHeight, space, account?.address, isMounted]);
 
   useEffect(()=> {
-    setIsLoading(!((proxyVote ? proxyBalance : balance) > 0));
+    setIsLoading(
+      (new BigNumber(proxyVote ? proxyBalance : balance)
+        .isLessThanOrEqualTo(zero))
+    );
   }, [balance, proxyVote, proxyBalance]);
 
   const getProxyBalance = () => {
@@ -268,7 +273,7 @@ export default function PostVote({ data, network }) {
                     )
                   )
                 )} ${network?.symbol}`}
-              {(proxyVote ? proxyBalance === 0 : balance === 0) &&
+              {(proxyVote ? proxyBalance === "0" : balance === "0") &&
                 <RedText>Insufficient</RedText>}
             </div>
             <ToggleWrapper>
