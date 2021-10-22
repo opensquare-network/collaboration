@@ -273,28 +273,15 @@ export default function PostVote({ data, network }) {
       {status !== "closed" && (
         <InnerWrapper>
           <ProxyHeader>
-            {!proxyVote && (
-              <div>
-                {!isEmpty(balance)
-                  ? `Available ${toApproximatelyFixed(
-                      bigNumber2Locale(
-                        fromAssetUnit(balance, network?.decimals)
-                      )
-                    )} ${network?.symbol}`
-                  : ""}
-              </div>
-            )}
-            {proxyVote && (
-              <div>
-                {!isEmpty(proxyBalance)
-                  ? `Proxy Available ${toApproximatelyFixed(
-                      bigNumber2Locale(
-                        fromAssetUnit(proxyBalance, network?.decimals)
-                      )
-                    )} ${network?.symbol}`
-                  : ""}
-              </div>
-            )}
+            <div>
+              {!isEmpty(balance)
+                ? `Available ${toApproximatelyFixed(
+                    bigNumber2Locale(
+                      fromAssetUnit(proxyVote ? proxyBalance : balance, network?.decimals)
+                    )
+                  )} ${network?.symbol}`
+                : ""}
+            </div>
             <ToggleWrapper>
               <div>Proxy vote</div>
               <Toggle
