@@ -4,8 +4,9 @@ import ReactMarkdown from "react-markdown";
 const Wrapper = styled.div`
   .markdown-content {
     word-break: break-word;
-    text-align: justify;
-
+    p {
+      line-height: 24px;
+    }
     h1,
     h2,
     h3,

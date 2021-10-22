@@ -34,10 +34,6 @@ const VoteItem = styled.div`
   justify-content: space-between;
   ${p_14_medium};
 
-  :not(:first-child) {
-    margin-top: 4px;
-  }
-
   > :first-child {
     color: #506176;
   }
