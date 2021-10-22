@@ -153,7 +153,7 @@ export default function PostVote({ data, network }) {
         })
         .then((response) => {
           if (isMounted.current) {
-            setBalance(response?.result);
+            setBalance(response?.result?.balance);
           }
         });
     } else {
@@ -169,7 +169,7 @@ export default function PostVote({ data, network }) {
         })
         .then((response) => {
           if (isMounted.current) {
-            setProxyBalance(response?.result);
+            setProxyBalance(response?.result?.balance);
           }
         });
     } else {

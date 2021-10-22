@@ -12,7 +12,9 @@ async function getSpaceAccountBalance(ctx) {
   const blockHash = await getBlockHash(api, blockHeight);
   const balanceOf = await spaceService.balanceOf(api, blockHash, address);
 
-  ctx.body = balanceOf;
+  ctx.body = {
+    balance: balanceOf
+  };
 }
 
 module.exports = {
