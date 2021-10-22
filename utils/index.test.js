@@ -13,12 +13,15 @@ test("addressEllipsis", () => {
 });
 
 test("timeDuration", () => {
-  Date.now = jest.fn(() => new Date().getTime());
-  expect(["0 sec ago", "a few secs ago"]).toContain(
-    timeDuration(new Date().getTime())
-  );
-});
-
+  const now = Math.floor((new Date().getTime()) / 1000) * 1000;
+  expect(timeDuration(now)).toBe('0 sec ago');
+  expect(timeDuration(now - 61 * 1000)).toBe('1 min 1 sec ago');
+  expect(timeDuration(now - 3661 * 1000)).toBe('1 hr 1 min ago');
+  expect(timeDuration(now - 90000 * 1000)).toBe('1 day 1 hr ago');
+  expect(timeDuration(now - Math.pow(10,10))).toBe('3 mons ago');
+  expect(timeDuration(now - Math.pow(10,11))).toBe('3 years 2 mons ago');
+}
+     
 test("toFixedPrecision", () => {
   expect(toFixedPrecision("3.1415926", 0, 1)).toBe("3.1");
 });
