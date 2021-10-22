@@ -181,6 +181,12 @@ export default function Account({ network, showMenu, setShowMenu }) {
     }
   }, [chain, account?.address, isMounted]);
 
+  useEffect(()=>{
+    if(account){
+      setAddress(account.address)
+    }
+  }, [account])
+
   const onLogout = () => {
     dispatch(logout());
     setShowMenu(false);
