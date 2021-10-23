@@ -1,5 +1,5 @@
 const BigNumber = require("bignumber.js");
-const { khala } = require("@phala/typedefs");
+const { khala, versionedKhala } = require("@phala/typedefs");
 const { getApi, getSystemBalance } = require("../utils/polkadotApi");
 const { WeightStrategy, Networks } = require("../constants");
 const {
@@ -14,6 +14,11 @@ const proposeThreshold = getEnvProposeThreshold("khala") || "1000000000000";
 const nodeSetting = {
   nodeUrl: getEnvNodeEndpoint("khala") || "wss://khala.api.onfinality.io/public-ws",
   types: khala,
+  typesBundle: {
+    spec: {
+      khala: versionedKhala,
+    },
+  }
 };
 
 function _getApi() {
