@@ -7,9 +7,9 @@ import Content from "./content";
 import Choices from "./choices";
 import More from "./more";
 import { accountSelector } from "store/reducers/accountSlice";
-import { useSpace } from "utils/hooks";
+import { useSpace } from "frontedUtils/hooks";
 import { addToast } from "store/reducers/toastSlice";
-import { TOAST_TYPES } from "utils/constants";
+import { TOAST_TYPES } from "frontedUtils/constants";
 import nextApi from "services/nextApi";
 import { useRouter } from "next/router";
 import { encodeAddress } from "@polkadot/util-crypto";
@@ -66,7 +66,7 @@ export default function PostCreate({ network }) {
 
 
   useEffect(() => {
-    import("utils/viewfunc").then((viewFunc) => {
+    import("frontedUtils/viewfunc").then((viewFunc) => {
       setViewFunc(viewFunc);
     });
   }, []);

@@ -1,12 +1,12 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 
-import { addressEllipsis } from "utils";
+import { addressEllipsis } from "frontedUtils";
 import Avatar from "./avatar";
 import { fetchIdentity } from "services/identity";
 import ExternalLink from "./externalLink";
 import IdentityIcon from "components/identityIcon";
-import { useIsMounted } from "utils/hooks";
+import { useIsMounted } from "frontedUtils/hooks";
 import { encodeAddress } from "@polkadot/util-crypto";
 
 const Wrapper = styled.div`

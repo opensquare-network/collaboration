@@ -32,9 +32,25 @@ async function getSystemBalance(api, blockHash, address) {
     };
   }
 
-  const account = await api.query.system.account.at(blockHash, address);
-  const accountData = account.toJSON()?.data;
-  return accountData;
+  const blockApi = await api.at(blockHash);
+  if (blockApi.query.system?.account) {
+    const account = await blockApi.query.system.account(address);
+    return account.toJSON()?.data;
+  }
+
+  if (blockApi.query.balances) {
+    const free = await blockApi.query.balances.freeBalance(address);
+    const reserved = await blockApi.query.balances.reservedBalance(address);
+    return {
+      free: free.toJSON(),
+      reserved: reserved.toJSON(),
+    };
+  }
+
+  return {
+    free: 0,
+    reserved: 0,
+  }
 }
 
 async function getBlockHash(api, blockHeight) {

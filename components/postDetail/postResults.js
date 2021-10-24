@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { p_14_medium, p_16_semibold } from "styles/textStyles";
 import BigNumber from "bignumber.js";
-import { toFixedPrecision, toPrecision } from "../../utils";
+import { toFixedPrecision, toPrecision } from "../../frontedUtils";
 
 const Wrapper = styled.div`
   padding: 40px 32px;

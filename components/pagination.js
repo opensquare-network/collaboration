@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
-import { encodeURIQuery } from "../utils/index";
+import { encodeURIQuery } from "../frontedUtils/index";
 import CaretLeft from "/public/imgs/icons/caret-left.svg";
 import CaretRight from "/public/imgs/icons/caret-right.svg";
 

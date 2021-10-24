@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 import ExternalLink from "./externalLink";
-import { FOOTER_ITEMS } from "utils/constants";
+import { FOOTER_ITEMS } from "frontedUtils/constants";
 import { p_16_normal, p_16_semibold } from "../styles/textStyles";
 
 const Wrapper = styled.footer`

@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 import Author from "components/author";
 import Pagination from "components/pagination";
-import { bigNumber2Locale, fromAssetUnit, toApproximatelyFixed } from "utils";
+import { bigNumber2Locale, fromAssetUnit, toApproximatelyFixed } from "frontedUtils";
 import ExternalLink from "components/externalLink";
 import Ellipsis from "@/components/ellipsis";
 import Flex from "@/components/flex";
