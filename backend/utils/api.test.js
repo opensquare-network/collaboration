@@ -1,4 +1,4 @@
-const { getSystemBalance } = require("./polkadotApi");
+const { getBalance } = require("./polkadotApi");
 jest.setTimeout(3000000);
 
 const { ApiPromise, WsProvider } = require("@polkadot/api");
@@ -21,7 +21,7 @@ describe("test get balance", () => {
   test("of kusama at 6000000 works", async () => {
     const blockHash = await api.rpc.chain.getBlockHash(6000000);
 
-    const balance = await getSystemBalance(api, blockHash, TreasuryAccount)
+    const balance = await getBalance(api, blockHash, TreasuryAccount)
     expect(balance).toEqual({
       "free": "0x000000000000000003e54801e029c51b",
       "reserved": 0,
@@ -32,7 +32,7 @@ describe("test get balance", () => {
 
   test("of kusama at 1468800 works", async () => {
     const blockHash = await api.rpc.chain.getBlockHash(1468800);
-    const balance = await getSystemBalance(api, blockHash, TreasuryAccount)
+    const balance = await getBalance(api, blockHash, TreasuryAccount)
     expect(balance).toEqual({
       "free": "0x0000000000000000024c9fc2d63fd40f",
       "reserved": 0,
@@ -44,7 +44,7 @@ describe("test get balance", () => {
   test("of kusama at 1382400 works", async () => {
     const blockHash = await api.rpc.chain.getBlockHash(1382400);
 
-    const balance = await getSystemBalance(api, blockHash, TreasuryAccount)
+    const balance = await getBalance(api, blockHash, TreasuryAccount)
     expect(balance).toEqual({
       "free": "0x0000000000000000024c8ba7f046e8ef",
       "reserved": 0,
@@ -55,7 +55,7 @@ describe("test get balance", () => {
 
   test("of kusama at 500000 works", async () => {
     const blockHash = await api.rpc.chain.getBlockHash(500000);
-    const balance = await getSystemBalance(api, blockHash, TreasuryAccount)
+    const balance = await getBalance(api, blockHash, TreasuryAccount)
     expect(balance).toEqual({
       "free": "0x000000000000000000bd706dd299a424",
       "reserved": 0

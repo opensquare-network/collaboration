@@ -3,7 +3,7 @@ const getApi = async (nodeSetting) => {
   return null;
 };
 
-async function getSystemBalance(api, blockHash, address) {
+async function getBalance(api, blockHash, address) {
   console.log(`Use mock getSystemBalance`)
   return {
     free: "10000000000000",
@@ -23,7 +23,7 @@ async function checkDelegation(api, delegatee, delegator, blockHash) {
 
 module.exports = {
   getApi,
-  getSystemBalance,
+  getBalance,
   getBlockHash,
   checkDelegation,
 };

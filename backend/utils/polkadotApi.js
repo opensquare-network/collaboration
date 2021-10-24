@@ -1,6 +1,7 @@
 const { ApiPromise, WsProvider } = require("@polkadot/api");
 const { HttpError } = require("../exc");
 const { isTestAccount } = require("../utils");
+const BigNumber = require("bignumber.js");
 
 const apiInstanceMap = new Map();
 
@@ -24,7 +25,7 @@ const getApi = async (nodeSetting) => {
   return apiInstanceMap.get(nodeUrl);
 };
 
-async function getSystemBalance(api, blockHash, address) {
+async function getBalance(api, blockHash, address) {
   if (isTestAccount(address)) {
     return {
       free: process.env.TEST_ACCOUNT_BALANCE || "10000000000000",
@@ -53,9 +54,23 @@ async function getSystemBalance(api, blockHash, address) {
   }
 }
 
+async function getBalanceByHeight(api, blockHeight, address) {
+  const blockHash = await getBlockHash(api, blockHeight);
+  return await getBalance(api, blockHash, address);
+}
+
+async function getTotalBalance(api, blockHash, address) {
+  const { free, reserved } = await getBalance(...arguments);
+  return new BigNumber(free || 0).plus(reserved || 0).toString();
+}
+
+async function getTotalBalanceByHeight(api, blockHeight, address) {
+  const { free, reserved } = await getBalanceByHeight(...arguments);
+  return new BigNumber(free || 0).plus(reserved || 0).toString();
+}
+
 async function getBlockHash(api, blockHeight) {
-  const hash = await api.rpc.chain.getBlockHash(blockHeight);
-  return hash;
+  return await api.rpc.chain.getBlockHash(blockHeight);
 }
 
 async function checkDelegation(api, delegatee, delegator, blockHash) {
@@ -92,7 +107,9 @@ async function checkDelegation(api, delegatee, delegator, blockHash) {
 
 module.exports = {
   getApi,
-  getSystemBalance,
+  getBalance,
+  getTotalBalance,
+  getTotalBalanceByHeight,
   getBlockHash,
   checkDelegation,
 };

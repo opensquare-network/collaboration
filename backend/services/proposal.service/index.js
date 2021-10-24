@@ -13,6 +13,8 @@ const { ContentType } = require("../../constants");
 const { getLatestHeight } = require("../chain.service");
 const { getBlockHash, checkDelegation } = require("../../utils/polkadotApi");
 const spaceServices = require("../../spaces");
+const { getTotalBalance } = require("../../utils/polkadotApi");
+const { getTotalBalanceByHeight } = require("../../utils/polkadotApi");
 const { getObjectBufAndCid, pinJsonToIpfsWithTimeout } = require("../ipfs.service");
 const { toDecimal128, sqrtOfBalance } = require("../../utils");
 
@@ -88,8 +90,8 @@ async function createProposal(
   const weightStrategy = spaceService.weightStrategy;
 
   const api = await spaceService.getApi();
-  const blockHash = await getBlockHash(api, lastHeight);
-  const creatorBalance = await spaceService.balanceOf(api, blockHash, address);
+  // fixme: we should check balance at the snapshot height
+  const creatorBalance = await getTotalBalanceByHeight(api, lastHeight, address);
 
   const bnCreatorBalance = new BigNumber(creatorBalance);
   if (bnCreatorBalance.lt(spaceService.proposeThreshold)) {
@@ -426,7 +428,7 @@ async function vote(
 
   const voter = realVoter || address;
 
-  const balanceOf = await spaceService.balanceOf(api, blockHash, voter);
+  const balanceOf = await getTotalBalance(api, blockHash, voter);
   if (new BigNumber(balanceOf).isZero()) {
     throw new HttpError(400, "In order to vote, the account balance cannot be 0");
   }
