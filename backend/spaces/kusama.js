@@ -13,14 +13,10 @@ const nodeSetting = {
   nodeUrl: getEnvNodeEndpoint("kusama") || "wss://pub.elara.patract.io/kusama",
 };
 
-function _getApi() {
-  return getApi(nodeSetting);
-}
-
 module.exports = {
   ...Networks.Kusama,
   nodeSetting,
-  getApi: _getApi,
+  getApi: getApi.bind(null, nodeSetting),
   proposeThreshold,
   weightStrategy,
 };

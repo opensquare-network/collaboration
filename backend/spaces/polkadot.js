@@ -13,14 +13,10 @@ const nodeSetting = {
   nodeUrl: getEnvNodeEndpoint("polkadot") || "wss://pub.elara.patract.io/polkadot",
 };
 
-function _getApi() {
-  return getApi(nodeSetting);
-}
-
 module.exports = {
   ...Networks.Polkadot,
   nodeSetting,
-  getApi: _getApi,
+  getApi: getApi.bind(null, nodeSetting),
   proposeThreshold,
   weightStrategy,
 };

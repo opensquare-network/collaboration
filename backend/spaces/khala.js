@@ -20,15 +20,11 @@ const nodeSetting = {
   }
 };
 
-function _getApi() {
-  return getApi(nodeSetting);
-}
-
 module.exports = {
   ...Networks.Khala,
   relay: Networks.Kusama,
   nodeSetting,
-  getApi: _getApi,
+  getApi: getApi.bind(null, nodeSetting),
   proposeThreshold,
   weightStrategy,
 };

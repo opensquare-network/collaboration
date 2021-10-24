@@ -1,7 +1,7 @@
 const { createServer } = require("http");
 const { parse } = require("url");
 const next = require("next");
-const { loadEnvConfig } = equire("@next/env");
+const { loadEnvConfig } = require("@next/env");
 const httpProxy = require("http-proxy");
 
 const projectDir = process.cwd();

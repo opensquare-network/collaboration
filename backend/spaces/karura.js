@@ -15,15 +15,11 @@ const nodeSetting = {
   typesBundle: typesBundleForPolkadot,
 };
 
-function _getApi() {
-  return getApi(nodeSetting);
-}
-
 module.exports = {
   ...Networks.Karura,
   relay: Networks.Kusama,
   nodeSetting,
-  getApi: _getApi,
+  getApi: getApi.bind(null, nodeSetting),
   proposeThreshold,
   weightStrategy,
 };
