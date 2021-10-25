@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { toPrecision } from "utils";
+import { toPrecision } from "frontedUtils";
 import { p_14_normal, p_16_semibold, p_20_semibold } from "../styles/textStyles";
 import SpaceLogo from "@/components/spaceLogo";
 

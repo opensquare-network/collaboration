@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Container from "./container";
-import { useOnClickOutside, useWindowSize } from "utils/hooks";
+import { useOnClickOutside, useWindowSize } from "frontedUtils/hooks";
 import Account from "./account";
 import { p_18_semibold } from "../styles/textStyles";
 

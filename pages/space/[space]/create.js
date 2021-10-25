@@ -1,10 +1,10 @@
 import Layout from "components/layout";
 import Nav from "components/nav";
 import PostCreate from "@/components/postCreate";
-import { useSpace } from "utils/hooks";
-import { SPACE_ITEMS } from "utils/constants";
+import { useSpace } from "frontedUtils/hooks";
+import { SPACE_ITEMS } from "frontedUtils/constants";
 import { ssrNextApi } from "services/nextApi";
-import { to404 } from "../../../utils/serverSideUtil";
+import { to404 } from "../../../frontedUtils/serverSideUtil";
 
 export default function Create({ network }) {
   const space = useSpace();

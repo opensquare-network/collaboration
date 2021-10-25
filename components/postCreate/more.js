@@ -3,7 +3,7 @@ import styled  from "styled-components";
 import Input from "components/input";
 import DatePicker from "components/datePicker";
 import Row from "@/components/row";
-import { toPrecision } from "../../utils";
+import { toPrecision } from "../../frontedUtils";
 import BigNumber from "bignumber.js";
 import Button from "@/components/button";
 

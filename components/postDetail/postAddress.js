@@ -6,11 +6,11 @@ import { fetchIdentity } from "services/identity";
 import Avatar from "../avatar";
 import IdentityIcon from "../identityIcon";
 import Loading from "public/imgs/icons/loading.svg";
-import { useWindowSize } from "utils/hooks";
-import { addressEllipsis } from "utils";
+import { useWindowSize } from "frontedUtils/hooks";
+import { addressEllipsis } from "frontedUtils";
 import { encodeAddress } from "@polkadot/util-crypto";
 import { addToast } from "store/reducers/toastSlice";
-import { TOAST_TYPES } from "utils/constants";
+import { TOAST_TYPES } from "frontedUtils/constants";
 import { p_14_normal } from "../../styles/textStyles";
 
 const Wrapper = styled.div`

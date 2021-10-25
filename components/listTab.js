@@ -2,7 +2,7 @@ import styled, { css } from "styled-components";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import QuestionMark from "../public/imgs/icons/question-mark.svg";
-import { LIST_TAB_ITEMS } from "utils/constants";
+import { LIST_TAB_ITEMS } from "frontedUtils/constants";
 import { p_16_semibold } from "../styles/textStyles";
 import { useRouter } from "next/router";
 import Tooltip from "@/components/tooltip";

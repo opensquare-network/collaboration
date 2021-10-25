@@ -59,7 +59,7 @@ export function useSpace() {
 export function useViewfunc() {
   const [viewFunc, setViewFunc] = useState();
   useEffect(() => {
-    import("utils/viewfunc").then((viewFunc) => {
+    import("frontedUtils/viewfunc").then((viewFunc) => {
       setViewFunc(viewFunc);
     });
   }, []);

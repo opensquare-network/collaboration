@@ -1,11 +1,11 @@
 import Layout from "components/layout";
 import Nav from "components/nav";
 import PostDetail from "@/components/postDetail/index";
-import { useSpace } from "utils/hooks";
-import { SPACE_ITEMS } from "utils/constants";
+import { useSpace } from "frontedUtils/hooks";
+import { SPACE_ITEMS } from "frontedUtils/constants";
 import { ssrNextApi } from "services/nextApi";
-import { EmptyQuery } from "utils/constants";
-import { to404 } from "../../../utils/serverSideUtil";
+import { EmptyQuery } from "frontedUtils/constants";
+import { to404 } from "../../../frontedUtils/serverSideUtil";
 
 export default function Index({
   detail,

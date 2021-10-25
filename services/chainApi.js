@@ -11,7 +11,7 @@ import {
   DEFAULT_KUSAMA_NODES,
   DEFAULT_POLKADOT_NODE_URL,
   DEFAULT_POLKADOT_NODES,
-} from "../utils/constants";
+} from "../frontedUtils/constants";
 
 const apiInstanceMap = new Map();
 

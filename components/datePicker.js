@@ -4,7 +4,7 @@ import { useState, useRef } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 
-import { useOnClickOutside } from "utils/hooks";
+import { useOnClickOutside } from "frontedUtils/hooks";
 import CaretRight from "/public/imgs/icons/caret-right.svg";
 import ArrowLeft from "/public/imgs/icons/arrow-left.svg";
 import ArrowRight from "/public/imgs/icons/arrow-right.svg";

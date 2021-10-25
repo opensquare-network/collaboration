@@ -7,7 +7,7 @@ import StatusTag from "./statusTag";
 import PostTime from "./postTime";
 import { p_24 } from "../styles/paddings";
 import { useEffect, useState } from "react";
-import { useWindowSize } from "../utils/hooks";
+import { useWindowSize } from "../frontedUtils/hooks";
 
 const Wrapper = styled.div`
   background: #ffffff;

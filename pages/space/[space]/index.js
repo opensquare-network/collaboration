@@ -6,9 +6,9 @@ import Nav from "components/nav";
 import ListInfo from "components/listInfo";
 import ListTab from "components/listTab";
 import PostList from "components/postList";
-import { EmptyQuery } from "utils/constants";
+import { EmptyQuery } from "frontedUtils/constants";
 import { ssrNextApi } from "services/nextApi";
-import { to404 } from "../../../utils/serverSideUtil";
+import { to404 } from "../../../frontedUtils/serverSideUtil";
 
 const HeaderWrapper = styled.div`
   > :not(:first-child) {

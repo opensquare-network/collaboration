@@ -1,4 +1,4 @@
-import { timeDuration } from "utils";
+import { timeDuration } from "frontedUtils";
 
 export default function PostTime({ post }) {
   return (

@@ -1,6 +1,5 @@
-const BigNumber = require("bignumber.js");
 const { typesBundleForPolkadot } = require("@acala-network/type-definitions");
-const { getApi, getSystemBalance } = require("../utils/polkadotApi");
+const { getApi } = require("../utils/polkadotApi");
 const { WeightStrategy, Networks } = require("../constants");
 const {
   getEnvWeightStrategies,
@@ -16,22 +15,11 @@ const nodeSetting = {
   typesBundle: typesBundleForPolkadot,
 };
 
-function _getApi() {
-  return getApi(nodeSetting);
-}
-
-async function balanceOf(api, blockHash, address) {
-  const balance = await getSystemBalance(api, blockHash, address);
-  const result = new BigNumber(balance?.free || 0).plus(balance?.reserved || 0).toString();
-  return result;
-}
-
 module.exports = {
   ...Networks.Karura,
   relay: Networks.Kusama,
   nodeSetting,
-  getApi: _getApi,
-  balanceOf,
+  getApi: getApi.bind(null, nodeSetting),
   proposeThreshold,
   weightStrategy,
 };

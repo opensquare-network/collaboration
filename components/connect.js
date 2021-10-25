@@ -10,7 +10,7 @@ import { Modal } from "semantic-ui-react";
 import Button from "components/button";
 import AccountSelector from "./accountSelector";
 
-import { useIsMounted } from "utils/hooks";
+import { useIsMounted } from "frontedUtils/hooks";
 import styled from "styled-components";
 import { p_14_normal, p_16_semibold, p_20_semibold } from "../styles/textStyles";
 import SvgClose from "public/imgs/icons/close.svg";
