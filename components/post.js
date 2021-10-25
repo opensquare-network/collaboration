@@ -16,6 +16,9 @@ const Wrapper = styled.div`
   0px 0.751293px 3.88168px rgba(26, 33, 44, 0.03);
   ${p_24};
   cursor: pointer;
+  :hover{
+    border-color: #E2E8F0;;
+  }
 `;
 
 const Title = styled.div`
