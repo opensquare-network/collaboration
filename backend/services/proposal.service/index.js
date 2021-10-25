@@ -90,7 +90,7 @@ async function createProposal(
   const weightStrategy = spaceService.weightStrategy;
 
   const api = await spaceService.getApi();
-  // fixme: we should check balance at the snapshot height
+  // fixme: think whether we should check balance at the snapshot height
   const creatorBalance = await getTotalBalanceByHeight(api, lastHeight, address);
 
   const bnCreatorBalance = new BigNumber(creatorBalance);
