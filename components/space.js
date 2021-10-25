@@ -41,6 +41,9 @@ const Item = styled.div`
   background: #ffffff;
   padding: 24px;
   cursor: pointer;
+  :hover{
+    border-color: #E2E8F0;
+  }
 `;
 
 const IconWrapper = styled.div`
