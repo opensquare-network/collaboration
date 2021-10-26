@@ -53,6 +53,7 @@ async function createProposal(ctx) {
     throw new HttpError(400, { choices: ["Choices is missing"] });
   }
 
+  // FIXME: choices should all be different
   if (
     !Array.isArray(choices)
     || choices.length < 2
