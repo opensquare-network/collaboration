@@ -8,8 +8,8 @@
     "start": "NODE_ENV=production node server.js",
     "lint": "next lint",
     "test:backend": "jest backend --runInBand",
-    "test:utils": "jest frontedUtils --config jest.fronted.config.js",
-    "test": "yarn test:utils && yarn test:backend",
+    "test:fronted": "jest frontedUtils --config jest.fronted.config.js",
+    "test": "yarn test:fronted && yarn test:backend",
     "pin": "pm2 start ecosystem.config.js --only voting-pin-to-ipfs --env production"
   },
   "dependencies": {
