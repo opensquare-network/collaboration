@@ -70,7 +70,7 @@ async function createProposal(
   const now = new Date();
 
   if (endDate < now.getTime()) {
-    throw new HttpError(400, "End date should not be ealier than current time");
+    throw new HttpError(400, "End date should not be earlier than current time");
   }
 
   const uniqueChoices = Array.from(new Set(choices));
@@ -80,7 +80,7 @@ async function createProposal(
 
   const lastHeight = getLatestHeight(space);
   if (lastHeight && snapshotHeight > lastHeight) {
-    throw new HttpError(400, "Snapshot height is not allow to larger than the current finalized height");
+    throw new HttpError(400, "Snapshot height should not be higher than the current finalized height");
   }
 
   const spaceService = spaceServices[space];
@@ -90,9 +90,7 @@ async function createProposal(
   const weightStrategy = spaceService.weightStrategy;
 
   const api = await spaceService.getApi();
-  // fixme: think whether we should check balance at the snapshot height
   const creatorBalance = await getTotalBalanceByHeight(api, lastHeight, address);
-
   const bnCreatorBalance = new BigNumber(creatorBalance);
   if (bnCreatorBalance.lt(spaceService.proposeThreshold)) {
     throw new HttpError(403, `Balance is not enough to create the proposal`);

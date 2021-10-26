@@ -75,7 +75,7 @@ async function getBlockHash(api, blockHeight) {
 
 async function checkDelegation(api, delegatee, delegator, blockHash) {
   if (isTestAccount(delegator)) {
-    return true;
+    return;
   }
 
   const data = await api.query.proxy.proxies.at(blockHash, delegator);
@@ -91,18 +91,12 @@ async function checkDelegation(api, delegatee, delegator, blockHash) {
         return false;
       }
 
-      if (item.delegate !== delegatee) {
-        return false;
-      }
-
-      return true;
+      return item.delegate === delegatee
     });
 
   if (!proxy) {
     throw new HttpError(400, "You are not a proxy of the given address");
   }
-
-  return true;
 }
 
 module.exports = {

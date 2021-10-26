@@ -61,6 +61,10 @@ async function createProposal(ctx) {
     throw new HttpError(400, { choices: ["Choices must be array of string with at least 2 items"] });
   }
 
+  if (new Set(choices).size < choices.length) {
+    throw new HttpError(400, { choices: ["All choices should be different"] });
+  }
+
   if (
     contentType !== ContentType.Markdown &&
     contentType !== ContentType.Html
