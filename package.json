@@ -9,7 +9,7 @@
     "lint": "next lint",
     "test:backend": "jest backend --runInBand",
     "test:utils": "jest frontedUtils --config jest.fronted.config.js",
-    "test":"yarn test:utils && yarn test:backend",
+    "test": "yarn test:utils && yarn test:backend",
     "pin": "pm2 start ecosystem.config.js --only voting-pin-to-ipfs --env production"
   },
   "dependencies": {
@@ -33,6 +33,7 @@
     "koa-helmet": "^6.1.0",
     "koa-logger": "^3.2.1",
     "koa-router": "^10.1.1",
+    "lodash.debounce": "^4.0.8",
     "lodash.flatten": "^4.4.0",
     "moment": "^2.29.1",
     "mongodb": "^4.1.3",
