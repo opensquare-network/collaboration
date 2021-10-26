@@ -91,11 +91,7 @@ async function checkDelegation(api, delegatee, delegator, blockHash) {
         return false;
       }
 
-      if (item.delegate !== delegatee) {
-        return false;
-      }
-
-      return true;
+      return item.delegate === delegatee
     });
 
   if (!proxy) {
