@@ -80,7 +80,7 @@ async function createProposal(
 
   const lastHeight = getLatestHeight(space);
   if (lastHeight && snapshotHeight > lastHeight) {
-    throw new HttpError(400, "Snapshot height is not allow to larger than the current finalized height");
+    throw new HttpError(400, "Snapshot height should not be higher than the current finalized height");
   }
 
   const spaceService = spaceServices[space];
