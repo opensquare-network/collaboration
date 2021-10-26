@@ -5,7 +5,7 @@ import { useSpace } from "frontedUtils/hooks";
 import { SPACE_ITEMS } from "frontedUtils/constants";
 import { ssrNextApi } from "services/nextApi";
 import { EmptyQuery } from "frontedUtils/constants";
-import { to404 } from "../../../frontedUtils/serverSideUtil";
+import { to404 } from "../../../../frontedUtils/serverSideUtil";
 
 export default function Index({
   detail,

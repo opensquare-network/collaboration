@@ -92,7 +92,7 @@ export default function Post({data, showSpace, network, spaces}) {
   }, [windowSize.width, setShowRichInfo]);
 
   return (
-    <InternalLink href={`/space/${data.space}/${data.cid}`}>
+    <InternalLink href={`/space/${data.space}/proposal/${data.cid}`}>
       <Wrapper>
         <Title>{data.title}</Title>
         <Divider/>

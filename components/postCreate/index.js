@@ -129,7 +129,7 @@ export default function PostCreate({ network }) {
             message: "Create proposal successfully!",
           })
         );
-        router.push(`/space/${space}/${result.cid}`);
+        router.push(`/space/${space}/proposal/${result.cid}`);
       }
       if (error) {
         dispatch(
