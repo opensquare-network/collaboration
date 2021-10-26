@@ -53,13 +53,16 @@ async function createProposal(ctx) {
     throw new HttpError(400, { choices: ["Choices is missing"] });
   }
 
-  // FIXME: choices should all be different
   if (
     !Array.isArray(choices)
     || choices.length < 2
     || choices.some(item => typeof item !== "string")
   ) {
     throw new HttpError(400, { choices: ["Choices must be array of string with at least 2 items"] });
+  }
+
+  if (new Set(choices).size < choices.length) {
+    throw new HttpError(400, { choices: ["All choices should be different"] });
   }
 
   if (
