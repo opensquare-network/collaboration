@@ -139,7 +139,7 @@ export default function PostVote({ data, network }) {
       (new BigNumber(proxyVote ? proxyBalance : balance)
         .isLessThanOrEqualTo(zero))
     );
-  }, [balance, proxyVote, proxyBalance]);
+  }, [balance, proxyVote, proxyBalance, zero]);
 
   const getProxyBalance = () => {
     if (space && proxyAddress) {
