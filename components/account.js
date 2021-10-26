@@ -152,6 +152,7 @@ const IdentityWrapper = styled.div`
 `;
 
 export default function Account({ network, showMenu, setShowMenu }) {
+  const [pageMounted, setPageMounted] = useState(false);
   const [showConnectModal, setShowConnectModal] = useState(false);
   const account = useSelector(accountSelector);
   const dispatch = useDispatch();
@@ -160,6 +161,8 @@ export default function Account({ network, showMenu, setShowMenu }) {
   const isMounted = useIsMounted();
   const [address, setAddress] = useState(account?.address);
   const chain = network?.relay || network;
+
+  useEffect(()=> setPageMounted(true), []);
 
   useEffect(() => {
     if (account?.address && network?.ss58Format !== undefined) {
@@ -239,7 +242,7 @@ export default function Account({ network, showMenu, setShowMenu }) {
     </MenuWrapper>
   );
 
-  if (account) {
+  if (account && pageMounted) {
     return (
       <Wrapper>
         <AccountWrapperPC show={showMenu}>
