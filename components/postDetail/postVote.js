@@ -109,7 +109,6 @@ export default function PostVote({ data, network }) {
   const space = useSpace();
   const isMounted = useIsMounted();
   const router = useRouter();
-  const zero = new BigNumber("0");
 
   const reset = () => {
     setChoiceIndex(null);
@@ -135,11 +134,12 @@ export default function PostVote({ data, network }) {
   }, [data?.snapshotHeight, space, account?.address, isMounted]);
 
   useEffect(()=> {
+    const zero = new BigNumber("0");
     setIsLoading(
       (new BigNumber(proxyVote ? proxyBalance : balance)
         .isLessThanOrEqualTo(zero))
     );
-  }, [balance, proxyVote, proxyBalance, zero]);
+  }, [balance, proxyVote, proxyBalance]);
 
   const getProxyBalance = () => {
     if (space && proxyAddress) {
