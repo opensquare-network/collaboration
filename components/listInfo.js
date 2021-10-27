@@ -97,7 +97,7 @@ export default function ListInfo({ spaceName, data }) {
         <AboutItem>
           <AboutIcon src="/imgs/icons/strategy.svg" />
           <div>
-            <AboutName>Strategie(s)</AboutName>
+            <AboutName>Strategies</AboutName>
             <StrategyAboutDetail>{data.weightStrategy?.join(", ")}</StrategyAboutDetail>
           </div>
         </AboutItem>
