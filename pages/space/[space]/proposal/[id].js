@@ -53,7 +53,7 @@ export async function getServerSideProps(context) {
     `${spaceName}/proposals/${id}`
   );
 
-  if(!detail){
+  if (!detail) {
     to404(context);
   }
 
