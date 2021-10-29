@@ -16,6 +16,7 @@ const ItemsWrapper = styled.div`
   gap: 20px;
   justify-content: start;
   overflow: visible;
+  min-height: 227px;
   ${no_scroll_bar};
 
   @media screen and (max-width: 1144px) {
@@ -26,11 +27,11 @@ const ItemsWrapper = styled.div`
     margin: 0 -20px;
     padding: 0 20px;
   }
-  
+
   ${(p) =>
-          p.show &&
-          css`
-            flex-wrap: wrap;
+    p.show &&
+    css`
+      flex-wrap: wrap;
     `}
 `;
 
@@ -41,8 +42,8 @@ const Item = styled.div`
   background: #ffffff;
   padding: 24px;
   cursor: pointer;
-  :hover{
-    border-color: #E2E8F0;
+  :hover {
+    border-color: #e2e8f0;
   }
 `;
 
@@ -110,11 +111,11 @@ const SpaceButton = styled.div`
 
 export default function Space({ spaces }) {
   const [show, setShow] = useState(false);
-  const [showCount, setShowCount] = useState(0);
+  const [showCount, setShowCount] = useState(6);
   const spaceNames = Object.keys(spaces);
   const windowSize = useWindowSize();
 
-  useEffect(()=> {
+  useEffect(() => {
     if (windowSize.width > 800) {
       setShowCount(6);
     } else {
@@ -127,31 +128,37 @@ export default function Space({ spaces }) {
       <TitleWrapper>
         <Title>Space</Title>
         <SpaceButton onClick={() => setShow(!show)}>
-          {spaceNames.length > showCount && show ? "Hide Spaces" : `All Spaces(${spaceNames.length})`}
+          {spaceNames.length > showCount && show
+            ? "Hide Spaces"
+            : `All Spaces(${spaceNames.length})`}
         </SpaceButton>
       </TitleWrapper>
       <ItemsWrapper show={show}>
-        {(show ? spaceNames : spaceNames.slice(0, showCount)).map((item, index) => (
-          <InternalLink href={`/space/${item}`} key={index}>
-          <Item>
-            <IconWrapper>
-              <Icon>
-                <SpaceLogo src={`/imgs/icons/${item}.svg`} />
-              </Icon>
-                <Name>{item}</Name>
-              <Symbol>{spaces[item].symbol ?? "-"}</Symbol>
-            </IconWrapper>
-            <Divider />
-            <ActiveWrapper>
-              <ActiveCircle />
-              <InternalLink href={`/space/${item}?tab=active`}>
-              Active
-              </InternalLink>
-              <ActiveCount>{spaces[item].activeProposalsCount ?? 0}</ActiveCount>
-            </ActiveWrapper>
-          </Item>
-          </InternalLink>
-        ))}
+        {(show ? spaceNames : spaceNames.slice(0, showCount)).map(
+          (item, index) => (
+            <InternalLink href={`/space/${item}`} key={index}>
+              <Item>
+                <IconWrapper>
+                  <Icon>
+                    <SpaceLogo src={`/imgs/icons/${item}.svg`} />
+                  </Icon>
+                  <Name>{item}</Name>
+                  <Symbol>{spaces[item].symbol ?? "-"}</Symbol>
+                </IconWrapper>
+                <Divider />
+                <ActiveWrapper>
+                  <ActiveCircle />
+                  <InternalLink href={`/space/${item}?tab=active`}>
+                    Active
+                  </InternalLink>
+                  <ActiveCount>
+                    {spaces[item].activeProposalsCount ?? 0}
+                  </ActiveCount>
+                </ActiveWrapper>
+              </Item>
+            </InternalLink>
+          )
+        )}
       </ItemsWrapper>
     </div>
   );
