@@ -10,10 +10,6 @@ const Wrapper = styled.header`
   flex: 0 0 auto;
   background: #ffffff;
   position: relative;
-  min-height: 80px;
-  @media screen and (max-width: 800px) {
-    min-height: 62px;
-  }
 `;
 
 const ContentWrapper = styled.div`
@@ -22,11 +18,13 @@ const ContentWrapper = styled.div`
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
+  min-height: 80px;
   @media screen and (max-width: 1144px) {
     padding: 20px 32px;
   }
   @media screen and (max-width: 800px) {
     padding: 15px 20px;
+    min-height: 62px;
   }
   > svg {
     margin: 20px -20px;
