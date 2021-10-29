@@ -59,7 +59,7 @@ export default function RichInput({
             {preview ? "Edit" : "Preview"}
           </Button>
           {showSUbmitButton && (
-            <Button primary onClick={onSubmit}>
+            <Button primary onClick={() => onSubmit(() => setPreview(false))}>
               Comment
             </Button>
           )}

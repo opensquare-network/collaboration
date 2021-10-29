@@ -79,7 +79,7 @@ const NoCommentWrapper = styled.div`
   justify-content: center;
   font-size: 14px;
   line-height: 24px;
-  color: #A1A8B3;
+  color: #a1a8b3;
   border-bottom: 1px solid #f0f3f8;
 `;
 
@@ -92,7 +92,7 @@ export default function PostDiscussion({ data, network, comments }) {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const onSubmit = async () => {
+  const onSubmit = async (callback) => {
     if (isLoading) return;
     if (!viewfunc) {
       return;
@@ -123,7 +123,7 @@ export default function PostDiscussion({ data, network, comments }) {
         data?.cid,
         content,
         "markdown",
-        encodeAddress(account?.address, network.ss58Format),
+        encodeAddress(account?.address, network.ss58Format)
       );
     } catch (error) {
       dispatch(
@@ -139,6 +139,7 @@ export default function PostDiscussion({ data, network, comments }) {
       );
     } else if (result) {
       setContent("");
+      if (callback) callback();
       router.replace({
         query: {
           ...router.query,
@@ -160,11 +161,7 @@ export default function PostDiscussion({ data, network, comments }) {
         <Item key={index}>
           <InfoWrapper>
             <DividerWrapper>
-              <Author
-                address={item.address}
-                network={network}
-                size={20}
-              />
+              <Author address={item.address} network={network} size={20} />
               <div>{timeDuration(item.createdAt)}</div>
             </DividerWrapper>
             {item?.pinHash && (
