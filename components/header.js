@@ -10,6 +10,10 @@ const Wrapper = styled.header`
   flex: 0 0 auto;
   background: #ffffff;
   position: relative;
+  min-height: 80px;
+  @media screen and (max-width: 800px) {
+    min-height: 62px;
+  }
 `;
 
 const ContentWrapper = styled.div`
@@ -136,13 +140,16 @@ export default function Header({ network }) {
               alt=""
             />
           </IconWrapper>
-          {/* <DividerLine /> */}
           <AccountWrapper
             onClick={() => {
               setShowMenu(!showMenu);
             }}
           >
-            <Account network={network} showMenu={showMenu} setShowMenu={setShowMenu} />
+            <Account
+              network={network}
+              showMenu={showMenu}
+              setShowMenu={setShowMenu}
+            />
           </AccountWrapper>
         </ContentWrapper>
       </Container>
