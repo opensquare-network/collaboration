@@ -117,10 +117,15 @@ const Wrapper = styled.div`
 `;
 
 export default function Markdown({ content }) {
+  const displayContent = content.replace(/\n+/g, function (ns) {
+    if (ns.length == 1) return "  " + ns;
+    return ns;
+  });
+
   return (
     <Wrapper>
       <ReactMarkdown className="markdown-content" linkTarget="_blank">
-        {content}
+        {displayContent}
       </ReactMarkdown>
     </Wrapper>
   );
