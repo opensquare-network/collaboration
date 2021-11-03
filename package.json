@@ -48,7 +48,7 @@
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.0.3",
     "styled-components": "^5.3.1",
-    "validator": "^13.6.0",
+    "validator": "^13.7.0",
     "xss": "^1.0.9"
   },
   "devDependencies": {
