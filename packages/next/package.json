@@ -1,5 +1,5 @@
 {
-  "name": "voting",
+  "name": "@collaboration/voting",
   "version": "1.0.0",
   "private": true,
   "scripts": {
