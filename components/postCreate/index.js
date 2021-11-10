@@ -56,7 +56,8 @@ export default function PostCreate({ network }) {
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
   const [height, setHeight] = useState(network.latestFinalizedHeight);
-  const [balance, setBalance] = useState(0);
+  const [balance, setBalance] = useState(null);
+  const [balanceError, setBalanceError] = useState(null);
   const [viewFunc, setViewFunc] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -76,10 +77,20 @@ export default function PostCreate({ network }) {
     if(!address || !height > 0){
       return;
     }
-    nextApi.fetch(`${space}/account/${address}/balance?snapshot=${height}`)
-      .then(res => {
-        setBalance(res?.result?.balance ?? 0);
-      })
+    const delay = new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve();
+      }, 2000);
+    });
+    Promise.all([
+      nextApi.fetch(`${space}/account/${address}/balance?snapshot=${height}`),
+      delay,
+    ]).then(results => setBalance(results[0]?.result?.balance ?? 0))
+    .catch(error => {
+      setBalanceError("something went wrong while querying balance, please try again later.");
+    })
+
+
   }, [space, height, account?.address]);
 
   const onPublish = async () => {
@@ -176,6 +187,7 @@ export default function PostCreate({ network }) {
           threshold={threshold}
           symbol={symbol}
           decimals={decimals}
+          balanceError={balanceError}
         />
       </SiderWrapper>
     </Wrapper>

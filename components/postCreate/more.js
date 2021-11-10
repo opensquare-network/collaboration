@@ -6,6 +6,7 @@ import Row from "@/components/row";
 import { toPrecision } from "../../frontedUtils";
 import BigNumber from "bignumber.js";
 import Button from "@/components/button";
+import Loading from "../../public/imgs/icons/loading.svg";
 
 const Wrapper = styled.div`
   background: #ffffff;
@@ -64,6 +65,7 @@ export default function More({
   setEndDate,
   height,
   balance,
+  balanceError,
   setHeight,
   onPublish,
   isLoading,
@@ -78,14 +80,14 @@ export default function More({
       <InnerWrapper>
         <TitleWrapper>
           <Title>System</Title>
-          <img src="/imgs/icons/action.svg" alt="" />
+          <img src="/imgs/icons/action.svg" alt=""/>
         </TitleWrapper>
         <SystemWrapper>Single choice voting</SystemWrapper>
       </InnerWrapper>
       <InnerWrapper>
         <TitleWrapper>
           <Title>Period</Title>
-          <img src="/imgs/icons/timestamp.svg" alt="" />
+          <img src="/imgs/icons/timestamp.svg" alt=""/>
         </TitleWrapper>
         <DatePicker
           date={startDate}
@@ -101,7 +103,7 @@ export default function More({
       <InnerWrapper>
         <TitleWrapper>
           <Title>Snapshot height</Title>
-          <img src="/imgs/icons/block.svg" alt="" />
+          <img src="/imgs/icons/block.svg" alt=""/>
         </TitleWrapper>
         <Input
           placeholder="0"
@@ -113,14 +115,21 @@ export default function More({
       <InnerWrapper>
         <TitleWrapper>
           <Title>Information</Title>
-          <img src="/imgs/icons/info.svg" alt="" />
+          <img src="/imgs/icons/info.svg" alt=""/>
         </TitleWrapper>
-        <Row header="Balance" content={`${toPrecision(balance, decimals)} ${symbol}`}/>
-        {!thresholdFulfilled && <Hint>You need to have a minimum of {toPrecision(threshold, decimals)} {symbol} in order to publish a proposal.</Hint>}
+        {
+          !(new BigNumber(balance)).isNaN() ? (
+              thresholdFulfilled
+                ? <Row header="Balance" content={`${toPrecision(balance, decimals)} ${symbol}`}/>
+                : <Hint>You need to have a minimum of {toPrecision(threshold, decimals)} {symbol} in order to publish a
+                  proposal.</Hint>
+            )
+            : (balanceError ? <Hint>{balanceError}</Hint> : <Row header="Balance" content={<Loading/>}/>)
+        }
       </InnerWrapper>
       <Button large primary
-        isLoading={isLoading || !thresholdFulfilled}
-        onClick={onPublish}
+              isLoading={isLoading || !thresholdFulfilled || balanceError}
+              onClick={onPublish}
       >
         Publish
       </Button>
