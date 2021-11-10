@@ -38,7 +38,7 @@ class BalanceController {
     const { chain, account, blockHashOrHeight } = ctx.params;
 
     const apis = getApis(chain);
-    if (apis.every(api => !api.isConnected)) {
+    if (apis.every(({ api }) => !api.isConnected)) {
       ctx.throw(500, "No apis connected")
       return
     }

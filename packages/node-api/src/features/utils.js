@@ -1,6 +1,7 @@
 const { isHex } = require("@polkadot/util")
 
-async function getBlockApi(api, blockHashOrHeight) {
+async function getBlockApi(apiWrapper, blockHashOrHeight) {
+  const api = apiWrapper.api;
   if (!blockHashOrHeight) {
     return api;
   }
