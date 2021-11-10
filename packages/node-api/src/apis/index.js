@@ -5,6 +5,9 @@ const { chains } = require("../constants");
 const { ApiPromise, WsProvider } = require("@polkadot/api");
 const { getEndpoints } = require("../env")
 
+/**
+ * { polkadot: { apis: [ { endpoint: 'wss:...', api } ] } }
+ */
 const chainApis = {};
 
 async function createApi(network, endpoint) {
@@ -40,7 +43,6 @@ async function createApiForChain({ chain, endpoints }) {
 
 async function createChainApis() {
   const chainEndpoints = getEndpoints();
-
 
   const promises = []
   for (const { chain, endpoints } of chainEndpoints) {
