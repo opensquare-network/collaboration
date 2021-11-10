@@ -4,10 +4,10 @@ const router = new Router();
 
 const chainFeatureRouters = [
   require("./features/balance/routes"),
+  require("./features/proxy/routes"),
 ];
 
-const commonFeatureRouters = [
-];
+const commonFeatureRouters = [];
 
 module.exports = (app) => {
   for (const r of commonFeatureRouters) {

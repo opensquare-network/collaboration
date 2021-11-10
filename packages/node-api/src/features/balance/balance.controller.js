@@ -1,18 +1,8 @@
+const { getBlockApi } = require("../utils");
 const { getApis } = require("../../apis");
-const { isHex } = require("@polkadot/util")
 
 async function getBalanceFromOneApi(api, address, blockHashOrHeight) {
-  let blockApi = api;
-  if (blockHashOrHeight) {
-    if (isHex(blockHashOrHeight)) {
-      blockApi = await api.at(blockHashOrHeight);
-    } else if (/^\d+$/.test(blockHashOrHeight)) {
-      const hash = await api.rpc.chain.getBlockHash(blockHashOrHeight);
-      blockApi = await api.at(hash);
-    } else {
-      throw 'Invalid block hash or height'
-    }
-  }
+  let blockApi = await getBlockApi(api, blockHashOrHeight);
 
   if (blockApi.query.system?.account) {
     const account = await blockApi.query.system.account(address);
@@ -56,6 +46,7 @@ class BalanceController {
     try {
       ctx.body = await getBalanceFromApis(apis, account, blockHashOrHeight);
     } catch (e) {
+      console.error('Get balance from node fail', e)
       ctx.throw(500, "Failed to query balance from node")
     }
   }
