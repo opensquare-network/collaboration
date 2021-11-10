@@ -6,7 +6,7 @@ const logger = require("koa-logger");
 const helmet = require("koa-helmet");
 const http = require("http");
 const cors = require("@koa/cors");
-const { createChainApis, logApiStatus } = require("./apis");
+const { createChainApis } = require("./apis");
 
 const app = new Koa();
 
@@ -31,8 +31,7 @@ require("./routes")(app);
 const server = http.createServer(app.callback());
 
 async function main() {
-  await createChainApis();
-  logApiStatus();
+  await createChainApis()
 
   const port = parseInt(process.env.SERVER_PORT) || 3223;
   server.listen(port, () =>

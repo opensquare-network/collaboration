@@ -18,10 +18,7 @@ async function createApi(network, endpoint) {
 
   const api = await ApiPromise.create({ provider, ...options });
   console.log(`${ network } api with endpoint ${ endpoint } created!`);
-  return {
-    endpoint,
-    api
-  };
+  return api;
 }
 
 async function createApiForChain({ chain, endpoints }) {
@@ -56,19 +53,7 @@ function getApis(chain) {
   return chainApis[chain] || []
 }
 
-function logApiStatus() {
-  Object.entries(chainApis).map(([chain, apis]) => {
-    console.log(`chain: ${ chain }`);
-    for (const { endpoint, api } of apis) {
-      console.log(`\t ${ endpoint } connected: ${ api.isConnected }`)
-    }
-  })
-
-  setTimeout(logApiStatus, 3 * 60 * 1000);
-}
-
 module.exports = {
   createChainApis,
   getApis,
-  logApiStatus,
 }
