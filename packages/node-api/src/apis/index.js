@@ -21,20 +21,39 @@ async function createApi(network, endpoint) {
   return api;
 }
 
+async function createApiForChain({ chain, endpoints }) {
+  const promises = [];
+
+  for (const endpoint of endpoints) {
+    promises.push(createApi(chain, endpoint))
+  }
+
+  return {
+    chain,
+    apis: await Promise.all(promises)
+  }
+}
+
 async function createChainApis() {
   const chainEndpoints = getEndpoints();
 
-  for (const { chain, endpoints } of chainEndpoints) {
-    const apis = [];
-    for (const endpoint of endpoints) {
-      const api = await createApi(chain, endpoint);
-      apis.push(api);
-    }
 
-    chainApis[chain] = apis;
+  const promises = []
+  for (const { chain, endpoints } of chainEndpoints) {
+    promises.push(createApiForChain({ chain, endpoints }));
   }
+
+  const chainApisArr = await Promise.all(promises);
+  for (const { chain, apis } of chainApisArr) {
+    chainApis[chain] = apis
+  }
+}
+
+function getApis(chain) {
+  return chainApis[chain] || []
 }
 
 module.exports = {
   createChainApis,
+  getApis,
 }
