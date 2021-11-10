@@ -1,3 +1,4 @@
+const { statusLogger } = require("../logger");
 const { khalaOptions } = require("./khala");
 const { karuraOptions } = require("./karura");
 const { chains } = require("../constants");
@@ -58,9 +59,9 @@ function getApis(chain) {
 
 function logApiStatus() {
   Object.entries(chainApis).map(([chain, apis]) => {
-    console.log(`chain: ${ chain }`);
+    statusLogger.info(`chain: ${ chain }`);
     for (const { endpoint, api } of apis) {
-      console.log(`\t ${ endpoint } connected: ${ api.isConnected }`)
+      statusLogger.info(`\t ${ endpoint } connected: ${ api.isConnected }`)
     }
   })
 

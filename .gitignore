@@ -38,4 +38,5 @@ globalConfig.json
 
 *.deploy.sh
 
+log/
 .husky
