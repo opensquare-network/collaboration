@@ -37,6 +37,3 @@ yarn-error.log*
 globalConfig.json
 
 *.deploy.sh
-
-log/
-.husky

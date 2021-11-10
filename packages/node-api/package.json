@@ -1,0 +1,19 @@
+{
+  "name": "@collaboration/node-api",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {},
+  "dependencies": {
+    "@acala-network/type-definitions": "^2.3.1",
+    "@koa/cors": "^3.1.0",
+    "@phala/typedefs": "^0.2.28",
+    "@polkadot/api": "6.5.2-3",
+    "dotenv": "^10.0.0",
+    "koa": "^2.13.4",
+    "koa-bodyparser": "^4.3.0",
+    "koa-helmet": "^6.1.0",
+    "koa-logger": "^3.2.1",
+    "koa-router": "^10.1.1",
+    "log4js": "^6.3.0"
+  }
+}
