@@ -1,9 +1,17 @@
 const { getApis } = require("../../apis");
+const { isHex } = require("@polkadot/util")
 
-async function getBalanceFromOneApi(api, address, blockHash) {
+async function getBalanceFromOneApi(api, address, blockHashOrHeight) {
   let blockApi = api;
-  if (blockHash) {
-    blockApi = await api.at(blockHash);
+  if (blockHashOrHeight) {
+    if (isHex(blockHashOrHeight)) {
+      blockApi = await api.at(blockHashOrHeight);
+    } else if (/^\d+$/.test(blockHashOrHeight)) {
+      const hash = await api.rpc.chain.getBlockHash(blockHashOrHeight);
+      blockApi = await api.at(hash);
+    } else {
+      throw 'Invalid block hash or height'
+    }
   }
 
   if (blockApi.query.system?.account) {
@@ -26,10 +34,10 @@ async function getBalanceFromOneApi(api, address, blockHash) {
   }
 }
 
-async function getBalanceFromApis(apis, account, blockHash) {
+async function getBalanceFromApis(apis, account, blockHashOrHeight) {
   const promises = [];
   for (const api of apis) {
-    promises.push(getBalanceFromOneApi(api, account, blockHash))
+    promises.push(getBalanceFromOneApi(api, account, blockHashOrHeight))
   }
 
   return Promise.race(promises);
@@ -37,7 +45,7 @@ async function getBalanceFromApis(apis, account, blockHash) {
 
 class BalanceController {
   async getTotalBalance(ctx) {
-    const { chain, account, blockHash } = ctx.params;
+    const { chain, account, blockHashOrHeight } = ctx.params;
 
     const apis = getApis(chain);
     if (apis.every(api => !api.isConnected)) {
@@ -46,7 +54,7 @@ class BalanceController {
     }
 
     try {
-      ctx.body = await getBalanceFromApis(apis, account, blockHash);
+      ctx.body = await getBalanceFromApis(apis, account, blockHashOrHeight);
     } catch (e) {
       ctx.throw(500, "Failed to query balance from node")
     }

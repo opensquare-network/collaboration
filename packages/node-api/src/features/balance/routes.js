@@ -3,6 +3,6 @@ const balanceController = require("./balance.controller");
 
 const router = new Router();
 
-router.get("/balance/:account/:blockHash?", balanceController.getTotalBalance);
+router.get("/balance/:account/:blockHashOrHeight?", balanceController.getTotalBalance);
 
 module.exports = router;
