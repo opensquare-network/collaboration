@@ -52,7 +52,6 @@ async function getFinalizedHeight(api) {
 }
 
 module.exports = {
-  getBalance,
   getTotalBalance,
   checkDelegation,
   getFinalizedHeight,

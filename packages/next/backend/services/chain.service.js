@@ -16,7 +16,7 @@ function startUpdateHeight() {
     };
 
     callback();
-    setInterval(callback, 12*1000);
+    setInterval(callback, 12 * 1000);
   })
 }
 
