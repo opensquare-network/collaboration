@@ -8,12 +8,12 @@ function getEnvProposeThreshold(space) {
   return "1000000000000";
 }
 
-function getEnvNodeEndpoint(space) {
-  return "";
+function getEnvNodeApiEndpoint() {
+  return "http://localhost:3223";
 }
 
 module.exports = {
   getEnvWeightStrategies,
   getEnvProposeThreshold,
-  getEnvNodeEndpoint,
+  getEnvNodeApiEndpoint,
 };

@@ -11,10 +11,8 @@ const {
 const { HttpError } = require("../../exc");
 const { ContentType } = require("../../constants");
 const { getLatestHeight } = require("../chain.service");
-const { getBlockHash, checkDelegation } = require("../../utils/polkadotApi");
 const spaceServices = require("../../spaces");
-const { getTotalBalance } = require("../../utils/polkadotApi");
-const { getTotalBalanceByHeight } = require("../../utils/polkadotApi");
+const { checkDelegation, getTotalBalance } = require("../../services/node.service");
 const { getObjectBufAndCid, pinJsonToIpfsWithTimeout } = require("../ipfs.service");
 const { toDecimal128, sqrtOfBalance } = require("../../utils");
 
@@ -90,7 +88,7 @@ async function createProposal(
   const weightStrategy = spaceService.weightStrategy;
 
   const api = await spaceService.getApi();
-  const creatorBalance = await getTotalBalanceByHeight(api, lastHeight, address);
+  const creatorBalance = await getTotalBalance(api, lastHeight, address);
   const bnCreatorBalance = new BigNumber(creatorBalance);
   if (bnCreatorBalance.lt(spaceService.proposeThreshold)) {
     throw new HttpError(403, `Balance is not enough to create the proposal`);
@@ -418,15 +416,14 @@ async function vote(
     throw new HttpError(500, "Unknown space name");
   }
   const api = await spaceService.getApi();
-  const blockHash = await getBlockHash(api, proposal.snapshotHeight);
 
   if (realVoter && realVoter !== address) {
-    await checkDelegation(api, address, realVoter, blockHash);
+    await checkDelegation(api, address, realVoter, proposal.snapshotHeight);
   }
 
   const voter = realVoter || address;
 
-  const balanceOf = await getTotalBalance(api, blockHash, voter);
+  const balanceOf = await getTotalBalance(api, proposal.snapshotHeight, voter);
   if (new BigNumber(balanceOf).isZero()) {
     throw new HttpError(400, "In order to vote, the account balance cannot be 0");
   }
