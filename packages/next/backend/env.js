@@ -6,12 +6,12 @@ function getEnvProposeThreshold(space) {
   return process.env[`SPACE_PROPOSE_THRESHOLD_${space.toUpperCase()}`];
 }
 
-function getEnvNodeEndpoint(space) {
-  return process.env[`${space.toUpperCase()}_NODE_ENDPOINT`];
+function getEnvNodeApiEndpoint() {
+  return process.env[`NODE_API_ENDPOINT`];
 }
 
 module.exports = {
   getEnvWeightStrategies,
   getEnvProposeThreshold,
-  getEnvNodeEndpoint,
+  getEnvNodeApiEndpoint,
 };

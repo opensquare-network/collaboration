@@ -6,13 +6,13 @@ async function getProxyFromOneApi(api, delegator, delegate, blockHashOrHeight) {
   const data = await blockApi.query.proxy.proxies(delegator);
   const [proxies] = data.toJSON() || [];
 
-  return (proxies || []).some(({ delegate: itemDelegate, proxyType }) => {
+  return (proxies || []).some(({ delegate: itemDelegate, proxyType }) =>
     itemDelegate === delegate && [
       "Any",
       "NonTransfer",
       "Governance",
     ].includes(proxyType)
-  })
+  )
 }
 
 async function getProxyFromApis(apis, delegator, delegatee, blockHashOrHeight) {

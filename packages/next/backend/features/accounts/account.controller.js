@@ -1,7 +1,7 @@
 const { HttpError } = require("../../exc");
 const { getLatestHeight } = require("../../services/chain.service");
 const spaceServices = require("../../spaces");
-const { getTotalBalanceByHeight } = require("../../utils/polkadotApi");
+const { getTotalBalance } = require("../../services/node.service");
 const { isAddress } = require("@polkadot/util-crypto");
 
 async function getSpaceAccountBalance(ctx) {
@@ -19,7 +19,7 @@ async function getSpaceAccountBalance(ctx) {
   const spaceService = spaceServices[space];
   const api = await spaceService.getApi();
   const blockHeight = snapshot ? parseInt(snapshot) : getLatestHeight(space);
-  const totalBalance = await getTotalBalanceByHeight(api, blockHeight, address)
+  const totalBalance = await getTotalBalance(api, blockHeight, address)
 
   ctx.body = {
     balance: totalBalance

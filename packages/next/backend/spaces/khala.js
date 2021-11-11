@@ -1,30 +1,18 @@
-const { khala, versionedKhala } = require("@phala/typedefs");
-const { getApi } = require("../utils/polkadotApi");
+const { getApi } = require("../services/node.service");
 const { WeightStrategy, Networks } = require("../constants");
 const {
   getEnvWeightStrategies,
   getEnvProposeThreshold,
-  getEnvNodeEndpoint,
 } = require("../env");
 
 const weightStrategy = (getEnvWeightStrategies("khala") || WeightStrategy.BalanceOf).split(",");
 const proposeThreshold = getEnvProposeThreshold("khala") || "1000000000000";
 
-const nodeSetting = {
-  nodeUrl: getEnvNodeEndpoint("khala") || "wss://khala.api.onfinality.io/public-ws",
-  types: khala,
-  typesBundle: {
-    spec: {
-      khala: versionedKhala,
-    },
-  }
-};
-
 module.exports = {
   ...Networks.Khala,
   relay: Networks.Kusama,
   nodeSetting,
-  getApi: getApi.bind(null, nodeSetting),
+  getApi: getApi.bind(null, "khala"),
   proposeThreshold,
   weightStrategy,
 };
