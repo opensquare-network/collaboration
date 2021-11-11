@@ -74,9 +74,14 @@ export default function PostCreate({ network }) {
 
   useEffect(()=> {
     const address = account?.address ?? ``;
+    if(!address){
+      setBalance(null);
+      setBalanceError("Link an address to create a proposal.");
+    }
     if(!address || !height > 0){
       return;
     }
+    setBalanceError(null);
     const delay = new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve();
