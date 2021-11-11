@@ -24,6 +24,7 @@ function startUpdateHeight() {
 function stopUpdateHeight() {
   for (const space in timer) {
     clearInterval(timer[space]);
+    delete timer[space];
   }
 }
 
