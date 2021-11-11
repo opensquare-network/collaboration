@@ -2,19 +2,26 @@
  * @jest-environment node
  */
 
-jest.mock("./chain.service");
+jest.mock("./node.service");
 jest.mock("../env");
 
 const { getDb } = require("../mongo");
+const { startUpdateHeight, stopUpdateHeight } = require("./chain.service");
 const { getSpace, getSpaces } = require("./space.service");
+
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 describe("Spaces Test", () => {
   let db;
   beforeAll(async () => {
     db = await getDb();
+
+    startUpdateHeight();
+    await sleep(1000);
   });
 
   afterAll(async () => {
+    stopUpdateHeight();
     await db.close();
   });
 
