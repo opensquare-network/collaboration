@@ -3,7 +3,7 @@
  */
 
 jest.mock("../../ipfs.service/pin");
-jest.mock("../../../utils/polkadotApi");
+jest.mock("../../node.service");
 jest.mock("../../../env");
 
 const { createProposal } = require("..");

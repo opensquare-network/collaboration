@@ -2,6 +2,7 @@ const spaceServices = require("../spaces");
 const { getFinalizedHeight } = require("./node.service");
 
 let latestHeights = {};
+let timer = {};
 
 function startUpdateHeight() {
   Object.keys(spaceServices).map((space) => {
@@ -16,8 +17,15 @@ function startUpdateHeight() {
     };
 
     callback();
-    setInterval(callback, 12 * 1000);
+    timer[space] = setInterval(callback, 12 * 1000);
   })
+}
+
+function stopUpdateHeight() {
+  for (const space in timer) {
+    clearInterval(timer[space]);
+    delete timer[space];
+  }
 }
 
 function getLatestHeight(space) {
@@ -26,5 +34,6 @@ function getLatestHeight(space) {
 
 module.exports = {
   startUpdateHeight,
+  stopUpdateHeight,
   getLatestHeight,
 };

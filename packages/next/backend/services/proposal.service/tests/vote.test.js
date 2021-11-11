@@ -10,7 +10,7 @@ const { vote, getVotes } = require("..");
 const { getDb } = require("../../../mongo");
 
 jest.mock("../../ipfs.service/pin");
-jest.mock("../../../utils/polkadotApi");
+jest.mock("../../node.service");
 
 describe("Vote Test", () => {
   let db;
