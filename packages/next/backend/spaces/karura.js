@@ -1,4 +1,3 @@
-const { typesBundleForPolkadot } = require("@acala-network/type-definitions");
 const { getApi } = require("../services/node.service");
 const { WeightStrategy, Networks } = require("../constants");
 const {

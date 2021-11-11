@@ -11,7 +11,6 @@ const proposeThreshold = getEnvProposeThreshold("khala") || "1000000000000";
 module.exports = {
   ...Networks.Khala,
   relay: Networks.Kusama,
-  nodeSetting,
   getApi: getApi.bind(null, "khala"),
   proposeThreshold,
   weightStrategy,

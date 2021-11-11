@@ -1,5 +1,5 @@
 const { WeightStrategy, Networks } = require("../constants");
-const { getApi } = require("../utils/polkadotApi");
+const { getApi } = require("../services/node.service");
 const {
   getEnvWeightStrategies,
   getEnvProposeThreshold,

@@ -47,7 +47,7 @@ class ProxyController {
       ctx.body = { isProxy }
     } catch (e) {
       console.error('Get proxy from node fail', e)
-      ctx.throw(500, "Failed to query balance from node")
+      ctx.throw(500, "Failed to query proxy from node")
     }
   }
 }

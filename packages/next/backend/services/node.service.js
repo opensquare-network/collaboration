@@ -4,10 +4,16 @@ const { HttpError } = require("../exc");
 const { getEnvNodeApiEndpoint } = require("../env");
 const { isTestAccount } = require("../utils");
 
+const cachedApis = {};
+
 function getApi(chain) {
-  return axios.create({
-    baseURL: `${getEnvNodeApiEndpoint()}/${chain}/`,
-  });
+  if (!cachedApis[chain]) {
+    cachedApis[chain] = axios.create({
+      baseURL: `${getEnvNodeApiEndpoint()}/${chain}/`,
+    });
+  }
+
+  return cachedApis[chain];
 }
 
 async function getBalance(api, blockHeight, address) {
@@ -40,9 +46,15 @@ async function checkDelegation(api, delegatee, delegator, blockHeight) {
   }
 }
 
+async function getFinalizedHeight(api) {
+  const result = await api.get("/chain/height");
+  return result.data;
+}
+
 module.exports = {
   getBalance,
   getTotalBalance,
   checkDelegation,
+  getFinalizedHeight,
   getApi,
 };

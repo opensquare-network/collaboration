@@ -5,6 +5,7 @@ const router = new Router();
 const chainFeatureRouters = [
   require("./features/balance/routes"),
   require("./features/proxy/routes"),
+  require("./features/chain/routes"),
 ];
 
 const commonFeatureRouters = [];

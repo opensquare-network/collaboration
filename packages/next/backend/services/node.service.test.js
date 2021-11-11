@@ -26,4 +26,10 @@ describe("Node API Test", () => {
       isProxy: true,
     });
   });
+
+  test("FinalizedHeight", async () => {
+    const api = getApi("kusama");
+    const result = await api.get("/chain/height");
+    expect(result.data.height).toBeGreaterThanOrEqual(10042449);
+  });
 });
