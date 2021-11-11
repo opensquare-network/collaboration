@@ -13,6 +13,7 @@ import { fetchIdentity } from "services/identity";
 import IdentityIcon from "components/identityIcon";
 import { encodeAddress } from "@polkadot/util-crypto";
 import ButtonPrimary from "components/button";
+import { popUpConnect, showConnectSelector } from "../store/reducers/showConnectSlice";
 
 const Connect = dynamic(() => import("./connect"), {
   ssr: false,
@@ -26,9 +27,11 @@ const Wrapper = styled.div`
     > :first-child {
       margin-top: 20px;
     }
+
     > :last-child {
       margin-bottom: 20px;
     }
+
     margin: 0;
     width: 100%;
     text-align: center;
@@ -60,14 +63,16 @@ const AccountWrapper = styled.div`
 
 const AccountWrapperPC = styled(AccountWrapper)`
   border: 1px solid #e2e8f0;
+
   :hover {
     border: 1px solid #b7c0cc;
   }
+
   ${(p) =>
-    p.show &&
-    css`
-      border: 1px solid #b7c0cc;
-    `}
+          p.show &&
+          css`
+            border: 1px solid #b7c0cc;
+          `}
   padding: 7px 15px;
   @media screen and (max-width: 800px) {
     display: none;
@@ -146,23 +151,25 @@ const IdentityWrapper = styled.div`
   display: flex;
   align-items: center;
   white-space: nowrap;
+
   > :not(:first-child) {
     margin-left: 4px;
   }
 `;
 
-export default function Account({ network, showMenu, setShowMenu }) {
-  const [pageMounted, setPageMounted] = useState(false);
-  const [showConnectModal, setShowConnectModal] = useState(false);
-  const account = useSelector(accountSelector);
+export default function Account({network, showMenu, setShowMenu}) {
   const dispatch = useDispatch();
-  const windowSize = useWindowSize();
-  const [identity, setIdentity] = useState();
   const isMounted = useIsMounted();
+  const windowSize = useWindowSize();
+  const account = useSelector(accountSelector);
+  const showConnect = useSelector(showConnectSelector);
+  const [pageMounted, setPageMounted] = useState(false);
+  // const [showConnectModal, setShowConnectModal] = useState(false);
+  const [identity, setIdentity] = useState();
   const [address, setAddress] = useState(account?.address);
   const chain = network?.relay || network;
 
-  useEffect(()=> setPageMounted(true), []);
+  useEffect(() => setPageMounted(true), []);
 
   useEffect(() => {
     if (account?.address && network?.ss58Format !== undefined) {
@@ -180,12 +187,13 @@ export default function Account({ network, showMenu, setShowMenu }) {
             setIdentity(identity);
           }
         })
-        .catch(() => {});
+        .catch(() => {
+        });
     }
   }, [chain, account?.address, isMounted]);
 
-  useEffect(()=>{
-    if(account){
+  useEffect(() => {
+    if (account) {
       setAddress(account.address)
     }
   }, [account])
@@ -199,13 +207,12 @@ export default function Account({ network, showMenu, setShowMenu }) {
     <div className="connect">
       <DarkButton
         primary
-        onClick={() => setShowConnectModal(!showConnectModal)}
+        onClick={() => dispatch(popUpConnect())}
         className="button"
       >
         Connect Wallet
       </DarkButton>
-      {showConnectModal && <Connect
-        setShow={setShowConnectModal}
+      {(showConnect) && <Connect
         setShowMenu={setShowMenu}
       />}
     </div>
@@ -221,20 +228,20 @@ export default function Account({ network, showMenu, setShowMenu }) {
               <Avatar address={address} size={20}/>
               {identity?.info ? (
                 <IdentityWrapper>
-                  <IdentityIcon status={identity.info.status} />
+                  <IdentityIcon status={identity.info.status}/>
                   <div>{identity.info.display}</div>
                 </IdentityWrapper>
               ) : (
                 <>{addressEllipsis(address)}</>
               )}
             </div>
-            <UserIcon />
+            <UserIcon/>
           </AccountWrapper>
-          <MenuDivider />
+          <MenuDivider/>
           <MenuItem>
             <LogoutWrapper onClick={onLogout}>
               Log out
-              <img src="/imgs/icons/logout.svg" alt="" />
+              <img src="/imgs/icons/logout.svg" alt=""/>
             </LogoutWrapper>
           </MenuItem>
         </>
@@ -251,7 +258,7 @@ export default function Account({ network, showMenu, setShowMenu }) {
 
             {identity?.info ? (
               <IdentityWrapper>
-                <IdentityIcon status={identity.info.status} />
+                <IdentityIcon status={identity.info.status}/>
                 <div>{identity.info.display}</div>
               </IdentityWrapper>
             ) : (
@@ -260,7 +267,7 @@ export default function Account({ network, showMenu, setShowMenu }) {
           </div>
         </AccountWrapperPC>
         {showMenu && Menu}
-        {showMenu && <Shade />}
+        {showMenu && <Shade/>}
       </Wrapper>
     );
   }
@@ -273,7 +280,7 @@ export default function Account({ network, showMenu, setShowMenu }) {
     return (
       <Wrapper>
         {Menu}
-        <Shade />
+        <Shade/>
       </Wrapper>
     );
   }

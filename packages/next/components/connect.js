@@ -14,6 +14,7 @@ import { useIsMounted } from "frontedUtils/hooks";
 import styled from "styled-components";
 import { p_14_normal, p_16_semibold, p_20_semibold } from "../styles/textStyles";
 import SvgClose from "public/imgs/icons/close.svg";
+import { closeConnect } from "../store/reducers/showConnectSlice";
 
 const Wrapper = styled.div``
 
@@ -64,7 +65,7 @@ const ActionBar = styled.div`
 `;
 
 
-export default function Connect({setShow, setShowMenu}) {
+export default function Connect({setShowMenu}) {
   const dispatch = useDispatch();
   const isMounted = useIsMounted();
   const [hasExtension, setHasExtension] = useState(null);
@@ -118,7 +119,7 @@ export default function Connect({setShow, setShowMenu}) {
           address,
         })
       );
-      setShow(false);
+      dispatch(closeConnect());
       setShowMenu(false);
     } catch (error) {
       console.error(error);
@@ -126,7 +127,7 @@ export default function Connect({setShow, setShowMenu}) {
 
   };
 
-  const closeModal = () => setShow(false);
+  const closeModal = () => dispatch(closeConnect());
 
   return (
     <Wrapper>
