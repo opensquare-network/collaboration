@@ -43,6 +43,7 @@ export default function PostTab({
   votes,
   comments,
   defaultPage,
+  myVote,
 }) {
   const router = useRouter();
   const { space, id } = router.query;
@@ -52,7 +53,14 @@ export default function PostTab({
       {
         name: "Votes",
         value: "votes",
-        component: <PostVotes data={data} votes={votes} network={network} />,
+        component: (
+          <PostVotes
+            data={data}
+            votes={votes}
+            network={network}
+            myVote={myVote}
+          />
+        ),
         default: true,
       },
       {
@@ -63,7 +71,7 @@ export default function PostTab({
         ),
       },
     ],
-    [votes, network, data, comments]
+    [votes, network, data, comments, myVote]
   );
 
   useEffect(() => {

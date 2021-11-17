@@ -6,6 +6,7 @@ import { SPACE_ITEMS } from "frontedUtils/constants";
 import { ssrNextApi } from "services/nextApi";
 import { EmptyQuery } from "frontedUtils/constants";
 import { to404 } from "../../../../frontedUtils/serverSideUtil";
+import { encodeAddress } from "@polkadot/util-crypto";
 
 export default function Index({
   detail,
@@ -14,6 +15,7 @@ export default function Index({
   voteStatus,
   comments,
   defaultPage,
+  myVote,
 }) {
   const space = useSpace();
   const item = SPACE_ITEMS.find((item) => item.value === space);
@@ -28,7 +30,6 @@ export default function Index({
           ]}
         />
       )}
-
       <PostDetail
         data={detail}
         network={network}
@@ -36,6 +37,7 @@ export default function Index({
         voteStatus={voteStatus}
         comments={comments}
         defaultPage={defaultPage}
+        myVote={myVote}
       />
     </Layout>
   );
@@ -75,6 +77,16 @@ export async function getServerSideProps(context) {
     }),
   ]);
 
+  const address = context.req.cookies.address;
+  let myVote;
+  if (address) {
+    const encodedAddress = encodeAddress(address, network.ss58Format);
+    const result = await ssrNextApi.fetch(
+      `${spaceName}/proposals/${detail?._id}/votes/${encodedAddress}`
+    );
+    myVote = result.result ?? null;
+  }
+
   return {
     props: {
       detail: detail ?? null,
@@ -83,6 +95,7 @@ export async function getServerSideProps(context) {
       voteStatus: voteStatus ?? [],
       comments: comments ?? EmptyQuery,
       defaultPage: { tab: activeTab ?? null, page: nPage },
+      myVote: myVote ?? null,
     },
   };
 }
