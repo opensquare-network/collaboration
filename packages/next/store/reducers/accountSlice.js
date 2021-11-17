@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+import { setCookie, getCookie, clearCookie } from "frontedUtils/cookie";
+
 const accountSlice = createSlice({
   name: "account",
   initialState: {
@@ -7,9 +9,13 @@ const accountSlice = createSlice({
   },
   reducers: {
     setAccount: (state, { payload }) => {
-      state.account = payload;
+      if (payload) {
+        state.account = { address: payload };
+      } else {
+        state.account = null;
+      }
       if (typeof window !== "undefined") {
-        window.localStorage.setItem("account", JSON.stringify(payload));
+        setCookie("address", payload, 7);
       }
     },
   },
@@ -19,9 +25,9 @@ export const { setAccount } = accountSlice.actions;
 
 export const logout = () => async (dispatch) => {
   if (typeof window !== "undefined") {
-    window.localStorage.clear("account");
+    clearCookie();
   }
-  dispatch(setAccount(null));
+  dispatch(setAccount(""));
 };
 
 export const accountSelector = (state) => {
@@ -29,17 +35,10 @@ export const accountSelector = (state) => {
     return state.account.account;
   } else {
     if (typeof window !== "undefined") {
-      const item = window.localStorage.getItem("account");
-      if (item) {
-        const account = JSON.parse(item);
-        if (account) {
-          if (account.expires && new Date(account.expires) < new Date()) {
-            window.localStorage.clear("account");
-          } else {
-            setAccount(account);
-            return account;
-          }
-        }
+      const address = getCookie("address");
+      if (address) {
+        setAccount({ address });
+        return { address };
       }
     }
     return null;

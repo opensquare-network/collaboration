@@ -12,12 +12,15 @@ import AccountSelector from "./accountSelector";
 
 import { useIsMounted } from "frontedUtils/hooks";
 import styled from "styled-components";
-import { p_14_normal, p_16_semibold, p_20_semibold } from "../styles/textStyles";
+import {
+  p_14_normal,
+  p_16_semibold,
+  p_20_semibold,
+} from "../styles/textStyles";
 import SvgClose from "public/imgs/icons/close.svg";
 import { closeConnect } from "../store/reducers/showConnectSlice";
 
-const Wrapper = styled.div``
-
+const Wrapper = styled.div``;
 
 const StyledModal = styled(Modal)`
   max-width: 400px !important;
@@ -33,13 +36,13 @@ const StyledCard = styled.div`
 
 const StyledTitle = styled.header`
   ${p_20_semibold};
-  color: #1E2134;
+  color: #1e2134;
   margin-bottom: 8px;
 `;
 
 const StyledText = styled.p`
   ${p_16_semibold};
-  color: #1E2134;
+  color: #1e2134;
 `;
 
 const StyledDescription = styled.p`
@@ -52,7 +55,7 @@ const CloseBar = styled.div`
   flex-direction: row-reverse;
 
   > svg path {
-    fill: #9DA9BB;
+    fill: #9da9bb;
   }
 
   cursor: pointer;
@@ -64,8 +67,7 @@ const ActionBar = styled.div`
   margin-top: 28px;
 `;
 
-
-export default function Connect({setShowMenu}) {
+export default function Connect({ setShowMenu }) {
   const dispatch = useDispatch();
   const isMounted = useIsMounted();
   const [hasExtension, setHasExtension] = useState(null);
@@ -78,7 +80,7 @@ export default function Connect({setShowMenu}) {
     const accounts = (extensionAccounts || []).map((item) => {
       const {
         address,
-        meta: {name},
+        meta: { name },
       } = item;
       return {
         address,
@@ -108,42 +110,36 @@ export default function Connect({setShowMenu}) {
     })();
   }, [isMounted, getAddresses]);
 
-
   const getConnection = async () => {
-    const oneWeek = 7 * 24 * 60 * 60 * 1000;
-    const expires = new Date(Date.now() + oneWeek).toISOString();
     try {
-      dispatch(
-        setAccount({
-          expires,
-          address,
-        })
-      );
+      dispatch(setAccount(address));
       dispatch(closeConnect());
       setShowMenu(false);
     } catch (error) {
       console.error(error);
     }
-
   };
 
   const closeModal = () => dispatch(closeConnect());
 
   return (
     <Wrapper>
-      <StyledModal open={isPolkadotAccessible && accounts.length > 0} dimmer onClose={closeModal} size="tiny">
+      <StyledModal
+        open={isPolkadotAccessible && accounts.length > 0}
+        dimmer
+        onClose={closeModal}
+        size="tiny"
+      >
         <StyledCard>
           <CloseBar>
-            <SvgClose onClick={closeModal}/>
+            <SvgClose onClick={closeModal} />
           </CloseBar>
           <StyledTitle>Connect Wallet</StyledTitle>
           <StyledText>Account</StyledText>
 
           <AccountSelector
             accounts={accounts}
-            onSelect={
-              (account) => setAddress(account?.address)
-            }
+            onSelect={(account) => setAddress(account?.address)}
           />
 
           <ActionBar>
@@ -162,30 +158,32 @@ export default function Connect({setShowMenu}) {
       >
         <StyledCard>
           <CloseBar>
-            <SvgClose onClick={closeModal}/>
+            <SvgClose onClick={closeModal} />
           </CloseBar>
           <StyledTitle>Connect Wallet</StyledTitle>
 
           <StyledDescription>
-            Polkadot-js extension is connected, but no account found. Please create or import some accounts first.
+            Polkadot-js extension is connected, but no account found. Please
+            create or import some accounts first.
           </StyledDescription>
 
           <ActionBar>
-            <Button color="orange" onClick={() => {
-              closeModal();
-              const newWindow = window.open(
-                "https://polkadot.js.org/extension/",
-                "_blank",
-                "noopener,noreferrer"
-              );
-              if (newWindow) newWindow.opener = null;
-            }}>
+            <Button
+              color="orange"
+              onClick={() => {
+                closeModal();
+                const newWindow = window.open(
+                  "https://polkadot.js.org/extension/",
+                  "_blank",
+                  "noopener,noreferrer"
+                );
+                if (newWindow) newWindow.opener = null;
+              }}
+            >
               Create/Import addresses
             </Button>
           </ActionBar>
-
         </StyledCard>
-
       </StyledModal>
 
       <StyledModal
@@ -196,31 +194,32 @@ export default function Connect({setShowMenu}) {
       >
         <StyledCard>
           <CloseBar>
-            <SvgClose onClick={closeModal}/>
+            <SvgClose onClick={closeModal} />
           </CloseBar>
           <StyledTitle>Connect Wallet</StyledTitle>
 
           <StyledDescription>
-            Polkadot-js extension not detected. No web3 account could be found. Visit this page on a computer with
-            polkadot-js extension.
+            Polkadot-js extension not detected. No web3 account could be found.
+            Visit this page on a computer with polkadot-js extension.
           </StyledDescription>
 
           <ActionBar>
-            <Button color="orange" onClick={() => {
-              closeModal();
-              const newWindow = window.open(
-                "https://polkadot.js.org/extension/",
-                "_blank",
-                "noopener,noreferrer"
-              );
-              if (newWindow) newWindow.opener = null;
-            }}>
+            <Button
+              color="orange"
+              onClick={() => {
+                closeModal();
+                const newWindow = window.open(
+                  "https://polkadot.js.org/extension/",
+                  "_blank",
+                  "noopener,noreferrer"
+                );
+                if (newWindow) newWindow.opener = null;
+              }}
+            >
               Polkadot{`{.js}`} Extension
             </Button>
           </ActionBar>
-
         </StyledCard>
-
       </StyledModal>
 
       <StyledModal
@@ -231,13 +230,14 @@ export default function Connect({setShowMenu}) {
       >
         <StyledCard>
           <CloseBar>
-            <SvgClose onClick={closeModal}/>
+            <SvgClose onClick={closeModal} />
           </CloseBar>
           <StyledTitle>Connect Wallet</StyledTitle>
 
           <StyledDescription>
-            Polkadot-js extension is detected but unaccessible, please go to Polkadot-js extension, settings, and check
-            Manage Website Access section.
+            Polkadot-js extension is detected but unaccessible, please go to
+            Polkadot-js extension, settings, and check Manage Website Access
+            section.
           </StyledDescription>
 
           <ActionBar>
