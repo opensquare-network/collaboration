@@ -48,11 +48,10 @@ const Divider = styled.div`
   background: #f0f3f8;
   margin: 32px 0;
   ${(p) =>
-          p.margin &&
-          css`
-            margin: ${p.margin}px 0;
-          `
-  }
+    p.margin &&
+    css`
+      margin: ${p.margin}px 0;
+    `}
 `;
 
 const SubTitle = styled.div`
@@ -62,7 +61,7 @@ const SubTitle = styled.div`
 
 const Content = styled.div`
   ${p_14_normal};
-  color: #1E2134;
+  color: #1e2134;
 `;
 
 export default function PostContent({ data, network }) {
@@ -76,7 +75,7 @@ export default function PostContent({ data, network }) {
         </LeftWrapper>
         <StatusTag>{data.status}</StatusTag>
       </InfoWrapper>
-      <Divider margin={16} />
+      <Divider margin={20} />
       <SubTitle>Description</SubTitle>
       <Content>
         <Markdown content={data?.content} />
