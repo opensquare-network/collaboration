@@ -91,7 +91,7 @@ export default function PostVotes({ data, network, isMyVote = false }) {
             network={network}
             size={20}
           />
-          <MyVoteTag>My Vote</MyVoteTag>
+          {isMyVote && <MyVoteTag>My Vote</MyVoteTag>}
         </EqualWrapper>
         <EqualWrapper>
           <Flex style={{ maxWidth: "30vw" }}>
