@@ -111,8 +111,6 @@ export default function Connect({ setShowMenu }) {
   }, [isMounted, getAddresses]);
 
   const getConnection = async () => {
-    // const oneWeek = 7 * 24 * 60 * 60 * 1000;
-    // const expires = new Date(Date.now() + oneWeek).toISOString();
     try {
       dispatch(setAccount(address));
       dispatch(closeConnect());
