@@ -229,6 +229,12 @@ async function getVotes(ctx) {
   ctx.body = await proposalService.getVotes(proposalId, page, pageSize);
 }
 
+async function getAddressVote(ctx) {
+  const { proposalId, address } = ctx.params;
+
+  ctx.body = await proposalService.getAddressVote(proposalId, address);
+}
+
 async function getStats(ctx) {
   const { proposalId } = ctx.params;
   ctx.body = await proposalService.getStats(proposalId);
@@ -245,5 +251,6 @@ module.exports = {
   vote,
   getComments,
   getVotes,
+  getAddressVote,
   getStats,
 };
