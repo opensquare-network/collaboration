@@ -4,7 +4,6 @@
 
 jest.mock("../../ipfs.service/pin");
 jest.mock("../../node.service");
-jest.mock("../../../env");
 
 const { createProposal } = require("..");
 const { getDb } = require("../../../mongo");

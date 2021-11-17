@@ -2,8 +2,8 @@
  * @jest-environment node
  */
 
-const dotenv = require("dotenv");
-dotenv.config();
+jest.mock("../../../env");
+jest.mock("../../ipfs.service/pin");
 
 const { ObjectId, Decimal128 } = require("mongodb");
 const {

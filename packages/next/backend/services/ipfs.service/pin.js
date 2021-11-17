@@ -1,26 +1,32 @@
 const crypto = require("crypto");
 const axios = require("axios");
 const FormData = require("form-data");
+const {
+  getEnvDecooApiToken,
+  getEnvDecooApiSecretKey,
+  getEnvDecooApiOAuthEndpoint,
+  getEnvDecooApiUploadEndpoint,
+} = require("../../env");
 
-const DECOO_API_TOKEN = process.env.DECOO_API_TOKEN;
+const DECOO_API_TOKEN = getEnvDecooApiToken();
 if (!DECOO_API_TOKEN) {
   console.error("DECOO_API_TOKEN is not properly configured");
   process.exit();
 }
 
-const DECOO_API_SECRET_KEY = process.env.DECOO_API_SECRET_KEY;
+const DECOO_API_SECRET_KEY = getEnvDecooApiSecretKey();
 if (!DECOO_API_SECRET_KEY) {
   console.error("DECOO_API_SECRET_KEY is not properly configured");
   process.exit();
 }
 
-const DECOO_API_OAUTH_ENDPOINT = process.env.DECOO_API_OAUTH_ENDPOINT;
+const DECOO_API_OAUTH_ENDPOINT = getEnvDecooApiOAuthEndpoint();
 if (!DECOO_API_OAUTH_ENDPOINT) {
   console.error("DECOO_API_OAUTH_ENDPOINT is not properly configured");
   process.exit();
 }
 
-const DECOO_API_UPLOAD_ENDPOINT = process.env.DECOO_API_UPLOAD_ENDPOINT;
+const DECOO_API_UPLOAD_ENDPOINT = getEnvDecooApiUploadEndpoint();
 if (!DECOO_API_UPLOAD_ENDPOINT) {
   console.error("DECOO_API_UPLOAD_ENDPOINT is not properly configured");
   process.exit();

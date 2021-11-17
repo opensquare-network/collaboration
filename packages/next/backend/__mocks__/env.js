@@ -12,8 +12,28 @@ function getEnvNodeApiEndpoint() {
   return "http://localhost:3223";
 }
 
+function getEnvDecooApiToken() {
+  return "xxx";
+}
+
+function getEnvDecooApiSecretKey() {
+  return "yyy";
+}
+
+function getEnvDecooApiOAuthEndpoint() {
+  return "https://api.decoo.io";
+}
+
+function getEnvDecooApiUploadEndpoint() {
+  return "https://api-hk.decoo.io";
+}
+
 module.exports = {
   getEnvWeightStrategies,
   getEnvProposeThreshold,
   getEnvNodeApiEndpoint,
+  getEnvDecooApiToken,
+  getEnvDecooApiSecretKey,
+  getEnvDecooApiOAuthEndpoint,
+  getEnvDecooApiUploadEndpoint,
 };
