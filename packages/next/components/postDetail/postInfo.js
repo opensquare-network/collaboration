@@ -5,7 +5,7 @@ import { p_16_semibold } from "styles/textStyles";
 import ExternalLink from "../externalLink";
 
 const Wrapper = styled.div`
-  padding: 40px 32px;
+  padding: 32px;
   background: #ffffff;
   border: 1px solid #f0f3f8;
   box-shadow: 0px 4px 31px rgba(26, 33, 44, 0.04),
@@ -49,8 +49,7 @@ const InfoItem = styled.div`
   }
 `;
 
-const TimestampWrapper = styled.div`
-`;
+const TimestampWrapper = styled.div``;
 
 const TimestampItem = styled.div`
   display: flex;
@@ -62,8 +61,8 @@ const TimestampItem = styled.div`
   > :first-child {
     color: #506176;
   }
-  
-  span{
+
+  span {
     text-align: right;
   }
 `;
@@ -102,27 +101,27 @@ export default function PostInfo({ data, network }) {
           <img src="/imgs/icons/timeline.svg" alt="" />
         </TitleWrapper>
         <Divider />
+        <TimestampWrapper>
+          {data?.createdAt && (
+            <TimestampItem>
+              <div>Created</div>
+              <span>{moment(data.createdAt).format("MMM DD YYYY HH:mm")}</span>
+            </TimestampItem>
+          )}
+          {data?.startDate && (
+            <TimestampItem>
+              <div>Start date</div>
+              <span>{moment(data.startDate).format("MMM DD YYYY HH:mm")}</span>
+            </TimestampItem>
+          )}
+          {data?.endDate && (
+            <TimestampItem>
+              <div>End date</div>
+              <span>{moment(data.endDate).format("MMM DD YYYY HH:mm")}</span>
+            </TimestampItem>
+          )}
+        </TimestampWrapper>
       </div>
-      <TimestampWrapper>
-        {data?.createdAt && (
-          <TimestampItem>
-            <div>Created</div>
-            <span>{moment(data.createdAt).format("MMM DD YYYY HH:mm")}</span>
-          </TimestampItem>
-        )}
-        {data?.startDate && (
-          <TimestampItem>
-            <div>Start date</div>
-            <span>{moment(data.startDate).format("MMM DD YYYY HH:mm")}</span>
-          </TimestampItem>
-        )}
-        {data?.endDate && (
-          <TimestampItem>
-            <div>End date</div>
-            <span>{moment(data.endDate).format("MMM DD YYYY HH:mm")}</span>
-          </TimestampItem>
-        )}
-      </TimestampWrapper>
     </Wrapper>
   );
 }
