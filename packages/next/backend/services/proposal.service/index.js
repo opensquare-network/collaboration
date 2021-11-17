@@ -503,6 +503,17 @@ async function getVotes(proposalId, page, pageSize) {
   };
 }
 
+async function getAddressVote(proposalId, address) {
+  const q = {
+    proposal: ObjectId(proposalId),
+    voter: address,
+  };
+
+  const voteCol = await getVoteCollection();
+  const vote = await voteCol.findOne(q);
+  return vote;
+}
+
 async function getStats(proposalId) {
   const q = { proposal: ObjectId(proposalId) };
 
@@ -558,6 +569,7 @@ module.exports = {
   getComments,
   vote,
   getVotes,
+  getAddressVote,
   getStats,
   getHottestProposals,
 };

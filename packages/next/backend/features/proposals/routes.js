@@ -15,6 +15,7 @@ router.get("/proposals/closed", proposalController.getClosedProposals);
 router.get("/proposals/:proposalId", proposalController.getProposalById);
 router.get("/proposals/:proposalId/comments", proposalController.getComments);
 router.get("/proposals/:proposalId/votes", proposalController.getVotes);
+router.get("/proposals/:proposalId/votes/:address", proposalController.getAddressVote);
 router.get("/proposals/:proposalId/stats", proposalController.getStats);
 
 module.exports = router;
