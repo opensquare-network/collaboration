@@ -8,6 +8,10 @@ function getEnvProposeThreshold(space) {
   return "1000000000000";
 }
 
+function getEnvVoteThreshold(space) {
+  return "0.01";
+}
+
 function getEnvNodeApiEndpoint() {
   return "http://localhost:3223";
 }
@@ -31,6 +35,7 @@ function getEnvDecooApiUploadEndpoint() {
 module.exports = {
   getEnvWeightStrategies,
   getEnvProposeThreshold,
+  getEnvVoteThreshold,
   getEnvNodeApiEndpoint,
   getEnvDecooApiToken,
   getEnvDecooApiSecretKey,

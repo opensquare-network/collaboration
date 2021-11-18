@@ -75,6 +75,17 @@ function sqrtOfBalance(balance) {
   return sqrt;
 }
 
+function enhancedSqrtOfBalance(balance, decimals, voteThreshold) {
+  const val = new BigNumber(balance);
+  let num = val.div(Math.pow(10, decimals));
+  if (num.gte(1)) {
+    num = num.sqrt();
+  } else {
+    num = num.div(voteThreshold).sqrt().times(voteThreshold);
+  }
+  return num.times(Math.pow(10, decimals)).integerValue().toString();
+}
+
 module.exports = {
   extractPage,
   handler,
@@ -85,4 +96,5 @@ module.exports = {
   toSymbolUnit,
   fromSymbolUnit,
   sqrtOfBalance,
+  enhancedSqrtOfBalance,
 };

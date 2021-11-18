@@ -151,24 +151,13 @@ export default function PostResult({ data, voteStatus, network }) {
                 <FlexAround>
                   <div>{vote.percentage}%</div>
                   {
-                    strategy === "quadratic-balance-of" && network.decimals >= 6
-                    ? (
-                      <div>
-                        {toFixedPrecision(
-                          vote.voteBalance.toString(),
-                          network.decimals - 6
-                        )}{" "}
-                        {"μ" + network.symbol}
-                      </div>
-                    ) : (
-                      <div>
-                        {toFixedPrecision(
-                          vote.voteBalance.toString(),
-                          network.decimals
-                        )}{" "}
-                        {network.symbol}
-                      </div>
-                    )
+                    <div>
+                      {toFixedPrecision(
+                        vote.voteBalance.toString(),
+                        network.decimals
+                      )}{" "}
+                      {network.symbol}
+                    </div>
                   }
                 </FlexAround>
               </ProgressItem>

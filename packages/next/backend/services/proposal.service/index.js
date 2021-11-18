@@ -14,14 +14,14 @@ const { getLatestHeight } = require("../chain.service");
 const spaceServices = require("../../spaces");
 const { checkDelegation, getTotalBalance } = require("../../services/node.service");
 const { getObjectBufAndCid, pinJsonToIpfsWithTimeout } = require("../ipfs.service");
-const { toDecimal128, sqrtOfBalance } = require("../../utils");
+const { toDecimal128, enhancedSqrtOfBalance } = require("../../utils");
 
-const calcWeights = (vote) => {
+const calcWeights = (vote, decimals, voteThreshold) => {
   return {
     ...vote,
     weights: {
       balanceOf: vote.weights.balanceOf?.toString(),
-      quadraticBalanceOf: sqrtOfBalance(vote.weights.balanceOf?.toString()),
+      quadraticBalanceOf: enhancedSqrtOfBalance(vote.weights.balanceOf?.toString(), decimals, voteThreshold),
     },
   };
 }
@@ -264,6 +264,20 @@ async function getClosedProposalBySpace(space, page, pageSize) {
   };
 }
 
+async function getProposalSpace(proposalId) {
+  const q = { _id: ObjectId(proposalId) };
+  const proposalCol = await getProposalCollection();
+  const proposal = await proposalCol.findOne(q);
+  if (!proposal) {
+    throw new HttpError(500, "Proposal does not exists");
+  }
+  const spaceService = spaceServices[proposal.space]
+  if (!spaceService) {
+    throw new HttpError(500, "Unkown space name");
+  }
+  return spaceService;
+}
+
 async function getProposalById(proposalId) {
   const q = {};
   if (ObjectId.isValid(proposalId)) {
@@ -281,11 +295,18 @@ async function getProposalById(proposalId) {
     throw new HttpError(404, "Post not found");
   }
 
+  const spaceService = spaceServices[proposal.space]
+  if (!spaceService) {
+    throw new HttpError(500, "Unkown space name");
+  }
+  const voteThreshold = spaceService.voteThreshold;
+  const decimals = spaceService.decimals;
+
   const voteCol = await getVoteCollection();
   const votesCount = await voteCol.countDocuments({ proposal: proposal._id });
 
   const votes = await voteCol.find({ proposal: proposal._id }).toArray();
-  const calculatedVotes = votes.map(calcWeights);
+  const calculatedVotes = votes.map(v => calcWeights(v, decimals, voteThreshold));
   const votedWeights = {};
   for (const vote of calculatedVotes) {
     votedWeights.balanceOf = new BigNumber(votedWeights.balanceOf || 0).plus(vote.weights.balanceOf).toString();
@@ -422,8 +443,8 @@ async function vote(
   const voter = realVoter || address;
 
   const balanceOf = await getTotalBalance(api, proposal.snapshotHeight, voter);
-  if (new BigNumber(balanceOf).isZero()) {
-    throw new HttpError(400, "In order to vote, the account balance cannot be 0");
+  if (new BigNumber(balanceOf).div(Math.pow(10, spaceService.decimals)).lt(spaceService.voteThreshold)) {
+    throw new HttpError(400, `Require the minimum of ${spaceService.voteThreshold} ${spaceService.symbol} to vote`);
   }
   const { cid, pinHash } = await pinData(data, address, signature);
 
@@ -490,8 +511,10 @@ async function getVotes(proposalId, page, pageSize) {
     .limit(pageSize)
     .toArray();
 
+  const spaceService = await getProposalSpace(proposalId);
+
   return {
-    items: votes.map(calcWeights),
+    items: votes.map(v => calcWeights(v, spaceService.decimals, spaceService.voteThreshold)),
     total,
     page,
     pageSize,
@@ -504,17 +527,21 @@ async function getAddressVote(proposalId, address) {
     voter: address,
   };
 
+  const spaceService = await getProposalSpace(proposalId);
+
   const voteCol = await getVoteCollection();
   const vote = await voteCol.findOne(q);
-  return vote ? calcWeights(vote) : vote;
+  return vote ? calcWeights(vote, spaceService.decimals, spaceService.voteThreshold) : vote;
 }
 
 async function getStats(proposalId) {
   const q = { proposal: ObjectId(proposalId) };
 
+  const spaceService = await getProposalSpace(proposalId);
+
   const voteCol = await getVoteCollection();
   const votes = await voteCol.find(q).toArray();
-  const calculatedVotes = votes.map(calcWeights);
+  const calculatedVotes = votes.map(v => calcWeights(v, spaceService.decimals, spaceService.voteThreshold));
   const stats = {};
   for (const vote of calculatedVotes) {
     const weights = stats[vote.choice] = stats[vote.choice] || { choice: vote.choice };

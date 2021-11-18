@@ -107,7 +107,7 @@ describe("Query Proposal Test", () => {
       pinHash: 'QmRgpY9WUuxKkptU6Sj9ow97u5QtFeRYnx4pqXzVBfMapE',
       votedWeights: {
         "balanceOf": "22222220000000",
-        "quadraticBalanceOf": "6666666",
+        "quadraticBalanceOf": "6666666333334",
       },
       votesCount: 2,
       status: 'active'
@@ -132,7 +132,7 @@ describe("Query Proposal Test", () => {
       pinHash: 'QmRgpY9WUuxKkptU6Sj9ow97u5QtFeRYnx4pqXzVBfMapE',
       votedWeights: {
         "balanceOf": "22222220000000",
-        "quadraticBalanceOf": "6666666",
+        "quadraticBalanceOf": "6666666333334",
       },
       votesCount: 2,
       status: 'active'
