@@ -28,10 +28,7 @@ async function getBalance(api, blockHeight, address) {
     const result = await api.get(`/balance/${address}/${blockHeight}`);
     return result.data;
   } catch (err) {
-    throw new HttpError(
-      err.response?.status || 500,
-      err.response?.data?.message || ""
-    );
+    throw new HttpError(500, "Failed to get account balance");
   }
 }
 
@@ -50,10 +47,7 @@ async function checkDelegation(api, delegatee, delegator, blockHeight) {
     const result = await api.get(`/proxy/${delegator}/${delegatee}/${blockHeight}`);
     isProxy = result.data.isProxy;
   } catch (err) {
-    throw new HttpError(
-      err.response?.status || 500,
-      err.response?.data?.message || ""
-    );
+    throw new HttpError(500, "Failed to verify the proxy address");
   }
 
   if (!isProxy) {
@@ -66,10 +60,7 @@ async function getFinalizedHeight(api) {
     const result = await api.get("/chain/height");
     return result.data;
   } catch (err) {
-    throw new HttpError(
-      err.response?.status || 500,
-      err.response?.data?.message || ""
-    );
+    throw new HttpError(500, "Failed to get chain height");
   }
 }
 
