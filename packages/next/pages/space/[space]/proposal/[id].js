@@ -1,12 +1,14 @@
 import Layout from "components/layout";
 import Nav from "components/nav";
 import PostDetail from "@/components/postDetail/index";
-import { useSpace } from "frontedUtils/hooks";
+import { useEncodedAddress, useSpace } from "frontedUtils/hooks";
 import { SPACE_ITEMS } from "frontedUtils/constants";
 import { ssrNextApi } from "services/nextApi";
+import nextApi from "services/nextApi";
 import { EmptyQuery } from "frontedUtils/constants";
 import { to404 } from "../../../../frontedUtils/serverSideUtil";
 import { encodeAddress } from "@polkadot/util-crypto";
+import { useState, useEffect } from "react";
 
 export default function Index({
   detail,
@@ -19,6 +21,22 @@ export default function Index({
 }) {
   const space = useSpace();
   const item = SPACE_ITEMS.find((item) => item.value === space);
+  const [savedMyVote, setSavedMyVote] = useState(myVote);
+  const encodedAddress = useEncodedAddress(network);
+
+  useEffect(() => {
+    if (encodedAddress) {
+      nextApi
+        .fetch(`${space}/proposals/${detail?._id}/votes/${encodedAddress}`)
+        .then((result) => {
+          if (result?.result) {
+            setSavedMyVote(result.result);
+          }
+        })
+        .catch(() => {});
+    }
+  }, [encodedAddress, detail._id, space]);
+
   return (
     <Layout bgHeight="183px" network={network}>
       {item && (
@@ -37,7 +55,7 @@ export default function Index({
         voteStatus={voteStatus}
         comments={comments}
         defaultPage={defaultPage}
-        myVote={myVote}
+        myVote={savedMyVote}
       />
     </Layout>
   );
