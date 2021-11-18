@@ -30,7 +30,7 @@ async function getBalanceFromApis(apis, account, blockHashOrHeight) {
     promises.push(getBalanceFromOneApi(api, account, blockHashOrHeight))
   }
 
-  return Promise.race(promises);
+  return Promise.any(promises);
 }
 
 class BalanceController {

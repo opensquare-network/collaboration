@@ -5,6 +5,9 @@ const chains = {
   khala: 'khala',
 }
 
+const nodeTimeoutSeconds = 20;
+
 module.exports = {
-  chains
+  chains,
+  nodeTimeoutSeconds
 }

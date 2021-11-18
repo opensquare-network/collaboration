@@ -12,7 +12,7 @@ async function getHeightFromApis(apis) {
     promises.push(getHeightFromOneApi(api));
   }
 
-  return Promise.race(promises);
+  return Promise.any(promises);
 }
 
 class ChainController {

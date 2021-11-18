@@ -21,7 +21,7 @@ async function getProxyFromApis(apis, delegator, delegatee, blockHashOrHeight) {
     promises.push(getProxyFromOneApi(api, delegator, delegatee, blockHashOrHeight));
   }
 
-  return Promise.race(promises);
+  return Promise.any(promises);
 }
 
 class ProxyController {
