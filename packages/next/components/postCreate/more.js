@@ -3,13 +3,13 @@ import styled from "styled-components";
 import Input from "components/input";
 import DatePicker from "components/datePicker";
 import Row from "@/components/row";
-import { toPrecision } from "../../frontedUtils";
+import { bigNumber2LocaleWithAbbr, toPrecision } from "../../frontedUtils";
 import BigNumber from "bignumber.js";
 import Button from "@/components/button";
 import Loading from "../../public/imgs/icons/loading.svg";
-import { setAccount } from "../../store/reducers/accountSlice";
 import { useDispatch } from "react-redux";
-import { closeConnect, popUpConnect, showConnect } from "../../store/reducers/showConnectSlice";
+import { popUpConnect } from "../../store/reducers/showConnectSlice";
+import Tooltip from "@/components/tooltip";
 
 const Wrapper = styled.div`
   background: #ffffff;
@@ -126,7 +126,13 @@ export default function More({
         {
           !(new BigNumber(balance)).isNaN() ? (
               thresholdFulfilled
-                ? <Row header="Balance" content={`${toPrecision(balance, decimals)} ${symbol}`}/>
+                ? <Row header="Balance" content={
+                  <Tooltip
+                    content={`${toPrecision(balance, decimals)} ${symbol}`}
+                  >
+                    {`${bigNumber2LocaleWithAbbr(balance, decimals)} ${symbol}`}
+                  </Tooltip>
+                }/>
                 : <Hint>You need to have a minimum of {toPrecision(threshold, decimals)} {symbol} in order to publish a
                   proposal.</Hint>
             )
