@@ -31,9 +31,13 @@ export default function Index({
         .then((result) => {
           if (result?.result) {
             setSavedMyVote(result.result);
+          } else {
+            setSavedMyVote(null);
           }
         })
-        .catch(() => {});
+        .catch(() => {
+          setSavedMyVote(null);
+        });
     }
   }, [encodedAddress, detail._id, space]);
 
