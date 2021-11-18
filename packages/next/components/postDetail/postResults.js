@@ -101,13 +101,13 @@ const FlexAround = styled.div`
 `;
 
 export default function PostResult({ data, voteStatus, network }) {
-  const votedAmount = data?.votedWeights?.balanceOf?.$numberDecimal || 0;
+  const votedAmount = data?.votedWeights?.balanceOf || 0;
 
   const results = data?.weightStrategy?.map?.((strategy, strategyIndex) => {
     const total =
       strategy === "quadratic-balance-of"
-        ? data?.votedWeights?.quadraticBalanceOf?.$numberDecimal || 0
-        : data?.votedWeights?.balanceOf?.$numberDecimal || 0;
+        ? data?.votedWeights?.quadraticBalanceOf || 0
+        : data?.votedWeights?.balanceOf || 0;
 
     const optionList = [];
     data?.choices?.forEach((choice, index) => {
@@ -118,11 +118,11 @@ export default function PostResult({ data, voteStatus, network }) {
 
         const voteBalance = new BigNumber(
           strategy === "quadratic-balance-of"
-            ? voteStat.quadraticBalanceOf.$numberDecimal || 0
-            : voteStat.balanceOf.$numberDecimal || 0
+            ? voteStat.quadraticBalanceOf || 0
+            : voteStat.balanceOf || 0
         );
         const percentage = (
-          voteStat.balanceOf.$numberDecimal > 0
+          voteStat.balanceOf > 0
             ? voteBalance.dividedBy(total) * 100
             : 0
         ).toFixed(2);

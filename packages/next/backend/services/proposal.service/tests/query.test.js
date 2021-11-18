@@ -106,8 +106,8 @@ describe("Query Proposal Test", () => {
       cid: 'QmRgpY9WUuxKkptU6Sj9ow97u5QtFeRYnx4pqXzVBfMapE',
       pinHash: 'QmRgpY9WUuxKkptU6Sj9ow97u5QtFeRYnx4pqXzVBfMapE',
       votedWeights: {
-        balanceOf: new Decimal128("22222220000000"),
-        quadraticBalanceOf: new Decimal128("6666666333333.3250"),
+        "balanceOf": "22222220000000",
+        "quadraticBalanceOf": "6666666",
       },
       votesCount: 2,
       status: 'active'
@@ -131,8 +131,8 @@ describe("Query Proposal Test", () => {
       cid: 'QmRgpY9WUuxKkptU6Sj9ow97u5QtFeRYnx4pqXzVBfMapE',
       pinHash: 'QmRgpY9WUuxKkptU6Sj9ow97u5QtFeRYnx4pqXzVBfMapE',
       votedWeights: {
-        balanceOf: new Decimal128("22222220000000"),
-        quadraticBalanceOf: new Decimal128("6666666333333.3250"),
+        "balanceOf": "22222220000000",
+        "quadraticBalanceOf": "6666666",
       },
       votesCount: 2,
       status: 'active'

@@ -104,7 +104,7 @@ export default function PostVotes({ data, network, isMyVote = false }) {
             <div>{`${toApproximatelyFixed(
               bigNumber2Locale(
                 fromAssetUnit(
-                  data.weights?.balanceOf.$numberDecimal,
+                  data.weights?.balanceOf,
                   network?.decimals
                 )
               )

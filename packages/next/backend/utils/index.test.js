@@ -23,7 +23,7 @@ describe("Util Test", () => {
 
   test("sqrtOfBalance", async () => {
     const value = sqrtOfBalance("100000000000000", 12);
-    expect(value).toEqual("10000000000000");
+    expect(value).toEqual("10000000");
 
   });
 

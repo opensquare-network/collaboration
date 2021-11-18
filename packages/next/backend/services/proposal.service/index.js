@@ -16,6 +16,15 @@ const { checkDelegation, getTotalBalance } = require("../../services/node.servic
 const { getObjectBufAndCid, pinJsonToIpfsWithTimeout } = require("../ipfs.service");
 const { toDecimal128, sqrtOfBalance } = require("../../utils");
 
+const calcWeights = (vote) => {
+  return {
+    ...vote,
+    weights: {
+      balanceOf: vote.weights.balanceOf?.toString(),
+      quadraticBalanceOf: sqrtOfBalance(vote.weights.balanceOf?.toString()),
+    },
+  };
+}
 
 const addProposalStatus = (now) => (p) => ({
   ...p,
@@ -274,27 +283,16 @@ async function getProposalById(proposalId) {
 
   const voteCol = await getVoteCollection();
   const votesCount = await voteCol.countDocuments({ proposal: proposal._id });
-  const votedWeights = await voteCol.aggregate([
-    {
-      $match: {
-        proposal: proposal._id
-      }
-    },
-    {
-      $group: {
-        _id: null,
-        balanceOf: { $sum: "$weights.balanceOf" },
-        quadraticBalanceOf: { $sum: "$weights.quadraticBalanceOf" },
-      }
-    },
-    {
-      $project: {
-        _id: 0,
-      }
-    }
-  ]).toArray();
+
+  const votes = await voteCol.find({ proposal: proposal._id }).toArray();
+  const calculatedVotes = votes.map(calcWeights);
+  const votedWeights = {};
+  for (const vote of calculatedVotes) {
+    votedWeights.balanceOf = new BigNumber(votedWeights.balanceOf || 0).plus(vote.weights.balanceOf).toString();
+    votedWeights.quadraticBalanceOf = new BigNumber(votedWeights.quadraticBalanceOf || 0).plus(vote.weights.quadraticBalanceOf).toString();
+  }
   proposal.votesCount = votesCount;
-  proposal.votedWeights = votedWeights[0];
+  proposal.votedWeights = votedWeights;
 
   const now = Date.now();
   const addStatus = addProposalStatus(now);
@@ -427,8 +425,6 @@ async function vote(
   if (new BigNumber(balanceOf).isZero()) {
     throw new HttpError(400, "In order to vote, the account balance cannot be 0");
   }
-  const quadraticBalanceOf = sqrtOfBalance(balanceOf, spaceService.decimals);
-
   const { cid, pinHash } = await pinData(data, address, signature);
 
   const voteCol = await getVoteCollection();
@@ -449,7 +445,6 @@ async function vote(
         pinHash,
         weights: {
           balanceOf: toDecimal128(balanceOf),
-          quadraticBalanceOf: toDecimal128(quadraticBalanceOf),
         },
       },
       $setOnInsert: {
@@ -496,7 +491,7 @@ async function getVotes(proposalId, page, pageSize) {
     .toArray();
 
   return {
-    items: votes,
+    items: votes.map(calcWeights),
     total,
     page,
     pageSize,
@@ -511,33 +506,23 @@ async function getAddressVote(proposalId, address) {
 
   const voteCol = await getVoteCollection();
   const vote = await voteCol.findOne(q);
-  return vote;
+  return calcWeights(vote);
 }
 
 async function getStats(proposalId) {
   const q = { proposal: ObjectId(proposalId) };
 
   const voteCol = await getVoteCollection();
-  const result = await voteCol.aggregate([
-    { $match: q },
-    {
-      $group: {
-        _id: "$choice",
-        balanceOf: { $sum: "$weights.balanceOf" },
-        quadraticBalanceOf: { $sum: "$weights.quadraticBalanceOf" },
-      }
-    },
-    {
-      $project: {
-        _id: 0,
-        choice: "$_id",
-        balanceOf: 1,
-        quadraticBalanceOf: 1,
-      }
-    }
-  ]).toArray();
+  const votes = await voteCol.find(q).toArray();
+  const calculatedVotes = votes.map(calcWeights);
+  const stats = {};
+  for (const vote of calculatedVotes) {
+    const weights = stats[vote.choice] = stats[vote.choice] || { choice: vote.choice };
+    weights.balanceOf = new BigNumber(weights.balanceOf || 0).plus(vote.weights.balanceOf);
+    weights.quadraticBalanceOf = new BigNumber(weights.quadraticBalanceOf || 0).plus(vote.weights.quadraticBalanceOf);
+  }
 
-  return result;
+  return Object.values(stats);
 }
 
 async function getHottestProposals() {
