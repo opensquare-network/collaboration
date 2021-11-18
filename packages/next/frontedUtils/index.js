@@ -128,6 +128,30 @@ export function bigNumber2Locale(x) {
   return result;
 }
 
+export function bigNumber2LocaleWithAbbr(value, decimals) {
+  const x = toPrecision(value, decimals);
+  const n = new BigNumber(x);
+  const fmt = {
+    decimalSeparator: ".",
+    groupSeparator: ",",
+    groupSize: 3,
+  };
+  let divideBy = new BigNumber("1");
+  const bigNumbers = [
+    { bigNumber: new BigNumber("1000000000"), abbr: "B" },
+    { bigNumber: new BigNumber("1000000000000"), abbr: "T" },
+    { bigNumber: new BigNumber("1000000000000000"), abbr: "Q" },
+  ];
+  bigNumbers.forEach((data) => {
+    if (n.isGreaterThan(data.bigNumber)) {
+      divideBy = data.bigNumber;
+      fmt.suffix = data.abbr;
+    }
+  });
+  BigNumber.config({ FORMAT: fmt });
+  return new BigNumber(n.dividedBy(divideBy).toFixed(0)).toFormat();
+}
+
 export function encodeURIQuery(q) {
   return Object.keys(q)
     .map((k) => `${k}=${encodeURIComponent(q[k])}`)

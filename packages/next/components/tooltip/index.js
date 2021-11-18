@@ -3,7 +3,6 @@ import { useDispatch } from "react-redux";
 import copy from "copy-to-clipboard";
 
 import { addToast } from "store/reducers/toastSlice";
-import { p_14_normal } from "../styles/textStyles";
 
 const Wrapper = styled.div`
   display: inline-block;
@@ -24,8 +23,8 @@ const Wrapper = styled.div`
     }
   }
   ${(p) =>
-  p.bg &&
-  css`
+    p.bg &&
+    css`
       padding: 6px 12px;
       background: #f4f4f4;
       border-radius: 4px;
@@ -45,20 +44,24 @@ const PopupWrapper = styled.div`
   transform: translateX(-50%);
   z-index: 1;
   ${(p) =>
-  p.isCopy &&
-  css`
+    p.isCopy &&
+    css`
       cursor: pointer;
     `}
 `;
 
 const Popup = styled.div`
   position: relative;
-  background: rgba(25, 30, 39, 0.9);
-  white-space: nowrap;
-  padding: 8px 12px;
-  ${p_14_normal};
+  background: rgba(0, 0, 0, 0.65);
+  border-radius: 4px;
+  max-width: 257px;
+  min-width: ${(p) => (p.noMinWidth ? "none" : "120px")};
+  padding: 6px 12px;
+  font-size: 12px;
+  line-height: 16px;
   color: #ffffff;
   word-wrap: break-word;
+  text-align: left;
 `;
 
 const Triangle = styled.div`
@@ -67,22 +70,20 @@ const Triangle = styled.div`
   height: 0;
   border-left: 6px solid transparent;
   border-right: 6px solid transparent;
-  border-top: 6px solid rgba(25, 30, 39, 0.9);
+  border-top: 6px solid rgba(0, 0, 0, 0.65);
   left: 50%;
   top: 100%;
   transform: translateX(-50%);
 `;
 
 const ChildrenWrapper = styled.div`
-  position: absolute;
+  color: red;
+  position: relative;
   display: inline-block;
   :hover {
     > * {
       display: block;
     }
-  }
-  > svg{
-    display: block;
   }
 `;
 
@@ -91,6 +92,7 @@ const TitleWrapper = styled.div`
   font-size: 12px;
   line-height: 16px;
   color: #ffffff;
+  white-space: nowrap;
 `;
 
 const TooltipIcon = styled.img`
@@ -99,14 +101,15 @@ const TooltipIcon = styled.img`
 `;
 
 export default function Tooltip({
-                                  label,
-                                  bg,
-                                  content,
-                                  children,
-                                  isCopy,
-                                  copyText,
-                                  title,
-                                }) {
+  label,
+  bg,
+  content,
+  children,
+  isCopy,
+  copyText,
+  title,
+  noMinWidth,
+}) {
   const dispatch = useDispatch();
 
   const onCopy = () => {
@@ -122,7 +125,7 @@ export default function Tooltip({
           {children}
           {content && (
             <PopupWrapper onClick={onCopy} isCopy>
-              <Popup>
+              <Popup noMinWidth={noMinWidth}>
                 {title && <TitleWrapper>{title}</TitleWrapper>}
                 {content}
                 <Triangle />
@@ -136,7 +139,7 @@ export default function Tooltip({
           {!label && <TooltipIcon src="/imgs/icons/tooltip-icon.svg" />}
           {content && (
             <PopupWrapper onClick={onCopy} isCopy>
-              <Popup>
+              <Popup noMinWidth={noMinWidth}>
                 {title && <TitleWrapper>{title}</TitleWrapper>}
                 {content}
                 <Triangle />
