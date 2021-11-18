@@ -506,7 +506,7 @@ async function getAddressVote(proposalId, address) {
 
   const voteCol = await getVoteCollection();
   const vote = await voteCol.findOne(q);
-  return calcWeights(vote);
+  return vote ? calcWeights(vote) : vote;
 }
 
 async function getStats(proposalId) {
