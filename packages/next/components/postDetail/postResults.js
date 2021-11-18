@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { p_14_medium, p_16_semibold } from "styles/textStyles";
 import BigNumber from "bignumber.js";
-import { toFixedPrecision, toPrecision } from "../../frontedUtils";
+import { toFixedPrecision } from "../../frontedUtils";
 import { Fragment } from "react";
 
 const Wrapper = styled.div`
@@ -150,13 +150,26 @@ export default function PostResult({ data, voteStatus, network }) {
                 <OptionIndex>#{vote.index}</OptionIndex>
                 <FlexAround>
                   <div>{vote.percentage}%</div>
-                  <div>
-                    {toFixedPrecision(
-                      vote.voteBalance.toString(),
-                      network.decimals
-                    )}{" "}
-                    {network.symbol}
-                  </div>
+                  {
+                    strategy === "quadratic-balance-of"
+                    ? (
+                      <div>
+                        {toFixedPrecision(
+                          vote.voteBalance.toString(),
+                          network.decimals - 6
+                        )}{" "}
+                        {"μ" + network.symbol}
+                      </div>
+                    ) : (
+                      <div>
+                        {toFixedPrecision(
+                          vote.voteBalance.toString(),
+                          network.decimals
+                        )}{" "}
+                        {network.symbol}
+                      </div>
+                    )
+                  }
                 </FlexAround>
               </ProgressItem>
               <ProgressBackground>
