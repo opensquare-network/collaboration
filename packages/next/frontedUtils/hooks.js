@@ -1,6 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import nextApi from "services/nextApi";
+import { useSelector } from "react-redux";
+import { accountSelector } from "store/reducers/accountSlice";
+import { encodeAddress } from "@polkadot/util-crypto";
 
 export function useWindowSize() {
   const [windowSize, setWindowSize] = useState({
@@ -77,4 +80,12 @@ export function useNetwork() {
     });
   }, [space]);
   return network;
+}
+
+export function useEncodedAddress(network) {
+  const account = useSelector(accountSelector);
+  if (account?.address && network) {
+    return encodeAddress(account?.address, network?.ss58Format);
+  }
+  return null;
 }

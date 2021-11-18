@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 import Pagination from "components/pagination";
 import PostVotesItem from "./postVotesItem";
+import { useEncodedAddress } from "frontedUtils/hooks";
 
 const PaginationWrapper = styled.div`
   padding: 20px 0;
@@ -22,13 +23,14 @@ const NoVoteWrapper = styled.div`
 `;
 
 export default function PostVotes({ network, votes, myVote }) {
+  const encodedAddress = useEncodedAddress(network);
   return (
     <div>
-      {myVote && (
+      {myVote && myVote.address === encodedAddress && (
         <PostVotesItem data={myVote} network={network} isMyVote={true} />
       )}
       {(votes?.items || [])
-        .filter((item) => item._id !== myVote?._id)
+        .filter((item) => item.address !== encodedAddress)
         .map((item, index) => (
           <PostVotesItem data={item} network={network} key={index} />
         ))}
