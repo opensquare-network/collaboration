@@ -151,7 +151,7 @@ export default function PostResult({ data, voteStatus, network }) {
                 <FlexAround>
                   <div>{vote.percentage}%</div>
                   {
-                    strategy === "quadratic-balance-of"
+                    strategy === "quadratic-balance-of" && network.decimals >= 6
                     ? (
                       <div>
                         {toFixedPrecision(
