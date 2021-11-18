@@ -64,9 +64,9 @@ The default environment variables will work, but if you want to change some, jus
 
 ```dotenv
 # You can change the chain endpoints, separated by ';'.
-DOT_ENDPOINTS=wss://pub.elara.patract.io/polkadot;wss://polkadot.api.onfinality.io/public-ws;wss://rpc.polkadot.io
-KSM_ENDPOINTS=wss://kusama-rpc.polkadot.io;wss://pub.elara.patract.io/kusama;wss://kusama.api.onfinality.io/public-ws
-KAR_ENDPOINTS=wss://karura.api.onfinality.io/public-ws;wss://karura-rpc-1.aca-api.network
+DOT_ENDPOINTS=wss://pub.elara.patract.io/polkadot;wss://rpc.polkadot.io;wss://polkadot.api.onfinality.io/public-ws;wss://polkadot.geometry.io/websockets
+KSM_ENDPOINTS=wss://kusama-rpc.polkadot.io;wss://pub.elara.patract.io/kusama;wss://kusama.api.onfinality.io/public-ws;wss://kusama.geometry.io/websockets
+KAR_ENDPOINTS=wss://karura.api.onfinality.io/public-ws;wss://karura-rpc-0.aca-api.network;wss://karura-rpc-1.aca-api.network;wss://karura-rpc-2.aca-api.network/ws;wss://karura-rpc-3.aca-api.network/ws;wss://karura.polkawallet.io;wss://pub.elara.patract.io/karura
 KHA_ENDPOINTS=wss://khala.api.onfinality.io/public-ws
 
 PORT=3223 # keep it
@@ -114,6 +114,12 @@ SPACE_PROPOSE_THRESHOLD_POLKADOT=10000000000
 SPACE_PROPOSE_THRESHOLD_KUSAMA=10000000000
 SPACE_PROPOSE_THRESHOLD_KARURA=1000000000000
 SPACE_PROPOSE_THRESHOLD_KHALA=10000000000000
+
+# Following variables are for space proposal vote authority, you can just keep it
+SPACE_VOTE_THRESHOLD_POLKADOT=100000000
+SPACE_VOTE_THRESHOLD_KUSAMA=10000000000
+SPACE_VOTE_THRESHOLD_KARURA=10000000000
+SPACE_VOTE_THRESHOLD_KHALA=10000000000
 
 # Follwoing variables are space strategies configuration.
 # You can choose both or either one startegy for each space, separated by ','.
