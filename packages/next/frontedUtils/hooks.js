@@ -89,3 +89,11 @@ export function useEncodedAddress(network) {
   }
   return null;
 }
+
+export function usePrevious(value) {
+  const ref = useRef();
+  useEffect(() => {
+    ref.current = value;
+  });
+  return ref.current;
+}

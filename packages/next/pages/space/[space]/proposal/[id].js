@@ -30,7 +30,9 @@ export default function Index({
         .fetch(`${space}/proposals/${detail?._id}/votes/${encodedAddress}`)
         .then((result) => {
           if (result?.result) {
-            setSavedMyVote(result.result);
+            if (result?.result?._id !== myVote?._id) {
+              setSavedMyVote(result.result);
+            }
           } else {
             setSavedMyVote(null);
           }
@@ -39,7 +41,7 @@ export default function Index({
           setSavedMyVote(null);
         });
     }
-  }, [encodedAddress, detail._id, space]);
+  }, [encodedAddress, detail._id, space, myVote]);
 
   return (
     <Layout bgHeight="183px" network={network}>

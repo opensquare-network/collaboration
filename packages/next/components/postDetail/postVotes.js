@@ -24,11 +24,14 @@ const NoVoteWrapper = styled.div`
 
 export default function PostVotes({ network, votes, myVote }) {
   const encodedAddress = useEncodedAddress(network);
+
   return (
     <div>
-      {myVote && myVote.address === encodedAddress && (
-        <PostVotesItem data={myVote} network={network} isMyVote={true} />
-      )}
+      <div>
+        {myVote && myVote.address === encodedAddress && (
+          <PostVotesItem data={myVote} network={network} isMyVote={true} />
+        )}
+      </div>
       {(votes?.items || [])
         .filter((item) => item.address !== encodedAddress)
         .map((item, index) => (
