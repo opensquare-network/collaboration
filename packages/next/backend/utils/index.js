@@ -70,11 +70,9 @@ function toSymbolUnit(value, decimals) {
   return new BigNumber(value).times(Math.pow(10, decimals)).toString();
 }
 
-function sqrtOfBalance(balance, decimals) {
-  const value = fromSymbolUnit(balance, decimals);
-  const sqrt = new BigNumber(value).sqrt().toString();
-  const result = toSymbolUnit(sqrt, decimals);
-  return result;
+function sqrtOfBalance(balance) {
+  const sqrt = new BigNumber(balance).sqrt().integerValue().toString();
+  return sqrt;
 }
 
 module.exports = {
