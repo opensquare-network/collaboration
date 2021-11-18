@@ -1,3 +1,4 @@
+const { nodeTimeoutSeconds } = require("../constants");
 const { statusLogger } = require("../logger");
 const { khalaOptions } = require("./khala");
 const { karuraOptions } = require("./karura");
@@ -10,6 +11,13 @@ const { getEndpoints } = require("../env")
  */
 const chainApis = {};
 
+/**
+ * { 'wss://rpc.polkadot.io': [a api object] }
+ */
+const endpointApis = {};
+
+const rejectInTime = (seconds) => new Promise((resolve, reject) => setTimeout(reject, seconds * 1000));
+
 async function createApi(network, endpoint) {
   const provider = new WsProvider(endpoint, 100);
 
@@ -20,19 +28,41 @@ async function createApi(network, endpoint) {
     options = khalaOptions;
   }
 
-  const api = await ApiPromise.create({ provider, ...options });
-  console.log(`${ network } api with endpoint ${ endpoint } created!`);
+  const api = new ApiPromise({ provider, ...options });
+  endpointApis[endpoint] = api;
+
+  api.isReadyOrError.catch(() => {
+    // ignore
+  });
+
   return {
     endpoint,
-    api
+    api: await api.isReady
   };
+}
+
+async function createApiInLimitTime(network, endpoint) {
+  return Promise.race([
+    createApi(network, endpoint),
+    rejectInTime(nodeTimeoutSeconds),
+  ]);
 }
 
 async function createApiForChain({ chain, endpoints }) {
   const promises = [];
 
   for (const endpoint of endpoints) {
-    promises.push(createApi(chain, endpoint))
+    try {
+      const apiPromise = await createApiInLimitTime(chain, endpoint);
+      promises.push(apiPromise);
+      console.log(`${ chain } api with endpoint ${ endpoint } created!`);
+    } catch (e) {
+      statusLogger.info(`Can not connected to ${ endpoint } in ${ nodeTimeoutSeconds } seconds, just disconnect it`)
+      const maybeApi = endpointApis[endpoint]
+      if (maybeApi) {
+        maybeApi.disconnect();
+      }
+    }
   }
 
   return {
