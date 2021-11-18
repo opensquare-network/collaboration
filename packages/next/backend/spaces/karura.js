@@ -8,7 +8,7 @@ const {
 
 const weightStrategy = (getEnvWeightStrategies("karura") || WeightStrategy.BalanceOf).split(",");
 const proposeThreshold = getEnvProposeThreshold("karura") || "1000000000000";
-const voteThreshold = getEnvVoteThreshold("karura") || "0.01";
+const voteThreshold = getEnvVoteThreshold("karura") || "1000000000000";
 
 module.exports = {
   ...Networks.Karura,

@@ -8,7 +8,7 @@ const {
 
 const weightStrategy = (getEnvWeightStrategies("polkadot") || WeightStrategy.BalanceOf).split(",");
 const proposeThreshold = getEnvProposeThreshold("polkadot") || "1000000000000";
-const voteThreshold = getEnvVoteThreshold("polkadot") || "0.01";
+const voteThreshold = getEnvVoteThreshold("polkadot") || "1000000000000";
 
 module.exports = {
   ...Networks.Polkadot,

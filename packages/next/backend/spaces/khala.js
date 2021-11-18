@@ -8,7 +8,7 @@ const {
 
 const weightStrategy = (getEnvWeightStrategies("khala") || WeightStrategy.BalanceOf).split(",");
 const proposeThreshold = getEnvProposeThreshold("khala") || "1000000000000";
-const voteThreshold = getEnvVoteThreshold("khala") || "0.01";
+const voteThreshold = getEnvVoteThreshold("khala") || "1000000000000";
 
 module.exports = {
   ...Networks.Khala,

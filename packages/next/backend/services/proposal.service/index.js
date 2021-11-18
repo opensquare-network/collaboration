@@ -443,8 +443,9 @@ async function vote(
   const voter = realVoter || address;
 
   const balanceOf = await getTotalBalance(api, proposal.snapshotHeight, voter);
-  if (new BigNumber(balanceOf).div(Math.pow(10, spaceService.decimals)).lt(spaceService.voteThreshold)) {
-    throw new HttpError(400, `Require the minimum of ${spaceService.voteThreshold} ${spaceService.symbol} to vote`);
+  if (new BigNumber(balanceOf).lt(spaceService.voteThreshold)) {
+    const symbolVoteThreshold = new BigNumber(spaceService.voteThreshold).div(Math.pow(10, spaceService.decimals)).toString();
+    throw new HttpError(400, `Require the minimum of ${symbolVoteThreshold} ${spaceService.symbol} to vote`);
   }
   const { cid, pinHash } = await pinData(data, address, signature);
 

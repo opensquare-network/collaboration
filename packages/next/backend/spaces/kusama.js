@@ -8,7 +8,7 @@ const {
 
 const weightStrategy = (getEnvWeightStrategies("kusama") || WeightStrategy.BalanceOf).split(",");
 const proposeThreshold = getEnvProposeThreshold("kusama") || "1000000000000";
-const voteThreshold = getEnvVoteThreshold("kusama") || "0.01";
+const voteThreshold = getEnvVoteThreshold("kusama") || "1000000000000";
 
 module.exports = {
   ...Networks.Kusama,

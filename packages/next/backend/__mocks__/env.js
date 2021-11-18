@@ -9,7 +9,7 @@ function getEnvProposeThreshold(space) {
 }
 
 function getEnvVoteThreshold(space) {
-  return "0.01";
+  return "1000000000000";
 }
 
 function getEnvNodeApiEndpoint() {

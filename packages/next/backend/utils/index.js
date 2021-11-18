@@ -81,7 +81,8 @@ function enhancedSqrtOfBalance(balance, decimals, voteThreshold) {
   if (num.gte(1)) {
     num = num.sqrt();
   } else {
-    num = num.div(voteThreshold).sqrt().times(voteThreshold);
+    const symbolVoteThreshold = new BigNumber(voteThreshold).div(Math.pow(10, decimals)).toString();
+    num = num.div(symbolVoteThreshold).sqrt().times(symbolVoteThreshold);
   }
   return num.times(Math.pow(10, decimals)).integerValue().toString();
 }
