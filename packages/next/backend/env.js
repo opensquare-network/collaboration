@@ -6,6 +6,10 @@ function getEnvProposeThreshold(space) {
   return process.env[`SPACE_PROPOSE_THRESHOLD_${space.toUpperCase()}`];
 }
 
+function getEnvVoteThreshold(space) {
+  return process.env[`SPACE_VOTE_THRESHOLD_${space.toUpperCase()}`];
+}
+
 function getEnvNodeApiEndpoint() {
   return process.env[`NODE_API_ENDPOINT`];
 }
@@ -29,6 +33,7 @@ function getEnvDecooApiUploadEndpoint() {
 module.exports = {
   getEnvWeightStrategies,
   getEnvProposeThreshold,
+  getEnvVoteThreshold,
   getEnvNodeApiEndpoint,
   getEnvDecooApiToken,
   getEnvDecooApiSecretKey,

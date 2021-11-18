@@ -87,7 +87,7 @@ describe("Vote Test", () => {
           signature: '0x4899168d4b6597d4d3fbff99a5a8fabd3d56509973a38e805bf9900f9498c50078bfbf382bb5a182d6e0edb7bddac7bc18c5a2ef54b3896a39200ffcdd99d181',
           weights: {
             balanceOf: "10000000000000",
-            quadraticBalanceOf: "3162278",
+            quadraticBalanceOf: "3162277660168",
           },
         }
       ],
