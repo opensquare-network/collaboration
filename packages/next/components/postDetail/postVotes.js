@@ -31,7 +31,7 @@ export default function PostVotes({ network, votes, myVote }) {
         )}
       </div>
       {(votes?.items || [])
-        .filter((item) => item.address !== myVote.voter)
+        .filter((item) => item.address !== myVote?.voter)
         .map((item, index) => (
           <PostVotesItem data={item} network={network} key={index} />
         ))}
