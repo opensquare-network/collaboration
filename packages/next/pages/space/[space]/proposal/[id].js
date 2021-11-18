@@ -30,9 +30,7 @@ export default function Index({
         .fetch(`${space}/proposals/${detail?._id}/votes/${encodedAddress}`)
         .then((result) => {
           if (result?.result) {
-            if (result?.result?._id !== myVote?._id) {
-              setSavedMyVote(result.result);
-            }
+            setSavedMyVote(result.result);
           } else {
             setSavedMyVote(null);
           }
@@ -40,6 +38,9 @@ export default function Index({
         .catch(() => {
           setSavedMyVote(null);
         });
+    } else {
+      // logout
+      setSavedMyVote(null);
     }
   }, [encodedAddress, detail._id, space, myVote]);
 
