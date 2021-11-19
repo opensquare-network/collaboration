@@ -37,6 +37,7 @@ export const FOOTER_ITEMS = [
       { name: "doTreasury", link: "https://www.dotreasury.com" },
       { name: "Statescan", link: "https://statescan.io" },
       { name: "CoinAsk", link: "https://www.coinask.io" },
+      { name: "Subsquare", link: "https://www.subsquare.io" },
     ],
   },
   {
@@ -116,12 +117,12 @@ export const LIST_TAB_ITEMS = [
   {
     value: "pending",
     name: "Pending",
-    tooltip:"Waiting for the start date",
-  } ,
+    tooltip: "Waiting for the start date",
+  },
   {
     value: "closed",
     name: "Closed",
-  }
+  },
 ];
 
 export const EmptyQuery = {
