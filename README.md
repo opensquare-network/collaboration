@@ -37,7 +37,12 @@ So don't forget to config the required `NODE_API_ENDPOINT` environment variable.
 ## Prerequisite
 
 ### MongoDB
-Make sure mongodb is installed, while corresponding url is required to config in the next package.
+Make sure mongodb is installed, while corresponding url is required to config in the next package. 
+Check [here](https://docs.mongodb.com/manual/installation/) to find a way to install it natively, or run it with docker:
+```bash
+docker run -d --name mongo -p 27017:27017 mongo:4.4.2
+```
+You may need more configuration for production environment.
 
 ### Decoo api key and secret
 Register an [decoo](https://decoo.io/) account and get the api key and secret. Or for your convenience, just use following test key.
