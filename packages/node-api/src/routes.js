@@ -8,18 +8,28 @@ const chainFeatureRouters = [
   require("./features/chain/routes"),
 ];
 
+const tokenRoutes = require("./features/token/routes");
+
 const commonFeatureRouters = [];
 
 module.exports = (app) => {
   for (const r of commonFeatureRouters) {
     router.use(r.routes(), r.allowedMethods({ throw: true }));
   }
+
   for (const r of chainFeatureRouters) {
     router.use(
-      "/:chain(kusama|polkadot|karura|khala)",
+      "/:chain(kusama|polkadot|karura|khala|statemine)",
       r.routes(),
       r.allowedMethods({ throw: true })
     );
   }
+
+  router.use(
+    "/:chain(statemine)",
+    tokenRoutes.routes(),
+    tokenRoutes.allowedMethods({ throw: true })
+  );
+
   app.use(router.routes());
 };

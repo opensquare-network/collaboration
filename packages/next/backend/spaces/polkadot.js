@@ -1,27 +1,28 @@
 const { WeightStrategy, Networks } = require("../constants");
-const { getApi, getBalance } = require("../services/node.service");
+const { getApi, getTotalBalance } = require("../services/node.service");
 const {
   getEnvWeightStrategies,
   getEnvProposeThreshold,
   getEnvVoteThreshold,
 } = require("../env");
 
-const CHAIN = "polkadot";
+const SPACE_NAME = "polkadot";
 
-const weightStrategy = (getEnvWeightStrategies(CHAIN) || WeightStrategy.BalanceOf).split(",");
-const proposeThreshold = getEnvProposeThreshold(CHAIN) || "1000000000000";
-const voteThreshold = getEnvVoteThreshold(CHAIN) || "1000000000000";
+const weightStrategy = (getEnvWeightStrategies(SPACE_NAME) || WeightStrategy.BalanceOf).split(",");
+const proposeThreshold = getEnvProposeThreshold(SPACE_NAME) || "1000000000000";
+const voteThreshold = getEnvVoteThreshold(SPACE_NAME) || "1000000000000";
 
 async function _getApi() {
-  return await getApi(CHAIN);
+  return await getApi("polkadot");
 }
 
 async function _getBalance(blockHeight, address) {
   const api = await _getApi();
-  return await getBalance(api, blockHeight, address);
+  return await getTotalBalance(api, blockHeight, address);
 }
 
 module.exports = {
+  name: SPACE_NAME,
   ...Networks.Polkadot,
   proposeThreshold,
   voteThreshold,

@@ -13,7 +13,6 @@ const { ContentType } = require("../../constants");
 const { getLatestHeight } = require("../chain.service");
 const spaceServices = require("../../spaces");
 const { checkDelegation } = require("../../services/node.service");
-const { getTotalBalance } = require("../../services/account.service");
 const { getObjectBufAndCid, pinJsonToIpfsWithTimeout } = require("../ipfs.service");
 const { toDecimal128, enhancedSqrtOfBalance } = require("../../utils");
 
@@ -97,7 +96,7 @@ async function createProposal(
   }
   const weightStrategy = spaceService.weightStrategy;
 
-  const creatorBalance = await getTotalBalance(spaceService, lastHeight, address);
+  const creatorBalance = await spaceService.getBalance(lastHeight, address);
   const bnCreatorBalance = new BigNumber(creatorBalance);
   if (bnCreatorBalance.lt(spaceService.proposeThreshold)) {
     throw new HttpError(403, `Balance is not enough to create the proposal`);
@@ -442,7 +441,7 @@ async function vote(
 
   const voter = realVoter || address;
 
-  const balanceOf = await getTotalBalance(spaceService, proposal.snapshotHeight, voter);
+  const balanceOf = await spaceService.getBalance(proposal.snapshotHeight, voter);
   if (new BigNumber(balanceOf).lt(spaceService.voteThreshold)) {
     const symbolVoteThreshold = new BigNumber(spaceService.voteThreshold).div(Math.pow(10, spaceService.decimals)).toString();
     throw new HttpError(400, `Require the minimum of ${symbolVoteThreshold} ${spaceService.symbol} to vote`);
