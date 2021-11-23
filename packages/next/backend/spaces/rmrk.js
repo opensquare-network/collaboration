@@ -9,7 +9,7 @@ const {
 const SPACE_NAME = "RMRK";
 const ASSET_ID = 8;
 const ASSET_SYMBOL = "RMRK";
-const ASSET_DECIMALS = 8;
+const ASSET_DECIMALS = 10;
 
 const weightStrategy = (getEnvWeightStrategies(SPACE_NAME) || WeightStrategy.BalanceOf).split(",");
 const proposeThreshold = getEnvProposeThreshold(SPACE_NAME) || "1000000000000";

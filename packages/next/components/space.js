@@ -140,7 +140,7 @@ export default function Space({ spaces }) {
               <Item>
                 <IconWrapper>
                   <Icon>
-                    <SpaceLogo src={`/imgs/icons/${item}.svg`} />
+                    <SpaceLogo space={item} />
                   </Icon>
                   <Name>{item}</Name>
                   <Symbol>{spaces[item].symbol ?? "-"}</Symbol>

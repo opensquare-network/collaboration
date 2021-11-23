@@ -71,7 +71,7 @@ export default function ListInfo({ spaceName, data }) {
   return (
     <Wrapper>
       <LogoWrapper>
-        <SpaceLogo src={`/imgs/icons/${spaceName}.svg`} />
+        <SpaceLogo space={spaceName} />
         <div>
           <LogoName>{spaceName}</LogoName>
           <LogoSymbol>{data.symbol}</LogoSymbol>
