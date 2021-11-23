@@ -73,7 +73,7 @@ export default function ListInfo({ spaceName, data }) {
       <LogoWrapper>
         <SpaceLogo space={spaceName} />
         <div>
-          <LogoName>{spaceName}</LogoName>
+          <LogoName>{data.name}</LogoName>
           <LogoSymbol>{data.symbol}</LogoSymbol>
         </div>
       </LogoWrapper>
