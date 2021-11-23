@@ -1,4 +1,4 @@
-const { getApi } = require("../services/node.service");
+const { getApi, getBalance } = require("../services/node.service");
 const { WeightStrategy, Networks } = require("../constants");
 const {
   getEnvWeightStrategies,
@@ -6,15 +6,27 @@ const {
   getEnvVoteThreshold,
 } = require("../env");
 
-const weightStrategy = (getEnvWeightStrategies("khala") || WeightStrategy.BalanceOf).split(",");
-const proposeThreshold = getEnvProposeThreshold("khala") || "1000000000000";
-const voteThreshold = getEnvVoteThreshold("khala") || "1000000000000";
+const CHAIN = "khala";
+
+const weightStrategy = (getEnvWeightStrategies(CHAIN) || WeightStrategy.BalanceOf).split(",");
+const proposeThreshold = getEnvProposeThreshold(CHAIN) || "1000000000000";
+const voteThreshold = getEnvVoteThreshold(CHAIN) || "1000000000000";
+
+async function _getApi() {
+  return await getApi(CHAIN);
+}
+
+async function _getBalance(blockHeight, address) {
+  const api = await _getApi();
+  return await getBalance(api, blockHeight, address);
+}
 
 module.exports = {
   ...Networks.Khala,
   relay: Networks.Kusama,
-  getApi: getApi.bind(null, "khala"),
   proposeThreshold,
   voteThreshold,
   weightStrategy,
+  getApi: _getApi,
+  getBalance: _getBalance,
 };

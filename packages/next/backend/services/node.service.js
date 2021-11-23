@@ -32,11 +32,6 @@ async function getBalance(api, blockHeight, address) {
   }
 }
 
-async function getTotalBalance(api, blockHeight, address) {
-  const { free, reserved } = await getBalance(...arguments);
-  return new BigNumber(free || 0).plus(reserved || 0).toString();
-}
-
 async function checkDelegation(api, delegatee, delegator, blockHeight) {
   if (isTestAccount(delegator)) {
     return;
@@ -65,7 +60,7 @@ async function getFinalizedHeight(api) {
 }
 
 module.exports = {
-  getTotalBalance,
+  getBalance,
   checkDelegation,
   getFinalizedHeight,
   getApi,
