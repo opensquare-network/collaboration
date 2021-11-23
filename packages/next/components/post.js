@@ -76,7 +76,7 @@ const SpaceName = styled.a`
 
 
 export default function Post({data, showSpace, network, spaces}) {
-  const getSpaceNetwork = (space) => spaces?.[space]?.network;
+  const getSpaceNetwork = (space) => spaces?.[space];
   const getSpaceName = (space) => spaces?.[space]?.name;
   const windowSize = useWindowSize();
 
