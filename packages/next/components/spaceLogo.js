@@ -13,7 +13,7 @@ const SpaceIcons = {
   kusama: "kusama.svg",
   karura: "karura.svg",
   khala: "khala.svg",
-  rmrk: "space-noicon.svg",
+  rmrk: "rmrk.svg",
 };
 
 export default function SpaceLogo({ space }){
