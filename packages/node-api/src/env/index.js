@@ -12,7 +12,7 @@ const endpoints = Object.values(chains).map(chain => {
   } else if (chains.khala === chain) {
     endpoints = (process.env.KHA_ENDPOINTS || '').split(';')
   } else if (chains.statemine === chain) {
-    endpoints = (process.env.STA_ENDPOINTS || '').split(';')
+    endpoints = (process.env.STATEMINE_ENDPOINTS || '').split(';')
   }
 
   return {
