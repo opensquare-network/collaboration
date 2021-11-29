@@ -8,7 +8,7 @@ async function getBalanceFromOneApi(api, assetId, address, blockHashOrHeight) {
     throw new Error(`${api.name} does not support assets balance query`);
   }
 
-  const account = await blockApi.query.assets.account(assetId, address);;
+  const account = await blockApi.query.assets.account(assetId, address);
   return account.toJSON();
 }
 

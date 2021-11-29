@@ -9,7 +9,7 @@ const cachedApis = {};
 function getApi(chain) {
   if (!cachedApis[chain]) {
     cachedApis[chain] = axios.create({
-      baseURL: `${getEnvNodeApiEndpoint()}/${chain}/`,
+      baseURL: `${ getEnvNodeApiEndpoint() }/${ chain }/`,
     });
   }
 
@@ -25,7 +25,7 @@ async function getSystemBalance(api, blockHeight, address) {
   }
 
   try {
-    const result = await api.get(`/balance/${address}/${blockHeight}`);
+    const result = await api.get(`/balance/${ address }/${ blockHeight }`);
     return result.data;
   } catch (err) {
     throw new HttpError(500, "Failed to get account balance");
@@ -39,7 +39,7 @@ async function checkDelegation(api, delegatee, delegator, blockHeight) {
 
   const isProxy = false;
   try {
-    const result = await api.get(`/proxy/${delegator}/${delegatee}/${blockHeight}`);
+    const result = await api.get(`/proxy/${ delegator }/${ delegatee }/${ blockHeight }`);
     isProxy = result.data.isProxy;
   } catch (err) {
     throw new HttpError(500, "Failed to verify the proxy address");
@@ -70,7 +70,7 @@ async function getTokenBalance(api, assetId, blockHeight, address) {
   }
 
   try {
-    const result = await api.get(`/token/${assetId}/${address}/${blockHeight}`);
+    const result = await api.get(`/token/${ assetId }/account/${ address }/${ blockHeight }`);
     return new BigNumber(result.data?.balance || 0).toString();
   } catch (err) {
     throw new HttpError(500, "Failed to get account token balance");
