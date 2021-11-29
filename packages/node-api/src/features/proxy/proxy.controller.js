@@ -1,18 +1,32 @@
 const { getBlockApi } = require("../utils");
 const { getApis } = require("../../apis");
+const { u8aToHex } = require("@polkadot/util")
+const { decodeAddress } = require("@polkadot/util-crypto");
 
-async function getProxyFromOneApi(api, delegator, delegate, blockHashOrHeight) {
+function addrToPubkey(address) {
+  return u8aToHex(decodeAddress(address))
+}
+
+async function getProxyFromOneApi(api, delegator, toCheckDelegate, blockHashOrHeight) {
   let blockApi = await getBlockApi(api, blockHashOrHeight);
   const data = await blockApi.query.proxy.proxies(delegator);
   const [proxies] = data.toJSON() || [];
 
-  return (proxies || []).some(({ delegate: itemDelegate, proxyType }) =>
-    itemDelegate === delegate && [
-      "Any",
-      "NonTransfer",
-      "Governance",
-      "Assets",
-    ].includes(proxyType)
+  return (proxies || []).some(({ delegate: itemDelegate, proxyType }) => {
+      const delegateKey = addrToPubkey(itemDelegate);
+      const toCheckKey = addrToPubkey(toCheckDelegate);
+
+      if (delegateKey !== toCheckKey) {
+        return false
+      }
+
+      return [
+        "Any",
+        "NonTransfer",
+        "Governance",
+        "Assets",
+      ].includes(proxyType)
+    }
   )
 }
 
