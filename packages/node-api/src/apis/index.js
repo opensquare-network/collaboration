@@ -49,12 +49,12 @@ async function createApiInLimitTime(network, endpoint) {
 }
 
 async function createApiForChain({ chain, endpoints }) {
-  const promises = [];
+  const apis = [];
 
   for (const endpoint of endpoints) {
     try {
-      const apiPromise = await createApiInLimitTime(chain, endpoint);
-      promises.push(apiPromise);
+      const api = await createApiInLimitTime(chain, endpoint);
+      apis.push(api);
       console.log(`${ chain } api with endpoint ${ endpoint } created!`);
     } catch (e) {
       statusLogger.info(`Can not connected to ${ endpoint } in ${ nodeTimeoutSeconds } seconds, just disconnect it`)
@@ -67,7 +67,7 @@ async function createApiForChain({ chain, endpoints }) {
 
   return {
     chain,
-    apis: await Promise.all(promises)
+    apis,
   }
 }
 
