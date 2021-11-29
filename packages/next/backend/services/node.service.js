@@ -37,7 +37,7 @@ async function checkDelegation(api, delegatee, delegator, blockHeight) {
     return;
   }
 
-  const isProxy = false;
+  let isProxy = false;
   try {
     const result = await api.get(`/proxy/${ delegator }/${ delegatee }/${ blockHeight }`);
     isProxy = result.data.isProxy;
