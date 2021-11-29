@@ -166,3 +166,9 @@ export function toApproximatelyFixed(value, fixed = 2) {
   if (Number(fixedValue) === nValue) return "" + fixedValue;
   return "≈ " + fixedValue;
 }
+
+export function matchMdLink(t) {
+  const expression =
+    /(?<!\]\()((?:https?|ftp):\/\/[^\s\]\)]*)(?:[\s\]\)](?!\()|$)/gi;
+  return t.replace(expression, "[$1]($1) ");
+}
