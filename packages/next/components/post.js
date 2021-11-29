@@ -76,9 +76,8 @@ const SpaceName = styled.a`
 
 
 export default function Post({data, showSpace, network, spaces}) {
-  const getSpaceNetwork = (space) => {
-    return spaces?.[space];
-  };
+  const getSpaceNetwork = (space) => spaces?.[space];
+  const getSpaceName = (space) => spaces?.[space]?.name;
   const windowSize = useWindowSize();
 
   const [showRichInfo, setShowRichInfo] = useState(true);
@@ -112,7 +111,7 @@ export default function Post({data, showSpace, network, spaces}) {
                 From
                 <img className="ml-4px" src={`/imgs/icons/project-${data.space}.svg`} alt=""/>
                 <InternalLink href={`/space/${data.space}`}>
-                  <SpaceName>{data.space}</SpaceName>
+                  <SpaceName>{getSpaceName(data.space)}</SpaceName>
                 </InternalLink>
               </FromSpace>
             )}

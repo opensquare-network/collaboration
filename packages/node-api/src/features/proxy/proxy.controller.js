@@ -11,6 +11,7 @@ async function getProxyFromOneApi(api, delegator, delegate, blockHashOrHeight) {
       "Any",
       "NonTransfer",
       "Governance",
+      "Assets",
     ].includes(proxyType)
   )
 }

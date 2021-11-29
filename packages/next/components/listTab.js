@@ -129,7 +129,7 @@ export default function ListTab({
       <Link href={`/space/${space}/create`} passHref>
         <NewPostLink>
           <img src="/imgs/icons/add.svg" alt="" />
-          New Post
+          New Proposal
         </NewPostLink>
       </Link>
     </Wrapper>

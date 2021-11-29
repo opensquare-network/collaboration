@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import ReactMarkdown from "react-markdown";
+import { matchMdLink } from "../frontedUtils";
 
 const Wrapper = styled.div`
   .markdown-content {
@@ -117,7 +118,8 @@ const Wrapper = styled.div`
 `;
 
 export default function Markdown({ content }) {
-  const displayContent = content.replace(/\n+/g, function (ns) {
+  const linkMd = matchMdLink(content);
+  const displayContent = linkMd.replace(/\n+/g, function (ns) {
     if (ns.length == 1) return "  " + ns;
     return ns;
   });

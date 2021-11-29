@@ -16,7 +16,7 @@ function getApi(chain) {
   return cachedApis[chain];
 }
 
-async function getBalance(api, blockHeight, address) {
+async function getSystemBalance(api, blockHeight, address) {
   if (isTestAccount(address)) {
     return {
       free: process.env.TEST_ACCOUNT_BALANCE || "10000000000000",
@@ -30,11 +30,6 @@ async function getBalance(api, blockHeight, address) {
   } catch (err) {
     throw new HttpError(500, "Failed to get account balance");
   }
-}
-
-async function getTotalBalance(api, blockHeight, address) {
-  const { free, reserved } = await getBalance(...arguments);
-  return new BigNumber(free || 0).plus(reserved || 0).toString();
 }
 
 async function checkDelegation(api, delegatee, delegator, blockHeight) {
@@ -64,8 +59,27 @@ async function getFinalizedHeight(api) {
   }
 }
 
+async function getTotalBalance(api, blockHeight, address) {
+  const { free, reserved } = await getSystemBalance(api, blockHeight, address);
+  return new BigNumber(free || 0).plus(reserved || 0).toString();
+}
+
+async function getTokenBalance(api, assetId, blockHeight, address) {
+  if (isTestAccount(address)) {
+    return "10000000000000";
+  }
+
+  try {
+    const result = await api.get(`/token/${assetId}/${address}/${blockHeight}`);
+    return new BigNumber(result.data?.balance || 0).toString();
+  } catch (err) {
+    throw new HttpError(500, "Failed to get account token balance");
+  }
+}
+
 module.exports = {
   getTotalBalance,
+  getTokenBalance,
   checkDelegation,
   getFinalizedHeight,
   getApi,

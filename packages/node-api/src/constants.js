@@ -3,6 +3,7 @@ const chains = {
   kusama: 'kusama',
   karura: 'karura',
   khala: 'khala',
+  statemine: 'statemine',
 }
 
 const nodeTimeoutSeconds = 20;

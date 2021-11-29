@@ -31,7 +31,14 @@ const Networks = Object.freeze({
     relay: "kusama",
     ss58Format: SS58Format.Khala,
     decimals: 12,
-  }
+  },
+  Statemine: {
+    symbol: "KSM",
+    network: "statemine",
+    relay: "kusama",
+    ss58Format: SS58Format.Kusama,
+    decimals: 12,
+  },
 });
 
 const ContentType = Object.freeze({

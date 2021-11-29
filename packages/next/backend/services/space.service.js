@@ -2,20 +2,6 @@ const { getLatestHeight } = require("./chain.service");
 const { getProposalCollection } = require("../mongo");
 const spaceServices = require("../spaces");
 
-const SPACES = Object.keys(spaceServices).reduce((spaces, space) => {
-  const spaceService = spaceServices[space];
-  spaces[space] = {
-    symbol: spaceService.symbol,
-    network: spaceService.network,
-    ss58Format: spaceService.ss58Format,
-    decimals: spaceService.decimals,
-    relay: spaceService.relay,
-    proposeThreshold: spaceService.proposeThreshold,
-    weightStrategy: spaceService.weightStrategy,
-  };
-  return spaces;
-}, {});
-
 async function getSpaces() {
   const now = Date.now();
   const proposalCol = await getProposalCollection();
@@ -35,9 +21,9 @@ async function getSpaces() {
       }
     ]).toArray();
 
-  const result = Object.keys(SPACES).reduce(
+  const result = Object.keys(spaceServices).reduce(
     (res, key) => {
-      res[key] = { ...SPACES[key], activeProposalsCount: 0 };
+      res[key] = { ...spaceServices[key], activeProposalsCount: 0 };
       return res;
     },
     {}
@@ -55,7 +41,7 @@ async function getSpaces() {
 
 async function getSpace(space) {
   return {
-    ...SPACES[space],
+    ...spaceServices[space],
     latestFinalizedHeight: getLatestHeight(space),
   };
 }

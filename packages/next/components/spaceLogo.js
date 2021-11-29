@@ -8,6 +8,14 @@ const LogoImg = styled.img`
   margin-right: 24px;
 `;
 
-export default function SpaceLogo({src}){
-  return <LogoImg src={src} alt=""/>
+const SpaceIcons = {
+  polkadot: "polkadot.svg",
+  kusama: "kusama.svg",
+  karura: "karura.svg",
+  khala: "khala.svg",
+  rmrk: "rmrk.svg",
+};
+
+export default function SpaceLogo({ space }){
+  return <LogoImg src={`/imgs/icons/${SpaceIcons[space]}`} alt=""/>
 }
