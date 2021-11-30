@@ -92,17 +92,17 @@ export const SPACE_ITEMS = [
     icon: "polkadot.svg",
     name: "Polkadot",
     symbol: "DOT",
-    active: 5,
   },
   {
     value: "kusama",
     icon: "kusama.svg",
     name: "Kusama",
     symbol: "KSM",
-    active: 5,
   },
-  { value: "karura", icon: "karura.svg", name: "Karura", active: 5 },
-  { value: "khala", icon: "khala.svg", name: "Khala", active: 5 },
+  { value: "karura", icon: "karura.svg", name: "Karura", },
+  { value: "khala", icon: "khala.svg", name: "Khala", },
+  { value: "khala", icon: "khala.svg", name: "Khala", },
+  { value: "rmrk", icon: "rmrk.svg", name: "RMRK", },
 ];
 
 export const LIST_TAB_ITEMS = [
