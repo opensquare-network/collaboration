@@ -13,11 +13,11 @@ const Wrapper = styled.div`
   background: #ffffff;
   border: 1px solid #f0f3f8;
   box-shadow: 0px 4px 31px rgba(26, 33, 44, 0.04),
-  0px 0.751293px 3.88168px rgba(26, 33, 44, 0.03);
+    0px 0.751293px 3.88168px rgba(26, 33, 44, 0.03);
   ${p_24};
   cursor: pointer;
-  :hover{
-    border-color: #E2E8F0;;
+  :hover {
+    border-color: #e2e8f0;
   }
 `;
 
@@ -74,8 +74,7 @@ const SpaceName = styled.a`
   }
 `;
 
-
-export default function Post({data, showSpace, network, spaces}) {
+export default function Post({ data, showSpace, network, spaces }) {
   const getSpaceNetwork = (space) => spaces?.[space];
   const getSpaceName = (space) => spaces?.[space]?.name;
   const windowSize = useWindowSize();
@@ -94,22 +93,27 @@ export default function Post({data, showSpace, network, spaces}) {
     <InternalLink href={`/space/${data.space}/proposal/${data.cid}`}>
       <Wrapper>
         <Title>{data.title}</Title>
-        <Divider/>
+        <Divider />
         <InfoWrapper>
           <LeftWrapper>
-            {showRichInfo && <Author
-              address={data.address}
-              network={network ?? getSpaceNetwork(data.space)}
-            />
-            }
-            {
-              !showRichInfo && <img src={`/imgs/icons/project-${data.space}.svg`} alt=""/>
-            }
-            <PostTime post={data}/>
+            {showRichInfo && (
+              <Author
+                address={data.proposer ?? data.address}
+                network={network ?? getSpaceNetwork(data.space)}
+              />
+            )}
+            {!showRichInfo && (
+              <img src={`/imgs/icons/project-${data.space}.svg`} alt="" />
+            )}
+            <PostTime post={data} />
             {showSpace && showRichInfo && (
               <FromSpace>
                 From
-                <img className="ml-4px" src={`/imgs/icons/project-${data.space}.svg`} alt=""/>
+                <img
+                  className="ml-4px"
+                  src={`/imgs/icons/project-${data.space}.svg`}
+                  alt=""
+                />
                 <InternalLink href={`/space/${data.space}`}>
                   <SpaceName>{getSpaceName(data.space)}</SpaceName>
                 </InternalLink>
