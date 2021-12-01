@@ -98,6 +98,7 @@ async function createProposal(
   const weightStrategy = spaceService.weightStrategy;
 
   if (realProposer && realProposer !== address) {
+    const api = await spaceService.getApi();
     await checkDelegation(api, address, realProposer, lastHeight);
   }
 
@@ -441,9 +442,9 @@ async function vote(
   if (!spaceService) {
     throw new HttpError(500, "Unknown space name");
   }
-  const api = await spaceService.getApi();
 
   if (realVoter && realVoter !== address) {
+    const api = await spaceService.getApi();
     await checkDelegation(api, address, realVoter, proposal.snapshotHeight);
   }
 
