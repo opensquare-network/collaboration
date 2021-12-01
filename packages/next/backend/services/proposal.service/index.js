@@ -60,6 +60,7 @@ async function createProposal(
   startDate,
   endDate,
   snapshotHeight,
+  realProposer,
   data,
   address,
   signature,
@@ -96,7 +97,14 @@ async function createProposal(
   }
   const weightStrategy = spaceService.weightStrategy;
 
-  const creatorBalance = await spaceService.getBalance(lastHeight, address);
+  if (realProposer && realProposer !== address) {
+    const api = await spaceService.getApi();
+    await checkDelegation(api, address, realProposer, lastHeight);
+  }
+
+  const proposer = realProposer || address;
+
+  const creatorBalance = await spaceService.getBalance(lastHeight, proposer);
   const bnCreatorBalance = new BigNumber(creatorBalance);
   if (bnCreatorBalance.lt(spaceService.proposeThreshold)) {
     throw new HttpError(403, `Balance is not enough to create the proposal`);
@@ -120,6 +128,7 @@ async function createProposal(
       endDate,
       snapshotHeight,
       weightStrategy,
+      proposer,
       data,
       address,
       signature,
@@ -433,9 +442,9 @@ async function vote(
   if (!spaceService) {
     throw new HttpError(500, "Unknown space name");
   }
-  const api = await spaceService.getApi();
 
   if (realVoter && realVoter !== address) {
+    const api = await spaceService.getApi();
     await checkDelegation(api, address, realVoter, proposal.snapshotHeight);
   }
 

@@ -60,11 +60,17 @@ export default function PostCreate({ network }) {
   const [balanceError, setBalanceError] = useState(null);
   const [viewFunc, setViewFunc] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [proxyPublish, setProxyPublish] = useState(false);
+  const [proxyAddress, setProxyAddress] = useState("");
+  const [info, setInfo] = useState();
+  const [proxyCount, setProxyCount] = useState(0);
+  const [proxyBalance, setProxyBalance] = useState(null);
+  const [proxyBalanceError, setProxyBalanceError] = useState(null);
+  const [isInputting, setIsInputting] = useState(false);
 
   const threshold = network.proposeThreshold;
   const decimals = network.decimals;
   const symbol = network.symbol;
-
 
   useEffect(() => {
     import("frontedUtils/viewfunc").then((viewFunc) => {
@@ -72,13 +78,13 @@ export default function PostCreate({ network }) {
     });
   }, []);
 
-  useEffect(()=> {
-    const address = account?.address ?? ``;
-    if(!address){
+  useEffect(() => {
+    const address = account?.address ?? "";
+    if (!address) {
       setBalance(null);
       setBalanceError("Link an address to create a proposal.");
     }
-    if(!address || !height > 0){
+    if (!address || !height > 0) {
       return;
     }
     setBalanceError(null);
@@ -90,13 +96,45 @@ export default function PostCreate({ network }) {
     Promise.all([
       nextApi.fetch(`${space}/account/${address}/balance?snapshot=${height}`),
       delay,
-    ]).then(results => setBalance(results[0]?.result?.balance ?? 0))
-    .catch(error => {
-      setBalanceError("something went wrong while querying balance, please try again later.");
-    })
-
-
+    ])
+      .then((results) => {
+        setBalance(results[0]?.result?.balance ?? 0);
+      })
+      .catch((error) => {
+        setBalanceError(
+          "something went wrong while querying balance, please try again later."
+        );
+      });
   }, [space, height, account?.address]);
+
+  useEffect(() => {
+    const address = proxyAddress ?? "";
+    if (!address) {
+      setProxyBalance(null);
+      setProxyBalanceError("Link an address to create a proposal.");
+    }
+    if (!address || !height > 0) {
+      return;
+    }
+    setProxyBalanceError(null);
+    const delay = new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve();
+      }, 2000);
+    });
+    Promise.all([
+      nextApi.fetch(`${space}/account/${address}/balance?snapshot=${height}`),
+      delay,
+    ])
+      .then((results) => {
+        setProxyBalance(results[0]?.result?.balance ?? 0);
+      })
+      .catch((error) => {
+        setProxyBalanceError(
+          "something went wrong while querying balance, please try again later."
+        );
+      });
+  }, [space, height, proxyAddress, proxyCount]);
 
   const onPublish = async () => {
     if (isLoading) return;
@@ -123,8 +161,11 @@ export default function PostCreate({ network }) {
       endDate: endDate?.getTime(),
       snapshotHeight: Number(height),
       address: encodeAddress(account?.address, network.ss58Format),
+      realProposer: proxyPublish
+        ? encodeAddress(proxyAddress, network.ss58Format)
+        : null,
     };
-    const formError =  viewFunc.validateProposal(proposal);
+    const formError = viewFunc.validateProposal(proposal);
     if (formError) {
       dispatch(
         addToast({
@@ -193,6 +234,19 @@ export default function PostCreate({ network }) {
           symbol={symbol}
           decimals={decimals}
           balanceError={balanceError}
+          proxyPublish={proxyPublish}
+          setProxyPublish={setProxyPublish}
+          proxyAddress={proxyAddress}
+          setProxyAddress={setProxyAddress}
+          network={network}
+          info={info}
+          setInfo={setInfo}
+          setProxyCount={() => setProxyCount(proxyCount + 1)}
+          proxyBalance={proxyBalance}
+          proxyBalanceError={proxyBalanceError}
+          setProxyBalance={setProxyBalance}
+          isInputting={isInputting}
+          setIsInputting={setIsInputting}
         />
       </SiderWrapper>
     </Wrapper>

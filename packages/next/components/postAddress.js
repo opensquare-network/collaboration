@@ -3,19 +3,24 @@ import { useState, useRef, useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 import { fetchIdentity } from "services/identity";
-import Avatar from "../avatar";
-import IdentityIcon from "../identityIcon";
+import Avatar from "./avatar";
+import IdentityIcon from "./identityIcon";
 import Loading from "public/imgs/icons/loading.svg";
 import { useWindowSize } from "frontedUtils/hooks";
 import { addressEllipsis } from "frontedUtils";
 import { encodeAddress } from "@polkadot/util-crypto";
 import { addToast } from "store/reducers/toastSlice";
 import { TOAST_TYPES } from "frontedUtils/constants";
-import { p_14_normal } from "../../styles/textStyles";
+import { p_14_normal } from "../styles/textStyles";
 
 const Wrapper = styled.div`
   padding: 20px;
   background: #fbfcfe;
+  ${(p) =>
+    p.size === "small" &&
+    css`
+      padding: 0;
+    `}
 `;
 
 const InputWrapper = styled.div`
@@ -35,6 +40,20 @@ const InputWrapper = styled.div`
     top: 24px;
     right: 16px;
   }
+  ${(p) =>
+    p.size === "small" &&
+    css`
+      > img {
+        width: 20px;
+        height: 20px;
+        left: 16px;
+        top: 14px;
+      }
+      > svg {
+        top: 12px;
+        right: 16px;
+      }
+    `}
 `;
 
 const Input = styled.input`
@@ -44,7 +63,7 @@ const Input = styled.input`
   padding: 23px 47px 23px 71px;
   ${p_14_normal};
   ::placeholder {
-    color: #A1A8B3;
+    color: #a1a8b3;
   }
   :focus {
     border-color: #b7c0cc;
@@ -53,6 +72,15 @@ const Input = styled.input`
     p.isLoading &&
     css`
       pointer-events: none;
+    `}
+  ${(p) =>
+    p.size === "small" &&
+    css`
+      max-width: 144px;
+      padding: 11px 47px 11px 43px;
+      @media screen and (max-width: 800px) {
+        max-width: none;
+      }
     `}
 `;
 
@@ -63,6 +91,16 @@ const ItemWrapper = styled.div`
   cursor: pointer;
   display: flex;
   align-items: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  ${(p) =>
+    p.size === "small" &&
+    css`
+      max-width: 236px;
+      @media screen and (max-width: 800px) {
+        max-width: none;
+      }
+    `}
 `;
 
 const DetailWrapper = styled.div`
@@ -78,6 +116,11 @@ const DetailWrapper = styled.div`
     line-height: 24px;
     color: #506176;
   }
+  ${(p) =>
+    p.size === "small" &&
+    css`
+      margin-left: 8px;
+    `}
 `;
 
 const IdentityWrapper = styled.div`
@@ -85,6 +128,7 @@ const IdentityWrapper = styled.div`
   align-items: center;
   > :not(:first-child) {
     margin-left: 4px;
+    white-space: nowrap;
   }
 `;
 
@@ -96,25 +140,28 @@ export default function PostAddress({
   setInfo,
   setProxyBalance,
   getProxyBalance,
+  size,
+  setIsInputting,
 }) {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [isInput, setIsInput] = useState(false);
   const { width } = useWindowSize();
+  const [inputAddress, setInputAddress] = useState(address);
 
   const ref = useRef();
 
   const onBlur = async () => {
-    if (!address || !network) {
+    if (!inputAddress || !network) {
       return;
     }
 
     try {
-      const spaceAddr = encodeAddress(address, network.ss58Format);
+      const spaceAddr = encodeAddress(inputAddress, network.ss58Format);
       setAddress(spaceAddr);
 
       const chain = network.relay || network;
-      const idenAddr = encodeAddress(address, chain.ss58Format);
+      const idenAddr = encodeAddress(inputAddress, chain.ss58Format);
 
       setIsLoading(true);
       const response = await fetchIdentity(chain.network, idenAddr);
@@ -143,19 +190,31 @@ export default function PostAddress({
     if (isInput) {
       ref.current.focus();
       setProxyBalance(null);
+      setInfo(null);
     }
-  }, [isInput, setProxyBalance]);
+  }, [isInput, setProxyBalance, setInfo]);
+
+  useEffect(() => {
+    if (setIsInputting) {
+      setIsInputting(isInput);
+    }
+  }, [isInput, setIsInputting]);
 
   return (
-    <Wrapper>
+    <Wrapper size={size}>
       {isInput && (
-        <InputWrapper>
+        <InputWrapper size={size}>
           <Input
+            size={size}
             isLoading={isLoading}
             ref={ref}
-            placeholder="Please fill the proxy address"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
+            placeholder={
+              size === "small"
+                ? "Proxy address"
+                : "Please fill the proxy address"
+            }
+            value={inputAddress}
+            onChange={(e) => setInputAddress(e.target.value)}
             onBlur={onBlur}
             onKeyPress={(e) => {
               if (e.key === "Enter") {
@@ -169,14 +228,19 @@ export default function PostAddress({
       )}
       {!isInput && (
         <ItemWrapper
+          size={size}
           onClick={() => {
             setIsInput(true);
           }}
         >
-          <Avatar address={address} size={40} />
-          <DetailWrapper>
+          <Avatar address={address} size={size === "small" ? 20 : 40} />
+          <DetailWrapper size={size}>
             {!info && (
-              <div>{width <= 1100 ? addressEllipsis(address) : address}</div>
+              <div>
+                {width <= 1100 || size === "small"
+                  ? addressEllipsis(address)
+                  : address}
+              </div>
             )}
             {info && (
               <IdentityWrapper>
@@ -184,7 +248,9 @@ export default function PostAddress({
                 <div>{info?.display}</div>
               </IdentityWrapper>
             )}
-            <div>{width <= 1100 ? addressEllipsis(address) : address}</div>
+            {size !== "small" && (
+              <div>{width <= 1100 ? addressEllipsis(address) : address}</div>
+            )}
           </DetailWrapper>
         </ItemWrapper>
       )}

@@ -19,6 +19,7 @@ async function createProposal(ctx) {
     startDate,
     endDate,
     snapshotHeight,
+    realProposer,
   } = data;
 
   if (!title) {
@@ -82,6 +83,7 @@ async function createProposal(ctx) {
     startDate,
     endDate,
     snapshotHeight,
+    realProposer,
     data,
     address,
     signature,
