@@ -136,6 +136,12 @@ export default function PostCreate({ network }) {
       });
   }, [space, height, proxyAddress, proxyCount]);
 
+  useEffect(() => {
+    if (isInputting) {
+      setProxyBalance(null);
+    }
+  }, [proxyBalance, isInputting]);
+
   const onPublish = async () => {
     if (isLoading) return;
 
