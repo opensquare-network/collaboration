@@ -168,6 +168,7 @@ export default function PostAddress({
       setInfo(response?.info);
       getProxyBalance();
     } catch (e) {
+      setAddress(inputAddress);
       dispatch(
         addToast({
           type: TOAST_TYPES.ERROR,
@@ -191,8 +192,9 @@ export default function PostAddress({
       ref.current.focus();
       setProxyBalance(null);
       setInfo(null);
+      setAddress("");
     }
-  }, [isInput, setProxyBalance, setInfo]);
+  }, [isInput, setProxyBalance, setInfo, setAddress]);
 
   useEffect(() => {
     if (setIsInputting) {
