@@ -248,9 +248,10 @@ export default function More({
           onClick={onPublish}
           isLoading={
             isLoading ||
-            new BigNumber(balance).isNaN() ||
-            !thresholdFulfilled ||
-            balanceError ||
+            (!proxyPublish &&
+              (new BigNumber(balance).isNaN() ||
+                !thresholdFulfilled ||
+                balanceError)) ||
             (proxyPublish &&
               (new BigNumber(proxyBalance).isNaN() ||
                 !proxyThresholdFulfilled ||
