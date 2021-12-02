@@ -107,9 +107,7 @@ export default function ListInfo({ spaceName, data }) {
               data.decimals
             )}${data.symbol} to create a proposal`}
             size="full"
-          >
-            <div />
-          </Tooltip>
+          />
         </AboutItem>
         <AboutDivider />
         <AboutItem>
