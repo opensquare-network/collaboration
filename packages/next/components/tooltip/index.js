@@ -4,35 +4,6 @@ import copy from "copy-to-clipboard";
 
 import { addToast } from "store/reducers/toastSlice";
 
-const Wrapper = styled.div`
-  display: inline-block;
-  position: relative;
-  font-size: 14px;
-  line-height: 16px;
-  color: rgba(17, 17, 17, 0.65);
-  > svg {
-    stroke-opacity: 0.65;
-  }
-  :hover {
-    color: #111111;
-    > svg {
-      stroke-opacity: 1;
-    }
-    > * {
-      display: block;
-    }
-  }
-  ${(p) =>
-    p.bg &&
-    css`
-      padding: 6px 12px;
-      background: #f4f4f4;
-      border-radius: 4px;
-      :hover {
-        background: #eeeeee;
-      }
-    `}
-`;
 
 const PopupWrapper = styled.div`
   cursor: auto;
@@ -114,40 +85,22 @@ export default function Tooltip({
 
   const onCopy = () => {
     if (isCopy && content && copy(copyText || content)) {
-      dispatch(addToast({ type: "success", message: "Copied" }));
+      dispatch(addToast({type: "success", message: "Copied"}));
     }
   };
 
   return (
-    <>
-      {children ? (
-        <ChildrenWrapper>
-          {children}
-          {content && (
-            <PopupWrapper onClick={onCopy} isCopy>
-              <Popup noMinWidth={noMinWidth}>
-                {title && <TitleWrapper>{title}</TitleWrapper>}
-                {content}
-                <Triangle />
-              </Popup>
-            </PopupWrapper>
-          )}
-        </ChildrenWrapper>
-      ) : (
-        <Wrapper bg={bg}>
-          {label && label}
-          {!label && <TooltipIcon src="/imgs/icons/tooltip-icon.svg" />}
-          {content && (
-            <PopupWrapper onClick={onCopy} isCopy>
-              <Popup noMinWidth={noMinWidth}>
-                {title && <TitleWrapper>{title}</TitleWrapper>}
-                {content}
-                <Triangle />
-              </Popup>
-            </PopupWrapper>
-          )}
-        </Wrapper>
+    <ChildrenWrapper>
+      {children}
+      {content && (
+        <PopupWrapper onClick={onCopy} isCopy>
+          <Popup noMinWidth={noMinWidth}>
+            {title && <TitleWrapper>{title}</TitleWrapper>}
+            {content}
+            <Triangle/>
+          </Popup>
+        </PopupWrapper>
       )}
-    </>
+    </ChildrenWrapper>
   );
 }
