@@ -24,8 +24,8 @@ const Wrapper = styled.div`
     }
   }
   ${(p) =>
-  p.bg &&
-  css`
+    p.bg &&
+    css`
       padding: 6px 12px;
       background: #f4f4f4;
       border-radius: 4px;
@@ -45,8 +45,8 @@ const PopupWrapper = styled.div`
   transform: translateX(-50%);
   z-index: 1;
   ${(p) =>
-  p.isCopy &&
-  css`
+    p.isCopy &&
+    css`
       cursor: pointer;
     `}
 `;
@@ -81,9 +81,15 @@ const ChildrenWrapper = styled.div`
       display: block;
     }
   }
-  > svg{
+  > svg {
     display: block;
   }
+  ${(p) =>
+    p.size === "full" &&
+    css`
+      width: 100%;
+      height: 100%;
+    `}
 `;
 
 const TitleWrapper = styled.div`
@@ -99,14 +105,15 @@ const TooltipIcon = styled.img`
 `;
 
 export default function Tooltip({
-                                  label,
-                                  bg,
-                                  content,
-                                  children,
-                                  isCopy,
-                                  copyText,
-                                  title,
-                                }) {
+  label,
+  bg,
+  content,
+  children,
+  isCopy,
+  copyText,
+  title,
+  size,
+}) {
   const dispatch = useDispatch();
 
   const onCopy = () => {
@@ -118,10 +125,10 @@ export default function Tooltip({
   return (
     <>
       {children ? (
-        <ChildrenWrapper>
+        <ChildrenWrapper size={size}>
           {children}
           {content && (
-            <PopupWrapper onClick={onCopy} isCopy>
+            <PopupWrapper onClick={onCopy} isCopy={isCopy}>
               <Popup>
                 {title && <TitleWrapper>{title}</TitleWrapper>}
                 {content}

@@ -1,7 +1,12 @@
 import styled from "styled-components";
 import { toPrecision } from "frontedUtils";
-import { p_14_normal, p_16_semibold, p_20_semibold } from "../styles/textStyles";
+import {
+  p_14_normal,
+  p_16_semibold,
+  p_20_semibold,
+} from "../styles/textStyles";
 import SpaceLogo from "@/components/spaceLogo";
+import Tooltip from "@/components/tooltip";
 
 const Wrapper = styled.div`
   display: flex;
@@ -35,6 +40,7 @@ const AboutWrapper = styled.div`
 const AboutItem = styled.div`
   display: flex;
   align-items: flex-start;
+  position: relative;
 `;
 
 const AboutIcon = styled.img`
@@ -90,15 +96,27 @@ export default function ListInfo({ spaceName, data }) {
           <AboutIcon src="/imgs/icons/threshold.svg" />
           <div>
             <AboutName>Threshold</AboutName>
-            <AboutDetail>{`${toPrecision(data.proposeThreshold, data.decimals)} ${data.symbol}`}</AboutDetail>
+            <AboutDetail>{`${toPrecision(
+              data.proposeThreshold,
+              data.decimals
+            )} ${data.symbol}`}</AboutDetail>
           </div>
+          <Tooltip
+            content={`At least ${toPrecision(
+              data.proposeThreshold,
+              data.decimals
+            )}${data.symbol} to create a proposal`}
+            size="full"
+          />
         </AboutItem>
         <AboutDivider />
         <AboutItem>
           <AboutIcon src="/imgs/icons/strategy.svg" />
           <div>
             <AboutName>Strategies</AboutName>
-            <StrategyAboutDetail>{data.weightStrategy?.join(", ")}</StrategyAboutDetail>
+            <StrategyAboutDetail>
+              {data.weightStrategy?.join(", ")}
+            </StrategyAboutDetail>
           </div>
         </AboutItem>
       </AboutWrapper>
