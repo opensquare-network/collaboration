@@ -123,6 +123,7 @@ export default function More({
           placeholder="Start date"
         />
         <DatePicker
+          minDate={startDate}
           date={endDate}
           setDate={setEndDate}
           placeholder="End date"
