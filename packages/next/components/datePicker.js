@@ -207,7 +207,14 @@ const TimeInput = styled.input`
   text-align: center;
 `;
 
-export default function Component({ date, setDate, placeholder, minDate }) {
+export default function Component({
+  date,
+  setDate,
+  placeholder,
+  minDate,
+  maxDate,
+  button,
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const [show, setShow] = useState("date");
   const [hour, setHour] = useState("");
@@ -288,11 +295,15 @@ export default function Component({ date, setDate, placeholder, minDate }) {
   return (
     <Wrapper ref={ref}>
       <DateTimeWrapper>
-        <DateButton onClick={handleClick} active={isOpen}>
-          {date && <div>{moment(date).format("MMM,DD YYYY HH:mm")}</div>}
-          {!date && <div className="placeholder">{placeholder}</div>}
-          <CaretRight />
-        </DateButton>
+        {button ? (
+          <div onClick={handleClick}>{button}</div>
+        ) : (
+          <DateButton onClick={handleClick} active={isOpen}>
+            {date && <div>{moment(date).format("MMM,DD YYYY HH:mm")}</div>}
+            {!date && <div className="placeholder">{placeholder}</div>}
+            <CaretRight />
+          </DateButton>
+        )}
         {isOpen && (
           <>
             {show === "date" && (
@@ -300,6 +311,7 @@ export default function Component({ date, setDate, placeholder, minDate }) {
                 <DatePicker
                   selected={date}
                   minDate={minDate}
+                  maxDate={maxDate}
                   onChange={handleChange}
                   inline
                   renderCustomHeader={({

@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
+import moment from "moment";
 
 import Input from "components/input";
 import DatePicker from "components/datePicker";
@@ -13,6 +14,9 @@ import { popUpConnect } from "../../store/reducers/showConnectSlice";
 import Tooltip from "@/components/tooltip";
 import Toggle from "../toggle";
 import PostAddress from "../postAddress";
+import Api from "../../services/api";
+
+const snapshotApi = new Api(new URL("/api/", "https://next.statescan.io").href);
 
 const Wrapper = styled.div`
   min-width: 302px;
@@ -70,6 +74,7 @@ const ProxyVoteWrapper = styled.div``;
 
 const InputWrapper = styled.div`
   position: relative;
+  display: flex;
   > img {
     position: absolute;
     top: 12px;
@@ -79,6 +84,14 @@ const InputWrapper = styled.div`
 
 const StyledInput = styled(Input)`
   padding-left: 48px;
+  flex-grow: 1;
+`;
+
+const SnapshotHeightWrapper = styled.div`
+  height: 24px;
+  width: 24px;
+  position: relative;
+  cursor: pointer;
 `;
 
 export default function More({
@@ -115,6 +128,21 @@ export default function More({
     new BigNumber(Number(proxyBalance)).comparedTo(new BigNumber(threshold)) >=
     0;
   const dispatch = useDispatch();
+  const isSnapshotHeight = ["RMRK"].includes(network?.name);
+  const [snapshotHeightDate, setSnapshotHeightDate] = useState();
+
+  useEffect(() => {
+    if (snapshotHeightDate) {
+      snapshotApi
+        .fetch(`blocks/fromtime/${moment(snapshotHeightDate).valueOf()}`)
+        .then((response) => {
+          if (response?.result?.header?.number) {
+            setHeight(response?.result?.header?.number);
+          }
+        })
+        .catch(() => {});
+    }
+  }, [snapshotHeightDate, setHeight]);
 
   return (
     <Wrapper>
@@ -145,7 +173,18 @@ export default function More({
       <InnerWrapper>
         <TitleWrapper>
           <Title>Snapshot height</Title>
-          <img src="/imgs/icons/timestamp.svg" alt="" />
+          {isSnapshotHeight ? (
+            <SnapshotHeightWrapper>
+              <DatePicker
+                maxDate={new Date()}
+                date={snapshotHeightDate}
+                setDate={setSnapshotHeightDate}
+                button={<img src="/imgs/icons/timestamp-color.svg" alt="" />}
+              />
+            </SnapshotHeightWrapper>
+          ) : (
+            <img src="/imgs/icons/timestamp.svg" alt="" />
+          )}
         </TitleWrapper>
         <InputWrapper>
           <StyledInput
@@ -156,6 +195,12 @@ export default function More({
           />
           <img src="/imgs/icons/block.svg" alt="" />
         </InputWrapper>
+        {snapshotHeightDate && (
+          <Row
+            header="Timestamp"
+            content={moment(snapshotHeightDate).format("MMM,DD YYYY HH:mm")}
+          />
+        )}
       </InnerWrapper>
       <InnerWrapper>
         <TitleWrapper>
