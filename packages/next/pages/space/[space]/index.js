@@ -56,10 +56,18 @@ export default function List({
     <Layout bgHeight="264px" network={spaceData}>
       <HeaderWrapper>
         <Nav
-          data={[{ name: "Home", link: "/", back: true }, { name: spaceData.name }]}
+          data={[
+            { name: "Home", link: "/", back: true },
+            { name: spaceData.name },
+          ]}
         />
         <ListInfo spaceName={spaceName} data={spaceData} />
-        <ListTab space={spaceName} activeTab={activeTab} onActiveTab={setTab} defaultPage={defaultPage} />
+        <ListTab
+          space={spaceName}
+          activeTab={activeTab}
+          onActiveTab={setTab}
+          defaultPage={defaultPage}
+        />
       </HeaderWrapper>
       <PostWrapper>
         <PostList posts={proposalList} network={spaceData} />
@@ -102,7 +110,7 @@ export async function getServerSideProps(context) {
     }),
   ]);
 
-  if(Object.keys(spaceData).length === 0){
+  if (Object.keys(spaceData).length === 0) {
     to404(context);
   }
 
