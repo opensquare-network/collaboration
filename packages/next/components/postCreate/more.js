@@ -68,6 +68,19 @@ const Hint = styled.div`
 
 const ProxyVoteWrapper = styled.div``;
 
+const InputWrapper = styled.div`
+  position: relative;
+  > img {
+    position: absolute;
+    top: 12px;
+    left: 16px;
+  }
+`;
+
+const StyledInput = styled(Input)`
+  padding-left: 48px;
+`;
+
 export default function More({
   startDate,
   setStartDate,
@@ -115,7 +128,7 @@ export default function More({
       <InnerWrapper>
         <TitleWrapper>
           <Title>Period</Title>
-          <img src="/imgs/icons/timestamp.svg" alt="" />
+          <img src="/imgs/icons/date.svg" alt="" />
         </TitleWrapper>
         <DatePicker
           date={startDate}
@@ -132,14 +145,17 @@ export default function More({
       <InnerWrapper>
         <TitleWrapper>
           <Title>Snapshot height</Title>
-          <img src="/imgs/icons/block.svg" alt="" />
+          <img src="/imgs/icons/timestamp.svg" alt="" />
         </TitleWrapper>
-        <Input
-          placeholder="0"
-          type="number"
-          value={height}
-          onChange={(e) => setHeight(e.target.value)}
-        />
+        <InputWrapper>
+          <StyledInput
+            placeholder="0"
+            type="number"
+            value={height}
+            onChange={(e) => setHeight(e.target.value)}
+          />
+          <img src="/imgs/icons/block.svg" alt="" />
+        </InputWrapper>
       </InnerWrapper>
       <InnerWrapper>
         <TitleWrapper>
