@@ -117,6 +117,10 @@ const DateWrapper = styled.div`
   .react-datepicker__day--keyboard-selected {
     background-color: transparent;
   }
+
+  .react-datepicker__day--disabled {
+    color: #9da9bb;
+  }
 `;
 
 const DateHeader = styled.div`
@@ -203,7 +207,7 @@ const TimeInput = styled.input`
   text-align: center;
 `;
 
-export default function Component({ date, setDate, placeholder }) {
+export default function Component({ date, setDate, placeholder, minDate }) {
   const [isOpen, setIsOpen] = useState(false);
   const [show, setShow] = useState("date");
   const [hour, setHour] = useState("");
@@ -295,6 +299,7 @@ export default function Component({ date, setDate, placeholder }) {
               <DateWrapper>
                 <DatePicker
                   selected={date}
+                  minDate={minDate}
                   onChange={handleChange}
                   inline
                   renderCustomHeader={({
