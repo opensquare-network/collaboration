@@ -27,7 +27,7 @@ export default function Index({
   useEffect(() => {
     if (encodedAddress) {
       nextApi
-        .fetch(`${space}/proposals/${detail?._id}/votes/${encodedAddress}`)
+        .fetch(`${space}/proposal/${detail?._id}/votes/${encodedAddress}`)
         .then((result) => {
           if (result?.result) {
             setSavedMyVote(result.result);
