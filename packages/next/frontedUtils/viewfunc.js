@@ -9,7 +9,7 @@ export function validateProposal(formData) {
     }
   }
   if (!(formData.endDate > formData.startDate)) {
-    return `The end date must be greater than start date.`;
+    return `End date should be greater than start date!`;
   }
   if (!(formData.choices.length >= 2)) {
     return `Choices must be more than one.`;
@@ -19,7 +19,7 @@ export function validateProposal(formData) {
   }
   const now = (new Date()).getTime();
   if(formData.endDate <= now){
-    return `Invalid end date, it must not be earlier than now.`;
+    return `End date should be greater than current time!`;
   }
   return false;
 }

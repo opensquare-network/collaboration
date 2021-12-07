@@ -215,8 +215,8 @@ export default function PostAddress({
             ref={ref}
             placeholder={
               size === "small"
-                ? "Proxy address"
-                : "Please fill the proxy address"
+                ? "Proxy source address"
+                : "Please fill the proxy source address"
             }
             value={inputAddress}
             onChange={(e) => setInputAddress(e.target.value)}
