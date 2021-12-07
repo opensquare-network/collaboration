@@ -77,7 +77,7 @@ export async function getServerSideProps(context) {
   const pageSize = 5;
 
   const { result: detail } = await ssrNextApi.fetch(
-    `${spaceName}/proposals/${id}`
+    `${spaceName}/proposal/${id}`
   );
 
   if (!detail) {
@@ -91,11 +91,11 @@ export async function getServerSideProps(context) {
     { result: comments },
   ] = await Promise.all([
     ssrNextApi.fetch(`spaces/${spaceName}`),
-    ssrNextApi.fetch(`${spaceName}/proposals/${detail?._id}/votes`, {
+    ssrNextApi.fetch(`${spaceName}/proposals/${detail?.cid}/votes`, {
       page: activeTab === "votes" ? nPage : 1,
       pageSize,
     }),
-    ssrNextApi.fetch(`${spaceName}/proposals/${detail?._id}/stats`),
+    ssrNextApi.fetch(`${spaceName}/proposals/${detail?.cid}/stats`),
     ssrNextApi.fetch(`${spaceName}/proposals/${detail?._id}/comments`, {
       page: activeTab === "discussion" ? nPage : 1,
       pageSize,
