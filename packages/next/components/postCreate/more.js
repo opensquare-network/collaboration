@@ -15,6 +15,7 @@ import Tooltip from "@/components/tooltip";
 import Toggle from "../toggle";
 import PostAddress from "../postAddress";
 import Api from "../../services/api";
+import LoadingSvg from "public/imgs/icons/loading.svg";
 
 const snapshotApi = new Api(new URL("/api/", "https://next.statescan.io").href);
 
@@ -80,10 +81,16 @@ const InputWrapper = styled.div`
     top: 12px;
     left: 16px;
   }
+  > svg {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+  }
 `;
 
 const StyledInput = styled(Input)`
   padding-left: 48px;
+  padding-right: 44px;
   flex-grow: 1;
 `;
 
@@ -93,6 +100,8 @@ const SnapshotHeightWrapper = styled.div`
   position: relative;
   cursor: pointer;
 `;
+
+const blocksMap = new Map();
 
 export default function More({
   startDate,
@@ -130,9 +139,11 @@ export default function More({
   const dispatch = useDispatch();
   const isSnapshotHeight = ["RMRK"].includes(network?.name);
   const [snapshotHeightDate, setSnapshotHeightDate] = useState();
+  const [snapshotHeightLoading, setSnapshotHeightLoading] = useState(false);
 
   useEffect(() => {
     if (snapshotHeightDate) {
+      setSnapshotHeightLoading(true);
       snapshotApi
         .fetch(`blocks/fromtime/${moment(snapshotHeightDate).valueOf()}`)
         .then((response) => {
@@ -140,9 +151,29 @@ export default function More({
             setHeight(response?.result?.header?.number);
           }
         })
-        .catch(() => {});
+        .catch(() => {})
+        .finally(() => {
+          setSnapshotHeightLoading(false);
+        });
     }
   }, [snapshotHeightDate, setHeight]);
+
+  useEffect(() => {
+    if (height && !blocksMap.get(`${height}`)) {
+      snapshotApi
+        .fetch(`blocks/${height}`)
+        .then((response) => {
+          if (response?.result?.blockTime) {
+            blocksMap.set(`${height}`, response.result.blockTime);
+          } else {
+            blocksMap.set(`${height}`, null);
+          }
+        })
+        .catch(() => {
+          blocksMap.set(`${height}`, null);
+        });
+    }
+  }, [height]);
 
   return (
     <Wrapper>
@@ -192,13 +223,15 @@ export default function More({
             type="number"
             value={height}
             onChange={(e) => setHeight(e.target.value)}
+            disabled={snapshotHeightLoading}
           />
           <img src="/imgs/icons/block.svg" alt="" />
+          {snapshotHeightLoading && <LoadingSvg />}
         </InputWrapper>
-        {snapshotHeightDate && (
+        {blocksMap.get(`${height}`) && (
           <Row
             header="Timestamp"
-            content={moment(snapshotHeightDate).format("MMM,DD YYYY HH:mm")}
+            content={moment(blocksMap.get(height)).format("MMM,DD YYYY HH:mm")}
           />
         )}
       </InnerWrapper>
