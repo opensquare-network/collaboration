@@ -172,15 +172,19 @@ export default function Account({network, showMenu, setShowMenu}) {
   useEffect(() => setPageMounted(true), []);
 
   useEffect(() => {
-    if (account?.address && network?.ss58Format !== undefined) {
-      const spaceAddr = encodeAddress(account?.address, network.ss58Format);
-      setAddress(spaceAddr);
+    if (account) {
+      if (account?.address && network?.ss58Format !== undefined) {
+        const spaceAddr = encodeAddress(account.address, network.ss58Format);
+        setAddress(spaceAddr);
+      } else {
+        setAddress(account.address)
+      }
     }
-  }, [network?.ss58Format, account?.address]);
+  }, [network?.ss58Format, account]);
 
   useEffect(() => {
     if (chain && account?.address) {
-      const idenAddr = encodeAddress(account?.address, chain.ss58Format);
+      const idenAddr = encodeAddress(account.address, chain.ss58Format);
       fetchIdentity(chain.network, idenAddr)
         .then((identity) => {
           if (isMounted.current) {
@@ -191,12 +195,6 @@ export default function Account({network, showMenu, setShowMenu}) {
         });
     }
   }, [chain, account?.address, isMounted]);
-
-  useEffect(() => {
-    if (account) {
-      setAddress(account.address)
-    }
-  }, [account])
 
   const onLogout = () => {
     dispatch(logout());
