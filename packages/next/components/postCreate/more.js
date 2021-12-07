@@ -17,7 +17,13 @@ import PostAddress from "../postAddress";
 import Api from "../../services/api";
 import LoadingSvg from "public/imgs/icons/loading.svg";
 
-const snapshotApi = new Api(new URL("/api/", "https://next.statescan.io").href);
+const snapshotApi = new Api(
+  new URL(
+    "/api/",
+    process.env.NEXT_PUBLIC_SNAPSHOT_HEIGHT_ENDPOINT ||
+      "https://next.statescan.io"
+  ).href
+);
 
 const Wrapper = styled.div`
   min-width: 302px;
@@ -68,10 +74,13 @@ const SystemWrapper = styled.div`
 `;
 
 const Hint = styled.div`
+  margin-top: 4px !important;
   color: #ee4444;
 `;
 
-const ProxyVoteWrapper = styled.div``;
+const ProxyVoteWrapper = styled.div`
+  margin-top: 4px !important;
+`;
 
 const InputWrapper = styled.div`
   position: relative;
@@ -92,6 +101,7 @@ const StyledInput = styled(Input)`
   padding-left: 48px;
   padding-right: 44px;
   flex-grow: 1;
+  width: 120px;
 `;
 
 const SnapshotHeightWrapper = styled.div`
@@ -99,6 +109,21 @@ const SnapshotHeightWrapper = styled.div`
   width: 24px;
   position: relative;
   cursor: pointer;
+`;
+
+const DateWrapper = styled.div`
+  > :not(:first-child) {
+    margin-top: 8px;
+  }
+`;
+
+const Divider = styled.div`
+  height: 1px;
+  background: #f0f3f8;
+`;
+
+const PostAddressWrapper = styled.div`
+  margin-top: 4px !important;
 `;
 
 // const blocksMap = new Map();
@@ -189,17 +214,19 @@ export default function More({
           <Title>Period</Title>
           <img src="/imgs/icons/date.svg" alt="" />
         </TitleWrapper>
-        <DatePicker
-          date={startDate}
-          setDate={setStartDate}
-          placeholder="Start date"
-        />
-        <DatePicker
-          minDate={startDate}
-          date={endDate}
-          setDate={setEndDate}
-          placeholder="End date"
-        />
+        <DateWrapper>
+          <DatePicker
+            date={startDate}
+            setDate={setStartDate}
+            placeholder="Start date"
+          />
+          <DatePicker
+            minDate={startDate}
+            date={endDate}
+            setDate={setEndDate}
+            placeholder="End date"
+          />
+        </DateWrapper>
       </InnerWrapper>
       <InnerWrapper>
         <TitleWrapper>
@@ -240,10 +267,11 @@ export default function More({
           <Title>Information</Title>
           <img src="/imgs/icons/info.svg" alt="" />
         </TitleWrapper>
+        <Divider />
         {!proxyPublish && (
           <>
             {!new BigNumber(balance).isNaN() ? (
-              thresholdFulfilled ? (
+              <>
                 <Row
                   header="Balance"
                   content={
@@ -257,13 +285,14 @@ export default function More({
                     </Tooltip>
                   }
                 />
-              ) : (
-                <Hint>
-                  You need to have a minimum of{" "}
-                  {toPrecision(threshold, decimals)} {symbol} in order to
-                  publish a proposal.
-                </Hint>
-              )
+                {!thresholdFulfilled && (
+                  <Hint>
+                    You need to have a minimum of{" "}
+                    {toPrecision(threshold, decimals)} {symbol} in order to
+                    publish a proposal.
+                  </Hint>
+                )}
+              </>
             ) : balanceError ? (
               <Hint>{balanceError}</Hint>
             ) : (
@@ -274,7 +303,7 @@ export default function More({
         {proxyPublish && (
           <>
             {!new BigNumber(proxyBalance).isNaN() && !isInputting ? (
-              proxyThresholdFulfilled ? (
+              <>
                 <Row
                   header="Balance"
                   content={
@@ -291,13 +320,14 @@ export default function More({
                     </Tooltip>
                   }
                 />
-              ) : (
-                <Hint>
-                  You need to have a minimum of{" "}
-                  {toPrecision(threshold, decimals)} {symbol} in order to
-                  publish a proposal.
-                </Hint>
-              )
+                {!proxyThresholdFulfilled && (
+                  <Hint>
+                    You need to have a minimum of{" "}
+                    {toPrecision(threshold, decimals)} {symbol} in order to
+                    publish a proposal.
+                  </Hint>
+                )}
+              </>
             ) : proxyBalanceError ? (
               <Hint>{proxyBalanceError}</Hint>
             ) : (
@@ -319,17 +349,19 @@ export default function More({
           />
         </ProxyVoteWrapper>
         {proxyPublish && (
-          <PostAddress
-            size="small"
-            address={proxyAddress}
-            setAddress={setProxyAddress}
-            network={network}
-            info={info}
-            setInfo={setInfo}
-            setProxyBalance={setProxyBalance}
-            getProxyBalance={setProxyCount}
-            setIsInputting={setIsInputting}
-          />
+          <PostAddressWrapper>
+            <PostAddress
+              size="small"
+              address={proxyAddress}
+              setAddress={setProxyAddress}
+              network={network}
+              info={info}
+              setInfo={setInfo}
+              setProxyBalance={setProxyBalance}
+              getProxyBalance={setProxyCount}
+              setIsInputting={setIsInputting}
+            />
+          </PostAddressWrapper>
         )}
       </InnerWrapper>
       {balanceError === "Link an address to create a proposal." ? (

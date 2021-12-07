@@ -45,6 +45,9 @@ const SiderWrapper = styled.div`
   }
 `;
 
+const FETCH_BALANCE_ERROR =
+  "something went wrong while querying balance, please try again later.";
+
 export default function PostCreate({ network }) {
   const dispatch = useDispatch();
   const account = useSelector(accountSelector);
@@ -98,14 +101,23 @@ export default function PostCreate({ network }) {
       delay,
     ])
       .then((results) => {
-        setBalance(results[0]?.result?.balance ?? 0);
+        if (
+          results[0]?.result?.balance !== undefined &&
+          results[0]?.result?.balance !== null
+        ) {
+          setBalance(results[0]?.result?.balance ?? 0);
+        } else {
+          const message = results[0]?.error?.message || FETCH_BALANCE_ERROR;
+          dispatch(addToast({ type: TOAST_TYPES.ERROR, message }));
+          setBalanceError(message);
+        }
       })
       .catch((error) => {
-        setBalanceError(
-          "something went wrong while querying balance, please try again later."
-        );
+        const message = error?.message || FETCH_BALANCE_ERROR;
+        dispatch(addToast({ type: TOAST_TYPES.ERROR, message }));
+        setBalanceError(message);
       });
-  }, [space, height, account?.address]);
+  }, [space, height, account?.address, dispatch]);
 
   useEffect(() => {
     const address = proxyAddress ?? "";
@@ -127,14 +139,23 @@ export default function PostCreate({ network }) {
       delay,
     ])
       .then((results) => {
-        setProxyBalance(results[0]?.result?.balance ?? 0);
+        if (
+          results[0]?.result?.balance !== undefined &&
+          results[0]?.result?.balance !== null
+        ) {
+          setProxyBalance(results[0]?.result?.balance ?? 0);
+        } else {
+          const message = results[0]?.error?.message || FETCH_BALANCE_ERROR;
+          dispatch(addToast({ type: TOAST_TYPES.ERROR, message }));
+          setProxyBalanceError(message);
+        }
       })
       .catch((error) => {
-        setProxyBalanceError(
-          "something went wrong while querying balance, please try again later."
-        );
+        const message = error?.message || FETCH_BALANCE_ERROR;
+        dispatch(addToast({ type: TOAST_TYPES.ERROR, message }));
+        setProxyBalanceError(message);
       });
-  }, [space, height, proxyAddress, proxyCount]);
+  }, [space, height, proxyAddress, proxyCount, dispatch]);
 
   useEffect(() => {
     if (isInputting) {
