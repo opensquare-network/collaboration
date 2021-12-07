@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 
 import Input from "components/input";
-import { useViewfunc, useSpace, useIsMounted } from "frontedUtils/hooks";
+import { useViewfunc, useSpace } from "frontedUtils/hooks";
 import { accountSelector } from "store/reducers/accountSlice";
 import { addToast } from "store/reducers/toastSlice";
 import { TOAST_TYPES } from "frontedUtils/constants";
@@ -78,14 +78,13 @@ export default function PostVote({ data, network }) {
   const [choiceIndex, setChoiceIndex] = useState(null);
   const [remark, setRemark] = useState("");
   const [proxyVote, setProxyVote] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [proxyAddress, setProxyAddress] = useState("");
   const [info, setInfo] = useState();
   const [balance, setBalance] = useState();
   const [proxyBalance, setProxyBalance] = useState(0);
   const viewfunc = useViewfunc();
   const space = useSpace();
-  const isMounted = useIsMounted();
   const router = useRouter();
 
   const reset = () => {
@@ -102,21 +101,19 @@ export default function PostVote({ data, network }) {
           snapshot: data?.snapshotHeight,
         })
         .then((response) => {
-          if (isMounted.current) {
-            setBalance(response?.result?.balance);
-          }
+          setBalance(response?.result?.balance);
         });
     } else {
       setBalance(null);
     }
-  }, [data?.snapshotHeight, space, account?.address, isMounted]);
+  }, [data?.snapshotHeight, space, account?.address]);
 
   useEffect(() => {
     const zero = new BigNumber("0");
     setIsLoading(
-      new BigNumber(proxyVote ? proxyBalance : balance).isLessThanOrEqualTo(
-        zero
-      )
+      new BigNumber(
+        proxyVote ? proxyBalance ?? 0 : balance ?? 0
+      ).isLessThanOrEqualTo(zero)
     );
   }, [balance, proxyVote, proxyBalance]);
 
@@ -127,9 +124,7 @@ export default function PostVote({ data, network }) {
           snapshot: data?.snapshotHeight,
         })
         .then((response) => {
-          if (isMounted.current) {
-            setProxyBalance(response?.result?.balance);
-          }
+          setProxyBalance(response?.result?.balance);
         });
     } else {
       setProxyBalance(null);
