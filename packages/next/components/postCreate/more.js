@@ -360,6 +360,7 @@ export default function More({
               setProxyBalance={setProxyBalance}
               getProxyBalance={setProxyCount}
               setIsInputting={setIsInputting}
+              flag={false}
             />
           </PostAddressWrapper>
         )}

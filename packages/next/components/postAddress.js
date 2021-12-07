@@ -142,6 +142,7 @@ export default function PostAddress({
   getProxyBalance,
   size,
   setIsInputting,
+  flag,
 }) {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
@@ -192,9 +193,11 @@ export default function PostAddress({
       ref.current.focus();
       setProxyBalance(null);
       setInfo(null);
-      setAddress("");
+      if (flag) {
+        setAddress("");
+      }
     }
-  }, [isInput, setProxyBalance, setInfo, setAddress]);
+  }, [isInput, setProxyBalance, setInfo, setAddress, flag]);
 
   useEffect(() => {
     if (setIsInputting) {
