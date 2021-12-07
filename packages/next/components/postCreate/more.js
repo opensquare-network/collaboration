@@ -17,7 +17,13 @@ import PostAddress from "../postAddress";
 import Api from "../../services/api";
 import LoadingSvg from "public/imgs/icons/loading.svg";
 
-const snapshotApi = new Api(new URL("/api/", "https://next.statescan.io").href);
+const snapshotApi = new Api(
+  new URL(
+    "/api/",
+    process.env.NEXT_PUBLIC_SNAPSHOT_HEIGHT_ENDPOINT ||
+      "https://next.statescan.io"
+  ).href
+);
 
 const Wrapper = styled.div`
   min-width: 302px;
@@ -68,6 +74,7 @@ const SystemWrapper = styled.div`
 `;
 
 const Hint = styled.div`
+  margin-top: 4px !important;
   color: #ee4444;
 `;
 
@@ -264,7 +271,7 @@ export default function More({
         {!proxyPublish && (
           <>
             {!new BigNumber(balance).isNaN() ? (
-              thresholdFulfilled ? (
+              <>
                 <Row
                   header="Balance"
                   content={
@@ -278,13 +285,14 @@ export default function More({
                     </Tooltip>
                   }
                 />
-              ) : (
-                <Hint>
-                  You need to have a minimum of{" "}
-                  {toPrecision(threshold, decimals)} {symbol} in order to
-                  publish a proposal.
-                </Hint>
-              )
+                {!thresholdFulfilled && (
+                  <Hint>
+                    You need to have a minimum of{" "}
+                    {toPrecision(threshold, decimals)} {symbol} in order to
+                    publish a proposal.
+                  </Hint>
+                )}
+              </>
             ) : balanceError ? (
               <Hint>{balanceError}</Hint>
             ) : (
@@ -295,7 +303,7 @@ export default function More({
         {proxyPublish && (
           <>
             {!new BigNumber(proxyBalance).isNaN() && !isInputting ? (
-              proxyThresholdFulfilled ? (
+              <>
                 <Row
                   header="Balance"
                   content={
@@ -312,13 +320,14 @@ export default function More({
                     </Tooltip>
                   }
                 />
-              ) : (
-                <Hint>
-                  You need to have a minimum of{" "}
-                  {toPrecision(threshold, decimals)} {symbol} in order to
-                  publish a proposal.
-                </Hint>
-              )
+                {!proxyThresholdFulfilled && (
+                  <Hint>
+                    You need to have a minimum of{" "}
+                    {toPrecision(threshold, decimals)} {symbol} in order to
+                    publish a proposal.
+                  </Hint>
+                )}
+              </>
             ) : proxyBalanceError ? (
               <Hint>{proxyBalanceError}</Hint>
             ) : (
