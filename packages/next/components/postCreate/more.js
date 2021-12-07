@@ -101,7 +101,7 @@ const SnapshotHeightWrapper = styled.div`
   cursor: pointer;
 `;
 
-const blocksMap = new Map();
+// const blocksMap = new Map();
 
 export default function More({
   startDate,
@@ -158,22 +158,22 @@ export default function More({
     }
   }, [snapshotHeightDate, setHeight]);
 
-  useEffect(() => {
-    if (height && !blocksMap.get(`${height}`)) {
-      snapshotApi
-        .fetch(`blocks/${height}`)
-        .then((response) => {
-          if (response?.result?.blockTime) {
-            blocksMap.set(`${height}`, response.result.blockTime);
-          } else {
-            blocksMap.set(`${height}`, null);
-          }
-        })
-        .catch(() => {
-          blocksMap.set(`${height}`, null);
-        });
-    }
-  }, [height]);
+  // useEffect(() => {
+  //   if (height && !blocksMap.get(`${height}`)) {
+  //     snapshotApi
+  //       .fetch(`blocks/${height}`)
+  //       .then((response) => {
+  //         if (response?.result?.blockTime) {
+  //           blocksMap.set(`${height}`, response.result.blockTime);
+  //         } else {
+  //           blocksMap.set(`${height}`, null);
+  //         }
+  //       })
+  //       .catch(() => {
+  //         blocksMap.set(`${height}`, null);
+  //       });
+  //   }
+  // }, [height]);
 
   return (
     <Wrapper>
@@ -228,12 +228,12 @@ export default function More({
           <img src="/imgs/icons/block.svg" alt="" />
           {snapshotHeightLoading && <LoadingSvg />}
         </InputWrapper>
-        {blocksMap.get(`${height}`) && (
+        {/* {blocksMap.get(`${height}`) && (
           <Row
             header="Timestamp"
             content={moment(blocksMap.get(height)).format("MMM,DD YYYY HH:mm")}
           />
-        )}
+        )} */}
       </InnerWrapper>
       <InnerWrapper>
         <TitleWrapper>
