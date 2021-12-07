@@ -200,6 +200,13 @@ export default function More({
   //   }
   // }, [height]);
 
+  function getMinEndDate() {
+    if (!startDate || startDate < new Date()) {
+      return new Date();
+    }
+    return startDate;
+  }
+
   return (
     <Wrapper>
       <InnerWrapper>
@@ -221,7 +228,7 @@ export default function More({
             placeholder="Start date"
           />
           <DatePicker
-            minDate={startDate}
+            minDate={getMinEndDate()}
             date={endDate}
             setDate={setEndDate}
             placeholder="End date"
