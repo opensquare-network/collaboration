@@ -272,6 +272,20 @@ async function getClosedProposalBySpace(space, page, pageSize) {
   };
 }
 
+async function getProposalSpaceByCid(Cid) {
+  const q = { cid: Cid };
+  const proposalCol = await getProposalCollection();
+  const proposal = await proposalCol.findOne(q);
+  if (!proposal) {
+    throw new HttpError(500, "Proposal does not exists");
+  }
+  const spaceService = spaceServices[proposal.space]
+  if (!spaceService) {
+    throw new HttpError(500, "Unkown space name");
+  }
+  return spaceService;
+}
+
 async function getProposalSpace(proposalId) {
   const q = { _id: ObjectId(proposalId) };
   const proposalCol = await getProposalCollection();
@@ -503,8 +517,8 @@ async function vote(
   return result.value?._id;
 }
 
-async function getVotes(proposalId, page, pageSize) {
-  const q = { proposal: ObjectId(proposalId) };
+async function getVotes(proposalCid, page, pageSize) {
+  const q = { cid: proposalCid };
 
   const voteCol = await getVoteCollection();
   const total = await voteCol.count(q);
@@ -520,7 +534,7 @@ async function getVotes(proposalId, page, pageSize) {
     .limit(pageSize)
     .toArray();
 
-  const spaceService = await getProposalSpace(proposalId);
+  const spaceService = await getProposalSpaceByCid(proposalCid);
 
   return {
     items: votes.map(v => calcWeights(v, spaceService.decimals, spaceService.voteThreshold)),
@@ -543,10 +557,10 @@ async function getAddressVote(proposalId, address) {
   return vote ? calcWeights(vote, spaceService.decimals, spaceService.voteThreshold) : vote;
 }
 
-async function getStats(proposalId) {
-  const q = { proposal: ObjectId(proposalId) };
+async function getStats(proposalCid) {
+  const q = { cid: proposalCid };
 
-  const spaceService = await getProposalSpace(proposalId);
+  const spaceService = await getProposalSpaceByCid(proposalCid);
 
   const voteCol = await getVoteCollection();
   const votes = await voteCol.find(q).toArray();

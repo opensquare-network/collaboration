@@ -77,7 +77,7 @@ export async function getServerSideProps(context) {
   const pageSize = 5;
 
   const { result: detail } = await ssrNextApi.fetch(
-    `${spaceName}/proposals/${id}`
+    `${spaceName}/proposal/${id}`
   );
 
   if (!detail) {
@@ -91,12 +91,12 @@ export async function getServerSideProps(context) {
     { result: comments },
   ] = await Promise.all([
     ssrNextApi.fetch(`spaces/${spaceName}`),
-    ssrNextApi.fetch(`${spaceName}/proposals/${detail?._id}/votes`, {
+    ssrNextApi.fetch(`${spaceName}/proposal/${detail?.cid}/votes`, {
       page: activeTab === "votes" ? nPage : 1,
       pageSize,
     }),
-    ssrNextApi.fetch(`${spaceName}/proposals/${detail?._id}/stats`),
-    ssrNextApi.fetch(`${spaceName}/proposals/${detail?._id}/comments`, {
+    ssrNextApi.fetch(`${spaceName}/proposal/${detail?.cid}/stats`),
+    ssrNextApi.fetch(`${spaceName}/proposal/${detail?._id}/comments`, {
       page: activeTab === "discussion" ? nPage : 1,
       pageSize,
     }),
@@ -107,7 +107,7 @@ export async function getServerSideProps(context) {
   if (address) {
     const encodedAddress = encodeAddress(address, network.ss58Format);
     const result = await ssrNextApi.fetch(
-      `${spaceName}/proposals/${detail?._id}/votes/${encodedAddress}`
+      `${spaceName}/proposal/${detail?._id}/votes/${encodedAddress}`
     );
     myVote = result.result ?? null;
   }

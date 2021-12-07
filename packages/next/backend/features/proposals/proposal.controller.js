@@ -227,8 +227,8 @@ async function getVotes(ctx) {
     return;
   }
 
-  const { proposalId } = ctx.params;
-  ctx.body = await proposalService.getVotes(proposalId, page, pageSize);
+  const { proposalCid } = ctx.params;
+  ctx.body = await proposalService.getVotes(proposalCid, page, pageSize);
 }
 
 async function getAddressVote(ctx) {
@@ -238,8 +238,8 @@ async function getAddressVote(ctx) {
 }
 
 async function getStats(ctx) {
-  const { proposalId } = ctx.params;
-  ctx.body = await proposalService.getStats(proposalId);
+  const { proposalCid } = ctx.params;
+  ctx.body = await proposalService.getStats(proposalCid);
 }
 
 module.exports = {
