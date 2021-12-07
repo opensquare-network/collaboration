@@ -149,7 +149,7 @@ export default function PostDiscussion({ data, network, comments }) {
       dispatch(
         addToast({
           type: TOAST_TYPES.SUCCESS,
-          message: "Add comment successfully!",
+          message: "Comment submitted!",
         })
       );
     }

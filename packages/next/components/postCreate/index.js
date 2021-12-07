@@ -210,7 +210,7 @@ export default function PostCreate({ network }) {
         dispatch(
           addToast({
             type: TOAST_TYPES.SUCCESS,
-            message: "Create proposal successfully!",
+            message: "Proposal created successfully!",
           })
         );
         router.push(`/space/${space}/proposal/${result.cid}`);

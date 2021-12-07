@@ -191,7 +191,7 @@ export default function PostVote({ data, network }) {
       dispatch(
         addToast({
           type: TOAST_TYPES.SUCCESS,
-          message: "Add vote successfully!",
+          message: "Vote submitted!",
         })
       );
       reset();
