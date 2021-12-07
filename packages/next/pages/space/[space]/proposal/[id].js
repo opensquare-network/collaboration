@@ -6,9 +6,9 @@ import { SPACE_ITEMS } from "frontedUtils/constants";
 import { ssrNextApi } from "services/nextApi";
 import nextApi from "services/nextApi";
 import { EmptyQuery } from "frontedUtils/constants";
-import { to404 } from "../../../../frontedUtils/serverSideUtil";
 import { encodeAddress } from "@polkadot/util-crypto";
 import { useState, useEffect } from "react";
+import FourOFour from "../../../404";
 
 export default function Index({
   detail,
@@ -42,7 +42,11 @@ export default function Index({
       // logout
       setSavedMyVote(null);
     }
-  }, [encodedAddress, detail._id, space, myVote]);
+  }, [encodedAddress, detail?._id, space, myVote]);
+
+  if(!detail){
+    return <FourOFour/>;
+  }
 
   return (
     <Layout bgHeight="183px" network={network}>
@@ -81,7 +85,7 @@ export async function getServerSideProps(context) {
   );
 
   if (!detail) {
-    to404(context);
+    return {props: {}};
   }
 
   const [
