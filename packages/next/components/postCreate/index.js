@@ -108,13 +108,13 @@ export default function PostCreate({ network }) {
           setBalance(results[0]?.result?.balance ?? 0);
         } else {
           const message = results[0]?.error?.message || FETCH_BALANCE_ERROR;
-          dispatch(addToast(message));
+          dispatch(addToast({ type: TOAST_TYPES.ERROR, message }));
           setBalanceError(message);
         }
       })
       .catch((error) => {
         const message = error?.message || FETCH_BALANCE_ERROR;
-        dispatch(addToast(message));
+        dispatch(addToast({ type: TOAST_TYPES.ERROR, message }));
         setBalanceError(message);
       });
   }, [space, height, account?.address, dispatch]);
@@ -146,13 +146,13 @@ export default function PostCreate({ network }) {
           setProxyBalance(results[0]?.result?.balance ?? 0);
         } else {
           const message = results[0]?.error?.message || FETCH_BALANCE_ERROR;
-          dispatch(addToast(message));
+          dispatch(addToast({ type: TOAST_TYPES.ERROR, message }));
           setProxyBalanceError(message);
         }
       })
       .catch((error) => {
         const message = error?.message || FETCH_BALANCE_ERROR;
-        dispatch(addToast(message));
+        dispatch(addToast({ type: TOAST_TYPES.ERROR, message }));
         setProxyBalanceError(message);
       });
   }, [space, height, proxyAddress, proxyCount, dispatch]);
