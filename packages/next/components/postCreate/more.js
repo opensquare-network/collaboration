@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
+import moment from "moment";
 
 import Input from "components/input";
 import DatePicker from "components/datePicker";
@@ -13,6 +14,10 @@ import { popUpConnect } from "../../store/reducers/showConnectSlice";
 import Tooltip from "@/components/tooltip";
 import Toggle from "../toggle";
 import PostAddress from "../postAddress";
+import Api from "../../services/api";
+import LoadingSvg from "public/imgs/icons/loading.svg";
+
+const snapshotApi = new Api(new URL("/api/", "https://next.statescan.io").href);
 
 const Wrapper = styled.div`
   min-width: 302px;
@@ -68,6 +73,36 @@ const Hint = styled.div`
 
 const ProxyVoteWrapper = styled.div``;
 
+const InputWrapper = styled.div`
+  position: relative;
+  display: flex;
+  > img {
+    position: absolute;
+    top: 12px;
+    left: 16px;
+  }
+  > svg {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+  }
+`;
+
+const StyledInput = styled(Input)`
+  padding-left: 48px;
+  padding-right: 44px;
+  flex-grow: 1;
+`;
+
+const SnapshotHeightWrapper = styled.div`
+  height: 24px;
+  width: 24px;
+  position: relative;
+  cursor: pointer;
+`;
+
+// const blocksMap = new Map();
+
 export default function More({
   startDate,
   setStartDate,
@@ -102,6 +137,43 @@ export default function More({
     new BigNumber(Number(proxyBalance)).comparedTo(new BigNumber(threshold)) >=
     0;
   const dispatch = useDispatch();
+  const isSnapshotHeight = ["RMRK"].includes(network?.name);
+  const [snapshotHeightDate, setSnapshotHeightDate] = useState();
+  const [snapshotHeightLoading, setSnapshotHeightLoading] = useState(false);
+
+  useEffect(() => {
+    if (snapshotHeightDate) {
+      setSnapshotHeightLoading(true);
+      snapshotApi
+        .fetch(`blocks/fromtime/${moment(snapshotHeightDate).valueOf()}`)
+        .then((response) => {
+          if (response?.result?.header?.number) {
+            setHeight(response?.result?.header?.number);
+          }
+        })
+        .catch(() => {})
+        .finally(() => {
+          setSnapshotHeightLoading(false);
+        });
+    }
+  }, [snapshotHeightDate, setHeight]);
+
+  // useEffect(() => {
+  //   if (height && !blocksMap.get(`${height}`)) {
+  //     snapshotApi
+  //       .fetch(`blocks/${height}`)
+  //       .then((response) => {
+  //         if (response?.result?.blockTime) {
+  //           blocksMap.set(`${height}`, response.result.blockTime);
+  //         } else {
+  //           blocksMap.set(`${height}`, null);
+  //         }
+  //       })
+  //       .catch(() => {
+  //         blocksMap.set(`${height}`, null);
+  //       });
+  //   }
+  // }, [height]);
 
   return (
     <Wrapper>
@@ -115,7 +187,7 @@ export default function More({
       <InnerWrapper>
         <TitleWrapper>
           <Title>Period</Title>
-          <img src="/imgs/icons/timestamp.svg" alt="" />
+          <img src="/imgs/icons/date.svg" alt="" />
         </TitleWrapper>
         <DatePicker
           date={startDate}
@@ -132,14 +204,36 @@ export default function More({
       <InnerWrapper>
         <TitleWrapper>
           <Title>Snapshot height</Title>
-          <img src="/imgs/icons/block.svg" alt="" />
+          {isSnapshotHeight ? (
+            <SnapshotHeightWrapper>
+              <DatePicker
+                maxDate={new Date()}
+                date={snapshotHeightDate}
+                setDate={setSnapshotHeightDate}
+                button={<img src="/imgs/icons/timestamp-color.svg" alt="" />}
+              />
+            </SnapshotHeightWrapper>
+          ) : (
+            <img src="/imgs/icons/timestamp.svg" alt="" />
+          )}
         </TitleWrapper>
-        <Input
-          placeholder="0"
-          type="number"
-          value={height}
-          onChange={(e) => setHeight(e.target.value)}
-        />
+        <InputWrapper>
+          <StyledInput
+            placeholder="0"
+            type="number"
+            value={height}
+            onChange={(e) => setHeight(e.target.value)}
+            disabled={snapshotHeightLoading}
+          />
+          <img src="/imgs/icons/block.svg" alt="" />
+          {snapshotHeightLoading && <LoadingSvg />}
+        </InputWrapper>
+        {/* {blocksMap.get(`${height}`) && (
+          <Row
+            header="Timestamp"
+            content={moment(blocksMap.get(height)).format("MMM,DD YYYY HH:mm")}
+          />
+        )} */}
       </InnerWrapper>
       <InnerWrapper>
         <TitleWrapper>
