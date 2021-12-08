@@ -13,7 +13,7 @@ router.get("/proposals/pending", proposalController.getPendingProposals);
 router.get("/proposals/active", proposalController.getActiveProposals);
 router.get("/proposals/closed", proposalController.getClosedProposals);
 router.get("/proposal/:proposalId", proposalController.getProposalById);
-router.get("/proposal/:proposalId/comments", proposalController.getComments);
+router.get("/proposal/:proposalCid/comments", proposalController.getComments);
 router.get("/proposal/:proposalCid/votes", proposalController.getVotes);
 router.get("/proposal/:proposalId/votes/:address", proposalController.getAddressVote);
 router.get("/proposal/:proposalCid/stats", proposalController.getStats);

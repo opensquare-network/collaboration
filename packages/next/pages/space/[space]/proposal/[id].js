@@ -100,7 +100,7 @@ export async function getServerSideProps(context) {
       pageSize,
     }),
     ssrNextApi.fetch(`${spaceName}/proposal/${detail?.cid}/stats`),
-    ssrNextApi.fetch(`${spaceName}/proposal/${detail?._id}/comments`, {
+    ssrNextApi.fetch(`${spaceName}/proposal/${detail?.cid}/comments`, {
       page: activeTab === "discussion" ? nPage : 1,
       pageSize,
     }),
