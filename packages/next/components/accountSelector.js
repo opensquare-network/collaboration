@@ -32,6 +32,9 @@ const StyledDropdown = styled(Dropdown)`
     transform: translate(0, -9px) !important;
     opacity: 0.24 !important;
   }
+  .menu {
+    border-radius: 0 !important;
+  }
 `;
 
 const AccountSelector = ({ accounts, onSelect = () => {} }) => {
