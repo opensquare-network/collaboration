@@ -21,6 +21,11 @@ const PostAddressWrapper = styled.div`
   margin-top: 4px !important;
 `;
 
+const Placeholder = styled.div`
+  height: 8px;
+  margin-top: 0 !important;
+`;
+
 export default function Information({
   balance,
   decimals,
@@ -68,7 +73,10 @@ export default function Information({
               )}
             </>
           ) : balanceError ? (
-            <Hint>{balanceError}</Hint>
+            <>
+              <Placeholder />
+              <Hint>{balanceError}</Hint>
+            </>
           ) : (
             <Row header="Balance" content={<Loading />} />
           )}
@@ -100,7 +108,10 @@ export default function Information({
               )}
             </>
           ) : proxyBalanceError ? (
-            <Hint>{proxyBalanceError}</Hint>
+            <>
+              <Row header="Balance" content={`0 ${symbol}`} />
+              <Hint>{proxyBalanceError}</Hint>
+            </>
           ) : (
             <Row header="Balance" content={<Loading />} />
           )}

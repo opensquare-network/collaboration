@@ -78,6 +78,7 @@ const Input = styled.input`
     css`
       max-width: 144px;
       padding: 11px 47px 11px 43px;
+      border-radius: 0;
       @media screen and (max-width: 800px) {
         max-width: none;
       }
