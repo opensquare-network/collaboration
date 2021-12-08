@@ -13,7 +13,10 @@ import { fetchIdentity } from "services/identity";
 import IdentityIcon from "components/identityIcon";
 import { encodeAddress } from "@polkadot/util-crypto";
 import ButtonPrimary from "components/button";
-import { popUpConnect, showConnectSelector } from "../store/reducers/showConnectSlice";
+import {
+  popUpConnect,
+  showConnectSelector,
+} from "../store/reducers/showConnectSlice";
 
 const Connect = dynamic(() => import("./connect"), {
   ssr: false,
@@ -69,10 +72,10 @@ const AccountWrapperPC = styled(AccountWrapper)`
   }
 
   ${(p) =>
-          p.show &&
-          css`
-            border: 1px solid #b7c0cc;
-          `}
+    p.show &&
+    css`
+      border: 1px solid #b7c0cc;
+    `}
   padding: 7px 15px;
   @media screen and (max-width: 800px) {
     display: none;
@@ -157,7 +160,7 @@ const IdentityWrapper = styled.div`
   }
 `;
 
-export default function Account({network, showMenu, setShowMenu}) {
+export default function Account({ network, showMenu, setShowMenu }) {
   const dispatch = useDispatch();
   const isMounted = useIsMounted();
   const windowSize = useWindowSize();
@@ -177,7 +180,7 @@ export default function Account({network, showMenu, setShowMenu}) {
         const spaceAddr = encodeAddress(account.address, network.ss58Format);
         setAddress(spaceAddr);
       } else {
-        setAddress(account.address)
+        setAddress(account.address);
       }
     }
   }, [network?.ss58Format, account]);
@@ -191,8 +194,7 @@ export default function Account({network, showMenu, setShowMenu}) {
             setIdentity(identity);
           }
         })
-        .catch(() => {
-        });
+        .catch(() => {});
     }
   }, [chain, account?.address, isMounted]);
 
@@ -210,9 +212,7 @@ export default function Account({network, showMenu, setShowMenu}) {
       >
         Connect Wallet
       </DarkButton>
-      {(showConnect) && <Connect
-        setShowMenu={setShowMenu}
-      />}
+      {showConnect && <Connect setShowMenu={setShowMenu} />}
     </div>
   );
 
@@ -223,23 +223,23 @@ export default function Account({network, showMenu, setShowMenu}) {
         <>
           <AccountWrapper>
             <div>
-              <Avatar address={address} size={20}/>
+              <Avatar address={address} size={20} />
               {identity?.info ? (
                 <IdentityWrapper>
-                  <IdentityIcon status={identity.info.status}/>
+                  <IdentityIcon status={identity.info.status} />
                   <div>{identity.info.display}</div>
                 </IdentityWrapper>
               ) : (
                 <>{addressEllipsis(address)}</>
               )}
             </div>
-            <UserIcon/>
+            <UserIcon />
           </AccountWrapper>
-          <MenuDivider/>
+          <MenuDivider />
           <MenuItem>
             <LogoutWrapper onClick={onLogout}>
               Log out
-              <img src="/imgs/icons/logout.svg" alt=""/>
+              <img src="/imgs/icons/logout.svg" alt="" />
             </LogoutWrapper>
           </MenuItem>
         </>
@@ -252,11 +252,16 @@ export default function Account({network, showMenu, setShowMenu}) {
       <Wrapper>
         <AccountWrapperPC show={showMenu}>
           <div>
-            <Avatar address={address} size={20}/>
+            <Avatar address={address} size={20} />
 
             {identity?.info ? (
               <IdentityWrapper>
-                <IdentityIcon status={identity.info.status}/>
+                <IdentityIcon
+                  status={identity.info.status}
+                  position="down"
+                  offset="10px"
+                  showTooltip
+                />
                 <div>{identity.info.display}</div>
               </IdentityWrapper>
             ) : (
@@ -265,7 +270,7 @@ export default function Account({network, showMenu, setShowMenu}) {
           </div>
         </AccountWrapperPC>
         {showMenu && Menu}
-        {showMenu && <Shade/>}
+        {showMenu && <Shade />}
       </Wrapper>
     );
   }
@@ -278,7 +283,7 @@ export default function Account({network, showMenu, setShowMenu}) {
     return (
       <Wrapper>
         {Menu}
-        <Shade/>
+        <Shade />
       </Wrapper>
     );
   }

@@ -35,7 +35,8 @@ const IdentityWrapper = styled.div`
 export default function Author({ address, network, size = 20 }) {
   const [identity, setIdentity] = useState();
   const isMounted = useIsMounted();
-  const chain =  network.network === "khala" ? network : network?.relay || network;
+  const chain =
+    network.network === "khala" ? network : network?.relay || network;
 
   useEffect(() => {
     if (!address) {
@@ -55,10 +56,12 @@ export default function Author({ address, network, size = 20 }) {
   return (
     <Wrapper>
       <Avatar address={address} size={size} />
-      <ExternalLink href={`https://${network?.network}.subscan.io/account/${address}`}>
+      <ExternalLink
+        href={`https://${network?.network}.subscan.io/account/${address}`}
+      >
         {identity?.info ? (
           <IdentityWrapper>
-            <IdentityIcon status={identity.info.status} />
+            <IdentityIcon status={identity.info.status} showTooltip />
             <Name>{identity.info.display}</Name>
           </IdentityWrapper>
         ) : (
