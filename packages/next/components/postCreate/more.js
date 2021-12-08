@@ -4,18 +4,13 @@ import moment from "moment";
 
 import Input from "components/input";
 import DatePicker from "components/datePicker";
-import Row from "@/components/row";
-import { bigNumber2LocaleWithAbbr, toPrecision } from "../../frontedUtils";
 import BigNumber from "bignumber.js";
 import Button from "@/components/button";
 import Loading from "../../public/imgs/icons/loading.svg";
 import { useDispatch } from "react-redux";
 import { popUpConnect } from "../../store/reducers/showConnectSlice";
-import Tooltip from "@/components/tooltip";
-import Toggle from "../toggle";
-import PostAddress from "../postAddress";
 import Api from "../../services/api";
-import LoadingSvg from "public/imgs/icons/loading.svg";
+import Information from "./information";
 
 const snapshotApi = new Api(
   new URL(
@@ -73,15 +68,6 @@ const SystemWrapper = styled.div`
   border: 1px solid #e2e8f0;
 `;
 
-const Hint = styled.div`
-  margin-top: 4px !important;
-  color: #ee4444;
-`;
-
-const ProxyVoteWrapper = styled.div`
-  margin-top: 4px !important;
-`;
-
 const InputWrapper = styled.div`
   position: relative;
   display: flex;
@@ -120,10 +106,6 @@ const DateWrapper = styled.div`
 const Divider = styled.div`
   height: 1px;
   background: #f0f3f8;
-`;
-
-const PostAddressWrapper = styled.div`
-  margin-top: 4px !important;
 `;
 
 // const blocksMap = new Map();
@@ -260,7 +242,7 @@ export default function More({
             disabled={snapshotHeightLoading}
           />
           <img src="/imgs/icons/block.svg" alt="" />
-          {snapshotHeightLoading && <LoadingSvg />}
+          {snapshotHeightLoading && <Loading />}
         </InputWrapper>
         {/* {blocksMap.get(`${height}`) && (
           <Row
@@ -275,102 +257,28 @@ export default function More({
           <img src="/imgs/icons/info.svg" alt="" />
         </TitleWrapper>
         <Divider />
-        {!proxyPublish && (
-          <>
-            {!new BigNumber(balance).isNaN() ? (
-              <>
-                <Row
-                  header="Balance"
-                  content={
-                    <Tooltip
-                      content={`${toPrecision(balance, decimals)} ${symbol}`}
-                    >
-                      {`${bigNumber2LocaleWithAbbr(
-                        balance,
-                        decimals
-                      )} ${symbol}`}
-                    </Tooltip>
-                  }
-                />
-                {!thresholdFulfilled && (
-                  <Hint>
-                    You need to have a minimum of{" "}
-                    {toPrecision(threshold, decimals)} {symbol} in order to
-                    publish a proposal.
-                  </Hint>
-                )}
-              </>
-            ) : balanceError ? (
-              <Hint>{balanceError}</Hint>
-            ) : (
-              <Row header="Balance" content={<Loading />} />
-            )}
-          </>
-        )}
-        {proxyPublish && (
-          <>
-            {!new BigNumber(proxyBalance).isNaN() && !isInputting ? (
-              <>
-                <Row
-                  header="Balance"
-                  content={
-                    <Tooltip
-                      content={`${toPrecision(
-                        proxyBalance,
-                        decimals
-                      )} ${symbol}`}
-                    >
-                      {`${bigNumber2LocaleWithAbbr(
-                        proxyBalance,
-                        decimals
-                      )} ${symbol}`}
-                    </Tooltip>
-                  }
-                />
-                {!proxyThresholdFulfilled && (
-                  <Hint>
-                    You need to have a minimum of{" "}
-                    {toPrecision(threshold, decimals)} {symbol} in order to
-                    publish a proposal.
-                  </Hint>
-                )}
-              </>
-            ) : proxyBalanceError ? (
-              <Hint>{proxyBalanceError}</Hint>
-            ) : (
-              <Row header="Balance" content={<Loading />} />
-            )}
-          </>
-        )}
-        <ProxyVoteWrapper>
-          <Row
-            header="Proxy vote"
-            content={
-              <Toggle
-                active={proxyPublish}
-                onClick={() => {
-                  setProxyPublish(!proxyPublish);
-                }}
-              />
-            }
-          />
-        </ProxyVoteWrapper>
-        {proxyPublish && (
-          <PostAddressWrapper>
-            <PostAddress
-              size="small"
-              address={proxyAddress}
-              setAddress={setProxyAddress}
-              network={network}
-              info={info}
-              setInfo={setInfo}
-              setProxyBalance={setProxyBalance}
-              getProxyBalance={setProxyCount}
-              setIsInputting={setIsInputting}
-              flag={false}
-            />
-          </PostAddressWrapper>
-        )}
+        <Information
+          balance={balance}
+          decimals={decimals}
+          thresholdFulfilled={thresholdFulfilled}
+          threshold={threshold}
+          balanceError={balanceError}
+          proxyPublish={proxyPublish}
+          proxyBalance={proxyBalance}
+          isInputting={isInputting}
+          proxyThresholdFulfilled={proxyThresholdFulfilled}
+          proxyBalanceError={proxyBalanceError}
+          setProxyPublish={setProxyPublish}
+          proxyAddress={proxyAddress}
+          setProxyAddress={setProxyAddress}
+          network={network}
+          info={info}
+          setInfo={setInfo}
+          setProxyCount={setProxyCount}
+          setIsInputting={setIsInputting}
+          setProxyBalance={setProxyBalance}
+          symbol={symbol}
+        />
       </InnerWrapper>
       {balanceError === "Link an address to create a proposal." ? (
         <Button large primary onClick={() => dispatch(popUpConnect())}>
