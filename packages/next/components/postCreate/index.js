@@ -85,7 +85,7 @@ export default function PostCreate({ network }) {
     const address = account?.address ?? "";
     if (!address) {
       setBalance(null);
-      setBalanceError("Link an address to create a proposal.");
+      setBalanceError("Link an address to create proposal.");
     }
     if (!address || !height > 0) {
       return;
@@ -123,7 +123,7 @@ export default function PostCreate({ network }) {
     const address = proxyAddress ?? "";
     if (!address) {
       setProxyBalance(null);
-      setProxyBalanceError("Link an address to create a proposal.");
+      setProxyBalanceError("Link an address to create proposal.");
     }
     if (!address || !height > 0) {
       return;

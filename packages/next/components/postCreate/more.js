@@ -280,7 +280,7 @@ export default function More({
           symbol={symbol}
         />
       </InnerWrapper>
-      {balanceError === "Link an address to create a proposal." ? (
+      {balanceError === "Link an address to create proposal." ? (
         <Button large primary onClick={() => dispatch(popUpConnect())}>
           Connect Wallet
         </Button>
