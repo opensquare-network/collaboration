@@ -37,7 +37,7 @@ const Wrapper = styled.div`
 
 const PopupWrapper = styled.div`
   cursor: auto;
-  display: none;
+  display: none !important;
   position: absolute;
   padding-bottom: 10px;
   left: 50%;
@@ -48,6 +48,18 @@ const PopupWrapper = styled.div`
     p.isCopy &&
     css`
       cursor: pointer;
+    `}
+  ${(p) =>
+    p.position === "down" &&
+    css`
+      top: 100%;
+      padding-bottom: 0;
+      padding-top: 10px;
+    `}
+    ${(p) =>
+    p.offset &&
+    css`
+      margin-top: ${p.offset};
     `}
 `;
 
@@ -73,12 +85,24 @@ const Triangle = styled.div`
   transform: translateX(-50%);
 `;
 
+const TopTriangle = styled.div`
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid rgba(25, 30, 39, 0.9);
+  left: 50%;
+  top: -6px;
+  transform: translateX(-50%);
+`;
+
 const ChildrenWrapper = styled.div`
   position: absolute;
   display: inline-block;
   :hover {
     > * {
-      display: block;
+      display: block !important;
     }
   }
   > svg {
@@ -113,6 +137,8 @@ export default function Tooltip({
   copyText,
   title,
   size,
+  position,
+  offset,
 }) {
   const dispatch = useDispatch();
 
@@ -128,11 +154,17 @@ export default function Tooltip({
         <ChildrenWrapper size={size}>
           {children}
           {content && (
-            <PopupWrapper onClick={onCopy} isCopy={isCopy}>
+            <PopupWrapper
+              onClick={onCopy}
+              isCopy={isCopy}
+              position={position}
+              offset={offset}
+            >
               <Popup>
+                {position === "down" && <TopTriangle />}
                 {title && <TitleWrapper>{title}</TitleWrapper>}
                 {content}
-                <Triangle />
+                {position !== "down" && <Triangle />}
               </Popup>
             </PopupWrapper>
           )}
@@ -142,11 +174,17 @@ export default function Tooltip({
           {label && label}
           {!label && <TooltipIcon src="/imgs/icons/tooltip-icon.svg" />}
           {content && (
-            <PopupWrapper onClick={onCopy} isCopy>
+            <PopupWrapper
+              onClick={onCopy}
+              isCopy={isCopy}
+              position={position}
+              offset={offset}
+            >
               <Popup>
+                {position === "down" && <TopTriangle />}
                 {title && <TitleWrapper>{title}</TitleWrapper>}
                 {content}
-                <Triangle />
+                {position !== "down" && <Triangle />}
               </Popup>
             </PopupWrapper>
           )}
