@@ -5,14 +5,7 @@ import { Dropdown } from "semantic-ui-react";
 import AccountItem from "./accountItem";
 import { p_14_normal } from "../styles/textStyles";
 
-const Wrapper = styled.div`
-`;
-
-const Text = styled.p`
-  ${p_14_normal};
-  color: #1D253C;
-  margin: 0;
-`;
+const Wrapper = styled.div``;
 
 const DropdownWrapper = styled.div`
   position: relative;
@@ -21,6 +14,7 @@ const DropdownWrapper = styled.div`
 const StyledDropdown = styled(Dropdown)`
   width: 100%;
   height: 64px !important;
+  border-radius: 0 !important;
   :active,
   :hover,
   :focus {
@@ -49,10 +43,7 @@ const AccountSelector = ({ accounts, onSelect = () => {} }) => {
     key: index,
     value: index,
     content: (
-      <AccountItem
-        accountName={item.name}
-        accountAddress={item.address}
-      />
+      <AccountItem accountName={item.name} accountAddress={item.address} />
     ),
   }));
   return (
@@ -67,9 +58,7 @@ const AccountSelector = ({ accounts, onSelect = () => {} }) => {
         />
         <AccountItem
           accountName={accounts?.[selectedIndex]?.name}
-          accountAddress={
-            accounts?.[selectedIndex]?.address
-          }
+          accountAddress={accounts?.[selectedIndex]?.address}
           header
         />
       </DropdownWrapper>
