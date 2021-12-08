@@ -184,8 +184,8 @@ async function getComments(ctx) {
     return;
   }
 
-  const { proposalId } = ctx.params;
-  ctx.body = await proposalService.getComments(proposalId, page, pageSize);
+  const { proposalCid } = ctx.params;
+  ctx.body = await proposalService.getComments(proposalCid, page, pageSize);
 }
 
 async function vote(ctx) {
