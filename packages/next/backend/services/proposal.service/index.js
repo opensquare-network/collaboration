@@ -518,7 +518,9 @@ async function vote(
 }
 
 async function getVotes(proposalCid, page, pageSize) {
-  const q = { cid: proposalCid };
+  const proposalCol = await getProposalCollection();
+  const proposal = await proposalCol.findOne({ cid: proposalCid });
+  const q = { proposal: proposal?._id };
 
   const voteCol = await getVoteCollection();
   const total = await voteCol.count(q);
@@ -558,7 +560,9 @@ async function getAddressVote(proposalId, address) {
 }
 
 async function getStats(proposalCid) {
-  const q = { cid: proposalCid };
+  const proposalCol = await getProposalCollection();
+  const proposal = await proposalCol.findOne({ cid: proposalCid });
+  const q = { proposal: proposal?._id };
 
   const spaceService = await getProposalSpaceByCid(proposalCid);
 
