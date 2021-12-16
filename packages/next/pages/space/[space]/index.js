@@ -59,20 +59,10 @@ export default function List({
       url: 'https://test.opensquare.io/imgs/logo.png',
       width: 604,
       height: 336
-    },
-    {
-      url: 'https://test.opensquare.io/imgs/logo-small.png',
-      width: 120,
-      height: 120,
-      type: 'image/jpeg',
-    },
+    }
   ];
   if (spaceName === 'rmrk') {
-    images.push({
-      url: 'https://test.opensquare.io/imgs/rmrk-small.jpg',
-      width: 129,
-      height: 129
-    });
+    images.pop();
     images.push({
       url: 'https://test.opensquare.io/imgs/rmrk-logo.jpg',
       width: 1200,
