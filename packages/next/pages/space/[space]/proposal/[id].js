@@ -65,6 +65,21 @@ export default function Index({
 
   const desc = getMetaDesc(detail, "Proposal");
 
+  const images = [
+    {
+      url: 'https://test.opensquare.io/imgs/logo.png',
+      width: 604,
+      height: 336
+    }
+  ];
+  if (space === 'rmrk') {
+    images.pop();
+    images.push({
+      url: 'https://test.opensquare.io/imgs/rmrk-logo.jpg',
+      width: 1200,
+      height: 628
+    });
+  }
 
   return (
     <>
@@ -75,9 +90,7 @@ export default function Index({
           url: 'https://www.opensquare.io/',
           title: detail?.title ?? `OpenSquare Off-chain Voting`,
           description: desc,
-          images: [
-            {url: 'https://test.opensquare.io/imgs/logo.png'},
-          ],
+          images,
         }}
         twitter={{
           handle: '@handle',
