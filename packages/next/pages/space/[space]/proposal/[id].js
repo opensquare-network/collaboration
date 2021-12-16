@@ -65,20 +65,11 @@ export default function Index({
 
   const desc = getMetaDesc(detail, "Proposal");
 
-  let images = [
-    {
-      url: 'https://test.opensquare.io/imgs/logo.jpg',
-      width: 1200,
-      height: 628
-    }
-  ];
-  if (item?.name === 'rmrk' || item?.name === 'khala') {
-    images = [{
-      url: `https://test.opensquare.io/imgs/${spaceName}-logo.jpg`,
-      width: 1200,
-      height: 628
-    }];
-  }
+  const images = [{
+    url: `https://test.opensquare.io/imgs/${spaceName}-logo.jpg`,
+    width: 1200,
+    height: 628
+  }];
 
   return (
     <>
