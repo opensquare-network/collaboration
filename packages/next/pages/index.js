@@ -3,7 +3,7 @@ import Home from "components/home";
 import { ssrNextApi } from "services/nextApi";
 import { NextSeo } from "next-seo";
 
-export default function Index({spaces, hottestProposals}) {
+export default function Index({ spaces, hottestProposals }) {
   return (
     <>
       <NextSeo
@@ -24,14 +24,14 @@ export default function Index({spaces, hottestProposals}) {
         }}
       />
       <Layout bgHeight="183px">
-        <Home spaces={spaces} hottestProposals={hottestProposals}/>
+        <Home spaces={spaces} hottestProposals={hottestProposals} />
       </Layout>
     </>
   );
 }
 
 export async function getServerSideProps(context) {
-  const [{result: spaces}, {result: hottestProposals}] = await Promise.all([
+  const [{ result: spaces }, { result: hottestProposals }] = await Promise.all([
     ssrNextApi.fetch("spaces"),
     ssrNextApi.fetch("home/hottest"),
   ]);

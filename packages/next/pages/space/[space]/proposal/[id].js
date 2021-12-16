@@ -13,14 +13,14 @@ import { NextSeo } from "next-seo";
 import { addressEllipsis } from "../../../../frontedUtils";
 
 export default function Index({
-                                detail,
-                                network,
-                                votes,
-                                voteStatus,
-                                comments,
-                                defaultPage,
-                                myVote,
-                              }) {
+  detail,
+  network,
+  votes,
+  voteStatus,
+  comments,
+  defaultPage,
+  myVote,
+}) {
   const space = useSpace();
   const item = SPACE_ITEMS.find((item) => item.value === space);
   const [savedMyVote, setSavedMyVote] = useState(myVote);
@@ -47,7 +47,7 @@ export default function Index({
   }, [encodedAddress, detail?._id, space, myVote]);
 
   if (!detail) {
-    return <FourOFour/>;
+    return <FourOFour />;
   }
 
   const getMetaDesc = (post) => {
@@ -101,9 +101,9 @@ export default function Index({
         {item && (
           <Nav
             data={[
-              {name: "Home", link: "/"},
-              {name: item?.name, link: `/space/${item?.value}`, back: true},
-              {name: "Proposal"},
+              { name: "Home", link: "/" },
+              { name: item?.name, link: `/space/${item?.value}`, back: true },
+              { name: "Proposal" },
             ]}
           />
         )}
@@ -122,26 +122,26 @@ export default function Index({
 }
 
 export async function getServerSideProps(context) {
-  const {id, space: spaceName} = context.params;
-  const {page, tab} = context.query;
+  const { id, space: spaceName } = context.params;
+  const { page, tab } = context.query;
 
   const nPage = page === "last" ? "last" : parseInt(page) || 1;
   const activeTab = tab ?? "votes";
   const pageSize = 5;
 
-  const {result: detail} = await ssrNextApi.fetch(
+  const { result: detail } = await ssrNextApi.fetch(
     `${spaceName}/proposal/${id}`
   );
 
   if (!detail) {
-    return {props: {}};
+    return { props: {} };
   }
 
   const [
-    {result: network},
-    {result: votes},
-    {result: voteStatus},
-    {result: comments},
+    { result: network },
+    { result: votes },
+    { result: voteStatus },
+    { result: comments },
   ] = await Promise.all([
     ssrNextApi.fetch(`spaces/${spaceName}`),
     ssrNextApi.fetch(`${spaceName}/proposal/${detail?.cid}/votes`, {
@@ -172,7 +172,7 @@ export async function getServerSideProps(context) {
       votes: votes ?? EmptyQuery,
       voteStatus: voteStatus ?? [],
       comments: comments ?? EmptyQuery,
-      defaultPage: {tab: activeTab ?? null, page: nPage},
+      defaultPage: { tab: activeTab ?? null, page: nPage },
       myVote: myVote ?? null,
     },
   };

@@ -28,15 +28,15 @@ const PostWrapper = styled.div`
 `;
 
 export default function List({
-                               spaceName,
-                               spaceData,
-                               proposals,
-                               pendingProposals,
-                               activeProposals,
-                               closedProposals,
-                               activeTab,
-                               defaultPage,
-                             }) {
+  spaceName,
+  spaceData,
+  proposals,
+  pendingProposals,
+  activeProposals,
+  closedProposals,
+  activeTab,
+  defaultPage,
+}) {
   const [tab, setTab] = useState(activeTab);
 
   if (!spaceData) {
@@ -92,11 +92,11 @@ export default function List({
         <HeaderWrapper>
           <Nav
             data={[
-              {name: "Home", link: "/", back: true},
-              {name: spaceData.name},
+              { name: "Home", link: "/", back: true },
+              { name: spaceData.name },
             ]}
           />
-          <ListInfo spaceName={spaceName} data={spaceData}/>
+          <ListInfo spaceName={spaceName} data={spaceData} />
           <ListTab
             space={spaceName}
             activeTab={activeTab}
@@ -105,7 +105,7 @@ export default function List({
           />
         </HeaderWrapper>
         <PostWrapper>
-          <PostList posts={proposalList} network={spaceData}/>
+          <PostList posts={proposalList} network={spaceData} />
         </PostWrapper>
       </Layout>
     </>
@@ -113,19 +113,19 @@ export default function List({
 }
 
 export async function getServerSideProps(context) {
-  const {space: spaceName} = context.params;
-  const {tab, page} = context.query;
+  const { space: spaceName } = context.params;
+  const { tab, page } = context.query;
   const nPage = parseInt(page) || 1;
   const activeTab = tab || "all";
 
   const pageSize = 5;
 
   const [
-    {result: spaceData},
-    {result: proposals},
-    {result: pendingProposals},
-    {result: activeProposals},
-    {result: closedProposals},
+    { result: spaceData },
+    { result: proposals },
+    { result: pendingProposals },
+    { result: activeProposals },
+    { result: closedProposals },
   ] = await Promise.all([
     ssrNextApi.fetch(`spaces/${spaceName}`),
     ssrNextApi.fetch(`${spaceName}/proposals`, {
@@ -159,7 +159,7 @@ export async function getServerSideProps(context) {
       pendingProposals: pendingProposals ?? EmptyQuery,
       activeProposals: activeProposals ?? EmptyQuery,
       closedProposals: closedProposals ?? EmptyQuery,
-      defaultPage: {tab: activeTab ?? null, page: nPage},
+      defaultPage: { tab: activeTab ?? null, page: nPage },
     },
   };
 }

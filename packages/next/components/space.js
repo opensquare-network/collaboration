@@ -29,8 +29,8 @@ const ItemsWrapper = styled.div`
   }
 
   ${(p) =>
-          p.show &&
-          css`
+    p.show &&
+    css`
             flex-wrap: wrap;
           `}
 `;
@@ -110,7 +110,7 @@ const SpaceButton = styled.div`
   color: #506176;
 `;
 
-export default function Space({spaces}) {
+export default function Space({ spaces }) {
   const [show, setShow] = useState(false);
   const [showCount, setShowCount] = useState(6);
   const spaceNames = Object.keys(spaces)?.sort((a, b) => a === 'rmrk' && -1);
@@ -141,14 +141,14 @@ export default function Space({spaces}) {
               <Item>
                 <IconWrapper>
                   <Icon>
-                    <SpaceLogo space={item}/>
+                    <SpaceLogo space={item} />
                   </Icon>
                   <Name>{spaces[item].name}</Name>
                   <Symbol>{spaces[item].symbol ?? "-"}</Symbol>
                 </IconWrapper>
-                <Divider/>
+                <Divider />
                 <ActiveWrapper>
-                  <ActiveCircle/>
+                  <ActiveCircle />
                   <InternalLink href={`/space/${item}?tab=active`}>
                     Active
                   </InternalLink>

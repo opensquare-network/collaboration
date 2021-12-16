@@ -17,23 +17,23 @@ NProgress.configure({
 
 Router.events.on(
   "routeChangeStart",
-  (url, {shallow}) => !shallow && NProgress.start()
+  (url, { shallow }) => !shallow && NProgress.start()
 );
 Router.events.on(
   "routeChangeComplete",
-  (url, {shallow}) => !shallow && NProgress.done()
+  (url, { shallow }) => !shallow && NProgress.done()
 );
 Router.events.on(
   "routeChangeError",
-  (url, {shallow}) => !shallow && NProgress.done()
+  (url, { shallow }) => !shallow && NProgress.done()
 );
 
-function MyApp({Component, pageProps}) {
+function MyApp({ Component, pageProps }) {
   return (
     <Provider store={store}>
       <Head>
         <title>OpenSquare Network Off-chain Voting</title>
-        <meta name="viewport" content="width=device-width, user-scalable=no"/>
+        <meta name="viewport" content="width=device-width, user-scalable=no" />
       </Head>
       <Component {...pageProps} />
     </Provider>
