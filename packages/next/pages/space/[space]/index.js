@@ -68,12 +68,12 @@ export default function List({
     },
   ];
   if (spaceName === 'rmrk') {
-    images.unshift({
+    images.push({
       url: 'https://test.opensquare.io/imgs/rmrk-small.jpg',
       width: 129,
       height: 129
     });
-    images.unshift({
+    images.push({
       url: 'https://test.opensquare.io/imgs/rmrk-logo.jpg',
       width: 1200,
       height: 628
