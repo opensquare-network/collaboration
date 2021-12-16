@@ -54,6 +54,32 @@ export default function List({
     proposalList = closedProposals;
   }
 
+  const images = [
+    {
+      url: 'https://test.opensquare.io/imgs/logo.png',
+      width: 604,
+      height: 336
+    },
+    {
+      url: 'https://test.opensquare.io/imgs/logo-small.png',
+      width: 120,
+      height: 120,
+      type: 'image/jpeg',
+    },
+  ];
+  if (spaceName === 'rmrk') {
+    images.unshift({
+      url: 'https://test.opensquare.io/imgs/rmrk-logo.jpg',
+      width: 1200,
+      height: 628
+    });
+    images.unshift({
+      url: 'https://test.opensquare.io/imgs/rmrk-small.jpg',
+      width: 129,
+      height: 129
+    });
+  }
+
   return (
     <>
       <NextSeo
@@ -63,9 +89,7 @@ export default function List({
           url: 'https://www.opensquare.io/',
           title: `${spaceData.name} Off-chain Voting`,
           description: 'One of the governance products powered by OpenSquare. It supports relay chains, para chains and assets on Statemine/Statemint, gas free and voting strategies customizable.',
-          images: [
-            {url: 'https://test.opensquare.io/imgs/logo.png'},
-          ],
+          images,
         }}
         twitter={{
           handle: '@handle',
