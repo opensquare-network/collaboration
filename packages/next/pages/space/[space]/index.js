@@ -54,20 +54,19 @@ export default function List({
     proposalList = closedProposals;
   }
 
-  const images = [
+  let images = [
     {
       url: 'https://test.opensquare.io/imgs/logo.png',
       width: 604,
       height: 336
     }
   ];
-  if (spaceName === 'rmrk') {
-    images.pop();
-    images.push({
-      url: 'https://test.opensquare.io/imgs/rmrk-logo.jpg',
+  if (spaceName === 'rmrk' || spaceName === 'khala') {
+    images = [{
+      url: `https://test.opensquare.io/imgs/${spaceName}-logo.jpg`,
       width: 1200,
       height: 628
-    });
+    }];
   }
 
   const desc = `Space for ${spaceData.name} off-chain voting. You can create, view, and vote proposals. Join ${spaceData.name} off-chain governance!`

@@ -65,20 +65,19 @@ export default function Index({
 
   const desc = getMetaDesc(detail, "Proposal");
 
-  const images = [
+  let images = [
     {
       url: 'https://test.opensquare.io/imgs/logo.png',
       width: 604,
       height: 336
     }
   ];
-  if (space === 'rmrk') {
-    images.pop();
-    images.push({
-      url: 'https://test.opensquare.io/imgs/rmrk-logo.jpg',
+  if (spaceName === 'rmrk' || spaceName === 'khala') {
+    images = [{
+      url: `https://test.opensquare.io/imgs/${spaceName}-logo.jpg`,
       width: 1200,
       height: 628
-    });
+    }];
   }
 
   return (
