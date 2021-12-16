@@ -66,7 +66,7 @@ export default function Index({
   const desc = getMetaDesc(detail, "Proposal");
 
   const images = [{
-    url: `https://test.opensquare.io/imgs/${spaceName}-logo.jpg`,
+    url: `https://test.opensquare.io/imgs/${item?.name}-logo.jpg`,
     width: 1200,
     height: 628
   }];
