@@ -52,7 +52,7 @@ export default function Index({
 
   const getMetaDesc = (post) => {
     let contentDesc = "";
-    const maxDescLength = 100;
+    const maxDescLength = 180;
     if (post.content) {
       if (post.content.length > maxDescLength) {
         contentDesc = post.content.substr(0, maxDescLength) + "...";
