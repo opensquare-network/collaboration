@@ -9,11 +9,13 @@ import PostList from "components/postList";
 import { EmptyQuery } from "frontedUtils/constants";
 import { ssrNextApi } from "services/nextApi";
 import { to404 } from "../../../frontedUtils/serverSideUtil";
+import { NextSeo } from "next-seo";
 
 const HeaderWrapper = styled.div`
   > :not(:first-child) {
     margin-top: 40px;
   }
+
   @media screen and (max-width: 800px) {
     > :not(:first-child) {
       margin-top: 20px;
@@ -52,27 +54,52 @@ export default function List({
     proposalList = closedProposals;
   }
 
+  const images = [{
+    url: `https://test.opensquare.io/imgs/${spaceName}-logo.jpg`,
+    width: 1200,
+    height: 628
+  }];
+
+  const desc = `Space for ${spaceData.name} off-chain voting. You can create, view, and vote proposals. Join ${spaceData.name} off-chain governance!`
+
   return (
-    <Layout bgHeight="264px" network={spaceData}>
-      <HeaderWrapper>
-        <Nav
-          data={[
-            { name: "Home", link: "/", back: true },
-            { name: spaceData.name },
-          ]}
-        />
-        <ListInfo spaceName={spaceName} data={spaceData} />
-        <ListTab
-          space={spaceName}
-          activeTab={activeTab}
-          onActiveTab={setTab}
-          defaultPage={defaultPage}
-        />
-      </HeaderWrapper>
-      <PostWrapper>
-        <PostList posts={proposalList} network={spaceData} />
-      </PostWrapper>
-    </Layout>
+    <>
+      <NextSeo
+        title={`${spaceData.name} Off-chain Voting`}
+        description={desc}
+        openGraph={{
+          url: 'https://www.opensquare.io/',
+          title: `${spaceData.name} Off-chain Voting`,
+          description: desc,
+          images,
+        }}
+        twitter={{
+          handle: '@handle',
+          site: '@site',
+          cardType: 'summary_large_image',
+        }}
+      />
+      <Layout bgHeight="264px" network={spaceData}>
+        <HeaderWrapper>
+          <Nav
+            data={[
+              { name: "Home", link: "/", back: true },
+              { name: spaceData.name },
+            ]}
+          />
+          <ListInfo spaceName={spaceName} data={spaceData} />
+          <ListTab
+            space={spaceName}
+            activeTab={activeTab}
+            onActiveTab={setTab}
+            defaultPage={defaultPage}
+          />
+        </HeaderWrapper>
+        <PostWrapper>
+          <PostList posts={proposalList} network={spaceData} />
+        </PostWrapper>
+      </Layout>
+    </>
   );
 }
 

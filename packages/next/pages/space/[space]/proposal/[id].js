@@ -9,6 +9,8 @@ import { EmptyQuery } from "frontedUtils/constants";
 import { encodeAddress } from "@polkadot/util-crypto";
 import { useState, useEffect } from "react";
 import FourOFour from "../../../404";
+import { NextSeo } from "next-seo";
+import { addressEllipsis } from "../../../../frontedUtils";
 
 export default function Index({
   detail,
@@ -44,31 +46,69 @@ export default function Index({
     }
   }, [encodedAddress, detail?._id, space, myVote]);
 
-  if(!detail){
-    return <FourOFour/>;
+  if (!detail) {
+    return <FourOFour />;
   }
 
+  const getMetaDesc = (post) => {
+    let contentDesc = "";
+    const maxDescLength = 180;
+    if (post.content) {
+      if (post.content.length > maxDescLength) {
+        contentDesc = post.content.substr(0, maxDescLength) + "...";
+      } else {
+        contentDesc = post.content;
+      }
+    }
+    return contentDesc;
+  };
+
+  const desc = getMetaDesc(detail, "Proposal");
+
+  const images = [{
+    url: `https://test.opensquare.io/imgs/${item?.value}-logo.jpg`,
+    width: 1200,
+    height: 628
+  }];
+
   return (
-    <Layout bgHeight="183px" network={network}>
-      {item && (
-        <Nav
-          data={[
-            { name: "Home", link: "/" },
-            { name: item?.name, link: `/space/${item?.value}`, back: true },
-            { name: "Proposal" },
-          ]}
-        />
-      )}
-      <PostDetail
-        data={detail}
-        network={network}
-        votes={votes}
-        voteStatus={voteStatus}
-        comments={comments}
-        defaultPage={defaultPage}
-        myVote={savedMyVote}
+    <>
+      <NextSeo
+        title={detail?.title ?? `OpenSquare Off-chain Voting`}
+        description={desc}
+        openGraph={{
+          url: 'https://www.opensquare.io/',
+          title: detail?.title ?? `OpenSquare Off-chain Voting`,
+          description: desc,
+          images,
+        }}
+        twitter={{
+          handle: '@handle',
+          site: '@site',
+          cardType: 'summary_large_image',
+        }}
       />
-    </Layout>
+      <Layout bgHeight="183px" network={network}>
+        {item && (
+          <Nav
+            data={[
+              { name: "Home", link: "/" },
+              { name: item?.name, link: `/space/${item?.value}`, back: true },
+              { name: "Proposal" },
+            ]}
+          />
+        )}
+        <PostDetail
+          data={detail}
+          network={network}
+          votes={votes}
+          voteStatus={voteStatus}
+          comments={comments}
+          defaultPage={defaultPage}
+          myVote={savedMyVote}
+        />
+      </Layout>
+    </>
   );
 }
 
@@ -85,7 +125,7 @@ export async function getServerSideProps(context) {
   );
 
   if (!detail) {
-    return {props: {}};
+    return { props: {} };
   }
 
   const [
