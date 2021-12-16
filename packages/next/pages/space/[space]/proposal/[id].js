@@ -67,9 +67,9 @@ export default function Index({
 
   let images = [
     {
-      url: 'https://test.opensquare.io/imgs/logo.png',
-      width: 604,
-      height: 336
+      url: 'https://test.opensquare.io/imgs/logo.jpg',
+      width: 1200,
+      height: 628
     }
   ];
   if (spaceName === 'rmrk' || spaceName === 'khala') {

@@ -4,17 +4,18 @@ import { ssrNextApi } from "services/nextApi";
 import { NextSeo } from "next-seo";
 
 export default function Index({ spaces, hottestProposals }) {
+  const desc = `One of the governance products powered by OpenSquare. It supports relay chains, para chains and assets on Statemine/Statemint, gas free and voting strategies customizable.`;
   return (
     <>
       <NextSeo
         title="OpenSquare Off-chain Voting"
-        description="One of the governance products powered by OpenSquare. It supports relay chains, para chains and assets on Statemine/Statemint, gas free and voting strategies customizable."
+        description={desc}
         openGraph={{
           url: 'https://www.opensquare.io/',
           title: 'OpenSquare Off-chain Voting',
-          description: 'A OpenSquare platform',
+          description: desc,
           images: [
-            { url: 'https://test.opensquare.io/imgs/logo.png' },
+            { url: 'https://test.opensquare.io/imgs/logo.jpg', width: 1200, height: 628 },
           ],
         }}
         twitter={{
