@@ -70,15 +70,17 @@ export default function List({
     });
   }
 
+  const desc = `Space for ${spaceName} off-chain voting. You can create, view, and vote proposals. Join off-chain governance of ${spaceName}!`
+
   return (
     <>
       <NextSeo
         title={`${spaceData.name} Off-chain Voting`}
-        description="One of the governance products powered by OpenSquare. It supports relay chains, para chains and assets on Statemine/Statemint, gas free and voting strategies customizable."
+        description={desc}
         openGraph={{
           url: 'https://www.opensquare.io/',
           title: `${spaceData.name} Off-chain Voting`,
-          description: 'One of the governance products powered by OpenSquare. It supports relay chains, para chains and assets on Statemine/Statemint, gas free and voting strategies customizable.',
+          description: desc,
           images,
         }}
         twitter={{
