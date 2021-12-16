@@ -29,10 +29,10 @@ const ItemsWrapper = styled.div`
   }
 
   ${(p) =>
-    p.show &&
-    css`
-      flex-wrap: wrap;
-    `}
+          p.show &&
+          css`
+            flex-wrap: wrap;
+          `}
 `;
 
 const Item = styled.div`
@@ -42,6 +42,7 @@ const Item = styled.div`
   background: #ffffff;
   padding: 24px;
   cursor: pointer;
+
   :hover {
     border-color: #e2e8f0;
   }
@@ -109,10 +110,10 @@ const SpaceButton = styled.div`
   color: #506176;
 `;
 
-export default function Space({ spaces }) {
+export default function Space({spaces}) {
   const [show, setShow] = useState(false);
   const [showCount, setShowCount] = useState(6);
-  const spaceNames = Object.keys(spaces);
+  const spaceNames = Object.keys(spaces)?.sort((a, b) => a === 'rmrk' && -1);
   const windowSize = useWindowSize();
 
   useEffect(() => {
@@ -140,14 +141,14 @@ export default function Space({ spaces }) {
               <Item>
                 <IconWrapper>
                   <Icon>
-                    <SpaceLogo space={item} />
+                    <SpaceLogo space={item}/>
                   </Icon>
                   <Name>{spaces[item].name}</Name>
                   <Symbol>{spaces[item].symbol ?? "-"}</Symbol>
                 </IconWrapper>
-                <Divider />
+                <Divider/>
                 <ActiveWrapper>
-                  <ActiveCircle />
+                  <ActiveCircle/>
                   <InternalLink href={`/space/${item}?tab=active`}>
                     Active
                   </InternalLink>

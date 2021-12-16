@@ -9,6 +9,7 @@ import PostList from "components/postList";
 import { EmptyQuery } from "frontedUtils/constants";
 import { ssrNextApi } from "services/nextApi";
 import { to404 } from "../../../frontedUtils/serverSideUtil";
+import { NextSeo } from "next-seo";
 
 const HeaderWrapper = styled.div`
   > :not(:first-child) {
@@ -53,26 +54,32 @@ export default function List({
   }
 
   return (
-    <Layout bgHeight="264px" network={spaceData}>
-      <HeaderWrapper>
-        <Nav
-          data={[
-            { name: "Home", link: "/", back: true },
-            { name: spaceData.name },
-          ]}
-        />
-        <ListInfo spaceName={spaceName} data={spaceData} />
-        <ListTab
-          space={spaceName}
-          activeTab={activeTab}
-          onActiveTab={setTab}
-          defaultPage={defaultPage}
-        />
-      </HeaderWrapper>
-      <PostWrapper>
-        <PostList posts={proposalList} network={spaceData} />
-      </PostWrapper>
-    </Layout>
+    <>
+      <NextSeo
+        title="Simple Usage Example"
+        description="A short description goes here."
+      />
+      <Layout bgHeight="264px" network={spaceData}>
+        <HeaderWrapper>
+          <Nav
+            data={[
+              { name: "Home", link: "/", back: true },
+              { name: spaceData.name },
+            ]}
+          />
+          <ListInfo spaceName={spaceName} data={spaceData} />
+          <ListTab
+            space={spaceName}
+            activeTab={activeTab}
+            onActiveTab={setTab}
+            defaultPage={defaultPage}
+          />
+        </HeaderWrapper>
+        <PostWrapper>
+          <PostList posts={proposalList} network={spaceData} />
+        </PostWrapper>
+      </Layout>
+    </>
   );
 }
 
