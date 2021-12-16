@@ -50,9 +50,9 @@ export default function Index({
     return <FourOFour/>;
   }
 
-  const getMetaDesc = (post, type = "Proposal") => {
+  const getMetaDesc = (post) => {
     let contentDesc = "";
-    const maxDescLength = 60;
+    const maxDescLength = 100;
     if (post.content) {
       if (post.content.length > maxDescLength) {
         contentDesc = post.content.substr(0, maxDescLength) + "...";
@@ -60,7 +60,7 @@ export default function Index({
         contentDesc = post.content;
       }
     }
-    return `${type} - @${addressEllipsis(post.proposer ?? post.address)} - ${contentDesc}`;
+    return contentDesc;
   };
 
   const desc = getMetaDesc(detail, "Proposal");
