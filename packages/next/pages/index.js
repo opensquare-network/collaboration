@@ -7,16 +7,16 @@ export default function Index({spaces, hottestProposals}) {
   return (
     <>
       <NextSeo
-        title="OpenSquare Network | Off-chain Voting"
-        description="A OpenSquare Network platform"
+        title="OpenSquare | Off-chain Voting"
+        description="A OpenSquare platform"
         openGraph={{
           url: 'https://www.opensquare.io/',
-          title: 'OpenSquare Network | Off-chain Voting',
-          description: 'A OpenSquare Network platform',
+          title: 'OpenSquare | Off-chain Voting',
+          description: 'A OpenSquare platform',
           images: [
-            { url: 'https://test.opensquare.io/logo.png' },
+            { url: 'https://test.opensquare.io/imgs/logo.png' },
           ],
-          site_name: 'OpenSquare Network | Off-chain Voting',
+          site_name: 'OpenSquare | Off-chain Voting',
         }}
         twitter={{
           handle: '@handle',
