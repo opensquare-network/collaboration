@@ -7,16 +7,15 @@ export default function Index({spaces, hottestProposals}) {
   return (
     <>
       <NextSeo
-        title="OpenSquare | Off-chain Voting"
-        description="A OpenSquare platform"
+        title="OpenSquare Off-chain Voting"
+        description="One of the governance products powered by OpenSquare. It supports relay chains, para chains and assets on Statemine/Statemint, gas free and voting strategies customizable."
         openGraph={{
           url: 'https://www.opensquare.io/',
-          title: 'OpenSquare | Off-chain Voting',
+          title: 'OpenSquare Off-chain Voting',
           description: 'A OpenSquare platform',
           images: [
             { url: 'https://test.opensquare.io/imgs/logo.png' },
           ],
-          site_name: 'OpenSquare | Off-chain Voting',
         }}
         twitter={{
           handle: '@handle',
