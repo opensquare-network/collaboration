@@ -70,7 +70,7 @@ export default function List({
     });
   }
 
-  const desc = `Space for ${spaceName} off-chain voting. You can create, view, and vote proposals. Join off-chain governance of ${spaceName}!`
+  const desc = `Space for ${spaceName} off-chain voting. You can create, view, and vote proposals. Join ${spaceName} off-chain governance!`
 
   return (
     <>
