@@ -82,7 +82,7 @@ export default function Index({
         twitter={{
           handle: '@handle',
           site: '@site',
-          cardType: 'summary',
+          cardType: 'summary_large_image',
         }}
       />
       <Layout bgHeight="183px" network={network}>

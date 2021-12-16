@@ -20,7 +20,7 @@ export default function Index({spaces, hottestProposals}) {
         twitter={{
           handle: '@handle',
           site: '@site',
-          cardType: 'summary',
+          cardType: 'summary_large_image',
         }}
       />
       <Layout bgHeight="183px">

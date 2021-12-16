@@ -70,7 +70,7 @@ export default function List({
         twitter={{
           handle: '@handle',
           site: '@site',
-          cardType: 'summary',
+          cardType: 'summary_large_image',
         }}
       />
       <Layout bgHeight="264px" network={spaceData}>
