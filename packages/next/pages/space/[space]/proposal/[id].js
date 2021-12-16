@@ -72,7 +72,7 @@ export default function Index({
       height: 628
     }
   ];
-  if (spaceName === 'rmrk' || spaceName === 'khala') {
+  if (item?.name === 'rmrk' || item?.name === 'khala') {
     images = [{
       url: `https://test.opensquare.io/imgs/${spaceName}-logo.jpg`,
       width: 1200,
