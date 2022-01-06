@@ -40,7 +40,7 @@ export default function Information({
   setProxyPublish,
   proxyAddress,
   setProxyAddress,
-  network,
+  space,
   info,
   setInfo,
   setProxyCount,
@@ -136,7 +136,7 @@ export default function Information({
             size="small"
             address={proxyAddress}
             setAddress={setProxyAddress}
-            network={network}
+            space={space}
             info={info}
             setInfo={setInfo}
             setProxyBalance={setProxyBalance}

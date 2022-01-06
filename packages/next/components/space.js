@@ -141,9 +141,9 @@ export default function Space({ spaces }) {
               <Item>
                 <IconWrapper>
                   <Icon>
-                    <SpaceLogo space={item} />
+                    <SpaceLogo spaceName={item} />
                   </Icon>
-                  <Name>{spaces[item].name}</Name>
+                  <Name>{spaces[item].display}</Name>
                   <Symbol>{spaces[item].symbol ?? "-"}</Symbol>
                 </IconWrapper>
                 <Divider />

@@ -39,14 +39,14 @@ const TabItem = styled.div`
 
 export default function PostTab({
   data,
-  network,
+  space,
   votes,
   comments,
   defaultPage,
   myVote,
 }) {
   const router = useRouter();
-  const { space, id } = router.query;
+  const { space: spaceName, id } = router.query;
   const [activeTab, setActiveTab] = useState(defaultPage?.tab ?? "votes");
   const tabs = useMemo(
     () => [
@@ -57,7 +57,7 @@ export default function PostTab({
           <PostVotes
             data={data}
             votes={votes}
-            network={network}
+            space={space}
             myVote={myVote}
           />
         ),
@@ -67,11 +67,11 @@ export default function PostTab({
         name: "Discussion",
         value: "discussion",
         component: (
-          <PostDiscussion data={data} comments={comments} network={network} />
+          <PostDiscussion data={data} comments={comments} space={space} />
         ),
       },
     ],
-    [votes, network, data, comments, myVote]
+    [votes, space, data, comments, myVote]
   );
 
   useEffect(() => {
@@ -92,7 +92,7 @@ export default function PostTab({
               router.push(
                 {
                   query: {
-                    space,
+                    space: spaceName,
                     id,
                     ...(item.default ? {} : { tab: item.value }),
                     ...(item.value === defaultPage?.tab

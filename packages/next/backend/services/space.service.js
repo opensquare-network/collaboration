@@ -1,6 +1,6 @@
 const { getLatestHeight } = require("./chain.service");
 const { getProposalCollection } = require("../mongo");
-const spaceServices = require("../spaces");
+const { spaces: spaceServices } = require("../spaces");
 
 async function getSpaces() {
   const now = Date.now();
@@ -40,6 +40,11 @@ async function getSpaces() {
 }
 
 async function getSpace(space) {
+  const spaceService = spaceServices[space];
+  if (!spaceService) {
+    return null;
+  }
+
   return {
     ...spaceServices[space],
     latestFinalizedHeight: getLatestHeight(space),

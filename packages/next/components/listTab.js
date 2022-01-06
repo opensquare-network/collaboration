@@ -72,7 +72,7 @@ const NewPostLink = styled.div`
 `;
 
 export default function ListTab({
-  space,
+  spaceName,
   activeTab,
   onActiveTab = () => {},
   defaultPage,
@@ -102,7 +102,7 @@ export default function ListTab({
               router.push(
                 {
                   query: {
-                    space,
+                    space: spaceName,
                     tab: item.value,
                     ...(item.value === defaultPage?.tab
                       ? defaultPage.page > 1
@@ -126,7 +126,7 @@ export default function ListTab({
           </Item>
         ))}
       </ItemWrapper>
-      <Link href={`/space/${space}/create`} passHref>
+      <Link href={`/space/${spaceName}/create`} passHref>
         <NewPostLink>
           <img src="/imgs/icons/add.svg" alt="" />
           New Proposal

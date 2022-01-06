@@ -11,7 +11,7 @@ const {
 const { HttpError } = require("../../exc");
 const { ContentType } = require("../../constants");
 const { getLatestHeight } = require("../chain.service");
-const spaceServices = require("../../spaces");
+const { spaces: spaceServices } = require("../../spaces");
 const { checkDelegation } = require("../../services/node.service");
 const { getObjectBufAndCid, pinJsonToIpfsWithTimeout } = require("../ipfs.service");
 const { toDecimal128, enhancedSqrtOfBalance } = require("../../utils");

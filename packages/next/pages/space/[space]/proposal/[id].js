@@ -1,8 +1,7 @@
 import Layout from "components/layout";
 import Nav from "components/nav";
 import PostDetail from "@/components/postDetail/index";
-import { useEncodedAddress, useSpace } from "frontedUtils/hooks";
-import { SPACE_ITEMS } from "frontedUtils/constants";
+import { useEncodedAddress } from "frontedUtils/hooks";
 import { ssrNextApi } from "services/nextApi";
 import nextApi from "services/nextApi";
 import { EmptyQuery } from "frontedUtils/constants";
@@ -10,26 +9,23 @@ import { encodeAddress } from "@polkadot/util-crypto";
 import { useState, useEffect } from "react";
 import FourOFour from "../../../404";
 import { NextSeo } from "next-seo";
-import { addressEllipsis } from "../../../../frontedUtils";
 
 export default function Index({
   detail,
-  network,
+  space,
   votes,
   voteStatus,
   comments,
   defaultPage,
   myVote,
 }) {
-  const space = useSpace();
-  const item = SPACE_ITEMS.find((item) => item.value === space);
   const [savedMyVote, setSavedMyVote] = useState(myVote);
-  const encodedAddress = useEncodedAddress(network);
+  const encodedAddress = useEncodedAddress(space);
 
   useEffect(() => {
     if (encodedAddress) {
       nextApi
-        .fetch(`${space}/proposal/${detail?._id}/votes/${encodedAddress}`)
+        .fetch(`${space.name}/proposal/${detail?._id}/votes/${encodedAddress}`)
         .then((result) => {
           if (result?.result) {
             setSavedMyVote(result.result);
@@ -66,7 +62,7 @@ export default function Index({
   const desc = getMetaDesc(detail, "Proposal");
 
   const images = [{
-    url: `https://test.opensquare.io/imgs/${item?.value}-logo.jpg`,
+    url: `https://test.opensquare.io/imgs/${space?.name}-logo.jpg`,
     width: 1200,
     height: 628
   }];
@@ -88,19 +84,17 @@ export default function Index({
           cardType: 'summary_large_image',
         }}
       />
-      <Layout bgHeight="183px" network={network}>
-        {item && (
-          <Nav
-            data={[
-              { name: "Home", link: "/" },
-              { name: item?.name, link: `/space/${item?.value}`, back: true },
-              { name: "Proposal" },
-            ]}
-          />
-        )}
+      <Layout bgHeight="183px" space={space}>
+        <Nav
+          data={[
+            { name: "Home", link: "/" },
+            { name: space?.display, link: `/space/${space?.name}`, back: true },
+            { name: "Proposal" },
+          ]}
+        />
         <PostDetail
           data={detail}
-          network={network}
+          space={space}
           votes={votes}
           voteStatus={voteStatus}
           comments={comments}
@@ -129,7 +123,7 @@ export async function getServerSideProps(context) {
   }
 
   const [
-    { result: network },
+    { result: space },
     { result: votes },
     { result: voteStatus },
     { result: comments },
@@ -149,7 +143,7 @@ export async function getServerSideProps(context) {
   const address = context.req.cookies.address;
   let myVote;
   if (address) {
-    const encodedAddress = encodeAddress(address, network.ss58Format);
+    const encodedAddress = encodeAddress(address, space.ss58Format);
     const result = await ssrNextApi.fetch(
       `${spaceName}/proposal/${detail?._id}/votes/${encodedAddress}`
     );
@@ -159,7 +153,7 @@ export async function getServerSideProps(context) {
   return {
     props: {
       detail: detail ?? null,
-      network: network ?? null,
+      space: space ?? null,
       votes: votes ?? EmptyQuery,
       voteStatus: voteStatus ?? [],
       comments: comments ?? EmptyQuery,

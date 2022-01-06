@@ -81,14 +81,14 @@ const MyVoteTag = styled.div`
   margin-left: 8px;
 `;
 
-export default function PostVotes({ data, network, isMyVote = false }) {
+export default function PostVotes({ data, space, isMyVote = false }) {
   return (
     <Item>
       <InfoWrapper>
         <EqualWrapper>
           <Author
             address={data.voter ?? data.address}
-            network={network}
+            space={space}
             size={20}
           />
           {isMyVote && <MyVoteTag>My Vote</MyVoteTag>}
@@ -105,10 +105,10 @@ export default function PostVotes({ data, network, isMyVote = false }) {
               bigNumber2Locale(
                 fromAssetUnit(
                   data.weights?.balanceOf,
-                  network?.decimals
+                  space?.decimals
                 )
               )
-            )} ${network?.symbol}`}</div>
+            )} ${space?.symbol}`}</div>
             {data?.pinHash && (
               <ExternalLink
                 href={`https://ipfs-hk.decoo.io/ipfs/${data.pinHash}`}

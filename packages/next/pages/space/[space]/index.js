@@ -29,7 +29,7 @@ const PostWrapper = styled.div`
 
 export default function List({
   spaceName,
-  spaceData,
+  space,
   proposals,
   pendingProposals,
   activeProposals,
@@ -39,7 +39,7 @@ export default function List({
 }) {
   const [tab, setTab] = useState(activeTab);
 
-  if (!spaceData) {
+  if (!space) {
     return null;
   }
 
@@ -60,16 +60,16 @@ export default function List({
     height: 628
   }];
 
-  const desc = `Space for ${spaceData.name} off-chain voting. You can create, view, and vote proposals. Join ${spaceData.name} off-chain governance!`
+  const desc = `Space for ${space.name} off-chain voting. You can create, view, and vote proposals. Join ${space.name} off-chain governance!`
 
   return (
     <>
       <NextSeo
-        title={`${spaceData.name} Off-chain Voting`}
+        title={`${space.name} Off-chain Voting`}
         description={desc}
         openGraph={{
           url: 'https://www.opensquare.io/',
-          title: `${spaceData.name} Off-chain Voting`,
+          title: `${space.name} Off-chain Voting`,
           description: desc,
           images,
         }}
@@ -79,24 +79,24 @@ export default function List({
           cardType: 'summary_large_image',
         }}
       />
-      <Layout bgHeight="264px" network={spaceData}>
+      <Layout bgHeight="264px" space={space}>
         <HeaderWrapper>
           <Nav
             data={[
               { name: "Home", link: "/", back: true },
-              { name: spaceData.name },
+              { name: space.display },
             ]}
           />
-          <ListInfo spaceName={spaceName} data={spaceData} />
+          <ListInfo spaceName={spaceName} space={space} />
           <ListTab
-            space={spaceName}
+            spaceName={spaceName}
             activeTab={activeTab}
             onActiveTab={setTab}
             defaultPage={defaultPage}
           />
         </HeaderWrapper>
         <PostWrapper>
-          <PostList posts={proposalList} network={spaceData} />
+          <PostList posts={proposalList} space={space} />
         </PostWrapper>
       </Layout>
     </>
@@ -112,7 +112,7 @@ export async function getServerSideProps(context) {
   const pageSize = 5;
 
   const [
-    { result: spaceData },
+    { result: space },
     { result: proposals },
     { result: pendingProposals },
     { result: activeProposals },
@@ -137,14 +137,14 @@ export async function getServerSideProps(context) {
     }),
   ]);
 
-  if (Object.keys(spaceData).length === 0) {
+  if (!space) {
     to404(context);
   }
 
   return {
     props: {
       spaceName,
-      spaceData: spaceData || null,
+      space: space || null,
       activeTab,
       proposals: proposals ?? EmptyQuery,
       pendingProposals: pendingProposals ?? EmptyQuery,

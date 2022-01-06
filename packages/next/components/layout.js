@@ -13,10 +13,10 @@ const Wrapper = styled.div`
   flex-direction: column;
 `;
 
-export default function Layout({ bgHeight, children, network }) {
+export default function Layout({ bgHeight, children, space }) {
   return (
     <Wrapper>
-      <Header network={network} />
+      <Header space={space} />
       <Main bgHeight={bgHeight}>{children}</Main>
       <Footer />
       <Toast />
