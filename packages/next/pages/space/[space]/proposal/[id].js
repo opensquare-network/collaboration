@@ -25,7 +25,7 @@ export default function Index({
   useEffect(() => {
     if (encodedAddress) {
       nextApi
-        .fetch(`${space.name}/proposal/${detail?._id}/votes/${encodedAddress}`)
+        .fetch(`${space.name}/proposal/${detail?.cid}/votes/${encodedAddress}`)
         .then((result) => {
           if (result?.result) {
             setSavedMyVote(result.result);
@@ -145,7 +145,7 @@ export async function getServerSideProps(context) {
   if (address) {
     const encodedAddress = encodeAddress(address, space.ss58Format);
     const result = await ssrNextApi.fetch(
-      `${spaceName}/proposal/${detail?._id}/votes/${encodedAddress}`
+      `${spaceName}/proposal/${detail?.cid}/votes/${encodedAddress}`
     );
     myVote = result.result ?? null;
   }

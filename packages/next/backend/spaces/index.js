@@ -3,7 +3,7 @@ const { getSpaces } = require("./util");
 const spaces = {};
 
 function reloadSpaces() {
-  getSpaces().then(allSpaces => {
+  return getSpaces().then(allSpaces => {
     for (const key in spaces) {
       delete spaces[key];
     }
@@ -12,8 +12,6 @@ function reloadSpaces() {
     });
   });
 }
-
-reloadSpaces();
 
 module.exports = {
   spaces,

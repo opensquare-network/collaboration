@@ -17,7 +17,7 @@ function startUpdateHeight() {
     })
   };
 
-  setTimeout(doUpdate, 1000);
+  doUpdate();
   timer = setInterval(doUpdate, 12 * 1000);
 }
 
