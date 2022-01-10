@@ -40,7 +40,7 @@ export default function Index({
       // logout
       setSavedMyVote(null);
     }
-  }, [encodedAddress, detail?._id, space, myVote]);
+  }, [encodedAddress, detail?.cid, space, myVote]);
 
   if (!detail) {
     return <FourOFour />;
