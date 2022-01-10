@@ -73,7 +73,7 @@ function createTokenSpace({
   };
 }
 
-function normailizeSpaceConfig(spaceConfig) {
+function normalizeSpaceConfig(spaceConfig) {
   return {
     ...spaceConfig,
     identity: (spaceConfig.identity === "kusama")
@@ -88,15 +88,14 @@ function normailizeSpaceConfig(spaceConfig) {
 async function getSpaces() {
   const spaceCol = await getSpaceCollection();
   const spaceConfigs = await spaceCol.find({}).toArray();
-  const spaces = spaceConfigs.map(spaceConfig => {
-    const config = normailizeSpaceConfig(spaceConfig)
+  return spaceConfigs.map(spaceConfig => {
+    const config = normalizeSpaceConfig(spaceConfig)
     if (config.assetId !== undefined) {
       return createTokenSpace(config);
     } else {
       return createSpace(config);
     }
   });
-  return spaces;
 }
 
 module.exports = {
