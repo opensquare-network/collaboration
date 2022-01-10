@@ -118,9 +118,9 @@ TEST_ACCOUNT_BALANCE=100000000000 # ignore it, for test
 NODE_API_ENDPOINT=http://localhost:3223
 ```
 
-Run script to initialize database with creating space configuration
+Run following scripts to initialize the spaces in database
 ```bash
-node backend/scripts/init-spaces.js
+cd packages/next && node backend/scripts/init-spaces.js
 ```
 
 Then run
