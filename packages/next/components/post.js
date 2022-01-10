@@ -75,8 +75,8 @@ const SpaceName = styled.a`
 `;
 
 export default function Post({ data, showSpace, space, spaces }) {
-  const getSpaceFromName = (spaceName) => spaces?.[spaceName];
-  const getSpaceDisplayName = (spaceName) => getSpaceFromName(spaceName)?.display;
+  const getSpaceFromId = (spaceId) => spaces?.[spaceId];
+  const getSpaceDisplayName = (spaceId) => getSpaceFromId(spaceId)?.name;
   const windowSize = useWindowSize();
 
   const [showRichInfo, setShowRichInfo] = useState(true);
@@ -99,7 +99,7 @@ export default function Post({ data, showSpace, space, spaces }) {
             {showRichInfo && (
               <Author
                 address={data.proposer ?? data.address}
-                space={space ?? getSpaceFromName(data.space)}
+                space={space ?? getSpaceFromId(data.space)}
               />
             )}
             {!showRichInfo && (

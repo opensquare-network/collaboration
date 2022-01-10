@@ -10,7 +10,7 @@ export default function Create({ space }) {
       <Nav
         data={[
           { name: "Home", link: "/" },
-          { name: space?.display, link: `/space/${space?.name}`, back: true },
+          { name: space?.name, link: `/space/${space?.id}`, back: true },
           { name: "New Post" },
         ]}
       />
@@ -20,12 +20,12 @@ export default function Create({ space }) {
 }
 
 export async function getServerSideProps(context) {
-  const { space: spaceName } = context.params;
+  const { space: spaceId } = context.params;
 
   const [
     { result: space },
   ] = await Promise.all([
-    ssrNextApi.fetch(`spaces/${spaceName}`),
+    ssrNextApi.fetch(`spaces/${spaceId}`),
   ]);
 
   if (!space) {

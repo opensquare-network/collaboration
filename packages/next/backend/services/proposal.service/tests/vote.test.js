@@ -24,8 +24,8 @@ describe("Vote Test", () => {
 
     await spaceCol.insertMany([
       {
-        name: "karura",
-        display: "Karura",
+        id: "karura",
+        name: "Karura",
         network: "karura",
         symbol: "KAR",
         ss58Format: 8,

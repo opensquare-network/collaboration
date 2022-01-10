@@ -8,7 +8,7 @@ function reloadSpaces() {
       delete spaces[key];
     }
     allSpaces.forEach(item => {
-      spaces[item.name] = item;
+      spaces[item.id] = item;
     });
   });
 }

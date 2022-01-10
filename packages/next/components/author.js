@@ -42,6 +42,10 @@ export default function Author({ address, space, size = 20 }) {
       return;
     }
 
+    if (!chain) {
+      return;
+    }
+
     const idenAddr = encodeAddress(address, chain.ss58Format);
     fetchIdentity(chain.network, idenAddr)
       .then((identity) => {

@@ -2,8 +2,8 @@ const { getApi, getTotalBalance, getTokenBalance } = require("../services/node.s
 const { getSpaceCollection } = require("../mongo");
 
 function createSpace({
+  id,
   name,
-  display,
   network,
   symbol,
   ss58Format,
@@ -21,8 +21,8 @@ function createSpace({
   };
 
   return {
+    id,
     name,
-    display,
     network,
     symbol,
     ss58Format,
@@ -37,8 +37,8 @@ function createSpace({
 }
 
 function createTokenSpace({
+  id,
   name,
-  display,
   network,
   assetId,
   symbol,
@@ -57,8 +57,8 @@ function createTokenSpace({
   };
 
   return {
+    id,
     name,
-    display,
     network,
     assetId,
     symbol,

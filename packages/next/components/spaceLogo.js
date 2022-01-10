@@ -16,7 +16,7 @@ const SpaceIcons = {
   rmrk: "rmrk.svg",
 };
 
-export default function SpaceLogo({ spaceName }){
-  const spaceIcon = SpaceIcons[spaceName] || "space-noicon.svg";
+export default function SpaceLogo({ spaceId }){
+  const spaceIcon = SpaceIcons[spaceId] || "space-noicon.svg";
   return <LogoImg src={`/imgs/icons/${spaceIcon}`} alt=""/>
 }

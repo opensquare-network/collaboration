@@ -25,7 +25,7 @@ export default function Index({
   useEffect(() => {
     if (encodedAddress) {
       nextApi
-        .fetch(`${space.name}/proposal/${detail?.cid}/votes/${encodedAddress}`)
+        .fetch(`${space.id}/proposal/${detail?.cid}/votes/${encodedAddress}`)
         .then((result) => {
           if (result?.result) {
             setSavedMyVote(result.result);
@@ -62,7 +62,7 @@ export default function Index({
   const desc = getMetaDesc(detail, "Proposal");
 
   const images = [{
-    url: `https://test.opensquare.io/imgs/${space?.name}-logo.jpg`,
+    url: `https://test.opensquare.io/imgs/${space?.id}-logo.jpg`,
     width: 1200,
     height: 628
   }];
@@ -88,7 +88,7 @@ export default function Index({
         <Nav
           data={[
             { name: "Home", link: "/" },
-            { name: space?.display, link: `/space/${space?.name}`, back: true },
+            { name: space?.name, link: `/space/${space?.id}`, back: true },
             { name: "Proposal" },
           ]}
         />
@@ -107,7 +107,7 @@ export default function Index({
 }
 
 export async function getServerSideProps(context) {
-  const { id, space: spaceName } = context.params;
+  const { id, space: spaceId } = context.params;
   const { page, tab } = context.query;
 
   const nPage = page === "last" ? "last" : parseInt(page) || 1;
@@ -115,7 +115,7 @@ export async function getServerSideProps(context) {
   const pageSize = 5;
 
   const { result: detail } = await ssrNextApi.fetch(
-    `${spaceName}/proposal/${id}`
+    `${spaceId}/proposal/${id}`
   );
 
   if (!detail) {
@@ -128,13 +128,13 @@ export async function getServerSideProps(context) {
     { result: voteStatus },
     { result: comments },
   ] = await Promise.all([
-    ssrNextApi.fetch(`spaces/${spaceName}`),
-    ssrNextApi.fetch(`${spaceName}/proposal/${detail?.cid}/votes`, {
+    ssrNextApi.fetch(`spaces/${spaceId}`),
+    ssrNextApi.fetch(`${spaceId}/proposal/${detail?.cid}/votes`, {
       page: activeTab === "votes" ? nPage : 1,
       pageSize,
     }),
-    ssrNextApi.fetch(`${spaceName}/proposal/${detail?.cid}/stats`),
-    ssrNextApi.fetch(`${spaceName}/proposal/${detail?.cid}/comments`, {
+    ssrNextApi.fetch(`${spaceId}/proposal/${detail?.cid}/stats`),
+    ssrNextApi.fetch(`${spaceId}/proposal/${detail?.cid}/comments`, {
       page: activeTab === "discussion" ? nPage : 1,
       pageSize,
     }),
@@ -145,7 +145,7 @@ export async function getServerSideProps(context) {
   if (address) {
     const encodedAddress = encodeAddress(address, space.ss58Format);
     const result = await ssrNextApi.fetch(
-      `${spaceName}/proposal/${detail?.cid}/votes/${encodedAddress}`
+      `${spaceId}/proposal/${detail?.cid}/votes/${encodedAddress}`
     );
     myVote = result.result ?? null;
   }

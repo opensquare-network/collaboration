@@ -96,7 +96,7 @@ export default function PostVote({ data, space }) {
   useEffect(() => {
     if (space && account?.address) {
       nextApi
-        .fetch(`${space.name}/account/${account.address}/balance`, {
+        .fetch(`${space.id}/account/${account.address}/balance`, {
           snapshot: data?.snapshotHeight,
         })
         .then((response) => {
@@ -157,7 +157,7 @@ export default function PostVote({ data, space }) {
     let result;
     try {
       result = await viewfunc.addVote(
-        space.name,
+        space.id,
         data?.cid,
         data?.choices?.[choiceIndex],
         remark,

@@ -28,7 +28,7 @@ const PostWrapper = styled.div`
 `;
 
 export default function List({
-  spaceName,
+  spaceId,
   space,
   proposals,
   pendingProposals,
@@ -55,7 +55,7 @@ export default function List({
   }
 
   const images = [{
-    url: `https://test.opensquare.io/imgs/${spaceName}-logo.jpg`,
+    url: `https://test.opensquare.io/imgs/${spaceId}-logo.jpg`,
     width: 1200,
     height: 628
   }];
@@ -84,12 +84,12 @@ export default function List({
           <Nav
             data={[
               { name: "Home", link: "/", back: true },
-              { name: space.display },
+              { name: space.name },
             ]}
           />
-          <ListInfo spaceName={spaceName} space={space} />
+          <ListInfo spaceId={spaceId} space={space} />
           <ListTab
-            spaceName={spaceName}
+            spaceId={spaceId}
             activeTab={activeTab}
             onActiveTab={setTab}
             defaultPage={defaultPage}
@@ -104,7 +104,7 @@ export default function List({
 }
 
 export async function getServerSideProps(context) {
-  const { space: spaceName } = context.params;
+  const { space: spaceId } = context.params;
   const { tab, page } = context.query;
   const nPage = parseInt(page) || 1;
   const activeTab = tab || "all";
@@ -118,20 +118,20 @@ export async function getServerSideProps(context) {
     { result: activeProposals },
     { result: closedProposals },
   ] = await Promise.all([
-    ssrNextApi.fetch(`spaces/${spaceName}`),
-    ssrNextApi.fetch(`${spaceName}/proposals`, {
+    ssrNextApi.fetch(`spaces/${spaceId}`),
+    ssrNextApi.fetch(`${spaceId}/proposals`, {
       page: activeTab === "all" ? nPage : 1,
       pageSize,
     }),
-    ssrNextApi.fetch(`${spaceName}/proposals/pending`, {
+    ssrNextApi.fetch(`${spaceId}/proposals/pending`, {
       page: activeTab === "pending" ? nPage : 1,
       pageSize,
     }),
-    ssrNextApi.fetch(`${spaceName}/proposals/active`, {
+    ssrNextApi.fetch(`${spaceId}/proposals/active`, {
       page: activeTab === "active" ? nPage : 1,
       pageSize,
     }),
-    ssrNextApi.fetch(`${spaceName}/proposals/closed`, {
+    ssrNextApi.fetch(`${spaceId}/proposals/closed`, {
       page: activeTab === "closed" ? nPage : 1,
       pageSize,
     }),
@@ -143,7 +143,7 @@ export async function getServerSideProps(context) {
 
   return {
     props: {
-      spaceName,
+      spaceId,
       space: space || null,
       activeTab,
       proposals: proposals ?? EmptyQuery,

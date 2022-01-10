@@ -93,7 +93,7 @@ async function createProposal(
 
   const spaceService = spaceServices[space];
   if (!spaceService) {
-    throw new HttpError(500, "Unknown space name");
+    throw new HttpError(500, "Unknown space");
   }
   const weightStrategy = spaceService.weightStrategy;
 
@@ -275,7 +275,7 @@ async function getClosedProposalBySpace(space, page, pageSize) {
 async function getProposalSpace(proposal) {
   const spaceService = spaceServices[proposal.space]
   if (!spaceService) {
-    throw new HttpError(500, "Unkown space name");
+    throw new HttpError(500, "Unkown space");
   }
   return spaceService;
 }
@@ -288,7 +288,7 @@ async function getProposalSpaceByCid(proposalCid) {
   }
   const spaceService = spaceServices[proposal.space]
   if (!spaceService) {
-    throw new HttpError(500, "Unkown space name");
+    throw new HttpError(500, "Unkown space");
   }
   return spaceService;
 }
@@ -312,7 +312,7 @@ async function getProposalById(proposalId) {
 
   const spaceService = spaceServices[proposal.space]
   if (!spaceService) {
-    throw new HttpError(500, "Unkown space name");
+    throw new HttpError(500, "Unkown space");
   }
   const voteThreshold = spaceService.voteThreshold;
   const decimals = spaceService.decimals;
@@ -452,7 +452,7 @@ async function vote(
   const space = proposal.space;
   const spaceService = spaceServices[space];
   if (!spaceService) {
-    throw new HttpError(500, "Unknown space name");
+    throw new HttpError(500, "Unknown space");
   }
 
   if (realVoter && realVoter !== address) {

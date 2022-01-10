@@ -22,8 +22,8 @@ describe("Spaces Test", () => {
 
     await spaceCol.insertMany([
       {
-        name: "karura",
-        display: "Karura",
+        id: "karura",
+        name: "Karura",
         network: "karura",
         symbol: "KAR",
         ss58Format: 8,
@@ -52,8 +52,8 @@ describe("Spaces Test", () => {
     expect(spaces).toMatchObject({
       karura:
         {
-          name: "karura",
-          display: "Karura",
+          id: "karura",
+          name: "Karura",
           network: "karura",
           symbol: "KAR",
           ss58Format: 8,
@@ -73,8 +73,8 @@ describe("Spaces Test", () => {
   test("getSpace", async () => {
     const space = await getSpace("karura");
     expect(space).toMatchObject({
-      name: "karura",
-      display: "Karura",
+      id: "karura",
+      name: "Karura",
       network: "karura",
       symbol: "KAR",
       ss58Format: 8,

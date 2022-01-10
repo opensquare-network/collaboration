@@ -5,8 +5,8 @@ const { getSpaceCollection } = require("../mongo");
 
 const spaces = [
   {
-    name: "polkadot",
-    display: "Polkadot",
+    id: "polkadot",
+    name: "Polkadot",
     network: "polkadot",
     symbol: "DOT",
     ss58Format: 0,
@@ -16,8 +16,8 @@ const spaces = [
     weightStrategy: ["balance-of","quadratic-balance-of"],
   },
   {
-    name: "kusama",
-    display: "Kusama",
+    id: "kusama",
+    name: "Kusama",
     network: "kusama",
     symbol: "KSM",
     ss58Format: 2,
@@ -27,8 +27,8 @@ const spaces = [
     weightStrategy: ["balance-of","quadratic-balance-of"],
   },
   {
-    name: "karura",
-    display: "Karura",
+    id: "karura",
+    name: "Karura",
     network: "karura",
     symbol: "KAR",
     ss58Format: 8,
@@ -39,8 +39,8 @@ const spaces = [
     identity: "kusama",
   },
   {
-    name: "khala",
-    display: "Khala",
+    id: "khala",
+    name: "Khala",
     network: "khala",
     symbol: "PHA",
     ss58Format: 30,
@@ -50,15 +50,15 @@ const spaces = [
     weightStrategy: ["balance-of","quadratic-balance-of"],
   },
   {
-    name: "rmrk",
-    display: "RMRK",
+    id: "rmrk",
+    name: "RMRK",
     network: "statemine",
     assetId: 8,
     symbol: "RMRK",
     ss58Format: 2,
     decimals: 10,
-    proposeThreshold: "10000000000",
-    voteThreshold: "100000000",
+    proposeThreshold: "500000000000000",
+    voteThreshold: "10000000000",
     weightStrategy: ["balance-of","quadratic-balance-of"],
     identity: "kusama",
   },
@@ -69,7 +69,7 @@ async function main() {
   const bulk = spaceCol.initializeUnorderedBulkOp();
   for (const space of spaces) {
     bulk
-      .find({ name: space.name })
+      .find({ id: space.id })
       .upsert()
       .update({ $set: space });
   }

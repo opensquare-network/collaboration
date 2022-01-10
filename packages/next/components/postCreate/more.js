@@ -144,7 +144,7 @@ export default function More({
     new BigNumber(Number(proxyBalance)).comparedTo(new BigNumber(threshold)) >=
     0;
   const dispatch = useDispatch();
-  const isSnapshotHeight = ["rmrk"].includes(space?.name);
+  const isSnapshotHeight = ["rmrk"].includes(space?.id);
   const [snapshotHeightDate, setSnapshotHeightDate] = useState();
   const [snapshotHeightLoading, setSnapshotHeightLoading] = useState(false);
 

@@ -46,7 +46,7 @@ export default function PostTab({
   myVote,
 }) {
   const router = useRouter();
-  const { space: spaceName, id } = router.query;
+  const { space: spaceId, id } = router.query;
   const [activeTab, setActiveTab] = useState(defaultPage?.tab ?? "votes");
   const tabs = useMemo(
     () => [
@@ -92,7 +92,7 @@ export default function PostTab({
               router.push(
                 {
                   query: {
-                    space: spaceName,
+                    space: spaceId,
                     id,
                     ...(item.default ? {} : { tab: item.value }),
                     ...(item.value === defaultPage?.tab

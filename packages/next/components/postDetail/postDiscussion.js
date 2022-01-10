@@ -118,7 +118,7 @@ export default function PostDiscussion({ data, space, comments }) {
     let result;
     try {
       result = await viewfunc.addComment(
-        space.name,
+        space.id,
         data?.cid,
         content,
         "markdown",

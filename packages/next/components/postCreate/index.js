@@ -95,7 +95,7 @@ export default function PostCreate({ space }) {
       }, 2000);
     });
     Promise.all([
-      nextApi.fetch(`${space.name}/account/${encodeAddress(address, space.ss58Format)}/balance?snapshot=${height}`),
+      nextApi.fetch(`${space.id}/account/${encodeAddress(address, space.ss58Format)}/balance?snapshot=${height}`),
       delay,
     ])
       .then((results) => {
@@ -133,7 +133,7 @@ export default function PostCreate({ space }) {
       }, 2000);
     });
     Promise.all([
-      nextApi.fetch(`${space.name}/account/${encodeAddress(address, space.ss58Format)}/balance?snapshot=${height}`),
+      nextApi.fetch(`${space.id}/account/${encodeAddress(address, space.ss58Format)}/balance?snapshot=${height}`),
       delay,
     ])
       .then((results) => {
@@ -176,7 +176,7 @@ export default function PostCreate({ space }) {
     }
 
     const proposal = {
-      space: space.name,
+      space: space.id,
       title,
       content,
       contentType: "markdown",
@@ -211,7 +211,7 @@ export default function PostCreate({ space }) {
             message: "Proposal created successfully!",
           })
         );
-        router.push(`/space/${space.name}/proposal/${result.cid}`);
+        router.push(`/space/${space.id}/proposal/${result.cid}`);
       }
       if (error) {
         dispatch(
