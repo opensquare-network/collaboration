@@ -21,18 +21,18 @@ const NoVoteWrapper = styled.div`
   border-bottom: 1px solid #f0f3f8;
 `;
 
-export default function PostVotes({ network, votes, myVote }) {
+export default function PostVotes({ space, votes, myVote }) {
   return (
     <div>
       <div>
         {myVote && (
-          <PostVotesItem data={myVote} network={network} isMyVote={true} />
+          <PostVotesItem data={myVote} space={space} isMyVote={true} />
         )}
       </div>
       {(votes?.items || [])
         .filter((item) => item.voter !== myVote?.voter)
         .map((item, index) => (
-          <PostVotesItem data={item} network={network} key={index} />
+          <PostVotesItem data={item} space={space} key={index} />
         ))}
       {!votes?.items?.length > 0 && (
         <NoVoteWrapper>No current votes</NoVoteWrapper>

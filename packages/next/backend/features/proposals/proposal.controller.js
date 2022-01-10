@@ -232,9 +232,9 @@ async function getVotes(ctx) {
 }
 
 async function getAddressVote(ctx) {
-  const { proposalId, address } = ctx.params;
+  const { proposalCid, address } = ctx.params;
 
-  ctx.body = await proposalService.getAddressVote(proposalId, address);
+  ctx.body = await proposalService.getAddressVote(proposalCid, address);
 }
 
 async function getStats(ctx) {

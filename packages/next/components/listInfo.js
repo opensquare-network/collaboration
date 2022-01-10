@@ -73,14 +73,14 @@ const AboutDivider = styled.div`
   margin: 0 40px;
 `;
 
-export default function ListInfo({ spaceName, data }) {
+export default function ListInfo({ space }) {
   return (
     <Wrapper>
       <LogoWrapper>
-        <SpaceLogo space={spaceName} />
+        <SpaceLogo spaceId={space.id} />
         <div>
-          <LogoName>{data.name}</LogoName>
-          <LogoSymbol>{data.symbol}</LogoSymbol>
+          <LogoName>{space.name}</LogoName>
+          <LogoSymbol>{space.symbol}</LogoSymbol>
         </div>
       </LogoWrapper>
       <AboutWrapper>
@@ -88,7 +88,7 @@ export default function ListInfo({ spaceName, data }) {
           <AboutIcon src="/imgs/icons/network.svg" />
           <div>
             <AboutName>Network</AboutName>
-            <AboutDetail>{data.network}</AboutDetail>
+            <AboutDetail>{space.network}</AboutDetail>
           </div>
         </AboutItem>
         <AboutDivider />
@@ -97,15 +97,15 @@ export default function ListInfo({ spaceName, data }) {
           <div>
             <AboutName>Threshold</AboutName>
             <AboutDetail>{`${toPrecision(
-              data.proposeThreshold,
-              data.decimals
-            )} ${data.symbol}`}</AboutDetail>
+              space.proposeThreshold,
+              space.decimals
+            )} ${space.symbol}`}</AboutDetail>
           </div>
           <Tooltip
             content={`At least ${toPrecision(
-              data.proposeThreshold,
-              data.decimals
-            )}${data.symbol} to create a proposal`}
+              space.proposeThreshold,
+              space.decimals
+            )}${space.symbol} to create a proposal`}
             size="full"
           >
             <div />
@@ -117,7 +117,7 @@ export default function ListInfo({ spaceName, data }) {
           <div>
             <AboutName>Strategies</AboutName>
             <StrategyAboutDetail>
-              {data.weightStrategy?.join(", ")}
+              {space.weightStrategy?.join(", ")}
             </StrategyAboutDetail>
           </div>
         </AboutItem>

@@ -67,7 +67,7 @@ describe("Comment Test", () => {
       signature,
     );
 
-    const result = await getComments("616e454d8f661dee51552e6a", 1, 10);
+    const result = await getComments("QmRgpY9WUuxKkptU6Sj9ow97u5QtFeRYnx4pqXzVBfMapE", 1, 10);
     expect(result).toMatchObject({
       items: [
         {

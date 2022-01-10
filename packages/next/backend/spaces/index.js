@@ -1,13 +1,19 @@
-const polkadot = require("./polkadot");
-const kusama = require("./kusama");
-const karura = require("./karura");
-const khala = require("./khala");
-const rmrk = require("./rmrk");
+const { getSpaces } = require("./util");
+
+const spaces = {};
+
+function reloadSpaces() {
+  return getSpaces().then(allSpaces => {
+    for (const key in spaces) {
+      delete spaces[key];
+    }
+    allSpaces.forEach(item => {
+      spaces[item.id] = item;
+    });
+  });
+}
 
 module.exports = {
-  polkadot,
-  kusama,
-  karura,
-  khala,
-  rmrk,
+  spaces,
+  reloadSpaces,
 };

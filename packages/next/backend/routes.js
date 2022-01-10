@@ -1,7 +1,5 @@
 const Router = require("koa-router");
-const spaceServices = require("./spaces");
-
-const routeSpaces = Object.keys(spaceServices).join("|");
+const { spaces: spaceServices } = require("./spaces");
 
 const router = new Router();
 
@@ -15,6 +13,14 @@ const commonFeatureRouters = [
   require("./features/home/routes"),
 ];
 
+
+async function checkSpaceExisten(ctx, next) {
+  if (!spaceServices[ctx.params.space]) {
+    return ctx.throw(404, "Space does not exists");
+  }
+  await next();
+}
+
 module.exports = (app) => {
   for (const r of commonFeatureRouters) {
     router.use(r.routes(), r.allowedMethods({ throw: true }));
@@ -22,7 +28,8 @@ module.exports = (app) => {
 
   for (const r of spaceFeatureRoutes) {
     router.use(
-      `/:space(${routeSpaces})`,
+      `/:space`,
+      checkSpaceExisten,
       r.routes(),
       r.allowedMethods({ throw: true })
     );

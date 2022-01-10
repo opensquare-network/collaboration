@@ -1,12 +1,12 @@
-const spaceServices = require("../spaces");
+const { spaces: spaceServices } = require("../spaces");
 const { getFinalizedHeight } = require("./node.service");
 
 let latestHeights = {};
-let timer = {};
+let timer = null;
 
 function startUpdateHeight() {
-  Object.keys(spaceServices).map((space) => {
-    const callback = async () => {
+  const doUpdate = () => {
+    Object.keys(spaceServices).forEach(async (space) => {
       try {
         const api = await spaceServices[space].getApi();
         const { height } = await getFinalizedHeight(api);
@@ -14,18 +14,16 @@ function startUpdateHeight() {
       } catch (e) {
         console.error(`Failed to get ${space} chain height:`, e.message);
       }
-    };
+    })
+  };
 
-    callback();
-    timer[space] = setInterval(callback, 12 * 1000);
-  })
+  doUpdate();
+  timer = setInterval(doUpdate, 12 * 1000);
 }
 
 function stopUpdateHeight() {
-  for (const space in timer) {
-    clearInterval(timer[space]);
-    delete timer[space];
-  }
+  clearInterval(timer);
+  timer = null;
 }
 
 function getLatestHeight(space) {

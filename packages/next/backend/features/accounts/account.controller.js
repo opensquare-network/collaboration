@@ -1,6 +1,6 @@
 const { HttpError } = require("../../exc");
 const { getLatestHeight } = require("../../services/chain.service");
-const spaceServices = require("../../spaces");
+const { spaces: spaceServices } = require("../../spaces");
 const { isAddress } = require("@polkadot/util-crypto");
 
 async function getSpaceAccountBalance(ctx) {

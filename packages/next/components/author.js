@@ -32,14 +32,17 @@ const IdentityWrapper = styled.div`
   }
 `;
 
-export default function Author({ address, network, size = 20 }) {
+export default function Author({ address, space, size = 20 }) {
   const [identity, setIdentity] = useState();
   const isMounted = useIsMounted();
-  const chain =
-    network.network === "khala" ? network : network?.relay || network;
+  const chain = space?.identity || space;
 
   useEffect(() => {
     if (!address) {
+      return;
+    }
+
+    if (!chain) {
       return;
     }
 
@@ -57,7 +60,7 @@ export default function Author({ address, network, size = 20 }) {
     <Wrapper>
       <Avatar address={address} size={size} />
       <ExternalLink
-        href={`https://${network?.network}.subscan.io/account/${address}`}
+        href={`https://${space?.network}.subscan.io/account/${address}`}
       >
         {identity?.info ? (
           <IdentityWrapper>

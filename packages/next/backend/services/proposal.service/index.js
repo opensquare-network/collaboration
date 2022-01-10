@@ -11,7 +11,7 @@ const {
 const { HttpError } = require("../../exc");
 const { ContentType } = require("../../constants");
 const { getLatestHeight } = require("../chain.service");
-const spaceServices = require("../../spaces");
+const { spaces: spaceServices } = require("../../spaces");
 const { checkDelegation } = require("../../services/node.service");
 const { getObjectBufAndCid, pinJsonToIpfsWithTimeout } = require("../ipfs.service");
 const { toDecimal128, enhancedSqrtOfBalance } = require("../../utils");
@@ -93,7 +93,7 @@ async function createProposal(
 
   const spaceService = spaceServices[space];
   if (!spaceService) {
-    throw new HttpError(500, "Unknown space name");
+    throw new HttpError(500, "Unknown space");
   }
   const weightStrategy = spaceService.weightStrategy;
 
@@ -272,30 +272,23 @@ async function getClosedProposalBySpace(space, page, pageSize) {
   };
 }
 
-async function getProposalSpaceByCid(Cid) {
-  const q = { cid: Cid };
-  const proposalCol = await getProposalCollection();
-  const proposal = await proposalCol.findOne(q);
-  if (!proposal) {
-    throw new HttpError(404, "Proposal does not exists");
-  }
+async function getProposalSpace(proposal) {
   const spaceService = spaceServices[proposal.space]
   if (!spaceService) {
-    throw new HttpError(500, "Unkown space name");
+    throw new HttpError(500, "Unkown space");
   }
   return spaceService;
 }
 
-async function getProposalSpace(proposalId) {
-  const q = { _id: ObjectId(proposalId) };
+async function getProposalSpaceByCid(proposalCid) {
   const proposalCol = await getProposalCollection();
-  const proposal = await proposalCol.findOne(q);
+  const proposal = await proposalCol.findOne({ cid: proposalCid });
   if (!proposal) {
     throw new HttpError(404, "Proposal does not exists");
   }
   const spaceService = spaceServices[proposal.space]
   if (!spaceService) {
-    throw new HttpError(500, "Unkown space name");
+    throw new HttpError(500, "Unkown space");
   }
   return spaceService;
 }
@@ -319,7 +312,7 @@ async function getProposalById(proposalId) {
 
   const spaceService = spaceServices[proposal.space]
   if (!spaceService) {
-    throw new HttpError(500, "Unkown space name");
+    throw new HttpError(500, "Unkown space");
   }
   const voteThreshold = spaceService.voteThreshold;
   const decimals = spaceService.decimals;
@@ -400,7 +393,7 @@ async function postComment(
 async function getComments(proposalCid, page, pageSize) {
   const proposalCol = await getProposalCollection();
   const proposal = await proposalCol.findOne({ cid: proposalCid });
-  if(!proposal){
+  if (!proposal) {
     throw new HttpError(404, "Proposal does not exists");
   }
   const q = { proposal: proposal?._id };
@@ -459,7 +452,7 @@ async function vote(
   const space = proposal.space;
   const spaceService = spaceServices[space];
   if (!spaceService) {
-    throw new HttpError(500, "Unknown space name");
+    throw new HttpError(500, "Unknown space");
   }
 
   if (realVoter && realVoter !== address) {
@@ -541,7 +534,7 @@ async function getVotes(proposalCid, page, pageSize) {
     .limit(pageSize)
     .toArray();
 
-  const spaceService = await getProposalSpaceByCid(proposalCid);
+  const spaceService = await getProposalSpace(proposal);
 
   return {
     items: votes.map(v => calcWeights(v, spaceService.decimals, spaceService.voteThreshold)),
@@ -551,13 +544,13 @@ async function getVotes(proposalCid, page, pageSize) {
   };
 }
 
-async function getAddressVote(proposalId, address) {
+async function getAddressVote(proposalCid, address) {
   const q = {
-    proposal: ObjectId(proposalId),
+    "data.proposalCid": proposalCid,
     voter: address,
   };
 
-  const spaceService = await getProposalSpace(proposalId);
+  const spaceService = await getProposalSpaceByCid(proposalCid);
 
   const voteCol = await getVoteCollection();
   const vote = await voteCol.findOne(q);
@@ -569,7 +562,7 @@ async function getStats(proposalCid) {
   const proposal = await proposalCol.findOne({ cid: proposalCid });
   const q = { proposal: proposal?._id };
 
-  const spaceService = await getProposalSpaceByCid(proposalCid);
+  const spaceService = await getProposalSpace(proposal);
 
   const voteCol = await getVoteCollection();
   const votes = await voteCol.find(q).toArray();

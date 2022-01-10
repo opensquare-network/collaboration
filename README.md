@@ -114,30 +114,16 @@ DECOO_API_SECRET_KEY=xxx # fill the decoo verification key
 TEST_ACCOUNTS=xxx|yyy # ignore it, for test
 TEST_ACCOUNT_BALANCE=100000000000 # ignore it, for test
 
-# Following variables are for space proposal creation authority, you can just keep it
-SPACE_PROPOSE_THRESHOLD_POLKADOT=10000000000
-SPACE_PROPOSE_THRESHOLD_KUSAMA=10000000000
-SPACE_PROPOSE_THRESHOLD_KARURA=1000000000000
-SPACE_PROPOSE_THRESHOLD_KHALA=10000000000000
-
-# Following variables are for space proposal vote authority, you can just keep it
-SPACE_VOTE_THRESHOLD_POLKADOT=100000000
-SPACE_VOTE_THRESHOLD_KUSAMA=10000000000
-SPACE_VOTE_THRESHOLD_KARURA=10000000000
-SPACE_VOTE_THRESHOLD_KHALA=10000000000
-
-# Follwoing variables are space strategies configuration.
-# You can choose both or either one startegy for each space, separated by ','.
-SPACE_WEIGHT_STRATEGY_POLKADOT=balance-of,quadratic-balance-of
-SPACE_WEIGHT_STRATEGY_KUSAMA=balance-of
-SPACE_WEIGHT_STRATEGY_KARURA=balance-of
-SPACE_WEIGHT_STRATEGY_KHALA=quadratic-balance-of
-
 # The node api server url. Do not append '/' to the end.
 NODE_API_ENDPOINT=http://localhost:3223
 ```
 
-Then run 
+Run following scripts to initialize the spaces in database
+```bash
+cd packages/next && node backend/scripts/init-spaces.js
+```
+
+Then run
 ```bash
 yarn run dev
 ```

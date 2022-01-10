@@ -74,9 +74,9 @@ const SpaceName = styled.a`
   }
 `;
 
-export default function Post({ data, showSpace, network, spaces }) {
-  const getSpaceNetwork = (space) => spaces?.[space];
-  const getSpaceName = (space) => spaces?.[space]?.name;
+export default function Post({ data, showSpace, space, spaces }) {
+  const getSpaceFromId = (spaceId) => spaces?.[spaceId];
+  const getSpaceDisplayName = (spaceId) => getSpaceFromId(spaceId)?.name;
   const windowSize = useWindowSize();
 
   const [showRichInfo, setShowRichInfo] = useState(true);
@@ -99,7 +99,7 @@ export default function Post({ data, showSpace, network, spaces }) {
             {showRichInfo && (
               <Author
                 address={data.proposer ?? data.address}
-                network={network ?? getSpaceNetwork(data.space)}
+                space={space ?? getSpaceFromId(data.space)}
               />
             )}
             {!showRichInfo && (
@@ -115,7 +115,7 @@ export default function Post({ data, showSpace, network, spaces }) {
                   alt=""
                 />
                 <InternalLink href={`/space/${data.space}`}>
-                  <SpaceName>{getSpaceName(data.space)}</SpaceName>
+                  <SpaceName>{getSpaceDisplayName(data.space)}</SpaceName>
                 </InternalLink>
               </FromSpace>
             )}

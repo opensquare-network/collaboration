@@ -100,7 +100,7 @@ const IconWrapper = styled.div`
   }
 `;
 
-export default function Header({ network }) {
+export default function Header({ space }) {
   const [showMenu, setShowMenu] = useState(false);
   const ref = useRef();
   useOnClickOutside(ref, (event) => {
@@ -141,7 +141,7 @@ export default function Header({ network }) {
             }}
           >
             <Account
-              network={network}
+              space={space}
               showMenu={showMenu}
               setShowMenu={setShowMenu}
             />

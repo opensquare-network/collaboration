@@ -160,7 +160,7 @@ const IdentityWrapper = styled.div`
   }
 `;
 
-export default function Account({ network, showMenu, setShowMenu }) {
+export default function Account({ space, showMenu, setShowMenu }) {
   const dispatch = useDispatch();
   const isMounted = useIsMounted();
   const windowSize = useWindowSize();
@@ -170,20 +170,20 @@ export default function Account({ network, showMenu, setShowMenu }) {
   // const [showConnectModal, setShowConnectModal] = useState(false);
   const [identity, setIdentity] = useState();
   const [address, setAddress] = useState(account?.address);
-  const chain = network?.relay || network;
+  const chain = space?.identity || space;
 
   useEffect(() => setPageMounted(true), []);
 
   useEffect(() => {
     if (account) {
-      if (account?.address && network?.ss58Format !== undefined) {
-        const spaceAddr = encodeAddress(account.address, network.ss58Format);
+      if (account?.address && space?.ss58Format !== undefined) {
+        const spaceAddr = encodeAddress(account.address, space.ss58Format);
         setAddress(spaceAddr);
       } else {
         setAddress(account.address);
       }
     }
-  }, [network?.ss58Format, account]);
+  }, [space?.ss58Format, account]);
 
   useEffect(() => {
     if (chain && account?.address) {

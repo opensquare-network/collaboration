@@ -6,9 +6,10 @@ jest.mock("../../../env");
 jest.mock("../../ipfs.service/pin");
 jest.mock("../../node.service");
 
-const { ObjectId, Decimal128 } = require("mongodb");
+const { ObjectId } = require("mongodb");
 const { vote, getVotes } = require("..");
 const { getDb } = require("../../../mongo");
+const { reloadSpaces } = require("../../../spaces");
 
 describe("Vote Test", () => {
   let db;
@@ -19,6 +20,24 @@ describe("Vote Test", () => {
     db = await getDb();
     proposalCol = db.getCollection("proposal");
     voteCol = db.getCollection("vote");
+    spaceCol = db.getCollection("space");
+
+    await spaceCol.insertMany([
+      {
+        id: "karura",
+        name: "Karura",
+        network: "karura",
+        symbol: "KAR",
+        ss58Format: 8,
+        decimals: 12,
+        proposeThreshold: "1000000000000",
+        voteThreshold: "10000000000",
+        weightStrategy: ["balance-of","quadratic-balance-of"],
+        identity: "kusama",
+      },
+    ]);
+
+    await reloadSpaces();
 
     await proposalCol.insertMany([
       {
@@ -49,6 +68,8 @@ describe("Vote Test", () => {
   afterAll(async () => {
     await voteCol.drop();
     await proposalCol.drop();
+    await spaceCol.drop();
+
     await db.close();
   });
 
@@ -71,7 +92,7 @@ describe("Vote Test", () => {
       signature,
     );
 
-    const result = await getVotes("616e454d8f661dee51552e6a", 1, 10);
+    const result = await getVotes("QmRgpY9WUuxKkptU6Sj9ow97u5QtFeRYnx4pqXzVBfMapE", 1, 10);
     expect(result).toMatchObject({
       items: [
         {

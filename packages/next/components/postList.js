@@ -19,7 +19,7 @@ const PostsWrapper = styled.div`
 export default function PostList({
   title,
   posts,
-  network,
+  space,
   spaces,
   showSpace = false,
 }) {
@@ -33,7 +33,7 @@ export default function PostList({
             key={index}
             data={item}
             showSpace={showSpace}
-            network={network}
+            space={space}
             spaces={spaces}
           />
         ))}

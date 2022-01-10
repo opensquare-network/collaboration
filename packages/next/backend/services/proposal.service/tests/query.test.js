@@ -5,6 +5,7 @@
 jest.mock("../../../env");
 jest.mock("../../ipfs.service/pin");
 
+const { reloadSpaces } = require("../../../spaces");
 const { ObjectId, Decimal128 } = require("mongodb");
 const {
   getProposalById,
@@ -18,11 +19,30 @@ describe("Query Proposal Test", () => {
   let db;
   let proposalCol;
   let voteCol;
+  let spaceCol;
 
   beforeAll(async () => {
     db = await getDb();
     proposalCol = db.getCollection("proposal");
     voteCol = db.getCollection("vote");
+    spaceCol = db.getCollection("space");
+
+    await spaceCol.insertMany([
+      {
+        id: "karura",
+        name: "Karura",
+        network: "karura",
+        symbol: "KAR",
+        ss58Format: 8,
+        decimals: 12,
+        proposeThreshold: "1000000000000",
+        voteThreshold: "10000000000",
+        weightStrategy: ["balance-of","quadratic-balance-of"],
+        identity: "kusama",
+      },
+    ]);
+
+    await reloadSpaces();
 
     await proposalCol.insertMany([
       {
@@ -86,6 +106,7 @@ describe("Query Proposal Test", () => {
   afterAll(async () => {
     await voteCol.drop();
     await proposalCol.drop();
+    await spaceCol.drop();
     await db.close();
   });
 

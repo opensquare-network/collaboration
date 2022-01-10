@@ -64,13 +64,13 @@ const Content = styled.div`
   color: #1e2134;
 `;
 
-export default function PostContent({ data, network }) {
+export default function PostContent({ data, space }) {
   return (
     <Wrapper>
       <Title>{data?.title}</Title>
       <InfoWrapper>
         <LeftWrapper>
-          <Author address={data.proposer ?? data.address} network={network} />
+          <Author address={data.proposer ?? data.address} space={space} />
           <PostTime post={data} />
         </LeftWrapper>
         <StatusTag>{data.status}</StatusTag>
@@ -81,7 +81,7 @@ export default function PostContent({ data, network }) {
         <Markdown content={data?.content} />
       </Content>
       <Divider />
-      <PostVote data={data} network={network} />
+      <PostVote data={data} space={space} />
     </Wrapper>
   );
 }

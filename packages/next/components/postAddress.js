@@ -133,7 +133,7 @@ const IdentityWrapper = styled.div`
 `;
 
 export default function PostAddress({
-  network,
+  space,
   address,
   setAddress,
   info,
@@ -153,15 +153,15 @@ export default function PostAddress({
   const ref = useRef();
 
   const onBlur = async () => {
-    if (!inputAddress || !network) {
+    if (!inputAddress || !space) {
       return;
     }
 
     try {
-      const spaceAddr = encodeAddress(inputAddress, network.ss58Format);
+      const spaceAddr = encodeAddress(inputAddress, space.ss58Format);
       setAddress(spaceAddr);
 
-      const chain = network.relay || network;
+      const chain = space.identity || space;
       const idenAddr = encodeAddress(inputAddress, chain.ss58Format);
 
       setIsLoading(true);

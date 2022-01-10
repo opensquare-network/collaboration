@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 
 import Input from "components/input";
-import { useViewfunc, useSpace } from "frontedUtils/hooks";
+import { useViewfunc } from "frontedUtils/hooks";
 import { accountSelector } from "store/reducers/accountSlice";
 import { addToast } from "store/reducers/toastSlice";
 import { TOAST_TYPES } from "frontedUtils/constants";
@@ -72,7 +72,7 @@ const RedText = styled.span`
   ${text_secondary_red_500};
 `;
 
-export default function PostVote({ data, network }) {
+export default function PostVote({ data, space }) {
   const dispatch = useDispatch();
   const account = useSelector(accountSelector);
   const [choiceIndex, setChoiceIndex] = useState(null);
@@ -84,7 +84,6 @@ export default function PostVote({ data, network }) {
   const [balance, setBalance] = useState();
   const [proxyBalance, setProxyBalance] = useState(0);
   const viewfunc = useViewfunc();
-  const space = useSpace();
   const router = useRouter();
 
   const reset = () => {
@@ -97,7 +96,7 @@ export default function PostVote({ data, network }) {
   useEffect(() => {
     if (space && account?.address) {
       nextApi
-        .fetch(`${space}/account/${account.address}/balance`, {
+        .fetch(`${space.id}/account/${account.address}/balance`, {
           snapshot: data?.snapshotHeight,
         })
         .then((response) => {
@@ -158,12 +157,12 @@ export default function PostVote({ data, network }) {
     let result;
     try {
       result = await viewfunc.addVote(
-        space,
+        space.id,
         data?.cid,
         data?.choices?.[choiceIndex],
         remark,
-        encodeAddress(account?.address, network.ss58Format),
-        proxyVote ? encodeAddress(proxyAddress, network.ss58Format) : undefined
+        encodeAddress(account?.address, space.ss58Format),
+        proxyVote ? encodeAddress(proxyAddress, space.ss58Format) : undefined
       );
     } catch (error) {
       if (error.toString() === "Error: Cancelled") {
@@ -243,10 +242,10 @@ export default function PostVote({ data, network }) {
                   bigNumber2Locale(
                     fromAssetUnit(
                       proxyVote ? proxyBalance : balance,
-                      network?.decimals
+                      space?.decimals
                     )
                   )
-                )} ${network?.symbol}`}
+                )} ${space?.symbol}`}
               {(proxyVote ? proxyBalance === "0" : balance === "0") && (
                 <RedText>Insufficient</RedText>
               )}
@@ -263,7 +262,7 @@ export default function PostVote({ data, network }) {
             <PostAddress
               address={proxyAddress}
               setAddress={setProxyAddress}
-              network={network}
+              space={space}
               info={info}
               setInfo={setInfo}
               setProxyBalance={setProxyBalance}

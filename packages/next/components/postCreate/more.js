@@ -128,7 +128,7 @@ export default function More({
   setProxyPublish,
   proxyAddress,
   setProxyAddress,
-  network,
+  space,
   info,
   setInfo,
   setProxyBalance,
@@ -144,7 +144,7 @@ export default function More({
     new BigNumber(Number(proxyBalance)).comparedTo(new BigNumber(threshold)) >=
     0;
   const dispatch = useDispatch();
-  const isSnapshotHeight = ["RMRK"].includes(network?.name);
+  const isSnapshotHeight = ["rmrk"].includes(space?.id);
   const [snapshotHeightDate, setSnapshotHeightDate] = useState();
   const [snapshotHeightLoading, setSnapshotHeightLoading] = useState(false);
 
@@ -271,7 +271,7 @@ export default function More({
           setProxyPublish={setProxyPublish}
           proxyAddress={proxyAddress}
           setProxyAddress={setProxyAddress}
-          network={network}
+          space={space}
           info={info}
           setInfo={setInfo}
           setProxyCount={setProxyCount}

@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import Author from "components/author";
 import Pagination from "components/pagination";
 import RichInput from "components/richInput";
-import { useViewfunc, useSpace } from "frontedUtils/hooks";
+import { useViewfunc } from "frontedUtils/hooks";
 import { accountSelector } from "store/reducers/accountSlice";
 import { addToast } from "store/reducers/toastSlice";
 import { TOAST_TYPES } from "frontedUtils/constants";
@@ -83,10 +83,9 @@ const NoCommentWrapper = styled.div`
   border-bottom: 1px solid #f0f3f8;
 `;
 
-export default function PostDiscussion({ data, network, comments }) {
+export default function PostDiscussion({ data, space, comments }) {
   const [content, setContent] = useState("");
   const viewfunc = useViewfunc();
-  const space = useSpace();
   const account = useSelector(accountSelector);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
@@ -119,11 +118,11 @@ export default function PostDiscussion({ data, network, comments }) {
     let result;
     try {
       result = await viewfunc.addComment(
-        space,
+        space.id,
         data?.cid,
         content,
         "markdown",
-        encodeAddress(account?.address, network.ss58Format)
+        encodeAddress(account?.address, space.ss58Format)
       );
     } catch (error) {
       dispatch(
@@ -161,7 +160,7 @@ export default function PostDiscussion({ data, network, comments }) {
         <Item key={index}>
           <InfoWrapper>
             <DividerWrapper>
-              <Author address={item.address} network={network} size={20} />
+              <Author address={item.address} space={space} size={20} />
               <div>{timeDuration(item.createdAt)}</div>
             </DividerWrapper>
             {item?.pinHash && (

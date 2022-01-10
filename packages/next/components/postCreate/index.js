@@ -7,7 +7,6 @@ import Content from "./content";
 import Choices from "./choices";
 import More from "./more";
 import { accountSelector } from "store/reducers/accountSlice";
-import { useSpace } from "frontedUtils/hooks";
 import { addToast } from "store/reducers/toastSlice";
 import { TOAST_TYPES } from "frontedUtils/constants";
 import nextApi from "services/nextApi";
@@ -48,17 +47,16 @@ const SiderWrapper = styled.div`
 const FETCH_BALANCE_ERROR =
   "something went wrong while querying balance, please try again later.";
 
-export default function PostCreate({ network }) {
+export default function PostCreate({ space }) {
   const dispatch = useDispatch();
   const account = useSelector(accountSelector);
-  const space = useSpace();
   const router = useRouter();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [choices, setChoices] = useState(["", ""]);
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
-  const [height, setHeight] = useState(network.latestFinalizedHeight);
+  const [height, setHeight] = useState(space.latestFinalizedHeight);
   const [balance, setBalance] = useState(null);
   const [balanceError, setBalanceError] = useState(null);
   const [viewFunc, setViewFunc] = useState(null);
@@ -71,9 +69,9 @@ export default function PostCreate({ network }) {
   const [proxyBalanceError, setProxyBalanceError] = useState(null);
   const [isInputting, setIsInputting] = useState(false);
 
-  const threshold = network.proposeThreshold;
-  const decimals = network.decimals;
-  const symbol = network.symbol;
+  const threshold = space.proposeThreshold;
+  const decimals = space.decimals;
+  const symbol = space.symbol;
 
   useEffect(() => {
     import("frontedUtils/viewfunc").then((viewFunc) => {
@@ -97,7 +95,7 @@ export default function PostCreate({ network }) {
       }, 2000);
     });
     Promise.all([
-      nextApi.fetch(`${space}/account/${address}/balance?snapshot=${height}`),
+      nextApi.fetch(`${space.id}/account/${encodeAddress(address, space.ss58Format)}/balance?snapshot=${height}`),
       delay,
     ])
       .then((results) => {
@@ -135,7 +133,7 @@ export default function PostCreate({ network }) {
       }, 2000);
     });
     Promise.all([
-      nextApi.fetch(`${space}/account/${address}/balance?snapshot=${height}`),
+      nextApi.fetch(`${space.id}/account/${encodeAddress(address, space.ss58Format)}/balance?snapshot=${height}`),
       delay,
     ])
       .then((results) => {
@@ -178,7 +176,7 @@ export default function PostCreate({ network }) {
     }
 
     const proposal = {
-      space,
+      space: space.id,
       title,
       content,
       contentType: "markdown",
@@ -187,9 +185,9 @@ export default function PostCreate({ network }) {
       startDate: startDate?.getTime(),
       endDate: endDate?.getTime(),
       snapshotHeight: Number(height),
-      address: encodeAddress(account?.address, network.ss58Format),
+      address: encodeAddress(account?.address, space.ss58Format),
       realProposer: proxyPublish
-        ? encodeAddress(proxyAddress, network.ss58Format)
+        ? encodeAddress(proxyAddress, space.ss58Format)
         : null,
     };
     const formError = viewFunc.validateProposal(proposal);
@@ -213,7 +211,7 @@ export default function PostCreate({ network }) {
             message: "Proposal created successfully!",
           })
         );
-        router.push(`/space/${space}/proposal/${result.cid}`);
+        router.push(`/space/${space.id}/proposal/${result.cid}`);
       }
       if (error) {
         dispatch(
@@ -265,7 +263,7 @@ export default function PostCreate({ network }) {
           setProxyPublish={setProxyPublish}
           proxyAddress={proxyAddress}
           setProxyAddress={setProxyAddress}
-          network={network}
+          space={space}
           info={info}
           setInfo={setInfo}
           setProxyCount={() => setProxyCount(proxyCount + 1)}

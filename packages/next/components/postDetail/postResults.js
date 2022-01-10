@@ -100,7 +100,7 @@ const FlexAround = styled.div`
   justify-content: space-between;
 `;
 
-export default function PostResult({ data, voteStatus, network }) {
+export default function PostResult({ data, voteStatus, space }) {
   const votedAmount = data?.votedWeights?.balanceOf || 0;
 
   const results = data?.weightStrategy?.map?.((strategy, strategyIndex) => {
@@ -154,9 +154,9 @@ export default function PostResult({ data, voteStatus, network }) {
                     <div>
                       {toFixedPrecision(
                         vote.voteBalance.toString(),
-                        network.decimals
+                        space.decimals
                       )}{" "}
-                      {network.symbol}
+                      {space.symbol}
                     </div>
                   }
                 </FlexAround>
@@ -182,8 +182,8 @@ export default function PostResult({ data, voteStatus, network }) {
         <VoteItem>
           <div>Voted</div>
           <div>
-            {toFixedPrecision(votedAmount?.toString(), network.decimals)}{" "}
-            {network.symbol}
+            {toFixedPrecision(votedAmount?.toString(), space.decimals)}{" "}
+            {space.symbol}
           </div>
         </VoteItem>
         <VoteItem>

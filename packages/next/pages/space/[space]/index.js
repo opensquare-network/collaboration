@@ -28,8 +28,8 @@ const PostWrapper = styled.div`
 `;
 
 export default function List({
-  spaceName,
-  spaceData,
+  spaceId,
+  space,
   proposals,
   pendingProposals,
   activeProposals,
@@ -39,7 +39,7 @@ export default function List({
 }) {
   const [tab, setTab] = useState(activeTab);
 
-  if (!spaceData) {
+  if (!space) {
     return null;
   }
 
@@ -55,21 +55,21 @@ export default function List({
   }
 
   const images = [{
-    url: `https://test.opensquare.io/imgs/${spaceName}-logo.jpg`,
+    url: `https://test.opensquare.io/imgs/${spaceId}-logo.jpg`,
     width: 1200,
     height: 628
   }];
 
-  const desc = `Space for ${spaceData.name} off-chain voting. You can create, view, and vote proposals. Join ${spaceData.name} off-chain governance!`
+  const desc = `Space for ${space.name} off-chain voting. You can create, view, and vote proposals. Join ${space.name} off-chain governance!`
 
   return (
     <>
       <NextSeo
-        title={`${spaceData.name} Off-chain Voting`}
+        title={`${space.name} Off-chain Voting`}
         description={desc}
         openGraph={{
           url: 'https://www.opensquare.io/',
-          title: `${spaceData.name} Off-chain Voting`,
+          title: `${space.name} Off-chain Voting`,
           description: desc,
           images,
         }}
@@ -79,24 +79,24 @@ export default function List({
           cardType: 'summary_large_image',
         }}
       />
-      <Layout bgHeight="264px" network={spaceData}>
+      <Layout bgHeight="264px" space={space}>
         <HeaderWrapper>
           <Nav
             data={[
               { name: "Home", link: "/", back: true },
-              { name: spaceData.name },
+              { name: space.name },
             ]}
           />
-          <ListInfo spaceName={spaceName} data={spaceData} />
+          <ListInfo spaceId={spaceId} space={space} />
           <ListTab
-            space={spaceName}
+            spaceId={spaceId}
             activeTab={activeTab}
             onActiveTab={setTab}
             defaultPage={defaultPage}
           />
         </HeaderWrapper>
         <PostWrapper>
-          <PostList posts={proposalList} network={spaceData} />
+          <PostList posts={proposalList} space={space} />
         </PostWrapper>
       </Layout>
     </>
@@ -104,7 +104,7 @@ export default function List({
 }
 
 export async function getServerSideProps(context) {
-  const { space: spaceName } = context.params;
+  const { space: spaceId } = context.params;
   const { tab, page } = context.query;
   const nPage = parseInt(page) || 1;
   const activeTab = tab || "all";
@@ -112,39 +112,39 @@ export async function getServerSideProps(context) {
   const pageSize = 5;
 
   const [
-    { result: spaceData },
+    { result: space },
     { result: proposals },
     { result: pendingProposals },
     { result: activeProposals },
     { result: closedProposals },
   ] = await Promise.all([
-    ssrNextApi.fetch(`spaces/${spaceName}`),
-    ssrNextApi.fetch(`${spaceName}/proposals`, {
+    ssrNextApi.fetch(`spaces/${spaceId}`),
+    ssrNextApi.fetch(`${spaceId}/proposals`, {
       page: activeTab === "all" ? nPage : 1,
       pageSize,
     }),
-    ssrNextApi.fetch(`${spaceName}/proposals/pending`, {
+    ssrNextApi.fetch(`${spaceId}/proposals/pending`, {
       page: activeTab === "pending" ? nPage : 1,
       pageSize,
     }),
-    ssrNextApi.fetch(`${spaceName}/proposals/active`, {
+    ssrNextApi.fetch(`${spaceId}/proposals/active`, {
       page: activeTab === "active" ? nPage : 1,
       pageSize,
     }),
-    ssrNextApi.fetch(`${spaceName}/proposals/closed`, {
+    ssrNextApi.fetch(`${spaceId}/proposals/closed`, {
       page: activeTab === "closed" ? nPage : 1,
       pageSize,
     }),
   ]);
 
-  if (Object.keys(spaceData).length === 0) {
+  if (!space) {
     to404(context);
   }
 
   return {
     props: {
-      spaceName,
-      spaceData: spaceData || null,
+      spaceId,
+      space: space || null,
       activeTab,
       proposals: proposals ?? EmptyQuery,
       pendingProposals: pendingProposals ?? EmptyQuery,

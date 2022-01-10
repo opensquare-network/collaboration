@@ -4,6 +4,7 @@ const logger = require("koa-logger");
 const helmet = require("koa-helmet");
 const cors = require("@koa/cors");
 const { startUpdateHeight } = require("./services/chain.service");
+const { reloadSpaces } = require("./spaces");
 
 const app = new Koa();
 
@@ -28,7 +29,7 @@ require("./routes")(app);
 
 const koaHandler = app.callback();
 
-startUpdateHeight();
+reloadSpaces().then(() => startUpdateHeight());
 
 module.exports = {
   koaHandler,
