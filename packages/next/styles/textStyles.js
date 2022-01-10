@@ -33,7 +33,6 @@ export const h4_24_bold = css`
 `;
 
 export const p_20_semibold = css`
-  font-family: Inter, serif;
   font-style: normal;
   font-weight: 600;
   font-size: 20px;
@@ -41,7 +40,6 @@ export const p_20_semibold = css`
 `
 
 export const p_20_normal = css`
-  font-family: Inter, serif;
   font-style: normal;
   font-weight: 600;
   font-size: 20px;
@@ -49,7 +47,6 @@ export const p_20_normal = css`
 `
 
 export const p_18_semibold = css`
-  font-family: Inter, serif;
   font-style: normal;
   font-weight: 600;
   font-size: 18px;
@@ -57,7 +54,6 @@ export const p_18_semibold = css`
 `
 
 export const p_18_medium = css`
-  font-family: Inter, serif;
   font-style: normal;
   font-weight: 500;
   font-size: 18px;
@@ -65,14 +61,12 @@ export const p_18_medium = css`
 `
 
 export const p_18_normal = css`
-  font-family: Inter, serif;
   font-style: normal;
   font-weight: normal;
   font-size: 18px;
   line-height: 24px;
 `
 export const p_16_semibold = css`
-  font-family: Inter, serif;
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
@@ -80,7 +74,6 @@ export const p_16_semibold = css`
 `
 
 export const p_16_medium = css`
-  font-family: Inter, serif;
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
@@ -88,7 +81,6 @@ export const p_16_medium = css`
 `
 
 export const p_16_normal = css`
-  font-family: Inter, serif;
   font-style: normal;
   font-weight: normal;
   font-size: 16px;
@@ -96,7 +88,6 @@ export const p_16_normal = css`
 `
 
 export const p_14_medium = css`
-  font-family: Inter, serif;
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
@@ -104,7 +95,6 @@ export const p_14_medium = css`
 `
 
 export const p_14_normal = css`
-  font-family: Inter, serif;
   font-style: normal;
   font-weight: normal;
   font-size: 14px;
@@ -112,7 +102,6 @@ export const p_14_normal = css`
 `
 
 export const p_12_semibold = css`
-  font-family: Inter, serif;
   font-style: normal;
   font-weight: 600;
   font-size: 12px;
@@ -120,7 +109,6 @@ export const p_12_semibold = css`
 `
 
 export const p_12_normal = css`
-  font-family: Inter, serif;
   font-style: normal;
   font-weight: normal;
   font-size: 12px;
