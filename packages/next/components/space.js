@@ -42,6 +42,7 @@ const Item = styled.div`
   background: #ffffff;
   padding: 24px;
   cursor: pointer;
+  width: 163.33px;
 
   :hover {
     border-color: #e2e8f0;
@@ -60,6 +61,7 @@ const Icon = styled.div`
 `;
 
 const Name = styled.div`
+  white-space: nowrap;
   ${p_18_semibold};
   color: #2e343d;
   text-transform: capitalize;
@@ -113,7 +115,10 @@ const SpaceButton = styled.div`
 export default function Space({ spaces }) {
   const [show, setShow] = useState(false);
   const [showCount, setShowCount] = useState(6);
-  const spaceNames = Object.keys(spaces)?.sort((a, b) => a === 'rmrk' && -1);
+
+  const spaceNames = Object.keys(spaces)?.sort(
+    (a, b) => (a === "rmrk" || (a === "rmrk-curation" && b !== "rmrk")) && -1
+  );
   const windowSize = useWindowSize();
 
   useEffect(() => {

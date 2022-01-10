@@ -62,6 +62,19 @@ const spaces = [
     weightStrategy: ["balance-of","quadratic-balance-of"],
     identity: "kusama",
   },
+  {
+    id: "rmrk-curation",
+    name: "RMRK Curation",
+    network: "statemine",
+    assetId: 8,
+    symbol: "RMRK",
+    ss58Format: 2,
+    decimals: 10,
+    proposeThreshold: "4310000000000",
+    voteThreshold: "10000000000",
+    weightStrategy: ["balance-of","quadratic-balance-of"],
+    identity: "kusama",
+  },
 ];
 
 async function main() {
