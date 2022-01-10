@@ -36,8 +36,8 @@ export const FOOTER_ITEMS = [
     items: [
       { name: "doTreasury", link: "https://www.dotreasury.com" },
       { name: "Statescan", link: "https://statescan.io" },
-      { name: "CoinAsk", link: "https://www.coinask.io" },
       { name: "Subsquare", link: "https://www.subsquare.io" },
+      { name: "CoinAsk", link: "https://www.coinask.io" },
     ],
   },
   {
