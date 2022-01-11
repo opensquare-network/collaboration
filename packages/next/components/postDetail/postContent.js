@@ -4,8 +4,8 @@ import PostVote from "./postVote";
 import Author from "components/author";
 import { p_14_normal, p_16_semibold, p_18_semibold } from "styles/textStyles";
 import PostTime from "components/postTime";
-import Markdown from "components/markdown";
 import StatusTag from "components/statusTag";
+import MicromarkMd from "components/micromarkMd";
 
 const Wrapper = styled.div`
   padding: 32px;
@@ -78,7 +78,7 @@ export default function PostContent({ data, space }) {
       <Divider margin={20} />
       <SubTitle>Description</SubTitle>
       <Content>
-        <Markdown content={data?.content} />
+        <MicromarkMd md={data?.content} />
       </Content>
       <Divider />
       <PostVote data={data} space={space} />

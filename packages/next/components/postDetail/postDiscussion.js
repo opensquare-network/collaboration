@@ -11,7 +11,7 @@ import { accountSelector } from "store/reducers/accountSlice";
 import { addToast } from "store/reducers/toastSlice";
 import { TOAST_TYPES } from "frontedUtils/constants";
 import { timeDuration } from "frontedUtils";
-import Markdown from "components/markdown";
+import MicromarkMd from "components/micromarkMd";
 import ExternalLink from "components/externalLink";
 import { encodeAddress } from "@polkadot/util-crypto";
 
@@ -173,7 +173,7 @@ export default function PostDiscussion({ data, space, comments }) {
           </InfoWrapper>
           <ContentWrapper>
             <Content>
-              <Markdown content={item.content} />
+              <MicromarkMd md={item.content} />
             </Content>
           </ContentWrapper>
         </Item>
