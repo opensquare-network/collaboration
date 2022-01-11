@@ -2,8 +2,8 @@ import styled, { css } from "styled-components";
 import { useState } from "react";
 
 import MarkdownEditor from "./markdownEditor";
-import Markdown from "./markdown";
 import Button from "@/components/button";
+import MicromarkMd from "./micromarkMd";
 
 const MarkdownWrapper = styled.div``;
 
@@ -49,7 +49,7 @@ export default function RichInput({
         </MarkdownEditorWrapper>
         {preview && (
           <PreviewWrapper>
-            <Markdown content={content} />
+            <MicromarkMd md={content} />
           </PreviewWrapper>
         )}
       </MarkdownWrapper>
