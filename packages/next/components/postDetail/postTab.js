@@ -64,7 +64,7 @@ export default function PostTab({
         default: true,
       },
       {
-        name: "Discussion",
+        name: "Discussions",
         value: "discussion",
         component: (
           <PostDiscussion data={data} comments={comments} space={space} />
