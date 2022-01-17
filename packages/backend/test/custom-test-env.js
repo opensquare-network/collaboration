@@ -6,9 +6,5 @@ const Environment = require("jest-environment-node");
 module.exports = class CustomTestEnvironment extends Environment {
   async setup() {
     await super.setup();
-    if (typeof this.global.TextEncoder === "undefined") {
-      const { TextEncoder } = require("frontedUtils");
-      this.global.TextEncoder = TextEncoder;
-    }
   }
 };
