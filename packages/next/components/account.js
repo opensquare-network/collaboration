@@ -224,7 +224,7 @@ export default function Account({ space, showMenu, setShowMenu }) {
           <AccountWrapper>
             <div>
               <Avatar address={address} size={20} />
-              {identity?.info ? (
+              {identity?.info && identity?.info?.status !== "NO_ID" ? (
                 <IdentityWrapper>
                   <IdentityIcon status={identity.info.status} />
                   <div>{identity.info.display}</div>
@@ -254,7 +254,7 @@ export default function Account({ space, showMenu, setShowMenu }) {
           <div>
             <Avatar address={address} size={20} />
 
-            {identity?.info ? (
+            {identity?.info && identity?.info?.status !== "NO_ID" ? (
               <IdentityWrapper>
                 <IdentityIcon
                   status={identity.info.status}
