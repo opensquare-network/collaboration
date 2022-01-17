@@ -62,7 +62,7 @@ export default function Author({ address, space, size = 20 }) {
       <ExternalLink
         href={`https://${space?.network}.subscan.io/account/${address}`}
       >
-        {identity?.info ? (
+        {identity?.info && identity?.info?.status !== "NO_ID" ? (
           <IdentityWrapper>
             <IdentityIcon status={identity.info.status} showTooltip />
             <Name>{identity.info.display}</Name>
