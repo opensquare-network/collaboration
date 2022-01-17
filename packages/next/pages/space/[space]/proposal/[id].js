@@ -112,7 +112,7 @@ export async function getServerSideProps(context) {
 
   const nPage = page === "last" ? "last" : parseInt(page) || 1;
   const activeTab = tab ?? "votes";
-  const pageSize = 5;
+  const pageSize = 50;
 
   const { result: detail } = await ssrNextApi.fetch(
     `${spaceId}/proposal/${id}`
