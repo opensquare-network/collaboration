@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
-import { useRouter } from "next/router";
+// import { useRouter } from "next/router";
+
 import nextApi from "services/nextApi";
 import { useSelector } from "react-redux";
 import { accountSelector } from "store/reducers/accountSlice";
@@ -54,9 +55,10 @@ export function useIsMounted() {
 }
 
 export function useSpace() {
-  const router = useRouter();
-  const { space } = router.query;
-  return space;
+  // const router = useRouter();
+  // const { space } = router.query;
+  // return space;
+  return "";
 }
 
 export function useViewfunc() {

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styled, { css } from "styled-components";
-import { useRouter } from "next/router";
-import Link from "next/link";
+// import { useRouter } from "next/router";
+import { Link } from "react-router-dom";
 
 import { encodeURIQuery } from "../frontedUtils/index";
 import CaretLeft from "/public/imgs/icons/caret-left.svg";
@@ -78,7 +78,7 @@ const Ellipsis = styled.div`
 `;
 
 export default function Pagination({ page, pageSize, total }) {
-  const router = useRouter();
+  // const router = useRouter();
   const totalPages = Math.ceil(total / pageSize)
     ? Math.ceil(total / pageSize)
     : 1;
@@ -88,10 +88,11 @@ export default function Pagination({ page, pageSize, total }) {
   return (
     <Wrapper>
       <Link
-        href={`${router.pathname}?${encodeURIQuery({
-          ...router.query,
-          page: prevPage,
-        })}`}
+        // to={`${router.pathname}?${encodeURIQuery({
+        //   ...router.query,
+        //   page: prevPage,
+        // })}`}
+        to="/"
         passHref
       >
         <Nav disabled={page === 1}>
@@ -106,10 +107,11 @@ export default function Pagination({ page, pageSize, total }) {
         ) : (
           <Link
             key={index}
-            href={`${router.pathname}?${encodeURIQuery({
-              ...router.query,
-              page: index + 1,
-            })}`}
+            // href={`${router.pathname}?${encodeURIQuery({
+            //   ...router.query,
+            //   page: index + 1,
+            // })}`}
+            to="/"
             passHref
           >
             <Item key={index} active={page === index + 1}>

@@ -1,11 +1,17 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./styles/globals.css";
+import { Provider } from "react-redux";
+
+import store from "./store";
 import App from "./App";
+// import "semantic-ui-css/semantic.min.css";\
+import "./styles/globals.css";
 
 ReactDOM.render(
-  <React.StrictMode>
+  // <React.StrictMode>
+  <Provider store={store}>
     <App />
-  </React.StrictMode>,
+  </Provider>,
+  // </React.StrictMode>,
   document.getElementById("root")
 );

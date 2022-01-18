@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import { useState, useRef } from "react";
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import Container from "./container";
 import { useOnClickOutside } from "frontedUtils/hooks";
-// import Account from "./account";
+import Account from "./account";
 import { p_18_semibold } from "../styles/textStyles";
 
 const Wrapper = styled.header`
@@ -106,7 +106,7 @@ export default function Header({ space }) {
       <Container>
         <ContentWrapper ref={ref}>
           <LeftWrapper>
-            <Link href="/" passHref>
+            <Link to="/">
               <Logo />
             </Link>
             <Divider />
@@ -130,11 +130,11 @@ export default function Header({ space }) {
               setShowMenu(!showMenu);
             }}
           >
-            {/* <Account
+            <Account
               space={space}
               showMenu={showMenu}
               setShowMenu={setShowMenu}
-            /> */}
+            />
           </AccountWrapper>
         </ContentWrapper>
       </Container>

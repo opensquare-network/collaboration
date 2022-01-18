@@ -1,10 +1,10 @@
 import styled, { css } from "styled-components";
 import { useEffect, useState } from "react";
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import QuestionMark from "../public/imgs/icons/question-mark.svg";
 import { LIST_TAB_ITEMS } from "frontedUtils/constants";
 import { p_16_semibold } from "../styles/textStyles";
-import { useRouter } from "next/router";
+// import { useRouter } from "next/router";
 import Tooltip from "@/components/tooltip";
 
 const Wrapper = styled.div`
@@ -77,19 +77,19 @@ export default function ListTab({
   onActiveTab = () => {},
   defaultPage,
 }) {
-  const router = useRouter();
+  // const router = useRouter();
   const activeTabIndex = LIST_TAB_ITEMS.findIndex(
     (item) => item.value === activeTab
   );
   const [tabIndex, setTabIndex] = useState(activeTabIndex);
 
-  useEffect(() => {
-    const currTabIndex = LIST_TAB_ITEMS.findIndex(
-      (item) => item.value === router.query.tab
-    );
-    setTabIndex(currTabIndex >= 0 ? currTabIndex : 0);
-    onActiveTab(router.query.tab);
-  }, [router, onActiveTab]);
+  // useEffect(() => {
+  //   const currTabIndex = LIST_TAB_ITEMS.findIndex(
+  //     (item) => item.value === router.query.tab
+  //   );
+  //   setTabIndex(currTabIndex >= 0 ? currTabIndex : 0);
+  //   onActiveTab(router.query.tab);
+  // }, [router, onActiveTab]);
 
   return (
     <Wrapper>
@@ -99,21 +99,21 @@ export default function ListTab({
             key={index}
             active={tabIndex === index}
             onClick={() => {
-              router.push(
-                {
-                  query: {
-                    space: spaceId,
-                    tab: item.value,
-                    ...(item.value === defaultPage?.tab
-                      ? defaultPage.page > 1
-                        ? { page: defaultPage.page }
-                        : {}
-                      : {}),
-                  },
-                },
-                undefined,
-                { shallow: true }
-              );
+              // router.push(
+              //   {
+              //     query: {
+              //       space: spaceId,
+              //       tab: item.value,
+              //       ...(item.value === defaultPage?.tab
+              //         ? defaultPage.page > 1
+              //           ? { page: defaultPage.page }
+              //           : {}
+              //         : {}),
+              //     },
+              //   },
+              //   undefined,
+              //   { shallow: true }
+              // );
               onActiveTab(item.value);
             }}
           >
@@ -126,7 +126,7 @@ export default function ListTab({
           </Item>
         ))}
       </ItemWrapper>
-      <Link href={`/space/${spaceId}/create`} passHref>
+      <Link to={`/space/${spaceId}/create`} passHref>
         <NewPostLink>
           <img src="/imgs/icons/add.svg" alt="" />
           New Proposal

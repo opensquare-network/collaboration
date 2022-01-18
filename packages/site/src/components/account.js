@@ -1,12 +1,10 @@
 import styled, { css } from "styled-components";
 import { useEffect, useState } from "react";
-import dynamic from "next/dynamic";
 import { useSelector, useDispatch } from "react-redux";
 import { accountSelector, logout } from "store/reducers/accountSlice";
 import { addressEllipsis } from "frontedUtils";
-import Avatar from "./avatar";
+// import Avatar from "./avatar";
 import { p_14_medium } from "../styles/textStyles";
-// import UserIcon from "../public/imgs/icons/user.svg";
 import { shadow_200 } from "../styles/globalCss";
 import { useWindowSize, useIsMounted } from "../frontedUtils/hooks";
 import { fetchIdentity } from "services/identity";
@@ -18,9 +16,7 @@ import {
   showConnectSelector,
 } from "../store/reducers/showConnectSlice";
 
-const Connect = dynamic(() => import("./connect"), {
-  ssr: false,
-});
+import Connect from "./connect";
 
 const Wrapper = styled.div`
   position: relative;
@@ -223,7 +219,7 @@ export default function Account({ space, showMenu, setShowMenu }) {
         <>
           <AccountWrapper>
             <div>
-              <Avatar address={address} size={20} />
+              {/* <Avatar address={address} size={20} /> */}
               {identity?.info && identity?.info?.status !== "NO_ID" ? (
                 <IdentityWrapper>
                   <IdentityIcon status={identity.info.status} />
@@ -253,7 +249,7 @@ export default function Account({ space, showMenu, setShowMenu }) {
       <Wrapper>
         <AccountWrapperPC show={showMenu}>
           <div>
-            <Avatar address={address} size={20} />
+            {/* <Avatar address={address} size={20} /> */}
 
             {identity?.info && identity?.info?.status !== "NO_ID" ? (
               <IdentityWrapper>

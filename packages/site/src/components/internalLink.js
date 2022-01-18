@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Link from "next/link";
+import { Link } from "react-router-dom";
 
 const Wrapper = styled.div`
   cursor: pointer;
@@ -14,7 +14,7 @@ const Wrapper = styled.div`
 export default function InternalLink({ href, children }) {
   return href ? (
     <Wrapper>
-      <Link href={href} passHref>
+      <Link to={href} passHref>
         {children}
       </Link>
     </Wrapper>
