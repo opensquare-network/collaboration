@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 import Author from "./author";
 import InternalLink from "components/internalLink";
-import { p_16_medium } from "styles/textStyles";
+import { p_16_semibold } from "styles/textStyles";
 import StatusTag from "./statusTag";
 import PostTime from "./postTime";
 import { p_24 } from "../styles/paddings";
@@ -23,7 +23,7 @@ const Wrapper = styled.div`
 
 const Title = styled.div`
   display: inline-block;
-  ${p_16_medium};
+  ${p_16_semibold};
 `;
 
 const Divider = styled.div`
