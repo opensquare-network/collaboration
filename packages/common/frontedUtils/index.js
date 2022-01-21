@@ -89,11 +89,8 @@ export function getPrecision(symbol) {
 }
 
 export function toFixedPrecision(value, decimals, fixed = 2, toLocale = true) {
-  const result = new BigNumber(value)
-    .dividedBy(Math.pow(10, decimals))
-    .toFixed(fixed)
-    .toString();
-  if (toLocale) {
+  const result = new BigNumber(value).dividedBy(Math.pow(10, decimals)).toFixed(fixed).toString();
+  if(toLocale){
     return bigNumber2Locale(result);
   }
   return result;
@@ -172,6 +169,6 @@ export function toApproximatelyFixed(value, fixed = 2) {
 
 export function matchMdLink(t) {
   const expression =
-    /(?<!\]\()((?:https?|ftp):\/\/[^\s\])]*)(?:[\s\])](?!\()|$)/gi;
+    /(?<!\]\()((?:https?|ftp):\/\/[^\s\]\)]*)(?:[\s\]\)](?!\()|$)/gi;
   return t.replace(expression, "[$1]($1) ");
 }

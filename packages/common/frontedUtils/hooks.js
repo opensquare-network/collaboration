@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
-// import { useRouter } from "next/router";
-
-import nextApi from "services/reactApi";
+import { useRouter } from "next/router";
+// import nextApi from "services/nextApi";
 import { useSelector } from "react-redux";
 import { accountSelector } from "store/reducers/accountSlice";
 import { encodeAddress } from "@polkadot/util-crypto";
@@ -55,10 +54,9 @@ export function useIsMounted() {
 }
 
 export function useSpace() {
-  // const router = useRouter();
-  // const { space } = router.query;
-  // return space;
-  return "";
+  const router = useRouter();
+  const { space } = router.query;
+  return space;
 }
 
 export function useViewfunc() {
@@ -71,18 +69,18 @@ export function useViewfunc() {
   return viewFunc;
 }
 
-export function useNetwork() {
-  const [network, setNetwork] = useState();
-  const space = useSpace();
-  useEffect(() => {
-    nextApi.fetch(`spaces/${space}`).then((response) => {
-      if (response?.result?.network) {
-        setNetwork(response.result);
-      }
-    });
-  }, [space]);
-  return network;
-}
+// export function useNetwork() {
+//   const [network, setNetwork] = useState();
+//   const space = useSpace();
+//   useEffect(() => {
+//     nextApi.fetch(`spaces/${space}`).then((response) => {
+//       if (response?.result?.network) {
+//         setNetwork(response.result);
+//       }
+//     });
+//   }, [space]);
+//   return network;
+// }
 
 export function useEncodedAddress(network) {
   const account = useSelector(accountSelector);

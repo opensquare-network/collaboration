@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { Dropdown } from "semantic-ui-react";
 
 import AccountItem from "./accountItem";
-import { p_14_normal } from "../styles/textStyles";
 
 const Wrapper = styled.div``;
 

@@ -1,10 +1,11 @@
+import React from "react";
 import styled, { css } from "styled-components";
 import { useEffect, useState } from "react";
 
 import InternalLink from "./internalLink";
 import { no_scroll_bar, shadow_100, makeSquare } from "../styles/globalCss";
 import { h3_36_bold, p_18_semibold, p_16_semibold } from "../styles/textStyles";
-import SpaceLogo from "components/spaceLogo";
+import SpaceLogo from "./spaceLogo";
 import { useWindowSize } from "../frontedUtils/hooks";
 
 const Title = styled.div`

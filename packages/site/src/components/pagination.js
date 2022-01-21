@@ -78,6 +78,7 @@ const Ellipsis = styled.div`
 `;
 
 export default function Pagination({ page, pageSize, total }) {
+  return null;
   // const router = useRouter();
   const totalPages = Math.ceil(total / pageSize)
     ? Math.ceil(total / pageSize)
@@ -121,10 +122,10 @@ export default function Pagination({ page, pageSize, total }) {
         )
       )}
       <Link
-        href={`${router.pathname}?${encodeURIQuery({
-          ...router.query,
-          page: nextPage,
-        })}`}
+        // href={`${router.pathname}?${encodeURIQuery({
+        //   ...router.query,
+        //   page: nextPage,
+        // })}`}
         passHref
       >
         <Nav disabled={page === totalPages}>

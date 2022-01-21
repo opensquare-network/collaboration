@@ -1,5 +1,10 @@
 import React from "react";
+import styled from "styled-components";
+
+const StyledTest = styled.div`
+  color: red;
+`;
 
 export default function Test() {
-  return <div>test</div>;
+  return <StyledTest>test</StyledTest>;
 }

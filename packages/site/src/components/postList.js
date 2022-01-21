@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Post from "./post";
 import { p_20_semibold } from "../styles/textStyles";
 import NoPost from "./noPost";
-import Pagination from "@/components/pagination";
+// import Pagination from "components/pagination";
 
 const Title = styled.div`
   ${p_20_semibold};
@@ -38,13 +38,13 @@ export default function PostList({
           />
         ))}
         {items.length === 0 && <NoPost />}
-        {posts?.page && (
+        {/* {posts?.page && (
           <Pagination
             page={posts?.page}
             total={posts?.total}
             pageSize={posts?.pageSize}
           />
-        )}
+        )} */}
       </PostsWrapper>
     </div>
   );

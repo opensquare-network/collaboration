@@ -5,8 +5,8 @@ import {
   p_16_semibold,
   p_20_semibold,
 } from "../styles/textStyles";
-import SpaceLogo from "@/components/spaceLogo";
-import Tooltip from "@/components/tooltip";
+import SpaceLogo from "components/spaceLogo";
+import Tooltip from "components/tooltip";
 
 const Wrapper = styled.div`
   display: flex;

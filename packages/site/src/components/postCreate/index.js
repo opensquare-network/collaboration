@@ -9,7 +9,7 @@ import More from "./more";
 import { accountSelector } from "store/reducers/accountSlice";
 import { addToast } from "store/reducers/toastSlice";
 import { TOAST_TYPES } from "frontedUtils/constants";
-import nextApi from "services/nextApi";
+import nextApi from "services/reactApi";
 import { useRouter } from "next/router";
 import { encodeAddress } from "@polkadot/util-crypto";
 
@@ -95,7 +95,12 @@ export default function PostCreate({ space }) {
       }, 2000);
     });
     Promise.all([
-      nextApi.fetch(`${space.id}/account/${encodeAddress(address, space.ss58Format)}/balance?snapshot=${height}`),
+      nextApi.fetch(
+        `${space.id}/account/${encodeAddress(
+          address,
+          space.ss58Format
+        )}/balance?snapshot=${height}`
+      ),
       delay,
     ])
       .then((results) => {
@@ -133,7 +138,12 @@ export default function PostCreate({ space }) {
       }, 2000);
     });
     Promise.all([
-      nextApi.fetch(`${space.id}/account/${encodeAddress(address, space.ss58Format)}/balance?snapshot=${height}`),
+      nextApi.fetch(
+        `${space.id}/account/${encodeAddress(
+          address,
+          space.ss58Format
+        )}/balance?snapshot=${height}`
+      ),
       delay,
     ])
       .then((results) => {

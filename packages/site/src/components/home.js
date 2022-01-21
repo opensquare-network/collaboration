@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import Space from "./space";
+import Space from "common/components/space";
 import PostList from "./postList";
 
 const Wrapper = styled.div`

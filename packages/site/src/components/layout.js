@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 import Header from "./header";
 import Main from "./main";
-import Footer from "./footer";
 // import Toast from "components/toast";
+import Footer from "common/components/footer";
 
 const Wrapper = styled.div`
   min-height: 100vh;

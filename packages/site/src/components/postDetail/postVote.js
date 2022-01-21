@@ -14,7 +14,7 @@ import {
   fromAssetUnit,
   toApproximatelyFixed,
 } from "frontedUtils";
-import nextApi from "services/nextApi";
+import nextApi from "services/reactApi";
 import PostAddress from "../postAddress";
 import { encodeAddress } from "@polkadot/util-crypto";
 import ButtonPrimary from "@/components/button";
