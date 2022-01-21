@@ -95,14 +95,17 @@ export default function Connect({ setShowMenu }) {
 
   useEffect(() => {
     (async () => {
+      if (isMounted.current) {
+        setHasExtension(isWeb3Injected);
+      }
       if (!isWeb3Injected) {
-        if (isMounted.current) {
-          return setHasExtension(false);
-        }
+        return;
       }
       const web3Apps = await web3Enable("voting");
       const polkadotEnabled = web3Apps?.length > 0;
-      setIsPolkadotAccessible(polkadotEnabled);
+      if (isMounted.current) {
+        setIsPolkadotAccessible(polkadotEnabled);
+      }
       if (!polkadotEnabled) {
         return;
       }
