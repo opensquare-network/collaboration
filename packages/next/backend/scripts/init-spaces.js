@@ -75,6 +75,18 @@ const spaces = [
     weightStrategy: ["balance-of","quadratic-balance-of"],
     identity: "kusama",
   },
+  {
+    id: "bifrost",
+    name: "Bifrost",
+    network: "bifrost",
+    symbol: "BNC",
+    ss58Format: 6,
+    decimals: 12,
+    proposeThreshold: "1000000000000",
+    voteThreshold: "10000000000",
+    weightStrategy: ["balance-of","quadratic-balance-of"],
+    identity: "kusama",
+  }
 ];
 
 async function main() {
