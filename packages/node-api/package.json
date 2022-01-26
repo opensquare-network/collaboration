@@ -14,6 +14,6 @@
     "koa-helmet": "^6.1.0",
     "koa-logger": "^3.2.1",
     "koa-router": "^10.1.1",
-    "log4js": "^6.3.0"
+    "log4js": "^6.4.0"
   }
 }
