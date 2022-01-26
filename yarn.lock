@@ -1918,6 +1918,13 @@
   resolved "https://registry.npmjs.org/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
+"@bifrost-finance/type-definitions@^1.3.21":
+  version "1.3.21"
+  resolved "https://registry.npmjs.org/@bifrost-finance/type-definitions/-/type-definitions-1.3.21.tgz#691c6da4f780a1889b4f4db15c10b7c98e87eb77"
+  integrity sha512-1C8qtls07aPA86QW4g574cgF/cArPQuWfWBBlaOw0RVO0XgXzVsq5MW23cf+i6qO7B66tobEmAHVCOoPqW6w8A==
+  dependencies:
+    "@open-web3/orml-type-definitions" "^0.9.4-7"
+
 "@craco/craco@^6.4.3":
   version "6.4.3"
   resolved "https://registry.npmmirror.com/@craco/craco/download/@craco/craco-6.4.3.tgz#784395b6ebab764056550a2860494d24c3abd44e"
@@ -2519,6 +2526,13 @@
   dependencies:
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
+
+"@open-web3/orml-type-definitions@^0.9.4-7":
+  version "0.9.4-38"
+  resolved "https://registry.npmjs.org/@open-web3/orml-type-definitions/-/orml-type-definitions-0.9.4-38.tgz#fc7642f6a518da2618ae39fa76fe046ee57c1e80"
+  integrity sha512-kV0++JlRLEf7Z1y+Jm+792zqx6Q7dzpGP73rJJmQrBaeTML5mQzu4veZ24TVtcLV6hsGjUU/ixrJODNj6CCuZQ==
+  dependencies:
+    lodash.merge "^4.6.2"
 
 "@open-web3/orml-type-definitions@^1.0.2-0":
   version "1.0.2-2"

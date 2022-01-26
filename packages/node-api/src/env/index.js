@@ -13,6 +13,8 @@ const endpoints = Object.values(chains).map(chain => {
     endpoints = (process.env.KHA_ENDPOINTS || '').split(';')
   } else if (chains.statemine === chain) {
     endpoints = (process.env.STATEMINE_ENDPOINTS || '').split(';')
+  } else if (chains.bifrost === chain) {
+    endpoints = (process.env.BNC_ENDPOINTS || '').split(';')
   }
 
   return {

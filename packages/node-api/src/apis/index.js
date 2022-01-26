@@ -2,6 +2,7 @@ const { nodeTimeoutSeconds } = require("../constants");
 const { statusLogger } = require("../logger");
 const { khalaOptions } = require("./khala");
 const { karuraOptions } = require("./karura");
+const { bifrostOptions } = require("./bifrost");
 const { chains } = require("../constants");
 const { ApiPromise, WsProvider } = require("@polkadot/api");
 const { getEndpoints } = require("../env")
@@ -26,6 +27,8 @@ async function createApi(network, endpoint) {
     options = karuraOptions;
   } else if (chains.khala === network) {
     options = khalaOptions;
+  } else if (chains.bifrost === network) {
+    options = bifrostOptions;
   }
 
   const api = new ApiPromise({ provider, ...options });
