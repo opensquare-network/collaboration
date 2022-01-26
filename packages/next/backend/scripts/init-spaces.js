@@ -85,7 +85,6 @@ const spaces = [
     proposeThreshold: "1000000000000",
     voteThreshold: "10000000000",
     weightStrategy: ["balance-of","quadratic-balance-of"],
-    identity: "kusama",
   }
 ];
 
