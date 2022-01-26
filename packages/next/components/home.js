@@ -9,10 +9,10 @@ const Wrapper = styled.div`
   }
 `;
 
-export default function Home({ spaces, hottestProposals }) {
+export default function Home({ spaces, hottestProposals, showAllSpace }) {
   return (
     <Wrapper>
-      <Space spaces={spaces} />
+      <Space spaces={spaces} showAllSpace={showAllSpace} />
       <PostList
         title="Hottest Proposals"
         posts={hottestProposals}
