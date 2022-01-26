@@ -1,11 +1,12 @@
 import styled, { css } from "styled-components";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import InternalLink from "./internalLink";
 import { no_scroll_bar, shadow_100, makeSquare } from "../styles/globalCss";
 import { h3_36_bold, p_18_semibold, p_16_semibold } from "../styles/textStyles";
 import SpaceLogo from "@/components/spaceLogo";
 import { useWindowSize } from "../frontedUtils/hooks";
+import { setCookie } from "frontedUtils/cookie";
 
 const Title = styled.div`
   ${h3_36_bold};
@@ -112,8 +113,8 @@ const SpaceButton = styled.div`
   color: #506176;
 `;
 
-export default function Space({ spaces }) {
-  const [show, setShow] = useState(false);
+export default function Space({ spaces, showAllSpace }) {
+  const [show, setShow] = useState(showAllSpace === "1");
   const [showCount, setShowCount] = useState(6);
 
   const spaceNames = Object.keys(spaces)?.sort(
@@ -129,11 +130,16 @@ export default function Space({ spaces }) {
     }
   }, [windowSize.width, setShowCount]);
 
+  const setShowAllSpace = useCallback((show) => {
+    setShow(show);
+    setCookie("showallspace", show ? "1" : "0", 365);
+  }, []);
+
   return (
     <div>
       <TitleWrapper>
         <Title>Space</Title>
-        <SpaceButton onClick={() => setShow(!show)}>
+        <SpaceButton onClick={() => setShowAllSpace(!show)}>
           {spaceNames.length > showCount && show
             ? "Hide Spaces"
             : `All Spaces(${spaceNames.length})`}

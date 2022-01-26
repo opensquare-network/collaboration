@@ -4,6 +4,7 @@ const chains = {
   karura: 'karura',
   khala: 'khala',
   statemine: 'statemine',
+  bifrost: 'bifrost',
 }
 
 const nodeTimeoutSeconds = 20;
