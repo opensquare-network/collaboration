@@ -1,5 +1,6 @@
 const { getBlockApi } = require("../utils");
 const { getApis } = require("../../apis");
+const { chains } = require("../../constants")
 
 async function getBalanceFromOneApi(api, address, blockHashOrHeight) {
   let blockApi = await getBlockApi(api, blockHashOrHeight);
@@ -24,10 +25,24 @@ async function getBalanceFromOneApi(api, address, blockHashOrHeight) {
   }
 }
 
-async function getBalanceFromApis(apis, account, blockHashOrHeight) {
+async function getKintBalanceFromOneApi(api, address, blockHashOrHeight) {
+  let blockApi = await getBlockApi(api, blockHashOrHeight);
+
+  const account = await blockApi.query.tokens.accounts(address, { token: 'KINT' })
+  return {
+    free: account.free.toString(),
+    reserved: account.reserved.toString(),
+  };
+}
+
+async function getBalanceFromApis(apis, account, blockHashOrHeight, chain) {
   const promises = [];
   for (const api of apis) {
-    promises.push(getBalanceFromOneApi(api, account, blockHashOrHeight))
+    if (chains.kintsugi === chain) {
+      promises.push(getKintBalanceFromOneApi(api, account, blockHashOrHeight))
+    } else {
+      promises.push(getBalanceFromOneApi(api, account, blockHashOrHeight))
+    }
   }
 
   return Promise.any(promises);
@@ -44,7 +59,7 @@ class BalanceController {
     }
 
     try {
-      ctx.body = await getBalanceFromApis(apis, account, blockHashOrHeight);
+      ctx.body = await getBalanceFromApis(apis, account, blockHashOrHeight, chain);
     } catch (e) {
       console.error('Get balance from node fail', e)
       ctx.throw(500, "Failed to query balance from node")

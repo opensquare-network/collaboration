@@ -2,6 +2,7 @@ const { getBlockApi } = require("../utils");
 const { getApis } = require("../../apis");
 const { u8aToHex } = require("@polkadot/util")
 const { decodeAddress } = require("@polkadot/util-crypto");
+const { chains } = require("../../constants");
 
 function addrToPubkey(address) {
   return u8aToHex(decodeAddress(address))
@@ -49,6 +50,11 @@ class ProxyController {
 
     if (!delegatee) {
       ctx.throw(400, "No delegatee given")
+    }
+
+    if (chains.kintsugi === chain) {
+      ctx.body = { isProxy: false }
+      return
     }
 
     const apis = getApis(chain);
