@@ -54,6 +54,7 @@ const LeftWrapper = styled.div`
 
 const FromSpace = styled.div`
   display: flex;
+  align-items: center;
 
   .ml-4px {
     margin-left: 8px;
@@ -74,6 +75,15 @@ const SpaceName = styled.a`
   }
 `;
 
+const ProjectIcons = {
+  kintsugi: "project-kintsugi.png",
+};
+
+const getProjectIcon = (spaceId) => {
+  const icon = ProjectIcons[spaceId] || `project-${spaceId}.svg`;
+  return `/imgs/icons/${icon}`;
+};
+
 export default function Post({ data, showSpace, space, spaces }) {
   const getSpaceFromId = (spaceId) => spaces?.[spaceId];
   const getSpaceDisplayName = (spaceId) => getSpaceFromId(spaceId)?.name;
@@ -89,6 +99,8 @@ export default function Post({ data, showSpace, space, spaces }) {
     }
   }, [windowSize.width, setShowRichInfo]);
 
+  const icon = getProjectIcon(data.space);
+
   return (
     <InternalLink href={`/space/${data.space}/proposal/${data.cid}`}>
       <Wrapper>
@@ -103,15 +115,22 @@ export default function Post({ data, showSpace, space, spaces }) {
               />
             )}
             {!showRichInfo && (
-              <img src={`/imgs/icons/project-${data.space}.svg`} alt="" />
+              <img
+                width="20px"
+                height="20px"
+                src={icon}
+                alt=""
+              />
             )}
             <PostTime post={data} />
             {showSpace && showRichInfo && (
               <FromSpace>
                 From
                 <img
+                  width="20px"
+                  height="20px"
                   className="ml-4px"
-                  src={`/imgs/icons/project-${data.space}.svg`}
+                  src={icon}
                   alt=""
                 />
                 <InternalLink href={`/space/${data.space}`}>
