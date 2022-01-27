@@ -15,6 +15,8 @@ const endpoints = Object.values(chains).map(chain => {
     endpoints = (process.env.STATEMINE_ENDPOINTS || '').split(';')
   } else if (chains.bifrost === chain) {
     endpoints = (process.env.BNC_ENDPOINTS || '').split(';')
+  } else if (chains.kintsugi === chain) {
+    endpoints = (process.env.KINT_ENDPOINTS || '').split(';')
   }
 
   return {

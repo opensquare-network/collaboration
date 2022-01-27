@@ -3,6 +3,7 @@ const { statusLogger } = require("../logger");
 const { khalaOptions } = require("./khala");
 const { karuraOptions } = require("./karura");
 const { bifrostOptions } = require("./bifrost");
+const { kintsugiOptions } = require("./kintsugi");
 const { chains } = require("../constants");
 const { ApiPromise, WsProvider } = require("@polkadot/api");
 const { getEndpoints } = require("../env")
@@ -29,6 +30,8 @@ async function createApi(network, endpoint) {
     options = khalaOptions;
   } else if (chains.bifrost === network) {
     options = bifrostOptions;
+  } else if (chains.kintsugi === network) {
+    options = kintsugiOptions;
   }
 
   const api = new ApiPromise({ provider, ...options });
