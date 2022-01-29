@@ -8,7 +8,7 @@ import IdentityIcon from "./identityIcon";
 import Loading from "public/imgs/icons/loading.svg";
 import { useWindowSize } from "frontedUtils/hooks";
 import { addressEllipsis } from "frontedUtils";
-import { encodeAddress } from "@polkadot/util-crypto";
+import { encodeAddress, isAddress } from "@polkadot/util-crypto";
 import { addToast } from "store/reducers/toastSlice";
 import { TOAST_TYPES } from "frontedUtils/constants";
 import { p_14_normal } from "../styles/textStyles";
@@ -154,6 +154,15 @@ export default function PostAddress({
 
   const onBlur = async () => {
     if (!inputAddress || !space) {
+      return;
+    }
+    if(!isAddress(inputAddress)) {
+      dispatch(
+        addToast({
+          type: TOAST_TYPES.ERROR,
+          message: "Invalid address",
+        })
+      );
       return;
     }
 
