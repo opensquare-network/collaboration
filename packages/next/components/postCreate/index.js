@@ -11,7 +11,7 @@ import { addToast } from "store/reducers/toastSlice";
 import { TOAST_TYPES } from "frontedUtils/constants";
 import nextApi from "services/nextApi";
 import { useRouter } from "next/router";
-import { encodeAddress } from "@polkadot/util-crypto";
+import { encodeAddress,isAddress } from "@polkadot/util-crypto";
 
 const Wrapper = styled.div`
   display: flex;
@@ -123,7 +123,7 @@ export default function PostCreate({ space }) {
       setProxyBalance(null);
       setProxyBalanceError("Link an address to create proposal.");
     }
-    if (!address || !height > 0) {
+    if (!isAddress(address) || !height > 0) {
       return;
     }
     setProxyBalanceError(null);
