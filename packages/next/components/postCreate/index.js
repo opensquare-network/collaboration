@@ -11,7 +11,7 @@ import { addToast } from "store/reducers/toastSlice";
 import { TOAST_TYPES } from "frontedUtils/constants";
 import nextApi from "services/nextApi";
 import { useRouter } from "next/router";
-import { encodeAddress,isAddress } from "@polkadot/util-crypto";
+import { encodeAddress, isAddress } from "@polkadot/util-crypto";
 
 const Wrapper = styled.div`
   display: flex;
