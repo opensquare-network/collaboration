@@ -587,7 +587,7 @@ async function getHottestProposals() {
   const proposalCol = await getProposalCollection();
   const proposals = await proposalCol
     .find(q, { sort: { lastActivityAt: -1 } })
-    .limit(5)
+    .limit(10)
     .toArray();
 
   const addStatus = addProposalStatus(now);
