@@ -31,7 +31,7 @@ const addProposalStatus = (now) => (p) => ({
   status: now < p.startDate ? "pending" : now < p.endDate ? "active" : "closed",
 });
 
-async function pinData(data, address, signature) {
+async function pinData(data, address, signature, prefix) {
   const { buf, cid } = await getObjectBufAndCid({
     msg: JSON.stringify(data),
     address,
@@ -41,7 +41,7 @@ async function pinData(data, address, signature) {
 
   let pinHash = null;
   try {
-    const pinResult = await pinJsonToIpfsWithTimeout(buf, cid, 3000);
+    const pinResult = await pinJsonToIpfsWithTimeout(buf, cid, 3000, prefix);
     pinHash = pinResult.PinHash ?? null;
   } catch (e) {
     console.error(e);
@@ -110,7 +110,7 @@ async function createProposal(
     throw new HttpError(403, `Balance is not enough to create the proposal`);
   }
 
-  const { cid, pinHash } = await pinData(data, address, signature);
+  const { cid, pinHash } = await pinData(data, address, signature, "voting-proposal-");
 
   const postUid = await nextPostUid();
 
@@ -350,7 +350,7 @@ async function postComment(
     throw new HttpError(400, "Proposal not found.");
   }
 
-  const { cid, pinHash } = await pinData(data, address, signature);
+  const { cid, pinHash } = await pinData(data, address, signature, "voting-comment-");
 
   const commentCol = await getCommentCollection();
   const height = await commentCol.countDocuments({ proposal: proposal._id });
@@ -467,7 +467,7 @@ async function vote(
     const symbolVoteThreshold = new BigNumber(spaceService.voteThreshold).div(Math.pow(10, spaceService.decimals)).toString();
     throw new HttpError(400, `Require the minimum of ${symbolVoteThreshold} ${spaceService.symbol} to vote`);
   }
-  const { cid, pinHash } = await pinData(data, address, signature);
+  const { cid, pinHash } = await pinData(data, address, signature, "voting-vote-");
 
   const voteCol = await getVoteCollection();
   const result = await voteCol.findOneAndUpdate(
@@ -587,7 +587,7 @@ async function getHottestProposals() {
   const proposalCol = await getProposalCollection();
   const proposals = await proposalCol
     .find(q, { sort: { lastActivityAt: -1 } })
-    .limit(5)
+    .limit(10)
     .toArray();
 
   const addStatus = addProposalStatus(now);

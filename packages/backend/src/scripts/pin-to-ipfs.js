@@ -11,9 +11,9 @@ async function startPin() {
   const voteCol = await getVoteCollection();
   const commentCol = await getCommentCollection();
   await Promise.all([
-    pinCollectionDataToIpfs(proposalCol),
-    pinCollectionDataToIpfs(voteCol),
-    pinCollectionDataToIpfs(commentCol),
+    pinCollectionDataToIpfs(proposalCol, "voting-proposal-"),
+    pinCollectionDataToIpfs(voteCol, "voting-vote-"),
+    pinCollectionDataToIpfs(commentCol, "voting-comment-"),
   ]);
 }
 

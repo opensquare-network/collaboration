@@ -35,14 +35,15 @@ if (!DECOO_API_UPLOAD_ENDPOINT) {
 const trimTailSlash = (url) =>
   url.endsWith("/") ? url.substr(0, url.length - 1) : url;
 
-async function pinJsonToIpfs(buf, cid) {
+async function pinJsonToIpfs(buf, cid, prefix = "voting-") {
   const fullPrivateKey = `-----BEGIN PRIVATE KEY-----\n${DECOO_API_SECRET_KEY}\n-----END PRIVATE KEY-----`;
   const secret = crypto
     .privateEncrypt(fullPrivateKey, Buffer.from(cid))
     .toString("base64");
   const formdata = new FormData();
+  const filename = prefix + Date.now() + ".json";
   formdata.append("file", buf, {
-    filename: "grade-" + Date.now() + ".json",
+    filename,
     contentType: "application/json",
   });
   formdata.append("cid", cid);
