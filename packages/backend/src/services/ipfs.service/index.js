@@ -1,11 +1,11 @@
 const Hash = require("ipfs-only-hash");
 const { pinJsonToIpfs } = require("./pin");
 
-async function pinJsonToIpfsWithTimeout(buf, cid, timeout) {
+async function pinJsonToIpfsWithTimeout(buf, cid, timeout, prefix) {
   const errorMsg = "Pin json to ipfs timeout";
   return await Promise.race([
     new Promise((_, reject) => setTimeout(() => reject(new Error(errorMsg)), timeout)),
-    pinJsonToIpfs(buf, cid),
+    pinJsonToIpfs(buf, cid, prefix),
   ]);
 }
 
@@ -16,7 +16,7 @@ async function getObjectBufAndCid(data) {
   return { buf, cid };
 }
 
-async function pinCollectionDataToIpfs(col) {
+async function pinCollectionDataToIpfs(col, prefix) {
   const items = await col.find({ pinHash: null }).toArray();
   for (const item of items) {
     try {
@@ -27,7 +27,7 @@ async function pinCollectionDataToIpfs(col) {
         signature: item.signature,
         version: "1",
       });
-      const pinResult = await pinJsonToIpfs(buf, cid);
+      const pinResult = await pinJsonToIpfs(buf, cid, prefix);
       pinHash = pinResult.PinHash;
 
       if (pinHash) {
