@@ -41,8 +41,9 @@ async function pinJsonToIpfs(buf, cid, prefix = "voting-") {
     .privateEncrypt(fullPrivateKey, Buffer.from(cid))
     .toString("base64");
   const formdata = new FormData();
+  const filename = prefix + Date.now() + ".json";
   formdata.append("file", buf, {
-    filename: prefix + Date.now() + ".json",
+    filename,
     contentType: "application/json",
   });
   formdata.append("cid", cid);
