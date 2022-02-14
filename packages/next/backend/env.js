@@ -18,10 +18,15 @@ function getEnvDecooApiUploadEndpoint() {
   return process.env[`DECOO_API_UPLOAD_ENDPOINT`];
 }
 
+function getRmrkTotalIssuance() {
+  return process.env[`RMRK_TOTAL_ISSUANCE`];
+}
+
 module.exports = {
   getEnvNodeApiEndpoint,
   getEnvDecooApiToken,
   getEnvDecooApiSecretKey,
   getEnvDecooApiOAuthEndpoint,
   getEnvDecooApiUploadEndpoint,
+  getRmrkTotalIssuance,
 };
