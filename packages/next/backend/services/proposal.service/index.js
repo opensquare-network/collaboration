@@ -16,14 +16,6 @@ const { checkDelegation } = require("../../services/node.service");
 const { getObjectBufAndCid, pinJsonToIpfsWithTimeout } = require("../ipfs.service");
 const { toDecimal128, enhancedSqrtOfBalance } = require("../../utils");
 const { calcPassing } = require("../biased-voting.service");
-const { getRmrkTotalIssuance } = require("../../env");
-
-const RMRK_TOTAL_ISSUANCE = getRmrkTotalIssuance();
-if (!RMRK_TOTAL_ISSUANCE) {
-  console.error("RMRK_TOTAL_ISSUANCE is not properly configured");
-  process.exit();
-}
-
 
 const calcWeights = (vote, decimals, voteThreshold) => {
   return {
@@ -600,7 +592,8 @@ async function getStats(proposalCid) {
     proposal.choices?.length === 2 &&
     proposal.weightStrategy?.includes("biased-voting")
   ) {
-    calcBiasedVotingResult(proposal, stats, RMRK_TOTAL_ISSUANCE);
+    const rmrkTotalIssuance = "1000000000000000000";
+    calcBiasedVotingResult(proposal, stats, rmrkTotalIssuance);
   }
 
   return Object.values(stats);
