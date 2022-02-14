@@ -132,7 +132,7 @@ const StatusItem = styled.div`
   background: ${(p) => (p.positive ? "#EDF7ED" : "#FDECEC")};
 `;
 
-const RMRK_ELECTORATE_CONST = "1000000000000000000";
+const RMRK_ELECTORATE_CONST = "100000000000000000";
 
 export default function PostResult({ data, voteStatus, space }) {
   const votedAmount = data?.votedWeights?.balanceOf || 0;
