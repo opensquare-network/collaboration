@@ -227,7 +227,8 @@ export default function PostResult({ data, voteStatus, space }) {
             <div>Turnout</div>
             <ValueDisplay
               value={voteStatus.reduce(
-                (pre, cur) => pre.balanceOf + cur.balanceOf
+                (pre, cur) =>
+                  Number(pre.balanceOf ?? 0) + Number(cur.balanceOf ?? 0)
               )}
               space={space}
             />
