@@ -2,7 +2,12 @@ import styled, { css } from "styled-components";
 import { useCallback, useEffect, useState } from "react";
 
 import InternalLink from "./internalLink";
-import { no_scroll_bar, shadow_100, makeSquare } from "../styles/globalCss";
+import {
+  no_scroll_bar,
+  shadow_100,
+  shadow_200,
+  makeSquare,
+} from "../styles/globalCss";
 import { h3_36_bold, p_18_semibold, p_16_semibold } from "../styles/textStyles";
 import SpaceLogo from "@/components/spaceLogo";
 import { useWindowSize } from "../frontedUtils/hooks";
@@ -32,8 +37,8 @@ const ItemsWrapper = styled.div`
   ${(p) =>
     p.show &&
     css`
-            flex-wrap: wrap;
-          `}
+      flex-wrap: wrap;
+    `}
 `;
 
 const Item = styled.div`
@@ -47,6 +52,7 @@ const Item = styled.div`
 
   :hover {
     border-color: #e2e8f0;
+    ${shadow_200}
   }
 `;
 
