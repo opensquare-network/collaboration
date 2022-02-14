@@ -2,8 +2,8 @@ const BigNumber = require("bignumber.js");
 
 function compareRationals(n1, d1, n2, d2) {
   while (true) {
-    const q1 = n1.div(d1);
-    const q2 = n2.div(d2);
+    const q1 = n1.idiv(d1);
+    const q2 = n2.idiv(d2);
 
     if (q1.lt(q2)) {
       return true;
@@ -31,9 +31,9 @@ function calcPassing(ayeBalance, nayBalance, threshold, totalIssuance) {
   const ayes = new BigNumber(ayeBalance);
   const nays = new BigNumber(nayBalance);
   const turnout = ayes.plus(nays);
-  const sqrtTurnout = turnout.sqrt();
+  const sqrtTurnout = turnout.sqrt().integerValue(BigNumber.ROUND_DOWN);
   const electorate = new BigNumber(totalIssuance);
-  const sqrtElectorate = electorate.sqrt();
+  const sqrtElectorate = electorate.sqrt().integerValue(BigNumber.ROUND_DOWN);
 
   if (sqrtTurnout.isZero()) {
     return false;
