@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { p_14_medium, p_16_semibold } from "styles/textStyles";
 import BigNumber from "bignumber.js";
-import { toFixedPrecision, abbreviateBigNumber } from "../../frontedUtils";
+import { toFixedPrecision } from "../../frontedUtils";
 import { Fragment } from "react";
 import ValueDisplay from "../valueDisplay";
 
@@ -226,9 +226,10 @@ export default function PostResult({ data, voteStatus, space }) {
           <div>
             <div>Turnout</div>
             <ValueDisplay
-              value={voteStatus.reduce(
-                (pre, cur) =>
-                  Number(pre.balanceOf ?? 0) + Number(cur.balanceOf ?? 0)
+              value={voteStatus.reduce((pre, cur) =>
+                new BigNumber(pre.balanceOf ?? 0).plus(
+                  new BigNumber(cur.balanceOf ?? 0)
+                )
               )}
               space={space}
             />
