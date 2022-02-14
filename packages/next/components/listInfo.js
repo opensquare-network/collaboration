@@ -115,11 +115,19 @@ export default function ListInfo({ space }) {
         <AboutItem>
           <AboutIcon src="/imgs/icons/strategy.svg" />
           <div>
-            <AboutName>Strategies</AboutName>
+            <AboutName>Strategies({space.weightStrategy?.length || 0})</AboutName>
             <StrategyAboutDetail>
-              {space.weightStrategy?.join(", ")}
+              {space.weightStrategy?.slice(0, 2).join(", ")}{space.weightStrategy?.length > 2 ? "..." : ""}
             </StrategyAboutDetail>
           </div>
+          {space.weightStrategy?.length > 2 && (
+            <Tooltip
+              content={space.weightStrategy?.join(", ")}
+              size="full"
+            >
+              <div />
+            </Tooltip>
+          )}
         </AboutItem>
       </AboutWrapper>
     </Wrapper>
