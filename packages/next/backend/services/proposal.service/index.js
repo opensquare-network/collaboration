@@ -592,7 +592,7 @@ async function getStats(proposalCid) {
     proposal.choices?.length === 2 &&
     proposal.weightStrategy?.includes("biased-voting")
   ) {
-    const rmrkTotalIssuance = "1000000000000000000";
+    const rmrkTotalIssuance = "100000000000000000";
     calcBiasedVotingResult(proposal, stats, rmrkTotalIssuance);
   }
 
