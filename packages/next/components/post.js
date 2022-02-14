@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 import Author from "./author";
 import InternalLink from "components/internalLink";
-import { p_16_semibold } from "styles/textStyles";
+import { p_16_semibold, shadow_100, shadow_200 } from "styles/textStyles";
 import StatusTag from "./statusTag";
 import PostTime from "./postTime";
 import { p_24 } from "../styles/paddings";
@@ -12,12 +12,12 @@ import { useWindowSize } from "../frontedUtils/hooks";
 const Wrapper = styled.div`
   background: #ffffff;
   border: 1px solid #f0f3f8;
-  box-shadow: 0px 4px 31px rgba(26, 33, 44, 0.04),
-    0px 0.751293px 3.88168px rgba(26, 33, 44, 0.03);
+  ${shadow_100}
   ${p_24};
   cursor: pointer;
   :hover {
     border-color: #e2e8f0;
+    ${shadow_200}
   }
 `;
 
@@ -115,12 +115,7 @@ export default function Post({ data, showSpace, space, spaces }) {
               />
             )}
             {!showRichInfo && (
-              <img
-                width="20px"
-                height="20px"
-                src={icon}
-                alt=""
-              />
+              <img width="20px" height="20px" src={icon} alt="" />
             )}
             <PostTime post={data} />
             {showSpace && showRichInfo && (
