@@ -64,6 +64,10 @@ const StrategyAboutDetail = styled.div`
   font-size: 14px;
   line-height: 24px;
   color: #a1a8b3;
+  text-overflow: ellipsis;
+  max-width: 240px;
+  overflow: hidden;
+  white-space: nowrap;
 `;
 
 const AboutDivider = styled.div`
@@ -117,17 +121,15 @@ export default function ListInfo({ space }) {
           <div>
             <AboutName>Strategies({space.weightStrategy?.length || 0})</AboutName>
             <StrategyAboutDetail>
-              {space.weightStrategy?.slice(0, 2).join(", ")}{space.weightStrategy?.length > 2 ? "..." : ""}
+              {space.weightStrategy?.join(", ")}
             </StrategyAboutDetail>
           </div>
-          {space.weightStrategy?.length > 2 && (
-            <Tooltip
-              content={space.weightStrategy?.join(", ")}
-              size="full"
-            >
-              <div />
-            </Tooltip>
-          )}
+          <Tooltip
+            content={space.weightStrategy?.join(", ")}
+            size="full"
+          >
+            <div />
+          </Tooltip>
         </AboutItem>
       </AboutWrapper>
     </Wrapper>
