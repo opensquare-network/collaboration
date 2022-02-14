@@ -114,6 +114,12 @@ const ChildrenWrapper = styled.div`
       width: 100%;
       height: 100%;
     `}
+  ${(p) =>
+    p.size === "fit" &&
+    css`
+      width: fit-content;
+      position: relative;
+    `}
 `;
 
 const TitleWrapper = styled.div`

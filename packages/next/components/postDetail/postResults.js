@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import { p_14_medium, p_16_semibold } from "styles/textStyles";
 import BigNumber from "bignumber.js";
-import { toFixedPrecision } from "../../frontedUtils";
+import { toFixedPrecision, abbreviateBigNumber } from "../../frontedUtils";
 import { Fragment } from "react";
+import ValueDisplay from "../valueDisplay";
 
 const Wrapper = styled.div`
   padding: 32px;
@@ -134,7 +135,6 @@ const StatusItem = styled.div`
 const RMRK_ELECTORATE_CONST = "1000000000000000000";
 
 export default function PostResult({ data, voteStatus, space }) {
-  console.log({ data, voteStatus, space }, new Date().getTime());
   const votedAmount = data?.votedWeights?.balanceOf || 0;
   const isEnded = new Date().getTime() > data?.endDate;
 
@@ -188,11 +188,7 @@ export default function PostResult({ data, voteStatus, space }) {
                     <div>{vote.percentage}%</div>
                     {
                       <div>
-                        {toFixedPrecision(
-                          vote.voteBalance.toString(),
-                          space.decimals
-                        )}{" "}
-                        {space.symbol}
+                        <ValueDisplay value={vote.voteBalance} space={space} />
                       </div>
                     }
                   </FlexAround>
@@ -224,24 +220,23 @@ export default function PostResult({ data, voteStatus, space }) {
           {(voteStatus || []).map((item, index) => (
             <div key={index}>
               <div>{item.choice}</div>
-              <div>
-                {toFixedPrecision(item.balanceOf.toString(), space.decimals)}{" "}
-                {space.symbol}
-              </div>
+              <ValueDisplay value={item.balanceOf} space={space} />
             </div>
           ))}
-          <div>Turnout</div>
           <div>
-            {toFixedPrecision(
-              voteStatus.reduce((pre, cur) => pre.balanceOf + cur.balanceOf),
-              space.decimals
-            )}{" "}
-            {space.symbol}
+            <div>Turnout</div>
+            <ValueDisplay
+              value={voteStatus.reduce(
+                (pre, cur) => pre.balanceOf + cur.balanceOf
+              )}
+              space={space}
+            />
           </div>
-          <div>Electorate</div>
           <div>
-            {toFixedPrecision(RMRK_ELECTORATE_CONST, space.decimals)}{" "}
-            {space.symbol}
+            <div>Electorate</div>
+            <div>
+              <ValueDisplay value={RMRK_ELECTORATE_CONST} space={space} />
+            </div>
           </div>
         </BiasedVotingWrapper>
         <Divider />
