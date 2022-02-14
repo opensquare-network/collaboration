@@ -617,13 +617,8 @@ function calcBiasedVotingResult(proposal, stats, totalIssuance) {
   );
 
   ayeChoice.biasedVoting = {
-    superMajorityApprove: superMajorityApprove,
-    superMajorityAgainst: superMajorityAgainst,
-  };
-
-  nayChoice.biasedVoting = {
-    superMajorityApprove: !superMajorityApprove,
-    superMajorityAgainst: !superMajorityAgainst,
+    superMajorityApprove,
+    superMajorityAgainst,
   };
 }
 
