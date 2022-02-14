@@ -3,8 +3,7 @@
 OpenSquare Collaboration is an off-chain gas free collaboration platform.
 Currently, off chain voting has been implemented while bounties and paid questions are in the plan.
 
-Off chain voting now support [substrate](https://github.com/paritytech/substrate) based chains.
-Assets on Statemine/Statemint will be supported soon.
+Off chain voting now support [substrate](https://github.com/paritytech/substrate) based chains and assets on Statemine/Statemint.
 # Code structure
 The code is organized with [yarn workspaces](https://classic.yarnpkg.com/lang/en/docs/workspaces/) and make
 sure yarn is installed before running it. There are 2 packages `node-api` and `next` under the `packages` folder.
