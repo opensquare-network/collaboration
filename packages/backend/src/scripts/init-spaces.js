@@ -59,7 +59,7 @@ const spaces = [
     decimals: 10,
     proposeThreshold: "500000000000000",
     voteThreshold: "10000000000",
-    weightStrategy: ["balance-of","quadratic-balance-of"],
+    weightStrategy: ["balance-of","quadratic-balance-of", "biased-voting"],
     identity: "kusama",
   },
   {
@@ -72,7 +72,7 @@ const spaces = [
     decimals: 10,
     proposeThreshold: "4310000000000",
     voteThreshold: "10000000000",
-    weightStrategy: ["balance-of","quadratic-balance-of"],
+    weightStrategy: ["balance-of","quadratic-balance-of", "biased-voting"],
     identity: "kusama",
   },
   {

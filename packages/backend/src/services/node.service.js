@@ -66,7 +66,7 @@ async function getTotalBalance(api, blockHeight, address) {
 
 async function getTokenBalance(api, assetId, blockHeight, address) {
   if (isTestAccount(address)) {
-    return "10000000000000";
+    return process.env.TEST_ACCOUNT_BALANCE;
   }
 
   try {

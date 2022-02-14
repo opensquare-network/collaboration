@@ -15,6 +15,7 @@ const { spaces: spaceServices } = require("../../spaces");
 const { checkDelegation } = require("../../services/node.service");
 const { getObjectBufAndCid, pinJsonToIpfsWithTimeout } = require("../ipfs.service");
 const { toDecimal128, enhancedSqrtOfBalance } = require("../../utils");
+const { calcPassing } = require("../biased-voting.service");
 
 const calcWeights = (vote, decimals, voteThreshold) => {
   return {
@@ -567,14 +568,58 @@ async function getStats(proposalCid) {
   const voteCol = await getVoteCollection();
   const votes = await voteCol.find(q).toArray();
   const calculatedVotes = votes.map(v => calcWeights(v, spaceService.decimals, spaceService.voteThreshold));
-  const stats = {};
+  const stats = Object
+    .fromEntries(
+      proposal.choices.map(choice =>
+        [
+          choice,
+          {
+            choice,
+            balanceOf: "0",
+            quadraticBalanceOf: "0",
+          }
+        ]
+      )
+  );
   for (const vote of calculatedVotes) {
     const weights = stats[vote.choice] = stats[vote.choice] || { choice: vote.choice };
-    weights.balanceOf = new BigNumber(weights.balanceOf || 0).plus(vote.weights.balanceOf);
-    weights.quadraticBalanceOf = new BigNumber(weights.quadraticBalanceOf || 0).plus(vote.weights.quadraticBalanceOf);
+    weights.balanceOf = new BigNumber(weights.balanceOf || 0).plus(vote.weights.balanceOf).toString();
+    weights.quadraticBalanceOf = new BigNumber(weights.quadraticBalanceOf || 0).plus(vote.weights.quadraticBalanceOf).toString();
+  }
+
+  if (
+    ["rmrk", "rmrk-curation"].includes(proposal.space) &&
+    proposal.choices?.length === 2 &&
+    proposal.weightStrategy?.includes("biased-voting")
+  ) {
+    const rmrkTotalIssuance = "100000000000000000";
+    calcBiasedVotingResult(proposal, stats, rmrkTotalIssuance);
   }
 
   return Object.values(stats);
+}
+
+function calcBiasedVotingResult(proposal, stats, totalIssuance) {
+  const ayeChoice = stats[proposal.choices[0]] || {};
+  const nayChoice = stats[proposal.choices[1]] || {};
+
+  const superMajorityApprove = calcPassing(
+    ayeChoice.balanceOf || 0,
+    nayChoice.balanceOf || 0,
+    "SuperMajorityApprove",
+    totalIssuance,
+  );
+  const superMajorityAgainst = calcPassing(
+    ayeChoice.balanceOf || 0,
+    nayChoice.balanceOf || 0,
+    "SuperMajorityAgainst",
+    totalIssuance,
+  );
+
+  ayeChoice.biasedVoting = {
+    superMajorityApprove,
+    superMajorityAgainst,
+  };
 }
 
 async function getHottestProposals() {

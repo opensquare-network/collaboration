@@ -49,7 +49,7 @@ function md5(str) {
 function isValidSignature(signedMessage, signature, address) {
   const publicKey = decodeAddress(address);
   const hexPublicKey = u8aToHex(publicKey);
-  const result = signatureVerify(`<Bytes>${signedMessage}</Bytes>`, signature, hexPublicKey);
+  const result = signatureVerify(signedMessage, signature, hexPublicKey);
   return result.isValid;
 }
 
@@ -57,7 +57,9 @@ function toDecimal128(num) {
   return Decimal128.fromString(new BigNumber(num).toString());
 }
 
-const testAccounts = (process.env.TEST_ACCOUNTS || "").split("|").filter(acc => acc);
+const testAccounts = (process.env.TEST_ACCOUNTS || "")
+  .split("|")
+  .filter((acc) => acc);
 function isTestAccount(address) {
   return testAccounts.includes(encodeAddress(address, 42));
 }
@@ -81,7 +83,9 @@ function enhancedSqrtOfBalance(balance, decimals, voteThreshold) {
   if (num.gte(1)) {
     num = num.sqrt();
   } else {
-    const symbolVoteThreshold = new BigNumber(voteThreshold).div(Math.pow(10, decimals)).toString();
+    const symbolVoteThreshold = new BigNumber(voteThreshold)
+      .div(Math.pow(10, decimals))
+      .toString();
     num = num.div(symbolVoteThreshold).sqrt().times(symbolVoteThreshold);
   }
   return num.times(Math.pow(10, decimals)).integerValue().toString();
