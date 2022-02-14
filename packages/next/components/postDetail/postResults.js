@@ -205,7 +205,7 @@ export default function PostResult({ data, voteStatus, space }) {
 
   const biasedVoting = (() => {
     if (
-      data?.space !== "rmrk" ||
+      !["rmrk", "rmrk-curation"].includes(data?.space) ||
       !data?.weightStrategy?.includes("biased-voting") ||
       voteStatus?.length !== 2
     )
