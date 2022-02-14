@@ -89,8 +89,11 @@ export function getPrecision(symbol) {
 }
 
 export function toFixedPrecision(value, decimals, fixed = 2, toLocale = true) {
-  const result = new BigNumber(value).dividedBy(Math.pow(10, decimals)).toFixed(fixed).toString();
-  if(toLocale){
+  const result = new BigNumber(value)
+    .dividedBy(Math.pow(10, decimals))
+    .toFixed(fixed)
+    .toString();
+  if (toLocale) {
     return bigNumber2Locale(result);
   }
   return result;
@@ -171,4 +174,30 @@ export function matchMdLink(t) {
   const expression =
     /(?<!\]\()((?:https?|ftp):\/\/[^\s\]\)]*)(?:[\s\]\)](?!\()|$)/gi;
   return t.replace(expression, "[$1]($1) ");
+}
+
+export function abbreviateBigNumber(x, fixed = 2) {
+  const n = new BigNumber(x);
+  console.log(x, Number(x), n);
+  const fmt = {
+    decimalSeparator: ".",
+    groupSeparator: ",",
+    groupSize: 3,
+  };
+  let divideBy = new BigNumber("1");
+  const bigNumbers = [
+    { bigNumber: new BigNumber("1000"), abbr: "K" },
+    { bigNumber: new BigNumber("1000000"), abbr: "M" },
+    { bigNumber: new BigNumber("1000000000"), abbr: "B" },
+    { bigNumber: new BigNumber("1000000000000"), abbr: "T" },
+    { bigNumber: new BigNumber("1000000000000000"), abbr: "Q" },
+  ];
+  bigNumbers.forEach((data) => {
+    if (n.isGreaterThan(data.bigNumber)) {
+      divideBy = data.bigNumber;
+      fmt.suffix = data.abbr;
+    }
+  });
+  BigNumber.config({ FORMAT: fmt });
+  return new BigNumber(n.dividedBy(divideBy).toFixed(fixed)).toFormat();
 }
