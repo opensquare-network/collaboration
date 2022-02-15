@@ -2,7 +2,8 @@ import styled from "styled-components";
 
 import Author from "./author";
 import InternalLink from "components/internalLink";
-import { p_16_semibold, shadow_100, shadow_200 } from "styles/textStyles";
+import { p_16_semibold } from "styles/textStyles";
+import { shadow_100, shadow_200 } from "styles/globalCss";
 import StatusTag from "./statusTag";
 import PostTime from "./postTime";
 import { p_24 } from "../styles/paddings";
