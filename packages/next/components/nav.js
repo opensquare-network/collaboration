@@ -55,10 +55,9 @@ const BackButton = styled.div`
     fill: #506176;
   }
   :hover {
-    > svg {
-      fill: #1e2134;
-    }
-    border-color: #E2E8F0;
+    border-color: #e2e8f0;
+    box-shadow: 0px 4px 31px rgba(26, 33, 44, 0.06),
+      0px 0.751293px 8px rgba(26, 33, 44, 0.04);
   }
 `;
 

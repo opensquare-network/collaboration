@@ -4,6 +4,8 @@ import BigNumber from "bignumber.js";
 import { toFixedPrecision } from "../../frontedUtils";
 import { Fragment } from "react";
 import ValueDisplay from "../valueDisplay";
+import LinkSvg from "public/imgs/icons/link.svg";
+import ExternalLink from "components/externalLink";
 
 const Wrapper = styled.div`
   padding: 32px;
@@ -99,6 +101,26 @@ const StatusResultName = styled.span`
   font-size: 14px;
   line-height: 24px;
   color: #506176;
+`;
+
+const SubtitleWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const Subtitle = styled.div`
+  line-height: 0;
+  cursor: pointer;
+  justify-self: flex-start;
+  margin-left: 8px;
+  svg {
+    fill: #a1a8b3;
+  }
+  :hover {
+    svg {
+      fill: #506176;
+    }
+  }
 `;
 
 const FlexAround = styled.div`
@@ -219,7 +241,14 @@ export default function PostResult({ data, voteStatus, space }) {
     return (
       <Fragment>
         <ResultHead>
-          <ResultName>biased-voting</ResultName>
+          <SubtitleWrapper>
+            <ResultName>biased-voting</ResultName>
+            <Subtitle>
+              <ExternalLink href="https://wiki.polkadot.network/docs/learn-governance#tallying">
+                <LinkSvg />
+              </ExternalLink>
+            </Subtitle>
+          </SubtitleWrapper>
         </ResultHead>
         <Divider />
         <BiasedVotingWrapper>
