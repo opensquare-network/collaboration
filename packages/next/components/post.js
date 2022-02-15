@@ -9,7 +9,7 @@ import PostTime from "./postTime";
 import { p_24 } from "../styles/paddings";
 import { useEffect, useState } from "react";
 import { useWindowSize } from "../frontedUtils/hooks";
-import ResultPopup from "./resultPopup";
+import PostResult from "./postResult";
 
 const Wrapper = styled.div`
   background: #ffffff;
@@ -20,7 +20,7 @@ const Wrapper = styled.div`
   :hover {
     border-color: #e2e8f0;
     ${shadow_200}
-    .icon {
+    .icon > svg {
       display: block;
     }
   }
@@ -117,7 +117,7 @@ export default function Post({ data, showSpace, space, spaces }) {
       <Wrapper>
         <TitleWrapper>
           <Title>{data.title}</Title>
-          <ResultPopup />
+          <PostResult data={data} space={space ?? getSpaceFromId(data.space)} />
         </TitleWrapper>
         <Divider />
         <InfoWrapper>
