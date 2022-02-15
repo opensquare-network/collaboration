@@ -97,3 +97,19 @@ export function usePrevious(value) {
   });
   return ref.current;
 }
+
+export function useOffset(ref) {
+  const [offset, setOffset] = useState({ left: 0, top: 0 });
+  useEffect(() => {
+    const updatePosition = () => {
+      if (ref.current) {
+        const rect = ref.current.getBoundingClientRect();
+        setOffset({ left: rect.left, top: rect.top });
+      }
+    };
+    window.addEventListener("scroll", updatePosition);
+    updatePosition();
+    return () => window.removeEventListener("scroll", updatePosition);
+  }, [ref]);
+  return offset;
+}
