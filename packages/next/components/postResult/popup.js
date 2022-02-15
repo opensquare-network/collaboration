@@ -126,7 +126,6 @@ export default function Popup({ data, space, isTop }) {
     (pre, cur) => pre + Number(cur.votesCount ?? 0),
     0
   );
-  console.log({ data, space, vote, total });
 
   useEffect(() => {
     if (data?.cid && !votes[data?.cid]) {
@@ -160,8 +159,13 @@ export default function Popup({ data, space, isTop }) {
       </div>
       <Divider />
       {(data?.choices || []).map((choice, index) => {
-        const balance = vote.find((item) => item.choice === choice)?.balanceOf;
-        const percent = (BigNumber(balance).dividedBy(total) * 100).toFixed(2);
+        const balance = vote
+          ? vote.find((item) => item.choice === choice)?.balanceOf
+          : 0;
+        const percent =
+          vote && Number(balance) > 0
+            ? (BigNumber(balance).dividedBy(total) * 100).toFixed(2)
+            : "0.00";
         return (
           <div key={index}>
             <ProgressItem>
