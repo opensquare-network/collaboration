@@ -178,7 +178,6 @@ export function matchMdLink(t) {
 
 export function abbreviateBigNumber(x, fixed = 2) {
   const n = new BigNumber(x);
-  console.log(x, Number(x), n);
   const fmt = {
     decimalSeparator: ".",
     groupSeparator: ",",
