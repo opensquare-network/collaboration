@@ -127,6 +127,36 @@ export default function Popup({ data, space, isTop }) {
     0
   );
 
+  const results = (data?.choices || []).map((choice, index) => {
+    const balance = vote
+      ? vote.find((item) => item.choice === choice)?.balanceOf
+      : 0;
+    const percent =
+      vote && Number(balance) > 0
+        ? (BigNumber(balance).dividedBy(total) * 100).toFixed(2)
+        : "0.00";
+    return (
+      <div key={index}>
+        <ProgressItem>
+          <OptionIndex>#{index + 1}</OptionIndex>
+          <FlexAround>
+            <div>{percent}%</div>
+            {vote ? (
+              <div>
+                <ValueDisplay value={balance} space={space} />
+              </div>
+            ) : (
+              <LoadingSvg />
+            )}
+          </FlexAround>
+        </ProgressItem>
+        <ProgressBackground>
+          <ProgressBar percent={`${percent}%`} />
+        </ProgressBackground>
+      </div>
+    );
+  });
+
   useEffect(() => {
     if (data?.cid && !votes[data?.cid]) {
       dispatch(fetchVote(data?.cid, data?.space));
@@ -158,35 +188,7 @@ export default function Popup({ data, space, isTop }) {
         </VoteItem>
       </div>
       <Divider />
-      {(data?.choices || []).map((choice, index) => {
-        const balance = vote
-          ? vote.find((item) => item.choice === choice)?.balanceOf
-          : 0;
-        const percent =
-          vote && Number(balance) > 0
-            ? (BigNumber(balance).dividedBy(total) * 100).toFixed(2)
-            : "0.00";
-        return (
-          <div key={index}>
-            <ProgressItem>
-              <OptionIndex>#{index + 1}</OptionIndex>
-              <FlexAround>
-                <div>{percent}%</div>
-                {vote ? (
-                  <div>
-                    <ValueDisplay value={balance} space={space} />
-                  </div>
-                ) : (
-                  <LoadingSvg />
-                )}
-              </FlexAround>
-            </ProgressItem>
-            <ProgressBackground>
-              <ProgressBar percent={`${percent}%`} />
-            </ProgressBackground>
-          </div>
-        );
-      })}
+      {results}
       {isTop ? <Triangle /> : <TriangleTop />}
     </ResultWrapper>
   );

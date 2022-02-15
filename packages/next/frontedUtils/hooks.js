@@ -4,6 +4,7 @@ import nextApi from "services/nextApi";
 import { useSelector } from "react-redux";
 import { accountSelector } from "store/reducers/accountSlice";
 import { encodeAddress } from "@polkadot/util-crypto";
+import debounce from "lodash.debounce";
 
 export function useWindowSize() {
   const [windowSize, setWindowSize] = useState({
@@ -107,7 +108,7 @@ export function useOffset(ref) {
         setOffset({ left: rect.left, top: rect.top });
       }
     };
-    window.addEventListener("scroll", updatePosition);
+    window.addEventListener("scroll", debounce(updatePosition, 100));
     updatePosition();
     return () => window.removeEventListener("scroll", updatePosition);
   }, [ref]);
