@@ -1,5 +1,6 @@
 import styled, { css } from "styled-components";
 import { useCallback, useEffect, useState } from "react";
+import Plus from "public/imgs/icons/plus.svg";
 
 import InternalLink from "./internalLink";
 import {
@@ -119,6 +120,27 @@ const SpaceButton = styled.div`
   color: #506176;
 `;
 
+const AddSpaceLink = styled.a`
+  ${p_16_semibold};
+  color: #506176;
+  display: none;
+  @media screen and (min-width: 800px) {
+    display: flex;
+  }
+  cursor: pointer;
+  svg{
+    margin-right: 8px;
+  }
+  &:hover svg *{
+    fill:#1e70bf;
+  }
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  gap: 40px;
+`
+
 export default function Space({ spaces, showAllSpace }) {
   const [show, setShow] = useState(showAllSpace === "1");
   const [showCount, setShowCount] = useState(6);
@@ -145,11 +167,16 @@ export default function Space({ spaces, showAllSpace }) {
     <div>
       <TitleWrapper>
         <Title>Space</Title>
-        <SpaceButton onClick={() => setShowAllSpace(!show)}>
-          {spaceNames.length > showCount && show
-            ? "Hide Spaces"
-            : `All Spaces(${spaceNames.length})`}
-        </SpaceButton>
+        <ButtonWrapper>
+          <AddSpaceLink href="mailto:yongfeng@opensquare.network">
+            <Plus/>Add a Space
+          </AddSpaceLink>
+          <SpaceButton onClick={() => setShowAllSpace(!show)}>
+            {spaceNames.length > showCount && show
+              ? "Hide Spaces"
+              : `All Spaces(${spaceNames.length})`}
+          </SpaceButton>
+        </ButtonWrapper>
       </TitleWrapper>
       <ItemsWrapper show={show}>
         {(show ? spaceNames : spaceNames.slice(0, showCount)).map(
