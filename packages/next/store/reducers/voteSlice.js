@@ -17,7 +17,6 @@ const voteSlice = createSlice({
 export const { setVote } = voteSlice.actions;
 
 export const fetchVote = (cid, space) => async (dispatch) => {
-  console.log("start fetch");
   const { result } = await nextApi.fetch(`${space}/proposal/${cid}/stats`);
   dispatch(setVote({ id: cid, data: result }));
 };
