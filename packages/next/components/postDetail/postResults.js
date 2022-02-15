@@ -88,11 +88,16 @@ const ResultStatus = styled.span`
 `;
 
 const ResultName = styled.span`
-  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  color: #1e2134;
+`;
+
+const StatusResultName = styled.span`
   font-weight: 500;
   font-size: 14px;
   line-height: 24px;
-  text-align: right;
   color: #506176;
 `;
 
@@ -244,7 +249,7 @@ export default function PostResult({ data, voteStatus, space }) {
         </BiasedVotingWrapper>
         <Divider />
         <StatusResultHead>
-          <ResultName>Status</ResultName>
+          <StatusResultName>Status</StatusResultName>
           <ResultStatus>SuperMajorityApprove</ResultStatus>
         </StatusResultHead>
         <StatusWrapper>
@@ -263,7 +268,7 @@ export default function PostResult({ data, voteStatus, space }) {
         </StatusWrapper>
         <Divider />
         <StatusResultHead>
-          <ResultName>Status</ResultName>
+          <StatusResultName>Status</StatusResultName>
           <ResultStatus>SuperMajorityAgainst</ResultStatus>
         </StatusResultHead>
         <StatusWrapper>

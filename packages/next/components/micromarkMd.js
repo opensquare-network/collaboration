@@ -9,7 +9,6 @@ import { no_scroll_bar } from "../styles/componentCss";
 const Wrapper = styled.div`
   font-size: 16px;
   &.markdown-content {
-    color: rgba(80, 97, 118, 1);
     max-width: 48.5em;
     word-break: normal;
 
