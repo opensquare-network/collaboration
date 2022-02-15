@@ -577,6 +577,7 @@ async function getStats(proposalCid) {
             choice,
             balanceOf: "0",
             quadraticBalanceOf: "0",
+            votesCount: 0,
           }
         ]
       )
@@ -585,6 +586,7 @@ async function getStats(proposalCid) {
     const weights = stats[vote.choice] = stats[vote.choice] || { choice: vote.choice };
     weights.balanceOf = new BigNumber(weights.balanceOf || 0).plus(vote.weights.balanceOf).toString();
     weights.quadraticBalanceOf = new BigNumber(weights.quadraticBalanceOf || 0).plus(vote.weights.quadraticBalanceOf).toString();
+    weights.votesCount = (weights.votesCount || 0) + 1;
   }
 
   if (
