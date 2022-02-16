@@ -109,6 +109,12 @@ const OptionChoice = styled.div`
   word-wrap: break-word;
 `;
 
+const OptionWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+`;
+
 const FlexAround = styled.div`
   display: flex;
   flex-grow: 1;
@@ -141,10 +147,10 @@ export default function Popup({ data, space, isTop }) {
     return (
       <div key={index}>
         <ProgressItem>
-          <FlexAround>
+          <OptionWrapper>
             <OptionIndex>#{index + 1}</OptionIndex>
             <OptionChoice>{choice}</OptionChoice>
-          </FlexAround>
+          </OptionWrapper>
           <FlexAround>
             <div>{percent}%</div>
             {vote ? (
