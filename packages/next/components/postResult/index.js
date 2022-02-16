@@ -42,7 +42,6 @@ export default function ResultPopup({ data, space }) {
         <StatusSvg />
       </IconWrapper>
       {show && <Popup data={data} space={space} isTop={top > 400} />}
-      {/* <Popup data={data} space={space} isTop={top > 400} /> */}
     </Wrapper>
   );
 }
