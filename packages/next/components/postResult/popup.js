@@ -77,9 +77,6 @@ const VoteItem = styled.div`
 
 const ProgressItem = styled.div`
   margin: 12px 0 4px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   ${p_14_medium};
 `;
 
@@ -101,9 +98,14 @@ const ProgressBar = styled.div`
 `;
 
 const OptionIndex = styled.div`
-  width: 40px;
   ${p_14_medium};
   color: #a1a8b3;
+`;
+
+const OptionChoice = styled.div`
+  max-width: 212px;
+  text-align: right;
+  word-wrap: break-word;
 `;
 
 const FlexAround = styled.div`
@@ -138,7 +140,10 @@ export default function Popup({ data, space, isTop }) {
     return (
       <div key={index}>
         <ProgressItem>
-          <OptionIndex>#{index + 1}</OptionIndex>
+          <FlexAround>
+            <OptionIndex>#{index + 1}</OptionIndex>
+            <OptionChoice>{choice}</OptionChoice>
+          </FlexAround>
           <FlexAround>
             <div>{percent}%</div>
             {vote ? (
