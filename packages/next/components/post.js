@@ -9,6 +9,7 @@ import PostTime from "./postTime";
 import { p_24 } from "../styles/paddings";
 import { useEffect, useState } from "react";
 import { useWindowSize } from "../frontedUtils/hooks";
+import PostResult from "./postResult";
 
 const Wrapper = styled.div`
   background: #ffffff;
@@ -19,12 +20,16 @@ const Wrapper = styled.div`
   :hover {
     border-color: #e2e8f0;
     ${shadow_200}
+    .icon > svg {
+      display: block;
+    }
   }
 `;
 
 const Title = styled.div`
   display: inline-block;
   ${p_16_semibold};
+  flex-grow: 1;
 `;
 
 const Divider = styled.div`
@@ -76,6 +81,11 @@ const SpaceName = styled.a`
   }
 `;
 
+const TitleWrapper = styled.div`
+  display: flex;
+  align-items: flex-start;
+`;
+
 const ProjectIcons = {
   kintsugi: "project-kintsugi.png",
 };
@@ -105,7 +115,10 @@ export default function Post({ data, showSpace, space, spaces }) {
   return (
     <InternalLink href={`/space/${data.space}/proposal/${data.cid}`}>
       <Wrapper>
-        <Title>{data.title}</Title>
+        <TitleWrapper>
+          <Title>{data.title}</Title>
+          <PostResult data={data} space={space ?? getSpaceFromId(data.space)} />
+        </TitleWrapper>
         <Divider />
         <InfoWrapper>
           <LeftWrapper>
