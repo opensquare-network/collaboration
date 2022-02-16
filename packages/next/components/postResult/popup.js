@@ -10,6 +10,7 @@ import { toFixedPrecision } from "frontedUtils";
 import BigNumber from "bignumber.js";
 
 const ResultWrapper = styled.div`
+  z-index: 999;
   position: absolute;
   background: #ffffff;
   filter: drop-shadow(0px 4px 31px rgba(26, 33, 44, 0.06))

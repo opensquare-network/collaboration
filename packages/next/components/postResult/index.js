@@ -11,8 +11,9 @@ const Wrapper = styled.div`
 
 const IconWrapper = styled.div`
   width: 24px;
-  height: 24px;
-  margin-left: 40px;
+  height: 40px;
+  margin: -8px 0 -8px 40px;
+  padding: 8px 0;
   > svg {
     display: none;
   }
@@ -32,12 +33,12 @@ export default function ResultPopup({ data, space }) {
   const [show, setShow] = useState(false);
 
   return (
-    <Wrapper ref={ref}>
-      <IconWrapper
-        onMouseEnter={() => setShow(true)}
-        onMouseLeave={() => setShow(false)}
-        className="icon"
-      >
+    <Wrapper
+      ref={ref}
+      onMouseEnter={() => setShow(true)}
+      onMouseLeave={() => setShow(false)}
+    >
+      <IconWrapper className="icon">
         <StatusSvg />
       </IconWrapper>
       {show && <Popup data={data} space={space} isTop={top > 400} />}
