@@ -6,7 +6,6 @@ import { p_14_medium, p_16_semibold } from "styles/textStyles";
 import ValueDisplay from "../valueDisplay";
 import { votesSelector, fetchVote } from "store/reducers/voteSlice";
 import LoadingSvg from "public/imgs/icons/loading.svg";
-import { toFixedPrecision } from "frontedUtils";
 import BigNumber from "bignumber.js";
 
 const ResultWrapper = styled.div`
@@ -186,10 +185,7 @@ export default function Popup({ data, space, isTop }) {
         <VoteItem>
           <div>Voted</div>
           {vote ? (
-            <div>
-              {toFixedPrecision(total?.toString(), space.decimals)}{" "}
-              {space.symbol}
-            </div>
+              <ValueDisplay value={total?.toString()} space={space}/>
           ) : (
             <LoadingSvg />
           )}
