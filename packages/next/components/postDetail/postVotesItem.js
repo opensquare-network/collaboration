@@ -102,13 +102,7 @@ export default function PostVotes({ data, space, isMyVote = false }) {
         </EqualWrapper>
         <EqualWrapper>
           <BalanceWrapper>
-            {
-              (getEffectiveNumbers(data.weights?.balanceOf) !== getEffectiveNumbers(abbreviateBigNumber(data.weights?.balanceOf)))
-              && <span>≈</span>
-            }
-            <div style={{marginLeft:4}}>
-              <ValueDisplay value={data.weights?.balanceOf} space={space}/>
-            </div>
+            <ValueDisplay value={data.weights?.balanceOf} space={space} showAEM={true}/>
             {data?.pinHash && (
               <ExternalLink
                 href={`https://ipfs-hk.decoo.io/ipfs/${data.pinHash}`}
