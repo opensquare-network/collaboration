@@ -179,7 +179,7 @@ export function matchMdLink(t) {
 export function getEffectiveNumbers(n) {
   const result = [];
   let flag = false;
-  n.split('').reverse().forEach(dig => {
+  n.toString().split('').reverse().forEach(dig => {
     if (!isNaN(parseInt(dig))) {
       flag = flag || parseInt(dig) > 0;
       flag && result.push(dig);

@@ -62,7 +62,7 @@ const Square = styled.div`
 const EqualWrapper = styled.div`
   width: 33%;
   display: flex;
-  overflow: hidden;
+  overflow: visible;
   flex-wrap: wrap;
   :last-child {
     justify-content: flex-end;
