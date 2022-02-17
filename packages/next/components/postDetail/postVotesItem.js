@@ -5,10 +5,10 @@ import ExternalLink from "components/externalLink";
 import Ellipsis from "@/components/ellipsis";
 import Flex from "@/components/flex";
 import {
-  bigNumber2Locale,
-  fromAssetUnit,
-  toApproximatelyFixed,
+  abbreviateBigNumber,
+  getEffectiveNumbers,
 } from "frontedUtils";
+import ValueDisplay from "@/components/valueDisplay";
 
 const Item = styled.div`
   padding: 20px 0;
@@ -102,14 +102,13 @@ export default function PostVotes({ data, space, isMyVote = false }) {
         </EqualWrapper>
         <EqualWrapper>
           <BalanceWrapper>
-            <div>{`${toApproximatelyFixed(
-              bigNumber2Locale(
-                fromAssetUnit(
-                  data.weights?.balanceOf,
-                  space?.decimals
-                )
-              )
-            )} ${space?.symbol}`}</div>
+            {
+              (getEffectiveNumbers(data.weights?.balanceOf) !== getEffectiveNumbers(abbreviateBigNumber(data.weights?.balanceOf)))
+              && <span>≈</span>
+            }
+            <div style={{marginLeft:4}}>
+              <ValueDisplay value={data.weights?.balanceOf} space={space}/>
+            </div>
             {data?.pinHash && (
               <ExternalLink
                 href={`https://ipfs-hk.decoo.io/ipfs/${data.pinHash}`}
