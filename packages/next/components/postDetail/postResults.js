@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { p_14_medium, p_16_semibold } from "styles/textStyles";
 import BigNumber from "bignumber.js";
-import { toFixedPrecision } from "../../frontedUtils";
 import { Fragment } from "react";
 import ValueDisplay from "../valueDisplay";
 import LinkSvg from "public/imgs/icons/link.svg";
@@ -329,8 +328,7 @@ export default function PostResult({ data, voteStatus, space }) {
         <VoteItem>
           <div>Voted</div>
           <div>
-            {toFixedPrecision(votedAmount?.toString(), space.decimals)}{" "}
-            {space.symbol}
+            <ValueDisplay value={votedAmount?.toString()} space={space} />
           </div>
         </VoteItem>
         <VoteItem>
