@@ -1,14 +1,21 @@
-import styled from "styled-components";
-
 import Tooltip from "components/tooltip";
-import { abbreviateBigNumber, toFixedPrecision } from "frontedUtils";
+import { abbreviateBigNumber, getEffectiveNumbers, toPrecision } from "frontedUtils";
 
-export default function ValueDisplay({ value, space }) {
-  const precision = toFixedPrecision(value, space?.decimals, 2, false);
-  if (Number(precision) > 1000) {
+/**
+ * Render raw data into readable crypto amount
+ * @param {string | BigNumber} value - raw full precision amount
+ * @param {object} space - configuration info for the crypto/chain
+ * @param {boolean} showAEM - Initial of showAlmostEqualMark, default false
+ */
+
+export default function ValueDisplay({ value, space, showAEM = false }) {
+  const lostPrecision = (getEffectiveNumbers(value) !== getEffectiveNumbers(abbreviateBigNumber(value)));
+  const precision = toPrecision(value, space?.decimals);
+
+  if (Number(precision) > 1000 || lostPrecision) {
     return (
       <Tooltip size="fit" content={`${precision} ${space?.symbol}`}>
-        <div>{`${abbreviateBigNumber(precision)} ${space?.symbol}`}</div>
+        <div>{showAEM && lostPrecision && "≈"} {`${abbreviateBigNumber(precision)} ${space?.symbol}`}</div>
       </Tooltip>
     );
   }
