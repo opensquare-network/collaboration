@@ -185,7 +185,7 @@ export default function Popup({ data, space, isTop }) {
         <VoteItem>
           <div>Voted</div>
           {vote ? (
-              <ValueDisplay value={total?.toString()} space={space}/>
+            <ValueDisplay value={total?.toString()} space={space} />
           ) : (
             <LoadingSvg />
           )}

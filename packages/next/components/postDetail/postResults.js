@@ -328,7 +328,7 @@ export default function PostResult({ data, voteStatus, space }) {
         <VoteItem>
           <div>Voted</div>
           <div>
-            <ValueDisplay value={votedAmount?.toString()} space={space}/>
+            <ValueDisplay value={votedAmount?.toString()} space={space} />
           </div>
         </VoteItem>
         <VoteItem>
