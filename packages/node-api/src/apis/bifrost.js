@@ -1,15 +1,30 @@
 const {
-  typesBundleForPolkadot: bifrostTypesBundleForPolkadot,
-} = require("@bifrost-finance/type-definitions");
+  rpc: bifrostRpc,
+  signedExtensions: bifrostSignedExtensions,
+  types: bifrostTypes,
+  typesAlias: bifrostTypeAlias,
+  typesBundle: bifrostTypesBundle,
+} = require("@bifrost-finance/types");
 
 const options = {
+  rpc: {
+    ...bifrostRpc,
+  },
+  types: {
+    ...bifrostTypes,
+  },
+  typesAlias: {
+    ...bifrostTypeAlias,
+  },
   typesBundle: {
     spec: {
-      bifrost: bifrostTypesBundleForPolkadot.spec.bifrost,
-      "bifrost-parachain": bifrostTypesBundleForPolkadot.spec.bifrost,
+      ...bifrostTypesBundle,
     },
-  }
-}
+  },
+  signedExtensions: {
+    ...bifrostSignedExtensions,
+  },
+};
 
 module.exports = {
   bifrostOptions: options,
