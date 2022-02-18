@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 import Author from "./author";
 import InternalLink from "components/internalLink";
+import HardLink from "components/hardLink";
 import { p_16_semibold } from "styles/textStyles";
 import { shadow_100, shadow_200 } from "styles/globalCss";
 import StatusTag from "./statusTag";
@@ -113,7 +114,7 @@ export default function Post({ data, showSpace, space, spaces }) {
   const icon = getProjectIcon(data.space);
 
   return (
-    <InternalLink href={`/space/${data.space}/proposal/${data.cid}`}>
+    <HardLink href={`/space/${data.space}/proposal/${data.cid}`}>
       <Wrapper>
         <TitleWrapper>
           <Title>{data.title}</Title>
@@ -151,6 +152,6 @@ export default function Post({ data, showSpace, space, spaces }) {
           <StatusTag>{data.status}</StatusTag>
         </InfoWrapper>
       </Wrapper>
-    </InternalLink>
+    </HardLink>
   );
 }
