@@ -24,11 +24,9 @@ async function reConnect(network, endpoint) {
   const nowApis = chainApis[network] || [];
 
   const index = nowApis.findIndex(({ endpoint: url }) => url === endpoint);
-  if (index < 0) {
-    return
+  if (index >= 0) {
+    nowApis.splice(index, 1);
   }
-
-  nowApis.splice(index, 1);
   delete endpointApis[endpoint]
 
   await createApi(network, endpoint);
