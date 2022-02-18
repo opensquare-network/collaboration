@@ -71,10 +71,7 @@ async function createApiForChain({ chain, endpoints }) {
     }
   }
 
-  return {
-    chain,
-    apis,
-  }
+  chainApis[chain] = apis;
 }
 
 async function createChainApis() {
@@ -85,10 +82,7 @@ async function createChainApis() {
     promises.push(createApiForChain({ chain, endpoints }));
   }
 
-  const chainApisArr = await Promise.all(promises);
-  for (const { chain, apis } of chainApisArr) {
-    chainApis[chain] = apis
-  }
+  return Promise.all(promises);
 }
 
 function getApis(chain) {
