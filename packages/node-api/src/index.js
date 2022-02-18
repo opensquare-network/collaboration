@@ -32,7 +32,7 @@ const server = http.createServer(app.callback());
 
 async function main() {
   await createChainApis()
-  logApiStatus();
+  setInterval(logApiStatus, 5 * 60 * 1000);
 
   const port = parseInt(process.env.SERVER_PORT) || 3223;
   server.listen(port, () =>
