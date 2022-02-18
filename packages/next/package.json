@@ -14,8 +14,8 @@
   },
   "dependencies": {
     "@koa/cors": "^3.1.0",
-    "@polkadot/extension-dapp": "0.42.7",
-    "@polkadot/react-identicon": "0.89.3",
+    "@polkadot/extension-dapp": "0.42.8-6",
+    "@polkadot/react-identicon": "1.1.1",
     "@reduxjs/toolkit": "^1.6.1",
     "@svgr/webpack": "^5.5.0",
     "axios": "^0.24.0",
