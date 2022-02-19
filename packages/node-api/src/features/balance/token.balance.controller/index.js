@@ -1,9 +1,13 @@
+const { queryRmrkBalanceOnBifrost } = require("./bifrost.rmrk");
 const { queryRmrkBalanceOnKarura } = require("./karura.rmrk");
 const { chains, symbols, } = require("../../../constants");
 
 const supportedChainSymbols = {
   [chains.karura]: [
-    "RMRK",
+    symbols.RMRK,
+  ],
+  [chains.bifrost]: [
+    symbols.RMRK,
   ],
 }
 
@@ -26,6 +30,9 @@ class TokenBalanceController {
 
     if (chain === chains.karura && symbol === symbols.RMRK) {
       ctx.body = await queryRmrkBalanceOnKarura(account, blockHashOrHeight);
+      return
+    } else if (chain === chains.bifrost && symbol === symbols.RMRK) {
+      ctx.body = await queryRmrkBalanceOnBifrost(account, blockHashOrHeight);
       return
     }
 
