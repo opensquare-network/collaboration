@@ -8,9 +8,14 @@ const chains = {
   kintsugi: 'kintsugi',
 }
 
+const symbols = {
+  RMRK: "RMRK",
+}
+
 const nodeTimeoutSeconds = 20;
 
 module.exports = {
   chains,
+  symbols,
   nodeTimeoutSeconds
 }
