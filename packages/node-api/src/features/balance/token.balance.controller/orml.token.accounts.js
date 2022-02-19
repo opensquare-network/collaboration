@@ -1,3 +1,5 @@
+const { getBlockHash } = require("../../utils");
+
 /**
  *
  * @param api
@@ -15,6 +17,19 @@ async function queryOrmlTokenAccounts(api, account, blockHash, currency) {
   };
 }
 
+async function queryOrmlTokenAccountsFromApis(apis, account, blockHashOrHeight, currency) {
+  const promises = [];
+
+  const blockHash = await getBlockHash(apis, blockHashOrHeight);
+  for (const api of apis) {
+    promises.push(
+      queryOrmlTokenAccounts(api, account, blockHash, currency)
+    );
+  }
+
+  return Promise.any(promises);
+}
+
 module.exports = {
-  queryOrmlTokenAccounts,
+  queryOrmlTokenAccountsFromApis,
 }
