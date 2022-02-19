@@ -1,15 +1,7 @@
 const { getBlockHash } = require("../../utils");
 const { chains, symbols } = require("../../../constants");
 const { getApis } = require("../../../apis");
-
-async function queryFromOneApi(api, account, blockHash) {
-  const blockApi = await api.at(blockHash);
-  const result = await blockApi.query.tokens.accounts(account, { Token: symbols.RMRK });
-  return {
-    free: result.free.toString(),
-    reserved: result.reserved.toString(),
-  };
-}
+const { queryOrmlTokenAccounts } = require("./orml.token.accounts");
 
 async function queryRmrkBalanceOnBifrost(account, blockHashOrHeight) {
   const promises = [];
@@ -17,7 +9,9 @@ async function queryRmrkBalanceOnBifrost(account, blockHashOrHeight) {
   const apis = getApis(chains.bifrost);
   const blockHash = await getBlockHash(apis, blockHashOrHeight);
   for (const api of apis) {
-    promises.push(queryFromOneApi(api, account, blockHash));
+    promises.push(
+      queryOrmlTokenAccounts(api, account, blockHash, { Token: symbols.RMRK })
+    );
   }
 
   return Promise.any(promises);
