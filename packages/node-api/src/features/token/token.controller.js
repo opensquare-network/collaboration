@@ -1,5 +1,5 @@
-const { queryOrmlTokenAccountsFromApis } = require("../balance/token.balance.controller/orml.token.accounts");
-const { supportedChainSymbols } = require("./constants");
+const { queryOrmlTokenAccountsFromApis } = require("./orml/balance");
+const { supportedChainSymbols, emptyBalance } = require("./constants");
 const { getBlockApi } = require("../utils");
 const { getApis } = require("../../apis");
 const { chains, symbols } = require("../../constants");
@@ -12,7 +12,14 @@ async function getBalanceFromOneApi(api, assetId, address, blockHashOrHeight) {
   }
 
   const account = await blockApi.query.assets.account(assetId, address);
-  return account.toJSON();
+  if (!account.isSome) {
+    return emptyBalance;
+  }
+
+  return {
+    free: account.value?.balance.toString() || 0,
+    reserved: 0,
+  }
 }
 
 async function getBalanceFromApis(apis, assetId, account, blockHashOrHeight) {

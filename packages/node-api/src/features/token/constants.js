@@ -16,4 +16,5 @@ const emptyBalance = {
 
 module.exports = {
   supportedChainSymbols,
+  emptyBalance,
 }
