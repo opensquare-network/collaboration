@@ -1,4 +1,4 @@
-import Identicon from "@osn/react-identicon";
+import Identicon from "@osn/polkadot-react-identicon";
 
 export default function Avatar({address, size = 24}) {
   const theme = "polkadot";
