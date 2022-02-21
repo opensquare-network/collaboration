@@ -74,6 +74,7 @@ const Wrapper = styled.div`
 
     ol,
     ul {
+      font-size: 0.875em;
       padding-left: 1.25em;
     }
 
