@@ -64,13 +64,13 @@ async function getTotalBalance(api, blockHeight, address) {
   return new BigNumber(free || 0).plus(reserved || 0).toString();
 }
 
-async function getTokenBalance(api, assetId, blockHeight, address) {
+async function getTokenBalance(api, assetIdOrSymbol, blockHeight, address) {
   if (isTestAccount(address)) {
     return process.env.TEST_ACCOUNT_BALANCE;
   }
 
   try {
-    const result = await api.get(`/token/${ assetId }/account/${ address }/${ blockHeight }`);
+    const result = await api.get(`/token/${ assetIdOrSymbol }/account/${ address }/${ blockHeight }`);
     const { data: { free, reserved } = {} } = result
     return new BigNumber(free || 0).plus(reserved || 0).toString();
   } catch (err) {

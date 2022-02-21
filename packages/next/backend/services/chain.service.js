@@ -1,3 +1,4 @@
+const { getApi } = require("./node.service");
 const { spaces: spaceServices } = require("../spaces");
 const { getFinalizedHeight } = require("./node.service");
 
@@ -6,15 +7,22 @@ let timer = null;
 
 function startUpdateHeight() {
   const doUpdate = () => {
-    Object.keys(spaceServices).forEach(async (space) => {
+    const networkNames = new Set();
+    Object.keys(spaceServices).forEach(async (spaceName) => {
+      const spaceService = spaceServices[spaceName];
+      spaceService.networks?.forEach(async (network) => {
+        networkNames.add(network.network);
+      });
+    });
+    networkNames.forEach(async (networkName) => {
       try {
-        const api = await spaceServices[space].getApi();
+        const api = await getApi(networkName);
         const { height } = await getFinalizedHeight(api);
-        latestHeights[space] = height;
+        latestHeights[networkName] = height;
       } catch (e) {
-        console.error(`Failed to get ${space} chain height:`, e.message);
+        console.error(`Failed to get ${networkName} chain height:`, e.message);
       }
-    })
+    });
   };
 
   doUpdate();
@@ -26,8 +34,8 @@ function stopUpdateHeight() {
   timer = null;
 }
 
-function getLatestHeight(space) {
-  return latestHeights[space];
+function getLatestHeight(networkName) {
+  return latestHeights[networkName];
 }
 
 module.exports = {

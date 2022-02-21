@@ -7,10 +7,14 @@ const spaces = [
   {
     id: "polkadot",
     name: "Polkadot",
-    network: "polkadot",
     symbol: "DOT",
-    ss58Format: 0,
     decimals: 10,
+    networks: [
+      {
+        network: "polkadot",
+        ss58Format: 0,
+      }
+    ],
     proposeThreshold: "10000000000",
     voteThreshold: "100000000",
     weightStrategy: ["balance-of","quadratic-balance-of"],
@@ -18,10 +22,14 @@ const spaces = [
   {
     id: "kusama",
     name: "Kusama",
-    network: "kusama",
     symbol: "KSM",
-    ss58Format: 2,
     decimals: 12,
+    networks: [
+      {
+        network: "kusama",
+        ss58Format: 2,
+      }
+    ],
     proposeThreshold: "10000000000",
     voteThreshold: "10000000000",
     weightStrategy: ["balance-of","quadratic-balance-of"],
@@ -29,22 +37,30 @@ const spaces = [
   {
     id: "karura",
     name: "Karura",
-    network: "karura",
     symbol: "KAR",
-    ss58Format: 8,
     decimals: 12,
+    networks: [
+      {
+        network: "karura",
+        identity: "kusama",
+        ss58Format: 8,
+      }
+    ],
     proposeThreshold: "1000000000000",
     voteThreshold: "10000000000",
     weightStrategy: ["balance-of","quadratic-balance-of"],
-    identity: "kusama",
   },
   {
     id: "khala",
     name: "Khala",
-    network: "khala",
     symbol: "PHA",
-    ss58Format: 30,
     decimals: 12,
+    networks: [
+      {
+        network: "khala",
+        ss58Format: 30,
+      }
+    ],
     proposeThreshold: "10000000000000",
     voteThreshold: "10000000000",
     weightStrategy: ["balance-of","quadratic-balance-of"],
@@ -52,36 +68,72 @@ const spaces = [
   {
     id: "rmrk",
     name: "RMRK",
-    network: "statemine",
-    assetId: 8,
     symbol: "RMRK",
-    ss58Format: 2,
     decimals: 10,
+    networks: [
+      {
+        type: "asset",
+        network: "statemine",
+        ss58Format: 2,
+        assetId: 8,
+        identity: "kusama",
+      },
+      {
+        type: "token",
+        network: "karura",
+        ss58Format: 8,
+        identity: "kusama",
+      },
+      {
+        type: "token",
+        network: "bifrost",
+        ss58Format: 6,
+      }
+    ],
     proposeThreshold: "500000000000000",
     voteThreshold: "10000000000",
     weightStrategy: ["balance-of","quadratic-balance-of", "biased-voting"],
-    identity: "kusama",
   },
   {
     id: "rmrk-curation",
     name: "RMRK Curation",
-    network: "statemine",
-    assetId: 8,
     symbol: "RMRK",
-    ss58Format: 2,
     decimals: 10,
+    networks: [
+      {
+        type: "asset",
+        network: "statemine",
+        ss58Format: 2,
+        assetId: 8,
+        identity: "kusama",
+      },
+      {
+        type: "token",
+        network: "karura",
+        ss58Format: 8,
+        identity: "kusama",
+      },
+      {
+        type: "token",
+        network: "bifrost",
+        ss58Format: 6,
+      }
+    ],
     proposeThreshold: "4310000000000",
     voteThreshold: "10000000000",
     weightStrategy: ["balance-of","quadratic-balance-of", "biased-voting"],
-    identity: "kusama",
   },
   {
     id: "bifrost",
     name: "Bifrost",
-    network: "bifrost",
     symbol: "BNC",
-    ss58Format: 6,
     decimals: 12,
+    networks: [
+      {
+        network: "bifrost",
+        ss58Format: 6,
+      }
+    ],
     proposeThreshold: "1000000000000",
     voteThreshold: "10000000000",
     weightStrategy: ["balance-of","quadratic-balance-of"],
@@ -89,14 +141,18 @@ const spaces = [
   {
     id: "kintsugi",
     name: "Kintsugi",
-    network: "kintsugi",
     symbol: "KINT",
-    ss58Format: 2092,
     decimals: 12,
+    networks: [
+      {
+        network: "kintsugi",
+        identity: "kusama",
+        ss58Format: 2092,
+      }
+    ],
     proposeThreshold: "1000000000000",
     voteThreshold: "10000000000",
     weightStrategy: ["balance-of","quadratic-balance-of"],
-    identity: "kusama",
   },
 ];
 
