@@ -20,6 +20,19 @@ const endpointApis = {};
 
 const rejectInTime = (seconds) => new Promise((resolve, reject) => setTimeout(reject, seconds * 1000));
 
+async function reConnect(network, endpoint) {
+  const nowApis = chainApis[network] || [];
+
+  const index = nowApis.findIndex(({ endpoint: url }) => url === endpoint);
+  if (index >= 0) {
+    nowApis.splice(index, 1);
+  }
+  delete endpointApis[endpoint]
+
+  await createApi(network, endpoint);
+  statusLogger.info(`Reconnect to ${ network } ${ endpoint }`)
+}
+
 async function createApi(network, endpoint) {
   const provider = new WsProvider(endpoint, 100);
 
@@ -37,14 +50,31 @@ async function createApi(network, endpoint) {
   const api = new ApiPromise({ provider, ...options });
   endpointApis[endpoint] = api;
 
-  api.isReadyOrError.catch(() => {
-    // ignore
+  try {
+    await api.isReadyOrError
+  } catch (e) {
+    statusLogger.error(`Can not connect to ${ network } ${ endpoint }`)
+    return
+  }
+
+  api.on("error", (err) => {
+    reConnect(network, endpoint)
+  });
+  api.on("disconnected", () => {
+    reConnect(network, endpoint)
   });
 
-  return {
+  const nowApis = chainApis[network] || [];
+  if (nowApis.findIndex(api => api.endpoint === endpoint) >= 0) {
+    statusLogger.info(`${network} ${endpoint} existed, ignore`)
+    return
+  }
+
+  const nodeInfo = {
     endpoint,
     api: await api.isReady
   };
+  chainApis[network] = [...nowApis, nodeInfo];
 }
 
 async function createApiInLimitTime(network, endpoint) {
@@ -55,13 +85,10 @@ async function createApiInLimitTime(network, endpoint) {
 }
 
 async function createApiForChain({ chain, endpoints }) {
-  const apis = [];
-
   for (const endpoint of endpoints) {
     try {
-      const api = await createApiInLimitTime(chain, endpoint);
-      apis.push(api);
-      console.log(`${ chain } api with endpoint ${ endpoint } created!`);
+      await createApiInLimitTime(chain, endpoint);
+      console.log(`${ chain }: ${ endpoint } created!`);
     } catch (e) {
       statusLogger.info(`Can not connected to ${ endpoint } in ${ nodeTimeoutSeconds } seconds, just disconnect it`)
       const maybeApi = endpointApis[endpoint]
@@ -69,11 +96,6 @@ async function createApiForChain({ chain, endpoints }) {
         maybeApi.disconnect();
       }
     }
-  }
-
-  return {
-    chain,
-    apis,
   }
 }
 
@@ -85,10 +107,7 @@ async function createChainApis() {
     promises.push(createApiForChain({ chain, endpoints }));
   }
 
-  const chainApisArr = await Promise.all(promises);
-  for (const { chain, apis } of chainApisArr) {
-    chainApis[chain] = apis
-  }
+  return Promise.all(promises);
 }
 
 function getApis(chain) {
@@ -102,8 +121,6 @@ function logApiStatus() {
       statusLogger.info(`\t ${ endpoint } connected: ${ api.isConnected }`)
     }
   })
-
-  setTimeout(logApiStatus, 3 * 60 * 1000);
 }
 
 module.exports = {
