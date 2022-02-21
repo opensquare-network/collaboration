@@ -45,9 +45,16 @@ async function getSpace(space) {
     return null;
   }
 
+  const latestFinalizedHeights = Object.fromEntries((spaceService.networks || []).map(
+    network => [
+      network.network,
+      getLatestHeight(network.network),
+    ]
+  ));
+
   return {
-    ...spaceServices[space],
-    latestFinalizedHeight: getLatestHeight(space),
+    ...spaceService,
+    latestFinalizedHeights,
   };
 }
 
