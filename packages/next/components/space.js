@@ -131,8 +131,8 @@ const AddSpaceLink = styled.a`
   svg{
     margin-right: 8px;
   }
-  &:hover svg *{
-    fill:#1e70bf;
+  &:hover{
+    color: #506176;
   }
 `;
 

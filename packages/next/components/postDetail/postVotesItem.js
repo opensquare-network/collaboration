@@ -21,6 +21,9 @@ const InfoWrapper = styled.div`
   justify-content: space-between;
   font-weight: 500;
   line-height: 24px;
+  .center {
+    justify-content: center;
+  }
 `;
 
 const Label = styled.span`
@@ -94,7 +97,7 @@ export default function PostVotes({ data, space, isMyVote = false }) {
           />
           {isMyVote && <MyVoteTag>My Vote</MyVoteTag>}
         </EqualWrapper>
-        <EqualWrapper>
+        <EqualWrapper className="center">
           <Flex style={{ maxWidth: "30vw" }}>
             <Label>Vote</Label>
             <Ellipsis width={189}>{data.choice}</Ellipsis>
