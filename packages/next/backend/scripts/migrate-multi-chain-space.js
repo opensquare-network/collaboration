@@ -4,51 +4,48 @@ dotenv.config();
 const {
   getSpaceCollection,
   getProposalCollection,
+  getVoteCollection,
 } = require("../mongo");
 
 async function migrateSpaces() {
   const spaceCol = await getSpaceCollection();
   const spaces = await spaceCol.find({}).toArray();
-  if (!spaces.some(space => !space.version)) {
-    console.log("All spaces have version");
-    return;
-  }
-
-  const bulk = spaceCol.initializeUnorderedBulkOp();
   for (const space of spaces) {
-    if (!space.version) {
+    if (space.version) {
+      console.log(`Space ${space.id} has already migrated`);
       continue;
     }
 
-    bulk
-      .find({ id: space.id })
-      .upsert()
-      .update({
+    spaceCol.updateOne(
+      { id: space.id },
+      {
         $set: {
           version: "2",
-          id: space.id,
-          name: space.name,
-          symbol: space.symbol,
-          decimals: space.decimals,
           networks: [
             {
               network: space.network,
               ss58Format: space.ss58Format,
               identity: space.identity,
+              ...(
+                space.assetId
+                ? {
+                  type: "asset",
+                  assetId: space.assetId,
+                }
+                : {}
+              ),
             }
           ],
-          proposeThreshold: space.proposeThreshold,
-          voteThreshold: space.voteThreshold,
-          weightStrategy: space.weightStrategy,
         },
         $unset: {
-          network: ture,
-          ss58Format: ture,
-          identity: ture,
+          network: true,
+          ss58Format: true,
+          identity: true,
+          assetId: true,
         },
-      });
+      }
+    );
   }
-  await bulk.execute();
 }
 
 async function migrateProposals() {
@@ -57,7 +54,7 @@ async function migrateProposals() {
   const spaces = await spaceCol.find({}).toArray();
   const proposals = await proposalCol.find({}).toArray();
   for (const proposal of proposals) {
-    const space = spaces.find(space => space.id === proposal.sapce);
+    const space = spaces.find(space => space.id === proposal.space);
     if (!space) {
       console.log(`Space ${proposal.space} not found`);
       continue;
@@ -66,16 +63,76 @@ async function migrateProposals() {
       console.log(`Space ${proposal.space} has not migrated yet`);
       continue;
     }
-    if (proposal.version) {
-      console.log(`Proposal ${proposal.id} has already migrated`);
+    const spaceNetwork = space.networks?.[0]?.network;
+    if (!spaceNetwork) {
+      console.log(`Space ${proposal.space} network not found`);
       continue;
     }
+
+    if (proposal.version) {
+      console.log(`Proposal ${proposal.cid} has already migrated`);
+      continue;
+    }
+    await proposalCol.updateOne(
+      { cid: proposal.cid },
+      {
+        $set: {
+          version: "2",
+          snapshotHeights: {
+            [spaceNetwork]: proposal.snapshotHeight,
+          },
+          proposerNetwork: spaceNetwork,
+        },
+        $unset: {
+          snapshotHeight: true,
+        }
+      }
+    );
+  }
+}
+
+async function migrateVotes() {
+  const proposalCol = await getProposalCollection();
+  const voteCol = await getVoteCollection();
+  const proposals = await proposalCol.find({}).toArray();
+  const votes = await voteCol.find({}).toArray();
+  for (const vote of votes) {
+    const proposal = proposals.find(p => p._id.toString() === vote.proposal.toString());
+    if (!proposal) {
+      console.log(`Proposal for ${vote.cid} not found`);
+      continue;
+    }
+    if (!proposal.version) {
+      console.log(`Proposal ${proposal.cid} has not migrated yet`);
+      continue;
+    }
+    const proposalNetwork = Object.keys(proposal.snapshotHeights || {})?.[0];
+    if (!proposalNetwork) {
+      console.log(`Proposal ${proposal.cid} network not found`);
+      continue;
+    }
+
+    if (vote.version) {
+      console.log(`Vote ${proposal.cid} has already migrated`);
+      continue;
+    }
+
+    await voteCol.updateOne(
+      { cid: vote.cid },
+      {
+        $set: {
+          version: "2",
+          voterNetwork: proposalNetwork,
+        },
+      }
+    );
   }
 }
 
 async function main() {
   await migrateSpaces();
   await migrateProposals();
+  await migrateVotes();
 }
 
 main()

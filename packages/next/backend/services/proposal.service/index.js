@@ -105,7 +105,7 @@ async function createProposal(
     });
   }
 
-  for (const chain of snapshotHeights) {
+  for (const chain in snapshotHeights) {
     const lastHeight = getLatestHeight(chain);
     if (lastHeight && snapshotHeights[chain] > lastHeight) {
       throw new HttpError(400, `Snapshot height should not be higher than the current finalized height: ${chain}`);
@@ -117,7 +117,7 @@ async function createProposal(
   const network = spaceService.networks?.[proposerNetwork];
   if (!network) {
     throw new HttpError(400, {
-      proposerNetwork: [ "Network not support by space" ],
+      proposerNetwork: [ "Proposer network is not support by space" ],
     });
   }
 
@@ -162,6 +162,7 @@ async function createProposal(
       updatedAt: now,
       cid,
       pinHash,
+      version: "2",
     }
   );
 
@@ -452,6 +453,7 @@ async function vote(
   realVoter,
   data,
   address,
+  voterNetwork,
   signature,
 ) {
   const proposalCol = await getProposalCollection();
@@ -480,14 +482,19 @@ async function vote(
     throw new HttpError(500, "Unknown space");
   }
 
+  const network = spaceService.networks?.[voterNetwork];
+  if (!network) {
+    throw new HttpError(400, "Voter network is not supported by space");
+  }
+
   if (realVoter && realVoter !== address) {
-    const api = await spaceService.getApi();
+    const api = await network.getApi();
     await checkDelegation(api, address, realVoter, proposal.snapshotHeight);
   }
 
   const voter = realVoter || address;
 
-  const balanceOf = await spaceService.getBalance(proposal.snapshotHeight, voter);
+  const balanceOf = await network.getBalance(proposal.snapshotHeight, voter);
   if (new BigNumber(balanceOf).lt(spaceService.voteThreshold)) {
     const symbolVoteThreshold = new BigNumber(spaceService.voteThreshold).div(Math.pow(10, spaceService.decimals)).toString();
     throw new HttpError(400, `Require the minimum of ${symbolVoteThreshold} ${spaceService.symbol} to vote`);
@@ -513,6 +520,8 @@ async function vote(
         weights: {
           balanceOf: toDecimal128(balanceOf),
         },
+        voterNetwork,
+        version: "2",
       },
       $setOnInsert: {
         createdAt: now,
