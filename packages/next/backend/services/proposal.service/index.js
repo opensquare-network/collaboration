@@ -16,6 +16,7 @@ const { checkDelegation } = require("../../services/node.service");
 const { getObjectBufAndCid, pinJsonToIpfsWithTimeout } = require("../ipfs.service");
 const { toDecimal128, enhancedSqrtOfBalance } = require("../../utils");
 const { calcPassing } = require("../biased-voting.service");
+const { getApi } = require("../../services/node.service");
 
 const calcWeights = (vote, decimals, voteThreshold) => {
   return {
@@ -94,9 +95,14 @@ async function createProposal(
   }
 
   // Check if the snapshot heights is matching the space configuration
-  const chains = Object.keys(snapshotHeights);
-  for (const network of spaceService.networks) {
-    if (!chains.includes(network.network)) {
+  const snapshotNetworks = Object.keys(snapshotHeights || {});
+  if (snapshotNetworks.length === 0 || snapshotNetworks.length !== spaceService.networks.length) {
+    throw new HttpError(400, {
+      snapshotHeights: ["The snapshot heights must match the space configuration"],
+    });
+  }
+  for (const spaceNetwork of spaceService.networks) {
+    if (snapshotNetworks.includes(spaceNetwork.network)) {
       continue;
     }
 
@@ -114,7 +120,7 @@ async function createProposal(
 
   const weightStrategy = spaceService.weightStrategy;
 
-  const network = spaceService.networks?.[proposerNetwork];
+  const network = spaceService.networks?.find(item => item.network === proposerNetwork);
   if (!network) {
     throw new HttpError(400, {
       proposerNetwork: [ "Proposer network is not support by space" ],
@@ -482,9 +488,16 @@ async function vote(
     throw new HttpError(500, "Unknown space");
   }
 
-  const network = spaceService.networks?.[voterNetwork];
+  const snapshotNetworks = Object.keys(proposal.snapshotHeights);
+  if (!snapshotNetworks.includes(voterNetwork)) {
+    throw new HttpError(400, "Voter network is not supported by this proposal");
+  }
+
+  const network = spaceService.networks?.find(item => item.network === voterNetwork);
   if (!network) {
-    throw new HttpError(400, "Voter network is not supported by space");
+    throw new HttpError(400, {
+      proposerNetwork: [ "Voter network is not support by space" ],
+    });
   }
 
   if (realVoter && realVoter !== address) {

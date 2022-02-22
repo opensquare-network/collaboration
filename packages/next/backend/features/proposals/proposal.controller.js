@@ -205,6 +205,7 @@ async function vote(ctx) {
     choice,
     remark,
     realVoter,
+    voterNetwork,
   } = data;
 
   if (!proposalCid) {
@@ -222,6 +223,7 @@ async function vote(ctx) {
     realVoter,
     data,
     address,
+    voterNetwork,
     signature,
   );
 }
