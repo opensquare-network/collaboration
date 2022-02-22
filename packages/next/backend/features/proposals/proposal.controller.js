@@ -216,6 +216,10 @@ async function vote(ctx) {
     throw new HttpError(400, { choice: ["Choice is missing"] });
   }
 
+  if (!voterNetwork) {
+    throw new HttpError(400, { voterNetwork: ["Voter network is missing"] });
+  }
+
   ctx.body = await proposalService.vote(
     proposalCid,
     choice,

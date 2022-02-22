@@ -122,12 +122,12 @@ async function createProposal(
     symbol: spaceService.symbol,
     decimals: spaceService.decimals,
     networks: spaceService.networks,
-    version: spaceService.version,
   };
 
   const weightStrategy = spaceService.weightStrategy;
 
   const api = await getApi(proposerNetwork);
+  const lastHeight = getLatestHeight(proposerNetwork);
 
   if (realProposer && realProposer !== address) {
     await checkDelegation(api, address, realProposer, lastHeight);
@@ -506,7 +506,8 @@ async function vote(
 
   const api = await getApi(voterNetwork);
   if (realVoter && realVoter !== address) {
-    await checkDelegation(api, address, realVoter, proposal.snapshotHeight);
+    const snapshotHeight = proposal.snapshotHeights?.[voterNetwork];
+    await checkDelegation(api, address, realVoter, snapshotHeight);
   }
 
   const voter = realVoter || address;
