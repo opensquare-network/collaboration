@@ -78,10 +78,30 @@ async function getTokenBalance(api, assetIdOrSymbol, blockHeight, address) {
   }
 }
 
+function getBalanceFromNetwork(api, { networksConfig, networkName, address, blockHeight }) {
+  const symbol = networksConfig.symbol;
+  const network = networksConfig.networks?.find(n => n.network === networkName);
+  if (!network) {
+    throw new HttpError(400, "Network not found");
+  }
+  const { type, assetId } = network;
+
+  if (type === "asset") {
+    return getTokenBalance(api, assetId, blockHeight, address);
+  }
+
+  if (type === "token") {
+    return getTokenBalance(api, symbol, blockHeight, address);
+  }
+
+  return getTotalBalance(api, blockHeight, address);
+}
+
 module.exports = {
   getTotalBalance,
   getTokenBalance,
   checkDelegation,
   getFinalizedHeight,
   getApi,
+  getBalanceFromNetwork,
 };
