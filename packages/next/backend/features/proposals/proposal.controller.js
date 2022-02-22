@@ -18,8 +18,9 @@ async function createProposal(ctx) {
     choices,
     startDate,
     endDate,
-    snapshotHeight,
+    snapshotHeights,
     realProposer,
+    proposerNetwork,
   } = data;
 
   if (!title) {
@@ -42,7 +43,7 @@ async function createProposal(ctx) {
     throw new HttpError(400, { content: ["End date is missing"] });
   }
 
-  if (snapshotHeight === undefined) {
+  if (!snapshotHeights) {
     throw new HttpError(400, { content: ["Snapshot height is missing"] });
   }
 
@@ -66,6 +67,10 @@ async function createProposal(ctx) {
     throw new HttpError(400, { choices: ["All choices should be different"] });
   }
 
+  if (!proposerNetwork) {
+    throw new HttpError(400, { proposerNetwork: ["Proposer network is missing"] });
+  }
+
   if (
     contentType !== ContentType.Markdown &&
     contentType !== ContentType.Html
@@ -82,8 +87,9 @@ async function createProposal(ctx) {
     choices,
     startDate,
     endDate,
-    snapshotHeight,
+    snapshotHeights,
     realProposer,
+    proposerNetwork,
     data,
     address,
     signature,

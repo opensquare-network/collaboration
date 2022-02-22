@@ -18,6 +18,7 @@ const spaces = [
     proposeThreshold: "10000000000",
     voteThreshold: "100000000",
     weightStrategy: ["balance-of","quadratic-balance-of"],
+    version: "2",
   },
   {
     id: "kusama",
@@ -33,6 +34,7 @@ const spaces = [
     proposeThreshold: "10000000000",
     voteThreshold: "10000000000",
     weightStrategy: ["balance-of","quadratic-balance-of"],
+    version: "2",
   },
   {
     id: "karura",
@@ -49,6 +51,7 @@ const spaces = [
     proposeThreshold: "1000000000000",
     voteThreshold: "10000000000",
     weightStrategy: ["balance-of","quadratic-balance-of"],
+    version: "2",
   },
   {
     id: "khala",
@@ -64,6 +67,7 @@ const spaces = [
     proposeThreshold: "10000000000000",
     voteThreshold: "10000000000",
     weightStrategy: ["balance-of","quadratic-balance-of"],
+    version: "2",
   },
   {
     id: "rmrk",
@@ -93,6 +97,7 @@ const spaces = [
     proposeThreshold: "500000000000000",
     voteThreshold: "10000000000",
     weightStrategy: ["balance-of","quadratic-balance-of", "biased-voting"],
+    version: "2",
   },
   {
     id: "rmrk-curation",
@@ -122,6 +127,7 @@ const spaces = [
     proposeThreshold: "4310000000000",
     voteThreshold: "10000000000",
     weightStrategy: ["balance-of","quadratic-balance-of", "biased-voting"],
+    version: "2",
   },
   {
     id: "bifrost",
@@ -137,6 +143,7 @@ const spaces = [
     proposeThreshold: "1000000000000",
     voteThreshold: "10000000000",
     weightStrategy: ["balance-of","quadratic-balance-of"],
+    version: "2",
   },
   {
     id: "kintsugi",
@@ -153,6 +160,7 @@ const spaces = [
     proposeThreshold: "1000000000000",
     voteThreshold: "10000000000",
     weightStrategy: ["balance-of","quadratic-balance-of"],
+    version: "2",
   },
 ];
 

@@ -60,8 +60,9 @@ async function createProposal(
   choices,
   startDate,
   endDate,
-  snapshotHeight,
+  snapshotHeights,
   realProposer,
+  proposerNetwork,
   data,
   address,
   signature,
@@ -87,25 +88,47 @@ async function createProposal(
     throw new HttpError(400, { choices: ["There must be at least 2 different choices"] });
   }
 
-  const lastHeight = getLatestHeight(space);
-  if (lastHeight && snapshotHeight > lastHeight) {
-    throw new HttpError(400, "Snapshot height should not be higher than the current finalized height");
-  }
-
   const spaceService = spaceServices[space];
   if (!spaceService) {
     throw new HttpError(500, "Unknown space");
   }
+
+  // Check if the snapshot heights is matching the space configuration
+  const chains = Object.keys(snapshotHeights);
+  for (const network of spaceService.networks) {
+    if (!chains.includes(network.network)) {
+      continue;
+    }
+
+    throw new HttpError(400, {
+      snapshotHeights: [ `Missing snapshot height of ${network.network}` ],
+    });
+  }
+
+  for (const chain of snapshotHeights) {
+    const lastHeight = getLatestHeight(chain);
+    if (lastHeight && snapshotHeights[chain] > lastHeight) {
+      throw new HttpError(400, `Snapshot height should not be higher than the current finalized height: ${chain}`);
+    }
+  }
+
   const weightStrategy = spaceService.weightStrategy;
 
+  const network = spaceService.networks?.[proposerNetwork];
+  if (!network) {
+    throw new HttpError(400, {
+      proposerNetwork: [ "Network not support by space" ],
+    });
+  }
+
   if (realProposer && realProposer !== address) {
-    const api = await spaceService.getApi();
+    const api = await network.getApi();
     await checkDelegation(api, address, realProposer, lastHeight);
   }
 
   const proposer = realProposer || address;
 
-  const creatorBalance = await spaceService.getBalance(lastHeight, proposer);
+  const creatorBalance = await network.getBalance(lastHeight, proposer);
   const bnCreatorBalance = new BigNumber(creatorBalance);
   if (bnCreatorBalance.lt(spaceService.proposeThreshold)) {
     throw new HttpError(403, `Balance is not enough to create the proposal`);
@@ -127,9 +150,10 @@ async function createProposal(
       choices: uniqueChoices,
       startDate,
       endDate,
-      snapshotHeight,
+      snapshotHeights,
       weightStrategy,
       proposer,
+      proposerNetwork,
       data,
       address,
       signature,
