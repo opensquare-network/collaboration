@@ -504,8 +504,8 @@ async function vote(
     throw new HttpError(400, "Voter network is not supported by this proposal");
   }
 
+  const api = await getApi(voterNetwork);
   if (realVoter && realVoter !== address) {
-    const api = await getApi(voterNetwork);
     await checkDelegation(api, address, realVoter, proposal.snapshotHeight);
   }
 
