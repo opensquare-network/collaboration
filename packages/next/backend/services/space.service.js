@@ -1,6 +1,7 @@
 const { getLatestHeight } = require("./chain.service");
 const { getProposalCollection } = require("../mongo");
 const { spaces: spaceServices } = require("../spaces");
+const { getApi, getFinalizedHeightFromTime } = require("./node.service");
 
 async function getSpaces() {
   const now = Date.now();
@@ -58,7 +59,29 @@ async function getSpace(space) {
   };
 }
 
+async function getSpaceNetworkHeights(space, time) {
+  const spaceService = spaceServices[space];
+  if (!spaceService) {
+    return null;
+  }
+
+  const heights = await Promise.all(
+    (spaceService.networks || []).map(async (network) => {
+      const api = await getApi(network.network);
+      try {
+        const result = await getFinalizedHeightFromTime(api, time);
+        return [network.network, result];
+      } catch (err) {
+        return [network.network, null];
+      }
+    })
+  );
+
+  return Object.fromEntries(heights);
+}
+
 module.exports = {
   getSpace,
   getSpaces,
+  getSpaceNetworkHeights,
 }
