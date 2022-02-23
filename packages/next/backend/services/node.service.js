@@ -97,6 +97,19 @@ function getBalanceFromNetwork(api, { networksConfig, networkName, address, bloc
   return getTotalBalance(api, blockHeight, address);
 }
 
+async function getFinalizedHeightFromTime(api, time) {
+  try {
+    const result = await api.get("/chain/height", {
+      params: {
+        time,
+      },
+    });
+    return result.data;
+  } catch (err) {
+    throw new HttpError(500, "Failed to get finalized height from time");
+  }
+}
+
 module.exports = {
   getTotalBalance,
   getTokenBalance,
@@ -104,4 +117,5 @@ module.exports = {
   getFinalizedHeight,
   getApi,
   getBalanceFromNetwork,
+  getFinalizedHeightFromTime,
 };

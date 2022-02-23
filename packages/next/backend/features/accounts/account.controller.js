@@ -17,7 +17,7 @@ async function getSpaceAccountBalance(ctx) {
   }
 
   const spaceService = spaceServices[space];
-  const blockHeight = snapshot ? parseInt(snapshot) : getLatestHeight(space);
+  const blockHeight = snapshot ? parseInt(snapshot) : getLatestHeight(network);
   const api = await getApi(network);
   const totalBalance = await getBalanceFromNetwork(
     api,

@@ -11,6 +11,7 @@ const spaceFeatureRoutes = [
 const commonFeatureRouters = [
   require("./features/spaces/routes"),
   require("./features/home/routes"),
+  require("./features/chain/routes"),
 ];
 
 
