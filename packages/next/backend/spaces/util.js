@@ -18,30 +18,13 @@ function createSpace(spaceConfig) {
 
   return {
     ...spaceConfig,
-
     // A asset can be appear on multiple networks,
-    // Each network has its own identity and api connection
-    // The method to read token balance on different networks could be different
+    // Each network has its own identity
     networks: networks?.map(network => {
-      const { type, network: networkName, assetId, identity } = network;
-
-      const _getApi = () => getApi(networkName);
-      const _getBalance = async (blockHeight, address) => {
-        const api = await _getApi();
-        if (type === "asset") {
-          return await getTokenBalance(api, assetId, blockHeight, address);
-        } else if (type === "token") {
-          return await getTokenBalance(api, symbol, blockHeight, address);
-        } else {
-          return await getTotalBalance(api, blockHeight, address);
-        }
-      };
-
+      const { identity } = network;
       return {
         ...network,
         identity: getNetworkIdentity(identity),
-        getApi: _getApi,
-        getBalance: _getBalance,
       };
     }),
   };

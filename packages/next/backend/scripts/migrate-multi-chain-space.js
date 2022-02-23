@@ -59,6 +59,25 @@ async function migrateProposals() {
       console.log(`Space ${proposal.space} not found`);
       continue;
     }
+
+    const networksConfig = {
+      symbol: space.symbol,
+      decimals: space.decimals,
+      networks: space.networks,
+    };
+
+    // TODO: remove this when we are ready to merge changes to main
+    if (!proposal.networksConfig) {
+      await proposalCol.updateOne(
+        { cid: proposal.cid },
+        {
+          $set: {
+            networksConfig,
+          },
+        }
+      );
+    }
+
     if (!space.version) {
       console.log(`Space ${proposal.space} has not migrated yet`);
       continue;
@@ -73,15 +92,17 @@ async function migrateProposals() {
       console.log(`Proposal ${proposal.cid} has already migrated`);
       continue;
     }
+
     await proposalCol.updateOne(
       { cid: proposal.cid },
       {
         $set: {
-          version: "2",
+          networksConfig,
           snapshotHeights: {
             [spaceNetwork]: proposal.snapshotHeight,
           },
           proposerNetwork: spaceNetwork,
+          version: "2",
         },
         $unset: {
           snapshotHeight: true,

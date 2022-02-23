@@ -16,7 +16,7 @@ const { checkDelegation } = require("../../services/node.service");
 const { getObjectBufAndCid, pinJsonToIpfsWithTimeout } = require("../ipfs.service");
 const { toDecimal128, enhancedSqrtOfBalance } = require("../../utils");
 const { calcPassing } = require("../biased-voting.service");
-const { getApi } = require("../../services/node.service");
+const { getApi, getBalanceFromNetwork } = require("../../services/node.service");
 
 const calcWeights = (vote, decimals, voteThreshold) => {
   return {
@@ -118,23 +118,33 @@ async function createProposal(
     }
   }
 
+  const networksConfig = {
+    symbol: spaceService.symbol,
+    decimals: spaceService.decimals,
+    networks: spaceService.networks,
+  };
+
   const weightStrategy = spaceService.weightStrategy;
 
-  const network = spaceService.networks?.find(item => item.network === proposerNetwork);
-  if (!network) {
-    throw new HttpError(400, {
-      proposerNetwork: [ "Proposer network is not support by space" ],
-    });
-  }
+  const api = await getApi(proposerNetwork);
+  const lastHeight = getLatestHeight(proposerNetwork);
 
   if (realProposer && realProposer !== address) {
-    const api = await network.getApi();
     await checkDelegation(api, address, realProposer, lastHeight);
   }
 
   const proposer = realProposer || address;
 
-  const creatorBalance = await network.getBalance(lastHeight, proposer);
+  const creatorBalance = await getBalanceFromNetwork(
+    api,
+    {
+      networksConfig,
+      networkName: proposerNetwork,
+      address: proposer,
+      blockHeight: lastHeight,
+    }
+  );
+
   const bnCreatorBalance = new BigNumber(creatorBalance);
   if (bnCreatorBalance.lt(spaceService.proposeThreshold)) {
     throw new HttpError(403, `Balance is not enough to create the proposal`);
@@ -148,6 +158,7 @@ async function createProposal(
   const result = await proposalCol.insertOne(
     {
       space,
+      networksConfig,
       postUid,
       title,
       content: contentType === ContentType.Html ? safeHtml(content) : content,
@@ -493,21 +504,23 @@ async function vote(
     throw new HttpError(400, "Voter network is not supported by this proposal");
   }
 
-  const network = spaceService.networks?.find(item => item.network === voterNetwork);
-  if (!network) {
-    throw new HttpError(400, {
-      proposerNetwork: [ "Voter network is not support by space" ],
-    });
-  }
-
+  const api = await getApi(voterNetwork);
   if (realVoter && realVoter !== address) {
-    const api = await network.getApi();
-    await checkDelegation(api, address, realVoter, proposal.snapshotHeight);
+    const snapshotHeight = proposal.snapshotHeights?.[voterNetwork];
+    await checkDelegation(api, address, realVoter, snapshotHeight);
   }
 
   const voter = realVoter || address;
 
-  const balanceOf = await network.getBalance(proposal.snapshotHeight, voter);
+  const balanceOf = await getBalanceFromNetwork(
+    api,
+    {
+      networksConfig: proposal.networksConfig,
+      networkName: voterNetwork,
+      address: voter,
+      blockHeight: proposal.snapshotHeights?.[voterNetwork],
+    }
+  );
   if (new BigNumber(balanceOf).lt(spaceService.voteThreshold)) {
     const symbolVoteThreshold = new BigNumber(spaceService.voteThreshold).div(Math.pow(10, spaceService.decimals)).toString();
     throw new HttpError(400, `Require the minimum of ${symbolVoteThreshold} ${spaceService.symbol} to vote`);
@@ -519,6 +532,7 @@ async function vote(
     {
       proposal: proposal._id,
       voter,
+      voterNetwork,
     },
     {
       $set: {
@@ -533,7 +547,6 @@ async function vote(
         weights: {
           balanceOf: toDecimal128(balanceOf),
         },
-        voterNetwork,
         version: "2",
       },
       $setOnInsert: {
