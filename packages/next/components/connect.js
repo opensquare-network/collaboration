@@ -130,10 +130,10 @@ export default function Connect({ setShowMenu }) {
   const closeModal = () => dispatch(closeConnect());
 
   const chains = [
-    {name: 'polkadot'},
-    {name: 'bifrost'},
-    {name: 'karura'},
-    {name: 'khala'},
+    { name: "polkadot" },
+    { name: "bifrost" },
+    { name: "karura" },
+    { name: "khala" },
   ];
 
   return (
@@ -151,7 +151,10 @@ export default function Connect({ setShowMenu }) {
           <StyledTitle>Connect Wallet</StyledTitle>
 
           <StyledText>Chain</StyledText>
-          <ChainSelector chains={chains} onSelect={(chain) => setChain(chain)}/>
+          <ChainSelector
+            chains={chains}
+            onSelect={(chain) => setChain(chain)}
+          />
 
           <StyledText>Account</StyledText>
           <AccountSelector
