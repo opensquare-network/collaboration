@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 import Pagination from "components/pagination";
 import PostVotesItem from "./postVotesItem";
-import { findNetworkConfig } from "../../services/proposal";
+import { findNetworkConfig } from "../../services/util";
 
 const PaginationWrapper = styled.div`
   padding: 20px 0;
@@ -23,7 +23,7 @@ const NoVoteWrapper = styled.div`
 `;
 
 export default function PostVotes({ proposal, votes, myVote }) {
-  const getNetwork = (vote) => findNetworkConfig(proposal, vote.voterNetwork);
+  const getNetwork = (vote) => findNetworkConfig(proposal.networksConfig, vote.voterNetwork);
 
   return (
     <div>

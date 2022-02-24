@@ -11,7 +11,7 @@ import { p_24 } from "../styles/paddings";
 import { useEffect, useState } from "react";
 import { useWindowSize } from "../frontedUtils/hooks";
 import PostResult from "./postResult";
-import { findNetworkConfig } from "../services/proposal";
+import { findNetworkConfig } from "../services/util";
 
 const Wrapper = styled.div`
   background: #ffffff;
@@ -114,7 +114,7 @@ export default function Post({ data, showSpace, space, spaces }) {
 
   const icon = getProjectIcon(data.space);
 
-  const proposerNetworkConfig = findNetworkConfig(data, data.proposerNetwork);
+  const proposerNetworkConfig = findNetworkConfig(data.networksConfig, data.proposerNetwork);
 
   return (
     <HardLink href={`/space/${data.space}/proposal/${data.cid}`}>
