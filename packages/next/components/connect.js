@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import {
   isWeb3Injected,
   web3Accounts,
@@ -19,6 +19,8 @@ import {
 } from "../styles/textStyles";
 import SvgClose from "public/imgs/icons/close.svg";
 import { closeConnect } from "../store/reducers/showConnectSlice";
+import { useRouter } from "next/router";
+import ChainSelector from "@/components/chainSelector";
 
 const Wrapper = styled.div``;
 
@@ -69,9 +71,11 @@ const ActionBar = styled.div`
 
 export default function Connect({ setShowMenu }) {
   const dispatch = useDispatch();
+  const router = useRouter();
   const isMounted = useIsMounted();
   const [hasExtension, setHasExtension] = useState(null);
   const [accounts, setAccounts] = useState([]);
+  const [chain, setChain] = useState();
   const [address, setAddress] = useState();
   const [isPolkadotAccessible, setIsPolkadotAccessible] = useState(null);
 
@@ -125,6 +129,13 @@ export default function Connect({ setShowMenu }) {
 
   const closeModal = () => dispatch(closeConnect());
 
+  const chains = [
+    { name: "polkadot" },
+    { name: "bifrost" },
+    { name: "karura" },
+    { name: "khala" },
+  ];
+
   return (
     <Wrapper>
       <StyledModal
@@ -138,8 +149,14 @@ export default function Connect({ setShowMenu }) {
             <SvgClose onClick={closeModal} />
           </CloseBar>
           <StyledTitle>Connect Wallet</StyledTitle>
-          <StyledText>Account</StyledText>
 
+          <StyledText>Chain</StyledText>
+          <ChainSelector
+            chains={chains}
+            onSelect={(chain) => setChain(chain)}
+          />
+
+          <StyledText>Account</StyledText>
           <AccountSelector
             accounts={accounts}
             onSelect={(account) => setAddress(account?.address)}
