@@ -14,6 +14,7 @@ import { timeDuration } from "frontedUtils";
 import MicromarkMd from "components/micromarkMd";
 import ExternalLink from "components/externalLink";
 import { encodeAddress } from "@polkadot/util-crypto";
+import { findNetworkConfig } from "services/util";
 
 const Item = styled.div`
   padding-top: 20px;
@@ -83,7 +84,7 @@ const NoCommentWrapper = styled.div`
   border-bottom: 1px solid #f0f3f8;
 `;
 
-export default function PostDiscussion({ data, space, comments }) {
+export default function PostDiscussion({ proposal, space, comments }) {
   const [content, setContent] = useState("");
   const viewfunc = useViewfunc();
   const account = useSelector(accountSelector);
@@ -119,7 +120,7 @@ export default function PostDiscussion({ data, space, comments }) {
     try {
       result = await viewfunc.addComment(
         space.id,
-        data?.cid,
+        proposal?.cid,
         content,
         "markdown",
         encodeAddress(account?.address, space.ss58Format)
@@ -154,13 +155,15 @@ export default function PostDiscussion({ data, space, comments }) {
     }
   };
 
+  const getNetwork = (comment) => findNetworkConfig(proposal.networksConfig, comment.commenterNetwork);
+
   return (
     <div>
       {(comments?.items || []).map((item, index) => (
         <Item key={index}>
           <InfoWrapper>
             <DividerWrapper>
-              <Author address={item.address} space={space} size={20} />
+              <Author address={item.address} space={getNetwork(item)} size={20} />
               <div>{timeDuration(item.createdAt)}</div>
             </DividerWrapper>
             {item?.pinHash && (
