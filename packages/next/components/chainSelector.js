@@ -65,7 +65,7 @@ const ChainSelector = ({ chains = [], onSelect = () => {} }) => {
   const options = chains.map((item, index) => ({
     key: index,
     value: index,
-    content: <ChainItem chainName={item.name} />,
+    content: <ChainItem chainName={item.network} />,
   }));
 
   return (
@@ -78,7 +78,7 @@ const ChainSelector = ({ chains = [], onSelect = () => {} }) => {
             setSelectedIndex(value);
           }}
         />
-        <ChainItem chainName={chains?.[selectedIndex]?.name} header />
+        <ChainItem chainName={chains?.[selectedIndex]?.network} header />
       </DropdownWrapper>
     </Wrapper>
   );

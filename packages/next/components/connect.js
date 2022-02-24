@@ -19,7 +19,6 @@ import {
 } from "../styles/textStyles";
 import SvgClose from "public/imgs/icons/close.svg";
 import { closeConnect } from "../store/reducers/showConnectSlice";
-import { useRouter } from "next/router";
 import ChainSelector from "@/components/chainSelector";
 
 const Wrapper = styled.div``;
@@ -69,9 +68,8 @@ const ActionBar = styled.div`
   margin-top: 28px;
 `;
 
-export default function Connect({ setShowMenu }) {
+export default function Connect({ space, setShowMenu }) {
   const dispatch = useDispatch();
-  const router = useRouter();
   const isMounted = useIsMounted();
   const [hasExtension, setHasExtension] = useState(null);
   const [accounts, setAccounts] = useState([]);
@@ -129,13 +127,6 @@ export default function Connect({ setShowMenu }) {
 
   const closeModal = () => dispatch(closeConnect());
 
-  const chains = [
-    { name: "polkadot" },
-    { name: "bifrost" },
-    { name: "karura" },
-    { name: "khala" },
-  ];
-
   return (
     <Wrapper>
       <StyledModal
@@ -152,7 +143,7 @@ export default function Connect({ setShowMenu }) {
 
           <StyledText>Chain</StyledText>
           <ChainSelector
-            chains={chains}
+            chains={space?.networks || []}
             onSelect={(chain) => setChain(chain)}
           />
 
