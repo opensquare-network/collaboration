@@ -80,7 +80,7 @@ const AboutDivider = styled.div`
 `;
 
 const ChainIcons = styled.div`
-  > svg {
+  > svg, img {
     margin-right: 4px;
     vertical-align: middle;
   }
@@ -100,8 +100,10 @@ export default function ListInfo({ space }) {
         <AboutItem>
           <AboutIcon src="/imgs/icons/network.svg" />
           <div>
-            <AboutName>Network</AboutName>
-            <ChainIcons>{space.networks?.map(network => <ChainIcon chainName={network.network} />)}</ChainIcons>
+            <AboutName>Chains</AboutName>
+            <ChainIcons>{space.networks?.map(
+              (network, index) => <ChainIcon key={index} chainName={network.network} />
+            )}</ChainIcons>
           </div>
           <Tooltip
             content={space.networks?.map(item => capitalize(item.network)).join(", ")}
