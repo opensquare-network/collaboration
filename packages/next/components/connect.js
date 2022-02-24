@@ -73,7 +73,7 @@ export default function Connect({ space, setShowMenu }) {
   const isMounted = useIsMounted();
   const [hasExtension, setHasExtension] = useState(null);
   const [accounts, setAccounts] = useState([]);
-  const [chain, setChain] = useState();
+  const [chain, setChain] = useState(space.networks[0]);
   const [address, setAddress] = useState();
   const [isPolkadotAccessible, setIsPolkadotAccessible] = useState(null);
 
@@ -117,7 +117,9 @@ export default function Connect({ space, setShowMenu }) {
 
   const getConnection = async () => {
     try {
-      dispatch(setAccount(address));
+      const accounts = {};
+      accounts[space?.id] = { address, network: chain };
+      dispatch(setAccount(accounts));
       dispatch(closeConnect());
       setShowMenu(false);
     } catch (error) {
@@ -144,7 +146,7 @@ export default function Connect({ space, setShowMenu }) {
           <StyledText>Chain</StyledText>
           <ChainSelector
             chains={space?.networks || []}
-            onSelect={(chain) => setChain(chain)}
+            onSelect={(chain) => setChain(chain.network)}
           />
 
           <StyledText>Account</StyledText>
