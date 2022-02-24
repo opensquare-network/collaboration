@@ -34,5 +34,4 @@ module.exports = {
   getCommentCollection: () => getCollection("comment"),
   getStatusCollection: () => getCollection("status"),
   getSpaceCollection: () => getCollection("space"),
-  getNetworkCollection: () => getCollection("network"),
 };
