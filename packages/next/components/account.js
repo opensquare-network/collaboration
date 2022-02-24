@@ -167,7 +167,6 @@ export default function Account({ space, showMenu, setShowMenu }) {
   const account = useSelector(accountSelector);
   const showConnect = useSelector(showConnectSelector);
   const [pageMounted, setPageMounted] = useState(false);
-  // const [showConnectModal, setShowConnectModal] = useState(false);
   const [identity, setIdentity] = useState();
   const [address, setAddress] = useState(account?.address);
   const chain = space?.identity || space;
@@ -198,6 +197,10 @@ export default function Account({ space, showMenu, setShowMenu }) {
     }
   }, [chain, account?.address, isMounted]);
 
+  if (!space) {
+    return null;
+  }
+
   const onLogout = () => {
     dispatch(logout());
     setShowMenu(false);
@@ -212,7 +215,7 @@ export default function Account({ space, showMenu, setShowMenu }) {
       >
         Connect Wallet
       </DarkButton>
-      {showConnect && <Connect setShowMenu={setShowMenu} />}
+      {showConnect && <Connect space={space} setShowMenu={setShowMenu} />}
     </div>
   );
 
