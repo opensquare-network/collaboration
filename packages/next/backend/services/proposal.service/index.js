@@ -708,6 +708,30 @@ async function getHottestProposals() {
   return proposals.map(addStatus);
 }
 
+async function getVoterBalance(proposalCid, network, address, snapshot) {
+  const proposalCol = await getProposalCollection();
+  const proposal = await proposalCol.findOne({ cid: proposalCid });
+  if (!proposal) {
+    throw new HttpError(404, "Proposal does not exists");
+  }
+  const networksConfig = proposal.networksConfig;
+
+  const blockHeight = snapshot ? parseInt(snapshot) : getLatestHeight(network);
+  const api = await getApi(network);
+  const totalBalance = await getBalanceFromNetwork(
+    api,
+    {
+      networksConfig,
+      networkName: network,
+      address,
+      blockHeight,
+    }
+  );
+  ctx.body = {
+    balance: totalBalance
+  };
+}
+
 module.exports = {
   createProposal,
   getProposalBySpace,
@@ -722,4 +746,5 @@ module.exports = {
   getAddressVote,
   getStats,
   getHottestProposals,
+  getVoterBalance,
 };
