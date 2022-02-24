@@ -7,13 +7,13 @@ import { p_14_normal, p_16_semibold } from "../styles/textStyles";
 
 const Text = styled.p`
   ${p_16_semibold};
-  color: #1E2134;
+  color: #1e2134;
   margin: 0;
 `;
 
 const TextMinor = styled(Text)`
   ${p_14_normal};
-  color: #9DA9BB;
+  color: #9da9bb;
 `;
 
 const ItemWrapper = styled.div`

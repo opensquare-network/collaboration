@@ -18,7 +18,7 @@ const StyledDropdown = styled(Dropdown)`
 
 const Text = styled.p`
   ${p_14_medium};
-  color: #1E2134;
+  color: #1e2134;
   margin: 0;
 `;
 
@@ -33,23 +33,23 @@ const ItemWrapper = styled.div`
   }
 
   ${(p) =>
-          p.header &&
-          css`
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 100;
-            pointer-events: none;
-          `}
+    p.header &&
+    css`
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 100;
+      pointer-events: none;
+    `}
   svg {
     margin-right: 8px;
   }
 `;
 
-const ChainItem = ({header, chainName}) => {
+const ChainItem = ({ header, chainName }) => {
   return (
     <ItemWrapper header={header}>
-      <ChainIcon chainName={chainName}/>
+      <ChainIcon chainName={chainName} />
       <div>
         <Text>{chainName}</Text>
       </div>
@@ -57,11 +57,7 @@ const ChainItem = ({header, chainName}) => {
   );
 };
 
-const ChainSelector = ({
-  chains=[],
-                         onSelect = () => {
-                         },
-                       }) => {
+const ChainSelector = ({ chains = [], onSelect = () => {} }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   useEffect(() => {
     onSelect(chains[selectedIndex]);
@@ -69,9 +65,7 @@ const ChainSelector = ({
   const options = chains.map((item, index) => ({
     key: index,
     value: index,
-    content: (
-      <ChainItem chainName={item.name}/>
-    ),
+    content: <ChainItem chainName={item.name} />,
   }));
 
   return (
@@ -80,14 +74,11 @@ const ChainSelector = ({
         <StyledDropdown
           selection
           options={options}
-          onChange={(_, {value}) => {
+          onChange={(_, { value }) => {
             setSelectedIndex(value);
           }}
         />
-        <ChainItem
-          chainName={chains?.[selectedIndex]?.name}
-          header
-        />
+        <ChainItem chainName={chains?.[selectedIndex]?.name} header />
       </DropdownWrapper>
     </Wrapper>
   );

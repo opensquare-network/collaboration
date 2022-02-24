@@ -4,20 +4,20 @@ import Karura from "public/imgs/icons/chain/karura.svg";
 import Khala from "public/imgs/icons/chain/khala.svg";
 import Default from "public/imgs/icons/chain/default.svg";
 
-function ChainIcon({chainName}) {
-  if (chainName === 'bifrost') {
-    return <Bifrost/>;
+function ChainIcon({ chainName }) {
+  if (chainName === "bifrost") {
+    return <Bifrost />;
   }
-  if (chainName === 'polkadot') {
-    return <Polkadot/>;
+  if (chainName === "polkadot") {
+    return <Polkadot />;
   }
-  if (chainName === 'karura') {
-    return <Karura/>;
+  if (chainName === "karura") {
+    return <Karura />;
   }
-  if (chainName === 'khala') {
-    return <Khala/>;
+  if (chainName === "khala") {
+    return <Khala />;
   }
-  return <Default/>;
+  return <Default />;
 }
 
 export default ChainIcon;
