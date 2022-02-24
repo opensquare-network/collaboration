@@ -383,6 +383,7 @@ async function postComment(
   proposalCid,
   content,
   contentType,
+  commenterNetwork,
   data,
   address,
   signature,
@@ -391,6 +392,11 @@ async function postComment(
   const proposal = await proposalCol.findOne({ cid: proposalCid });
   if (!proposal) {
     throw new HttpError(400, "Proposal not found.");
+  }
+
+  const snapshotNetworks = Object.keys(proposal.snapshotHeights);
+  if (!snapshotNetworks.includes(commenterNetwork)) {
+    throw new HttpError(400, "Commenter network is not supported by this proposal");
   }
 
   const { cid, pinHash } = await pinData(data, address, signature, "voting-comment-");
@@ -404,6 +410,7 @@ async function postComment(
     proposal: proposal._id,
     content: contentType === ContentType.Html ? safeHtml(content) : content,
     contentType,
+    commenterNetwork,
     data,
     address,
     signature,
@@ -560,7 +567,7 @@ async function vote(
   );
 
   if (!result.ok) {
-    throw new HttpError(500, "Failed to create comment");
+    throw new HttpError(500, "Failed to create vote");
   }
 
   await proposalCol.updateOne(

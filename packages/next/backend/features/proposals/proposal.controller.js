@@ -159,7 +159,8 @@ async function postComment(ctx) {
   const {
     proposalCid,
     content,
-    contentType
+    contentType,
+    commenterNetwork,
   } = data;
 
   if (!content) {
@@ -173,10 +174,15 @@ async function postComment(ctx) {
     throw new HttpError(400, { contentType: ["Unknown content type"] });
   }
 
+  if (!commenterNetwork) {
+    throw new HttpError(400, { commenterNetwork: ["Commenter network is missing"] });
+  }
+
   ctx.body = await proposalService.postComment(
     proposalCid,
     content,
     contentType,
+    commenterNetwork,
     data,
     address,
     signature,
