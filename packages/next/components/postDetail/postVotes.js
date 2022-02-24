@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 import Pagination from "components/pagination";
 import PostVotesItem from "./postVotesItem";
+import { findNetworkConfig } from "../../services/util";
 
 const PaginationWrapper = styled.div`
   padding: 20px 0;
@@ -21,18 +22,20 @@ const NoVoteWrapper = styled.div`
   border-bottom: 1px solid #f0f3f8;
 `;
 
-export default function PostVotes({ space, votes, myVote }) {
+export default function PostVotes({ proposal, votes, myVote }) {
+  const getNetwork = (vote) => findNetworkConfig(proposal.networksConfig, vote.voterNetwork);
+
   return (
     <div>
       <div>
         {myVote && (
-          <PostVotesItem data={myVote} space={space} isMyVote={true} />
+          <PostVotesItem data={myVote} space={getNetwork(myVote)} isMyVote={true} />
         )}
       </div>
       {(votes?.items || [])
         .filter((item) => item.voter !== myVote?.voter)
         .map((item, index) => (
-          <PostVotesItem data={item} space={space} key={index} />
+          <PostVotesItem data={item} space={getNetwork(item)} key={index} />
         ))}
       {!votes?.items?.length > 0 && (
         <NoVoteWrapper>No current votes</NoVoteWrapper>

@@ -55,9 +55,8 @@ export default function PostTab({
         value: "votes",
         component: (
           <PostVotes
-            data={data}
+            proposal={data}
             votes={votes}
-            space={space}
             myVote={myVote}
           />
         ),
