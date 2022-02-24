@@ -7,6 +7,8 @@ import {
 } from "../styles/textStyles";
 import SpaceLogo from "@/components/spaceLogo";
 import Tooltip from "@/components/tooltip";
+import ChainIcon from "./chain/spaceChainIcon";
+import { capitalize } from "frontedUtils";
 
 const Wrapper = styled.div`
   display: flex;
@@ -77,6 +79,13 @@ const AboutDivider = styled.div`
   margin: 0 40px;
 `;
 
+const ChainIcons = styled.div`
+  > svg {
+    margin-right: 4px;
+    vertical-align: middle;
+  }
+`;
+
 export default function ListInfo({ space }) {
   return (
     <Wrapper>
@@ -92,8 +101,14 @@ export default function ListInfo({ space }) {
           <AboutIcon src="/imgs/icons/network.svg" />
           <div>
             <AboutName>Network</AboutName>
-            <AboutDetail>{space.network}</AboutDetail>
+            <ChainIcons>{space.networks?.map(network => <ChainIcon chainName={network.network} />)}</ChainIcons>
           </div>
+          <Tooltip
+            content={space.networks?.map(item => capitalize(item.network)).join(", ")}
+            size="full"
+          >
+            <div />
+          </Tooltip>
         </AboutItem>
         <AboutDivider />
         <AboutItem>
