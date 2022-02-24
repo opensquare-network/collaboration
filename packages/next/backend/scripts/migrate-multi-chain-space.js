@@ -5,6 +5,7 @@ const {
   getSpaceCollection,
   getProposalCollection,
   getVoteCollection,
+  getCommentCollection,
 } = require("../mongo");
 
 async function migrateSpaces() {
@@ -66,18 +67,6 @@ async function migrateProposals() {
       networks: space.networks,
     };
 
-    // TODO: remove this when we are ready to merge changes to main
-    if (!proposal.networksConfig) {
-      await proposalCol.updateOne(
-        { cid: proposal.cid },
-        {
-          $set: {
-            networksConfig,
-          },
-        }
-      );
-    }
-
     if (!space.version) {
       console.log(`Space ${proposal.space} has not migrated yet`);
       continue;
@@ -134,7 +123,7 @@ async function migrateVotes() {
     }
 
     if (vote.version) {
-      console.log(`Vote ${proposal.cid} has already migrated`);
+      console.log(`Vote ${vote.cid} has already migrated`);
       continue;
     }
 
@@ -150,10 +139,49 @@ async function migrateVotes() {
   }
 }
 
+async function migrateComments() {
+  const proposalCol = await getProposalCollection();
+  const commentCol = await getCommentCollection();
+  const proposals = await proposalCol.find({}).toArray();
+  const comments = await commentCol.find({}).toArray();
+  for (const comment of comments) {
+    const proposal = proposals.find(p => p._id.toString() === comment.proposal.toString());
+    if (!proposal) {
+      console.log(`Proposal for ${comment.cid} not found`);
+      continue;
+    }
+    if (!proposal.version) {
+      console.log(`Proposal ${proposal.cid} has not migrated yet`);
+      continue;
+    }
+    const proposalNetwork = Object.keys(proposal.snapshotHeights || {})?.[0];
+    if (!proposalNetwork) {
+      console.log(`Proposal ${proposal.cid} network not found`);
+      continue;
+    }
+
+    if (comment.version) {
+      console.log(`Comment ${comment.cid} has already migrated`);
+      continue;
+    }
+
+    await commentCol.updateOne(
+      { cid: comment.cid },
+      {
+        $set: {
+          version: "2",
+          commenterNetwork: proposalNetwork,
+        },
+      }
+    );
+  }
+}
+
 async function main() {
   await migrateSpaces();
   await migrateProposals();
   await migrateVotes();
+  await migrateComments();
 }
 
 main()
