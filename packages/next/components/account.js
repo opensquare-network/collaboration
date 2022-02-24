@@ -197,7 +197,7 @@ export default function Account({ space, showMenu, setShowMenu }) {
     }
   }, [chain, account?.address, isMounted]);
 
-  if(!space){
+  if (!space) {
     return null;
   }
 
