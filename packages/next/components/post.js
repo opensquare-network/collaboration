@@ -113,6 +113,8 @@ export default function Post({ data, showSpace, space, spaces }) {
 
   const icon = getProjectIcon(data.space);
 
+  const proposerNetworkConfig = data.networksConfig?.networks?.find(item => item.network === data.proposerNetwork);
+
   return (
     <HardLink href={`/space/${data.space}/proposal/${data.cid}`}>
       <Wrapper>
@@ -126,7 +128,7 @@ export default function Post({ data, showSpace, space, spaces }) {
             {showRichInfo && (
               <Author
                 address={data.proposer ?? data.address}
-                space={space ?? getSpaceFromId(data.space)}
+                space={proposerNetworkConfig}
               />
             )}
             {!showRichInfo && (
