@@ -260,6 +260,21 @@ async function getStats(ctx) {
   ctx.body = await proposalService.getStats(proposalCid);
 }
 
+async function getVoterBalance(ctx) {
+  const { proposalCid, network, address } = ctx.params;
+  const { snapshot } = ctx.query;
+
+  if (snapshot && !/^[0-9]*$/.test(snapshot)) {
+    throw new HttpError(400, "Invalid snapshot number");
+  }
+
+  if (!isAddress(address)) {
+    throw new HttpError(400, "Invalid address");
+  }
+
+  ctx.body = await proposalService.getVoterBalance(proposalCid, network, address, snapshot);
+}
+
 module.exports = {
   createProposal,
   getProposals,
@@ -273,4 +288,5 @@ module.exports = {
   getVotes,
   getAddressVote,
   getStats,
+  getVoterBalance,
 };
