@@ -2,7 +2,11 @@ import styled, { css } from "styled-components";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { useSelector, useDispatch } from "react-redux";
-import { accountSelector, logout } from "store/reducers/accountSlice";
+import {
+  accountSelector,
+  logout,
+  setAccount,
+} from "store/reducers/accountSlice";
 import { addressEllipsis } from "frontedUtils";
 import Avatar from "./avatar";
 import { p_14_medium } from "../styles/textStyles";
@@ -168,25 +172,28 @@ export default function Account({ space, showMenu, setShowMenu }) {
   const showConnect = useSelector(showConnectSelector);
   const [pageMounted, setPageMounted] = useState(false);
   const [identity, setIdentity] = useState();
-  const [address, setAddress] = useState(account?.address);
+  const [address, setAddress] = useState(account?.[space?.id]?.address);
   const chain = space?.identity || space;
-
   useEffect(() => setPageMounted(true), []);
 
   useEffect(() => {
     if (account) {
-      if (account?.address && space?.ss58Format !== undefined) {
-        const spaceAddr = encodeAddress(account.address, space.ss58Format);
+      if (
+        account?.[space?.id]?.address &&
+        space?.networks?.[0]?.ss58Format !== undefined
+      ) {
+        const spaceAddr = encodeAddress(
+          account?.[space?.id]?.address,
+          space?.networks?.[0]?.ss58Format
+        );
         setAddress(spaceAddr);
-      } else {
-        setAddress(account.address);
       }
     }
-  }, [space?.ss58Format, account]);
+  }, [space?.ss58Format, account, address, space?.id, space?.networks]);
 
   useEffect(() => {
-    if (chain && account?.address) {
-      const idenAddr = encodeAddress(account.address, chain.ss58Format);
+    if (chain && address) {
+      const idenAddr = encodeAddress(address, chain.ss58Format);
       fetchIdentity(chain.network, idenAddr)
         .then((identity) => {
           if (isMounted.current) {
@@ -195,7 +202,7 @@ export default function Account({ space, showMenu, setShowMenu }) {
         })
         .catch(() => {});
     }
-  }, [chain, account?.address, isMounted]);
+  }, [chain, account, isMounted, space.networks, address]);
 
   if (!space) {
     return null;
@@ -250,7 +257,7 @@ export default function Account({ space, showMenu, setShowMenu }) {
     </MenuWrapper>
   );
 
-  if (account && pageMounted) {
+  if (address && pageMounted) {
     return (
       <Wrapper>
         <AccountWrapperPC show={showMenu}>
@@ -278,7 +285,7 @@ export default function Account({ space, showMenu, setShowMenu }) {
     );
   }
 
-  if (windowSize.width > 800 && !account) {
+  if (windowSize.width > 800 && !address) {
     return ConnectWallet;
   }
 

@@ -4,18 +4,16 @@ import { setCookie, getCookie, clearCookie } from "frontedUtils/cookie";
 
 const accountSlice = createSlice({
   name: "account",
-  initialState: {
-    account: undefined,
-  },
+  initialState: {},
   reducers: {
     setAccount: (state, { payload }) => {
       if (payload) {
-        state.account = { address: payload };
+        state.account = { ...state.account, ...payload };
       } else {
         state.account = null;
       }
       if (typeof window !== "undefined") {
-        setCookie("address", payload, 7);
+        setCookie("address", JSON.stringify(state.account), 7);
       }
     },
   },
@@ -37,8 +35,10 @@ export const accountSelector = (state) => {
     if (typeof window !== "undefined") {
       const address = getCookie("address");
       if (address) {
-        setAccount({ address });
-        return { address };
+        try {
+          setAccount(JSON.parse(address));
+          return JSON.parse(address);
+        } catch (e) {}
       }
     }
     return null;
