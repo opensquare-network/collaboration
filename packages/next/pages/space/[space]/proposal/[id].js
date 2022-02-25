@@ -10,7 +10,7 @@ import { encodeAddress } from "@polkadot/util-crypto";
 import { useState, useEffect } from "react";
 import FourOFour from "../../../404";
 import { NextSeo } from "next-seo";
-import { setAvaliableNetworks } from "store/reducers/accountSlice";
+import { setAvailableNetworks } from "store/reducers/accountSlice";
 import pick from "lodash/pick";
 
 export default function Index({
@@ -27,7 +27,7 @@ export default function Index({
   const encodedAddress = useEncodedAddress(space);
 
   useEffect(() => {
-    dispatch(setAvaliableNetworks(
+    dispatch(setAvailableNetworks(
       detail?.networksConfig?.networks?.map(
         item => pick(item, ["network", "ss58Format"])
       ) || []

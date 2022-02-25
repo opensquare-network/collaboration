@@ -5,7 +5,7 @@ import {
   web3Enable,
 } from "@polkadot/extension-dapp";
 import { useDispatch, useSelector } from "react-redux";
-import { setAccount, avaliableNetworksSelector } from "store/reducers/accountSlice";
+import { setAccount, availableNetworksSelector } from "store/reducers/accountSlice";
 
 import { Modal } from "semantic-ui-react";
 import Button from "components/button";
@@ -77,7 +77,7 @@ export default function Connect({ space, setShowMenu }) {
   const [chain, setChain] = useState(space.networks[0]);
   const [address, setAddress] = useState();
   const [isPolkadotAccessible, setIsPolkadotAccessible] = useState(null);
-  const avaliableNetworks = useSelector(avaliableNetworksSelector);
+  const availableNetworks = useSelector(availableNetworksSelector);
 
   const getAddresses = useCallback(async () => {
     const extensionAccounts = await web3Accounts();
@@ -148,7 +148,7 @@ export default function Connect({ space, setShowMenu }) {
 
           <StyledText>Chain</StyledText>
           <ChainSelector
-            chains={avaliableNetworks}
+            chains={availableNetworks}
             onSelect={(chain) => setChain(chain)}
           />
 
