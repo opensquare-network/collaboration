@@ -68,6 +68,10 @@ const TimestampItem = styled.div`
 `;
 
 export default function PostInfo({ data, space }) {
+  const network = space?.network;
+  const explorer = network === "statemine" ? "statescan" : "subscan";
+  const link = `https://${network}.${explorer}.io/block/${data?.snapshotHeight}`;
+
   return (
     <Wrapper>
       <div>
@@ -79,9 +83,7 @@ export default function PostInfo({ data, space }) {
         <div>
           <InfoItem>
             <div>Snapshot</div>
-            <ExternalLink
-              href={`https://${space?.network}.subscan.io/block/${data?.snapshotHeight}`}
-            >
+            <ExternalLink href={link}>
               {data?.snapshotHeight?.toLocaleString()}
             </ExternalLink>
           </InfoItem>
