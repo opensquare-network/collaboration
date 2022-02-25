@@ -175,14 +175,18 @@ export default function Account({ space, showMenu, setShowMenu }) {
   useEffect(() => setPageMounted(true), []);
 
   useEffect(() => {
-    if (account) {
-      if (account?.address && space?.ss58Format !== undefined) {
-        const spaceAddr = encodeAddress(account.address, space.ss58Format);
-        setAddress(spaceAddr);
-      } else {
-        setAddress(account.address);
-      }
+    if (!account?.address) {
+      setAddress(null);
+      return;
     }
+
+    if (space?.ss58Format !== undefined) {
+      const spaceAddr = encodeAddress(account.address, space.ss58Format);
+      setAddress(spaceAddr);
+      return;
+    }
+
+    setAddress(account.address);
   }, [space?.ss58Format, account]);
 
   useEffect(() => {
@@ -219,7 +223,7 @@ export default function Account({ space, showMenu, setShowMenu }) {
   const Menu = (
     <MenuWrapper onClick={(e) => e.stopPropagation()}>
       {!account && windowSize.width <= 800 && ConnectWallet}
-      {account && (
+      {address && (
         <>
           <AccountWrapper>
             <div>
@@ -247,7 +251,7 @@ export default function Account({ space, showMenu, setShowMenu }) {
     </MenuWrapper>
   );
 
-  if (account && pageMounted) {
+  if (address && pageMounted) {
     return (
       <Wrapper>
         <AccountWrapperPC show={showMenu}>

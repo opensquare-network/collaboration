@@ -55,7 +55,7 @@ export default function List({
   }
 
   const images = [{
-    url: `https://test.opensquare.io/imgs/${spaceId}-logo.jpg`,
+    url: `https://voting.opensquare.io/imgs/${spaceId}-logo.jpg`,
     width: 1200,
     height: 628
   }];
