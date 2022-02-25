@@ -3,22 +3,12 @@ import Nav from "components/nav";
 import PostCreate from "@/components/postCreate";
 import { ssrNextApi } from "services/nextApi";
 import { to404 } from "../../../frontedUtils/serverSideUtil";
-import { setAvailableNetworks } from "../../../store/reducers/accountSlice";
 import { useDispatch } from "react-redux";
-import { useEffect } from "react";
-import pick from "lodash/pick";
+import { setSpaceConfig } from "../../../store/reducers/spaceConfigSlice";
 
 export default function Create({ space }) {
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(
-      setAvailableNetworks(
-        space?.networks?.map((item) => pick(item, ["network", "ss58Format"])) ||
-          []
-      )
-    );
-  }, [dispatch, space]);
+  dispatch(setSpaceConfig(space));
 
   return (
     <Layout bgHeight="183px" space={space}>

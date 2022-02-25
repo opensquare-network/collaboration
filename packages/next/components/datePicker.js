@@ -214,6 +214,7 @@ export default function Component({
   minDate,
   maxDate,
   button,
+  onSelect = () => {},
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [show, setShow] = useState("date");
@@ -290,6 +291,7 @@ export default function Component({
         .set({ hour: Number(hour), minute: Number(minute) })
         .toDate()
     );
+    onSelect();
   };
 
   return (
