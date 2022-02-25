@@ -89,7 +89,3 @@ export async function addVote(
 
   return await nextApi.post(`${space}/votes`, signedData);
 }
-
-export function getExplorer(network) {
-  return network === "statemine" ? "statescan" : "subscan";
-}
