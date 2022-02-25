@@ -17,6 +17,16 @@ const { getObjectBufAndCid, pinJsonToIpfsWithTimeout } = require("../ipfs.servic
 const { toDecimal128, enhancedSqrtOfBalance } = require("../../utils");
 const { calcPassing } = require("../biased-voting.service");
 
+function getTotalIssuance(space) {
+  if (["rmrk", "rmrk-curation"].includes(space)) {
+    return "100000000000000000";
+  } else if ("polarisdao" === space) {
+    return "1000000000000000";
+  }
+
+  throw new HttpError(500, "getTotalIssuance: unsupported space " + space);
+}
+
 const calcWeights = (vote, decimals, voteThreshold) => {
   return {
     ...vote,
@@ -590,12 +600,12 @@ async function getStats(proposalCid) {
   }
 
   if (
-    ["rmrk", "rmrk-curation"].includes(proposal.space) &&
+    ["rmrk", "rmrk-curation", "polarisdao"].includes(proposal.space) &&
     proposal.choices?.length === 2 &&
     proposal.weightStrategy?.includes("biased-voting")
   ) {
-    const rmrkTotalIssuance = "100000000000000000";
-    calcBiasedVotingResult(proposal, stats, rmrkTotalIssuance);
+    let totalIssuance = getTotalIssuance(proposal.space);
+    calcBiasedVotingResult(proposal, stats, totalIssuance);
   }
 
   return Object.values(stats);

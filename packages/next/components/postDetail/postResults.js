@@ -232,7 +232,7 @@ export default function PostResult({ data, voteStatus, space }) {
 
   const biasedVoting = (() => {
     if (
-      !["rmrk", "rmrk-curation"].includes(data?.space) ||
+      !["rmrk", "rmrk-curation", "polarisdao"].includes(data?.space) ||
       !data?.weightStrategy?.includes("biased-voting") ||
       voteStatus?.length !== 2
     )
