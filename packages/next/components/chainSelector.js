@@ -18,6 +18,7 @@ const StyledDropdown = styled(Dropdown)`
 
 const Text = styled.p`
   ${p_14_medium};
+  text-transform: capitalize;
   color: #1e2134;
   margin: 0;
 `;
@@ -60,7 +61,7 @@ const ChainItem = ({ header, chainName }) => {
 const ChainSelector = ({ chains = [], onSelect = () => {} }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   useEffect(() => {
-    onSelect(chains[selectedIndex]);
+    onSelect(chains[selectedIndex].network);
   }, [chains, onSelect, selectedIndex]);
   const options = chains.map((item, index) => ({
     key: index,
@@ -78,7 +79,7 @@ const ChainSelector = ({ chains = [], onSelect = () => {} }) => {
             setSelectedIndex(value);
           }}
         />
-        <ChainItem chainName={chains?.[selectedIndex]?.network} header />
+        <ChainItem chainName={chains[selectedIndex].network} header />
       </DropdownWrapper>
     </Wrapper>
   );

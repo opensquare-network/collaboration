@@ -44,7 +44,7 @@ export function withLoginUserRedux(fnComponent) {
     //   dispatch(setAccount(account));
     // }, [account]);
 
-    const storeAccount = useSelector(accountSelector);
+    const storeAccount = null;//TODO: useSelector(accountSelector);
     return fnComponent({
       account: storeAccount === undefined ? account : storeAccount,
       ...props,

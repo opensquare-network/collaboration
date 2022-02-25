@@ -49,7 +49,7 @@ const FETCH_BALANCE_ERROR =
 
 export default function PostCreate({ space }) {
   const dispatch = useDispatch();
-  const account = useSelector(accountSelector);
+  const account = null;//TODO: useSelector(accountSelector);
   const router = useRouter();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");

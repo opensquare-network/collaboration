@@ -83,7 +83,7 @@ export default function PostContent({ data, space }) {
         <MicromarkMd md={data?.content} />
       </Content>
       <Divider />
-      <PostVote data={data} space={space} />
+      <PostVote proposal={data} space={space} />
     </Wrapper>
   );
 }
