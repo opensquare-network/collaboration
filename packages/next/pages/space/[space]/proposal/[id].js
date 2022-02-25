@@ -32,7 +32,7 @@ export default function Index({
         item => pick(item, ["network", "ss58Format"])
       ) || []
     ));
-  }, [detail]);
+  }, [dispatch, detail]);
 
   useEffect(() => {
     if (encodedAddress) {
