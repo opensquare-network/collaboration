@@ -20,7 +20,7 @@ function startUpdateHeight() {
         const { height } = await getFinalizedHeight(api);
         latestHeights[networkName] = height;
       } catch (e) {
-        console.error(`Failed to get ${networkName} chain height:`, e.message);
+        // ignore
       }
     });
   };

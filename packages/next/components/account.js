@@ -173,16 +173,22 @@ export default function Account({ space, showMenu, setShowMenu }) {
   useEffect(() => setPageMounted(true), []);
 
   useEffect(() => {
-    if (account) {
+    if (!account?.address) {
+      setAddress(null);
+      return;
+    }
+
+    if (account?.ss58Format !== undefined) {
       const spaceAddr = encodeAddress(account.address, account.ss58Format);
       setAddress(spaceAddr);
-    } else {
-      setAddress(null);
+      return;
     }
-  }, [account]);
+
+    setAddress(account.address);
+  }, [account?.address, account?.ss58Format]);
 
   useEffect(() => {
-    if (account) {
+    if (account?.address && account?.ss58Format && account?.network) {
       const idenAddr = encodeAddress(account.address, account.ss58Format);
       fetchIdentity(account.network, idenAddr)
         .then((identity) => {
@@ -192,7 +198,7 @@ export default function Account({ space, showMenu, setShowMenu }) {
         })
         .catch(() => {});
     }
-  }, [account, isMounted]);
+  }, [account?.address, account?.ss58Format, account?.network, isMounted]);
 
   if (!space) {
     return null;

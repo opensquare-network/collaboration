@@ -8,6 +8,7 @@ import ExternalLink from "./externalLink";
 import IdentityIcon from "components/identityIcon";
 import { useIsMounted } from "frontedUtils/hooks";
 import { encodeAddress } from "@polkadot/util-crypto";
+import { getExplorer } from "../frontedUtils";
 
 const Wrapper = styled.div`
   display: flex;
@@ -36,6 +37,8 @@ export default function Author({ address, space, size = 20 }) {
   const [identity, setIdentity] = useState();
   const isMounted = useIsMounted();
   const chain = space?.identity || space;
+  const explorer = getExplorer(space?.network);
+  const link = `https://${space?.network}.${explorer}.io/account/${address}`;
 
   useEffect(() => {
     if (!address) {
@@ -59,9 +62,7 @@ export default function Author({ address, space, size = 20 }) {
   return (
     <Wrapper>
       <Avatar address={address} size={size} />
-      <ExternalLink
-        href={`https://${space?.network}.subscan.io/account/${address}`}
-      >
+      <ExternalLink href={link}>
         {identity?.info && identity?.info?.status !== "NO_ID" ? (
           <IdentityWrapper>
             <IdentityIcon status={identity.info.status} showTooltip />

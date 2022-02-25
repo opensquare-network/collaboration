@@ -17,6 +17,7 @@ const SpaceIcons = {
   "rmrk-curation": "rmrk-curation.png",
   bifrost: "bifrost.svg",
   kintsugi: "kintsugi.png",
+  polarisdao: "polarisdao.png"
 };
 
 export default function SpaceLogo({ spaceId }){

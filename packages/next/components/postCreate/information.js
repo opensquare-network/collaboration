@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 
 import Row from "@/components/row";
 import Tooltip from "@/components/tooltip";
@@ -7,6 +8,7 @@ import Toggle from "../toggle";
 import PostAddress from "../postAddress";
 import BigNumber from "bignumber.js";
 import { bigNumber2LocaleWithAbbr, toPrecision } from "../../frontedUtils";
+import { loginAccountSelector } from "store/reducers/accountSlice";
 
 const Hint = styled.div`
   margin-top: 4px !important;
@@ -48,6 +50,8 @@ export default function Information({
   setProxyBalance,
   symbol,
 }) {
+  const account = useSelector(loginAccountSelector);
+
   return (
     <>
       {!proxyPublish && (
@@ -117,34 +121,38 @@ export default function Information({
           )}
         </>
       )}
-      <ProxyVoteWrapper>
-        <Row
-          header="Proxy vote"
-          content={
-            <Toggle
-              active={proxyPublish}
-              onClick={() => {
-                setProxyPublish(!proxyPublish);
-              }}
+      {account && (
+        <>
+          <ProxyVoteWrapper>
+            <Row
+              header="Proxy vote"
+              content={
+                <Toggle
+                  active={proxyPublish}
+                  onClick={() => {
+                    setProxyPublish(!proxyPublish);
+                  }}
+                />
+              }
             />
-          }
-        />
-      </ProxyVoteWrapper>
-      {proxyPublish && (
-        <PostAddressWrapper>
-          <PostAddress
-            size="small"
-            address={proxyAddress}
-            setAddress={setProxyAddress}
-            space={space}
-            info={info}
-            setInfo={setInfo}
-            setProxyBalance={setProxyBalance}
-            getProxyBalance={setProxyCount}
-            setIsInputting={setIsInputting}
-            flag={false}
-          />
-        </PostAddressWrapper>
+          </ProxyVoteWrapper>
+          {proxyPublish && (
+            <PostAddressWrapper>
+              <PostAddress
+                size="small"
+                address={proxyAddress}
+                setAddress={setProxyAddress}
+                space={space}
+                info={info}
+                setInfo={setInfo}
+                setProxyBalance={setProxyBalance}
+                getProxyBalance={setProxyCount}
+                setIsInputting={setIsInputting}
+                flag={false}
+              />
+            </PostAddressWrapper>
+          )}
+        </>
       )}
     </>
   );

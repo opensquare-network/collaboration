@@ -16,7 +16,7 @@ const accountSlice = createSlice({
         state.account = null;
       }
       if (typeof window !== "undefined") {
-        setCookie("account", `${payload.network}/${payload.address}`, 7);
+        setCookie("addressV3", `${payload.network}/${payload.address}`, 7);
       }
     },
     setAvailableNetworks: (state, { payload }) => {
@@ -41,7 +41,7 @@ export const accountSelector = (state) => {
     return state.account.account;
   } else {
     if (typeof window !== "undefined") {
-      const data = getCookie("account");
+      const data = getCookie("addressV3");
       if (data) {
         const [network, address] = data.split("/");
         const account = {
