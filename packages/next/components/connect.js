@@ -74,7 +74,7 @@ export default function Connect({ space, setShowMenu }) {
   const isMounted = useIsMounted();
   const [hasExtension, setHasExtension] = useState(null);
   const [accounts, setAccounts] = useState([]);
-  const [chain, setChain] = useState();
+  const [chain, setChain] = useState(space.networks[0]);
   const [address, setAddress] = useState();
   const [isPolkadotAccessible, setIsPolkadotAccessible] = useState(null);
   const avaliableNetworks = useSelector(avaliableNetworksSelector);

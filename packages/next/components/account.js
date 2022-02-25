@@ -2,7 +2,15 @@ import styled, { css } from "styled-components";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { useSelector, useDispatch } from "react-redux";
+<<<<<<< HEAD
 import { loginAccountSelector, logout } from "store/reducers/accountSlice";
+=======
+import {
+  accountSelector,
+  logout,
+  setAccount,
+} from "store/reducers/accountSlice";
+>>>>>>> multi-chain-467
 import { addressEllipsis } from "frontedUtils";
 import Avatar from "./avatar";
 import { p_14_medium } from "../styles/textStyles";
@@ -275,7 +283,7 @@ export default function Account({ space, showMenu, setShowMenu }) {
     );
   }
 
-  if (windowSize.width > 800 && !account) {
+  if (windowSize.width > 800 && !address) {
     return ConnectWallet;
   }
 

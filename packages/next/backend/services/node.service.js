@@ -79,8 +79,8 @@ async function getTokenBalance(api, assetIdOrSymbol, blockHeight, address) {
 }
 
 function getBalanceFromNetwork(api, { networksConfig, networkName, address, blockHeight }) {
-  const symbol = networksConfig.symbol;
-  const network = networksConfig.networks?.find(n => n.network === networkName);
+  const symbol = networksConfig?.symbol;
+  const network = networksConfig?.networks?.find(n => n.network === networkName);
   if (!network) {
     throw new HttpError(400, "Network not found");
   }
