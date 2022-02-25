@@ -8,7 +8,7 @@ import ExternalLink from "./externalLink";
 import IdentityIcon from "components/identityIcon";
 import { useIsMounted } from "frontedUtils/hooks";
 import { encodeAddress } from "@polkadot/util-crypto";
-import { getExplorer } from "../frontedUtils/viewfunc";
+import { getExplorer } from "../frontedUtils";
 
 const Wrapper = styled.div`
   display: flex;

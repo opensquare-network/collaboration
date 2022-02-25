@@ -3,7 +3,7 @@ import moment from "moment";
 
 import { p_16_semibold } from "styles/textStyles";
 import ExternalLink from "../externalLink";
-import { getExplorer } from "../../frontedUtils/viewfunc";
+import { getExplorer } from "../../frontedUtils";
 
 const Wrapper = styled.div`
   padding: 32px;
