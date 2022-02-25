@@ -225,11 +225,14 @@ export default function PostCreate({ space }) {
       choices: choices.filter(Boolean),
       startDate: startDate?.getTime(),
       endDate: endDate?.getTime(),
-      snapshotHeight: Number(height),
+      snapshotHeights: {
+        [account.network]: Number(height)
+      },
       address: encodeAddress(address, ss58Format),
       realProposer: proxyPublish
         ? encodeAddress(proxyAddress, ss58Format)
         : null,
+      proposerNetwork: account.network,
     };
     const formError = viewFunc.validateProposal(proposal);
     if (formError) {
