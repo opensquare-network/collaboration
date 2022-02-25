@@ -36,6 +36,9 @@ export default function Author({ address, space, size = 20 }) {
   const [identity, setIdentity] = useState();
   const isMounted = useIsMounted();
   const chain = space?.identity || space;
+  const network = space?.network;
+  const explorer = network === "statemine" ? "statescan" : "subscan";
+  const link = `https://${network}.${explorer}.io/account/${address}`;
 
   useEffect(() => {
     if (!address) {
@@ -59,9 +62,7 @@ export default function Author({ address, space, size = 20 }) {
   return (
     <Wrapper>
       <Avatar address={address} size={size} />
-      <ExternalLink
-        href={`https://${space?.network}.subscan.io/account/${address}`}
-      >
+      <ExternalLink href={link}>
         {identity?.info && identity?.info?.status !== "NO_ID" ? (
           <IdentityWrapper>
             <IdentityIcon status={identity.info.status} showTooltip />
