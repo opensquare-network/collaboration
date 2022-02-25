@@ -8,6 +8,7 @@ import ExternalLink from "./externalLink";
 import IdentityIcon from "components/identityIcon";
 import { useIsMounted } from "frontedUtils/hooks";
 import { encodeAddress } from "@polkadot/util-crypto";
+import { getExplorer } from "../frontedUtils/viewfunc";
 
 const Wrapper = styled.div`
   display: flex;
@@ -36,9 +37,8 @@ export default function Author({ address, space, size = 20 }) {
   const [identity, setIdentity] = useState();
   const isMounted = useIsMounted();
   const chain = space?.identity || space;
-  const network = space?.network;
-  const explorer = network === "statemine" ? "statescan" : "subscan";
-  const link = `https://${network}.${explorer}.io/account/${address}`;
+  const explorer = getExplorer(space?.network);
+  const link = `https://${space?.network}.${explorer}.io/account/${address}`;
 
   useEffect(() => {
     if (!address) {

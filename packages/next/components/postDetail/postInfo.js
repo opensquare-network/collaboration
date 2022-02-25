@@ -3,6 +3,7 @@ import moment from "moment";
 
 import { p_16_semibold } from "styles/textStyles";
 import ExternalLink from "../externalLink";
+import { getExplorer } from "../../frontedUtils/viewfunc";
 
 const Wrapper = styled.div`
   padding: 32px;
@@ -68,9 +69,8 @@ const TimestampItem = styled.div`
 `;
 
 export default function PostInfo({ data, space }) {
-  const network = space?.network;
-  const explorer = network === "statemine" ? "statescan" : "subscan";
-  const link = `https://${network}.${explorer}.io/block/${data?.snapshotHeight}`;
+  const explorer = getExplorer(space?.network);
+  const link = `https://${space?.network}.${explorer}.io/block/${data?.snapshotHeight}`;
 
   return (
     <Wrapper>
