@@ -84,7 +84,7 @@ export function useNetwork() {
 }
 
 export function useEncodedAddress(network) {
-  const account = useSelector(accountSelector);
+  const account = null;//TODO: useSelector(accountSelector);
   if (account?.address && network) {
     return encodeAddress(account?.address, network?.ss58Format);
   }

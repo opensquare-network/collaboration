@@ -72,9 +72,9 @@ const RedText = styled.span`
   ${text_secondary_red_500};
 `;
 
-export default function PostVote({ data, space }) {
+export default function PostVote({ proposal, space }) {
   const dispatch = useDispatch();
-  const account = useSelector(accountSelector);
+  const account = null;//TODO: useSelector(accountSelector);
   const [choiceIndex, setChoiceIndex] = useState(null);
   const [remark, setRemark] = useState("");
   const [proxyVote, setProxyVote] = useState(false);
@@ -91,13 +91,13 @@ export default function PostVote({ data, space }) {
     setRemark("");
   };
 
-  const status = data?.status;
+  const status = proposal?.status;
 
   useEffect(() => {
-    if (space && account?.address) {
+    if (account?.address) {
       nextApi
-        .fetch(`${space.id}/account/${account.address}/balance`, {
-          snapshot: data?.snapshotHeight,
+        .fetch(`${proposal.space}/proposal/${proposal.cid}/voterbalance/${account?.network}/${account.address}`, {
+          snapshot: proposal?.snapshotHeights[account?.network],
         })
         .then((response) => {
           setBalance(response?.result?.balance);
@@ -105,7 +105,7 @@ export default function PostVote({ data, space }) {
     } else {
       setBalance(null);
     }
-  }, [data?.snapshotHeight, space, account?.address]);
+  }, [proposal, account]);
 
   useEffect(() => {
     const zero = new BigNumber("0");
@@ -120,7 +120,7 @@ export default function PostVote({ data, space }) {
     if (space && proxyAddress) {
       nextApi
         .fetch(`${space}/account/${proxyAddress}/balance`, {
-          snapshot: data?.snapshotHeight,
+          snapshot: proposal?.snapshotHeight,
         })
         .then((response) => {
           setProxyBalance(response?.result?.balance);
@@ -158,8 +158,8 @@ export default function PostVote({ data, space }) {
     try {
       result = await viewfunc.addVote(
         space.id,
-        data?.cid,
-        data?.choices?.[choiceIndex],
+        proposal?.cid,
+        proposal?.choices?.[choiceIndex],
         remark,
         encodeAddress(account?.address, space.ss58Format),
         proxyVote ? encodeAddress(proxyAddress, space.ss58Format) : undefined
@@ -204,7 +204,7 @@ export default function PostVote({ data, space }) {
           {status && status !== "closed" ? "Cast your vote" : "Options"}
         </Title>
         <ButtonsWrapper>
-          {(data.choices || []).map((item, index) => (
+          {(proposal.choices || []).map((item, index) => (
             <Option
               key={index}
               active={index === choiceIndex}

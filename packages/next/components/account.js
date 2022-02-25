@@ -2,11 +2,7 @@ import styled, { css } from "styled-components";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  accountSelector,
-  logout,
-  setAccount,
-} from "store/reducers/accountSlice";
+import { loginAccountSelector, logout } from "store/reducers/accountSlice";
 import { addressEllipsis } from "frontedUtils";
 import Avatar from "./avatar";
 import { p_14_medium } from "../styles/textStyles";
@@ -168,33 +164,27 @@ export default function Account({ space, showMenu, setShowMenu }) {
   const dispatch = useDispatch();
   const isMounted = useIsMounted();
   const windowSize = useWindowSize();
-  const account = useSelector(accountSelector);
+  const account = useSelector(loginAccountSelector);
   const showConnect = useSelector(showConnectSelector);
   const [pageMounted, setPageMounted] = useState(false);
   const [identity, setIdentity] = useState();
-  const [address, setAddress] = useState(account?.[space?.id]?.address);
-  const chain = space?.identity || space;
+  const [address, setAddress] = useState(account?.address);
+
   useEffect(() => setPageMounted(true), []);
 
   useEffect(() => {
     if (account) {
-      if (
-        account?.[space?.id]?.address &&
-        space?.networks?.[0]?.ss58Format !== undefined
-      ) {
-        const spaceAddr = encodeAddress(
-          account?.[space?.id]?.address,
-          space?.networks?.[0]?.ss58Format
-        );
-        setAddress(spaceAddr);
-      }
+      const spaceAddr = encodeAddress(account.address, account.ss58Format);
+      setAddress(spaceAddr);
+    } else {
+      setAddress(null);
     }
-  }, [space?.ss58Format, account, address, space?.id, space?.networks]);
+  }, [account]);
 
   useEffect(() => {
-    if (chain && address) {
-      const idenAddr = encodeAddress(address, chain.ss58Format);
-      fetchIdentity(chain.network, idenAddr)
+    if (account) {
+      const idenAddr = encodeAddress(account.address, account.ss58Format);
+      fetchIdentity(account.network, idenAddr)
         .then((identity) => {
           if (isMounted.current) {
             setIdentity(identity);
@@ -202,7 +192,7 @@ export default function Account({ space, showMenu, setShowMenu }) {
         })
         .catch(() => {});
     }
-  }, [chain, account, isMounted, space.networks, address]);
+  }, [account, isMounted]);
 
   if (!space) {
     return null;
@@ -229,7 +219,7 @@ export default function Account({ space, showMenu, setShowMenu }) {
   const Menu = (
     <MenuWrapper onClick={(e) => e.stopPropagation()}>
       {!account && windowSize.width <= 800 && ConnectWallet}
-      {account && (
+      {address && (
         <>
           <AccountWrapper>
             <div>

@@ -4,8 +4,9 @@ import {
   web3Accounts,
   web3Enable,
 } from "@polkadot/extension-dapp";
-import { useDispatch } from "react-redux";
-import { setAccount } from "store/reducers/accountSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { setAccount, availableNetworksSelector } from "store/reducers/accountSlice";
+
 import { Modal } from "semantic-ui-react";
 import Button from "components/button";
 import AccountSelector from "./accountSelector";
@@ -76,6 +77,7 @@ export default function Connect({ space, setShowMenu }) {
   const [chain, setChain] = useState(space.networks[0]);
   const [address, setAddress] = useState();
   const [isPolkadotAccessible, setIsPolkadotAccessible] = useState(null);
+  const availableNetworks = useSelector(availableNetworksSelector);
 
   const getAddresses = useCallback(async () => {
     const extensionAccounts = await web3Accounts();
@@ -115,11 +117,12 @@ export default function Connect({ space, setShowMenu }) {
     })();
   }, [isMounted, getAddresses]);
 
-  const getConnection = async () => {
+  const doConnect = async () => {
     try {
-      const accounts = {};
-      accounts[space?.id] = { address, network: chain };
-      dispatch(setAccount(accounts));
+      dispatch(setAccount({
+        address,
+        network: chain,
+      }));
       dispatch(closeConnect());
       setShowMenu(false);
     } catch (error) {
@@ -145,8 +148,8 @@ export default function Connect({ space, setShowMenu }) {
 
           <StyledText>Chain</StyledText>
           <ChainSelector
-            chains={space?.networks || []}
-            onSelect={(chain) => setChain(chain.network)}
+            chains={availableNetworks}
+            onSelect={(chain) => setChain(chain)}
           />
 
           <StyledText>Account</StyledText>
@@ -156,7 +159,7 @@ export default function Connect({ space, setShowMenu }) {
           />
 
           <ActionBar>
-            <Button primary onClick={getConnection}>
+            <Button primary onClick={doConnect}>
               Connect
             </Button>
           </ActionBar>

@@ -87,7 +87,7 @@ const NoCommentWrapper = styled.div`
 export default function PostDiscussion({ proposal, space, comments }) {
   const [content, setContent] = useState("");
   const viewfunc = useViewfunc();
-  const account = useSelector(accountSelector);
+  const account = null;//TODO: useSelector(accountSelector);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();

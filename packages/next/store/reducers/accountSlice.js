@@ -1,25 +1,31 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSelector, createSlice } from "@reduxjs/toolkit";
 
 import { setCookie, getCookie, clearCookie } from "frontedUtils/cookie";
 
 const accountSlice = createSlice({
   name: "account",
-  initialState: {},
+  initialState: {
+    account: undefined,
+    availableNetworks: [],
+  },
   reducers: {
     setAccount: (state, { payload }) => {
       if (payload) {
-        state.account = { ...state.account, ...payload };
+        state.account = payload;
       } else {
         state.account = null;
       }
       if (typeof window !== "undefined") {
-        setCookie("address", JSON.stringify(state.account), 7);
+        setCookie("account", `${payload.network}/${payload.address}`, 7);
       }
+    },
+    setAvailableNetworks: (state, { payload }) => {
+      state.availableNetworks = payload;
     },
   },
 });
 
-export const { setAccount } = accountSlice.actions;
+export const { setAccount, setAvailableNetworks } = accountSlice.actions;
 
 export const logout = () => async (dispatch) => {
   if (typeof window !== "undefined") {
@@ -28,21 +34,41 @@ export const logout = () => async (dispatch) => {
   dispatch(setAccount(""));
 };
 
+export const availableNetworksSelector = state => state.account.availableNetworks;
+
 export const accountSelector = (state) => {
   if (state.account.account) {
     return state.account.account;
   } else {
     if (typeof window !== "undefined") {
-      const address = getCookie("address");
-      if (address) {
-        try {
-          setAccount(JSON.parse(address));
-          return JSON.parse(address);
-        } catch (e) {}
+      const data = getCookie("account");
+      if (data) {
+        const [network, address] = data.split("/");
+        const account = {
+          address,
+          network,
+        };
+        setAccount(account);
+        return account;
       }
     }
     return null;
   }
 };
+
+export const loginAccountSelector = createSelector(
+  availableNetworksSelector,
+  accountSelector,
+  (networks, account) => {
+    const network = networks.find(item => item.network === account?.network);
+    if (!network) {
+      return null;
+    }
+    return {
+      ...network,
+      ...account,
+    };
+  }
+);
 
 export default accountSlice.reducer;
