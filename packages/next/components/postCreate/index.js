@@ -6,12 +6,13 @@ import { useDispatch } from "react-redux";
 import Content from "./content";
 import Choices from "./choices";
 import More from "./more";
-import { accountSelector } from "store/reducers/accountSlice";
+import { loginAccountSelector, setAvailableNetworks } from "store/reducers/accountSlice";
 import { addToast } from "store/reducers/toastSlice";
 import { TOAST_TYPES } from "frontedUtils/constants";
 import nextApi from "services/nextApi";
 import { useRouter } from "next/router";
 import { encodeAddress, isAddress } from "@polkadot/util-crypto";
+import { pick } from "lodash";
 
 const Wrapper = styled.div`
   display: flex;
@@ -49,14 +50,14 @@ const FETCH_BALANCE_ERROR =
 
 export default function PostCreate({ space }) {
   const dispatch = useDispatch();
-  const account = null;//TODO: useSelector(accountSelector);
+  const account = useSelector(loginAccountSelector);
   const router = useRouter();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [choices, setChoices] = useState(["", ""]);
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
-  const [height, setHeight] = useState(space.latestFinalizedHeight);
+  const [height, setHeight] = useState();
   const [balance, setBalance] = useState(null);
   const [balanceError, setBalanceError] = useState(null);
   const [viewFunc, setViewFunc] = useState(null);
@@ -74,28 +75,48 @@ export default function PostCreate({ space }) {
   const symbol = space.symbol;
 
   useEffect(() => {
+    dispatch(setAvailableNetworks(
+      space?.networks?.map(
+        (item) => pick(item, ["network", "ss58Format", "identity"])
+      ) || []
+    ));
+  }, [dispatch, space]);
+
+  useEffect(() => {
     import("frontedUtils/viewfunc").then((viewFunc) => {
       setViewFunc(viewFunc);
     });
   }, []);
 
+  //TODO: here should be updated to support multiple snapshot heights
   useEffect(() => {
+    if (account?.network && space) {
+      setHeight(space.latestFinalizedHeights?.[account.network]);
+    }
+  }, [space, account?.network]);
+
+  useEffect(() => {
+    // Create proposal with the connected wallet directly
+    // Read the wallet balance, so that we can check
+    // if the balance is above the threshold
     const address = account?.address ?? "";
+    const ss58Format =  account?.ss58Format ?? 0;
     if (!address) {
       setBalance(null);
       setBalanceError("Link an address to create proposal.");
-    }
-    if (!address || !height > 0) {
       return;
     }
     setBalanceError(null);
+    if (!height > 0) {
+      return;
+    }
     const delay = new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve();
       }, 2000);
     });
     Promise.all([
-      nextApi.fetch(`${space.id}/account/${encodeAddress(address, space.ss58Format)}/balance?snapshot=${height}`),
+      nextApi.fetch(`${space.id}/${account?.network}/account/${encodeAddress(address, ss58Format)}/balance?snapshot=${height}`),
       delay,
     ])
       .then((results) => {
@@ -115,25 +136,29 @@ export default function PostCreate({ space }) {
         dispatch(addToast({ type: TOAST_TYPES.ERROR, message }));
         setBalanceError(message);
       });
-  }, [space, height, account?.address, dispatch]);
+  }, [space, height, account?.network, account?.address, account?.ss58Format, dispatch]);
 
   useEffect(() => {
+    // Create proposal with the proxy address
+    // We need to check the balance of the proxy address
     const address = proxyAddress ?? "";
-    if (!address) {
+    const ss58Format =  account?.ss58Format ?? 0;
+    if (!address || !isAddress(address)) {
       setProxyBalance(null);
       setProxyBalanceError("Link an address to create proposal.");
-    }
-    if (!isAddress(address) || !height > 0) {
       return;
     }
     setProxyBalanceError(null);
+    if (!height > 0) {
+      return;
+    }
     const delay = new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve();
       }, 2000);
     });
     Promise.all([
-      nextApi.fetch(`${space.id}/account/${encodeAddress(address, space.ss58Format)}/balance?snapshot=${height}`),
+      nextApi.fetch(`${space.id}/${account?.network}/account/${encodeAddress(address, ss58Format)}/balance?snapshot=${height}`),
       delay,
     ])
       .then((results) => {
@@ -153,7 +178,7 @@ export default function PostCreate({ space }) {
         dispatch(addToast({ type: TOAST_TYPES.ERROR, message }));
         setProxyBalanceError(message);
       });
-  }, [space, height, proxyAddress, proxyCount, dispatch]);
+  }, [space, height, proxyAddress, account?.network, account?.ss58Format, proxyCount, dispatch]);
 
   useEffect(() => {
     if (isInputting) {
@@ -164,7 +189,9 @@ export default function PostCreate({ space }) {
   const onPublish = async () => {
     if (isLoading) return;
 
-    if (!account) {
+    const address = account?.address ?? "";
+    const ss58Format =  account?.ss58Format ?? 0;
+    if (!address) {
       dispatch(
         addToast({ type: TOAST_TYPES.ERROR, message: "Please connect wallet" })
       );
@@ -185,9 +212,9 @@ export default function PostCreate({ space }) {
       startDate: startDate?.getTime(),
       endDate: endDate?.getTime(),
       snapshotHeight: Number(height),
-      address: encodeAddress(account?.address, space.ss58Format),
+      address: encodeAddress(address, ss58Format),
       realProposer: proxyPublish
-        ? encodeAddress(proxyAddress, space.ss58Format)
+        ? encodeAddress(proxyAddress, ss58Format)
         : null,
     };
     const formError = viewFunc.validateProposal(proposal);
@@ -233,6 +260,12 @@ export default function PostCreate({ space }) {
     }
   };
 
+  const connectedNetworkConfig = account && {
+    identity: account.identity,
+    network: account.network,
+    ss58Format: account.ss58Format,
+  };
+
   return (
     <Wrapper>
       <MainWrapper>
@@ -263,7 +296,7 @@ export default function PostCreate({ space }) {
           setProxyPublish={setProxyPublish}
           proxyAddress={proxyAddress}
           setProxyAddress={setProxyAddress}
-          space={space}
+          space={connectedNetworkConfig}
           info={info}
           setInfo={setInfo}
           setProxyCount={() => setProxyCount(proxyCount + 1)}
