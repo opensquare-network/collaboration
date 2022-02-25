@@ -167,6 +167,7 @@ const spaces = [
     name: "PolarisDAO",
     network: "statemine",
     symbol: "ARIS",
+    assetId: 16,
     ss58Format: 2,
     decimals: 8,
     proposeThreshold: "4000000000000",
