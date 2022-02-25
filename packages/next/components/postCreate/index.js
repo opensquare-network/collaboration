@@ -110,6 +110,9 @@ export default function PostCreate({ space }) {
     if (!height > 0) {
       return;
     }
+    if (!account?.network) {
+      return;
+    }
     const delay = new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve();
@@ -152,6 +155,9 @@ export default function PostCreate({ space }) {
     if (!height > 0) {
       return;
     }
+    if (!account?.network) {
+      return;
+    }
     const delay = new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve();
@@ -178,7 +184,15 @@ export default function PostCreate({ space }) {
         dispatch(addToast({ type: TOAST_TYPES.ERROR, message }));
         setProxyBalanceError(message);
       });
-  }, [space, height, proxyAddress, account?.network, account?.ss58Format, proxyCount, dispatch]);
+  }, [
+    space,
+    height,
+    proxyAddress,
+    account?.network,
+    account?.ss58Format,
+    proxyCount,
+    dispatch,
+  ]);
 
   useEffect(() => {
     if (isInputting) {
