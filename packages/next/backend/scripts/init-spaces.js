@@ -17,7 +17,7 @@ const spaces = [
     ],
     proposeThreshold: "10000000000",
     voteThreshold: "100000000",
-    weightStrategy: ["balance-of","quadratic-balance-of"],
+    weightStrategy: ["balance-of", "quadratic-balance-of"],
     version: "2",
   },
   {
@@ -33,7 +33,7 @@ const spaces = [
     ],
     proposeThreshold: "10000000000",
     voteThreshold: "10000000000",
-    weightStrategy: ["balance-of","quadratic-balance-of"],
+    weightStrategy: ["balance-of", "quadratic-balance-of"],
     version: "2",
   },
   {
@@ -50,7 +50,7 @@ const spaces = [
     ],
     proposeThreshold: "1000000000000",
     voteThreshold: "10000000000",
-    weightStrategy: ["balance-of","quadratic-balance-of"],
+    weightStrategy: ["balance-of", "quadratic-balance-of"],
     version: "2",
   },
   {
@@ -66,7 +66,7 @@ const spaces = [
     ],
     proposeThreshold: "10000000000000",
     voteThreshold: "10000000000",
-    weightStrategy: ["balance-of","quadratic-balance-of"],
+    weightStrategy: ["balance-of", "quadratic-balance-of"],
     version: "2",
   },
   {
@@ -96,7 +96,7 @@ const spaces = [
     ],
     proposeThreshold: "500000000000000",
     voteThreshold: "10000000000",
-    weightStrategy: ["balance-of","quadratic-balance-of", "biased-voting"],
+    weightStrategy: ["balance-of", "quadratic-balance-of", "biased-voting"],
     version: "2",
   },
   {
@@ -126,7 +126,7 @@ const spaces = [
     ],
     proposeThreshold: "4310000000000",
     voteThreshold: "10000000000",
-    weightStrategy: ["balance-of","quadratic-balance-of", "biased-voting"],
+    weightStrategy: ["balance-of", "quadratic-balance-of", "biased-voting"],
     version: "2",
   },
   {
@@ -142,7 +142,7 @@ const spaces = [
     ],
     proposeThreshold: "1000000000000",
     voteThreshold: "10000000000",
-    weightStrategy: ["balance-of","quadratic-balance-of"],
+    weightStrategy: ["balance-of", "quadratic-balance-of"],
     version: "2",
   },
   {
@@ -159,8 +159,26 @@ const spaces = [
     ],
     proposeThreshold: "1000000000000",
     voteThreshold: "10000000000",
-    weightStrategy: ["balance-of","quadratic-balance-of"],
+    weightStrategy: ["balance-of", "quadratic-balance-of"],
     version: "2",
+  },
+  {
+    id: "polarisdao",
+    name: "PolarisDAO",
+    symbol: "ARIS",
+    decimals: 8,
+    networks: [
+      {
+        type: "asset",
+        network: "statemine",
+        ss58Format: 2,
+        assetId: 16,
+        identity: "kusama",
+      },
+    ],
+    proposeThreshold: "4000000000000",
+    voteThreshold: "1000000",
+    weightStrategy: ["balance-of", "quadratic-balance-of", "biased-voting"],
   },
 ];
 

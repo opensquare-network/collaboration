@@ -29,7 +29,7 @@ export default function Index({
   useEffect(() => {
     dispatch(setAvailableNetworks(
       detail?.networksConfig?.networks?.map(
-        item => pick(item, ["network", "ss58Format"])
+        item => pick(item, ["network", "ss58Format", "identity"])
       ) || []
     ));
   }, [dispatch, detail]);
@@ -74,7 +74,7 @@ export default function Index({
   const desc = getMetaDesc(detail, "Proposal");
 
   const images = [{
-    url: `https://test.opensquare.io/imgs/${space?.id}-logo.jpg`,
+    url: `https://voting.opensquare.io/imgs/${space?.id}-logo.jpg`,
     width: 1200,
     height: 628
   }];

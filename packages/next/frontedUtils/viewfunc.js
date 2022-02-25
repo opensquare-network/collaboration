@@ -14,11 +14,11 @@ export function validateProposal(formData) {
   if (!(formData.choices.length >= 2)) {
     return `Choices must be more than one.`;
   }
-  if (formData.choices.length !==  new Set(formData.choices).size){
+  if (formData.choices.length !== new Set(formData.choices).size) {
     return `Every choice must be unique.`;
   }
-  const now = (new Date()).getTime();
-  if(formData.endDate <= now){
+  const now = new Date().getTime();
+  if (formData.endDate <= now) {
     return `End date should be greater than current time!`;
   }
   return false;
