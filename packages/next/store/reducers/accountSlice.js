@@ -15,7 +15,7 @@ const accountSlice = createSlice({
         state.account = null;
       }
       if (typeof window !== "undefined") {
-        setCookie("address", payload, 7);
+        setCookie("addressV2", payload, 7);
       }
     },
   },
@@ -35,7 +35,7 @@ export const accountSelector = (state) => {
     return state.account.account;
   } else {
     if (typeof window !== "undefined") {
-      const address = getCookie("address");
+      const address = getCookie("addressV2");
       if (address) {
         setAccount({ address });
         return { address };

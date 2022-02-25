@@ -21,5 +21,5 @@ export function getCookie(cname) {
 }
 
 export function clearCookie() {
-  setCookie("address", "", -1);
+  setCookie("addressV2", "", -1);
 }
