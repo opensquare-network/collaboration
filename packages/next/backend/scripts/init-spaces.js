@@ -162,6 +162,18 @@ const spaces = [
     weightStrategy: ["balance-of","quadratic-balance-of"],
     version: "2",
   },
+  {
+    id: "polarisdao",
+    name: "PolarisDAO",
+    network: "statemine",
+    symbol: "ARIS",
+    ss58Format: 2,
+    decimals: 8,
+    proposeThreshold: "4000000000000",
+    voteThreshold: "1000000",
+    weightStrategy: ["balance-of","quadratic-balance-of", "biased-voting"],
+    identity: "kusama",
+  },
 ];
 
 async function main() {

@@ -179,12 +179,15 @@ export function matchMdLink(t) {
 export function getEffectiveNumbers(n) {
   const result = [];
   let flag = false;
-  n.toString().split('').reverse().forEach(dig => {
-    if (!isNaN(parseInt(dig))) {
-      flag = flag || parseInt(dig) > 0;
-      flag && result.push(dig);
-    }
-  });
+  n.toString()
+    .split("")
+    .reverse()
+    .forEach((dig) => {
+      if (!isNaN(parseInt(dig))) {
+        flag = flag || parseInt(dig) > 0;
+        flag && result.push(dig);
+      }
+    });
   return result.reverse().join();
 }
 
@@ -214,3 +217,7 @@ export function abbreviateBigNumber(x, fixed = 2) {
 }
 
 export const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
+
+export function getExplorer(network) {
+  return network === "statemine" ? "statescan" : "subscan";
+}
