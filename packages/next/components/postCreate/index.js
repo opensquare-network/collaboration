@@ -65,7 +65,6 @@ export default function PostCreate({ space }) {
   const [choices, setChoices] = useState(["", ""]);
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
-  const [height, setHeight] = useState();
   const [balance, setBalance] = useState(null);
   const [balanceError, setBalanceError] = useState(null);
   const [viewFunc, setViewFunc] = useState(null);
@@ -132,6 +131,10 @@ export default function PostCreate({ space }) {
         resolve();
       }, 2000);
     });
+    const height =
+      snapshotHeights?.find(
+        (snapshotHeight) => account?.network === snapshotHeight.network
+      )?.height || 0;
     Promise.all([
       nextApi.fetch(
         `${space.id}/${account?.network}/account/${encodeAddress(
@@ -160,7 +163,6 @@ export default function PostCreate({ space }) {
       });
   }, [
     space,
-    height,
     account?.network,
     account?.address,
     account?.ss58Format,
@@ -187,6 +189,10 @@ export default function PostCreate({ space }) {
         resolve();
       }, 2000);
     });
+    const height =
+      snapshotHeights?.find(
+        (snapshotHeight) => account?.network === snapshotHeight.network
+      )?.height || 0;
     Promise.all([
       nextApi.fetch(
         `${space.id}/${account?.network}/account/${encodeAddress(
@@ -215,7 +221,6 @@ export default function PostCreate({ space }) {
       });
   }, [
     space,
-    height,
     proxyAddress,
     account?.network,
     account?.ss58Format,
