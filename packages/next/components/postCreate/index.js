@@ -239,7 +239,10 @@ export default function PostCreate({ space }) {
     if (!viewFunc) {
       return;
     }
-
+    const proposalSnapshotHeights = {};
+    snapshotHeights.forEach((snapshotHeight) => {
+      proposalSnapshotHeights[snapshotHeight.network] = snapshotHeight.height;
+    });
     const proposal = {
       space: space.id,
       title,
@@ -256,9 +259,7 @@ export default function PostCreate({ space }) {
         : null,
       proposerNetwork: account.network,
     };
-    snapshotHeights.forEach((snapshotHeight) => {
-      proposal.snapshotHeights[snapshotHeight.network] = snapshotHeight.height;
-    });
+
     const formError = viewFunc.validateProposal(proposal);
     if (formError) {
       dispatch(
