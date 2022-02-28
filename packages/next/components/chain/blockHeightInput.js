@@ -2,14 +2,21 @@ import styled from "styled-components";
 import Input from "@/components/input";
 import ChainIcon from "@/components/chain/chainIcon";
 import Loading from "public/imgs/icons/loading.svg";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setSnapshotHeight,
+  snapshotHeightSelector,
+} from "../../store/reducers/snapshotHeightSlice";
 
 const Wrapper = styled.div`
   position: relative;
+
   svg {
     position: absolute;
     left: 16px;
     top: 12px;
   }
+
   svg:nth-child(2) {
     left: 48px;
   }
@@ -20,6 +27,8 @@ const StyledInput = styled(Input)`
 `;
 
 function BlockHeightInput({ network, height, loading }) {
+  const snapshotHeights = useSelector(snapshotHeightSelector);
+  const dispatch = useDispatch();
   return (
     <Wrapper>
       <ChainIcon chainName={network} />
@@ -28,8 +37,17 @@ function BlockHeightInput({ network, height, loading }) {
         placeholder={loading ? "" : "Input Block Height"}
         type="number"
         value={loading ? "" : height}
-        //todo: implement setHeight
-        // onChange={(e) => setHeight(e.target.value)}
+        onChange={(e) => {
+          dispatch(
+            setSnapshotHeight(
+              snapshotHeights.map((snapshotHeight) =>
+                snapshotHeight.network === network
+                  ? { network, height: e.target.value }
+                  : snapshotHeight
+              )
+            )
+          );
+        }}
         disabled={loading}
       />
     </Wrapper>
