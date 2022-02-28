@@ -11,7 +11,7 @@ import SnapshotHeightPicker from "@/components/snapshotHeightPicker";
 import { spaceConfigSelector } from "../../store/reducers/spaceConfigSlice";
 import { p_14_medium } from "../../styles/textStyles";
 import {
-  setSnapshotsHeight,
+  setSnapshotHeights,
   snapshotHeightsSelector,
 } from "../../store/reducers/snapshotHeightSlice";
 
@@ -117,7 +117,7 @@ export default function More({
 
   useEffect(() => {
     if (spaceConfig?.networks) {
-      setSnapshotsHeight(
+      setSnapshotHeights(
         spaceConfig?.networks.map((network) => ({
           network: network.network,
           height: 0,

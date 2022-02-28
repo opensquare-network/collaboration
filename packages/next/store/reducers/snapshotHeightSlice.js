@@ -6,7 +6,7 @@ const snapshotHeightSlice = createSlice({
     snapshotHeights: [],
   },
   reducers: {
-    setSnapshotsHeight: (state, { payload }) => {
+    setSnapshotHeights: (state, { payload }) => {
       if (payload) {
         state.snapshotHeights = payload;
       }
@@ -14,7 +14,7 @@ const snapshotHeightSlice = createSlice({
   },
 });
 
-export const { setSnapshotsHeight } = snapshotHeightSlice.actions;
+export const { setSnapshotHeights } = snapshotHeightSlice.actions;
 
 export const snapshotHeightsSelector = (state) =>
   state.snapshotHeight.snapshotHeights;

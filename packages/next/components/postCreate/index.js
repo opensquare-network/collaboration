@@ -17,7 +17,7 @@ import { useRouter } from "next/router";
 import { encodeAddress, isAddress } from "@polkadot/util-crypto";
 import { pick } from "lodash";
 import {
-  setSnapshotsHeight,
+  setSnapshotHeights,
   snapshotHeightsSelector,
 } from "../../store/reducers/snapshotHeightSlice";
 
@@ -101,7 +101,7 @@ export default function PostCreate({ space }) {
   useEffect(() => {
     if (space) {
       dispatch(
-        setSnapshotsHeight(
+        setSnapshotHeights(
           Object.keys(space.latestFinalizedHeights).map((network) => ({
             network,
             height: space.latestFinalizedHeights[network],

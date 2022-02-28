@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { spaceConfigSelector } from "../store/reducers/spaceConfigSlice";
 import { useEffect, useState } from "react";
 import {
-  setSnapshotsHeight,
+  setSnapshotHeights,
   snapshotHeightsSelector,
 } from "../store/reducers/snapshotHeightSlice";
 import nextApi from "../services/nextApi";
@@ -53,7 +53,7 @@ function SnapshotHeightPicker({ date, setDate }) {
       .fetch(`${spaceConfig.id}/networkheights`, { time: date.getTime() })
       .then(({ result }) => {
         dispatch(
-          setSnapshotsHeight(
+          setSnapshotHeights(
             networks.map((network) => ({
               ...result[network.network],
               network: network.network,
