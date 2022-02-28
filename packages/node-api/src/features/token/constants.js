@@ -10,8 +10,8 @@ const supportedChainSymbols = {
 }
 
 const emptyBalance = {
-  free: 0,
-  reserved: 0,
+  free: '0',
+  reserved: '0',
 }
 
 module.exports = {

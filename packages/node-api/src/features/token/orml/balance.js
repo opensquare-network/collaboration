@@ -1,3 +1,4 @@
+const { emptyBalance } = require("../constants");
 const { getBlockHash } = require("../../utils");
 
 /**
@@ -10,7 +11,13 @@ const { getBlockHash } = require("../../utils");
  */
 async function queryOrmlTokenAccounts(api, account, blockHash, currency) {
   const blockApi = await api.at(blockHash);
-  const result = await blockApi.query.tokens.accounts(account, currency);
+  let result;
+  try {
+    result = await blockApi.query.tokens.accounts(account, currency);
+  } catch (e) {
+    return emptyBalance;
+  }
+
   return {
     free: result.free.toString(),
     reserved: result.reserved.toString(),
