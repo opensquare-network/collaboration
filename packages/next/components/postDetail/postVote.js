@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 
 import Input from "components/input";
 import { useViewfunc } from "frontedUtils/hooks";
-import { accountSelector } from "store/reducers/accountSlice";
+import { loginAccountSelector } from "store/reducers/accountSlice";
 import { addToast } from "store/reducers/toastSlice";
 import { TOAST_TYPES } from "frontedUtils/constants";
 import {
@@ -74,7 +74,7 @@ const RedText = styled.span`
 
 export default function PostVote({ proposal, space }) {
   const dispatch = useDispatch();
-  const account = null;//TODO: useSelector(accountSelector);
+  const account = useSelector(loginAccountSelector);
   const [choiceIndex, setChoiceIndex] = useState(null);
   const [remark, setRemark] = useState("");
   const [proxyVote, setProxyVote] = useState(false);
@@ -94,10 +94,10 @@ export default function PostVote({ proposal, space }) {
   const status = proposal?.status;
 
   useEffect(() => {
-    if (account?.address) {
+    if (proposal && account?.address && account?.network) {
       nextApi
-        .fetch(`${proposal.space}/proposal/${proposal.cid}/voterbalance/${account?.network}/${account.address}`, {
-          snapshot: proposal?.snapshotHeights[account?.network],
+        .fetch(`${proposal.space}/proposal/${proposal.cid}/voterbalance/${account.network}/${account.address}`, {
+          snapshot: proposal.snapshotHeights[account.network],
         })
         .then((response) => {
           setBalance(response?.result?.balance);
@@ -105,7 +105,7 @@ export default function PostVote({ proposal, space }) {
     } else {
       setBalance(null);
     }
-  }, [proposal, account]);
+  }, [proposal, account?.network, account?.address]);
 
   useEffect(() => {
     const zero = new BigNumber("0");
@@ -117,10 +117,10 @@ export default function PostVote({ proposal, space }) {
   }, [balance, proxyVote, proxyBalance]);
 
   const getProxyBalance = () => {
-    if (space && proxyAddress) {
+    if (proposal && proxyAddress && account?.network) {
       nextApi
-        .fetch(`${space}/account/${proxyAddress}/balance`, {
-          snapshot: proposal?.snapshotHeight,
+        .fetch(`${proposal.space}/proposal/${proposal.cid}/voterbalance/${account.network}/${proxyAddress}`, {
+          snapshot: proposal.snapshotHeights[account.network],
         })
         .then((response) => {
           setProxyBalance(response?.result?.balance);
@@ -157,12 +157,13 @@ export default function PostVote({ proposal, space }) {
     let result;
     try {
       result = await viewfunc.addVote(
-        space.id,
+        proposal?.space,
         proposal?.cid,
         proposal?.choices?.[choiceIndex],
         remark,
-        encodeAddress(account?.address, space.ss58Format),
-        proxyVote ? encodeAddress(proxyAddress, space.ss58Format) : undefined
+        encodeAddress(account?.address, account?.ss58Format),
+        proxyVote ? encodeAddress(proxyAddress, account?.ss58Format) : undefined,
+        account?.network,
       );
     } catch (error) {
       if (error.toString() === "Error: Cancelled") {
@@ -242,10 +243,10 @@ export default function PostVote({ proposal, space }) {
                   bigNumber2Locale(
                     fromAssetUnit(
                       proxyVote ? proxyBalance : balance,
-                      space?.decimals
+                      account?.decimals
                     )
                   )
-                )} ${space?.symbol}`}
+                )} ${account?.symbol}`}
               {(proxyVote ? proxyBalance === "0" : balance === "0") && (
                 <RedText>Insufficient</RedText>
               )}
@@ -262,7 +263,7 @@ export default function PostVote({ proposal, space }) {
             <PostAddress
               address={proxyAddress}
               setAddress={setProxyAddress}
-              space={space}
+              space={account}
               info={info}
               setInfo={setInfo}
               setProxyBalance={setProxyBalance}
