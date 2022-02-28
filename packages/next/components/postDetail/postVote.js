@@ -201,7 +201,7 @@ export default function PostVote({ proposal, space }) {
 
   const networkConfig = findNetworkConfig(
     proposal.networksConfig,
-    account?.network || proposal.networksConfig?.networks[0].network
+    account?.network
   );
 
   return (
