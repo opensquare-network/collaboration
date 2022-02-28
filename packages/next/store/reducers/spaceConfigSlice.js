@@ -22,7 +22,7 @@ export const spaceConfigSelector = (state) => {
   if (state.spaceConfig.spaceConfig) {
     return state.spaceConfig.spaceConfig;
   }
-  return null;
+  return {};
 };
 
 export default spaceConfigSlice.reducer;
