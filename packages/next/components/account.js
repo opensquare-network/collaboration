@@ -178,8 +178,13 @@ export default function Account({ space, showMenu, setShowMenu }) {
       return;
     }
 
+    if (account?.ss58Format !== undefined) {
+      const spaceAddr = encodeAddress(account.address, account.ss58Format);
+      setAddress(spaceAddr);
+      return;
     }
 
+    setAddress(account.address);
   }, [account?.address, account?.ss58Format]);
 
   useEffect(() => {
