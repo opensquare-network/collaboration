@@ -11,8 +11,8 @@ import SnapshotHeightPicker from "@/components/snapshotHeightPicker";
 import { spaceConfigSelector } from "../../store/reducers/spaceConfigSlice";
 import { p_14_medium } from "../../styles/textStyles";
 import {
-  setSnapshotHeight,
-  snapshotHeightSelector,
+  setSnapshotsHeight,
+  snapshotHeightsSelector,
 } from "../../store/reducers/snapshotHeightSlice";
 
 const Wrapper = styled.div`
@@ -113,11 +113,11 @@ export default function More({
   const [snapshotHeightDate, setSnapshotHeightDate] = useState();
   const [snapshotHeightLoading, setSnapshotHeightLoading] = useState(false);
   const spaceConfig = useSelector(spaceConfigSelector);
-  const snapshotHeights = useSelector(snapshotHeightSelector);
+  const snapshotHeights = useSelector(snapshotHeightsSelector);
 
   useEffect(() => {
     if (spaceConfig?.networks) {
-      setSnapshotHeight(
+      setSnapshotsHeight(
         spaceConfig?.networks.map((network) => ({
           network: network.network,
           height: 0,

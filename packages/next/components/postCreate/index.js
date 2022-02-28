@@ -17,8 +17,8 @@ import { useRouter } from "next/router";
 import { encodeAddress, isAddress } from "@polkadot/util-crypto";
 import { pick } from "lodash";
 import {
-  setSnapshotHeight,
-  snapshotHeightSelector,
+  setSnapshotsHeight,
+  snapshotHeightsSelector,
 } from "../../store/reducers/snapshotHeightSlice";
 
 const Wrapper = styled.div`
@@ -58,7 +58,7 @@ const FETCH_BALANCE_ERROR =
 export default function PostCreate({ space }) {
   const dispatch = useDispatch();
   const account = useSelector(loginAccountSelector);
-  const snapshotHeights = useSelector(snapshotHeightSelector);
+  const snapshotHeights = useSelector(snapshotHeightsSelector);
   const router = useRouter();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -101,7 +101,7 @@ export default function PostCreate({ space }) {
   useEffect(() => {
     if (space) {
       dispatch(
-        setSnapshotHeight(
+        setSnapshotsHeight(
           Object.keys(space.latestFinalizedHeights).map((network) => ({
             network,
             height: space.latestFinalizedHeights[network],

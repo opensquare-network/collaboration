@@ -3,27 +3,20 @@ import { createSlice } from "@reduxjs/toolkit";
 const snapshotHeightSlice = createSlice({
   name: "snapshotHeight",
   initialState: {
-    snapshotHeight: undefined,
+    snapshotHeights: [],
   },
   reducers: {
-    setSnapshotHeight: (state, { payload }) => {
+    setSnapshotsHeight: (state, { payload }) => {
       if (payload) {
-        state.snapshotHeight = payload;
-      } else {
-        state.snapshotHeight = null;
+        state.snapshotHeights = payload;
       }
     },
   },
 });
 
-export const { setSnapshotHeight } = snapshotHeightSlice.actions;
+export const { setSnapshotsHeight } = snapshotHeightSlice.actions;
 
-export const snapshotHeightSelector = (state) => {
-  if (state.snapshotHeight.snapshotHeight) {
-    return state.snapshotHeight.snapshotHeight;
-  } else {
-    return [];
-  }
-};
+export const snapshotHeightsSelector = (state) =>
+  state.snapshotHeight.snapshotHeights;
 
 export default snapshotHeightSlice.reducer;
