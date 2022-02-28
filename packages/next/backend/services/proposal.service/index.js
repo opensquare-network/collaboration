@@ -747,7 +747,7 @@ async function getVoterBalance(proposalCid, network, address, snapshot) {
       blockHeight,
     }
   );
-  ctx.body = {
+  return {
     balance: totalBalance
   };
 }

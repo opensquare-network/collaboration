@@ -2,6 +2,7 @@ const { HttpError } = require("../../exc");
 const proposalService = require("../../services/proposal.service");
 const { ContentType, ChoiceType } = require("../../constants");
 const { extractPage } = require("../../utils");
+const { isAddress } = require("@polkadot/util-crypto");
 
 async function createProposal(ctx) {
   const {
