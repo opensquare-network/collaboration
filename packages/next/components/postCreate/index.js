@@ -252,7 +252,7 @@ export default function PostCreate({ space }) {
       choices: choices.filter(Boolean),
       startDate: startDate?.getTime(),
       endDate: endDate?.getTime(),
-      snapshotHeights: {},
+      snapshotHeights: proposalSnapshotHeights,
       address: encodeAddress(address, ss58Format),
       realProposer: proxyPublish
         ? encodeAddress(proxyAddress, ss58Format)
