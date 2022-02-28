@@ -6,13 +6,17 @@ import { useDispatch } from "react-redux";
 import Content from "./content";
 import Choices from "./choices";
 import More from "./more";
-import { loginAccountSelector, setAvailableNetworks } from "store/reducers/accountSlice";
+import {
+  loginAccountSelector,
+  setAvailableNetworks,
+} from "store/reducers/accountSlice";
 import { addToast } from "store/reducers/toastSlice";
 import { TOAST_TYPES } from "frontedUtils/constants";
 import nextApi from "services/nextApi";
 import { useRouter } from "next/router";
 import { encodeAddress, isAddress } from "@polkadot/util-crypto";
 import { pick } from "lodash";
+import { snapshotHeightSelector } from "../../store/reducers/snapshotHeightSlice";
 
 const Wrapper = styled.div`
   display: flex;
@@ -51,6 +55,7 @@ const FETCH_BALANCE_ERROR =
 export default function PostCreate({ space }) {
   const dispatch = useDispatch();
   const account = useSelector(loginAccountSelector);
+  const snapshotHeights = useSelector(snapshotHeightSelector);
   const router = useRouter();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -75,11 +80,13 @@ export default function PostCreate({ space }) {
   const symbol = space.symbol;
 
   useEffect(() => {
-    dispatch(setAvailableNetworks(
-      space?.networks?.map(
-        (item) => pick(item, ["network", "ss58Format", "identity"])
-      ) || []
-    ));
+    dispatch(
+      setAvailableNetworks(
+        space?.networks?.map((item) =>
+          pick(item, ["network", "ss58Format", "identity"])
+        ) || []
+      )
+    );
   }, [dispatch, space]);
 
   useEffect(() => {
@@ -100,7 +107,7 @@ export default function PostCreate({ space }) {
     // Read the wallet balance, so that we can check
     // if the balance is above the threshold
     const address = account?.address ?? "";
-    const ss58Format =  account?.ss58Format ?? 0;
+    const ss58Format = account?.ss58Format ?? 0;
     if (!address) {
       setBalance(null);
       setBalanceError("Link an address to create proposal.");
@@ -119,7 +126,12 @@ export default function PostCreate({ space }) {
       }, 2000);
     });
     Promise.all([
-      nextApi.fetch(`${space.id}/${account?.network}/account/${encodeAddress(address, ss58Format)}/balance?snapshot=${height}`),
+      nextApi.fetch(
+        `${space.id}/${account?.network}/account/${encodeAddress(
+          address,
+          ss58Format
+        )}/balance?snapshot=${height}`
+      ),
       delay,
     ])
       .then((results) => {
@@ -139,13 +151,20 @@ export default function PostCreate({ space }) {
         dispatch(addToast({ type: TOAST_TYPES.ERROR, message }));
         setBalanceError(message);
       });
-  }, [space, height, account?.network, account?.address, account?.ss58Format, dispatch]);
+  }, [
+    space,
+    height,
+    account?.network,
+    account?.address,
+    account?.ss58Format,
+    dispatch,
+  ]);
 
   useEffect(() => {
     // Create proposal with the proxy address
     // We need to check the balance of the proxy address
     const address = proxyAddress ?? "";
-    const ss58Format =  account?.ss58Format ?? 0;
+    const ss58Format = account?.ss58Format ?? 0;
     if (!address || !isAddress(address)) {
       setProxyBalance(null);
       setProxyBalanceError("Link an address to create proposal.");
@@ -164,7 +183,12 @@ export default function PostCreate({ space }) {
       }, 2000);
     });
     Promise.all([
-      nextApi.fetch(`${space.id}/${account?.network}/account/${encodeAddress(address, ss58Format)}/balance?snapshot=${height}`),
+      nextApi.fetch(
+        `${space.id}/${account?.network}/account/${encodeAddress(
+          address,
+          ss58Format
+        )}/balance?snapshot=${height}`
+      ),
       delay,
     ])
       .then((results) => {
@@ -204,7 +228,7 @@ export default function PostCreate({ space }) {
     if (isLoading) return;
 
     const address = account?.address ?? "";
-    const ss58Format =  account?.ss58Format ?? 0;
+    const ss58Format = account?.ss58Format ?? 0;
     if (!address) {
       dispatch(
         addToast({ type: TOAST_TYPES.ERROR, message: "Please connect wallet" })
@@ -225,15 +249,16 @@ export default function PostCreate({ space }) {
       choices: choices.filter(Boolean),
       startDate: startDate?.getTime(),
       endDate: endDate?.getTime(),
-      snapshotHeights: {
-        [account.network]: Number(height)
-      },
+      snapshotHeights: {},
       address: encodeAddress(address, ss58Format),
       realProposer: proxyPublish
         ? encodeAddress(proxyAddress, ss58Format)
         : null,
       proposerNetwork: account.network,
     };
+    snapshotHeights.forEach((snapshotHeight) => {
+      proposal.snapshotHeights[snapshotHeight.network] = snapshotHeight.height;
+    });
     const formError = viewFunc.validateProposal(proposal);
     if (formError) {
       dispatch(
