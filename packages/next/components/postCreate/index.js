@@ -16,7 +16,10 @@ import nextApi from "services/nextApi";
 import { useRouter } from "next/router";
 import { encodeAddress, isAddress } from "@polkadot/util-crypto";
 import { pick } from "lodash";
-import { snapshotHeightSelector } from "../../store/reducers/snapshotHeightSlice";
+import {
+  setSnapshotHeight,
+  snapshotHeightSelector,
+} from "../../store/reducers/snapshotHeightSlice";
 
 const Wrapper = styled.div`
   display: flex;
@@ -95,12 +98,18 @@ export default function PostCreate({ space }) {
     });
   }, []);
 
-  //TODO: here should be updated to support multiple snapshot heights
   useEffect(() => {
-    if (account?.network && space) {
-      setHeight(space.latestFinalizedHeights?.[account.network]);
+    if (space) {
+      dispatch(
+        setSnapshotHeight(
+          Object.keys(space.latestFinalizedHeights).map((network) => ({
+            network,
+            height: space.latestFinalizedHeights[network],
+          }))
+        )
+      );
     }
-  }, [space, account?.network]);
+  }, [space, dispatch]);
 
   useEffect(() => {
     // Create proposal with the connected wallet directly
@@ -114,9 +123,7 @@ export default function PostCreate({ space }) {
       return;
     }
     setBalanceError(null);
-    if (!height > 0) {
-      return;
-    }
+    // todo: check heights
     if (!account?.network) {
       return;
     }
@@ -171,9 +178,7 @@ export default function PostCreate({ space }) {
       return;
     }
     setProxyBalanceError(null);
-    if (!height > 0) {
-      return;
-    }
+    // todo check balance
     if (!account?.network) {
       return;
     }
@@ -326,8 +331,6 @@ export default function PostCreate({ space }) {
           setStartDate={setStartDate}
           endDate={endDate}
           setEndDate={setEndDate}
-          height={height}
-          setHeight={setHeight}
           balance={balance}
           onPublish={onPublish}
           isLoading={isLoading}

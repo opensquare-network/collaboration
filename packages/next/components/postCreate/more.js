@@ -1,15 +1,11 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
-import moment from "moment";
-
 import DatePicker from "components/datePicker";
 import BigNumber from "bignumber.js";
 import Button from "@/components/button";
 import Title from "@/components/styled/subTitle";
-import Loading from "../../public/imgs/icons/loading.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { popUpConnect } from "../../store/reducers/showConnectSlice";
-import Api from "../../services/api";
 import Information from "./information";
 import SnapshotHeightPicker from "@/components/snapshotHeightPicker";
 import { spaceConfigSelector } from "../../store/reducers/spaceConfigSlice";
@@ -18,15 +14,6 @@ import {
   setSnapshotHeight,
   snapshotHeightSelector,
 } from "../../store/reducers/snapshotHeightSlice";
-import { setVote } from "../../store/reducers/voteSlice";
-
-const snapshotApi = new Api(
-  new URL(
-    "/api/",
-    process.env.NEXT_PUBLIC_SNAPSHOT_HEIGHT_ENDPOINT ||
-      "https://next.statescan.io"
-  ).href
-);
 
 const Wrapper = styled.div`
   min-width: 302px;
@@ -96,10 +83,8 @@ export default function More({
   setStartDate,
   endDate,
   setEndDate,
-  height,
   balance,
   balanceError,
-  setHeight,
   onPublish,
   isLoading,
   threshold,
@@ -140,23 +125,6 @@ export default function More({
       );
     }
   }, [spaceConfig.networks]);
-
-  useEffect(() => {
-    if (snapshotHeightDate) {
-      setSnapshotHeightLoading(true);
-      snapshotApi
-        .fetch(`blocks/fromtime/${moment(snapshotHeightDate).valueOf()}`)
-        .then((response) => {
-          if (response?.result?.header?.number) {
-            setHeight(response?.result?.header?.number);
-          }
-        })
-        .catch(() => {})
-        .finally(() => {
-          setSnapshotHeightLoading(false);
-        });
-    }
-  }, [snapshotHeightDate, setHeight]);
 
   function getMinEndDate() {
     if (!startDate || startDate < new Date()) {
