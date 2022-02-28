@@ -3,7 +3,9 @@ import moment from "moment";
 
 import { p_16_semibold } from "styles/textStyles";
 import ExternalLink from "../externalLink";
-import { getExplorer } from "../../frontedUtils";
+import { capitalize, getExplorer } from "../../frontedUtils";
+import ChainIcon from "@/components/chain/spaceChainIcon";
+import Tooltip from "@/components/tooltip";
 
 const Wrapper = styled.div`
   padding: 32px;
@@ -11,9 +13,11 @@ const Wrapper = styled.div`
   border: 1px solid #f0f3f8;
   box-shadow: 0px 4px 31px rgba(26, 33, 44, 0.04),
     0px 0.751293px 3.88168px rgba(26, 33, 44, 0.03);
+
   > :not(:first-child) {
     margin-top: 20px;
   }
+
   @media screen and (max-width: 800px) {
     padding: 20px;
     margin: 0 -20px;
@@ -40,10 +44,12 @@ const InfoItem = styled.div`
   font-weight: 500;
   font-size: 14px;
   line-height: 24px;
+
   > :first-child {
     color: #506176;
     margin-right: 8px;
   }
+
   > :last-child {
     flex-grow: 1;
     text-align: right;
@@ -59,6 +65,7 @@ const TimestampItem = styled.div`
   font-weight: 500;
   font-size: 14px;
   line-height: 24px;
+
   > :first-child {
     color: #506176;
   }
@@ -68,10 +75,12 @@ const TimestampItem = styled.div`
   }
 `;
 
-export default function PostInfo({ data, space }) {
-  const explorer = getExplorer(space?.network);
-  const link = `https://${space?.network}.${explorer}.io/block/${data?.snapshotHeight}`;
+const SnapshotsWrapper = styled.div`
+  display: flex;
+  justify-content: end;
+`;
 
+export default function PostInfo({ data, space }) {
   return (
     <Wrapper>
       <div>
@@ -83,9 +92,26 @@ export default function PostInfo({ data, space }) {
         <div>
           <InfoItem>
             <div>Snapshot</div>
-            <ExternalLink href={link}>
-              {data?.snapshotHeight?.toLocaleString()}
-            </ExternalLink>
+            <SnapshotsWrapper>
+              {Object.keys(data.snapshotHeights).map((networkName) => {
+                const height = data.snapshotHeights[networkName];
+                const explorer = getExplorer(networkName);
+                const link = `https://${networkName}.${explorer}.io/block/${height}`;
+                return (
+                  <Tooltip
+                    key={networkName}
+                    content={`${capitalize(
+                      networkName
+                    )} ${height.toLocaleString()}`}
+                    size="fit"
+                  >
+                    <ExternalLink href={link}>
+                      <ChainIcon chainName={networkName} />
+                    </ExternalLink>
+                  </Tooltip>
+                );
+              })}
+            </SnapshotsWrapper>
           </InfoItem>
           {data?.pinHash && (
             <InfoItem>
