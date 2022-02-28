@@ -22,6 +22,7 @@ import Option from "@/components/option";
 import { text_secondary_red_500 } from "../../styles/colorStyles";
 import BigNumber from "bignumber.js";
 import Toggle from "../toggle";
+import { findNetworkConfig } from "services/util";
 
 const Wrapper = styled.div`
   > :not(:first-child) {
@@ -198,6 +199,11 @@ export default function PostVote({ proposal, space }) {
     }
   };
 
+  const networkConfig = findNetworkConfig(
+    proposal.networksConfig,
+    account?.network || proposal.networksConfig?.networks[0].network
+  );
+
   return (
     <Wrapper>
       <InnerWrapper>
@@ -243,10 +249,10 @@ export default function PostVote({ proposal, space }) {
                   bigNumber2Locale(
                     fromAssetUnit(
                       proxyVote ? proxyBalance : balance,
-                      account?.decimals
+                      networkConfig?.decimals
                     )
                   )
-                )} ${account?.symbol}`}
+                )} ${networkConfig?.symbol}`}
               {(proxyVote ? proxyBalance === "0" : balance === "0") && (
                 <RedText>Insufficient</RedText>
               )}
@@ -263,7 +269,7 @@ export default function PostVote({ proposal, space }) {
             <PostAddress
               address={proxyAddress}
               setAddress={setProxyAddress}
-              space={account}
+              space={networkConfig}
               info={info}
               setInfo={setInfo}
               setProxyBalance={setProxyBalance}
