@@ -90,6 +90,7 @@ const TitleWrapper = styled.div`
 
 const ProjectIcons = {
   kintsugi: "project-kintsugi.png",
+  polarisdao: "project-polarisdao.png",
 };
 
 const getProjectIcon = (spaceId) => {

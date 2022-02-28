@@ -28,6 +28,16 @@ function getTotalIssuance(space) {
   throw new HttpError(500, "getTotalIssuance: unsupported space " + space);
 }
 
+function getTotalIssuance(space) {
+  if (["rmrk", "rmrk-curation"].includes(space)) {
+    return "100000000000000000";
+  } else if ("polarisdao" === space) {
+    return "1000000000000000";
+  }
+
+  throw new HttpError(500, "getTotalIssuance: unsupported space " + space);
+}
+
 const calcWeights = (vote, decimals, voteThreshold) => {
   return {
     ...vote,
