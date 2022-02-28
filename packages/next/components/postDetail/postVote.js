@@ -117,7 +117,7 @@ export default function PostVote({ proposal, space }) {
     );
   }, [balance, proxyVote, proxyBalance]);
 
-  const getProxyBalance = () => {
+  const getProxyBalance = (proxyAddress) => {
     if (proposal && proxyAddress && account?.network) {
       nextApi
         .fetch(`${proposal.space}/proposal/${proposal.cid}/voterbalance/${account.network}/${proxyAddress}`, {

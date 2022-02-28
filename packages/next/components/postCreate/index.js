@@ -70,7 +70,6 @@ export default function PostCreate({ space }) {
   const [proxyPublish, setProxyPublish] = useState(false);
   const [proxyAddress, setProxyAddress] = useState("");
   const [info, setInfo] = useState();
-  const [proxyCount, setProxyCount] = useState(0);
   const [proxyBalance, setProxyBalance] = useState(null);
   const [proxyBalanceError, setProxyBalanceError] = useState(null);
   const [isInputting, setIsInputting] = useState(false);
@@ -160,7 +159,7 @@ export default function PostCreate({ space }) {
     dispatch,
   ]);
 
-  useEffect(() => {
+  const getProxyBalance = (proxyAddress) => {
     // Create proposal with the proxy address
     // We need to check the balance of the proxy address
     const address = proxyAddress ?? "";
@@ -208,15 +207,7 @@ export default function PostCreate({ space }) {
         dispatch(addToast({ type: TOAST_TYPES.ERROR, message }));
         setProxyBalanceError(message);
       });
-  }, [
-    space,
-    height,
-    proxyAddress,
-    account?.network,
-    account?.ss58Format,
-    proxyCount,
-    dispatch,
-  ]);
+  };
 
   useEffect(() => {
     if (isInputting) {
@@ -342,7 +333,7 @@ export default function PostCreate({ space }) {
           space={connectedNetworkConfig}
           info={info}
           setInfo={setInfo}
-          setProxyCount={() => setProxyCount(proxyCount + 1)}
+          getProxyBalance={getProxyBalance}
           proxyBalance={proxyBalance}
           proxyBalanceError={proxyBalanceError}
           setProxyBalance={setProxyBalance}

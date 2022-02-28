@@ -113,7 +113,7 @@ export default function More({
   info,
   setInfo,
   setProxyBalance,
-  setProxyCount,
+  getProxyBalance,
   proxyBalance,
   proxyBalanceError,
   isInputting,
@@ -239,7 +239,7 @@ export default function More({
           space={space}
           info={info}
           setInfo={setInfo}
-          setProxyCount={setProxyCount}
+          getProxyBalance={getProxyBalance}
           setIsInputting={setIsInputting}
           setProxyBalance={setProxyBalance}
           symbol={symbol}

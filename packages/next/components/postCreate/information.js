@@ -45,7 +45,7 @@ export default function Information({
   space,
   info,
   setInfo,
-  setProxyCount,
+  getProxyBalance,
   setIsInputting,
   setProxyBalance,
   symbol,
@@ -144,7 +144,7 @@ export default function Information({
             info={info}
             setInfo={setInfo}
             setProxyBalance={setProxyBalance}
-            getProxyBalance={setProxyCount}
+            getProxyBalance={getProxyBalance}
             setIsInputting={setIsInputting}
             flag={false}
           />

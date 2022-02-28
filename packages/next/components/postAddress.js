@@ -187,7 +187,7 @@ export default function PostAddress({
       setIsLoading(true);
       const response = await fetchIdentity(chain.network, idenAddr);
       setInfo(response?.info);
-      getProxyBalance();
+      getProxyBalance(spaceAddr);
     } catch (e) {
       setAddress(inputAddress);
       dispatch(
