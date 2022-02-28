@@ -175,11 +175,7 @@ export default function Account({ space, showMenu, setShowMenu }) {
   useEffect(() => {
     if (!account?.address) {
       setAddress(null);
-      return;
     }
-
-    }
-
   }, [account?.address, account?.ss58Format]);
 
   useEffect(() => {
