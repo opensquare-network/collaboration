@@ -2,15 +2,18 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import moment from "moment";
 
-import Input from "components/input";
 import DatePicker from "components/datePicker";
 import BigNumber from "bignumber.js";
 import Button from "@/components/button";
+import Title from "@/components/styled/subTitle";
 import Loading from "../../public/imgs/icons/loading.svg";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { popUpConnect } from "../../store/reducers/showConnectSlice";
 import Api from "../../services/api";
 import Information from "./information";
+import SnapshotHeightPicker from "@/components/snapshotHeightPicker";
+import { spaceConfigSelector } from "../../store/reducers/spaceConfigSlice";
+import { p_14_medium } from "../../styles/textStyles";
 
 const snapshotApi = new Api(
   new URL(
@@ -46,12 +49,6 @@ const InnerWrapper = styled.div`
   }
 `;
 
-const Title = styled.div`
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 24px;
-`;
-
 const TitleWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -68,35 +65,6 @@ const SystemWrapper = styled.div`
   border: 1px solid #e2e8f0;
 `;
 
-const InputWrapper = styled.div`
-  position: relative;
-  display: flex;
-  > img {
-    position: absolute;
-    top: 12px;
-    left: 16px;
-  }
-  > svg {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-  }
-`;
-
-const StyledInput = styled(Input)`
-  padding-left: 48px;
-  padding-right: 44px;
-  flex-grow: 1;
-  width: 120px;
-`;
-
-const SnapshotHeightWrapper = styled.div`
-  height: 24px;
-  width: 24px;
-  position: relative;
-  cursor: pointer;
-`;
-
 const DateWrapper = styled.div`
   > :not(:first-child) {
     margin-top: 8px;
@@ -108,8 +76,16 @@ const Divider = styled.div`
   background: #f0f3f8;
 `;
 
-// const blocksMap = new Map();
+const Snapshot = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
 
+const NetworkName = styled.div`
+  ${p_14_medium};
+  color: #506176;
+  text-transform: capitalize;
+`;
 export default function More({
   startDate,
   setStartDate,
@@ -144,9 +120,20 @@ export default function More({
     new BigNumber(Number(proxyBalance)).comparedTo(new BigNumber(threshold)) >=
     0;
   const dispatch = useDispatch();
-  const isSnapshotHeight = ["rmrk", "rmrk-curation"].includes(space?.id);
   const [snapshotHeightDate, setSnapshotHeightDate] = useState();
   const [snapshotHeightLoading, setSnapshotHeightLoading] = useState(false);
+  const [snapshotHeights, setSnapshotHeights] = useState([]);
+  const spaceConfig = useSelector(spaceConfigSelector);
+
+  useEffect(() => {
+    if (spaceConfig?.networks) {
+      const snapshotHeights = [];
+      spaceConfig?.networks.forEach((network) => {
+        snapshotHeights.push({ network: network.network, height: 0 });
+      });
+      setSnapshotHeights(snapshotHeights);
+    }
+  }, [spaceConfig.networks]);
 
   useEffect(() => {
     if (snapshotHeightDate) {
@@ -164,23 +151,6 @@ export default function More({
         });
     }
   }, [snapshotHeightDate, setHeight]);
-
-  // useEffect(() => {
-  //   if (height && !blocksMap.get(`${height}`)) {
-  //     snapshotApi
-  //       .fetch(`blocks/${height}`)
-  //       .then((response) => {
-  //         if (response?.result?.blockTime) {
-  //           blocksMap.set(`${height}`, response.result.blockTime);
-  //         } else {
-  //           blocksMap.set(`${height}`, null);
-  //         }
-  //       })
-  //       .catch(() => {
-  //         blocksMap.set(`${height}`, null);
-  //       });
-  //   }
-  // }, [height]);
 
   function getMinEndDate() {
     if (!startDate || startDate < new Date()) {
@@ -219,31 +189,21 @@ export default function More({
       </InnerWrapper>
       <InnerWrapper>
         <TitleWrapper>
-          <Title>Snapshot height</Title>
-          {isSnapshotHeight ? (
-            <SnapshotHeightWrapper>
-              <DatePicker
-                maxDate={new Date()}
-                date={snapshotHeightDate}
-                setDate={setSnapshotHeightDate}
-                button={<img src="/imgs/icons/timestamp-color.svg" alt="" />}
-              />
-            </SnapshotHeightWrapper>
-          ) : (
-            <img src="/imgs/icons/timestamp.svg" alt="" />
-          )}
+          <Title>Snapshot</Title>
         </TitleWrapper>
-        <InputWrapper>
-          <StyledInput
-            placeholder="0"
-            type="number"
-            value={height}
-            onChange={(e) => setHeight(e.target.value)}
-            disabled={snapshotHeightLoading}
+        <DateWrapper>
+          <SnapshotHeightPicker
+            date={snapshotHeightDate}
+            setDate={setSnapshotHeightDate}
+            setSnapshotHeights={setSnapshotHeights}
           />
-          <img src="/imgs/icons/block.svg" alt="" />
-          {snapshotHeightLoading && <Loading />}
-        </InputWrapper>
+          {snapshotHeights.map((snapshot) => (
+            <Snapshot key={snapshot.network}>
+              <NetworkName>{snapshot.network}</NetworkName>
+              <span>{snapshot.height}</span>
+            </Snapshot>
+          ))}
+        </DateWrapper>
         {/* {blocksMap.get(`${height}`) && (
           <Row
             header="Timestamp"
