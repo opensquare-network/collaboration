@@ -5,9 +5,14 @@ import Datetime from "@/components/datetime";
 import Divider from "@/components/styled/divider";
 import BlockHeightInput from "@/components/chain/blockHeightInput";
 import Button from "@/components/button";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { spaceConfigSelector } from "../store/reducers/spaceConfigSlice";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import {
+  setSnapshotHeight,
+  snapshotHeightSelector,
+} from "../store/reducers/snapshotHeightSlice";
+import nextApi from "../services/nextApi";
 
 const Wrapper = styled.div`
   position: relative;
@@ -31,19 +36,32 @@ const ButtonWrapper = styled.div`
   margin-top: 20px;
 `;
 
-function SnapshotHeightPicker({ date, setDate, setSnapshotHeights }) {
+function SnapshotHeightPicker({ date, setDate }) {
+  const dispatch = useDispatch();
   const spaceConfig = useSelector(spaceConfigSelector);
   const networks = spaceConfig.networks || [];
   const [showHeights, setShowHeights] = useState(false);
+  const [loading, setLoading] = useState(true);
   const hideHeights = () => setShowHeights(false);
-
+  const snapshotHeights = useSelector(snapshotHeightSelector);
   const fetchHeights = () => {
-    //todo: this is mock, fetch block height from server
-    const snapshotHeights = [];
-    spaceConfig?.networks.forEach((network) => {
-      snapshotHeights.push({ network: network.network, height: 1000 });
-    });
-    setSnapshotHeights(snapshotHeights);
+    setLoading(true);
+    nextApi
+      .fetch(`${spaceConfig.id}/networkheights`, { time: date.getTime() })
+      .then(({ result }) => {
+        dispatch(
+          setSnapshotHeight(
+            networks.map((network) => ({
+              ...result[network.network],
+              network: network.network,
+            }))
+          )
+        );
+      })
+      .catch(() => {})
+      .finally(() => {
+        setLoading(false);
+      });
     setShowHeights(true);
   };
 
@@ -52,9 +70,7 @@ function SnapshotHeightPicker({ date, setDate, setSnapshotHeights }) {
       <DatePicker
         date={date}
         setDate={setDate}
-        onSelect={() => {
-          fetchHeights();
-        }}
+        onSelect={fetchHeights}
         placeholder="Select time"
       />
       {showHeights && (
@@ -66,14 +82,19 @@ function SnapshotHeightPicker({ date, setDate, setSnapshotHeights }) {
             <Title style={{ marginTop: 20 }}>Blocks height</Title>
             {networks?.map((network) => (
               <BlockHeightInput
-                height={1000}
+                height={
+                  snapshotHeights?.find(
+                    (snapshot) => snapshot.network === network.network
+                  )?.height
+                }
                 key={network.network}
                 network={network.network}
+                loading={loading}
               />
             ))}
             <ButtonWrapper>
               <Button onClick={hideHeights}>Cancel</Button>
-              <Button onClick={hideHeights} primary>
+              <Button onClick={hideHeights} primary isLoading={loading}>
                 Select
               </Button>
             </ButtonWrapper>

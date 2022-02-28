@@ -14,6 +14,11 @@ import Information from "./information";
 import SnapshotHeightPicker from "@/components/snapshotHeightPicker";
 import { spaceConfigSelector } from "../../store/reducers/spaceConfigSlice";
 import { p_14_medium } from "../../styles/textStyles";
+import {
+  setSnapshotHeight,
+  snapshotHeightSelector,
+} from "../../store/reducers/snapshotHeightSlice";
+import { setVote } from "../../store/reducers/voteSlice";
 
 const snapshotApi = new Api(
   new URL(
@@ -122,16 +127,17 @@ export default function More({
   const dispatch = useDispatch();
   const [snapshotHeightDate, setSnapshotHeightDate] = useState();
   const [snapshotHeightLoading, setSnapshotHeightLoading] = useState(false);
-  const [snapshotHeights, setSnapshotHeights] = useState([]);
   const spaceConfig = useSelector(spaceConfigSelector);
+  const snapshotHeights = useSelector(snapshotHeightSelector);
 
   useEffect(() => {
     if (spaceConfig?.networks) {
-      const snapshotHeights = [];
-      spaceConfig?.networks.forEach((network) => {
-        snapshotHeights.push({ network: network.network, height: 0 });
-      });
-      setSnapshotHeights(snapshotHeights);
+      setSnapshotHeight(
+        spaceConfig?.networks.map((network) => ({
+          network: network.network,
+          height: 0,
+        }))
+      );
     }
   }, [spaceConfig.networks]);
 
@@ -195,9 +201,8 @@ export default function More({
           <SnapshotHeightPicker
             date={snapshotHeightDate}
             setDate={setSnapshotHeightDate}
-            setSnapshotHeights={setSnapshotHeights}
           />
-          {snapshotHeights.map((snapshot) => (
+          {snapshotHeights?.map((snapshot) => (
             <Snapshot key={snapshot.network}>
               <NetworkName>{snapshot.network}</NetworkName>
               <span>{snapshot.height}</span>
