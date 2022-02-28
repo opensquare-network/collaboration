@@ -149,11 +149,22 @@ export default function PostAddress({
   const [isInput, setIsInput] = useState(false);
   const { width } = useWindowSize();
   const [inputAddress, setInputAddress] = useState(address);
+  const [proxyAddressChange, setProxyAddressChange] = useState(false);
 
   const ref = useRef();
 
-  const onBlur = async () => {
+  useEffect(() => {
+    setProxyAddressChange(true);
+  }, [inputAddress, space?.network]);
+
+  useEffect(async () => {
+    if (!proxyAddressChange) {
+      return;
+    }
+    setProxyAddressChange(false);
+
     if (!inputAddress || !space) {
+      setProxyBalance(null);
       return;
     }
     if(!isAddress(inputAddress)) {
@@ -189,7 +200,7 @@ export default function PostAddress({
       setIsLoading(false);
       setIsInput(false);
     }
-  };
+  }, [dispatch, proxyAddressChange, inputAddress, space, setAddress, setInfo, getProxyBalance]);
 
   useEffect(() => {
     if (!address && !isInput) {
@@ -227,9 +238,7 @@ export default function PostAddress({
                 ? "Proxy source address"
                 : "Please fill the proxy source address"
             }
-            value={inputAddress}
-            onChange={(e) => setInputAddress(e.target.value)}
-            onBlur={onBlur}
+            onBlur={(e) => setInputAddress(e.target.value)}
             onKeyPress={(e) => {
               if (e.key === "Enter") {
                 ref.current.blur();

@@ -121,38 +121,34 @@ export default function Information({
           )}
         </>
       )}
-      {account && (
-        <>
-          <ProxyVoteWrapper>
-            <Row
-              header="Proxy vote"
-              content={
-                <Toggle
-                  active={proxyPublish}
-                  onClick={() => {
-                    setProxyPublish(!proxyPublish);
-                  }}
-                />
-              }
+      <ProxyVoteWrapper>
+        <Row
+          header="Proxy vote"
+          content={
+            <Toggle
+              active={proxyPublish}
+              onClick={() => {
+                setProxyPublish(!proxyPublish);
+              }}
             />
-          </ProxyVoteWrapper>
-          {proxyPublish && (
-            <PostAddressWrapper>
-              <PostAddress
-                size="small"
-                address={proxyAddress}
-                setAddress={setProxyAddress}
-                space={space}
-                info={info}
-                setInfo={setInfo}
-                setProxyBalance={setProxyBalance}
-                getProxyBalance={setProxyCount}
-                setIsInputting={setIsInputting}
-                flag={false}
-              />
-            </PostAddressWrapper>
-          )}
-        </>
+          }
+        />
+      </ProxyVoteWrapper>
+      {proxyPublish && (
+        <PostAddressWrapper>
+          <PostAddress
+            size="small"
+            address={proxyAddress}
+            setAddress={setProxyAddress}
+            space={space}
+            info={info}
+            setInfo={setInfo}
+            setProxyBalance={setProxyBalance}
+            getProxyBalance={setProxyCount}
+            setIsInputting={setIsInputting}
+            flag={false}
+          />
+        </PostAddressWrapper>
       )}
     </>
   );

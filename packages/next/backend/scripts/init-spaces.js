@@ -180,19 +180,6 @@ const spaces = [
     voteThreshold: "1000000",
     weightStrategy: ["balance-of", "quadratic-balance-of", "biased-voting"],
   },
-  {
-    id: "polarisdao",
-    name: "PolarisDAO",
-    network: "statemine",
-    symbol: "ARIS",
-    assetId: 16,
-    ss58Format: 2,
-    decimals: 8,
-    proposeThreshold: "4000000000000",
-    voteThreshold: "1000000",
-    weightStrategy: ["balance-of","quadratic-balance-of", "biased-voting"],
-    identity: "kusama",
-  },
 ];
 
 async function main() {
