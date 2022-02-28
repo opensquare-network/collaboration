@@ -1,14 +1,17 @@
 import styled from "styled-components";
 import Input from "@/components/input";
 import ChainIcon from "@/components/chain/chainIcon";
+import Loading from "public/imgs/icons/loading.svg";
 
 const Wrapper = styled.div`
   position: relative;
-
   svg {
     position: absolute;
     left: 16px;
     top: 12px;
+  }
+  svg:nth-child(2) {
+    left: 48px;
   }
 `;
 const StyledInput = styled(Input)`
@@ -16,15 +19,17 @@ const StyledInput = styled(Input)`
   width: 216px;
 `;
 
-function BlockHeightInput({ network, height, setHeight, loading }) {
+function BlockHeightInput({ network, height, loading }) {
   return (
     <Wrapper>
       <ChainIcon chainName={network} />
+      {loading && <Loading />}
       <StyledInput
-        placeholder="Input Block Height"
+        placeholder={loading ? "" : "Input Block Height"}
         type="number"
-        value={height}
-        onChange={(e) => setHeight(e.target.value)}
+        value={loading ? "" : height}
+        //todo: implement setHeight
+        // onChange={(e) => setHeight(e.target.value)}
         disabled={loading}
       />
     </Wrapper>
