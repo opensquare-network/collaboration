@@ -22,7 +22,7 @@ export const snapshotHeightSelector = (state) => {
   if (state.snapshotHeight.snapshotHeight) {
     return state.snapshotHeight.snapshotHeight;
   } else {
-    return null;
+    return [];
   }
 };
 
