@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
@@ -64,13 +64,15 @@ const InfoWrapper = styled.div`
 `;
 
 const Square = styled.div`
-  cursor: pointer;
   width: 20px;
   height: 20px;
   background: url("/imgs/icons/ipfs.svg");
-  :hover {
-    background: url("/imgs/icons/ipfs-active.svg");
-  }
+  ${p => !p.noHover && css`
+    cursor: pointer;
+    :hover {
+      background: url("/imgs/icons/ipfs-active.svg");
+    }
+  `}
 `;
 
 const NoCommentWrapper = styled.div`
@@ -167,12 +169,14 @@ export default function PostDiscussion({ proposal, space, comments }) {
               <Author address={item.address} space={getNetwork(item)} size={20} />
               <div>{timeDuration(item.createdAt)}</div>
             </DividerWrapper>
-            {item?.pinHash && (
+            {item?.pinHash ? (
               <ExternalLink
                 href={`https://ipfs-hk.decoo.io/ipfs/${item.pinHash}`}
               >
                 <Square />
               </ExternalLink>
+            ) : (
+              <Square noHover={true} />
             )}
           </InfoWrapper>
           <ContentWrapper>
