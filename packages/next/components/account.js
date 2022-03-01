@@ -191,8 +191,10 @@ export default function Account({ space, showMenu, setShowMenu }) {
 
   useEffect(() => {
     if (account?.address && account?.ss58Format && account?.network) {
-      const idenAddr = encodeAddress(account.address, account.ss58Format);
-      fetchIdentity(account.network, idenAddr)
+      const identityNetwork = account?.identity?.network || account?.network;
+      const identitySS58Format = account?.identity?.ss58Format || account?.ss58Format;
+      const idenAddr = encodeAddress(account.address, identitySS58Format);
+      fetchIdentity(identityNetwork, idenAddr)
         .then((identity) => {
           if (isMounted.current) {
             setIdentity(identity);
@@ -200,7 +202,14 @@ export default function Account({ space, showMenu, setShowMenu }) {
         })
         .catch(() => {});
     }
-  }, [account?.address, account?.ss58Format, account?.network, isMounted]);
+  }, [
+    account?.address,
+    account?.ss58Format,
+    account?.network,
+    account?.identity?.network,
+    account?.identity?.ss58Format,
+    isMounted
+  ]);
 
   if (!space) {
     return null;

@@ -1,4 +1,4 @@
-function getNetworkIdentity(network) {
+export function getNetworkIdentity(network) {
   switch (network) {
     case "polkadot": {
       return {

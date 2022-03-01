@@ -1,6 +1,7 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
 
 import { setCookie, getCookie, clearCookie } from "frontedUtils/cookie";
+import { getNetworkIdentity } from "services/util";
 
 const accountSlice = createSlice({
   name: "account",
@@ -67,6 +68,7 @@ export const loginAccountSelector = createSelector(
     return {
       ...network,
       ...account,
+      identity: getNetworkIdentity(network.identity),
     };
   }
 );
