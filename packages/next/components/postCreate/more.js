@@ -14,6 +14,10 @@ import {
   setSnapshotHeights,
   snapshotHeightsSelector,
 } from "../../store/reducers/snapshotHeightSlice";
+import QuestionMark from "../../public/imgs/icons/question-mark.svg";
+import BlockIcon from "../../public/imgs/icons/block.svg";
+import Tooltip from "@/components/tooltip";
+import Flex from "@/components/styled/flex";
 
 const Wrapper = styled.div`
   min-width: 302px;
@@ -71,6 +75,7 @@ const Divider = styled.div`
 const Snapshot = styled.div`
   display: flex;
   justify-content: space-between;
+  ${p_14_medium};
 `;
 
 const NetworkName = styled.div`
@@ -164,7 +169,13 @@ export default function More({
       </InnerWrapper>
       <InnerWrapper>
         <TitleWrapper>
-          <Title>Snapshot</Title>
+          <Flex style={{ gap: 4 }}>
+            <Title>Snapshot</Title>
+            <Tooltip content={"Support multiple chain voting"} size="fit">
+              <QuestionMark />
+            </Tooltip>
+          </Flex>
+          <BlockIcon />
         </TitleWrapper>
         <DateWrapper>
           <SnapshotHeightPicker
@@ -174,7 +185,7 @@ export default function More({
           {snapshotHeights?.map((snapshot) => (
             <Snapshot key={snapshot.network}>
               <NetworkName>{snapshot.network}</NetworkName>
-              <span>{snapshot.height}</span>
+              <span>{snapshot.height?.toLocaleString()}</span>
             </Snapshot>
           ))}
         </DateWrapper>

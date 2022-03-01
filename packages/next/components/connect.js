@@ -5,7 +5,10 @@ import {
   web3Enable,
 } from "@polkadot/extension-dapp";
 import { useDispatch, useSelector } from "react-redux";
-import { setAccount, availableNetworksSelector } from "store/reducers/accountSlice";
+import {
+  setAccount,
+  availableNetworksSelector,
+} from "store/reducers/accountSlice";
 
 import { Modal } from "semantic-ui-react";
 import Button from "components/button";
@@ -119,10 +122,12 @@ export default function Connect({ space, setShowMenu }) {
 
   const doConnect = async () => {
     try {
-      dispatch(setAccount({
-        address,
-        network: chain,
-      }));
+      dispatch(
+        setAccount({
+          address,
+          network: chain,
+        })
+      );
       dispatch(closeConnect());
       setShowMenu(false);
     } catch (error) {

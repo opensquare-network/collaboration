@@ -18,7 +18,7 @@ import {
   showConnectSelector,
 } from "../store/reducers/showConnectSlice";
 
-const Connect = dynamic(() => import("./connect"), {
+const ConnectModal = dynamic(() => import("./connect"), {
   ssr: false,
 });
 
@@ -84,7 +84,7 @@ const AccountWrapperPC = styled(AccountWrapper)`
 
 const MenuWrapper = styled.div`
   cursor: auto;
-  min-width: 209px;
+  min-width: 240px;
   position: absolute;
   right: 0;
   top: 100%;
@@ -92,6 +92,7 @@ const MenuWrapper = styled.div`
   border: 1px solid #f0f3f8;
   ${shadow_200};
   padding: 16px;
+  padding-bottom: 8px;
   z-index: 1;
   @media screen and (max-width: 800px) {
     margin-top: 19px;
@@ -109,6 +110,7 @@ const MenuWrapper = styled.div`
 `;
 
 const MenuItem = styled.div`
+  margin-bottom: 8px;
   cursor: pointer;
 `;
 
@@ -204,27 +206,35 @@ export default function Account({ space, showMenu, setShowMenu }) {
     return null;
   }
 
+  const onSwitch = () => {
+    dispatch(popUpConnect());
+    setShowMenu(false);
+  };
+
   const onLogout = () => {
     dispatch(logout());
     setShowMenu(false);
   };
 
-  const ConnectWallet = (
+  const ConnectWalletButton = (
     <div className="connect">
-      <DarkButton
-        primary
-        onClick={() => dispatch(popUpConnect())}
-        className="button"
-      >
-        Connect Wallet
-      </DarkButton>
-      {showConnect && <Connect space={space} setShowMenu={setShowMenu} />}
+      {!account && (
+        <DarkButton
+          primary
+          onClick={() => dispatch(popUpConnect())}
+          className="button"
+        >
+          Connect Wallet
+        </DarkButton>
+      )}
     </div>
   );
 
   const Menu = (
     <MenuWrapper onClick={(e) => e.stopPropagation()}>
-      {!account && windowSize.width <= 800 && ConnectWallet}
+      {/*The dark connect button For Mobile only*/}
+      {!account && windowSize.width <= 800 && ConnectWalletButton}
+      {/*The dark connect button For Mobile only*/}
       {address && (
         <>
           <AccountWrapper>
@@ -243,6 +253,12 @@ export default function Account({ space, showMenu, setShowMenu }) {
           </AccountWrapper>
           <MenuDivider />
           <MenuItem>
+            <LogoutWrapper onClick={onSwitch}>
+              Switch Address
+              <img src="/imgs/icons/switch.svg" alt="" />
+            </LogoutWrapper>
+          </MenuItem>
+          <MenuItem>
             <LogoutWrapper onClick={onLogout}>
               Log out
               <img src="/imgs/icons/logout.svg" alt="" />
@@ -253,6 +269,12 @@ export default function Account({ space, showMenu, setShowMenu }) {
     </MenuWrapper>
   );
 
+  // show ConnectModal on first priority if  showConnect = true
+  if (showConnect) {
+    return <ConnectModal space={space} setShowMenu={setShowMenu} />;
+  }
+
+  // if already connected, show address on right top corner
   if (address && pageMounted) {
     return (
       <Wrapper>
@@ -281,10 +303,12 @@ export default function Account({ space, showMenu, setShowMenu }) {
     );
   }
 
-  if (windowSize.width > 800 && !address) {
-    return ConnectWallet;
+  // if no address connected, show ConnectButton on right top corner(PC only)
+  if (windowSize.width > 800 && !account) {
+    return ConnectWalletButton;
   }
 
+  // show dropdown menu (Mobile only)
   if (showMenu) {
     return (
       <Wrapper>
