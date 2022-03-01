@@ -10,6 +10,7 @@ const Wrapper = styled.div`
 
 const DropdownWrapper = styled.div`
   position: relative;
+  height: 48px;
 `;
 
 const StyledDropdown = styled(Dropdown)`
