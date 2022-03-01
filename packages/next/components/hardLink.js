@@ -2,17 +2,14 @@ import styled from "styled-components";
 
 const Wrapper = styled.div`
   cursor: pointer;
-  > a {
-    color: initial;
-  }
 `;
+
+const navigate = (href) => window.location.assign(href);
 
 export default function HardLink({ href, children }) {
   return href ? (
-    <Wrapper>
-      <a href={href}>
-        {children}
-      </a>
+    <Wrapper onClick={() => navigate(href)}>
+      {children}
     </Wrapper>
   ) : (
     <>{children}</>
