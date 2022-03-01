@@ -14,6 +14,10 @@ import {
   setSnapshotHeights,
   snapshotHeightsSelector,
 } from "../../store/reducers/snapshotHeightSlice";
+import QuestionMark from "../../public/imgs/icons/question-mark.svg";
+import BlockIcon from "../../public/imgs/icons/block.svg";
+import Tooltip from "@/components/tooltip";
+import Flex from "@/components/styled/flex";
 
 const Wrapper = styled.div`
   min-width: 302px;
@@ -164,7 +168,13 @@ export default function More({
       </InnerWrapper>
       <InnerWrapper>
         <TitleWrapper>
-          <Title>Snapshot</Title>
+          <Flex style={{ gap: 4 }}>
+            <Title>Snapshot</Title>
+            <Tooltip content={"Support multiple chain voting"} size="fit">
+              <QuestionMark />
+            </Tooltip>
+          </Flex>
+          <BlockIcon />
         </TitleWrapper>
         <DateWrapper>
           <SnapshotHeightPicker
