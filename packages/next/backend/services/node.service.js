@@ -9,7 +9,7 @@ const cachedApis = {};
 function getApi(chain) {
   if (!cachedApis[chain]) {
     cachedApis[chain] = axios.create({
-      baseURL: `${ getEnvNodeApiEndpoint() }/${ chain }/`,
+      baseURL: `${getEnvNodeApiEndpoint()}/${chain}/`,
     });
   }
 
@@ -25,7 +25,7 @@ async function getSystemBalance(api, blockHeight, address) {
   }
 
   try {
-    const result = await api.get(`/balance/${ address }/${ blockHeight }`);
+    const result = await api.get(`/balance/${address}/${blockHeight}`);
     return result.data;
   } catch (err) {
     throw new HttpError(500, "Failed to get account balance");
@@ -39,7 +39,9 @@ async function checkDelegation(api, delegatee, delegator, blockHeight) {
 
   let isProxy = false;
   try {
-    const result = await api.get(`/proxy/${ delegator }/${ delegatee }/${ blockHeight }`);
+    const result = await api.get(
+      `/proxy/${delegator}/${delegatee}/${blockHeight}`
+    );
     isProxy = result.data.isProxy;
   } catch (err) {
     throw new HttpError(500, "Failed to verify the proxy address");
@@ -70,17 +72,24 @@ async function getTokenBalance(api, assetIdOrSymbol, blockHeight, address) {
   }
 
   try {
-    const result = await api.get(`/token/${ assetIdOrSymbol }/account/${ address }/${ blockHeight }`);
-    const { data: { free, reserved } = {} } = result
+    const result = await api.get(
+      `/token/${assetIdOrSymbol}/account/${address}/${blockHeight}`
+    );
+    const { data: { free, reserved } = {} } = result;
     return new BigNumber(free || 0).plus(reserved || 0).toString();
   } catch (err) {
     throw new HttpError(500, "Failed to get account token balance");
   }
 }
 
-function getBalanceFromNetwork(api, { networksConfig, networkName, address, blockHeight }) {
+function getBalanceFromNetwork(
+  api,
+  { networksConfig, networkName, address, blockHeight }
+) {
   const symbol = networksConfig?.symbol;
-  const network = networksConfig?.networks?.find(n => n.network === networkName);
+  const network = networksConfig?.networks?.find(
+    (n) => n.network === networkName
+  );
   if (!network) {
     throw new HttpError(400, "Network not found");
   }
@@ -106,7 +115,7 @@ async function getFinalizedHeightFromTime(api, time) {
     });
     return result.data;
   } catch (err) {
-    throw new HttpError(500, "Failed to get finalized height from time");
+    throw new HttpError(500, "Failed to get block height from time");
   }
 }
 

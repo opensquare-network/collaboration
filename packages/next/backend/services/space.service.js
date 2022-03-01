@@ -2,33 +2,32 @@ const { getLatestHeight } = require("./chain.service");
 const { getProposalCollection } = require("../mongo");
 const { spaces: spaceServices } = require("../spaces");
 const { getApi, getFinalizedHeightFromTime } = require("./node.service");
+const { HttpError } = require("../exc");
 
 async function getSpaces() {
   const now = Date.now();
   const proposalCol = await getProposalCollection();
-  const activeStats = await proposalCol.aggregate(
-    [
+  const activeStats = await proposalCol
+    .aggregate([
       {
         $match: {
           startDate: { $lte: now },
           endDate: { $gt: now },
-        }
+        },
       },
       {
         $group: {
           _id: "$space",
-          count: { $sum: 1 }
-        }
-      }
-    ]).toArray();
+          count: { $sum: 1 },
+        },
+      },
+    ])
+    .toArray();
 
-  const result = Object.keys(spaceServices).reduce(
-    (res, key) => {
-      res[key] = { ...spaceServices[key], activeProposalsCount: 0 };
-      return res;
-    },
-    {}
-  );
+  const result = Object.keys(spaceServices).reduce((res, key) => {
+    res[key] = { ...spaceServices[key], activeProposalsCount: 0 };
+    return res;
+  }, {});
 
   for (const item of activeStats) {
     const space = result[item._id];
@@ -46,12 +45,12 @@ async function getSpace(space) {
     return null;
   }
 
-  const latestFinalizedHeights = Object.fromEntries((spaceService.networks || []).map(
-    network => [
+  const latestFinalizedHeights = Object.fromEntries(
+    (spaceService.networks || []).map((network) => [
       network.network,
       getLatestHeight(network.network),
-    ]
-  ));
+    ])
+  );
 
   return {
     ...spaceService,
@@ -72,7 +71,10 @@ async function getSpaceNetworkHeights(space, time) {
         const result = await getFinalizedHeightFromTime(api, time);
         return [network.network, result];
       } catch (err) {
-        return [network.network, null];
+        throw new HttpError(
+          500,
+          `Failed to get ${network.network} block height from time: ${err.message}`
+        );
       }
     })
   );
@@ -84,4 +86,4 @@ module.exports = {
   getSpace,
   getSpaces,
   getSpaceNetworkHeights,
-}
+};

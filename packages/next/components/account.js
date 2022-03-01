@@ -18,7 +18,7 @@ import {
   showConnectSelector,
 } from "../store/reducers/showConnectSlice";
 
-const Connect = dynamic(() => import("./connect"), {
+const ConnectModal = dynamic(() => import("./connect"), {
   ssr: false,
 });
 
@@ -208,6 +208,7 @@ export default function Account({ space, showMenu, setShowMenu }) {
 
   const onSwitch = () => {
     dispatch(popUpConnect());
+    setShowMenu(false);
   };
 
   const onLogout = () => {
@@ -215,22 +216,25 @@ export default function Account({ space, showMenu, setShowMenu }) {
     setShowMenu(false);
   };
 
-  const ConnectWallet = (
+  const ConnectWalletButton = (
     <div className="connect">
-      <DarkButton
-        primary
-        onClick={() => dispatch(popUpConnect())}
-        className="button"
-      >
-        Connect Wallet
-      </DarkButton>
-      {showConnect && <Connect space={space} setShowMenu={setShowMenu} />}
+      {!account && (
+        <DarkButton
+          primary
+          onClick={() => dispatch(popUpConnect())}
+          className="button"
+        >
+          Connect Wallet
+        </DarkButton>
+      )}
     </div>
   );
 
   const Menu = (
     <MenuWrapper onClick={(e) => e.stopPropagation()}>
-      {!account && windowSize.width <= 800 && ConnectWallet}
+      {/*The dark connect button For Mobile only*/}
+      {!account && windowSize.width <= 800 && ConnectWalletButton}
+      {/*The dark connect button For Mobile only*/}
       {address && (
         <>
           <AccountWrapper>
@@ -265,7 +269,13 @@ export default function Account({ space, showMenu, setShowMenu }) {
     </MenuWrapper>
   );
 
-  if (address && pageMounted && !showConnect) {
+  // show ConnectModal on first priority if  showConnect = true
+  if (showConnect) {
+    return <ConnectModal space={space} setShowMenu={setShowMenu} />;
+  }
+
+  // if already connected, show address on right top corner
+  if (address && pageMounted) {
     return (
       <Wrapper>
         <AccountWrapperPC show={showMenu}>
@@ -293,10 +303,12 @@ export default function Account({ space, showMenu, setShowMenu }) {
     );
   }
 
-  if (windowSize.width > 800) {
-    return ConnectWallet;
+  // if no address connected, show ConnectButton on right top corner(PC only)
+  if (windowSize.width > 800 && !account) {
+    return ConnectWalletButton;
   }
 
+  // show dropdown menu (Mobile only)
   if (showMenu) {
     return (
       <Wrapper>

@@ -89,7 +89,6 @@ const TitleWrapper = styled.div`
 `;
 
 const ProjectIcons = {
-  kintsugi: "project-kintsugi.png",
   polarisdao: "project-polarisdao.png",
 };
 
@@ -115,7 +114,10 @@ export default function Post({ data, showSpace, space, spaces }) {
 
   const icon = getProjectIcon(data.space);
 
-  const proposerNetworkConfig = findNetworkConfig(data.networksConfig, data.proposerNetwork);
+  const proposerNetworkConfig = findNetworkConfig(
+    data.networksConfig,
+    data.proposerNetwork
+  );
 
   return (
     <HardLink href={`/space/${data.space}/proposal/${data.cid}`}>
