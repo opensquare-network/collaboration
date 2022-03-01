@@ -125,7 +125,7 @@ export default function Connect({ space, setShowMenu }) {
       dispatch(
         setAccount({
           address,
-          network: chain,
+          network: chain.network,
         })
       );
       dispatch(closeConnect());
@@ -161,6 +161,7 @@ export default function Connect({ space, setShowMenu }) {
           <AccountSelector
             accounts={accounts}
             onSelect={(account) => setAddress(account?.address)}
+            chain={chain}
           />
 
           <ActionBar>
