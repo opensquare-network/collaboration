@@ -75,6 +75,7 @@ const Divider = styled.div`
 const Snapshot = styled.div`
   display: flex;
   justify-content: space-between;
+  ${p_14_medium};
 `;
 
 const NetworkName = styled.div`
@@ -184,7 +185,7 @@ export default function More({
           {snapshotHeights?.map((snapshot) => (
             <Snapshot key={snapshot.network}>
               <NetworkName>{snapshot.network}</NetworkName>
-              <span>{snapshot.height}</span>
+              <span>{snapshot.height?.toLocaleString()}</span>
             </Snapshot>
           ))}
         </DateWrapper>
