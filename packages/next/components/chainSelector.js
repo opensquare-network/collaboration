@@ -43,7 +43,7 @@ const ItemWrapper = styled.div`
       z-index: 100;
       pointer-events: none;
     `}
-  svg {
+  img, svg {
     margin-right: 8px;
   }
 `;
