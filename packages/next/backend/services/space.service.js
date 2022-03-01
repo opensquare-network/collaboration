@@ -2,6 +2,7 @@ const { getLatestHeight } = require("./chain.service");
 const { getProposalCollection } = require("../mongo");
 const { spaces: spaceServices } = require("../spaces");
 const { getApi, getFinalizedHeightFromTime } = require("./node.service");
+const { HttpError } = require("../exc");
 
 async function getSpaces() {
   const now = Date.now();
@@ -72,7 +73,7 @@ async function getSpaceNetworkHeights(space, time) {
         const result = await getFinalizedHeightFromTime(api, time);
         return [network.network, result];
       } catch (err) {
-        return [network.network, null];
+        throw new HttpError(500, `Failed to get ${network.network} block height from time: ${err.message}`);
       }
     })
   );

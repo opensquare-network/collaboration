@@ -106,7 +106,7 @@ async function getFinalizedHeightFromTime(api, time) {
     });
     return result.data;
   } catch (err) {
-    throw new HttpError(500, "Failed to get finalized height from time");
+    throw new HttpError(500, "Failed to get block height from time");
   }
 }
 
