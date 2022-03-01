@@ -167,7 +167,7 @@ export default function PostAddress({
       setProxyBalance(null);
       return;
     }
-    if(!isAddress(inputAddress)) {
+    if (!isAddress(inputAddress)) {
       dispatch(
         addToast({
           type: TOAST_TYPES.ERROR,

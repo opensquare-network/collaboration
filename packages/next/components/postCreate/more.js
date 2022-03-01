@@ -1,32 +1,19 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
-import moment from "moment";
-
 import DatePicker from "components/datePicker";
 import BigNumber from "bignumber.js";
 import Button from "@/components/button";
 import Title from "@/components/styled/subTitle";
-import Loading from "../../public/imgs/icons/loading.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { popUpConnect } from "../../store/reducers/showConnectSlice";
-import Api from "../../services/api";
 import Information from "./information";
 import SnapshotHeightPicker from "@/components/snapshotHeightPicker";
 import { spaceConfigSelector } from "../../store/reducers/spaceConfigSlice";
 import { p_14_medium } from "../../styles/textStyles";
 import {
-  setSnapshotHeight,
-  snapshotHeightSelector,
+  setSnapshotHeights,
+  snapshotHeightsSelector,
 } from "../../store/reducers/snapshotHeightSlice";
-import { setVote } from "../../store/reducers/voteSlice";
-
-const snapshotApi = new Api(
-  new URL(
-    "/api/",
-    process.env.NEXT_PUBLIC_SNAPSHOT_HEIGHT_ENDPOINT ||
-      "https://next.statescan.io"
-  ).href
-);
 
 const Wrapper = styled.div`
   min-width: 302px;
@@ -96,10 +83,8 @@ export default function More({
   setStartDate,
   endDate,
   setEndDate,
-  height,
   balance,
   balanceError,
-  setHeight,
   onPublish,
   isLoading,
   threshold,
@@ -126,37 +111,21 @@ export default function More({
     0;
   const dispatch = useDispatch();
   const [snapshotHeightDate, setSnapshotHeightDate] = useState();
-  const [snapshotHeightLoading, setSnapshotHeightLoading] = useState(false);
   const spaceConfig = useSelector(spaceConfigSelector);
-  const snapshotHeights = useSelector(snapshotHeightSelector);
+  const snapshotHeights = useSelector(snapshotHeightsSelector);
 
   useEffect(() => {
     if (spaceConfig?.networks) {
-      setSnapshotHeight(
-        spaceConfig?.networks.map((network) => ({
-          network: network.network,
-          height: 0,
-        }))
+      dispatch(
+        setSnapshotHeights(
+          spaceConfig?.networks.map((network) => ({
+            network: network.network,
+            height: 0,
+          }))
+        )
       );
     }
-  }, [spaceConfig.networks]);
-
-  useEffect(() => {
-    if (snapshotHeightDate) {
-      setSnapshotHeightLoading(true);
-      snapshotApi
-        .fetch(`blocks/fromtime/${moment(snapshotHeightDate).valueOf()}`)
-        .then((response) => {
-          if (response?.result?.header?.number) {
-            setHeight(response?.result?.header?.number);
-          }
-        })
-        .catch(() => {})
-        .finally(() => {
-          setSnapshotHeightLoading(false);
-        });
-    }
-  }, [snapshotHeightDate, setHeight]);
+  }, [dispatch, spaceConfig?.networks]);
 
   function getMinEndDate() {
     if (!startDate || startDate < new Date()) {

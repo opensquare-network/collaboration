@@ -16,7 +16,10 @@ import nextApi from "services/nextApi";
 import { useRouter } from "next/router";
 import { encodeAddress, isAddress } from "@polkadot/util-crypto";
 import { pick } from "lodash";
-import { snapshotHeightSelector } from "../../store/reducers/snapshotHeightSlice";
+import {
+  setSnapshotHeights,
+  snapshotHeightsSelector,
+} from "../../store/reducers/snapshotHeightSlice";
 
 const Wrapper = styled.div`
   display: flex;
@@ -55,14 +58,13 @@ const FETCH_BALANCE_ERROR =
 export default function PostCreate({ space }) {
   const dispatch = useDispatch();
   const account = useSelector(loginAccountSelector);
-  const snapshotHeights = useSelector(snapshotHeightSelector);
+  const snapshotHeights = useSelector(snapshotHeightsSelector);
   const router = useRouter();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [choices, setChoices] = useState(["", ""]);
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
-  const [height, setHeight] = useState();
   const [balance, setBalance] = useState(null);
   const [balanceError, setBalanceError] = useState(null);
   const [viewFunc, setViewFunc] = useState(null);
@@ -94,12 +96,18 @@ export default function PostCreate({ space }) {
     });
   }, []);
 
-  //TODO: here should be updated to support multiple snapshot heights
   useEffect(() => {
-    if (account?.network && space) {
-      setHeight(space.latestFinalizedHeights?.[account.network]);
+    if (space) {
+      dispatch(
+        setSnapshotHeights(
+          Object.keys(space.latestFinalizedHeights).map((network) => ({
+            network,
+            height: space.latestFinalizedHeights[network],
+          }))
+        )
+      );
     }
-  }, [space, account?.network]);
+  }, [space, dispatch]);
 
   useEffect(() => {
     // Create proposal with the connected wallet directly
@@ -113,9 +121,7 @@ export default function PostCreate({ space }) {
       return;
     }
     setBalanceError(null);
-    if (!height > 0) {
-      return;
-    }
+    // todo: check heights
     if (!account?.network) {
       return;
     }
@@ -124,6 +130,10 @@ export default function PostCreate({ space }) {
         resolve();
       }, 2000);
     });
+    const height =
+      snapshotHeights?.find(
+        (snapshotHeight) => account?.network === snapshotHeight.network
+      )?.height || 0;
     Promise.all([
       nextApi.fetch(
         `${space.id}/${account?.network}/account/${encodeAddress(
@@ -152,11 +162,11 @@ export default function PostCreate({ space }) {
       });
   }, [
     space,
-    height,
     account?.network,
     account?.address,
     account?.ss58Format,
     dispatch,
+    snapshotHeights,
   ]);
 
   const getProxyBalance = (proxyAddress) => {
@@ -170,9 +180,7 @@ export default function PostCreate({ space }) {
       return;
     }
     setProxyBalanceError(null);
-    if (!height > 0) {
-      return;
-    }
+    // todo check balance
     if (!account?.network) {
       return;
     }
@@ -181,6 +189,10 @@ export default function PostCreate({ space }) {
         resolve();
       }, 2000);
     });
+    const height =
+      snapshotHeights?.find(
+        (snapshotHeight) => account?.network === snapshotHeight.network
+      )?.height || 0;
     Promise.all([
       nextApi.fetch(
         `${space.id}/${account?.network}/account/${encodeAddress(
@@ -317,8 +329,6 @@ export default function PostCreate({ space }) {
           setStartDate={setStartDate}
           endDate={endDate}
           setEndDate={setEndDate}
-          height={height}
-          setHeight={setHeight}
           balance={balance}
           onPublish={onPublish}
           isLoading={isLoading}
