@@ -157,7 +157,7 @@ export default function PostAddress({
     setProxyAddressChange(true);
   }, [inputAddress, space?.network]);
 
-  useEffect(async () => {
+  useEffect(() => {
     if (!proxyAddressChange) {
       return;
     }
@@ -177,29 +177,36 @@ export default function PostAddress({
       return;
     }
 
+    let spaceAddr, idenAddr, chain;
     try {
-      const spaceAddr = encodeAddress(inputAddress, space.ss58Format);
+      spaceAddr = encodeAddress(inputAddress, space.ss58Format);
       setAddress(spaceAddr);
 
-      const chain = space.identity || space;
-      const idenAddr = encodeAddress(inputAddress, chain.ss58Format);
-
-      setIsLoading(true);
-      const response = await fetchIdentity(chain.network, idenAddr);
-      setInfo(response?.info);
-      getProxyBalance(spaceAddr);
+      chain = space.identity || space;
+      idenAddr = encodeAddress(inputAddress, chain.ss58Format);
     } catch (e) {
       setAddress(inputAddress);
+      setIsInput(false);
       dispatch(
         addToast({
           type: TOAST_TYPES.ERROR,
           message: e.message,
         })
       );
-    } finally {
-      setIsLoading(false);
-      setIsInput(false);
+      return;
     }
+
+    setIsLoading(true);
+    fetchIdentity(chain.network, idenAddr)
+      .then(response => {
+        setInfo(response?.info)
+      })
+      .finally(() => {
+        setIsLoading(false);
+        setIsInput(false);
+      });
+
+    getProxyBalance(spaceAddr);
   }, [
     dispatch,
     proxyAddressChange,
@@ -208,6 +215,7 @@ export default function PostAddress({
     setAddress,
     setInfo,
     getProxyBalance,
+    setProxyBalance
   ]);
 
   useEffect(() => {
