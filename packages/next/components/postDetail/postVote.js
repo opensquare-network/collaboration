@@ -97,9 +97,12 @@ export default function PostVote({ proposal, space }) {
   useEffect(() => {
     if (proposal && account?.address && account?.network) {
       nextApi
-        .fetch(`${proposal.space}/proposal/${proposal.cid}/voterbalance/${account.network}/${account.address}`, {
-          snapshot: proposal.snapshotHeights[account.network],
-        })
+        .fetch(
+          `${proposal.space}/proposal/${proposal.cid}/voterbalance/${account.network}/${account.address}`,
+          {
+            snapshot: proposal.snapshotHeights[account.network],
+          }
+        )
         .then((response) => {
           setBalance(response?.result?.balance);
         });
@@ -117,12 +120,15 @@ export default function PostVote({ proposal, space }) {
     );
   }, [balance, proxyVote, proxyBalance]);
 
-  const getProxyBalance = () => {
+  const getProxyBalance = (proxyAddress) => {
     if (proposal && proxyAddress && account?.network) {
       nextApi
-        .fetch(`${proposal.space}/proposal/${proposal.cid}/voterbalance/${account.network}/${proxyAddress}`, {
-          snapshot: proposal.snapshotHeights[account.network],
-        })
+        .fetch(
+          `${proposal.space}/proposal/${proposal.cid}/voterbalance/${account.network}/${proxyAddress}`,
+          {
+            snapshot: proposal.snapshotHeights[account.network],
+          }
+        )
         .then((response) => {
           setProxyBalance(response?.result?.balance);
         });
@@ -163,8 +169,10 @@ export default function PostVote({ proposal, space }) {
         proposal?.choices?.[choiceIndex],
         remark,
         encodeAddress(account?.address, account?.ss58Format),
-        proxyVote ? encodeAddress(proxyAddress, account?.ss58Format) : undefined,
-        account?.network,
+        proxyVote
+          ? encodeAddress(proxyAddress, account?.ss58Format)
+          : undefined,
+        account?.network
       );
     } catch (error) {
       if (error.toString() === "Error: Cancelled") {

@@ -167,7 +167,7 @@ export default function PostAddress({
       setProxyBalance(null);
       return;
     }
-    if(!isAddress(inputAddress)) {
+    if (!isAddress(inputAddress)) {
       dispatch(
         addToast({
           type: TOAST_TYPES.ERROR,
@@ -187,7 +187,7 @@ export default function PostAddress({
       setIsLoading(true);
       const response = await fetchIdentity(chain.network, idenAddr);
       setInfo(response?.info);
-      getProxyBalance();
+      getProxyBalance(spaceAddr);
     } catch (e) {
       setAddress(inputAddress);
       dispatch(
@@ -200,7 +200,15 @@ export default function PostAddress({
       setIsLoading(false);
       setIsInput(false);
     }
-  }, [dispatch, proxyAddressChange, inputAddress, space, setAddress, setInfo, getProxyBalance]);
+  }, [
+    dispatch,
+    proxyAddressChange,
+    inputAddress,
+    space,
+    setAddress,
+    setInfo,
+    getProxyBalance,
+  ]);
 
   useEffect(() => {
     if (!address && !isInput) {
