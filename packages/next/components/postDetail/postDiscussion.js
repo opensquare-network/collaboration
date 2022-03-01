@@ -7,7 +7,7 @@ import Author from "components/author";
 import Pagination from "components/pagination";
 import RichInput from "components/richInput";
 import { useViewfunc } from "frontedUtils/hooks";
-import { accountSelector } from "store/reducers/accountSlice";
+import { loginAccountSelector } from "store/reducers/accountSlice";
 import { addToast } from "store/reducers/toastSlice";
 import { TOAST_TYPES } from "frontedUtils/constants";
 import { timeDuration } from "frontedUtils";
@@ -87,7 +87,7 @@ const NoCommentWrapper = styled.div`
 export default function PostDiscussion({ proposal, space, comments }) {
   const [content, setContent] = useState("");
   const viewfunc = useViewfunc();
-  const account = null;//TODO: useSelector(accountSelector);
+  const account = useSelector(loginAccountSelector);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
@@ -123,7 +123,8 @@ export default function PostDiscussion({ proposal, space, comments }) {
         proposal?.cid,
         content,
         "markdown",
-        encodeAddress(account?.address, space.ss58Format)
+        encodeAddress(account?.address, account?.ss58Format),
+        account?.network,
       );
     } catch (error) {
       dispatch(
