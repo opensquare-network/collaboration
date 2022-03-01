@@ -208,6 +208,7 @@ export default function Account({ space, showMenu, setShowMenu }) {
 
   const onSwitch = () => {
     dispatch(popUpConnect());
+    setShowMenu(false);
   };
 
   const onLogout = () => {
@@ -217,13 +218,15 @@ export default function Account({ space, showMenu, setShowMenu }) {
 
   const ConnectWallet = (
     <div className="connect">
-      <DarkButton
-        primary
-        onClick={() => dispatch(popUpConnect())}
-        className="button"
-      >
-        Connect Wallet
-      </DarkButton>
+      {!account && (
+        <DarkButton
+          primary
+          onClick={() => dispatch(popUpConnect())}
+          className="button"
+        >
+          Connect Wallet
+        </DarkButton>
+      )}
       {showConnect && <Connect space={space} setShowMenu={setShowMenu} />}
     </div>
   );
@@ -293,7 +296,7 @@ export default function Account({ space, showMenu, setShowMenu }) {
     );
   }
 
-  if (windowSize.width > 800) {
+  if (showConnect) {
     return ConnectWallet;
   }
 
