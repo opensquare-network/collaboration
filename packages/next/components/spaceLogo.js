@@ -16,7 +16,7 @@ const SpaceIcons = {
   rmrk: "rmrk.svg",
   "rmrk-curation": "rmrk-curation.png",
   bifrost: "bifrost.svg",
-  kintsugi: "kintsugi.png",
+  kintsugi: "kintsugi.svg",
   polarisdao: "polarisdao.png"
 };
 
