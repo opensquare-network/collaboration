@@ -111,20 +111,21 @@ export default function More({
     0;
   const dispatch = useDispatch();
   const [snapshotHeightDate, setSnapshotHeightDate] = useState();
-  const [snapshotHeightLoading, setSnapshotHeightLoading] = useState(false);
   const spaceConfig = useSelector(spaceConfigSelector);
   const snapshotHeights = useSelector(snapshotHeightsSelector);
 
   useEffect(() => {
     if (spaceConfig?.networks) {
-      setSnapshotHeights(
-        spaceConfig?.networks.map((network) => ({
-          network: network.network,
-          height: 0,
-        }))
+      dispatch(
+        setSnapshotHeights(
+          spaceConfig?.networks.map((network) => ({
+            network: network.network,
+            height: 0,
+          }))
+        )
       );
     }
-  }, [spaceConfig.networks]);
+  }, [dispatch, spaceConfig?.networks]);
 
   function getMinEndDate() {
     if (!startDate || startDate < new Date()) {

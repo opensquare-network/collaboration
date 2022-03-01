@@ -167,6 +167,7 @@ export default function PostCreate({ space }) {
     account?.address,
     account?.ss58Format,
     dispatch,
+    snapshotHeights,
   ]);
 
   useEffect(() => {
@@ -226,6 +227,7 @@ export default function PostCreate({ space }) {
     account?.ss58Format,
     proxyCount,
     dispatch,
+    snapshotHeights,
   ]);
 
   useEffect(() => {
