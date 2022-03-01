@@ -9,6 +9,7 @@ const Wrapper = styled.div``;
 const DropdownWrapper = styled.div`
   position: relative;
   z-index: 9;
+  height: 64px;
 `;
 
 const AccountSelector = ({ accounts, onSelect = () => {} }) => {
