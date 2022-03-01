@@ -62,7 +62,11 @@ const SystemWrapper = styled.div`
 `;
 
 const DateWrapper = styled.div`
-  > :not(:first-child) {
+  > .snapshot:not(:first-child) {
+    margin-top: 0;
+  }
+  > :not(:first-child),
+  > .snapshot:nth-child(2) {
     margin-top: 8px;
   }
 `;
@@ -183,7 +187,7 @@ export default function More({
             setDate={setSnapshotHeightDate}
           />
           {snapshotHeights?.map((snapshot) => (
-            <Snapshot key={snapshot.network}>
+            <Snapshot className="snapshot" key={snapshot.network}>
               <NetworkName>{snapshot.network}</NetworkName>
               <span>{snapshot.height?.toLocaleString()}</span>
             </Snapshot>
