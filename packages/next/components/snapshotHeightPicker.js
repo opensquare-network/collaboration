@@ -73,6 +73,7 @@ function SnapshotHeightPicker({ date, setDate }) {
       <DatePicker
         date={date}
         setDate={setDate}
+        maxDate={new Date()}
         onSelect={fetchHeights}
         placeholder="Select time"
       />

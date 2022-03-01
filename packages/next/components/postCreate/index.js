@@ -121,7 +121,13 @@ export default function PostCreate({ space }) {
       return;
     }
     setBalanceError(null);
-    // todo: check heights
+    const height =
+      snapshotHeights?.find(
+        (snapshotHeight) => account?.network === snapshotHeight.network
+      )?.height || 0;
+    if (!(height > 0)) {
+      return;
+    }
     if (!account?.network) {
       return;
     }
@@ -130,10 +136,6 @@ export default function PostCreate({ space }) {
         resolve();
       }, 2000);
     });
-    const height =
-      snapshotHeights?.find(
-        (snapshotHeight) => account?.network === snapshotHeight.network
-      )?.height || 0;
     Promise.all([
       nextApi.fetch(
         `${space.id}/${account?.network}/account/${encodeAddress(
@@ -180,7 +182,13 @@ export default function PostCreate({ space }) {
       return;
     }
     setProxyBalanceError(null);
-    // todo check balance
+    const height =
+      snapshotHeights?.find(
+        (snapshotHeight) => account?.network === snapshotHeight.network
+      )?.height || 0;
+    if (!(height > 0)) {
+      return;
+    }
     if (!account?.network) {
       return;
     }
@@ -189,10 +197,6 @@ export default function PostCreate({ space }) {
         resolve();
       }, 2000);
     });
-    const height =
-      snapshotHeights?.find(
-        (snapshotHeight) => account?.network === snapshotHeight.network
-      )?.height || 0;
     Promise.all([
       nextApi.fetch(
         `${space.id}/${account?.network}/account/${encodeAddress(
