@@ -177,31 +177,36 @@ export default function PostAddress({
       return;
     }
 
-    const spaceAddr = encodeAddress(inputAddress, space.ss58Format);
-    setAddress(spaceAddr);
+    let idenAddr;
+    try {
+      const spaceAddr = encodeAddress(inputAddress, space.ss58Format);
+      setAddress(spaceAddr);
 
-    const chain = space.identity || space;
-    const idenAddr = encodeAddress(inputAddress, chain.ss58Format);
+      const chain = space.identity || space;
+      idenAddr = encodeAddress(inputAddress, chain.ss58Format);
+    } catch (e) {
+      setAddress(inputAddress);
+      setIsInput(false);
+      dispatch(
+        addToast({
+          type: TOAST_TYPES.ERROR,
+          message: e.message,
+        })
+      );
+      return;
+    }
 
     setIsLoading(true);
     fetchIdentity(chain.network, idenAddr)
       .then(response => {
         setInfo(response?.info)
-        getProxyBalance(spaceAddr);
-      })
-      .catch(() => {
-        setAddress(inputAddress);
-        dispatch(
-          addToast({
-            type: TOAST_TYPES.ERROR,
-            message: e.message,
-          })
-        );
       })
       .finally(() => {
         setIsLoading(false);
         setIsInput(false);
       });
+
+    getProxyBalance(spaceAddr);
   }, [
     dispatch,
     proxyAddressChange,
