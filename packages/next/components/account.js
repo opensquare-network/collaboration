@@ -190,24 +190,19 @@ export default function Account({ space, showMenu, setShowMenu }) {
   }, [account?.address, account?.ss58Format]);
 
   useEffect(() => {
-    if (account?.address && account?.ss58Format && account?.network) {
-      const identityNetwork = account?.identity?.network || account?.network;
-      const identitySS58Format = account?.identity?.ss58Format || account?.ss58Format;
-      const idenAddr = encodeAddress(account.address, identitySS58Format);
-      fetchIdentity(identityNetwork, idenAddr)
+    if (account?.address && account?.network) {
+      fetchIdentity(account.network, account?.address)
         .then((identity) => {
           if (isMounted.current) {
             setIdentity(identity);
           }
         })
-        .catch(() => {});
+        .catch(() => {
+        });
     }
   }, [
     account?.address,
-    account?.ss58Format,
     account?.network,
-    account?.identity?.network,
-    account?.identity?.ss58Format,
     isMounted
   ]);
 
