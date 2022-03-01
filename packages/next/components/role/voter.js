@@ -41,11 +41,7 @@ export default function Voter({ address, network, showNetwork = true }) {
   const link = `https://${ network }.${ explorer }.io/account/${ address }`;
 
   useEffect(() => {
-    if (!address) {
-      return;
-    }
-
-    if (!network) {
+    if (!address || !network) {
       return;
     }
 
