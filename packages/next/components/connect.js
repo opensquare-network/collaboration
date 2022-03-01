@@ -130,7 +130,6 @@ export default function Connect({ space, setShowMenu }) {
       );
       dispatch(closeConnect());
       setShowMenu(false);
-      console.log(setShowMenu, 11);
     } catch (error) {
       console.error(error);
     }
