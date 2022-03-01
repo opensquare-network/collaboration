@@ -13,6 +13,7 @@ import {
   snapshotHeightsSelector,
 } from "../store/reducers/snapshotHeightSlice";
 import nextApi from "../services/nextApi";
+import { addToast } from "store/reducers/toastSlice";
 
 const Wrapper = styled.div`
   position: relative;
@@ -61,7 +62,12 @@ function SnapshotHeightPicker({ date, setDate }) {
           )
         );
       })
-      .catch(() => {})
+      .catch((e) => {
+        dispatch(addToast({
+          type: "error",
+          message: e.message,
+        }));
+      })
       .finally(() => {
         setLoading(false);
       });
