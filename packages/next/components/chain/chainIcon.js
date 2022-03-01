@@ -1,7 +1,5 @@
 import Statemine from "public/imgs/icons/chain/statemine.svg";
-import Bifrost from "public/imgs/icons/chain/bifrost.svg";
 import Polkadot from "public/imgs/icons/chain/polkadot.svg";
-import Karura from "public/imgs/icons/chain/karura.svg";
 import Khala from "public/imgs/icons/chain/khala.svg";
 import Kusama from "public/imgs/icons/chain/kusama.svg";
 import Kintsugi from "public/imgs/logos/kintsugi.svg";
@@ -17,11 +15,11 @@ function ChainIcon({ chainName }) {
     case "statemine":
       return <Statemine />;
     case "karura":
-      return <Karura />;
+      return <img src="/imgs/icons/chain/karura.svg" alt="" />;
     case "khala":
       return <Khala />;
     case "bifrost":
-      return <Bifrost />;
+      return <img src="/imgs/icons/chain/bifrost.svg" alt="" />;
     case "kintsugi":
       return <Kintsugi />;
     case "moonriver":
