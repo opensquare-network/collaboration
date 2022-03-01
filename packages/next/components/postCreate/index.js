@@ -299,6 +299,9 @@ export default function PostCreate({ space }) {
         );
       }
     } catch (e) {
+      if (error.toString() === "Error: Cancelled") {
+        return;
+      }
       dispatch(
         addToast({
           type: TOAST_TYPES.ERROR,
