@@ -1,12 +1,20 @@
 function getNetworkIdentity(network) {
   switch (network) {
-    case "kusama":
+    case "polkadot": {
+      return {
+        network: "polkadot",
+        ss58Format: 0,
+      };
+    }
+    case "kusama": {
       return {
         network: "kusama",
         ss58Format: 2,
       };
-    default:
+    }
+    default: {
       return undefined;
+    }
   }
 }
 
