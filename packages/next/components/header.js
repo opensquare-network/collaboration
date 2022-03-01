@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import { useState, useEffect, useRef } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import Container from "./container";
-import { useOnClickOutside, useWindowSize } from "frontedUtils/hooks";
+import { useOnClickOutside } from "frontedUtils/hooks";
 import Account from "./account";
 import { p_18_semibold } from "../styles/textStyles";
 import { useRouter } from "next/router";
@@ -141,11 +141,7 @@ export default function Header({ space }) {
               alt=""
             />
           </IconWrapper>
-          {showConnect && <AccountWrapper
-            onClick={() => {
-              setShowMenu(!showMenu);
-            }}
-          >
+          {showConnect && <AccountWrapper>
             <Account
               space={space}
               showMenu={showMenu}

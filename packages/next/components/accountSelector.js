@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import StyledDropdown from "@/components/styled/dropdown";
-import { encodeAddress } from "@polkadot/util-crypto";
 import AccountItem from "./accountItem";
 
 const Wrapper = styled.div``;
@@ -17,16 +16,19 @@ const AccountSelector = ({ accounts, chain, onSelect = () => {} }) => {
   useEffect(() => {
     onSelect(accounts[selectedIndex]);
   }, [accounts, onSelect, selectedIndex]);
+
   const options = accounts.map((item, index) => ({
     key: index,
     value: index,
     content: (
       <AccountItem
-        accountName={item.name}
-        accountAddress={encodeAddress(item.address, chain.ss58Format)}
+        accountName={ item.name }
+        accountAddress={ item.address }
+        chain={ chain.network }
       />
     ),
   }));
+
   return (
     <Wrapper>
       <DropdownWrapper>
@@ -39,10 +41,8 @@ const AccountSelector = ({ accounts, chain, onSelect = () => {} }) => {
         />
         <AccountItem
           accountName={accounts?.[selectedIndex]?.name}
-          accountAddress={encodeAddress(
-            accounts?.[selectedIndex]?.address,
-            chain.ss58Format
-          )}
+          accountAddress={ accounts?.[selectedIndex]?.address }
+          chain={chain.network}
           header
         />
       </DropdownWrapper>
