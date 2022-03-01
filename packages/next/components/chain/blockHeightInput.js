@@ -4,8 +4,8 @@ import ChainIcon from "@/components/chain/chainIcon";
 import Loading from "public/imgs/icons/loading.svg";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  setSnapshotHeight,
-  snapshotHeightSelector,
+  setSnapshotHeights,
+  snapshotHeightsSelector,
 } from "../../store/reducers/snapshotHeightSlice";
 
 const Wrapper = styled.div`
@@ -27,7 +27,7 @@ const StyledInput = styled(Input)`
 `;
 
 function BlockHeightInput({ network, height, loading }) {
-  const snapshotHeights = useSelector(snapshotHeightSelector);
+  const snapshotHeights = useSelector(snapshotHeightsSelector);
   const dispatch = useDispatch();
   return (
     <Wrapper>
@@ -39,7 +39,7 @@ function BlockHeightInput({ network, height, loading }) {
         value={loading ? "" : height}
         onChange={(e) => {
           dispatch(
-            setSnapshotHeight(
+            setSnapshotHeights(
               snapshotHeights.map((snapshotHeight) =>
                 snapshotHeight.network === network
                   ? { network, height: e.target.value }
