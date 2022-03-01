@@ -83,7 +83,9 @@ function SnapshotHeightPicker({ date, setDate }) {
             <Title>Snapshot</Title>
             <Divider />
             <Datetime datetime={date} />
-            <Title style={{ marginTop: 20 }}>Blocks height</Title>
+            <Title style={{ marginTop: 20, marginBottom: 8 }}>
+              Blocks height
+            </Title>
             {networks?.map((network) => (
               <BlockHeightInput
                 height={
