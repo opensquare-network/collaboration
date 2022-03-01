@@ -287,7 +287,11 @@ export default function Account({ space, showMenu, setShowMenu }) {
   if (address && pageMounted) {
     return (
       <Wrapper>
-        <AccountWrapperPC show={showMenu}>
+        <AccountWrapperPC show={ showMenu } onClick={ () => {
+          console.log('click', showMenu)
+          setShowMenu(!showMenu);
+        } }
+        >
           <div>
             <Avatar address={address} size={20} />
 
