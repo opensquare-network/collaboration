@@ -1,4 +1,6 @@
 import debounce from "lodash.debounce";
+import { identityChainMap } from "../frontedUtils/consts/identity";
+import encodeAddressByChain from "../frontedUtils/chain/addr";
 
 const cachedIdentities = new Map();
 let pendingQueries = new Map();
@@ -29,7 +31,7 @@ const delayQuery = debounce(() => {
     };
 
     fetch(
-      `${process.env.NEXT_PUBLIC_IDENTITY_SERVER_HOST}/${chain}/short-ids`,
+      `${ process.env.NEXT_PUBLIC_IDENTITY_SERVER_HOST }/${ chain }/short-ids`,
       {
         headers,
         method: "POST",
@@ -69,7 +71,9 @@ const delayQuery = debounce(() => {
 }, 0);
 
 export function fetchIdentity(chain, address) {
-  const idName = `${chain}/${address}`;
+  const targetChain = identityChainMap[chain] || chain;
+  const targetAddress = encodeAddressByChain(address, targetChain);
+  const idName = `${ targetChain }/${ targetAddress }`;
   if (cachedIdentities.has(idName)) {
     return Promise.resolve(cachedIdentities.get(idName));
   }
