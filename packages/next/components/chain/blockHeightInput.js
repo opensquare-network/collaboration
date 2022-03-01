@@ -11,7 +11,8 @@ import {
 const Wrapper = styled.div`
   position: relative;
 
-  svg {
+  svg,
+  img {
     position: absolute;
     left: 16px;
     top: 12px;
