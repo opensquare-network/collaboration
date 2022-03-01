@@ -84,7 +84,7 @@ const AccountWrapperPC = styled(AccountWrapper)`
 
 const MenuWrapper = styled.div`
   cursor: auto;
-  min-width: 209px;
+  min-width: 240px;
   position: absolute;
   right: 0;
   top: 100%;
@@ -92,6 +92,7 @@ const MenuWrapper = styled.div`
   border: 1px solid #f0f3f8;
   ${shadow_200};
   padding: 16px;
+  padding-bottom: 8px;
   z-index: 1;
   @media screen and (max-width: 800px) {
     margin-top: 19px;
@@ -109,6 +110,7 @@ const MenuWrapper = styled.div`
 `;
 
 const MenuItem = styled.div`
+  margin-bottom: 8px;
   cursor: pointer;
 `;
 
@@ -204,6 +206,10 @@ export default function Account({ space, showMenu, setShowMenu }) {
     return null;
   }
 
+  const onSwitch = () => {
+    dispatch(popUpConnect());
+  };
+
   const onLogout = () => {
     dispatch(logout());
     setShowMenu(false);
@@ -224,7 +230,7 @@ export default function Account({ space, showMenu, setShowMenu }) {
 
   const Menu = (
     <MenuWrapper onClick={(e) => e.stopPropagation()}>
-      {!account && windowSize.width <= 800 && ConnectWallet}
+      {windowSize.width <= 800 && ConnectWallet}
       {address && (
         <>
           <AccountWrapper>
@@ -243,6 +249,12 @@ export default function Account({ space, showMenu, setShowMenu }) {
           </AccountWrapper>
           <MenuDivider />
           <MenuItem>
+            <LogoutWrapper onClick={onSwitch}>
+              Switch Address
+              <img src="/imgs/icons/switch.svg" alt="" />
+            </LogoutWrapper>
+          </MenuItem>
+          <MenuItem>
             <LogoutWrapper onClick={onLogout}>
               Log out
               <img src="/imgs/icons/logout.svg" alt="" />
@@ -253,7 +265,7 @@ export default function Account({ space, showMenu, setShowMenu }) {
     </MenuWrapper>
   );
 
-  if (address && pageMounted) {
+  if (address && pageMounted && !showConnect) {
     return (
       <Wrapper>
         <AccountWrapperPC show={showMenu}>
@@ -281,7 +293,7 @@ export default function Account({ space, showMenu, setShowMenu }) {
     );
   }
 
-  if (windowSize.width > 800 && !address) {
+  if (windowSize.width > 800) {
     return ConnectWallet;
   }
 
