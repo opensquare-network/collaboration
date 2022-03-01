@@ -230,7 +230,7 @@ export default function Account({ space, showMenu, setShowMenu }) {
 
   const Menu = (
     <MenuWrapper onClick={(e) => e.stopPropagation()}>
-      {windowSize.width <= 800 && ConnectWallet}
+      {!account && windowSize.width <= 800 && ConnectWallet}
       {address && (
         <>
           <AccountWrapper>
