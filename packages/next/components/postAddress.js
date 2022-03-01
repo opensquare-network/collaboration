@@ -177,12 +177,12 @@ export default function PostAddress({
       return;
     }
 
-    let idenAddr;
+    let spaceAddr, idenAddr, chain;
     try {
-      const spaceAddr = encodeAddress(inputAddress, space.ss58Format);
+      spaceAddr = encodeAddress(inputAddress, space.ss58Format);
       setAddress(spaceAddr);
 
-      const chain = space.identity || space;
+      chain = space.identity || space;
       idenAddr = encodeAddress(inputAddress, chain.ss58Format);
     } catch (e) {
       setAddress(inputAddress);
