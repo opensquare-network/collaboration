@@ -283,7 +283,6 @@ export default function Account({ space, showMenu, setShowMenu }) {
     return (
       <Wrapper>
         <AccountWrapperPC show={ showMenu } onClick={ () => {
-          console.log('click', showMenu)
           setShowMenu(!showMenu);
         } }
         >
