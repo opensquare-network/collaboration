@@ -3,14 +3,14 @@ import { createSlice } from "@reduxjs/toolkit";
 const spaceConfigSlice = createSlice({
   name: "spaceConfig",
   initialState: {
-    spaceConfig: undefined,
+    config: undefined,
   },
   reducers: {
     setSpaceConfig: (state, { payload }) => {
       if (payload) {
-        state.spaceConfig = payload;
+        state.config = payload;
       } else {
-        state.spaceConfig = null;
+        state.config = null;
       }
     },
   },
@@ -19,10 +19,19 @@ const spaceConfigSlice = createSlice({
 export const { setSpaceConfig } = spaceConfigSlice.actions;
 
 export const spaceConfigSelector = (state) => {
-  if (state.spaceConfig.spaceConfig) {
-    return state.spaceConfig.spaceConfig;
+  if (state.spaceConfig.config) {
+    return state.spaceConfig.config;
   }
   return null;
 };
+
+export const spaceSupportMultiChainSelector = state => {
+  if (!state.spaceConfig.config) {
+    return false
+  }
+
+  const networks = state.spaceConfig.config?.networks || [];
+  return networks.length > 1;
+}
 
 export default spaceConfigSlice.reducer;

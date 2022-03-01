@@ -5,6 +5,9 @@ const Wrapper = styled.a`
     color: inherit;
     text-decoration: underline;
   }
+  
+  display: inline-flex;
+  align-items: center;
 `;
 
 export default function ExternalLink({ href, children }) {
