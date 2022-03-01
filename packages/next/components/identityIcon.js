@@ -8,7 +8,7 @@ import SubGreyIcon from "public/imgs/icons/identity/sub-grey.svg";
 import SubRedIcon from "public/imgs/icons/identity/sub-red.svg";
 import Tooltip from "./tooltip";
 
-const Wrapper = styled.div`
+const Wrapper = styled.span`
   position: relative;
   display: flex;
   align-items: center;
