@@ -11,8 +11,9 @@ import { useState, useEffect } from "react";
 import FourOFour from "../../../404";
 import { NextSeo } from "next-seo";
 import { setAvailableNetworks } from "store/reducers/accountSlice";
-import pick from "lodash/pick";
+import pick from "lodash.pick";
 import { setSpaceConfig } from "../../../../store/reducers/spaceConfigSlice";
+import { spaceToSeoImageMap } from "../../../../frontedUtils/consts/spaces";
 
 export default function Index({
   detail,
@@ -76,8 +77,9 @@ export default function Index({
 
   const desc = getMetaDesc(detail, "Proposal");
 
+  const seoLogoHash = spaceToSeoImageMap[space?.id];
   const images = [{
-    url: `https://voting.opensquare.io/imgs/${space?.id}-logo.jpg`,
+    url: `https://ipfs.fleek.co/ipfs/${ seoLogoHash }`,
     width: 1200,
     height: 628
   }];

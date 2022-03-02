@@ -12,6 +12,7 @@ import { to404 } from "../../../frontedUtils/serverSideUtil";
 import { NextSeo } from "next-seo";
 import { setSpaceConfig } from "../../../store/reducers/spaceConfigSlice";
 import { useDispatch } from "react-redux";
+import { spaceToSeoImageMap } from "../../../frontedUtils/consts/spaces";
 
 const HeaderWrapper = styled.div`
   > :not(:first-child) {
@@ -59,8 +60,9 @@ export default function List({
     proposalList = closedProposals;
   }
 
+  const seoLogoHash = spaceToSeoImageMap[spaceId];
   const images = [{
-    url: `https://voting.opensquare.io/imgs/${spaceId}-logo.jpg`,
+    url: `https://ipfs.fleek.co/ipfs/${ seoLogoHash }`,
     width: 1200,
     height: 628
   }];

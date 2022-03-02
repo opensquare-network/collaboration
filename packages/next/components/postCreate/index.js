@@ -15,7 +15,7 @@ import { TOAST_TYPES } from "frontedUtils/constants";
 import nextApi from "services/nextApi";
 import { useRouter } from "next/router";
 import { encodeAddress, isAddress } from "@polkadot/util-crypto";
-import { pick } from "lodash";
+import pick from "lodash.pick";
 import {
   setSnapshotHeights,
   snapshotHeightsSelector,
