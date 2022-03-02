@@ -52,15 +52,20 @@ function SnapshotHeightPicker({ date, setDate }) {
     setLoading(true);
     nextApi
       .fetch(`${spaceConfig.id}/networkheights`, { time: date.getTime() })
-      .then(({ result }) => {
-        dispatch(
-          setSnapshotHeights(
-            networks.map((network) => ({
-              ...result[network.network],
-              network: network.network,
-            }))
-          )
-        );
+      .then(({ result, error }) => {
+        if (result) {
+          dispatch(
+            setSnapshotHeights(
+              networks.map((network) => ({
+                ...result[network.network],
+                network: network.network,
+              }))
+            )
+          );
+        }
+        if (error) {
+          throw new Error(error.message);
+        }
       })
       .catch((e) => {
         dispatch(
