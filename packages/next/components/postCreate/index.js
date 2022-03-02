@@ -84,7 +84,7 @@ export default function PostCreate({ space }) {
     dispatch(
       setAvailableNetworks(
         space?.networks?.map((item) =>
-          pick(item, ["network", "ss58Format", "identity"])
+          pick(item, ["network", "ss58Format"])
         ) || []
       )
     );
@@ -314,7 +314,6 @@ export default function PostCreate({ space }) {
   };
 
   const connectedNetworkConfig = account && {
-    identity: account.identity,
     network: account.network,
     ss58Format: account.ss58Format,
   };

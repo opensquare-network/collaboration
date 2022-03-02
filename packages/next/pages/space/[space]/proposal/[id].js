@@ -32,7 +32,7 @@ export default function Index({
   useEffect(() => {
     dispatch(setAvailableNetworks(
       detail?.networksConfig?.networks?.map(
-        item => pick(item, ["network", "ss58Format", "identity"])
+        item => pick(item, ["network", "ss58Format"])
       ) || []
     ));
   }, [dispatch, detail]);

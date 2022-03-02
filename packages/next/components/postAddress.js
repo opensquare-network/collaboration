@@ -177,13 +177,10 @@ export default function PostAddress({
       return;
     }
 
-    let spaceAddr, idenAddr, chain;
+    let spaceAddr;
     try {
       spaceAddr = encodeAddress(inputAddress, space.ss58Format);
       setAddress(spaceAddr);
-
-      chain = space.identity || space;
-      idenAddr = encodeAddress(inputAddress, chain.ss58Format);
     } catch (e) {
       setAddress(inputAddress);
       setIsInput(false);
@@ -197,7 +194,7 @@ export default function PostAddress({
     }
 
     setIsLoading(true);
-    fetchIdentity(chain.network, idenAddr)
+    fetchIdentity(space.network, inputAddress)
       .then(response => {
         setInfo(response?.info)
       })

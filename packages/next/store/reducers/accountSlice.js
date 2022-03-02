@@ -68,7 +68,6 @@ export const loginAccountSelector = createSelector(
     return {
       ...network,
       ...account,
-      identity: getNetworkIdentity(network.identity),
     };
   }
 );
