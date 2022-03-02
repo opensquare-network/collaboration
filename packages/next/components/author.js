@@ -37,7 +37,6 @@ const IdentityWrapper = styled.div`
 export default function Author({ address, space, size = 20 }) {
   const [identity, setIdentity] = useState();
   const isMounted = useIsMounted();
-  const chain = space?.identity || space;
   const explorer = getExplorer(space?.network);
   const link = `https://${space?.network}.${explorer}.io/account/${address}`;
 
@@ -46,19 +45,18 @@ export default function Author({ address, space, size = 20 }) {
       return;
     }
 
-    if (!chain) {
+    if (!space) {
       return;
     }
 
-    const idenAddr = encodeAddress(address, chain.ss58Format);
-    fetchIdentity(chain.network, idenAddr)
+    fetchIdentity(space.network, address)
       .then((identity) => {
         if (isMounted.current) {
           setIdentity(identity);
         }
       })
       .catch(() => {});
-  }, [chain, address, isMounted]);
+  }, [space, address, isMounted]);
 
   return (
     <Wrapper>

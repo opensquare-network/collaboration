@@ -44,7 +44,6 @@ const spaces = [
     networks: [
       {
         network: "karura",
-        identity: "kusama",
         ss58Format: 8,
       }
     ],
@@ -80,13 +79,11 @@ const spaces = [
         network: "statemine",
         ss58Format: 2,
         assetId: 8,
-        identity: "kusama",
       },
       {
         type: "token",
         network: "karura",
         ss58Format: 8,
-        identity: "kusama",
       },
       {
         type: "token",
@@ -110,13 +107,11 @@ const spaces = [
         network: "statemine",
         ss58Format: 2,
         assetId: 8,
-        identity: "kusama",
       },
       {
         type: "token",
         network: "karura",
         ss58Format: 8,
-        identity: "kusama",
       },
       {
         type: "token",
@@ -153,7 +148,6 @@ const spaces = [
     networks: [
       {
         network: "kintsugi",
-        identity: "kusama",
         ss58Format: 2092,
       }
     ],
@@ -173,7 +167,6 @@ const spaces = [
         network: "statemine",
         ss58Format: 2,
         assetId: 16,
-        identity: "kusama",
       },
     ],
     proposeThreshold: "4000000000000",

@@ -26,7 +26,6 @@ async function migrateSpaces() {
             {
               network: space.network,
               ss58Format: space.ss58Format,
-              identity: space.identity,
               ...(
                 space.assetId
                 ? {
