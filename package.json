@@ -26,7 +26,7 @@
     "**/*": "prettier --write --ignore-unknown"
   },
   "scripts": {
-    "prepare": "husky install && husky set .husky/pre-commit \"pretty-quick --staged\"",
+    "prepare": "husky install",
     "test": "yarn workspace @collaboration/voting test"
   }
 }

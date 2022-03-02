@@ -1,6 +1,5 @@
 import { useState } from "react";
 import styled from "styled-components";
-
 import Layout from "components/layout";
 import Nav from "components/nav";
 import ListInfo from "components/listInfo";
@@ -9,9 +8,9 @@ import PostList from "components/postList";
 import { EmptyQuery } from "frontedUtils/constants";
 import { ssrNextApi } from "services/nextApi";
 import { to404 } from "../../../frontedUtils/serverSideUtil";
-import { NextSeo } from "next-seo";
 import { setSpaceConfig } from "../../../store/reducers/spaceConfigSlice";
 import { useDispatch } from "react-redux";
+import Seo from "@/components/seo";
 
 const HeaderWrapper = styled.div`
   > :not(:first-child) {
@@ -59,31 +58,10 @@ export default function List({
     proposalList = closedProposals;
   }
 
-  const images = [{
-    url: `https://voting.opensquare.io/imgs/${spaceId}-logo.jpg`,
-    width: 1200,
-    height: 628
-  }];
-
-  const desc = `Space for ${space.name} off-chain voting. You can create, view, and vote proposals. Join ${space.name} off-chain governance!`
-
+  const desc = `Space for ${space.name} off-chain voting. You can create, view, and vote proposals. Join ${space.name} off-chain governance!`;
   return (
     <>
-      <NextSeo
-        title={`${space.name} Off-chain Voting`}
-        description={desc}
-        openGraph={{
-          url: 'https://www.opensquare.io/',
-          title: `${space.name} Off-chain Voting`,
-          description: desc,
-          images,
-        }}
-        twitter={{
-          handle: '@handle',
-          site: '@site',
-          cardType: 'summary_large_image',
-        }}
-      />
+      <Seo spaceId={spaceId} title={space.name} desc={desc} />
       <Layout bgHeight="264px" space={space}>
         <HeaderWrapper>
           <Nav
