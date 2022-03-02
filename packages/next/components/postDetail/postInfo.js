@@ -53,6 +53,7 @@ const InfoItem = styled.div`
   > :last-child {
     flex-grow: 1;
     text-align: right;
+    justify-content: end;
   }
 `;
 
@@ -78,6 +79,9 @@ const TimestampItem = styled.div`
 const SnapshotsWrapper = styled.div`
   display: flex;
   justify-content: end;
+  > div {
+    line-height: 0;
+  }
 `;
 
 export default function PostInfo({ data, space }) {
