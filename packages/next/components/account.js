@@ -18,6 +18,7 @@ import {
   showConnectSelector,
 } from "../store/reducers/showConnectSlice";
 import ChainIcon from "@/components/chain/chainIcon";
+import { spaceSupportMultiChainSelector } from "../store/reducers/spaceConfigSlice";
 
 const ConnectModal = dynamic(() => import("./connect"), {
   ssr: false,
@@ -180,6 +181,7 @@ export default function Account({ space, showMenu, setShowMenu }) {
   const [pageMounted, setPageMounted] = useState(false);
   const [identity, setIdentity] = useState();
   const [address, setAddress] = useState(account?.address);
+  const spaceSupportMultiChain = useSelector(spaceSupportMultiChainSelector);
 
   useEffect(() => setPageMounted(true), []);
 
@@ -248,10 +250,15 @@ export default function Account({ space, showMenu, setShowMenu }) {
           <AccountWrapper>
             <div>
               <Avatar address={address} size={20} />
-              <ChainIcon chainName={account?.network} size={16} />
+              {spaceSupportMultiChain && (
+                <ChainIcon chainName={account?.network} size={16} />
+              )}
               {identity?.info && identity?.info?.status !== "NO_ID" ? (
                 <IdentityWrapper>
-                  <IdentityIcon status={identity.info.status} size={12} />
+                  <IdentityIcon
+                    status={identity.info.status}
+                    size={spaceSupportMultiChain ? 12 : 14}
+                  />
                   <div>{identity.info.display}</div>
                 </IdentityWrapper>
               ) : (
@@ -295,7 +302,9 @@ export default function Account({ space, showMenu, setShowMenu }) {
         >
           <div>
             <Avatar address={address} size={20} />
-            <ChainIcon chainName={account?.network} size={16} />
+            {spaceSupportMultiChain && (
+              <ChainIcon chainName={account?.network} size={16} />
+            )}
             {identity?.info && identity?.info?.status !== "NO_ID" ? (
               <IdentityWrapper>
                 <IdentityIcon
@@ -303,6 +312,7 @@ export default function Account({ space, showMenu, setShowMenu }) {
                   position="down"
                   offset="10px"
                   showTooltip
+                  size={spaceSupportMultiChain ? 12 : 14}
                 />
                 <div>{identity.info.display}</div>
               </IdentityWrapper>
