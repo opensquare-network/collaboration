@@ -1,5 +1,9 @@
 import Tooltip from "components/tooltip";
-import { abbreviateBigNumber, getEffectiveNumbers, toPrecision } from "frontedUtils";
+import {
+  abbreviateBigNumber,
+  getEffectiveNumbers,
+  toPrecision,
+} from "frontedUtils";
 
 /**
  * Render raw data into readable crypto amount
@@ -9,15 +13,24 @@ import { abbreviateBigNumber, getEffectiveNumbers, toPrecision } from "frontedUt
  */
 
 export default function ValueDisplay({ value, space, showAEM = false }) {
-  const lostPrecision = (getEffectiveNumbers(value) !== getEffectiveNumbers(abbreviateBigNumber(value)));
+  const lostPrecision =
+    getEffectiveNumbers(value) !==
+    getEffectiveNumbers(abbreviateBigNumber(value));
   const precision = toPrecision(value, space?.decimals);
 
   if (Number(precision) > 1000 || lostPrecision) {
     return (
       <Tooltip size="fit" content={`${precision} ${space?.symbol}`}>
-        <div>{showAEM && lostPrecision && "≈"} {`${abbreviateBigNumber(precision)} ${space?.symbol}`}</div>
+        <div>
+          {showAEM && lostPrecision && "≈"}{" "}
+          {`${abbreviateBigNumber(precision)} ${space?.symbol}`}
+        </div>
       </Tooltip>
     );
   }
-  return `${precision} ${space?.symbol}`;
+  return (
+    <span>
+      {precision} {space?.symbol}
+    </span>
+  );
 }
