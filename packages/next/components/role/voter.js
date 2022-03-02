@@ -8,6 +8,7 @@ import ExternalLink from "@/components/externalLink";
 import IdentityIcon from "@/components/identityIcon";
 import styled from "styled-components";
 import NetworkLogo from "@/components/role/networkLogo";
+import ChainIcon from "@/components/chain/chainIcon";
 
 const Wrapper = styled.div`
   display: flex;
@@ -15,7 +16,10 @@ const Wrapper = styled.div`
   color: #2e343d;
 
   > :not(:first-child) {
-    margin-left: 8px;
+    margin-left: 4px;
+  }
+  .ui--IdentityIcon svg:first-child {
+    margin-right: 4px;
   }
 `;
 
@@ -38,7 +42,7 @@ export default function Voter({ address, network, showNetwork = true }) {
   const [identity, setIdentity] = useState();
   const isMounted = useIsMounted();
   const explorer = getExplorer(network);
-  const link = `https://${ network }.${ explorer }.io/account/${ address }`;
+  const link = `https://${network}.${explorer}.io/account/${address}`;
 
   useEffect(() => {
     if (!address || !network) {
@@ -52,27 +56,24 @@ export default function Voter({ address, network, showNetwork = true }) {
           setIdentity(identity);
         }
       })
-      .catch(() => {
-      });
+      .catch(() => {});
   }, [network, address, isMounted]);
 
   return (
-    <Wrapper >
-      <Avatar address={ address } size={ 20 } />
-      <ExternalLink href={ link } >
-        {
-          showNetwork &&
-          <NetworkLogo network={network} />
-        }
-        { identity?.info && identity?.info?.status !== "NO_ID" ? (
-          <IdentityWrapper >
-            <IdentityIcon status={ identity.info.status } showTooltip />
-            <Name >{ identity.info.display }</Name >
-          </IdentityWrapper >
+    <Wrapper>
+      <Avatar address={address} size={20} />
+      {showNetwork && <ChainIcon chainName={network} size={16} />}
+      <ExternalLink href={link}>
+        {showNetwork && <NetworkLogo network={network} />}
+        {identity?.info && identity?.info?.status !== "NO_ID" ? (
+          <IdentityWrapper>
+            <IdentityIcon status={identity.info.status} showTooltip />
+            <Name>{identity.info.display}</Name>
+          </IdentityWrapper>
         ) : (
-          <Name >{ addressEllipsis(address) }</Name >
-        ) }
-      </ExternalLink >
-    </Wrapper >
+          <Name>{addressEllipsis(address)}</Name>
+        )}
+      </ExternalLink>
+    </Wrapper>
   );
 }
