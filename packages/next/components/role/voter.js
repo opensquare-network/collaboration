@@ -7,7 +7,6 @@ import Avatar from "@/components/avatar";
 import ExternalLink from "@/components/externalLink";
 import IdentityIcon from "@/components/identityIcon";
 import styled from "styled-components";
-import NetworkLogo from "@/components/role/networkLogo";
 import ChainIcon from "@/components/chain/chainIcon";
 
 const Wrapper = styled.div`
@@ -64,10 +63,9 @@ export default function Voter({ address, network, showNetwork = true }) {
       <Avatar address={address} size={20} />
       {showNetwork && <ChainIcon chainName={network} size={16} />}
       <ExternalLink href={link}>
-        {showNetwork && <NetworkLogo network={network} />}
         {identity?.info && identity?.info?.status !== "NO_ID" ? (
           <IdentityWrapper>
-            <IdentityIcon status={identity.info.status} showTooltip />
+            <IdentityIcon status={ identity.info.status } showTooltip size={ showNetwork ? 12 : 14 } />
             <Name>{identity.info.display}</Name>
           </IdentityWrapper>
         ) : (

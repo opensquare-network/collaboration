@@ -19,6 +19,7 @@ export default function IdentityIcon({
   position,
   offset,
   showTooltip = false,
+  size = 14,
 }) {
   const statusIconMap = new Map([
     ["NOT_VERIFIED", { icon: UnauthorizedIcon, desc: "Identity not verified" }],
@@ -40,7 +41,7 @@ export default function IdentityIcon({
 
   return (
     <Wrapper>
-      <StatusIcon />
+      <StatusIcon width={ size } height={ size } />
       {showTooltip && (
         <Tooltip
           content={statusDesc}
