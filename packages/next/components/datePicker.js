@@ -215,12 +215,16 @@ export default function Component({
   maxDate,
   button,
   onSelect = () => {},
+  defaultTime = "00:00",
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [show, setShow] = useState("date");
   const [hour, setHour] = useState("");
   const [minute, setMinute] = useState("");
   const ref = useRef();
+  const today = moment()
+    .set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
+    .toDate();
   useOnClickOutside(ref, () => setIsOpen(false));
   const handleChange = (e) => {
     setDate(e);
@@ -232,7 +236,6 @@ export default function Component({
   };
   const onToday = () => {
     if (date) {
-      const today = moment();
       setDate(
         moment(date)
           .set({
@@ -243,15 +246,15 @@ export default function Component({
           .toDate()
       );
     } else {
-      setDate(
-        moment().set({ hour: 0, minute: 0, second: 0, millisecond: 0 }).toDate()
-      );
+      setDate(today);
     }
   };
   const checkInt = (value) => {
     if (value && value.indexOf(".") > 0) return false;
-    if (isNaN(value) && !Number.isInteger(Number(value))) return false;
-    return true;
+    return !(isNaN(value) && !Number.isInteger(Number(value)));
+  };
+  const isToday = (date) => {
+    return date.getTime() === today.getTime();
   };
   const onHourChange = (e) => {
     let value = e.target.value;
@@ -277,13 +280,20 @@ export default function Component({
     return "" + value;
   };
   const formatTime = () => {
+    let hour = defaultTime?.split(":")?.[0] || "00";
+    let minute = defaultTime?.split(":")?.[1] || "00";
     if (date) {
-      setHour(format(moment(date).hour()));
-      setMinute(format(moment(date).minute()));
-    } else {
-      setHour("");
-      setMinute("");
+      hour = moment(date).hour();
+      minute = moment(date).minute();
+      if (isToday(date) && defaultTime === "now") {
+        const now = new Date();
+        hour = now.getHours();
+        minute = now.getMinutes();
+      }
     }
+    setHour(format(hour));
+    setMinute(format(minute));
+    setDate(moment(date).set({ hour, minute }).toDate());
   };
   const onSelectTime = () => {
     setDate(
