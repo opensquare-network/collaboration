@@ -6,6 +6,7 @@ import { p_14_normal, p_16_semibold, p_18_semibold } from "styles/textStyles";
 import PostTime from "components/postTime";
 import StatusTag from "components/statusTag";
 import MicromarkMd from "components/micromarkMd";
+import Share from "components/share";
 
 const Wrapper = styled.div`
   padding: 32px;
@@ -80,6 +81,7 @@ export default function PostContent({ data, space }) {
       <Content>
         <MicromarkMd md={data?.content} />
       </Content>
+      <Share />
       <Divider />
       <PostVote data={data} space={space} />
     </Wrapper>
