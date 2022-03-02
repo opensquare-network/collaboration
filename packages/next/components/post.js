@@ -12,6 +12,8 @@ import { useEffect, useState } from "react";
 import { useWindowSize } from "../frontedUtils/hooks";
 import PostResult from "./postResult";
 import { findNetworkConfig } from "../services/util";
+import { useSelector } from "react-redux";
+import { spaceSupportMultiChainSelector } from "../store/reducers/spaceConfigSlice";
 
 const Wrapper = styled.div`
   background: #ffffff;
@@ -115,6 +117,7 @@ export default function Post({ data, showSpace, space, spaces }) {
   const icon = getProjectIcon(data.space);
 
   const proposerNetworkConfig = findNetworkConfig(data.networksConfig, data.proposerNetwork);
+  const spaceSupportMultiChain = useSelector(spaceSupportMultiChainSelector)
 
   return (
     <HardLink href={`/space/${data.space}/proposal/${data.cid}`}>
@@ -130,6 +133,7 @@ export default function Post({ data, showSpace, space, spaces }) {
               <Author
                 address={data.proposer ?? data.address}
                 space={proposerNetworkConfig}
+                showNetwork={ spaceSupportMultiChain }
               />
             )}
             {!showRichInfo && (
