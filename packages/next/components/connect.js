@@ -1,11 +1,15 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import {
   isWeb3Injected,
   web3Accounts,
   web3Enable,
 } from "@polkadot/extension-dapp";
-import { useDispatch } from "react-redux";
-import { setAccount } from "store/reducers/accountSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setAccount,
+  availableNetworksSelector,
+} from "store/reducers/accountSlice";
+
 import { Modal } from "semantic-ui-react";
 import Button from "components/button";
 import AccountSelector from "./accountSelector";
@@ -19,6 +23,7 @@ import {
 } from "../styles/textStyles";
 import SvgClose from "public/imgs/icons/close.svg";
 import { closeConnect } from "../store/reducers/showConnectSlice";
+import ChainSelector from "@/components/chainSelector";
 
 const Wrapper = styled.div``;
 
@@ -67,13 +72,15 @@ const ActionBar = styled.div`
   margin-top: 28px;
 `;
 
-export default function Connect({ setShowMenu }) {
+export default function Connect({ space, setShowMenu }) {
   const dispatch = useDispatch();
   const isMounted = useIsMounted();
   const [hasExtension, setHasExtension] = useState(null);
   const [accounts, setAccounts] = useState([]);
+  const [chain, setChain] = useState(space.networks[0]);
   const [address, setAddress] = useState();
   const [isPolkadotAccessible, setIsPolkadotAccessible] = useState(null);
+  const availableNetworks = useSelector(availableNetworksSelector);
 
   const getAddresses = useCallback(async () => {
     const extensionAccounts = await web3Accounts();
@@ -113,9 +120,14 @@ export default function Connect({ setShowMenu }) {
     })();
   }, [isMounted, getAddresses]);
 
-  const getConnection = async () => {
+  const doConnect = async () => {
     try {
-      dispatch(setAccount(address));
+      dispatch(
+        setAccount({
+          address,
+          network: chain.network,
+        })
+      );
       dispatch(closeConnect());
       setShowMenu(false);
     } catch (error) {
@@ -138,15 +150,22 @@ export default function Connect({ setShowMenu }) {
             <SvgClose onClick={closeModal} />
           </CloseBar>
           <StyledTitle>Connect Wallet</StyledTitle>
-          <StyledText>Account</StyledText>
 
+          <StyledText>Chain</StyledText>
+          <ChainSelector
+            chains={availableNetworks}
+            onSelect={(chain) => setChain(chain)}
+          />
+
+          <StyledText>Account</StyledText>
           <AccountSelector
             accounts={accounts}
             onSelect={(account) => setAddress(account?.address)}
+            chain={chain}
           />
 
           <ActionBar>
-            <Button primary onClick={getConnection}>
+            <Button primary onClick={doConnect}>
               Connect
             </Button>
           </ActionBar>

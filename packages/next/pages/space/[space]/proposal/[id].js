@@ -1,4 +1,5 @@
 import Layout from "components/layout";
+import { useDispatch } from "react-redux";
 import Nav from "components/nav";
 import PostDetail from "@/components/postDetail/index";
 import { useEncodedAddress } from "frontedUtils/hooks";
@@ -9,6 +10,9 @@ import { encodeAddress } from "@polkadot/util-crypto";
 import { useState, useEffect } from "react";
 import FourOFour from "../../../404";
 import { NextSeo } from "next-seo";
+import { setAvailableNetworks } from "store/reducers/accountSlice";
+import pick from "lodash/pick";
+import { setSpaceConfig } from "../../../../store/reducers/spaceConfigSlice";
 
 export default function Index({
   detail,
@@ -19,8 +23,19 @@ export default function Index({
   defaultPage,
   myVote,
 }) {
+  const dispatch = useDispatch();
+  dispatch(setSpaceConfig(space));
+
   const [savedMyVote, setSavedMyVote] = useState(myVote);
   const encodedAddress = useEncodedAddress(space);
+
+  useEffect(() => {
+    dispatch(setAvailableNetworks(
+      detail?.networksConfig?.networks?.map(
+        item => pick(item, ["network", "ss58Format"])
+      ) || []
+    ));
+  }, [dispatch, detail]);
 
   useEffect(() => {
     if (encodedAddress) {

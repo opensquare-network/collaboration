@@ -55,9 +55,8 @@ export default function PostTab({
         value: "votes",
         component: (
           <PostVotes
-            data={data}
+            proposal={data}
             votes={votes}
-            space={space}
             myVote={myVote}
           />
         ),
@@ -67,7 +66,7 @@ export default function PostTab({
         name: "Discussions",
         value: "discussion",
         component: (
-          <PostDiscussion data={data} comments={comments} space={space} />
+          <PostDiscussion proposal={data} comments={comments} space={space} />
         ),
       },
     ],

@@ -1,54 +1,34 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Dropdown } from "semantic-ui-react";
-
+import StyledDropdown from "@/components/styled/dropdown";
 import AccountItem from "./accountItem";
-import { p_14_normal } from "../styles/textStyles";
 
 const Wrapper = styled.div``;
 
 const DropdownWrapper = styled.div`
   position: relative;
+  z-index: 9;
+  height: 64px;
 `;
 
-const StyledDropdown = styled(Dropdown)`
-  width: 100%;
-  height: 64px !important;
-  border-radius: 0 !important;
-  :active,
-  :hover,
-  :focus {
-    border-color: #cccccc !important;
-  }
-  &.active,
-  & .menu {
-    border-color: #cccccc !important;
-  }
-  &.ui.dropdown .menu > .item {
-    padding: 0 !important;
-  }
-  .icon {
-    top: 50% !important;
-    transform: translate(0, -9px) !important;
-    opacity: 0.24 !important;
-  }
-  .menu {
-    border-radius: 0 !important;
-  }
-`;
-
-const AccountSelector = ({ accounts, onSelect = () => {} }) => {
+const AccountSelector = ({ accounts, chain, onSelect = () => {} }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   useEffect(() => {
     onSelect(accounts[selectedIndex]);
   }, [accounts, onSelect, selectedIndex]);
+
   const options = accounts.map((item, index) => ({
     key: index,
     value: index,
     content: (
-      <AccountItem accountName={item.name} accountAddress={item.address} />
+      <AccountItem
+        accountName={ item.name }
+        accountAddress={ item.address }
+        chain={ chain.network }
+      />
     ),
   }));
+
   return (
     <Wrapper>
       <DropdownWrapper>
@@ -61,7 +41,8 @@ const AccountSelector = ({ accounts, onSelect = () => {} }) => {
         />
         <AccountItem
           accountName={accounts?.[selectedIndex]?.name}
-          accountAddress={accounts?.[selectedIndex]?.address}
+          accountAddress={ accounts?.[selectedIndex]?.address }
+          chain={chain.network}
           header
         />
       </DropdownWrapper>

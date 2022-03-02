@@ -16,6 +16,17 @@ const { checkDelegation } = require("../../services/node.service");
 const { getObjectBufAndCid, pinJsonToIpfsWithTimeout } = require("../ipfs.service");
 const { toDecimal128, enhancedSqrtOfBalance } = require("../../utils");
 const { calcPassing } = require("../biased-voting.service");
+const { getApi, getBalanceFromNetwork } = require("../../services/node.service");
+
+function getTotalIssuance(space) {
+  if (["rmrk", "rmrk-curation"].includes(space)) {
+    return "100000000000000000";
+  } else if ("polarisdao" === space) {
+    return "1000000000000000";
+  }
+
+  throw new HttpError(500, "getTotalIssuance: unsupported space " + space);
+}
 
 function getTotalIssuance(space) {
   if (["rmrk", "rmrk-curation"].includes(space)) {
@@ -70,8 +81,9 @@ async function createProposal(
   choices,
   startDate,
   endDate,
-  snapshotHeight,
+  snapshotHeights,
   realProposer,
+  proposerNetwork,
   data,
   address,
   signature,
@@ -97,25 +109,62 @@ async function createProposal(
     throw new HttpError(400, { choices: ["There must be at least 2 different choices"] });
   }
 
-  const lastHeight = getLatestHeight(space);
-  if (lastHeight && snapshotHeight > lastHeight) {
-    throw new HttpError(400, "Snapshot height should not be higher than the current finalized height");
-  }
-
   const spaceService = spaceServices[space];
   if (!spaceService) {
     throw new HttpError(500, "Unknown space");
   }
+
+  // Check if the snapshot heights is matching the space configuration
+  const snapshotNetworks = Object.keys(snapshotHeights || {});
+  if (snapshotNetworks.length === 0 || snapshotNetworks.length !== spaceService.networks.length) {
+    throw new HttpError(400, {
+      snapshotHeights: ["The snapshot heights must match the space configuration"],
+    });
+  }
+  for (const spaceNetwork of spaceService.networks) {
+    if (snapshotNetworks.includes(spaceNetwork.network)) {
+      continue;
+    }
+
+    throw new HttpError(400, {
+      snapshotHeights: [ `Missing snapshot height of ${network.network}` ],
+    });
+  }
+
+  for (const chain in snapshotHeights) {
+    const lastHeight = getLatestHeight(chain);
+    if (lastHeight && snapshotHeights[chain] > lastHeight) {
+      throw new HttpError(400, `Snapshot height should not be higher than the current finalized height: ${chain}`);
+    }
+  }
+
+  const networksConfig = {
+    symbol: spaceService.symbol,
+    decimals: spaceService.decimals,
+    networks: spaceService.networks,
+  };
+
   const weightStrategy = spaceService.weightStrategy;
 
+  const api = await getApi(proposerNetwork);
+  const lastHeight = getLatestHeight(proposerNetwork);
+
   if (realProposer && realProposer !== address) {
-    const api = await spaceService.getApi();
     await checkDelegation(api, address, realProposer, lastHeight);
   }
 
   const proposer = realProposer || address;
 
-  const creatorBalance = await spaceService.getBalance(lastHeight, proposer);
+  const creatorBalance = await getBalanceFromNetwork(
+    api,
+    {
+      networksConfig,
+      networkName: proposerNetwork,
+      address: proposer,
+      blockHeight: lastHeight,
+    }
+  );
+
   const bnCreatorBalance = new BigNumber(creatorBalance);
   if (bnCreatorBalance.lt(spaceService.proposeThreshold)) {
     throw new HttpError(403, `Balance is not enough to create the proposal`);
@@ -129,6 +178,7 @@ async function createProposal(
   const result = await proposalCol.insertOne(
     {
       space,
+      networksConfig,
       postUid,
       title,
       content: contentType === ContentType.Html ? safeHtml(content) : content,
@@ -137,9 +187,10 @@ async function createProposal(
       choices: uniqueChoices,
       startDate,
       endDate,
-      snapshotHeight,
+      snapshotHeights,
       weightStrategy,
       proposer,
+      proposerNetwork,
       data,
       address,
       signature,
@@ -148,6 +199,7 @@ async function createProposal(
       updatedAt: now,
       cid,
       pinHash,
+      version: "2",
     }
   );
 
@@ -351,6 +403,7 @@ async function postComment(
   proposalCid,
   content,
   contentType,
+  commenterNetwork,
   data,
   address,
   signature,
@@ -359,6 +412,11 @@ async function postComment(
   const proposal = await proposalCol.findOne({ cid: proposalCid });
   if (!proposal) {
     throw new HttpError(400, "Proposal not found.");
+  }
+
+  const snapshotNetworks = Object.keys(proposal.snapshotHeights);
+  if (!snapshotNetworks.includes(commenterNetwork)) {
+    throw new HttpError(400, "Commenter network is not supported by this proposal");
   }
 
   const { cid, pinHash } = await pinData(data, address, signature, "voting-comment-");
@@ -372,6 +430,7 @@ async function postComment(
     proposal: proposal._id,
     content: contentType === ContentType.Html ? safeHtml(content) : content,
     contentType,
+    commenterNetwork,
     data,
     address,
     signature,
@@ -438,6 +497,7 @@ async function vote(
   realVoter,
   data,
   address,
+  voterNetwork,
   signature,
 ) {
   const proposalCol = await getProposalCollection();
@@ -466,14 +526,28 @@ async function vote(
     throw new HttpError(500, "Unknown space");
   }
 
+  const snapshotNetworks = Object.keys(proposal.snapshotHeights);
+  if (!snapshotNetworks.includes(voterNetwork)) {
+    throw new HttpError(400, "Voter network is not supported by this proposal");
+  }
+
+  const api = await getApi(voterNetwork);
   if (realVoter && realVoter !== address) {
-    const api = await spaceService.getApi();
-    await checkDelegation(api, address, realVoter, proposal.snapshotHeight);
+    const snapshotHeight = proposal.snapshotHeights?.[voterNetwork];
+    await checkDelegation(api, address, realVoter, snapshotHeight);
   }
 
   const voter = realVoter || address;
 
-  const balanceOf = await spaceService.getBalance(proposal.snapshotHeight, voter);
+  const balanceOf = await getBalanceFromNetwork(
+    api,
+    {
+      networksConfig: proposal.networksConfig,
+      networkName: voterNetwork,
+      address: voter,
+      blockHeight: proposal.snapshotHeights?.[voterNetwork],
+    }
+  );
   if (new BigNumber(balanceOf).lt(spaceService.voteThreshold)) {
     const symbolVoteThreshold = new BigNumber(spaceService.voteThreshold).div(Math.pow(10, spaceService.decimals)).toString();
     throw new HttpError(400, `Require the minimum of ${symbolVoteThreshold} ${spaceService.symbol} to vote`);
@@ -485,6 +559,7 @@ async function vote(
     {
       proposal: proposal._id,
       voter,
+      voterNetwork,
     },
     {
       $set: {
@@ -499,6 +574,7 @@ async function vote(
         weights: {
           balanceOf: toDecimal128(balanceOf),
         },
+        version: "2",
       },
       $setOnInsert: {
         createdAt: now,
@@ -511,7 +587,7 @@ async function vote(
   );
 
   if (!result.ok) {
-    throw new HttpError(500, "Failed to create comment");
+    throw new HttpError(500, "Failed to create vote");
   }
 
   await proposalCol.updateOne(
@@ -652,6 +728,30 @@ async function getHottestProposals() {
   return proposals.map(addStatus);
 }
 
+async function getVoterBalance(proposalCid, network, address, snapshot) {
+  const proposalCol = await getProposalCollection();
+  const proposal = await proposalCol.findOne({ cid: proposalCid });
+  if (!proposal) {
+    throw new HttpError(404, "Proposal does not exists");
+  }
+  const networksConfig = proposal.networksConfig;
+
+  const blockHeight = snapshot ? parseInt(snapshot) : getLatestHeight(network);
+  const api = await getApi(network);
+  const totalBalance = await getBalanceFromNetwork(
+    api,
+    {
+      networksConfig,
+      networkName: network,
+      address,
+      blockHeight,
+    }
+  );
+  return {
+    balance: totalBalance
+  };
+}
+
 module.exports = {
   createProposal,
   getProposalBySpace,
@@ -666,4 +766,5 @@ module.exports = {
   getAddressVote,
   getStats,
   getHottestProposals,
+  getVoterBalance,
 };

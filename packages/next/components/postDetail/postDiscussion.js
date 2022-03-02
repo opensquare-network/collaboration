@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
@@ -7,13 +7,14 @@ import Author from "components/author";
 import Pagination from "components/pagination";
 import RichInput from "components/richInput";
 import { useViewfunc } from "frontedUtils/hooks";
-import { accountSelector } from "store/reducers/accountSlice";
+import { loginAccountSelector } from "store/reducers/accountSlice";
 import { addToast } from "store/reducers/toastSlice";
 import { TOAST_TYPES } from "frontedUtils/constants";
 import { timeDuration } from "frontedUtils";
 import MicromarkMd from "components/micromarkMd";
 import ExternalLink from "components/externalLink";
 import { encodeAddress } from "@polkadot/util-crypto";
+import { findNetworkConfig } from "services/util";
 
 const Item = styled.div`
   padding-top: 20px;
@@ -63,13 +64,15 @@ const InfoWrapper = styled.div`
 `;
 
 const Square = styled.div`
-  cursor: pointer;
   width: 20px;
   height: 20px;
   background: url("/imgs/icons/ipfs.svg");
-  :hover {
-    background: url("/imgs/icons/ipfs-active.svg");
-  }
+  ${p => !p.noHover && css`
+    cursor: pointer;
+    :hover {
+      background: url("/imgs/icons/ipfs-active.svg");
+    }
+  `}
 `;
 
 const NoCommentWrapper = styled.div`
@@ -83,10 +86,10 @@ const NoCommentWrapper = styled.div`
   border-bottom: 1px solid #f0f3f8;
 `;
 
-export default function PostDiscussion({ data, space, comments }) {
+export default function PostDiscussion({ proposal, space, comments }) {
   const [content, setContent] = useState("");
   const viewfunc = useViewfunc();
-  const account = useSelector(accountSelector);
+  const account = useSelector(loginAccountSelector);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
@@ -119,10 +122,11 @@ export default function PostDiscussion({ data, space, comments }) {
     try {
       result = await viewfunc.addComment(
         space.id,
-        data?.cid,
+        proposal?.cid,
         content,
         "markdown",
-        encodeAddress(account?.address, space.ss58Format)
+        encodeAddress(account?.address, account?.ss58Format),
+        account?.network,
       );
     } catch (error) {
       dispatch(
@@ -154,21 +158,25 @@ export default function PostDiscussion({ data, space, comments }) {
     }
   };
 
+  const getNetwork = (comment) => findNetworkConfig(proposal.networksConfig, comment.commenterNetwork);
+
   return (
     <div>
       {(comments?.items || []).map((item, index) => (
         <Item key={index}>
           <InfoWrapper>
             <DividerWrapper>
-              <Author address={item.address} space={space} size={20} />
+              <Author address={item.address} space={getNetwork(item)} size={20} />
               <div>{timeDuration(item.createdAt)}</div>
             </DividerWrapper>
-            {item?.pinHash && (
+            {item?.pinHash ? (
               <ExternalLink
                 href={`https://ipfs-hk.decoo.io/ipfs/${item.pinHash}`}
               >
                 <Square />
               </ExternalLink>
+            ) : (
+              <Square noHover={true} />
             )}
           </InfoWrapper>
           <ContentWrapper>

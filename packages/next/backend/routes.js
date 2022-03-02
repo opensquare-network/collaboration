@@ -6,11 +6,13 @@ const router = new Router();
 const spaceFeatureRoutes = [
   require("./features/proposals/routes"),
   require("./features/accounts/routes"),
+  require("./features/space-networks/routes"),
 ];
 
 const commonFeatureRouters = [
   require("./features/spaces/routes"),
   require("./features/home/routes"),
+  require("./features/chain/routes"),
 ];
 
 

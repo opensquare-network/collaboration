@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import nextApi from "services/nextApi";
 import { useSelector } from "react-redux";
-import { accountSelector } from "store/reducers/accountSlice";
+import { loginAccountSelector } from "store/reducers/accountSlice";
 import { encodeAddress } from "@polkadot/util-crypto";
 import debounce from "lodash.debounce";
 
@@ -83,10 +83,10 @@ export function useNetwork() {
   return network;
 }
 
-export function useEncodedAddress(network) {
-  const account = useSelector(accountSelector);
-  if (account?.address && network) {
-    return encodeAddress(account?.address, network?.ss58Format);
+export function useEncodedAddress() {
+  const account = useSelector(loginAccountSelector);
+  if (account) {
+    return encodeAddress(account.address, account.ss58Format);
   }
   return null;
 }

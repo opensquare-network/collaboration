@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 
 import Input from "components/input";
 import { useViewfunc } from "frontedUtils/hooks";
-import { accountSelector } from "store/reducers/accountSlice";
+import { loginAccountSelector } from "store/reducers/accountSlice";
 import { addToast } from "store/reducers/toastSlice";
 import { TOAST_TYPES } from "frontedUtils/constants";
 import {
@@ -22,6 +22,7 @@ import Option from "@/components/option";
 import { text_secondary_red_500 } from "../../styles/colorStyles";
 import BigNumber from "bignumber.js";
 import Toggle from "../toggle";
+import { findNetworkConfig } from "services/util";
 
 const Wrapper = styled.div`
   > :not(:first-child) {
@@ -72,9 +73,9 @@ const RedText = styled.span`
   ${text_secondary_red_500};
 `;
 
-export default function PostVote({ data, space }) {
+export default function PostVote({ proposal, space }) {
   const dispatch = useDispatch();
-  const account = useSelector(accountSelector);
+  const account = useSelector(loginAccountSelector);
   const [choiceIndex, setChoiceIndex] = useState(null);
   const [remark, setRemark] = useState("");
   const [proxyVote, setProxyVote] = useState(false);
@@ -91,21 +92,24 @@ export default function PostVote({ data, space }) {
     setRemark("");
   };
 
-  const status = data?.status;
+  const status = proposal?.status;
 
   useEffect(() => {
-    if (space && account?.address) {
+    if (proposal && account?.address && account?.network) {
       nextApi
-        .fetch(`${space.id}/account/${account.address}/balance`, {
-          snapshot: data?.snapshotHeight,
-        })
+        .fetch(
+          `${proposal.space}/proposal/${proposal.cid}/voterbalance/${account.network}/${account.address}`,
+          {
+            snapshot: proposal.snapshotHeights[account.network],
+          }
+        )
         .then((response) => {
           setBalance(response?.result?.balance);
         });
     } else {
       setBalance(null);
     }
-  }, [data?.snapshotHeight, space, account?.address]);
+  }, [proposal, account?.network, account?.address]);
 
   useEffect(() => {
     const zero = new BigNumber("0");
@@ -116,12 +120,15 @@ export default function PostVote({ data, space }) {
     );
   }, [balance, proxyVote, proxyBalance]);
 
-  const getProxyBalance = () => {
-    if (space && proxyAddress) {
+  const getProxyBalance = (proxyAddress) => {
+    if (proposal && proxyAddress && account?.network) {
       nextApi
-        .fetch(`${space}/account/${proxyAddress}/balance`, {
-          snapshot: data?.snapshotHeight,
-        })
+        .fetch(
+          `${proposal.space}/proposal/${proposal.cid}/voterbalance/${account.network}/${proxyAddress}`,
+          {
+            snapshot: proposal.snapshotHeights[account.network],
+          }
+        )
         .then((response) => {
           setProxyBalance(response?.result?.balance);
         });
@@ -157,12 +164,15 @@ export default function PostVote({ data, space }) {
     let result;
     try {
       result = await viewfunc.addVote(
-        space.id,
-        data?.cid,
-        data?.choices?.[choiceIndex],
+        proposal?.space,
+        proposal?.cid,
+        proposal?.choices?.[choiceIndex],
         remark,
-        encodeAddress(account?.address, space.ss58Format),
-        proxyVote ? encodeAddress(proxyAddress, space.ss58Format) : undefined
+        encodeAddress(account?.address, account?.ss58Format),
+        proxyVote
+          ? encodeAddress(proxyAddress, account?.ss58Format)
+          : undefined,
+        account?.network
       );
     } catch (error) {
       if (error.toString() === "Error: Cancelled") {
@@ -197,6 +207,11 @@ export default function PostVote({ data, space }) {
     }
   };
 
+  const networkConfig = findNetworkConfig(
+    proposal.networksConfig,
+    account?.network
+  );
+
   return (
     <Wrapper>
       <InnerWrapper>
@@ -204,7 +219,7 @@ export default function PostVote({ data, space }) {
           {status && status !== "closed" ? "Cast your vote" : "Options"}
         </Title>
         <ButtonsWrapper>
-          {(data.choices || []).map((item, index) => (
+          {(proposal.choices || []).map((item, index) => (
             <Option
               key={index}
               active={index === choiceIndex}
@@ -242,10 +257,10 @@ export default function PostVote({ data, space }) {
                   bigNumber2Locale(
                     fromAssetUnit(
                       proxyVote ? proxyBalance : balance,
-                      space?.decimals
+                      networkConfig?.decimals
                     )
                   )
-                )} ${space?.symbol}`}
+                )} ${networkConfig?.symbol}`}
               {(proxyVote ? proxyBalance === "0" : balance === "0") && (
                 <RedText>Insufficient</RedText>
               )}
@@ -262,7 +277,7 @@ export default function PostVote({ data, space }) {
             <PostAddress
               address={proxyAddress}
               setAddress={setProxyAddress}
-              space={space}
+              space={networkConfig}
               info={info}
               setInfo={setInfo}
               setProxyBalance={setProxyBalance}

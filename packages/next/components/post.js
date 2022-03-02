@@ -11,6 +11,9 @@ import { p_24 } from "../styles/paddings";
 import { useEffect, useState } from "react";
 import { useWindowSize } from "../frontedUtils/hooks";
 import PostResult from "./postResult";
+import { findNetworkConfig } from "../services/util";
+import { useSelector } from "react-redux";
+import { spaceSupportMultiChainSelector } from "../store/reducers/spaceConfigSlice";
 
 const Wrapper = styled.div`
   background: #ffffff;
@@ -88,7 +91,6 @@ const TitleWrapper = styled.div`
 `;
 
 const ProjectIcons = {
-  kintsugi: "project-kintsugi.png",
   polarisdao: "project-polarisdao.png",
 };
 
@@ -114,6 +116,9 @@ export default function Post({ data, showSpace, space, spaces }) {
 
   const icon = getProjectIcon(data.space);
 
+  const proposerNetworkConfig = findNetworkConfig(data.networksConfig, data.proposerNetwork);
+  const spaceSupportMultiChain = useSelector(spaceSupportMultiChainSelector)
+
   return (
     <HardLink href={`/space/${data.space}/proposal/${data.cid}`}>
       <Wrapper>
@@ -127,7 +132,8 @@ export default function Post({ data, showSpace, space, spaces }) {
             {showRichInfo && (
               <Author
                 address={data.proposer ?? data.address}
-                space={space ?? getSpaceFromId(data.space)}
+                space={proposerNetworkConfig}
+                showNetwork={ spaceSupportMultiChain }
               />
             )}
             {!showRichInfo && (

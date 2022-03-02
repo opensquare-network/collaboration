@@ -6,12 +6,20 @@ import { useDispatch } from "react-redux";
 import Content from "./content";
 import Choices from "./choices";
 import More from "./more";
-import { accountSelector } from "store/reducers/accountSlice";
+import {
+  loginAccountSelector,
+  setAvailableNetworks,
+} from "store/reducers/accountSlice";
 import { addToast } from "store/reducers/toastSlice";
 import { TOAST_TYPES } from "frontedUtils/constants";
 import nextApi from "services/nextApi";
 import { useRouter } from "next/router";
 import { encodeAddress, isAddress } from "@polkadot/util-crypto";
+import { pick } from "lodash";
+import {
+  setSnapshotHeights,
+  snapshotHeightsSelector,
+} from "../../store/reducers/snapshotHeightSlice";
 
 const Wrapper = styled.div`
   display: flex;
@@ -49,14 +57,14 @@ const FETCH_BALANCE_ERROR =
 
 export default function PostCreate({ space }) {
   const dispatch = useDispatch();
-  const account = useSelector(accountSelector);
+  const account = useSelector(loginAccountSelector);
+  const snapshotHeights = useSelector(snapshotHeightsSelector);
   const router = useRouter();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [choices, setChoices] = useState(["", ""]);
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
-  const [height, setHeight] = useState(space.latestFinalizedHeight);
   const [balance, setBalance] = useState(null);
   const [balanceError, setBalanceError] = useState(null);
   const [viewFunc, setViewFunc] = useState(null);
@@ -64,7 +72,6 @@ export default function PostCreate({ space }) {
   const [proxyPublish, setProxyPublish] = useState(false);
   const [proxyAddress, setProxyAddress] = useState("");
   const [info, setInfo] = useState();
-  const [proxyCount, setProxyCount] = useState(0);
   const [proxyBalance, setProxyBalance] = useState(null);
   const [proxyBalanceError, setProxyBalanceError] = useState(null);
   const [isInputting, setIsInputting] = useState(false);
@@ -74,28 +81,68 @@ export default function PostCreate({ space }) {
   const symbol = space.symbol;
 
   useEffect(() => {
+    dispatch(
+      setAvailableNetworks(
+        space?.networks?.map((item) =>
+          pick(item, ["network", "ss58Format"])
+        ) || []
+      )
+    );
+  }, [dispatch, space]);
+
+  useEffect(() => {
     import("frontedUtils/viewfunc").then((viewFunc) => {
       setViewFunc(viewFunc);
     });
   }, []);
 
   useEffect(() => {
+    if (space) {
+      dispatch(
+        setSnapshotHeights(
+          Object.keys(space.latestFinalizedHeights).map((network) => ({
+            network,
+            height: space.latestFinalizedHeights[network],
+          }))
+        )
+      );
+    }
+  }, [space, dispatch]);
+
+  useEffect(() => {
+    // Create proposal with the connected wallet directly
+    // Read the wallet balance, so that we can check
+    // if the balance is above the threshold
     const address = account?.address ?? "";
+    const ss58Format = account?.ss58Format ?? 0;
     if (!address) {
       setBalance(null);
       setBalanceError("Link an address to create proposal.");
-    }
-    if (!address || !height > 0) {
       return;
     }
     setBalanceError(null);
+    const height =
+      snapshotHeights?.find(
+        (snapshotHeight) => account?.network === snapshotHeight.network
+      )?.height || 0;
+    if (!(height > 0)) {
+      return;
+    }
+    if (!account?.network) {
+      return;
+    }
     const delay = new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve();
       }, 2000);
     });
     Promise.all([
-      nextApi.fetch(`${space.id}/account/${encodeAddress(address, space.ss58Format)}/balance?snapshot=${height}`),
+      nextApi.fetch(
+        `${space.id}/${account?.network}/account/${encodeAddress(
+          address,
+          ss58Format
+        )}/balance?snapshot=${height}`
+      ),
       delay,
     ])
       .then((results) => {
@@ -115,25 +162,48 @@ export default function PostCreate({ space }) {
         dispatch(addToast({ type: TOAST_TYPES.ERROR, message }));
         setBalanceError(message);
       });
-  }, [space, height, account?.address, dispatch]);
+  }, [
+    space,
+    account?.network,
+    account?.address,
+    account?.ss58Format,
+    dispatch,
+    snapshotHeights,
+  ]);
 
-  useEffect(() => {
+  const getProxyBalance = (proxyAddress) => {
+    // Create proposal with the proxy address
+    // We need to check the balance of the proxy address
     const address = proxyAddress ?? "";
-    if (!address) {
+    const ss58Format = account?.ss58Format ?? 0;
+    if (!address || !isAddress(address)) {
       setProxyBalance(null);
       setProxyBalanceError("Link an address to create proposal.");
-    }
-    if (!isAddress(address) || !height > 0) {
       return;
     }
     setProxyBalanceError(null);
+    const height =
+      snapshotHeights?.find(
+        (snapshotHeight) => account?.network === snapshotHeight.network
+      )?.height || 0;
+    if (!(height > 0)) {
+      return;
+    }
+    if (!account?.network) {
+      return;
+    }
     const delay = new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve();
       }, 2000);
     });
     Promise.all([
-      nextApi.fetch(`${space.id}/account/${encodeAddress(address, space.ss58Format)}/balance?snapshot=${height}`),
+      nextApi.fetch(
+        `${space.id}/${account?.network}/account/${encodeAddress(
+          address,
+          ss58Format
+        )}/balance?snapshot=${height}`
+      ),
       delay,
     ])
       .then((results) => {
@@ -153,7 +223,7 @@ export default function PostCreate({ space }) {
         dispatch(addToast({ type: TOAST_TYPES.ERROR, message }));
         setProxyBalanceError(message);
       });
-  }, [space, height, proxyAddress, proxyCount, dispatch]);
+  };
 
   useEffect(() => {
     if (isInputting) {
@@ -164,7 +234,9 @@ export default function PostCreate({ space }) {
   const onPublish = async () => {
     if (isLoading) return;
 
-    if (!account) {
+    const address = account?.address ?? "";
+    const ss58Format = account?.ss58Format ?? 0;
+    if (!address) {
       dispatch(
         addToast({ type: TOAST_TYPES.ERROR, message: "Please connect wallet" })
       );
@@ -174,7 +246,10 @@ export default function PostCreate({ space }) {
     if (!viewFunc) {
       return;
     }
-
+    const proposalSnapshotHeights = {};
+    snapshotHeights.forEach((snapshotHeight) => {
+      proposalSnapshotHeights[snapshotHeight.network] = snapshotHeight.height;
+    });
     const proposal = {
       space: space.id,
       title,
@@ -184,12 +259,14 @@ export default function PostCreate({ space }) {
       choices: choices.filter(Boolean),
       startDate: startDate?.getTime(),
       endDate: endDate?.getTime(),
-      snapshotHeight: Number(height),
-      address: encodeAddress(account?.address, space.ss58Format),
+      snapshotHeights: proposalSnapshotHeights,
+      address: encodeAddress(address, ss58Format),
       realProposer: proxyPublish
-        ? encodeAddress(proxyAddress, space.ss58Format)
+        ? encodeAddress(proxyAddress, ss58Format)
         : null,
+      proposerNetwork: account.network,
     };
+
     const formError = viewFunc.validateProposal(proposal);
     if (formError) {
       dispatch(
@@ -222,6 +299,9 @@ export default function PostCreate({ space }) {
         );
       }
     } catch (e) {
+      if (error.toString() === "Error: Cancelled") {
+        return;
+      }
       dispatch(
         addToast({
           type: TOAST_TYPES.ERROR,
@@ -231,6 +311,11 @@ export default function PostCreate({ space }) {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const connectedNetworkConfig = account && {
+    network: account.network,
+    ss58Format: account.ss58Format,
   };
 
   return (
@@ -250,8 +335,6 @@ export default function PostCreate({ space }) {
           setStartDate={setStartDate}
           endDate={endDate}
           setEndDate={setEndDate}
-          height={height}
-          setHeight={setHeight}
           balance={balance}
           onPublish={onPublish}
           isLoading={isLoading}
@@ -263,10 +346,10 @@ export default function PostCreate({ space }) {
           setProxyPublish={setProxyPublish}
           proxyAddress={proxyAddress}
           setProxyAddress={setProxyAddress}
-          space={space}
+          space={connectedNetworkConfig}
           info={info}
           setInfo={setInfo}
-          setProxyCount={() => setProxyCount(proxyCount + 1)}
+          getProxyBalance={getProxyBalance}
           proxyBalance={proxyBalance}
           proxyBalanceError={proxyBalanceError}
           setProxyBalance={setProxyBalance}

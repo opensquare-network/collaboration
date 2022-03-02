@@ -126,12 +126,12 @@ export default function ListTab({
           </Item>
         ))}
       </ItemWrapper>
-      <Link href={`/space/${spaceId}/create`} passHref>
+      <a href={`/space/${spaceId}/create`}>
         <NewPostLink>
           <img src="/imgs/icons/add.svg" alt="" />
           New Proposal
         </NewPostLink>
-      </Link>
+      </a>
     </Wrapper>
   );
 }

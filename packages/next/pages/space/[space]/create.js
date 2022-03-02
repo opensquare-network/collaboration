@@ -3,8 +3,13 @@ import Nav from "components/nav";
 import PostCreate from "@/components/postCreate";
 import { ssrNextApi } from "services/nextApi";
 import { to404 } from "../../../frontedUtils/serverSideUtil";
+import { useDispatch } from "react-redux";
+import { setSpaceConfig } from "../../../store/reducers/spaceConfigSlice";
 
 export default function Create({ space }) {
+  const dispatch = useDispatch();
+  dispatch(setSpaceConfig(space));
+
   return (
     <Layout bgHeight="183px" space={space}>
       <Nav
@@ -22,9 +27,7 @@ export default function Create({ space }) {
 export async function getServerSideProps(context) {
   const { space: spaceId } = context.params;
 
-  const [
-    { result: space },
-  ] = await Promise.all([
+  const [{ result: space }] = await Promise.all([
     ssrNextApi.fetch(`spaces/${spaceId}`),
   ]);
 

@@ -6,6 +6,7 @@ import { p_14_normal, p_16_semibold, p_18_semibold } from "styles/textStyles";
 import PostTime from "components/postTime";
 import StatusTag from "components/statusTag";
 import MicromarkMd from "components/micromarkMd";
+import { findNetworkConfig } from "services/util";
 import Share from "components/share";
 
 const Wrapper = styled.div`
@@ -66,12 +67,13 @@ const Content = styled.div`
 `;
 
 export default function PostContent({ data, space }) {
+  const networkConfig = findNetworkConfig(data.networksConfig, data.proposerNetwork);
   return (
     <Wrapper>
       <Title>{data?.title}</Title>
       <InfoWrapper>
         <LeftWrapper>
-          <Author address={data.proposer ?? data.address} space={space} />
+          <Author address={data.proposer ?? data.address} space={networkConfig} />
           <PostTime post={data} />
         </LeftWrapper>
         <StatusTag>{data.status}</StatusTag>
@@ -83,7 +85,7 @@ export default function PostContent({ data, space }) {
       </Content>
       <Share />
       <Divider />
-      <PostVote data={data} space={space} />
+      <PostVote proposal={data} space={space} />
     </Wrapper>
   );
 }

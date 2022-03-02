@@ -2,6 +2,7 @@ const { HttpError } = require("../../exc");
 const proposalService = require("../../services/proposal.service");
 const { ContentType, ChoiceType } = require("../../constants");
 const { extractPage } = require("../../utils");
+const { isAddress } = require("@polkadot/util-crypto");
 
 async function createProposal(ctx) {
   const {
@@ -18,8 +19,9 @@ async function createProposal(ctx) {
     choices,
     startDate,
     endDate,
-    snapshotHeight,
+    snapshotHeights,
     realProposer,
+    proposerNetwork,
   } = data;
 
   if (!title) {
@@ -42,7 +44,7 @@ async function createProposal(ctx) {
     throw new HttpError(400, { content: ["End date is missing"] });
   }
 
-  if (snapshotHeight === undefined) {
+  if (!snapshotHeights) {
     throw new HttpError(400, { content: ["Snapshot height is missing"] });
   }
 
@@ -66,6 +68,10 @@ async function createProposal(ctx) {
     throw new HttpError(400, { choices: ["All choices should be different"] });
   }
 
+  if (!proposerNetwork) {
+    throw new HttpError(400, { proposerNetwork: ["Proposer network is missing"] });
+  }
+
   if (
     contentType !== ContentType.Markdown &&
     contentType !== ContentType.Html
@@ -82,8 +88,9 @@ async function createProposal(ctx) {
     choices,
     startDate,
     endDate,
-    snapshotHeight,
+    snapshotHeights,
     realProposer,
+    proposerNetwork,
     data,
     address,
     signature,
@@ -153,7 +160,8 @@ async function postComment(ctx) {
   const {
     proposalCid,
     content,
-    contentType
+    contentType,
+    commenterNetwork,
   } = data;
 
   if (!content) {
@@ -167,10 +175,15 @@ async function postComment(ctx) {
     throw new HttpError(400, { contentType: ["Unknown content type"] });
   }
 
+  if (!commenterNetwork) {
+    throw new HttpError(400, { commenterNetwork: ["Commenter network is missing"] });
+  }
+
   ctx.body = await proposalService.postComment(
     proposalCid,
     content,
     contentType,
+    commenterNetwork,
     data,
     address,
     signature,
@@ -199,6 +212,7 @@ async function vote(ctx) {
     choice,
     remark,
     realVoter,
+    voterNetwork,
   } = data;
 
   if (!proposalCid) {
@@ -209,6 +223,10 @@ async function vote(ctx) {
     throw new HttpError(400, { choice: ["Choice is missing"] });
   }
 
+  if (!voterNetwork) {
+    throw new HttpError(400, { voterNetwork: ["Voter network is missing"] });
+  }
+
   ctx.body = await proposalService.vote(
     proposalCid,
     choice,
@@ -216,6 +234,7 @@ async function vote(ctx) {
     realVoter,
     data,
     address,
+    voterNetwork,
     signature,
   );
 }
@@ -242,6 +261,21 @@ async function getStats(ctx) {
   ctx.body = await proposalService.getStats(proposalCid);
 }
 
+async function getVoterBalance(ctx) {
+  const { proposalCid, network, address } = ctx.params;
+  const { snapshot } = ctx.query;
+
+  if (snapshot && !/^[0-9]*$/.test(snapshot)) {
+    throw new HttpError(400, "Invalid snapshot number");
+  }
+
+  if (!isAddress(address)) {
+    throw new HttpError(400, "Invalid address");
+  }
+
+  ctx.body = await proposalService.getVoterBalance(proposalCid, network, address, snapshot);
+}
+
 module.exports = {
   createProposal,
   getProposals,
@@ -255,4 +289,5 @@ module.exports = {
   getVotes,
   getAddressVote,
   getStats,
+  getVoterBalance,
 };

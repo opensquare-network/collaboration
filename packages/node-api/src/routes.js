@@ -26,7 +26,7 @@ module.exports = (app) => {
   }
 
   router.use(
-    "/:chain(statemine)",
+    "/:chain(statemine|karura|bifrost)",
     tokenRoutes.routes(),
     tokenRoutes.allowedMethods({ throw: true })
   );

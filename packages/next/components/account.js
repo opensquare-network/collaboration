@@ -2,7 +2,7 @@ import styled, { css } from "styled-components";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { useSelector, useDispatch } from "react-redux";
-import { accountSelector, logout } from "store/reducers/accountSlice";
+import { loginAccountSelector, logout } from "store/reducers/accountSlice";
 import { addressEllipsis } from "frontedUtils";
 import Avatar from "./avatar";
 import { p_14_medium } from "../styles/textStyles";
@@ -17,8 +17,9 @@ import {
   popUpConnect,
   showConnectSelector,
 } from "../store/reducers/showConnectSlice";
+import ChainIcon from "@/components/chain/chainIcon";
 
-const Connect = dynamic(() => import("./connect"), {
+const ConnectModal = dynamic(() => import("./connect"), {
   ssr: false,
 });
 
@@ -50,12 +51,20 @@ const AccountWrapper = styled.div`
   div {
     display: flex;
     align-items: center;
+    .ui--IdentityIcon {
+      display: flex !important;
+      align-items: center !important;
+    }
   }
 
   > div > :first-child {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     margin-right: 8px;
+  }
+
+  > div > :nth-child(2) {
+    margin-right: 4px;
   }
 
   .button,
@@ -84,7 +93,7 @@ const AccountWrapperPC = styled(AccountWrapper)`
 
 const MenuWrapper = styled.div`
   cursor: auto;
-  min-width: 209px;
+  min-width: 240px;
   position: absolute;
   right: 0;
   top: 100%;
@@ -92,6 +101,7 @@ const MenuWrapper = styled.div`
   border: 1px solid #f0f3f8;
   ${shadow_200};
   padding: 16px;
+  padding-bottom: 8px;
   z-index: 1;
   @media screen and (max-width: 800px) {
     margin-top: 19px;
@@ -109,6 +119,7 @@ const MenuWrapper = styled.div`
 `;
 
 const MenuItem = styled.div`
+  margin-bottom: 8px;
   cursor: pointer;
 `;
 
@@ -164,13 +175,11 @@ export default function Account({ space, showMenu, setShowMenu }) {
   const dispatch = useDispatch();
   const isMounted = useIsMounted();
   const windowSize = useWindowSize();
-  const account = useSelector(accountSelector);
+  const account = useSelector(loginAccountSelector);
   const showConnect = useSelector(showConnectSelector);
   const [pageMounted, setPageMounted] = useState(false);
-  // const [showConnectModal, setShowConnectModal] = useState(false);
   const [identity, setIdentity] = useState();
   const [address, setAddress] = useState(account?.address);
-  const chain = space?.identity || space;
 
   useEffect(() => setPageMounted(true), []);
 
@@ -180,19 +189,18 @@ export default function Account({ space, showMenu, setShowMenu }) {
       return;
     }
 
-    if (space?.ss58Format !== undefined) {
-      const spaceAddr = encodeAddress(account.address, space.ss58Format);
+    if (account?.ss58Format !== undefined) {
+      const spaceAddr = encodeAddress(account.address, account.ss58Format);
       setAddress(spaceAddr);
       return;
     }
 
     setAddress(account.address);
-  }, [space?.ss58Format, account]);
+  }, [account?.address, account?.ss58Format]);
 
   useEffect(() => {
-    if (chain && account?.address) {
-      const idenAddr = encodeAddress(account.address, chain.ss58Format);
-      fetchIdentity(chain.network, idenAddr)
+    if (account?.address && account?.network) {
+      fetchIdentity(account.network, account?.address)
         .then((identity) => {
           if (isMounted.current) {
             setIdentity(identity);
@@ -200,34 +208,47 @@ export default function Account({ space, showMenu, setShowMenu }) {
         })
         .catch(() => {});
     }
-  }, [chain, account?.address, isMounted]);
+  }, [account?.address, account?.network, isMounted]);
+
+  if (!space) {
+    return null;
+  }
+
+  const onSwitch = () => {
+    dispatch(popUpConnect());
+    setShowMenu(false);
+  };
 
   const onLogout = () => {
     dispatch(logout());
     setShowMenu(false);
   };
 
-  const ConnectWallet = (
+  const ConnectWalletButton = (
     <div className="connect">
-      <DarkButton
-        primary
-        onClick={() => dispatch(popUpConnect())}
-        className="button"
-      >
-        Connect Wallet
-      </DarkButton>
-      {showConnect && <Connect setShowMenu={setShowMenu} />}
+      {!account && (
+        <DarkButton
+          primary
+          onClick={() => dispatch(popUpConnect())}
+          className="button"
+        >
+          Connect Wallet
+        </DarkButton>
+      )}
     </div>
   );
 
   const Menu = (
     <MenuWrapper onClick={(e) => e.stopPropagation()}>
-      {!account && windowSize.width <= 800 && ConnectWallet}
+      {/*The dark connect button For Mobile only*/}
+      {!account && windowSize.width <= 800 && ConnectWalletButton}
+      {/*The dark connect button For Mobile only*/}
       {address && (
         <>
           <AccountWrapper>
             <div>
               <Avatar address={address} size={20} />
+              <ChainIcon chainName={account?.network} size={16} />
               {identity?.info && identity?.info?.status !== "NO_ID" ? (
                 <IdentityWrapper>
                   <IdentityIcon status={identity.info.status} />
@@ -241,6 +262,12 @@ export default function Account({ space, showMenu, setShowMenu }) {
           </AccountWrapper>
           <MenuDivider />
           <MenuItem>
+            <LogoutWrapper onClick={onSwitch}>
+              Switch Address
+              <img src="/imgs/icons/switch.svg" alt="" />
+            </LogoutWrapper>
+          </MenuItem>
+          <MenuItem>
             <LogoutWrapper onClick={onLogout}>
               Log out
               <img src="/imgs/icons/logout.svg" alt="" />
@@ -251,13 +278,24 @@ export default function Account({ space, showMenu, setShowMenu }) {
     </MenuWrapper>
   );
 
+  // show ConnectModal on first priority if  showConnect = true
+  if (showConnect) {
+    return <ConnectModal space={space} setShowMenu={setShowMenu} />;
+  }
+
+  // if already connected, show address on right top corner
   if (address && pageMounted) {
     return (
       <Wrapper>
-        <AccountWrapperPC show={showMenu}>
+        <AccountWrapperPC
+          show={showMenu}
+          onClick={() => {
+            setShowMenu(!showMenu);
+          }}
+        >
           <div>
             <Avatar address={address} size={20} />
-
+            <ChainIcon chainName={account?.network} size={16} />
             {identity?.info && identity?.info?.status !== "NO_ID" ? (
               <IdentityWrapper>
                 <IdentityIcon
@@ -279,10 +317,12 @@ export default function Account({ space, showMenu, setShowMenu }) {
     );
   }
 
+  // if no address connected, show ConnectButton on right top corner(PC only)
   if (windowSize.width > 800 && !account) {
-    return ConnectWallet;
+    return ConnectWalletButton;
   }
 
+  // show dropdown menu (Mobile only)
   if (showMenu) {
     return (
       <Wrapper>

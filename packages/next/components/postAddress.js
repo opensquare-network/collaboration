@@ -149,14 +149,25 @@ export default function PostAddress({
   const [isInput, setIsInput] = useState(false);
   const { width } = useWindowSize();
   const [inputAddress, setInputAddress] = useState(address);
+  const [proxyAddressChange, setProxyAddressChange] = useState(false);
 
   const ref = useRef();
 
-  const onBlur = async () => {
-    if (!inputAddress || !space) {
+  useEffect(() => {
+    setProxyAddressChange(true);
+  }, [inputAddress, space?.network]);
+
+  useEffect(() => {
+    if (!proxyAddressChange) {
       return;
     }
-    if(!isAddress(inputAddress)) {
+    setProxyAddressChange(false);
+
+    if (!inputAddress || !space) {
+      setProxyBalance(null);
+      return;
+    }
+    if (!isAddress(inputAddress)) {
       dispatch(
         addToast({
           type: TOAST_TYPES.ERROR,
@@ -166,30 +177,43 @@ export default function PostAddress({
       return;
     }
 
+    let spaceAddr;
     try {
-      const spaceAddr = encodeAddress(inputAddress, space.ss58Format);
+      spaceAddr = encodeAddress(inputAddress, space.ss58Format);
       setAddress(spaceAddr);
-
-      const chain = space.identity || space;
-      const idenAddr = encodeAddress(inputAddress, chain.ss58Format);
-
-      setIsLoading(true);
-      const response = await fetchIdentity(chain.network, idenAddr);
-      setInfo(response?.info);
-      getProxyBalance();
     } catch (e) {
       setAddress(inputAddress);
+      setIsInput(false);
       dispatch(
         addToast({
           type: TOAST_TYPES.ERROR,
           message: e.message,
         })
       );
-    } finally {
-      setIsLoading(false);
-      setIsInput(false);
+      return;
     }
-  };
+
+    setIsLoading(true);
+    fetchIdentity(space.network, inputAddress)
+      .then(response => {
+        setInfo(response?.info)
+      })
+      .finally(() => {
+        setIsLoading(false);
+        setIsInput(false);
+      });
+
+    getProxyBalance(spaceAddr);
+  }, [
+    dispatch,
+    proxyAddressChange,
+    inputAddress,
+    space,
+    setAddress,
+    setInfo,
+    getProxyBalance,
+    setProxyBalance
+  ]);
 
   useEffect(() => {
     if (!address && !isInput) {
@@ -227,9 +251,7 @@ export default function PostAddress({
                 ? "Proxy source address"
                 : "Please fill the proxy source address"
             }
-            value={inputAddress}
-            onChange={(e) => setInputAddress(e.target.value)}
-            onBlur={onBlur}
+            onBlur={(e) => setInputAddress(e.target.value)}
             onKeyPress={(e) => {
               if (e.key === "Enter") {
                 ref.current.blur();

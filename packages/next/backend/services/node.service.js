@@ -64,16 +64,49 @@ async function getTotalBalance(api, blockHeight, address) {
   return new BigNumber(free || 0).plus(reserved || 0).toString();
 }
 
-async function getTokenBalance(api, assetId, blockHeight, address) {
+async function getTokenBalance(api, assetIdOrSymbol, blockHeight, address) {
   if (isTestAccount(address)) {
     return process.env.TEST_ACCOUNT_BALANCE;
   }
 
   try {
-    const result = await api.get(`/token/${ assetId }/account/${ address }/${ blockHeight }`);
-    return new BigNumber(result.data?.balance || 0).toString();
+    const result = await api.get(`/token/${ assetIdOrSymbol }/account/${ address }/${ blockHeight }`);
+    const { data: { free, reserved } = {} } = result
+    return new BigNumber(free || 0).plus(reserved || 0).toString();
   } catch (err) {
     throw new HttpError(500, "Failed to get account token balance");
+  }
+}
+
+function getBalanceFromNetwork(api, { networksConfig, networkName, address, blockHeight }) {
+  const symbol = networksConfig?.symbol;
+  const network = networksConfig?.networks?.find(n => n.network === networkName);
+  if (!network) {
+    throw new HttpError(400, "Network not found");
+  }
+  const { type, assetId } = network;
+
+  if (type === "asset") {
+    return getTokenBalance(api, assetId, blockHeight, address);
+  }
+
+  if (type === "token") {
+    return getTokenBalance(api, symbol, blockHeight, address);
+  }
+
+  return getTotalBalance(api, blockHeight, address);
+}
+
+async function getFinalizedHeightFromTime(api, time) {
+  try {
+    const result = await api.get("/chain/height", {
+      params: {
+        time,
+      },
+    });
+    return result.data;
+  } catch (err) {
+    throw new HttpError(500, "Failed to get block height from time");
   }
 }
 
@@ -83,4 +116,6 @@ module.exports = {
   checkDelegation,
   getFinalizedHeight,
   getApi,
+  getBalanceFromNetwork,
+  getFinalizedHeightFromTime,
 };

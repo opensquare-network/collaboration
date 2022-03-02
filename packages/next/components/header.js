@@ -1,10 +1,11 @@
 import styled from "styled-components";
-import { useState, useEffect, useRef } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import Container from "./container";
-import { useOnClickOutside, useWindowSize } from "frontedUtils/hooks";
+import { useOnClickOutside } from "frontedUtils/hooks";
 import Account from "./account";
 import { p_18_semibold } from "../styles/textStyles";
+import { useRouter } from "next/router";
 
 const Wrapper = styled.header`
   flex: 0 0 auto;
@@ -110,6 +111,11 @@ export default function Header({ space }) {
     }
     setShowMenu(false);
   });
+  const router = useRouter();
+  const showConnect = [
+    "/space/[space]/proposal/[id]",
+    "/space/[space]/create"
+  ].includes(router.pathname);
 
   return (
     <Wrapper>
@@ -135,17 +141,13 @@ export default function Header({ space }) {
               alt=""
             />
           </IconWrapper>
-          <AccountWrapper
-            onClick={() => {
-              setShowMenu(!showMenu);
-            }}
-          >
+          {showConnect && <AccountWrapper>
             <Account
               space={space}
               showMenu={showMenu}
               setShowMenu={setShowMenu}
             />
-          </AccountWrapper>
+          </AccountWrapper>}
         </ContentWrapper>
       </Container>
     </Wrapper>

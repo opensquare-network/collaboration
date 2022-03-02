@@ -7,15 +7,18 @@ import { fetchIdentity } from "services/identity";
 import ExternalLink from "./externalLink";
 import IdentityIcon from "components/identityIcon";
 import { useIsMounted } from "frontedUtils/hooks";
-import { encodeAddress } from "@polkadot/util-crypto";
 import { getExplorer } from "../frontedUtils";
+import ChainIcon from "@/components/chain/chainIcon";
 
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
   color: #2e343d;
   > :not(:first-child) {
-    margin-left: 8px;
+    margin-left: 4px;
+  }
+  > :first-child {
+    margin-right: 4px;
   }
 `;
 
@@ -33,10 +36,9 @@ const IdentityWrapper = styled.div`
   }
 `;
 
-export default function Author({ address, space, size = 20 }) {
+export default function Author({ address, space, size = 20, showNetwork = false }) {
   const [identity, setIdentity] = useState();
   const isMounted = useIsMounted();
-  const chain = space?.identity || space;
   const explorer = getExplorer(space?.network);
   const link = `https://${space?.network}.${explorer}.io/account/${address}`;
 
@@ -45,27 +47,29 @@ export default function Author({ address, space, size = 20 }) {
       return;
     }
 
-    if (!chain) {
+    if (!space) {
       return;
     }
 
-    const idenAddr = encodeAddress(address, chain.ss58Format);
-    fetchIdentity(chain.network, idenAddr)
+    fetchIdentity(space.network, address)
       .then((identity) => {
         if (isMounted.current) {
           setIdentity(identity);
         }
       })
       .catch(() => {});
-  }, [chain, address, isMounted]);
+  }, [space, address, isMounted]);
 
   return (
     <Wrapper>
       <Avatar address={address} size={size} />
+      {
+        showNetwork && <ChainIcon chainName={space?.network} size={16} />
+      }
       <ExternalLink href={link}>
         {identity?.info && identity?.info?.status !== "NO_ID" ? (
           <IdentityWrapper>
-            <IdentityIcon status={identity.info.status} showTooltip />
+            <IdentityIcon status={ identity.info.status } showTooltip size={ showNetwork ? 12 : 14 } />
             <Name>{identity.info.display}</Name>
           </IdentityWrapper>
         ) : (

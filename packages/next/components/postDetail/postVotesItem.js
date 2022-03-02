@@ -1,14 +1,11 @@
-import styled from "styled-components";
-
-import Author from "components/author";
+import styled, { css } from "styled-components";
 import ExternalLink from "components/externalLink";
 import Ellipsis from "@/components/ellipsis";
 import Flex from "@/components/flex";
-import {
-  abbreviateBigNumber,
-  getEffectiveNumbers,
-} from "frontedUtils";
 import ValueDisplay from "@/components/valueDisplay";
+import Voter from "@/components/role/voter";
+import { useSelector } from "react-redux";
+import { spaceSupportMultiChainSelector } from "../../store/reducers/spaceConfigSlice";
 
 const Item = styled.div`
   padding: 20px 0;
@@ -53,13 +50,15 @@ const BalanceWrapper = styled.div`
 `;
 
 const Square = styled.div`
-  cursor: pointer;
   width: 20px;
   height: 20px;
   background: url("/imgs/icons/ipfs.svg");
-  :hover {
-    background: url("/imgs/icons/ipfs-active.svg");
-  }
+  ${p => !p.noHover && css`
+    cursor: pointer;
+    :hover {
+      background: url("/imgs/icons/ipfs-active.svg");
+    }
+  `}
 `;
 
 const EqualWrapper = styled.div`
@@ -86,14 +85,16 @@ const MyVoteTag = styled.div`
 `;
 
 export default function PostVotes({ data, space, isMyVote = false }) {
+  const spaceSupportMultiChain = useSelector(spaceSupportMultiChainSelector)
+
   return (
     <Item>
       <InfoWrapper>
         <EqualWrapper>
-          <Author
-            address={data.voter ?? data.address}
-            space={space}
-            size={20}
+          <Voter
+            address={ data.voter ?? data.address }
+            network={ data.voterNetwork }
+            showNetwork={ spaceSupportMultiChain }
           />
           {isMyVote && <MyVoteTag>My Vote</MyVoteTag>}
         </EqualWrapper>
@@ -106,12 +107,14 @@ export default function PostVotes({ data, space, isMyVote = false }) {
         <EqualWrapper>
           <BalanceWrapper>
             <ValueDisplay value={data.weights?.balanceOf} space={space} showAEM={true}/>
-            {data?.pinHash && (
+            {data?.pinHash ? (
               <ExternalLink
                 href={`https://ipfs-hk.decoo.io/ipfs/${data.pinHash}`}
               >
                 <Square />
               </ExternalLink>
+            ) : (
+              <Square noHover={true} />
             )}
           </BalanceWrapper>
         </EqualWrapper>

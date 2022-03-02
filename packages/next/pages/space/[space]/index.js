@@ -10,6 +10,8 @@ import { EmptyQuery } from "frontedUtils/constants";
 import { ssrNextApi } from "services/nextApi";
 import { to404 } from "../../../frontedUtils/serverSideUtil";
 import { NextSeo } from "next-seo";
+import { setSpaceConfig } from "../../../store/reducers/spaceConfigSlice";
+import { useDispatch } from "react-redux";
 
 const HeaderWrapper = styled.div`
   > :not(:first-child) {
@@ -37,6 +39,9 @@ export default function List({
   activeTab,
   defaultPage,
 }) {
+  const dispatch = useDispatch();
+  dispatch(setSpaceConfig(space));
+
   const [tab, setTab] = useState(activeTab);
 
   if (!space) {

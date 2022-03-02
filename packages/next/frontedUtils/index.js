@@ -216,6 +216,8 @@ export function abbreviateBigNumber(x, fixed = 2) {
   return new BigNumber(n.dividedBy(divideBy).toFixed(fixed)).toFormat();
 }
 
+export const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
+
 export function getExplorer(network) {
   return network === "statemine" ? "statescan" : "subscan";
 }
