@@ -9,13 +9,14 @@ import IdentityIcon from "components/identityIcon";
 import { useIsMounted } from "frontedUtils/hooks";
 import { encodeAddress } from "@polkadot/util-crypto";
 import { getExplorer } from "../frontedUtils";
+import ChainIcon from "@/components/chain/chainIcon";
 
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
   color: #2e343d;
   > :not(:first-child) {
-    margin-left: 8px;
+    margin-left: 4px;
   }
 `;
 
@@ -62,6 +63,7 @@ export default function Author({ address, space, size = 20 }) {
   return (
     <Wrapper>
       <Avatar address={address} size={size} />
+      <ChainIcon chainName={space?.network} size={16} />
       <ExternalLink href={link}>
         {identity?.info && identity?.info?.status !== "NO_ID" ? (
           <IdentityWrapper>
