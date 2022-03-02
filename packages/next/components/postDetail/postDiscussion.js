@@ -15,6 +15,7 @@ import MicromarkMd from "components/micromarkMd";
 import ExternalLink from "components/externalLink";
 import { encodeAddress } from "@polkadot/util-crypto";
 import { findNetworkConfig } from "services/util";
+import { spaceSupportMultiChainSelector } from "../../store/reducers/spaceConfigSlice";
 
 const Item = styled.div`
   padding-top: 20px;
@@ -67,12 +68,14 @@ const Square = styled.div`
   width: 20px;
   height: 20px;
   background: url("/imgs/icons/ipfs.svg");
-  ${p => !p.noHover && css`
-    cursor: pointer;
-    :hover {
-      background: url("/imgs/icons/ipfs-active.svg");
-    }
-  `}
+  ${(p) =>
+    !p.noHover &&
+    css`
+      cursor: pointer;
+      :hover {
+        background: url("/imgs/icons/ipfs-active.svg");
+      }
+    `}
 `;
 
 const NoCommentWrapper = styled.div`
@@ -126,7 +129,7 @@ export default function PostDiscussion({ proposal, space, comments }) {
         content,
         "markdown",
         encodeAddress(account?.address, account?.ss58Format),
-        account?.network,
+        account?.network
       );
     } catch (error) {
       dispatch(
@@ -158,15 +161,21 @@ export default function PostDiscussion({ proposal, space, comments }) {
     }
   };
 
-  const getNetwork = (comment) => findNetworkConfig(proposal.networksConfig, comment.commenterNetwork);
-
+  const getNetwork = (comment) =>
+    findNetworkConfig(proposal.networksConfig, comment.commenterNetwork);
+  const spaceSupportMultiChain = useSelector(spaceSupportMultiChainSelector);
   return (
     <div>
       {(comments?.items || []).map((item, index) => (
         <Item key={index}>
           <InfoWrapper>
             <DividerWrapper>
-              <Author address={item.address} space={getNetwork(item)} size={20} />
+              <Author
+                address={item.address}
+                space={getNetwork(item)}
+                size={20}
+                showNetwork={spaceSupportMultiChain}
+              />
               <div>{timeDuration(item.createdAt)}</div>
             </DividerWrapper>
             {item?.pinHash ? (
