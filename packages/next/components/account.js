@@ -251,7 +251,7 @@ export default function Account({ space, showMenu, setShowMenu }) {
               <ChainIcon chainName={account?.network} size={16} />
               {identity?.info && identity?.info?.status !== "NO_ID" ? (
                 <IdentityWrapper>
-                  <IdentityIcon status={identity.info.status} />
+                  <IdentityIcon status={identity.info.status} size={12} />
                   <div>{identity.info.display}</div>
                 </IdentityWrapper>
               ) : (

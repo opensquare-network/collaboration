@@ -8,6 +8,8 @@ import StatusTag from "components/statusTag";
 import MicromarkMd from "components/micromarkMd";
 import { findNetworkConfig } from "services/util";
 import Share from "components/share";
+import { useSelector } from "react-redux";
+import { spaceSupportMultiChainSelector } from "../../store/reducers/spaceConfigSlice";
 
 const Wrapper = styled.div`
   padding: 32px;
@@ -67,13 +69,21 @@ const Content = styled.div`
 `;
 
 export default function PostContent({ data, space }) {
-  const networkConfig = findNetworkConfig(data.networksConfig, data.proposerNetwork);
+  const networkConfig = findNetworkConfig(
+    data.networksConfig,
+    data.proposerNetwork
+  );
+  const spaceSupportMultiChain = useSelector(spaceSupportMultiChainSelector);
   return (
     <Wrapper>
       <Title>{data?.title}</Title>
       <InfoWrapper>
         <LeftWrapper>
-          <Author address={data.proposer ?? data.address} space={networkConfig} />
+          <Author
+            address={data.proposer ?? data.address}
+            space={networkConfig}
+            showNetwork={spaceSupportMultiChain}
+          />
           <PostTime post={data} />
         </LeftWrapper>
         <StatusTag>{data.status}</StatusTag>
