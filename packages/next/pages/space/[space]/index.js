@@ -61,6 +61,9 @@ export default function List({
   }
 
   const seoLogoHash = spaceToSeoImageMap[spaceId];
+  if (!seoLogoHash) {
+    throw new Error(`No seo logo hash found for space ${ space?.id }`)
+  }
   const images = [{
     url: `https://ipfs.fleek.co/ipfs/${ seoLogoHash }`,
     width: 1200,

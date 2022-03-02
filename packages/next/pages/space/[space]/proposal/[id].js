@@ -78,6 +78,9 @@ export default function Index({
   const desc = getMetaDesc(detail, "Proposal");
 
   const seoLogoHash = spaceToSeoImageMap[space?.id];
+  if (!seoLogoHash) {
+    throw new Error(`No seo logo hash found for space ${ space?.id }`)
+  }
   const images = [{
     url: `https://ipfs.fleek.co/ipfs/${ seoLogoHash }`,
     width: 1200,
