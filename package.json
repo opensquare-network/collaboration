@@ -17,9 +17,13 @@
     }
   },
   "devDependencies": {
-    "husky": "^7.0.0",
-    "pretty-quick": "^3.1.1",
-    "prettier": "^2.5.1"
+    "husky": "^7.0.4",
+    "lint-staged": "^12.3.4",
+    "prettier": "^2.5.1",
+    "pretty-quick": "^3.1.1"
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
   },
   "scripts": {
     "prepare": "husky install",
