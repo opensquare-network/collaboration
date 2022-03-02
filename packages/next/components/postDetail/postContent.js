@@ -50,7 +50,7 @@ const LeftWrapper = styled.div`
 const Divider = styled.div`
   height: 1px;
   background: #f0f3f8;
-  margin: 32px 0;
+  margin: 20px 0;
   ${(p) =>
     p.margin &&
     css`
@@ -93,8 +93,8 @@ export default function PostContent({ data, space }) {
       <Content>
         <MicromarkMd md={data?.content} />
       </Content>
-      <Share />
       <Divider />
+      <Share />
       <PostVote proposal={data} space={space} />
     </Wrapper>
   );

@@ -7,7 +7,7 @@ import CopySvg from "public/imgs/icons/copy.svg";
 const Wrapper = styled.div`
   display: flex;
   gap: 18px;
-  margin-top: 20px;
+  margin-bottom: 32px;
 `;
 
 const ShareItem = styled.div`
