@@ -63,10 +63,12 @@ function SnapshotHeightPicker({ date, setDate }) {
         );
       })
       .catch((e) => {
-        dispatch(addToast({
-          type: "error",
-          message: e.message,
-        }));
+        dispatch(
+          addToast({
+            type: "error",
+            message: e.message,
+          })
+        );
       })
       .finally(() => {
         setLoading(false);
@@ -82,6 +84,7 @@ function SnapshotHeightPicker({ date, setDate }) {
         maxDate={new Date()}
         onSelect={fetchHeights}
         placeholder="Select time"
+        defaultTime="now"
       />
       {showHeights && (
         <Wrapper>
