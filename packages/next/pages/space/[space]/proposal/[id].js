@@ -3,17 +3,16 @@ import { useDispatch } from "react-redux";
 import Nav from "components/nav";
 import PostDetail from "@/components/postDetail/index";
 import { useEncodedAddress } from "frontedUtils/hooks";
-import { ssrNextApi } from "services/nextApi";
-import nextApi from "services/nextApi";
+import nextApi, { ssrNextApi } from "services/nextApi";
 import { EmptyQuery } from "frontedUtils/constants";
 import { encodeAddress } from "@polkadot/util-crypto";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import FourOFour from "../../../404";
-import { NextSeo } from "next-seo";
 import { setAvailableNetworks } from "store/reducers/accountSlice";
 import pick from "lodash.pick";
 import { setSpaceConfig } from "../../../../store/reducers/spaceConfigSlice";
 import { spaceToSeoImageMap } from "../../../../frontedUtils/consts/spaces";
+import Seo from "@/components/seo";
 
 export default function Index({
   detail,
@@ -31,11 +30,13 @@ export default function Index({
   const encodedAddress = useEncodedAddress(space);
 
   useEffect(() => {
-    dispatch(setAvailableNetworks(
-      detail?.networksConfig?.networks?.map(
-        item => pick(item, ["network", "ss58Format"])
-      ) || []
-    ));
+    dispatch(
+      setAvailableNetworks(
+        detail?.networksConfig?.networks?.map((item) =>
+          pick(item, ["network", "ss58Format"])
+        ) || []
+      )
+    );
   }, [dispatch, detail]);
 
   useEffect(() => {
@@ -79,31 +80,12 @@ export default function Index({
 
   const seoLogoHash = spaceToSeoImageMap[space?.id];
   if (!seoLogoHash) {
-    throw new Error(`No seo logo hash found for space ${ space?.id }`)
+    throw new Error(`No seo logo hash found for space ${space?.id}`);
   }
-  const images = [{
-    url: `https://ipfs.fleek.co/ipfs/${ seoLogoHash }`,
-    width: 1200,
-    height: 628
-  }];
 
   return (
     <>
-      <NextSeo
-        title={detail?.title ?? `OpenSquare Off-chain Voting`}
-        description={desc}
-        openGraph={{
-          url: 'https://www.opensquare.io/',
-          title: detail?.title ?? `OpenSquare Off-chain Voting`,
-          description: desc,
-          images,
-        }}
-        twitter={{
-          handle: '@handle',
-          site: '@site',
-          cardType: 'summary_large_image',
-        }}
-      />
+      <Seo spaceId={space?.id} title={detail?.title} desc={desc} />
       <Layout bgHeight="183px" space={space}>
         <Nav
           data={[
