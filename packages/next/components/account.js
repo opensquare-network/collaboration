@@ -17,6 +17,7 @@ import {
   popUpConnect,
   showConnectSelector,
 } from "../store/reducers/showConnectSlice";
+import ChainIcon from "@/components/chain/chainIcon";
 
 const ConnectModal = dynamic(() => import("./connect"), {
   ssr: false,
@@ -50,12 +51,20 @@ const AccountWrapper = styled.div`
   div {
     display: flex;
     align-items: center;
+    .ui--IdentityIcon {
+      display: flex !important;
+      align-items: center !important;
+    }
   }
 
   > div > :first-child {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     margin-right: 8px;
+  }
+
+  > div > :nth-child(2) {
+    margin-right: 4px;
   }
 
   .button,
@@ -197,14 +206,9 @@ export default function Account({ space, showMenu, setShowMenu }) {
             setIdentity(identity);
           }
         })
-        .catch(() => {
-        });
+        .catch(() => {});
     }
-  }, [
-    account?.address,
-    account?.network,
-    isMounted
-  ]);
+  }, [account?.address, account?.network, isMounted]);
 
   if (!space) {
     return null;
@@ -244,6 +248,7 @@ export default function Account({ space, showMenu, setShowMenu }) {
           <AccountWrapper>
             <div>
               <Avatar address={address} size={20} />
+              <ChainIcon chainName={account?.network} size={16} />
               {identity?.info && identity?.info?.status !== "NO_ID" ? (
                 <IdentityWrapper>
                   <IdentityIcon status={identity.info.status} />
@@ -282,13 +287,15 @@ export default function Account({ space, showMenu, setShowMenu }) {
   if (address && pageMounted) {
     return (
       <Wrapper>
-        <AccountWrapperPC show={ showMenu } onClick={ () => {
-          setShowMenu(!showMenu);
-        } }
+        <AccountWrapperPC
+          show={showMenu}
+          onClick={() => {
+            setShowMenu(!showMenu);
+          }}
         >
           <div>
             <Avatar address={address} size={20} />
-
+            <ChainIcon chainName={account?.network} size={16} />
             {identity?.info && identity?.info?.status !== "NO_ID" ? (
               <IdentityWrapper>
                 <IdentityIcon

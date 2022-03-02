@@ -6,26 +6,26 @@ import Kintsugi from "public/imgs/logos/kintsugi.svg";
 import Default from "public/imgs/icons/chain/default.svg";
 import Moonriver from "public/imgs/icons/chain/moonriver.svg";
 
-function ChainIcon({ chainName }) {
+function ChainIcon({ chainName, size = 24 }) {
   switch (chainName) {
     case "polkadot":
-      return <Polkadot />;
+      return <Polkadot viewBox="0 0 24 24" width={size} height={size} />;
     case "kusama":
-      return <Kusama />;
+      return <Kusama viewBox="0 0 24 24" width={size} height={size} />;
     case "statemine":
-      return <Statemine />;
+      return <Statemine viewBox="0 0 24 24" width={size} height={size} />;
     case "karura":
-      return <img src="/imgs/icons/chain/karura.svg" alt="" />;
+      return <img src="/imgs/icons/chain/karura.svg" width={size} alt="" />;
     case "khala":
-      return <Khala />;
+      return <Khala viewBox="0 0 24 24" width={size} height={size} />;
     case "bifrost":
-      return <img src="/imgs/icons/chain/bifrost.svg" alt="" />;
+      return <img src="/imgs/icons/chain/bifrost.svg" width={size} alt="" />;
     case "kintsugi":
-      return <Kintsugi />;
+      return <Kintsugi viewBox="0 0 24 24" width={size} height={size} />;
     case "moonriver":
-      return <Moonriver />;
+      return <Moonriver viewBox="0 0 24 24" width={size} height={size} />;
     default:
-      return <Default />;
+      return <Default viewBox="0 0 24 24" width={size} height={size} />;
   }
 }
 
