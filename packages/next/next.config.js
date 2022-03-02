@@ -1,7 +1,4 @@
-const withTM = require("next-transpile-modules")(["common"]);
-
 module.exports = {
-  ...withTM(),
   webpack(config) {
     config.module.rules.push(
       {
