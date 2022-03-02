@@ -7,6 +7,7 @@ import PostTime from "components/postTime";
 import StatusTag from "components/statusTag";
 import MicromarkMd from "components/micromarkMd";
 import { findNetworkConfig } from "services/util";
+import Share from "components/share";
 
 const Wrapper = styled.div`
   padding: 32px;
@@ -82,6 +83,7 @@ export default function PostContent({ data, space }) {
       <Content>
         <MicromarkMd md={data?.content} />
       </Content>
+      <Share />
       <Divider />
       <PostVote proposal={data} space={space} />
     </Wrapper>
