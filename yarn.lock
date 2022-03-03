@@ -1666,10 +1666,10 @@
   dependencies:
     "@open-web3/orml-type-definitions" "1.0.2-3"
 
-"@osn/polkadot-react-identicon@^1.0.5":
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/@osn/polkadot-react-identicon/-/polkadot-react-identicon-1.0.5.tgz#107ae1a6330a51e80351c84d90723b87fa1ed8bf"
-  integrity sha512-zrKqxEWv9YKu7PQpmJGV1+6b/jC4Evn0XMZKqJh5MfV0ZySDu/hNIYkxQ0SrqnkAtKSmAPQ/xuj1G1qfiYQn7A==
+"@osn/polkadot-react-identicon@^1.0.6":
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@osn/polkadot-react-identicon/-/polkadot-react-identicon-1.0.6.tgz#c089f8ee7541d50d336bbbb1b232babdc466f900"
+  integrity sha512-WFL5PcCZzrsVd+29spLz0Y+wiC0Nmhgs1ObHaV4d/nDpJGP3Qtu1UTK73sp52docEilvW5jJtBxHyoTOFc36ug==
   dependencies:
     "@babel/polyfill" "^7.12.1"
     "@noble/hashes" "^1.0.0"
