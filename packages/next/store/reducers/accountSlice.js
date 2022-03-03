@@ -1,6 +1,7 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
 
 import { setCookie, getCookie, clearCookie } from "frontedUtils/cookie";
+import { encodeAddress } from "@polkadot/util-crypto";
 
 const accountSlice = createSlice({
   name: "account",
@@ -34,7 +35,8 @@ export const logout = () => async (dispatch) => {
   dispatch(setAccount(""));
 };
 
-export const availableNetworksSelector = state => state.account.availableNetworks;
+export const availableNetworksSelector = (state) =>
+  state.account.availableNetworks;
 
 export const accountSelector = (state) => {
   if (state.account.account) {
@@ -56,11 +58,18 @@ export const accountSelector = (state) => {
   }
 };
 
-export const loginAccountSelector = createSelector(
+export const loginNetworkSelector = createSelector(
   availableNetworksSelector,
   accountSelector,
   (networks, account) => {
-    const network = networks.find(item => item.network === account?.network);
+    return networks.find((item) => item.network === account?.network);
+  }
+);
+
+export const loginAccountSelector = createSelector(
+  loginNetworkSelector,
+  accountSelector,
+  (network, account) => {
     if (!network) {
       return null;
     }
@@ -68,6 +77,17 @@ export const loginAccountSelector = createSelector(
       ...network,
       ...account,
     };
+  }
+);
+
+export const loginAddressSelector = createSelector(
+  loginNetworkSelector,
+  accountSelector,
+  (network, account) => {
+    if (!network || !account) {
+      return null;
+    }
+    return encodeAddress(account.address, network.ss58Format);
   }
 );
 
