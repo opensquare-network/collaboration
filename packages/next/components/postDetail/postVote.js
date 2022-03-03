@@ -1,6 +1,6 @@
-import styled, { css } from "styled-components";
-import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import styled from "styled-components";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 
 import Input from "components/input";
@@ -9,9 +9,9 @@ import { loginAccountSelector } from "store/reducers/accountSlice";
 import { addToast } from "store/reducers/toastSlice";
 import { TOAST_TYPES } from "frontedUtils/constants";
 import {
-  isEmpty,
   bigNumber2Locale,
   fromAssetUnit,
+  isEmpty,
   toApproximatelyFixed,
 } from "frontedUtils";
 import nextApi from "services/nextApi";
@@ -131,6 +131,10 @@ export default function PostVote({ proposal, space }) {
         )
         .then((response) => {
           setProxyBalance(response?.result?.balance);
+        })
+        .catch((e) => {
+          const message = e?.message || "Failed to get balance.";
+          dispatch(addToast({ type: TOAST_TYPES.ERROR, message }));
         });
     } else {
       setProxyBalance(null);
