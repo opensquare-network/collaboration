@@ -1,10 +1,13 @@
 import { NextSeo } from "next-seo";
-import { spaceToSeoImageMap } from "../../frontedUtils/consts/spaces";
+import {
+  defaultSeoImage,
+  spaceToSeoImageMap,
+} from "../../frontedUtils/consts/spaces";
 
 export default function Seo({ spaceId, title, desc }) {
-  const seoLogoHash = spaceToSeoImageMap[spaceId];
+  let seoLogoHash = spaceToSeoImageMap[spaceId];
   if (!seoLogoHash) {
-    throw new Error(`No seo logo hash found for space ${spaceId}`);
+    seoLogoHash = defaultSeoImage;
   }
   const images = [
     {
