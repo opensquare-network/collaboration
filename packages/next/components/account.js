@@ -2,7 +2,11 @@ import styled, { css } from "styled-components";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { useSelector, useDispatch } from "react-redux";
-import { loginAccountSelector, logout } from "store/reducers/accountSlice";
+import {
+  loginAccountSelector,
+  loginAddressSelector,
+  logout,
+} from "store/reducers/accountSlice";
 import { addressEllipsis } from "frontedUtils";
 import Avatar from "./avatar";
 import { p_14_medium } from "../styles/textStyles";
@@ -11,7 +15,6 @@ import { shadow_200 } from "../styles/globalCss";
 import { useWindowSize, useIsMounted } from "../frontedUtils/hooks";
 import { fetchIdentity } from "services/identity";
 import IdentityIcon from "components/identityIcon";
-import { encodeAddress } from "@polkadot/util-crypto";
 import ButtonPrimary from "components/button";
 import {
   popUpConnect,
@@ -180,25 +183,10 @@ export default function Account({ space, showMenu, setShowMenu }) {
   const showConnect = useSelector(showConnectSelector);
   const [pageMounted, setPageMounted] = useState(false);
   const [identity, setIdentity] = useState();
-  const [address, setAddress] = useState(account?.address);
+  const address = useSelector(loginAddressSelector);
   const spaceSupportMultiChain = useSelector(spaceSupportMultiChainSelector);
 
   useEffect(() => setPageMounted(true), []);
-
-  useEffect(() => {
-    if (!account?.address) {
-      setAddress(null);
-      return;
-    }
-
-    if (account?.ss58Format !== undefined) {
-      const spaceAddr = encodeAddress(account.address, account.ss58Format);
-      setAddress(spaceAddr);
-      return;
-    }
-
-    setAddress(account.address);
-  }, [account?.address, account?.ss58Format]);
 
   useEffect(() => {
     if (account?.address && account?.network) {
