@@ -2,7 +2,7 @@ import styled, { css } from "styled-components";
 
 import PostVote from "./postVote";
 import Author from "components/author";
-import { p_14_normal, p_16_semibold, p_18_semibold } from "styles/textStyles";
+import { p_14_normal, p_16_semibold, p_semibold } from "styles/textStyles";
 import PostTime from "components/postTime";
 import StatusTag from "components/statusTag";
 import MicromarkMd from "components/micromarkMd";
@@ -24,7 +24,9 @@ const Wrapper = styled.div`
 `;
 
 const Title = styled.div`
-  ${p_18_semibold};
+  ${p_semibold};
+  font-size: 20px;
+  line-height: 28px;
   margin-bottom: 16px;
 `;
 

@@ -32,85 +32,90 @@ export const h4_24_bold = css`
   line-height: 24px;
 `;
 
+export const p_semibold = css`
+  font-style: normal;
+  font-weight: 600;
+`;
+
 export const p_20_semibold = css`
   font-style: normal;
   font-weight: 600;
   font-size: 20px;
   line-height: 32px;
-`
+`;
 
 export const p_20_normal = css`
   font-style: normal;
   font-weight: 600;
   font-size: 20px;
   line-height: 32px;
-`
+`;
 
 export const p_18_semibold = css`
   font-style: normal;
   font-weight: 600;
   font-size: 18px;
   line-height: 24px;
-`
+`;
 
 export const p_18_medium = css`
   font-style: normal;
   font-weight: 500;
   font-size: 18px;
   line-height: 24px;
-`
+`;
 
 export const p_18_normal = css`
   font-style: normal;
   font-weight: normal;
   font-size: 18px;
   line-height: 24px;
-`
+`;
 export const p_16_semibold = css`
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
   line-height: 24px;
-`
+`;
 
 export const p_16_medium = css`
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
   line-height: 24px;
-`
+`;
 
 export const p_16_normal = css`
   font-style: normal;
   font-weight: normal;
   font-size: 16px;
   line-height: 24px;
-`
+`;
 
 export const p_14_medium = css`
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
   line-height: 24px;
-`
+`;
 
 export const p_14_normal = css`
   font-style: normal;
   font-weight: normal;
   font-size: 14px;
   line-height: 24px;
-`
+`;
 
 export const p_12_semibold = css`
   font-style: normal;
   font-weight: 600;
   font-size: 12px;
   line-height: 18px;
-`
+`;
 
 export const p_12_normal = css`
   font-style: normal;
   font-weight: normal;
   font-size: 12px;
   line-height: 18px;
-`
+`;
