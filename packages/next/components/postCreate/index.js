@@ -73,7 +73,7 @@ export default function PostCreate({ space }) {
   const [proxyAddress, setProxyAddress] = useState("");
   const [info, setInfo] = useState();
   const [proxyBalance, setProxyBalance] = useState(null);
-  const [proxyBalanceError, setProxyBalanceError] = useState(null);
+  const [proxyBalanceError, setProxyBalanceError] = useState("Link an address to create proposal.");
   const [isInputting, setIsInputting] = useState(false);
 
   const threshold = space.proposeThreshold;
@@ -187,6 +187,7 @@ export default function PostCreate({ space }) {
         (snapshotHeight) => account?.network === snapshotHeight.network
       )?.height || 0;
     if (!(height > 0)) {
+      setProxyBalanceError("Please set snapshot height.");
       return;
     }
     if (!account?.network) {
