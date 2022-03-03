@@ -24,4 +24,4 @@ export const spaceToSeoImageMap = Object.freeze({
 });
 
 export const defaultSeoImage =
-  "bafybeibosq47gohmbpqevt4utw5ooi3dkf4k2qky6lq2qp2bvf6cq3k52y";
+  "bafybeiabamvl7vjnvxlj2ik3xyvtdxpcfan5qoq7ve7bld4wnw7q2jukpe";
