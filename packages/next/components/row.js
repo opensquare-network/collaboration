@@ -4,6 +4,7 @@ import { p_14_medium } from "../styles/textStyles";
 const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
 `;
 
 const Header = styled.div`
