@@ -27,7 +27,7 @@ export const FOOTER_ITEMS = [
       {
         name: "Github",
         icon: "github.svg",
-        link: "https://github.com/opensquare-network",
+        link: "https://github.com/opensquare-network/collaboration",
       },
       {
         name: "Telegram",
