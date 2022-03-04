@@ -54,13 +54,15 @@ const Label = styled.div`
   color: #ffffff;
 `;
 
-const ItemsWrapper = styled.div`
+const ItemsWrapper = styled.ul`
+  margin: 0;
+  padding: 0;
   > :not(:first-child) > * {
     margin-top: 16px;
   }
 `;
 
-const Item = styled.div`
+const Item = styled.span`
   display: flex;
   align-items: center;
   ${p_16_normal};
@@ -119,14 +121,16 @@ export default function Footer() {
                 <Label>{item.label}</Label>
                 <ItemsWrapper>
                   {item.items.map((item, index) => (
-                    <ExternalLink href={item.link} key={index}>
-                      <Item>
-                        {item.icon && (
-                          <img src={`/imgs/icons/${item.icon}`} alt="" />
-                        )}
-                        {item.name}
-                      </Item>
-                    </ExternalLink>
+                    <li key={index}>
+                      <ExternalLink href={item.link}>
+                        <Item>
+                          {item.icon && (
+                            <img src={`/imgs/icons/${item.icon}`} alt="" />
+                          )}
+                          {item.name}
+                        </Item>
+                      </ExternalLink>
+                    </li>
                   ))}
                 </ItemsWrapper>
               </List>
