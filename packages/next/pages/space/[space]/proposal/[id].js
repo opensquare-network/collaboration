@@ -1,18 +1,22 @@
 import Layout from "components/layout";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Nav from "components/nav";
 import PostDetail from "@/components/postDetail/index";
-import { useEncodedAddress } from "frontedUtils/hooks";
 import nextApi, { ssrNextApi } from "services/nextApi";
 import { EmptyQuery } from "frontedUtils/constants";
 import { encodeAddress } from "@polkadot/util-crypto";
 import { useEffect, useState } from "react";
 import FourOFour from "../../../404";
-import { setAvailableNetworks } from "store/reducers/accountSlice";
+import {
+  initAccount,
+  loginAddressSelector,
+  setAvailableNetworks,
+} from "store/reducers/accountSlice";
 import pick from "lodash.pick";
 import { setSpaceConfig } from "../../../../store/reducers/spaceConfigSlice";
 import { spaceToSeoImageMap } from "../../../../frontedUtils/consts/spaces";
 import Seo from "@/components/seo";
+import { useIsMounted } from "../../../../frontedUtils/hooks";
 
 export default function Index({
   detail,
@@ -25,9 +29,14 @@ export default function Index({
 }) {
   const dispatch = useDispatch();
   dispatch(setSpaceConfig(space));
+  const isMounted = useIsMounted();
+
+  useEffect(() => {
+    dispatch(initAccount());
+  }, [dispatch]);
 
   const [savedMyVote, setSavedMyVote] = useState(myVote);
-  const encodedAddress = useEncodedAddress(space);
+  const loginAddress = useSelector(loginAddressSelector);
 
   useEffect(() => {
     dispatch(
@@ -40,10 +49,14 @@ export default function Index({
   }, [dispatch, detail]);
 
   useEffect(() => {
-    if (encodedAddress) {
+    if (loginAddress) {
       nextApi
-        .fetch(`${space.id}/proposal/${detail?.cid}/votes/${encodedAddress}`)
+        .fetch(`${space.id}/proposal/${detail?.cid}/votes/${loginAddress}`)
         .then((result) => {
+          if (!isMounted) {
+            return;
+          }
+
           if (result?.result) {
             setSavedMyVote(result.result);
           } else {
@@ -57,7 +70,7 @@ export default function Index({
       // logout
       setSavedMyVote(null);
     }
-  }, [encodedAddress, detail?.cid, space, myVote]);
+  }, [loginAddress, detail?.cid, space, myVote]);
 
   if (!detail) {
     return <FourOFour />;

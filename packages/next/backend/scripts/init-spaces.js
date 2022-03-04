@@ -13,7 +13,7 @@ const spaces = [
       {
         network: "polkadot",
         ss58Format: 0,
-      }
+      },
     ],
     proposeThreshold: "10000000000",
     voteThreshold: "100000000",
@@ -29,7 +29,11 @@ const spaces = [
       {
         network: "kusama",
         ss58Format: 2,
-      }
+      },
+      {
+        network: "statemine",
+        ss58Format: 2,
+      },
     ],
     proposeThreshold: "10000000000",
     voteThreshold: "10000000000",
@@ -45,7 +49,7 @@ const spaces = [
       {
         network: "karura",
         ss58Format: 8,
-      }
+      },
     ],
     proposeThreshold: "1000000000000",
     voteThreshold: "10000000000",
@@ -61,7 +65,7 @@ const spaces = [
       {
         network: "khala",
         ss58Format: 30,
-      }
+      },
     ],
     proposeThreshold: "10000000000000",
     voteThreshold: "10000000000",
@@ -89,7 +93,7 @@ const spaces = [
         type: "token",
         network: "bifrost",
         ss58Format: 6,
-      }
+      },
     ],
     proposeThreshold: "500000000000000",
     voteThreshold: "10000000000",
@@ -117,7 +121,7 @@ const spaces = [
         type: "token",
         network: "bifrost",
         ss58Format: 6,
-      }
+      },
     ],
     proposeThreshold: "4310000000000",
     voteThreshold: "10000000000",
@@ -133,7 +137,7 @@ const spaces = [
       {
         network: "bifrost",
         ss58Format: 6,
-      }
+      },
     ],
     proposeThreshold: "1000000000000",
     voteThreshold: "10000000000",
@@ -149,7 +153,7 @@ const spaces = [
       {
         network: "kintsugi",
         ss58Format: 2092,
-      }
+      },
     ],
     proposeThreshold: "1000000000000",
     voteThreshold: "10000000000",
@@ -179,10 +183,7 @@ async function main() {
   const spaceCol = await getSpaceCollection();
   const bulk = spaceCol.initializeUnorderedBulkOp();
   for (const space of spaces) {
-    bulk
-      .find({ id: space.id })
-      .upsert()
-      .update({ $set: space });
+    bulk.find({ id: space.id }).upsert().update({ $set: space });
   }
   await bulk.execute();
 }

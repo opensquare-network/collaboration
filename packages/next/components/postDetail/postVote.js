@@ -5,7 +5,10 @@ import { useRouter } from "next/router";
 
 import Input from "components/input";
 import { useViewfunc } from "frontedUtils/hooks";
-import { loginAccountSelector } from "store/reducers/accountSlice";
+import {
+  loginAccountSelector,
+  loginAddressSelector,
+} from "store/reducers/accountSlice";
 import { addToast } from "store/reducers/toastSlice";
 import { TOAST_TYPES } from "frontedUtils/constants";
 import {
@@ -87,6 +90,8 @@ export default function PostVote({ proposal, space }) {
   const viewfunc = useViewfunc();
   const router = useRouter();
 
+  const loginAddress = useSelector(loginAddressSelector);
+
   const reset = () => {
     setChoiceIndex(null);
     setRemark("");
@@ -95,21 +100,25 @@ export default function PostVote({ proposal, space }) {
   const status = proposal?.status;
 
   useEffect(() => {
-    if (proposal && account?.address && account?.network) {
+    if (proposal && loginAddress && account?.network) {
       nextApi
         .fetch(
-          `${proposal.space}/proposal/${proposal.cid}/voterbalance/${account.network}/${account.address}`,
+          `${proposal.space}/proposal/${proposal.cid}/voterbalance/${account.network}/${loginAddress}`,
           {
             snapshot: proposal.snapshotHeights[account.network],
           }
         )
         .then((response) => {
           setBalance(response?.result?.balance);
+        })
+        .catch((e) => {
+          const message = e?.message || "Failed to get balance.";
+          dispatch(addToast({ type: TOAST_TYPES.ERROR, message }));
         });
     } else {
       setBalance(null);
     }
-  }, [proposal, account?.network, account?.address]);
+  }, [proposal, account?.network, loginAddress]);
 
   useEffect(() => {
     const zero = new BigNumber("0");
