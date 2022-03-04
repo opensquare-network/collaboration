@@ -20,6 +20,7 @@ const Content = styled.div`
   color: #1e2134;
   display: flex;
   justify-content: right;
+  align-items: center;
 `;
 
 export default function Row({ header, content }) {
