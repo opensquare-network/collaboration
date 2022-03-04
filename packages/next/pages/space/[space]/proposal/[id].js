@@ -123,11 +123,11 @@ export default function Index({
 
 export async function getServerSideProps(context) {
   const { id, space: spaceId } = context.params;
-  const { page, tab } = context.query;
+  const { page, discussion_page: discussionPage } = context.query;
 
   const nPage = page === "last" ? "last" : parseInt(page) || 1;
-  const activeTab = tab ?? "votes";
-  const pageSize = 50;
+  const discusPage =
+    discussionPage === "last" ? "last" : parseInt(discussionPage) || 1;
 
   const { result: detail } = await ssrNextApi.fetch(
     `${spaceId}/proposal/${id}`
@@ -145,13 +145,13 @@ export async function getServerSideProps(context) {
   ] = await Promise.all([
     ssrNextApi.fetch(`spaces/${spaceId}`),
     ssrNextApi.fetch(`${spaceId}/proposal/${detail?.cid}/votes`, {
-      page: activeTab === "votes" ? nPage : 1,
-      pageSize,
+      page: nPage,
+      pageSize: 50,
     }),
     ssrNextApi.fetch(`${spaceId}/proposal/${detail?.cid}/stats`),
     ssrNextApi.fetch(`${spaceId}/proposal/${detail?.cid}/comments`, {
-      page: activeTab === "discussion" ? nPage : 1,
-      pageSize,
+      page: discusPage,
+      pageSize: 25,
     }),
   ]);
 
@@ -172,7 +172,7 @@ export async function getServerSideProps(context) {
       votes: votes ?? EmptyQuery,
       voteStatus: voteStatus ?? [],
       comments: comments ?? EmptyQuery,
-      defaultPage: { tab: activeTab ?? null, page: nPage },
+      defaultPage: { page: nPage, discussionPage: discusPage },
       myVote: myVote ?? null,
     },
   };

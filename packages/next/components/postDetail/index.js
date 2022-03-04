@@ -1,9 +1,10 @@
 import styled from "styled-components";
 
 import PostContent from "./postContent";
-import PostTab from "./postTab";
 import PostInfo from "./postInfo";
 import PostResults from "./postResults";
+import PostVotes from "@/components/postDetail/postVotes";
+import PostDiscussion from "@/components/postDetail/postDiscussion";
 
 const Wrapper = styled.div`
   display: flex;
@@ -53,14 +54,13 @@ export default function PostDetail({
     <Wrapper>
       <MainWrapper>
         <PostContent data={data} space={space} />
-        <PostTab
-          data={data}
-          space={space}
+        <PostVotes
+          proposal={data}
           votes={votes}
-          comments={comments}
-          defaultPage={defaultPage}
           myVote={myVote}
+          discussionPage={defaultPage?.discussionPage}
         />
+        <PostDiscussion proposal={data} comments={comments} space={space} />
       </MainWrapper>
       <SiderWrapper>
         <PostInfo data={data} space={space} />

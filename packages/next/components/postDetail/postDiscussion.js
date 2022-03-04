@@ -16,6 +16,8 @@ import ExternalLink from "components/externalLink";
 import { encodeAddress } from "@polkadot/util-crypto";
 import { findNetworkConfig } from "services/util";
 import { spaceSupportMultiChainSelector } from "../../store/reducers/spaceConfigSlice";
+import Panel from "@/components/postDetail/panel";
+import HeaderWithNumber from "@/components/postDetail/numberHeader";
 
 const Item = styled.div`
   padding-top: 20px;
@@ -89,7 +91,12 @@ const NoCommentWrapper = styled.div`
   border-bottom: 1px solid #f0f3f8;
 `;
 
-export default function PostDiscussion({ proposal, space, comments }) {
+export default function PostDiscussion({
+  proposal,
+  space,
+  comments,
+  votesPage = 1,
+}) {
   const [content, setContent] = useState("");
   const viewfunc = useViewfunc();
   const account = useSelector(loginAccountSelector);
@@ -165,7 +172,8 @@ export default function PostDiscussion({ proposal, space, comments }) {
     findNetworkConfig(proposal.networksConfig, comment.commenterNetwork);
   const spaceSupportMultiChain = useSelector(spaceSupportMultiChainSelector);
   return (
-    <div>
+    <Panel>
+      <HeaderWithNumber title="Discussions" number={comments?.total} />
       {(comments?.items || []).map((item, index) => (
         <Item key={index}>
           <InfoWrapper>
@@ -203,6 +211,10 @@ export default function PostDiscussion({ proposal, space, comments }) {
           page={comments?.page}
           total={comments?.total}
           pageSize={comments?.pageSize}
+          pageKey="discussion_page"
+          otherQueries={{
+            page: votesPage,
+          }}
         />
       </PaginationWrapper>
       <RichInputWrapper>
@@ -212,6 +224,6 @@ export default function PostDiscussion({ proposal, space, comments }) {
           onSubmit={onSubmit}
         />
       </RichInputWrapper>
-    </div>
+    </Panel>
   );
 }

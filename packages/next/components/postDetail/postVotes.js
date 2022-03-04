@@ -3,6 +3,8 @@ import styled from "styled-components";
 import Pagination from "components/pagination";
 import PostVotesItem from "./postVotesItem";
 import { findNetworkConfig } from "../../services/util";
+import Panel from "@/components/postDetail/panel";
+import HeaderWithNumber from "@/components/postDetail/numberHeader";
 
 const PaginationWrapper = styled.div`
   padding: 20px 0;
@@ -22,14 +24,25 @@ const NoVoteWrapper = styled.div`
   border-bottom: 1px solid #f0f3f8;
 `;
 
-export default function PostVotes({ proposal, votes, myVote }) {
-  const getNetwork = (vote) => findNetworkConfig(proposal.networksConfig, vote.voterNetwork);
+export default function PostVotes({
+  proposal,
+  votes,
+  myVote,
+  discussionPage = 1,
+}) {
+  const getNetwork = (vote) =>
+    findNetworkConfig(proposal.networksConfig, vote.voterNetwork);
 
   return (
-    <div>
+    <Panel>
+      <HeaderWithNumber title="Votes" number={votes?.total} />
       <div>
         {myVote && (
-          <PostVotesItem data={myVote} space={getNetwork(myVote)} isMyVote={true} />
+          <PostVotesItem
+            data={myVote}
+            space={getNetwork(myVote)}
+            isMyVote={true}
+          />
         )}
       </div>
       {(votes?.items || [])
@@ -45,8 +58,11 @@ export default function PostVotes({ proposal, votes, myVote }) {
           page={votes.page}
           total={votes.total}
           pageSize={votes.pageSize}
+          otherQueries={{
+            discussion_page: discussionPage,
+          }}
         />
       </PaginationWrapper>
-    </div>
+    </Panel>
   );
 }
