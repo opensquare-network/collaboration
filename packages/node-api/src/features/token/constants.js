@@ -1,20 +1,36 @@
-const { chains, symbols, } = require("../../constants");
+const { chains, symbols } = require("../../constants");
 
 const supportedChainSymbols = {
-  [chains.karura]: [
-    symbols.RMRK,
-  ],
-  [chains.bifrost]: [
-    symbols.RMRK,
-  ],
-}
+  [chains.karura]: [symbols.RMRK, symbols.KSM],
+  [chains.bifrost]: [symbols.RMRK, symbols.KSM],
+};
+
+const chainOrmlTokenId = {
+  [chains.karura]: {
+    [symbols.RMRK]: {
+      ForeignAsset: 0,
+    },
+    [symbols.KSM]: {
+      Token: symbols.KSM,
+    },
+  },
+  [chains.bifrost]: {
+    [symbols.RMRK]: {
+      Token: symbols.RMRK,
+    },
+    [symbols.KSM]: {
+      Token: symbols.KSM,
+    },
+  },
+};
 
 const emptyBalance = {
-  free: '0',
-  reserved: '0',
-}
+  free: "0",
+  reserved: "0",
+};
 
 module.exports = {
   supportedChainSymbols,
+  chainOrmlTokenId,
   emptyBalance,
-}
+};
