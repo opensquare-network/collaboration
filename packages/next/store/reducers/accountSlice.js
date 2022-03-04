@@ -7,7 +7,7 @@ import { CHAINS } from "../../frontedUtils/consts/chains";
 const accountSlice = createSlice({
   name: "account",
   initialState: {
-    account: undefined,
+    account: null,
     availableNetworks: [],
   },
   reducers: {
@@ -39,27 +39,32 @@ export const logout = () => async (dispatch) => {
 export const availableNetworksSelector = (state) =>
   state.account.availableNetworks;
 
+export const initAccount = () => (dispatch) => {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  const data = getCookie("addressV3");
+  if (!data) {
+    return;
+  }
+
+  const [network, address] = data.split("/");
+  if (!isAddress(address) || !Object.values(CHAINS).includes(network)) {
+    return;
+  }
+
+  dispatch(
+    setAccount({
+      address,
+      network,
+    })
+  );
+};
+
 export const accountSelector = (state) => {
   if (state.account.account) {
     return state.account.account;
-  } else {
-    if (typeof window !== "undefined") {
-      const data = getCookie("addressV3");
-      if (data) {
-        const [network, address] = data.split("/");
-        if (!isAddress(address) || !Object.values(CHAINS).includes(network)) {
-          return;
-        }
-
-        const account = {
-          address,
-          network,
-        };
-        setAccount(account);
-        return account;
-      }
-    }
-    return null;
   }
 };
 

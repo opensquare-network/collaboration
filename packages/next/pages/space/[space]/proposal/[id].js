@@ -8,6 +8,7 @@ import { encodeAddress } from "@polkadot/util-crypto";
 import { useEffect, useState } from "react";
 import FourOFour from "../../../404";
 import {
+  initAccount,
   loginAddressSelector,
   setAvailableNetworks,
 } from "store/reducers/accountSlice";
@@ -15,6 +16,7 @@ import pick from "lodash.pick";
 import { setSpaceConfig } from "../../../../store/reducers/spaceConfigSlice";
 import { spaceToSeoImageMap } from "../../../../frontedUtils/consts/spaces";
 import Seo from "@/components/seo";
+import { useIsMounted } from "../../../../frontedUtils/hooks";
 
 export default function Index({
   detail,
@@ -27,6 +29,11 @@ export default function Index({
 }) {
   const dispatch = useDispatch();
   dispatch(setSpaceConfig(space));
+  const isMounted = useIsMounted();
+
+  useEffect(() => {
+    dispatch(initAccount());
+  }, [dispatch]);
 
   const [savedMyVote, setSavedMyVote] = useState(myVote);
   const loginAddress = useSelector(loginAddressSelector);
@@ -46,6 +53,10 @@ export default function Index({
       nextApi
         .fetch(`${space.id}/proposal/${detail?.cid}/votes/${loginAddress}`)
         .then((result) => {
+          if (!isMounted) {
+            return;
+          }
+
           if (result?.result) {
             setSavedMyVote(result.result);
           } else {
