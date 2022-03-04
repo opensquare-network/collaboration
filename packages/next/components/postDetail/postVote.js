@@ -118,7 +118,7 @@ export default function PostVote({ proposal, space }) {
     } else {
       setBalance(null);
     }
-  }, [proposal, account?.network, loginAddress]);
+  }, [proposal, account?.network, loginAddress, dispatch]);
 
   useEffect(() => {
     const zero = new BigNumber("0");

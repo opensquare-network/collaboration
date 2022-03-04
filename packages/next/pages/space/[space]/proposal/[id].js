@@ -70,7 +70,7 @@ export default function Index({
       // logout
       setSavedMyVote(null);
     }
-  }, [loginAddress, detail?.cid, space, myVote]);
+  }, [loginAddress, detail?.cid, space, myVote, isMounted]);
 
   if (!detail) {
     return <FourOFour />;
