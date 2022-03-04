@@ -77,7 +77,13 @@ const Ellipsis = styled.div`
   }
 `;
 
-export default function Pagination({ page, pageSize, total }) {
+export default function Pagination({
+  page,
+  pageSize,
+  total,
+  otherQueries = {},
+  pageKey = "page",
+}) {
   const router = useRouter();
   const totalPages = Math.ceil(total / pageSize)
     ? Math.ceil(total / pageSize)
@@ -108,7 +114,8 @@ export default function Pagination({ page, pageSize, total }) {
             key={index}
             href={`${router.pathname}?${encodeURIQuery({
               ...router.query,
-              page: index + 1,
+              [pageKey]: index + 1,
+              ...otherQueries,
             })}`}
             passHref
           >
@@ -121,7 +128,8 @@ export default function Pagination({ page, pageSize, total }) {
       <Link
         href={`${router.pathname}?${encodeURIQuery({
           ...router.query,
-          page: nextPage,
+          [pageKey]: nextPage,
+          ...otherQueries,
         })}`}
         passHref
       >
