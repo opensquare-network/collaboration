@@ -5,18 +5,7 @@ import { Fragment } from "react";
 import ValueDisplay from "../valueDisplay";
 import LinkSvg from "public/imgs/icons/link.svg";
 import ExternalLink from "components/externalLink";
-
-const Wrapper = styled.div`
-  padding: 32px;
-  background: #ffffff;
-  border: 1px solid #f0f3f8;
-  box-shadow: 0px 4px 31px rgba(26, 33, 44, 0.04),
-    0px 0.751293px 3.88168px rgba(26, 33, 44, 0.03);
-  @media screen and (max-width: 800px) {
-    padding: 20px;
-    margin: 0 -20px;
-  }
-`;
+import Panel from "@/components/postDetail/panel";
 
 const TitleWrapper = styled.div`
   ${p_16_semibold};
@@ -318,7 +307,7 @@ export default function PostResult({ data, voteStatus, space }) {
   })();
 
   return (
-    <Wrapper>
+    <Panel>
       <TitleWrapper>
         Results
         <img src="/imgs/icons/strategy.svg" alt="" />
@@ -338,6 +327,6 @@ export default function PostResult({ data, voteStatus, space }) {
       </div>
       {results}
       {biasedVoting}
-    </Wrapper>
+    </Panel>
   );
 }

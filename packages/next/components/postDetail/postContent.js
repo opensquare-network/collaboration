@@ -10,18 +10,7 @@ import { findNetworkConfig } from "services/util";
 import Share from "components/share";
 import { useSelector } from "react-redux";
 import { spaceSupportMultiChainSelector } from "../../store/reducers/spaceConfigSlice";
-
-const Wrapper = styled.div`
-  padding: 32px;
-  background: #ffffff;
-  border: 1px solid #f0f3f8;
-  box-shadow: 0px 4px 31px rgba(26, 33, 44, 0.04),
-    0px 0.751293px 3.88168px rgba(26, 33, 44, 0.03);
-  @media screen and (max-width: 800px) {
-    padding: 20px;
-    margin: 0 -20px;
-  }
-`;
+import Panel from "@/components/postDetail/panel";
 
 const Title = styled.div`
   ${p_semibold};
@@ -77,7 +66,7 @@ export default function PostContent({ data, space }) {
   );
   const spaceSupportMultiChain = useSelector(spaceSupportMultiChainSelector);
   return (
-    <Wrapper>
+    <Panel>
       <Title>{data?.title}</Title>
       <InfoWrapper>
         <LeftWrapper>
@@ -98,6 +87,6 @@ export default function PostContent({ data, space }) {
       <Divider />
       <Share />
       <PostVote proposal={data} space={space} />
-    </Wrapper>
+    </Panel>
   );
 }
