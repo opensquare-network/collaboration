@@ -53,6 +53,7 @@ const AboutIcon = styled.img`
 
 const AboutName = styled.div`
   ${p_16_semibold};
+  margin-bottom: 2px;
 `;
 
 const AboutDetail = styled.div`
@@ -80,7 +81,8 @@ const AboutDivider = styled.div`
 `;
 
 const ChainIcons = styled.div`
-  > svg, img {
+  > svg,
+  img {
     margin-right: 4px;
     vertical-align: middle;
   }
@@ -100,13 +102,17 @@ export default function ListInfo({ space }) {
         <AboutItem>
           <AboutIcon src="/imgs/icons/network.svg" />
           <div>
-            <AboutName>Chains</AboutName>
-            <ChainIcons>{space.networks?.map(
-              (network, index) => <ChainIcon key={index} chainName={network.network} />
-            )}</ChainIcons>
+            <AboutName>Networks</AboutName>
+            <ChainIcons>
+              {space.networks?.map((network, index) => (
+                <ChainIcon key={index} chainName={network.network} />
+              ))}
+            </ChainIcons>
           </div>
           <Tooltip
-            content={space.networks?.map(item => capitalize(item.network)).join(", ")}
+            content={space.networks
+              ?.map((item) => capitalize(item.network))
+              .join(", ")}
             size="full"
           >
             <div />
@@ -136,15 +142,14 @@ export default function ListInfo({ space }) {
         <AboutItem>
           <AboutIcon src="/imgs/icons/strategy.svg" />
           <div>
-            <AboutName>Strategies({space.weightStrategy?.length || 0})</AboutName>
+            <AboutName>
+              Strategies({space.weightStrategy?.length || 0})
+            </AboutName>
             <StrategyAboutDetail>
               {space.weightStrategy?.join(", ")}
             </StrategyAboutDetail>
           </div>
-          <Tooltip
-            content={space.weightStrategy?.join(", ")}
-            size="full"
-          >
+          <Tooltip content={space.weightStrategy?.join(", ")} size="full">
             <div />
           </Tooltip>
         </AboutItem>
