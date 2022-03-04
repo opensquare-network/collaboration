@@ -83,14 +83,6 @@ export function useNetwork() {
   return network;
 }
 
-export function useEncodedAddress() {
-  const account = useSelector(loginAccountSelector);
-  if (account) {
-    return encodeAddress(account.address, account.ss58Format);
-  }
-  return null;
-}
-
 export function usePrevious(value) {
   const ref = useRef();
   useEffect(() => {

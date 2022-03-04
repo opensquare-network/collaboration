@@ -1,7 +1,8 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
 
 import { setCookie, getCookie, clearCookie } from "frontedUtils/cookie";
-import { encodeAddress } from "@polkadot/util-crypto";
+import { encodeAddress, isAddress } from "@polkadot/util-crypto";
+import { CHAINS } from "../../frontedUtils/consts/chains";
 
 const accountSlice = createSlice({
   name: "account",
@@ -46,6 +47,10 @@ export const accountSelector = (state) => {
       const data = getCookie("addressV3");
       if (data) {
         const [network, address] = data.split("/");
+        if (!isAddress(address) || !Object.values(CHAINS).includes(network)) {
+          return;
+        }
+
         const account = {
           address,
           network,

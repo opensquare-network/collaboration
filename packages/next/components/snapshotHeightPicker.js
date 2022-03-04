@@ -14,6 +14,7 @@ import {
 } from "../store/reducers/snapshotHeightSlice";
 import nextApi from "../services/nextApi";
 import { addToast } from "store/reducers/toastSlice";
+import { useIsMounted } from "../frontedUtils/hooks";
 
 const Wrapper = styled.div`
   position: relative;
@@ -48,12 +49,14 @@ function SnapshotHeightPicker({ date, setDate }) {
   const [loading, setLoading] = useState(true);
   const hideHeights = () => setShowHeights(false);
   const snapshotHeights = useSelector(snapshotHeightsSelector);
+  const isMounted = useIsMounted();
+
   const fetchHeights = () => {
     setLoading(true);
     nextApi
       .fetch(`${spaceConfig.id}/networkheights`, { time: date.getTime() })
       .then(({ result, error }) => {
-        if (result) {
+        if (result && isMounted) {
           dispatch(
             setSnapshotHeights(
               networks.map((network) => ({
