@@ -82,6 +82,10 @@ const SnapshotsWrapper = styled.div`
   > div {
     line-height: 0;
   }
+
+  & > div:not(:first-child) {
+    margin-left: 4px;
+  }
 `;
 
 export default function PostInfo({ data, space }) {
