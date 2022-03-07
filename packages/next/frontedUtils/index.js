@@ -23,11 +23,11 @@ export function timeDuration(time) {
       m: "1min",
       mm: "%dmin",
       h: "1h",
-      hh: "%dh",
+      hh: "%dhrs",
       d: "1d",
       dd: "%dd",
-      M: "1m",
-      MM: "%dm",
+      M: "1mo",
+      MM: "%dmos",
       y: "1y",
       yy: "%dy",
     },
@@ -46,33 +46,33 @@ export function timeDuration(time) {
   if (yy) {
     mm %= 12;
     if (mm) {
-      return `${yy}y ${mm}m ago`;
+      return `${yy}y ${mm}mo${mm > 1 ? "s" : ""} ago`;
     }
     return `${yy}y ago`;
   }
   if (mm) {
-    return `${mm}m ago`;
+    return `${mm}mo${mm > 1 ? "s" : ""} ago`;
   }
   if (dd) {
     hh %= 24;
     if (hh) {
-      return `${dd}d ${hh}h ago`;
+      return `${dd}d ${hh}h${hh > 1 ? "rs" : ""} ago`;
     }
     return `${dd}d ago`;
   }
   if (hh) {
     ii %= 60;
     if (ii) {
-      return `${hh}h ${ii}min ago`;
+      return `${hh}h${hh > 1 ? "rs" : ""} ${ii}min${ii > 1 ? "s" : ""} ago`;
     }
-    return `${hh}h ago`;
+    return `${hh}h${hh > 1 ? "rs" : ""} ago`;
   }
   if (ii) {
     ss %= 60;
     if (ss) {
-      return `${ii}min ${ss}s ago`;
+      return `${ii}min${ii > 1 ? "s" : ""} ${ss}s ago`;
     }
-    return `${ii}min ago`;
+    return `${ii}min${ii > 1 ? "s" : ""} ago`;
   }
   return `${ss}s ago`;
 }
