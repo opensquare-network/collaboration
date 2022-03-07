@@ -3,6 +3,18 @@ dotenv.config();
 
 const { getSpaceCollection } = require("../mongo");
 
+const karuraTokenConfig = {
+  type: "token",
+  network: "karura",
+  ss58Format: 8,
+};
+
+const bifrostTokenConfig = {
+  type: "token",
+  network: "bifrost",
+  ss58Format: 6,
+};
+
 const spaces = [
   {
     id: "polkadot",
@@ -34,6 +46,8 @@ const spaces = [
         network: "statemine",
         ss58Format: 2,
       },
+      karuraTokenConfig,
+      bifrostTokenConfig,
     ],
     proposeThreshold: "10000000000",
     voteThreshold: "10000000000",
@@ -84,16 +98,8 @@ const spaces = [
         ss58Format: 2,
         assetId: 8,
       },
-      {
-        type: "token",
-        network: "karura",
-        ss58Format: 8,
-      },
-      {
-        type: "token",
-        network: "bifrost",
-        ss58Format: 6,
-      },
+      karuraTokenConfig,
+      bifrostTokenConfig,
     ],
     proposeThreshold: "500000000000000",
     voteThreshold: "10000000000",

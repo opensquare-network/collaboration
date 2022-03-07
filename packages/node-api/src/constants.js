@@ -1,12 +1,12 @@
 const chains = {
-  polkadot: 'polkadot',
-  kusama: 'kusama',
-  karura: 'karura',
-  khala: 'khala',
-  statemine: 'statemine',
-  bifrost: 'bifrost',
-  kintsugi: 'kintsugi',
-}
+  polkadot: "polkadot",
+  kusama: "kusama",
+  karura: "karura",
+  khala: "khala",
+  statemine: "statemine",
+  bifrost: "bifrost",
+  kintsugi: "kintsugi",
+};
 
 const oneSecond = 1000;
 const sixSecond = 6 * oneSecond;
@@ -20,11 +20,12 @@ const chainBlockTime = {
   statemine: twelveSecond,
   bifrost: twelveSecond,
   kintsugi: twelveSecond,
-}
+};
 
 const symbols = {
   RMRK: "RMRK",
-}
+  KSM: "KSM",
+};
 
 const nodeTimeoutSeconds = 20;
 
@@ -33,4 +34,4 @@ module.exports = {
   symbols,
   nodeTimeoutSeconds,
   chainBlockTime,
-}
+};

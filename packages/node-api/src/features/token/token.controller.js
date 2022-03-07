@@ -1,3 +1,4 @@
+const { chainOrmlTokenId } = require("./constants");
 const { queryOrmlTokenAccountsFromApis } = require("./orml/balance");
 const { supportedChainSymbols, emptyBalance } = require("./constants");
 const { getBlockApi } = require("../utils");
@@ -19,13 +20,15 @@ async function getBalanceFromOneApi(api, assetId, address, blockHashOrHeight) {
   return {
     free: account.value?.balance.toString() || 0,
     reserved: 0,
-  }
+  };
 }
 
 async function getBalanceFromApis(apis, assetId, account, blockHashOrHeight) {
   const promises = [];
   for (const api of apis) {
-    promises.push(getBalanceFromOneApi(api, assetId, account, blockHashOrHeight))
+    promises.push(
+      getBalanceFromOneApi(api, assetId, account, blockHashOrHeight)
+    );
   }
 
   return Promise.any(promises);
@@ -36,35 +39,45 @@ class TokenController {
     const { chain, assetId, account, blockHashOrHeight } = ctx.params;
 
     const isNotStatemine = chain !== chains.statemine;
-    const notTokensOnOtherChains = (
+    const notTokensOnOtherChains =
       !Object.keys(supportedChainSymbols).includes(chain) ||
-      !(supportedChainSymbols[chain] || []).includes(assetId)
-    )
+      !(supportedChainSymbols[chain] || []).includes(assetId);
 
     if (isNotStatemine && notTokensOnOtherChains) {
-      ctx.throw(404, 'Invalid token')
-      return
+      ctx.throw(404, "Invalid token");
+      return;
     }
 
     const apis = getApis(chain);
-    if (chain === chains.karura && assetId === symbols.RMRK) {
-      ctx.body = await queryOrmlTokenAccountsFromApis(apis, account, blockHashOrHeight, { ForeignAsset: 0 });
-      return
-    } else if (chain === chains.bifrost && assetId === symbols.RMRK) {
-      ctx.body = await queryOrmlTokenAccountsFromApis(apis, account, blockHashOrHeight, { Token: symbols.RMRK });
-      return
+    if (
+      Object.keys(supportedChainSymbols).includes(chain) &&
+      chainOrmlTokenId[chain][assetId]
+    ) {
+      const currencyId = chainOrmlTokenId[chain][assetId];
+      ctx.body = await queryOrmlTokenAccountsFromApis(
+        apis,
+        account,
+        blockHashOrHeight,
+        currencyId
+      );
+      return;
     }
 
-    if (apis.every(api => !api.isConnected)) {
-      ctx.throw(500, "No apis connected")
-      return
+    if (apis.every((api) => !api.isConnected)) {
+      ctx.throw(500, "No apis connected");
+      return;
     }
 
     try {
-      ctx.body = await getBalanceFromApis(apis, assetId, account, blockHashOrHeight);
+      ctx.body = await getBalanceFromApis(
+        apis,
+        assetId,
+        account,
+        blockHashOrHeight
+      );
     } catch (e) {
-      console.error('Get token balance from node fail', e)
-      ctx.throw(500, "Failed to query token balance from node")
+      console.error("Get token balance from node fail", e);
+      ctx.throw(500, "Failed to query token balance from node");
     }
   }
 }
