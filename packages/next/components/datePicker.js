@@ -121,6 +121,7 @@ const DateWrapper = styled.div`
 
   .react-datepicker__day--disabled {
     color: #9da9bb;
+    cursor: not-allowed;
     &:hover {
       background: none;
     }
