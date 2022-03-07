@@ -104,6 +104,7 @@ const DateWrapper = styled.div`
 
   .react-datepicker__day--today {
     font-weight: 600;
+    border: 1px solid #e2e8f0;
   }
 
   .react-datepicker__day--selected {
@@ -120,6 +121,10 @@ const DateWrapper = styled.div`
 
   .react-datepicker__day--disabled {
     color: #9da9bb;
+    cursor: not-allowed;
+    &:hover {
+      background: none;
+    }
   }
 `;
 
