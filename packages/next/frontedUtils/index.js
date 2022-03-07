@@ -18,18 +18,18 @@ export function timeDuration(time) {
     relativeTime: {
       future: "in %s",
       past: "%s ago",
-      s: "a few secs",
-      ss: "%d secs",
-      m: "1 min",
-      mm: "%d mins",
-      h: "1 hour",
-      hh: "%d hours",
-      d: "1 day",
-      dd: "%d days",
-      M: "1 month",
-      MM: "%d months",
-      y: "1 year",
-      yy: "%d years",
+      s: "secs",
+      ss: "%ds",
+      m: "1min",
+      mm: "%dmin",
+      h: "1h",
+      hh: "%dh",
+      d: "1d",
+      dd: "%dd",
+      M: "1m",
+      MM: "%dm",
+      y: "1y",
+      yy: "%dy",
     },
   });
   const now = moment();
@@ -46,35 +46,35 @@ export function timeDuration(time) {
   if (yy) {
     mm %= 12;
     if (mm) {
-      return `${yy} year${yy > 1 ? "s" : ""} ${mm} mon${mm > 1 ? "s" : ""} ago`;
+      return `${yy}y ${mm}m ago`;
     }
-    return `${yy} year${yy > 1 ? "s" : ""} ago`;
+    return `${yy}y ago`;
   }
   if (mm) {
-    return `${mm} mon${mm > 1 ? "s" : ""} ago`;
+    return `${mm}m ago`;
   }
   if (dd) {
     hh %= 24;
     if (hh) {
-      return `${dd} day${dd > 1 ? "s" : ""} ${hh} hr${hh > 1 ? "s" : ""} ago`;
+      return `${dd}d ${hh}h ago`;
     }
-    return `${dd} day${dd > 1 ? "s" : ""} ago`;
+    return `${dd}d ago`;
   }
   if (hh) {
     ii %= 60;
     if (ii) {
-      return `${hh} hr${hh > 1 ? "s" : ""} ${ii} min${ii > 1 ? "s" : ""} ago`;
+      return `${hh}h ${ii}min ago`;
     }
-    return `${hh} hr${hh > 1 ? "s" : ""} ago`;
+    return `${hh}h ago`;
   }
   if (ii) {
     ss %= 60;
     if (ss) {
-      return `${ii} min${ii > 1 ? "s" : ""} ${ss} sec${ss > 1 ? "s" : ""} ago`;
+      return `${ii}min ${ss}s ago`;
     }
-    return `${ii} min${ii > 1 ? "s" : ""} ago`;
+    return `${ii}min ago`;
   }
-  return `${ss} sec${ss > 1 ? "s" : ""} ago`;
+  return `${ss}s ago`;
 }
 
 export function getPrecision(symbol) {
