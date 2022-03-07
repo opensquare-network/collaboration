@@ -149,6 +149,7 @@ const StatusItem = styled.div`
 `;
 
 const RMRK_ELECTORATE_CONST = "100000000000000000";
+const POLARIS_ELECTORATE_CONST = "1000000000000000";
 
 export default function PostResult({ data, voteStatus, space }) {
   const votedAmount = data?.votedWeights?.balanceOf || 0;
@@ -224,8 +225,15 @@ export default function PostResult({ data, voteStatus, space }) {
       !["rmrk", "rmrk-curation", "polarisdao"].includes(data?.space) ||
       !data?.weightStrategy?.includes("biased-voting") ||
       voteStatus?.length !== 2
-    )
+    ) {
       return null;
+    }
+
+    const electorate =
+      space?.id === "polarisdao"
+        ? POLARIS_ELECTORATE_CONST
+        : RMRK_ELECTORATE_CONST;
+
     return (
       <Fragment>
         <ResultHead>
@@ -260,7 +268,7 @@ export default function PostResult({ data, voteStatus, space }) {
           <div>
             <div>Electorate</div>
             <div>
-              <ValueDisplay value={RMRK_ELECTORATE_CONST} space={space} />
+              <ValueDisplay value={electorate} space={space} />
             </div>
           </div>
         </BiasedVotingWrapper>
