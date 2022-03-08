@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   isWeb3Injected,
   web3Accounts,
@@ -24,7 +24,6 @@ import {
 import SvgClose from "public/imgs/icons/close.svg";
 import { closeConnect } from "../store/reducers/showConnectSlice";
 import ChainSelector from "@/components/chainSelector";
-import { encodeAddress } from "@polkadot/util-crypto";
 
 const Wrapper = styled.div``;
 
@@ -103,12 +102,16 @@ export default function Connect({ space, setShowMenu }) {
 
   useEffect(() => {
     (async () => {
+      await web3Enable("voting");
+
       if (isMounted.current) {
         setHasExtension(isWeb3Injected);
       }
+
       if (!isWeb3Injected) {
         return;
       }
+
       const web3Apps = await web3Enable("voting");
       const polkadotEnabled = web3Apps?.length > 0;
       if (isMounted.current) {
