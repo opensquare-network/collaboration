@@ -1,23 +1,34 @@
 import { useState, useCallback } from "react";
 import copy from "copy-to-clipboard";
 import styled from "styled-components";
-import TwitterSvg from "public/imgs/icons/share-twitter.svg";
-import CopySvg from "public/imgs/icons/copy.svg";
+import Twitter from "./twitter.svg";
+import CopySvg from "./copy.svg";
+import Tooltip from "@/components/tooltip";
 
 const Wrapper = styled.div`
   display: flex;
-  gap: 18px;
+  gap: 8px;
   margin-bottom: 32px;
 `;
 
-const ShareItem = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 9px;
+const ShareItem = styled.span`
   cursor: pointer;
-  :hover {
-    svg path {
-      fill: rgba(80, 97, 118, 1);
+  &:hover {
+    .twitter {
+      rect {
+        fill: #e6f4fe;
+      }
+      path {
+        fill: #33a2f2;
+      }
+    }
+    .copy {
+      rect {
+        fill: #edf7ed;
+      }
+      path {
+        fill: #4caf50;
+      }
     }
   }
 `;
@@ -43,18 +54,18 @@ export default function Share({}) {
     setIsCopied(true);
     setTimeout(() => {
       setIsCopied(false);
-    }, 3000);
+    }, 1000);
   }, []);
 
   return (
     <Wrapper>
       <ShareItem onClick={tweet}>
-        <TwitterSvg />
-        Twitter
+        <Twitter className="twitter" />
       </ShareItem>
       <ShareItem onClick={copyLink}>
-        <CopySvg />
-        {isCopied ? "Copied" : "Copy Link"}
+        <Tooltip content={isCopied ? "Copied" : "Copy Link"} size="fit">
+          <CopySvg className="copy" />
+        </Tooltip>
       </ShareItem>
     </Wrapper>
   );
