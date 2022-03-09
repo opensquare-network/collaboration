@@ -13,10 +13,7 @@ const Wrapper = styled.div`
   margin-bottom: 32px;
 `;
 
-const ShareItem = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 9px;
+const ShareItem = styled.span`
   cursor: pointer;
 `;
 
@@ -60,7 +57,7 @@ export default function Share({}) {
         onMouseEnter={() => setCopyActive(true)}
         onMouseLeave={() => setCopyActive(false)}
       >
-        <Tooltip content={isCopied ? "Copied" : ""} size="fit">
+        <Tooltip content={isCopied ? "Copied" : "Copy Link"} size="fit">
           {copyActive ? <CopyActive /> : <CopySvg />}
         </Tooltip>
       </ShareItem>
