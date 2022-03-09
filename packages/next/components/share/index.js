@@ -15,12 +15,28 @@ const Wrapper = styled.div`
 
 const ShareItem = styled.span`
   cursor: pointer;
+  &:hover {
+    .twitter {
+      rect {
+        fill: #e6f4fe;
+      }
+      path {
+        fill: #33a2f2;
+      }
+    }
+    .copy {
+      rect {
+        fill: #edf7ed;
+      }
+      path {
+        fill: #4caf50;
+      }
+    }
+  }
 `;
 
 export default function Share({}) {
   const [isCopied, setIsCopied] = useState(false);
-  const [twitterActive, setTwitterActive] = useState(false);
-  const [copyActive, setCopyActive] = useState(false);
 
   const tweet = useCallback(() => {
     const url =
@@ -45,20 +61,12 @@ export default function Share({}) {
 
   return (
     <Wrapper>
-      <ShareItem
-        onClick={tweet}
-        onMouseEnter={() => setTwitterActive(true)}
-        onMouseLeave={() => setTwitterActive(false)}
-      >
-        {twitterActive ? <TwitterActive /> : <Twitter />}
+      <ShareItem onClick={tweet}>
+        <Twitter className="twitter" />
       </ShareItem>
-      <ShareItem
-        onClick={copyLink}
-        onMouseEnter={() => setCopyActive(true)}
-        onMouseLeave={() => setCopyActive(false)}
-      >
+      <ShareItem onClick={copyLink}>
         <Tooltip content={isCopied ? "Copied" : "Copy Link"} size="fit">
-          {copyActive ? <CopyActive /> : <CopySvg />}
+          <CopySvg className="copy" />
         </Tooltip>
       </ShareItem>
     </Wrapper>
