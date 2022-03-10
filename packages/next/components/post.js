@@ -20,9 +20,10 @@ const Wrapper = styled.div`
   border: 1px solid #f0f3f8;
   ${shadow_100}
   ${p_24};
-  cursor: pointer;
+
   :hover {
     border-color: #e2e8f0;
+
     ${shadow_200}
     .icon > svg {
       display: block;
@@ -30,7 +31,9 @@ const Wrapper = styled.div`
   }
 `;
 
-const Title = styled.div`
+const Title = styled.h3`
+  font-family: Inter, serif;
+  font-style: normal;
   display: inline-block;
   ${p_16_semibold};
   flex-grow: 1;
@@ -88,6 +91,7 @@ const SpaceName = styled.a`
 const TitleWrapper = styled.div`
   display: flex;
   align-items: flex-start;
+  justify-content: space-between;
 `;
 
 const ProjectIcons = {
@@ -116,49 +120,52 @@ export default function Post({ data, showSpace, space, spaces }) {
 
   const icon = getProjectIcon(data.space);
 
-  const proposerNetworkConfig = findNetworkConfig(data.networksConfig, data.proposerNetwork);
-  const spaceSupportMultiChain = useSelector(spaceSupportMultiChainSelector)
+  const proposerNetworkConfig = findNetworkConfig(
+    data.networksConfig,
+    data.proposerNetwork
+  );
+  const spaceSupportMultiChain = useSelector(spaceSupportMultiChainSelector);
 
   return (
-    <HardLink href={`/space/${data.space}/proposal/${data.cid}`}>
-      <Wrapper>
-        <TitleWrapper>
+    <Wrapper>
+      <TitleWrapper>
+        <HardLink href={`/space/${data.space}/proposal/${data.cid}`}>
           <Title>{data.title}</Title>
-          <PostResult data={data} space={space ?? getSpaceFromId(data.space)} />
-        </TitleWrapper>
-        <Divider />
-        <InfoWrapper>
-          <LeftWrapper>
-            {showRichInfo && (
-              <Author
-                address={data.proposer ?? data.address}
-                space={proposerNetworkConfig}
-                showNetwork={ spaceSupportMultiChain }
+        </HardLink>
+        <PostResult data={data} space={space ?? getSpaceFromId(data.space)} />
+      </TitleWrapper>
+      <Divider />
+      <InfoWrapper>
+        <LeftWrapper>
+          {showRichInfo && (
+            <Author
+              address={data.proposer ?? data.address}
+              space={proposerNetworkConfig}
+              showNetwork={spaceSupportMultiChain}
+            />
+          )}
+          {!showRichInfo && (
+            <img width="20px" height="20px" src={icon} alt="" />
+          )}
+          <PostTime post={data} />
+          {showSpace && showRichInfo && (
+            <FromSpace>
+              From
+              <img
+                width="20px"
+                height="20px"
+                className="ml-4px"
+                src={icon}
+                alt=""
               />
-            )}
-            {!showRichInfo && (
-              <img width="20px" height="20px" src={icon} alt="" />
-            )}
-            <PostTime post={data} />
-            {showSpace && showRichInfo && (
-              <FromSpace>
-                From
-                <img
-                  width="20px"
-                  height="20px"
-                  className="ml-4px"
-                  src={icon}
-                  alt=""
-                />
-                <InternalLink href={`/space/${data.space}`}>
-                  <SpaceName>{getSpaceDisplayName(data.space)}</SpaceName>
-                </InternalLink>
-              </FromSpace>
-            )}
-          </LeftWrapper>
-          <StatusTag>{data.status}</StatusTag>
-        </InfoWrapper>
-      </Wrapper>
-    </HardLink>
+              <InternalLink href={`/space/${data.space}`}>
+                <SpaceName>{getSpaceDisplayName(data.space)}</SpaceName>
+              </InternalLink>
+            </FromSpace>
+          )}
+        </LeftWrapper>
+        <StatusTag>{data.status}</StatusTag>
+      </InfoWrapper>
+    </Wrapper>
   );
 }
