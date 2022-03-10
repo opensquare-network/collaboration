@@ -128,10 +128,12 @@ const AddSpaceLink = styled.a`
     display: flex;
   }
   cursor: pointer;
-  svg{
+
+  svg {
     margin-right: 8px;
   }
-  &:hover{
+
+  &:hover {
     color: #506176;
   }
 `;
@@ -139,15 +141,16 @@ const AddSpaceLink = styled.a`
 const ButtonWrapper = styled.div`
   display: flex;
   gap: 40px;
-`
+`;
 
 export default function Space({ spaces, showAllSpace }) {
   const [show, setShow] = useState(showAllSpace === "1");
   const [showCount, setShowCount] = useState(6);
 
-  const spaceNames = Object.keys(spaces)?.sort(
-    (a, b) => (a === "rmrk" || (a === "rmrk-curation" && b !== "rmrk")) && -1
-  );
+  const sortedSpaces = Object.entries(spaces).sort(([, a], [, b]) => {
+    return b.activeProposalsCount - a.activeProposalsCount;
+  });
+
   const windowSize = useWindowSize();
 
   useEffect(() => {
@@ -169,36 +172,35 @@ export default function Space({ spaces, showAllSpace }) {
         <Title>Space</Title>
         <ButtonWrapper>
           <AddSpaceLink href="mailto:yongfeng@opensquare.network">
-            <Plus/>Add a Space
+            <Plus />
+            Add a Space
           </AddSpaceLink>
           <SpaceButton onClick={() => setShowAllSpace(!show)}>
-            {spaceNames.length > showCount && show
+            {sortedSpaces.length > showCount && show
               ? "Hide Spaces"
-              : `All Spaces(${spaceNames.length})`}
+              : `All Spaces(${sortedSpaces.length})`}
           </SpaceButton>
         </ButtonWrapper>
       </TitleWrapper>
       <ItemsWrapper show={show}>
-        {(show ? spaceNames : spaceNames.slice(0, showCount)).map(
-          (item, index) => (
-            <InternalLink href={`/space/${item}`} key={index}>
+        {(show ? sortedSpaces : sortedSpaces.slice(0, showCount)).map(
+          ([name, space], index) => (
+            <InternalLink href={`/space/${name}`} key={index}>
               <Item>
                 <IconWrapper>
                   <Icon>
-                    <SpaceLogo spaceId={item} />
+                    <SpaceLogo spaceId={name} />
                   </Icon>
-                  <Name>{spaces[item].name}</Name>
-                  <Symbol>{spaces[item].symbol ?? "-"}</Symbol>
+                  <Name>{space.name}</Name>
+                  <Symbol>{space.symbol ?? "-"}</Symbol>
                 </IconWrapper>
                 <Divider />
                 <ActiveWrapper>
                   <ActiveCircle />
-                  <InternalLink href={`/space/${item}?tab=active`}>
+                  <InternalLink href={`/space/${name}?tab=active`}>
                     Active
                   </InternalLink>
-                  <ActiveCount>
-                    {spaces[item].activeProposalsCount ?? 0}
-                  </ActiveCount>
+                  <ActiveCount>{space.activeProposalsCount ?? 0}</ActiveCount>
                 </ActiveWrapper>
               </Item>
             </InternalLink>
