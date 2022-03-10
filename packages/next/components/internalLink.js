@@ -3,6 +3,7 @@ import Link from "next/link";
 
 const Wrapper = styled.div`
   cursor: pointer;
+
   > a {
     :hover {
       color: inherit;
@@ -13,7 +14,12 @@ const Wrapper = styled.div`
 
 export default function InternalLink({ href, children }) {
   return href ? (
-    <Wrapper>
+    <Wrapper
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+      }}
+    >
       <Link href={href} passHref>
         {children}
       </Link>
