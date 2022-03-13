@@ -178,6 +178,7 @@ const spaces = [
         ss58Format: 2,
         assetId: 16,
       },
+      karuraTokenConfig,
     ],
     proposeThreshold: "4000000000000",
     voteThreshold: "1000000",
