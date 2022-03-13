@@ -25,6 +25,7 @@ const chainBlockTime = {
 const symbols = {
   RMRK: "RMRK",
   KSM: "KSM",
+  ARIS: "ARIS",
 };
 
 const nodeTimeoutSeconds = 20;
