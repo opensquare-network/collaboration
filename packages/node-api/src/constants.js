@@ -26,6 +26,7 @@ const symbols = {
   RMRK: "RMRK",
   KSM: "KSM",
   ARIS: "ARIS",
+  KINT: "KINT",
 };
 
 const nodeTimeoutSeconds = 20;
