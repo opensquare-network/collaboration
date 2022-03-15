@@ -3,7 +3,7 @@ const { queryOrmlTokenAccountsFromApis } = require("./orml/balance");
 const { supportedChainSymbols, emptyBalance } = require("./constants");
 const { getBlockApi } = require("../utils");
 const { getApis } = require("../../apis");
-const { chains, symbols } = require("../../constants");
+const { chains } = require("../../constants");
 
 async function getBalanceFromOneApi(api, assetId, address, blockHashOrHeight) {
   let blockApi = await getBlockApi(api, blockHashOrHeight);
