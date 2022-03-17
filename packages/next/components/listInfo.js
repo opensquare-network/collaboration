@@ -7,7 +7,7 @@ import {
 } from "../styles/textStyles";
 import SpaceLogo from "@/components/spaceLogo";
 import Tooltip from "@/components/tooltip";
-import ChainIcon from "./chain/spaceChainIcon";
+import ChainIcon from "./chain/chainIcon";
 import { capitalize } from "frontedUtils";
 
 const Wrapper = styled.div`

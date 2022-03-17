@@ -4,7 +4,7 @@ import moment from "moment";
 import { p_16_semibold } from "styles/textStyles";
 import ExternalLink from "../externalLink";
 import { capitalize, getExplorer } from "../../frontedUtils";
-import ChainIcon from "@/components/chain/spaceChainIcon";
+import ChainIcon from "@/components/chain/chainIcon";
 import Tooltip from "@/components/tooltip";
 import Panel from "@/components/postDetail/panel";
 
