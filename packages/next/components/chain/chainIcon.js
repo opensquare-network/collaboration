@@ -2,7 +2,7 @@ import Statemine from "public/imgs/icons/chain/statemine.svg";
 import Polkadot from "public/imgs/icons/chain/polkadot.svg";
 import Khala from "public/imgs/icons/chain/khala.svg";
 import Kusama from "public/imgs/icons/chain/kusama.svg";
-import Kintsugi from "public/imgs/logos/kintsugi.svg";
+import Kintsugi from "public/imgs/icons/chain/kintsugi.svg";
 import Default from "public/imgs/icons/chain/default.svg";
 import Moonriver from "public/imgs/icons/chain/moonriver.svg";
 import Polkadex from "public/imgs/icons/chain/polkadex.svg";
