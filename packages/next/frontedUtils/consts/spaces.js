@@ -1,15 +1,3 @@
-export const SPACES = Object.freeze({
-  bifrost: "bifrost",
-  karura: "karura",
-  khala: "khala",
-  kintsugi: "kintsugi",
-  kusama: "kusama",
-  polarisdao: "polarisdao",
-  polkadot: "polkadot",
-  ["rmrk-curation"]: "rmrk-curation",
-  rmrk: "rmrk",
-});
-
 export const spaceToSeoImageMap = Object.freeze({
   bifrost: "bafybeigefryb4kw7wskzv7cc6jtbj5454vmsyzlddeuowg4fsd2lnui37m",
   karura: "bafybeidqwvg6pjgcxs52ujondwclidzgvowj3osy2vegzywfcz7pzqygxy",
@@ -21,6 +9,7 @@ export const spaceToSeoImageMap = Object.freeze({
   ["rmrk-curation"]:
     "bafybeic42ekrlmnjdwfi3kdshqfuvo76yhugu5nbkewebnigjxxe5hqjty",
   rmrk: "bafybeibhjq4ls327o52xm76zgabalkltmdofzku57sfjw2afsao3ud2yjq",
+  polkadex: "bafybeig3y3dlntpdhrge7v7vzdsq4poi6yuymvemmvqqptcbiisr3652ma",
 });
 
 export const defaultSeoImage =
