@@ -100,7 +100,7 @@ const ProjectIcons = {
 
 const getProjectIcon = (spaceId) => {
   const icon = ProjectIcons[spaceId] || `project-${spaceId}.svg`;
-  return `/imgs/icons/${icon}`;
+  return `/imgs/icons/projects/${icon}`;
 };
 
 export default function Post({ data, showSpace, space, spaces }) {
