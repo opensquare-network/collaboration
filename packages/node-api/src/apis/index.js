@@ -4,9 +4,10 @@ const { khalaOptions } = require("./khala");
 const { karuraOptions } = require("./karura");
 const { bifrostOptions } = require("./bifrost");
 const { kintsugiOptions } = require("./kintsugi");
+const { polkadexOptions } = require("./polkadex");
 const { chains } = require("../constants");
 const { ApiPromise, WsProvider } = require("@polkadot/api");
-const { getEndpoints } = require("../env")
+const { getEndpoints } = require("../env");
 
 /**
  * { polkadot: { apis: [ { endpoint: 'wss:...', api } ] } }
@@ -18,7 +19,8 @@ const chainApis = {};
  */
 const endpointApis = {};
 
-const rejectInTime = (seconds) => new Promise((resolve, reject) => setTimeout(reject, seconds * 1000));
+const rejectInTime = (seconds) =>
+  new Promise((resolve, reject) => setTimeout(reject, seconds * 1000));
 
 async function reConnect(network, endpoint) {
   const nowApis = chainApis[network] || [];
@@ -27,10 +29,10 @@ async function reConnect(network, endpoint) {
   if (index >= 0) {
     nowApis.splice(index, 1);
   }
-  delete endpointApis[endpoint]
+  delete endpointApis[endpoint];
 
   await createApi(network, endpoint);
-  statusLogger.info(`Reconnect to ${ network } ${ endpoint }`)
+  statusLogger.info(`Reconnect to ${network} ${endpoint}`);
 }
 
 async function createApi(network, endpoint) {
@@ -45,34 +47,36 @@ async function createApi(network, endpoint) {
     options = bifrostOptions;
   } else if (chains.kintsugi === network) {
     options = kintsugiOptions;
+  } else if (chains.polkadex === network) {
+    options = polkadexOptions;
   }
 
   const api = new ApiPromise({ provider, ...options });
   endpointApis[endpoint] = api;
 
   try {
-    await api.isReadyOrError
+    await api.isReadyOrError;
   } catch (e) {
-    statusLogger.error(`Can not connect to ${ network } ${ endpoint }`)
-    return
+    statusLogger.error(`Can not connect to ${network} ${endpoint}`);
+    return;
   }
 
   api.on("error", (err) => {
-    reConnect(network, endpoint)
+    reConnect(network, endpoint);
   });
   api.on("disconnected", () => {
-    reConnect(network, endpoint)
+    reConnect(network, endpoint);
   });
 
   const nowApis = chainApis[network] || [];
-  if (nowApis.findIndex(api => api.endpoint === endpoint) >= 0) {
-    statusLogger.info(`${network} ${endpoint} existed, ignore`)
-    return
+  if (nowApis.findIndex((api) => api.endpoint === endpoint) >= 0) {
+    statusLogger.info(`${network} ${endpoint} existed, ignore`);
+    return;
   }
 
   const nodeInfo = {
     endpoint,
-    api: await api.isReady
+    api: await api.isReady,
   };
   chainApis[network] = [...nowApis, nodeInfo];
 }
@@ -88,10 +92,12 @@ async function createApiForChain({ chain, endpoints }) {
   for (const endpoint of endpoints) {
     try {
       await createApiInLimitTime(chain, endpoint);
-      console.log(`${ chain }: ${ endpoint } created!`);
+      console.log(`${chain}: ${endpoint} created!`);
     } catch (e) {
-      statusLogger.info(`Can not connected to ${ endpoint } in ${ nodeTimeoutSeconds } seconds, just disconnect it`)
-      const maybeApi = endpointApis[endpoint]
+      statusLogger.info(
+        `Can not connected to ${endpoint} in ${nodeTimeoutSeconds} seconds, just disconnect it`
+      );
+      const maybeApi = endpointApis[endpoint];
       if (maybeApi) {
         maybeApi.disconnect();
       }
@@ -102,7 +108,7 @@ async function createApiForChain({ chain, endpoints }) {
 async function createChainApis() {
   const chainEndpoints = getEndpoints();
 
-  const promises = []
+  const promises = [];
   for (const { chain, endpoints } of chainEndpoints) {
     promises.push(createApiForChain({ chain, endpoints }));
   }
@@ -111,20 +117,20 @@ async function createChainApis() {
 }
 
 function getApis(chain) {
-  return (chainApis[chain] || []).map(({ api }) => api)
+  return (chainApis[chain] || []).map(({ api }) => api);
 }
 
 function logApiStatus() {
   Object.entries(chainApis).map(([chain, apis]) => {
-    statusLogger.info(`chain: ${ chain }`);
+    statusLogger.info(`chain: ${chain}`);
     for (const { endpoint, api } of apis) {
-      statusLogger.info(`\t ${ endpoint } connected: ${ api.isConnected }`)
+      statusLogger.info(`\t ${endpoint} connected: ${api.isConnected}`);
     }
-  })
+  });
 }
 
 module.exports = {
   createChainApis,
   getApis,
   logApiStatus,
-}
+};

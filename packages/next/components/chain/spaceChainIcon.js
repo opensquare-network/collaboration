@@ -6,7 +6,9 @@ import Kusama from "public/imgs/icons/space-chain/kusama.svg";
 import Statemine from "public/imgs/icons/space-chain/statemine.svg";
 import Moonriver from "public/imgs/icons/space-chain/moonriver.svg";
 import Kintsugi from "public/imgs/icons/space-chain/kintsugi.svg";
+import Polkadex from "public/imgs/icons/space-chain/polkadex.svg";
 import Default from "public/imgs/icons/space-chain/default.svg";
+import { CHAINS } from "../../frontedUtils/consts/chains";
 
 function SpaceChainIcon({ chainName }) {
   switch (chainName) {
@@ -26,6 +28,8 @@ function SpaceChainIcon({ chainName }) {
       return <Kintsugi />;
     case "moonriver":
       return <Moonriver />;
+    case CHAINS.polkadex:
+      return <Polkadex />;
     default:
       return <Default />;
   }

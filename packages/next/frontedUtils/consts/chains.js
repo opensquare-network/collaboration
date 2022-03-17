@@ -6,7 +6,8 @@ export const CHAINS = Object.freeze({
   khala: "khala",
   bifrost: "bifrost",
   kintsugi: "kintsugi",
-})
+  polkadex: "polkadex",
+});
 
 export const chainSs58Format = Object.freeze({
   [CHAINS.polkadot]: 0,
@@ -16,4 +17,5 @@ export const chainSs58Format = Object.freeze({
   [CHAINS.khala]: 30,
   [CHAINS.bifrost]: 6,
   [CHAINS.kintsugi]: 2092,
+  [CHAINS.polkadex]: 88,
 });

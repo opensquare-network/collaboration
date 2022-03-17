@@ -19,7 +19,7 @@ module.exports = (app) => {
 
   for (const r of chainFeatureRouters) {
     router.use(
-      "/:chain(kusama|polkadot|karura|khala|statemine|bifrost|kintsugi)",
+      "/:chain(kusama|polkadot|karura|khala|statemine|bifrost|kintsugi|polkadex)",
       r.routes(),
       r.allowedMethods({ throw: true })
     );

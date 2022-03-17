@@ -1,6 +1,7 @@
 const dotenv = require("dotenv");
 dotenv.config();
 
+const { polkadexConfig } = require("./spaces/polkadex");
 const { getSpaceCollection } = require("../mongo");
 const { kintsugiConfig } = require("./spaces/kintsugi");
 
@@ -170,6 +171,7 @@ const spaces = [
     voteThreshold: "1000000",
     weightStrategy: ["balance-of", "quadratic-balance-of", "biased-voting"],
   },
+  polkadexConfig,
 ];
 
 async function main() {
