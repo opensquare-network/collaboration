@@ -6,6 +6,7 @@ const chains = {
   statemine: "statemine",
   bifrost: "bifrost",
   kintsugi: "kintsugi",
+  polkadex: "polkadex",
 };
 
 const oneSecond = 1000;
@@ -20,6 +21,7 @@ const chainBlockTime = {
   statemine: twelveSecond,
   bifrost: twelveSecond,
   kintsugi: twelveSecond,
+  polkadex: twelveSecond,
 };
 
 const symbols = {
