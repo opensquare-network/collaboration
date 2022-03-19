@@ -171,7 +171,7 @@ const spaces = [
     voteThreshold: "1000000",
     weightStrategy: ["balance-of", "quadratic-balance-of", "biased-voting"],
   },
-  polkadexConfig,
+  // polkadexConfig,
 ];
 
 async function main() {
