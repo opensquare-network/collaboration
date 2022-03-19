@@ -1,10 +1,19 @@
 import styled from "styled-components";
 
+import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import {
+  loginAccountSelector,
+  setAvailableNetworks,
+} from "store/reducers/accountSlice";
+import { decodeAddress, addressEq } from "@polkadot/util-crypto";
+
 import PostContent from "./postContent";
 import PostInfo from "./postInfo";
 import PostResults from "./postResults";
 import PostVotes from "@/components/postDetail/postVotes";
 import PostDiscussion from "@/components/postDetail/postDiscussion";
+import Append from "@/components/postDetail/append";
 
 const Wrapper = styled.div`
   display: flex;
@@ -50,10 +59,22 @@ export default function PostDetail({
   defaultPage,
   myVote,
 }) {
+  const account = useSelector(loginAccountSelector);
+  const [appendEnabled, setAppendEnabled] = useState(false);
+
+  useEffect(() => {
+    if (account?.address && addressEq(account.address, data.proposer)) {
+      setAppendEnabled(true);
+    } else {
+      setAppendEnabled(false);
+    }
+  }, [account?.network, account?.address, account?.ss58Format]);
+
   return (
     <Wrapper>
       <MainWrapper>
         <PostContent data={data} space={space} />
+        {appendEnabled && <Append />}
         <PostVotes
           proposal={data}
           votes={votes}
