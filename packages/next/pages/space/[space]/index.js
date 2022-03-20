@@ -61,7 +61,11 @@ export default function List({
   const desc = `Space for ${space.name} off-chain voting. You can create, view, and vote proposals. Join ${space.name} off-chain governance!`;
   return (
     <>
-      <Seo spaceId={spaceId} title={space.name} desc={desc} />
+      <Seo
+        spaceId={spaceId}
+        title={`${space.name} off-chain voting`}
+        desc={desc}
+      />
       <Layout bgHeight="264px" space={space}>
         <HeaderWrapper>
           <Nav
