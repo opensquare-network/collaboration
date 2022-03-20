@@ -19,9 +19,10 @@ const SpaceIcons = {
   kintsugi: "kintsugi.svg",
   polarisdao: "polarisdao.png",
   polkadex: "polkadex.svg",
+  chrwna: "chrwna.svg",
 };
 
 export default function SpaceLogo({ spaceId }) {
   const spaceIcon = SpaceIcons[spaceId] || "space-noicon.svg";
-  return <LogoImg src={`/imgs/icons/${spaceIcon}`} alt="" />;
+  return <LogoImg src={`/imgs/icons/space/${spaceIcon}`} alt="" />;
 }
