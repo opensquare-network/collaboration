@@ -1,7 +1,7 @@
 const dotenv = require("dotenv");
+const { chrwnaConfig } = require("./spaces/chrwna");
 dotenv.config();
 
-const { polkadexConfig } = require("./spaces/polkadex");
 const { getSpaceCollection } = require("../mongo");
 const { kintsugiConfig } = require("./spaces/kintsugi");
 
@@ -172,6 +172,7 @@ const spaces = [
     weightStrategy: ["balance-of", "quadratic-balance-of", "biased-voting"],
   },
   // polkadexConfig,
+  chrwnaConfig,
 ];
 
 async function main() {
