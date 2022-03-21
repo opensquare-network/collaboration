@@ -103,8 +103,12 @@ const ActiveCircle = styled.div`
   margin-right: 8px;
 `;
 
-const ActiveCount = styled.div`
+const Count = styled.span`
   margin-left: auto;
+`;
+
+const ActiveCount = styled(Count)`
+  color: #506176;
 `;
 
 const TitleWrapper = styled.div`
@@ -148,7 +152,7 @@ export default function Space({ spaces, showAllSpace }) {
   const [showCount, setShowCount] = useState(6);
 
   const sortedSpaces = Object.entries(spaces).sort(([, a], [, b]) => {
-    return b.activeProposalsCount - a.activeProposalsCount;
+    return b.proposalsCount - a.proposalsCount;
   });
 
   const windowSize = useWindowSize();
@@ -200,7 +204,10 @@ export default function Space({ spaces, showAllSpace }) {
                   <InternalLink href={`/space/${name}?tab=active`}>
                     Active
                   </InternalLink>
-                  <ActiveCount>{space.activeProposalsCount ?? 0}</ActiveCount>
+                  <Count>
+                    <ActiveCount>{space.activeProposalsCount ?? 0}</ActiveCount>
+                    /{space.proposalsCount}
+                  </Count>
                 </ActiveWrapper>
               </Item>
             </InternalLink>
