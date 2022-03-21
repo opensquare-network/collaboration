@@ -7,7 +7,7 @@ const { HttpError } = require("../exc");
 async function getSpaces() {
   const now = Date.now();
   const proposalCol = await getProposalCollection();
-  const activeStats = await proposalCol.aggregate(
+  const activeProposalStats = await proposalCol.aggregate(
     [
       {
         $match: {
@@ -23,18 +23,39 @@ async function getSpaces() {
       }
     ]).toArray();
 
+  const totalProposalStats = await proposalCol.aggregate(
+    [
+      {
+        $group: {
+          _id: "$space",
+          count: { $sum: 1 }
+        }
+      }
+    ]).toArray();
+
   const result = Object.keys(spaceServices).reduce(
     (res, key) => {
-      res[key] = { ...spaceServices[key], activeProposalsCount: 0 };
+      res[key] = {
+        ...spaceServices[key],
+        activeProposalsCount: 0,
+        proposalsCount: 0,
+      };
       return res;
     },
     {}
   );
 
-  for (const item of activeStats) {
+  for (const item of activeProposalStats) {
     const space = result[item._id];
     if (space) {
       space.activeProposalsCount = item.count;
+    }
+  }
+
+  for (const item of totalProposalStats) {
+    const space = result[item._id];
+    if (space) {
+      space.proposalsCount = item.count;
     }
   }
 
