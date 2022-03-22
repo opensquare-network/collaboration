@@ -9,6 +9,8 @@ const chainFeatureRouters = [
 ];
 
 const tokenRoutes = require("./features/token/routes");
+const evmRoutes = require("./features/evm/routes");
+const { evmChains } = require("./features/evm/providers");
 
 const commonFeatureRouters = [];
 
@@ -28,6 +30,12 @@ module.exports = (app) => {
   router.use(
     "/:chain(statemine|karura|bifrost)",
     tokenRoutes.routes(),
+    tokenRoutes.allowedMethods({ throw: true })
+  );
+
+  router.use(
+    `/evm/:chain(${Object.keys(evmChains).join("|")})`,
+    evmRoutes.routes(),
     tokenRoutes.allowedMethods({ throw: true })
   );
 
