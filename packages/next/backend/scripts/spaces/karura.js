@@ -1,3 +1,4 @@
+const { networks } = require("./consts");
 const config = {
   id: "karura",
   name: "Karura",
@@ -5,7 +6,7 @@ const config = {
   decimals: 12,
   networks: [
     {
-      network: "karura",
+      network: networks.karura,
       ss58Format: 8,
     },
   ],

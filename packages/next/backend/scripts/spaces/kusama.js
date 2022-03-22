@@ -1,4 +1,4 @@
-const { karuraTokenConfig, bifrostTokenConfig } = require("./consts");
+const { karuraTokenConfig, bifrostTokenConfig, networks } = require("./consts");
 
 const config = {
   id: "kusama",
@@ -7,11 +7,11 @@ const config = {
   decimals: 12,
   networks: [
     {
-      network: "kusama",
+      network: networks.kusama,
       ss58Format: 2,
     },
     {
-      network: "statemine",
+      network: networks.statemine,
       ss58Format: 2,
     },
     karuraTokenConfig,

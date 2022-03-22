@@ -1,3 +1,4 @@
+const { networks } = require("./consts");
 const bifrostConfig = {
   id: "bifrost",
   name: "Bifrost",
@@ -5,7 +6,7 @@ const bifrostConfig = {
   decimals: 12,
   networks: [
     {
-      network: "bifrost",
+      network: networks.bifrost,
       ss58Format: 6,
     },
   ],

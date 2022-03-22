@@ -1,4 +1,4 @@
-const { karuraTokenConfig } = require("./consts");
+const { karuraTokenConfig, networks } = require("./consts");
 
 const polarisDaoConfig = {
   id: "polarisdao",
@@ -8,7 +8,7 @@ const polarisDaoConfig = {
   networks: [
     {
       type: "asset",
-      network: "statemine",
+      network: networks.statemine,
       ss58Format: 2,
       assetId: 16,
     },
