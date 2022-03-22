@@ -1,3 +1,4 @@
+const { networks } = require("./consts");
 const khalaConfig = {
   id: "khala",
   name: "Khala",
@@ -5,7 +6,7 @@ const khalaConfig = {
   decimals: 12,
   networks: [
     {
-      network: "khala",
+      network: networks.khala,
       ss58Format: 30,
     },
   ],

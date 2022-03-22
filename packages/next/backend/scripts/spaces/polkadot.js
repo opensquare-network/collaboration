@@ -1,3 +1,5 @@
+const { networks } = require("./consts");
+
 const polkadotConfig = {
   id: "polkadot",
   name: "Polkadot",
@@ -5,7 +7,7 @@ const polkadotConfig = {
   decimals: 10,
   networks: [
     {
-      network: "polkadot",
+      network: networks.polkadot,
       ss58Format: 0,
     },
   ],
