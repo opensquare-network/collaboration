@@ -1,4 +1,4 @@
-const { karuraTokenConfig } = require("./consts");
+const { karuraTokenConfig, networks } = require("./consts");
 
 const config = {
   id: "kintsugi",
@@ -7,7 +7,7 @@ const config = {
   decimals: 12,
   networks: [
     {
-      network: "kintsugi",
+      network: networks.kintsugi,
       ss58Format: 2092,
     },
     karuraTokenConfig,
