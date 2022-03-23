@@ -60,7 +60,8 @@ export default function PostCreate({ space }) {
   const account = useSelector(loginAccountSelector);
   const snapshotHeights = useSelector(snapshotHeightsSelector);
   const router = useRouter();
-  const [title, setTitle] = useState("");
+
+  const [title, setTitle] = useState(router.query.title);
   const [content, setContent] = useState("");
   const [choices, setChoices] = useState(["", ""]);
   const [startDate, setStartDate] = useState();
@@ -73,7 +74,9 @@ export default function PostCreate({ space }) {
   const [proxyAddress, setProxyAddress] = useState("");
   const [info, setInfo] = useState();
   const [proxyBalance, setProxyBalance] = useState(null);
-  const [proxyBalanceError, setProxyBalanceError] = useState("Link an address to create proposal.");
+  const [proxyBalanceError, setProxyBalanceError] = useState(
+    "Link an address to create proposal."
+  );
   const [isInputting, setIsInputting] = useState(false);
 
   const threshold = space.proposeThreshold;
@@ -83,9 +86,8 @@ export default function PostCreate({ space }) {
   useEffect(() => {
     dispatch(
       setAvailableNetworks(
-        space?.networks?.map((item) =>
-          pick(item, ["network", "ss58Format"])
-        ) || []
+        space?.networks?.map((item) => pick(item, ["network", "ss58Format"])) ||
+          []
       )
     );
   }, [dispatch, space]);
