@@ -1,12 +1,4 @@
-const networks = Object.freeze({
-  statemine: "statemine",
-  bifrost: "bifrost",
-  karura: "karura",
-  kusama: "kusama",
-  polkadot: "polkadot",
-  khala: "khala",
-  kintsugi: "kintsugi",
-});
+const { networks } = require("../../consts/networks");
 
 const karuraTokenConfig = {
   type: "token",
