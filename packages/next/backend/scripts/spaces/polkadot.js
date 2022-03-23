@@ -1,4 +1,4 @@
-const { networks } = require("./consts");
+const { networks, strategies } = require("./consts");
 
 const polkadotConfig = {
   id: "polkadot",
@@ -13,7 +13,7 @@ const polkadotConfig = {
   ],
   proposeThreshold: "10000000000",
   voteThreshold: "100000000",
-  weightStrategy: ["balance-of", "quadratic-balance-of"],
+  weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
   version: "2",
 };
 

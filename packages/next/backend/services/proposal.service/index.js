@@ -1,5 +1,6 @@
 const { ObjectId } = require("mongodb");
 const BigNumber = require("bignumber.js");
+const { strategies } = require("../../consts/voting");
 const { tokenParentChain } = require("../../consts/token");
 const { getTotalIssuance } = require("../node.service/issuance");
 const { safeHtml } = require("../../utils/post");
@@ -719,9 +720,8 @@ async function getStats(proposalCid) {
   }
 
   if (
-    ["rmrk", "rmrk-curation", "polarisdao"].includes(proposal.space) &&
     proposal.choices?.length === 2 &&
-    proposal.weightStrategy?.includes("biased-voting")
+    proposal.weightStrategy?.includes(strategies.biasedVoting)
   ) {
     const blockHeight =
       proposal.snapshotHeights[tokenParentChain[spaceService.symbol]];

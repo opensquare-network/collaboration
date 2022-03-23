@@ -1,3 +1,4 @@
+const { strategies } = require("../../consts/voting");
 const { networks } = require("../../consts/networks");
 
 const karuraTokenConfig = {
@@ -23,4 +24,5 @@ module.exports = {
   bifrostTokenConfig,
   statemineCommonConfig,
   networks,
+  strategies,
 };
