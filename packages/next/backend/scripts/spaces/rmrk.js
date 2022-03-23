@@ -2,6 +2,7 @@ const {
   karuraTokenConfig,
   bifrostTokenConfig,
   statemineCommonConfig,
+  strategies,
 } = require("./consts");
 
 const config = {
@@ -19,7 +20,11 @@ const config = {
   ],
   proposeThreshold: "500000000000000",
   voteThreshold: "10000000000",
-  weightStrategy: ["balance-of", "quadratic-balance-of", "biased-voting"],
+  weightStrategy: [
+    strategies.balanceOf,
+    strategies.quadraticBalanceOf,
+    strategies.biasedVoting,
+  ],
   version: "2",
 };
 

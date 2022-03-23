@@ -1,4 +1,4 @@
-const { karuraTokenConfig, networks } = require("./consts");
+const { karuraTokenConfig, networks, strategies } = require("./consts");
 
 const polarisDaoConfig = {
   id: "polarisdao",
@@ -16,7 +16,11 @@ const polarisDaoConfig = {
   ],
   proposeThreshold: "4000000000000",
   voteThreshold: "1000000",
-  weightStrategy: ["balance-of", "quadratic-balance-of", "biased-voting"],
+  weightStrategy: [
+    strategies.balanceOf,
+    strategies.quadraticBalanceOf,
+    strategies.biasedVoting,
+  ],
 };
 
 module.exports = {

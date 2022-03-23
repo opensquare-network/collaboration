@@ -1,4 +1,9 @@
-const { karuraTokenConfig, bifrostTokenConfig, networks } = require("./consts");
+const {
+  karuraTokenConfig,
+  bifrostTokenConfig,
+  networks,
+  strategies,
+} = require("./consts");
 
 const config = {
   id: "kusama",
@@ -19,7 +24,7 @@ const config = {
   ],
   proposeThreshold: "10000000000",
   voteThreshold: "10000000000",
-  weightStrategy: ["balance-of", "quadratic-balance-of"],
+  weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
   version: "2",
 };
 

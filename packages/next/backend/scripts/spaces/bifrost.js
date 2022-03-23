@@ -1,4 +1,4 @@
-const { networks } = require("./consts");
+const { networks, strategies } = require("./consts");
 const bifrostConfig = {
   id: "bifrost",
   name: "Bifrost",
@@ -12,7 +12,7 @@ const bifrostConfig = {
   ],
   proposeThreshold: "1000000000000",
   voteThreshold: "10000000000",
-  weightStrategy: ["balance-of", "quadratic-balance-of"],
+  weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
   version: "2",
 };
 

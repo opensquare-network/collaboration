@@ -1,4 +1,4 @@
-const { statemineCommonConfig } = require("./consts");
+const { statemineCommonConfig, strategies } = require("./consts");
 const config = {
   id: "chrwna",
   name: "Chrawnna",
@@ -12,7 +12,7 @@ const config = {
   ],
   proposeThreshold: "50000000000",
   voteThreshold: "1000000000",
-  weightStrategy: ["balance-of", "quadratic-balance-of"],
+  weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
   version: "2",
 };
 

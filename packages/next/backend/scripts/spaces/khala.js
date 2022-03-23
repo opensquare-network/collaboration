@@ -1,4 +1,4 @@
-const { networks } = require("./consts");
+const { networks, strategies } = require("./consts");
 const khalaConfig = {
   id: "khala",
   name: "Khala",
@@ -12,7 +12,7 @@ const khalaConfig = {
   ],
   proposeThreshold: "10000000000000",
   voteThreshold: "10000000000",
-  weightStrategy: ["balance-of", "quadratic-balance-of"],
+  weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
   version: "2",
 };
 

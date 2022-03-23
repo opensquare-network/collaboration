@@ -1,3 +1,4 @@
+const { strategies } = require("./consts");
 const config = {
   id: "polkadex",
   name: "Polkadex",
@@ -11,7 +12,7 @@ const config = {
   ],
   proposeThreshold: "1000000000000",
   voteThreshold: "10000000000",
-  weightStrategy: ["balance-of", "quadratic-balance-of"],
+  weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
   version: "2",
 };
 
