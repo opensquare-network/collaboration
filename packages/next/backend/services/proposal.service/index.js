@@ -1,5 +1,7 @@
 const { ObjectId } = require("mongodb");
 const BigNumber = require("bignumber.js");
+const { tokenParentChain } = require("../../consts/token");
+const { getTotalIssuance } = require("../node.service/issuance");
 const { safeHtml } = require("../../utils/post");
 const { PostTitleLengthLimitation } = require("../../constants");
 const { nextPostUid } = require("../status.service");
@@ -23,16 +25,6 @@ const {
   getApi,
   getBalanceFromNetwork,
 } = require("../../services/node.service");
-
-function getTotalIssuance(space) {
-  if (["rmrk", "rmrk-curation"].includes(space)) {
-    return "100000000000000000";
-  } else if ("polarisdao" === space) {
-    return "1000000000000000";
-  }
-
-  throw new HttpError(500, "getTotalIssuance: unsupported space " + space);
-}
 
 const calcWeights = (vote, decimals, voteThreshold) => {
   return {
@@ -731,7 +723,12 @@ async function getStats(proposalCid) {
     proposal.choices?.length === 2 &&
     proposal.weightStrategy?.includes("biased-voting")
   ) {
-    let totalIssuance = getTotalIssuance(proposal.space);
+    const blockHeight =
+      proposal.snapshotHeights[tokenParentChain[spaceService.symbol]];
+    let totalIssuance = await getTotalIssuance(
+      spaceService.symbol,
+      blockHeight
+    );
     calcBiasedVotingResult(proposal, stats, totalIssuance);
   }
 
@@ -758,6 +755,7 @@ function calcBiasedVotingResult(proposal, stats, totalIssuance) {
   ayeChoice.biasedVoting = {
     superMajorityApprove,
     superMajorityAgainst,
+    electorate: new BigNumber(totalIssuance).toString(),
   };
 }
 

@@ -148,9 +148,6 @@ const StatusItem = styled.div`
   background: ${(p) => (p.positive ? "#EDF7ED" : "#FDECEC")};
 `;
 
-const RMRK_ELECTORATE_CONST = "100000000000000000";
-const POLARIS_ELECTORATE_CONST = "1000000000000000";
-
 export default function PostResult({ data, voteStatus, space }) {
   const votedAmount = data?.votedWeights?.balanceOf || 0;
   const isEnded = new Date().getTime() > data?.endDate;
@@ -229,11 +226,6 @@ export default function PostResult({ data, voteStatus, space }) {
       return null;
     }
 
-    const electorate =
-      space?.id === "polarisdao"
-        ? POLARIS_ELECTORATE_CONST
-        : RMRK_ELECTORATE_CONST;
-
     return (
       <Fragment>
         <ResultHead>
@@ -259,7 +251,7 @@ export default function PostResult({ data, voteStatus, space }) {
             <ValueDisplay
               value={voteStatus.reduce(
                 (pre, cur) =>
-                  BigNumber(pre).plus(BigNumber(cur.balanceOf ?? 0)),
+                  new BigNumber(pre).plus(new BigNumber(cur.balanceOf ?? 0)),
                 0
               )}
               space={space}
@@ -268,7 +260,10 @@ export default function PostResult({ data, voteStatus, space }) {
           <div>
             <div>Electorate</div>
             <div>
-              <ValueDisplay value={electorate} space={space} />
+              <ValueDisplay
+                value={voteStatus?.[0]?.biasedVoting?.electorate}
+                space={space}
+              />
             </div>
           </div>
         </BiasedVotingWrapper>

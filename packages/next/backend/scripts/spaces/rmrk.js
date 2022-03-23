@@ -2,7 +2,6 @@ const {
   karuraTokenConfig,
   bifrostTokenConfig,
   statemineCommonConfig,
-  networks,
 } = require("./consts");
 
 const config = {
@@ -12,9 +11,7 @@ const config = {
   decimals: 10,
   networks: [
     {
-      type: "asset",
-      network: networks.statemine,
-      ss58Format: 2,
+      ...statemineCommonConfig,
       assetId: 8,
     },
     karuraTokenConfig,
