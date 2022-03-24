@@ -1,5 +1,6 @@
 const { ObjectId } = require("mongodb");
 const BigNumber = require("bignumber.js");
+const { addProposalStatus } = require("./common");
 const { queryProposals } = require("./proposalQuery");
 const { strategies } = require("../../consts/voting");
 const { tokenParentChain } = require("../../consts/token");
@@ -41,11 +42,6 @@ const calcWeights = (vote, decimals, voteThreshold) => {
     },
   };
 };
-
-const addProposalStatus = (now) => (p) => ({
-  ...p,
-  status: now < p.startDate ? "pending" : now < p.endDate ? "active" : "closed",
-});
 
 async function pinData(data, address, signature, prefix) {
   const { buf, cid } = await getObjectBufAndCid({
@@ -223,37 +219,6 @@ async function createProposal(
 async function getProposalBySpace(space, page, pageSize) {
   const q = { space };
   return queryProposals(q, { lastActivityAt: -1 }, page, pageSize);
-}
-
-async function getPendingProposalBySpace(space, page, pageSize) {
-  const now = Date.now();
-  const q = {
-    space,
-    startDate: { $gt: now },
-  };
-
-  return queryProposals(q, { startDate: 1 }, page, pageSize);
-}
-
-async function getActiveProposalBySpace(space, page, pageSize) {
-  const now = Date.now();
-  const q = {
-    space,
-    startDate: { $lte: now },
-    endDate: { $gt: now },
-  };
-
-  return queryProposals(q, { endDate: 1 }, page, pageSize);
-}
-
-async function getClosedProposalBySpace(space, page, pageSize) {
-  const now = Date.now();
-  const q = {
-    space,
-    endDate: { $lte: now },
-  };
-
-  return queryProposals(q, { endDate: -1 }, page, pageSize);
 }
 
 async function getProposalSpace(proposal) {
@@ -694,9 +659,6 @@ async function getVoterBalance(proposalCid, network, address, snapshot) {
 module.exports = {
   createProposal,
   getProposalBySpace,
-  getPendingProposalBySpace,
-  getActiveProposalBySpace,
-  getClosedProposalBySpace,
   getProposalById,
   postComment,
   getComments,
@@ -705,5 +667,4 @@ module.exports = {
   getAddressVote,
   getStats,
   getVoterBalance,
-  addProposalStatus,
 };

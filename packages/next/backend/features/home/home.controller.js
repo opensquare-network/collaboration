@@ -1,4 +1,4 @@
-const { addProposalStatus } = require("../../services/proposal.service");
+const { addProposalStatus } = require("../../services/proposal.service/common");
 const { getProposalCollection } = require("../../mongo");
 
 async function getHottestProposals(ctx) {
