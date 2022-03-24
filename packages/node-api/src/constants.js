@@ -7,6 +7,7 @@ const chains = {
   bifrost: "bifrost",
   kintsugi: "kintsugi",
   polkadex: "polkadex",
+  interlay: "interlay",
 };
 
 const oneSecond = 1000;
@@ -22,6 +23,7 @@ const chainBlockTime = {
   bifrost: twelveSecond,
   kintsugi: twelveSecond,
   polkadex: twelveSecond,
+  interlay: twelveSecond,
 };
 
 const symbols = {

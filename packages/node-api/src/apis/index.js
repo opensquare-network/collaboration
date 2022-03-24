@@ -5,6 +5,7 @@ const { karuraOptions } = require("./karura");
 const { bifrostOptions } = require("./bifrost");
 const { kintsugiOptions } = require("./kintsugi");
 const { polkadexOptions } = require("./polkadex");
+const { interlayOptions } = require("./interlay");
 const { chains } = require("../constants");
 const { ApiPromise, WsProvider } = require("@polkadot/api");
 const { getEndpoints } = require("../env");
@@ -49,6 +50,8 @@ async function createApi(network, endpoint) {
     options = kintsugiOptions;
   } else if (chains.polkadex === network) {
     options = polkadexOptions;
+  } else if (chains.interlay === network) {
+    options = interlayOptions;
   }
 
   const api = new ApiPromise({ provider, ...options });

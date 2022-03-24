@@ -19,6 +19,8 @@ const endpoints = Object.values(chains).map((chain) => {
     endpoints = (process.env.KINT_ENDPOINTS || "").split(";");
   } else if (chains.polkadex === chain) {
     endpoints = (process.env.PDEX_ENDPOINTS || "").split(";");
+  } else if (chains.interlay === chain) {
+    endpoints = (process.env.INTR_ENDPOINTS || "").split(";");
   }
 
   return {
