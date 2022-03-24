@@ -13,6 +13,11 @@ const oneSecond = 1000;
 const sixSecond = 6 * oneSecond;
 const twelveSecond = 12 * oneSecond;
 
+const evmChains = Object.freeze({
+  moonriver: "moonriver",
+  moonbeam: "moonbeam",
+});
+
 const chainBlockTime = {
   polkadot: sixSecond,
   kusama: sixSecond,
@@ -22,6 +27,8 @@ const chainBlockTime = {
   bifrost: twelveSecond,
   kintsugi: twelveSecond,
   polkadex: twelveSecond,
+  [evmChains.moonriver]: twelveSecond,
+  [evmChains.moonbeam]: twelveSecond,
 };
 
 const symbols = {
@@ -35,6 +42,7 @@ const nodeTimeoutSeconds = 20;
 
 module.exports = {
   chains,
+  evmChains,
   symbols,
   nodeTimeoutSeconds,
   chainBlockTime,

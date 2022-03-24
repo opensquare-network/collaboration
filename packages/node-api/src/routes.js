@@ -10,8 +10,9 @@ const chainFeatureRouters = [
 
 const tokenRoutes = require("./features/token/routes");
 const evmRoutes = require("./features/evm/routes");
-const { evmChains } = require("./features/evm/providers");
 const issuanceRoutes = require("./features/issuance/routes");
+const { evmChains } = require("./constants");
+const { chains } = require("./constants");
 
 const commonFeatureRouters = [];
 
@@ -22,7 +23,7 @@ module.exports = (app) => {
 
   for (const r of chainFeatureRouters) {
     router.use(
-      "/:chain(kusama|polkadot|karura|khala|statemine|bifrost|kintsugi|polkadex)",
+      `/:chain(${Object.keys(chains).join("|")})`,
       r.routes(),
       r.allowedMethods({ throw: true })
     );
@@ -37,7 +38,7 @@ module.exports = (app) => {
   router.use(
     `/evm/chain/:chain(${Object.keys(evmChains).join("|")})`,
     evmRoutes.routes(),
-    tokenRoutes.allowedMethods({ throw: true })
+    evmRoutes.allowedMethods({ throw: true })
   );
 
   router.use(
