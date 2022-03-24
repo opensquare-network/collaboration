@@ -1,5 +1,6 @@
 const { ObjectId } = require("mongodb");
 const BigNumber = require("bignumber.js");
+const { queryProposals } = require("./proposalQuery");
 const { strategies } = require("../../consts/voting");
 const { tokenParentChain } = require("../../consts/token");
 const { getTotalIssuance } = require("../node.service/issuance");
@@ -221,31 +222,7 @@ async function createProposal(
 
 async function getProposalBySpace(space, page, pageSize) {
   const q = { space };
-
-  const proposalCol = await getProposalCollection();
-  const total = await proposalCol.countDocuments(q);
-
-  if (page === "last") {
-    const totalPages = Math.ceil(total / pageSize);
-    page = Math.max(totalPages, 1);
-  }
-
-  const proposals = await proposalCol
-    .find(q)
-    .sort({ lastActivityAt: -1 })
-    .skip((page - 1) * pageSize)
-    .limit(pageSize)
-    .toArray();
-
-  const now = Date.now();
-  const addStatus = addProposalStatus(now);
-
-  return {
-    items: proposals.map(addStatus),
-    total,
-    page,
-    pageSize,
-  };
+  return queryProposals(q, { lastActivityAt: -1 }, page, pageSize);
 }
 
 async function getPendingProposalBySpace(space, page, pageSize) {
@@ -255,29 +232,7 @@ async function getPendingProposalBySpace(space, page, pageSize) {
     startDate: { $gt: now },
   };
 
-  const proposalCol = await getProposalCollection();
-  const total = await proposalCol.countDocuments(q);
-
-  if (page === "last") {
-    const totalPages = Math.ceil(total / pageSize);
-    page = Math.max(totalPages, 1);
-  }
-
-  const proposals = await proposalCol
-    .find(q)
-    .sort({ startDate: 1 })
-    .skip((page - 1) * pageSize)
-    .limit(pageSize)
-    .toArray();
-
-  const addStatus = addProposalStatus(now);
-
-  return {
-    items: proposals.map(addStatus),
-    total,
-    page,
-    pageSize,
-  };
+  return queryProposals(q, { startDate: 1 }, page, pageSize);
 }
 
 async function getActiveProposalBySpace(space, page, pageSize) {
@@ -288,29 +243,7 @@ async function getActiveProposalBySpace(space, page, pageSize) {
     endDate: { $gt: now },
   };
 
-  const proposalCol = await getProposalCollection();
-  const total = await proposalCol.countDocuments(q);
-
-  if (page === "last") {
-    const totalPages = Math.ceil(total / pageSize);
-    page = Math.max(totalPages, 1);
-  }
-
-  const proposals = await proposalCol
-    .find(q)
-    .sort({ endDate: 1 })
-    .skip((page - 1) * pageSize)
-    .limit(pageSize)
-    .toArray();
-
-  const addStatus = addProposalStatus(now);
-
-  return {
-    items: proposals.map(addStatus),
-    total,
-    page,
-    pageSize,
-  };
+  return queryProposals(q, { endDate: 1 }, page, pageSize);
 }
 
 async function getClosedProposalBySpace(space, page, pageSize) {
@@ -320,29 +253,7 @@ async function getClosedProposalBySpace(space, page, pageSize) {
     endDate: { $lte: now },
   };
 
-  const proposalCol = await getProposalCollection();
-  const total = await proposalCol.countDocuments(q);
-
-  if (page === "last") {
-    const totalPages = Math.ceil(total / pageSize);
-    page = Math.max(totalPages, 1);
-  }
-
-  const proposals = await proposalCol
-    .find(q)
-    .sort({ endDate: -1 })
-    .skip((page - 1) * pageSize)
-    .limit(pageSize)
-    .toArray();
-
-  const addStatus = addProposalStatus(now);
-
-  return {
-    items: proposals.map(addStatus),
-    total,
-    page,
-    pageSize,
-  };
+  return queryProposals(q, { endDate: -1 }, page, pageSize);
 }
 
 async function getProposalSpace(proposal) {
