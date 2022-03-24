@@ -7,14 +7,14 @@ import BlockHeightInput from "@/components/chain/blockHeightInput";
 import Button from "@/components/button";
 import { useDispatch, useSelector } from "react-redux";
 import { spaceConfigSelector } from "../store/reducers/spaceConfigSlice";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   setSnapshotHeights,
   snapshotHeightsSelector,
 } from "../store/reducers/snapshotHeightSlice";
 import nextApi from "../services/nextApi";
 import { addToast } from "store/reducers/toastSlice";
-import { useIsMounted } from "../frontedUtils/hooks";
+import { useIsMountedBool } from "../frontedUtils/hooks";
 
 const Wrapper = styled.div`
   position: relative;
@@ -49,7 +49,7 @@ function SnapshotHeightPicker({ date, setDate }) {
   const [loading, setLoading] = useState(true);
   const hideHeights = () => setShowHeights(false);
   const snapshotHeights = useSelector(snapshotHeightsSelector);
-  const isMounted = useIsMounted();
+  const isMounted = useIsMountedBool();
 
   const fetchHeights = () => {
     setLoading(true);
@@ -79,8 +79,11 @@ function SnapshotHeightPicker({ date, setDate }) {
         );
       })
       .finally(() => {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       });
+
     setShowHeights(true);
   };
 

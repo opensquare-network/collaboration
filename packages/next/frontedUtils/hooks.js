@@ -54,6 +54,18 @@ export function useIsMounted() {
   return isMounted;
 }
 
+export function useIsMountedBool() {
+  const isMounted = useRef(true);
+
+  useEffect(() => {
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
+
+  return isMounted.current;
+}
+
 export function useSpace() {
   const router = useRouter();
   const { space } = router.query;

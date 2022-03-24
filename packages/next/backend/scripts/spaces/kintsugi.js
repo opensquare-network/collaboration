@@ -1,4 +1,4 @@
-const { karuraTokenConfig } = require("./consts");
+const { karuraTokenConfig, networks, strategies } = require("./consts");
 
 const config = {
   id: "kintsugi",
@@ -7,14 +7,18 @@ const config = {
   decimals: 12,
   networks: [
     {
-      network: "kintsugi",
+      network: networks.kintsugi,
       ss58Format: 2092,
     },
     karuraTokenConfig,
   ],
   proposeThreshold: "1000000000000",
   voteThreshold: "10000000000",
-  weightStrategy: ["balance-of", "quadratic-balance-of"],
+  weightStrategy: [
+    strategies.balanceOf,
+    strategies.quadraticBalanceOf,
+    strategies.biasedVoting,
+  ],
   version: "2",
 };
 

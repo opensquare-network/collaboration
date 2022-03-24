@@ -1,5 +1,10 @@
 const { ObjectId } = require("mongodb");
 const BigNumber = require("bignumber.js");
+const { addProposalStatus } = require("./common");
+const { queryProposals } = require("./proposalQuery");
+const { strategies } = require("../../consts/voting");
+const { tokenParentChain } = require("../../consts/token");
+const { getTotalIssuance } = require("../node.service/issuance");
 const { safeHtml } = require("../../utils/post");
 const { PostTitleLengthLimitation } = require("../../constants");
 const { nextPostUid } = require("../status.service");
@@ -13,45 +18,30 @@ const { ContentType } = require("../../constants");
 const { getLatestHeight } = require("../chain.service");
 const { spaces: spaceServices } = require("../../spaces");
 const { checkDelegation } = require("../../services/node.service");
-const { getObjectBufAndCid, pinJsonToIpfsWithTimeout } = require("../ipfs.service");
+const {
+  getObjectBufAndCid,
+  pinJsonToIpfsWithTimeout,
+} = require("../ipfs.service");
 const { toDecimal128, enhancedSqrtOfBalance } = require("../../utils");
 const { calcPassing } = require("../biased-voting.service");
-const { getApi, getBalanceFromNetwork } = require("../../services/node.service");
-
-function getTotalIssuance(space) {
-  if (["rmrk", "rmrk-curation"].includes(space)) {
-    return "100000000000000000";
-  } else if ("polarisdao" === space) {
-    return "1000000000000000";
-  }
-
-  throw new HttpError(500, "getTotalIssuance: unsupported space " + space);
-}
-
-function getTotalIssuance(space) {
-  if (["rmrk", "rmrk-curation"].includes(space)) {
-    return "100000000000000000";
-  } else if ("polarisdao" === space) {
-    return "1000000000000000";
-  }
-
-  throw new HttpError(500, "getTotalIssuance: unsupported space " + space);
-}
+const {
+  getApi,
+  getBalanceFromNetwork,
+} = require("../../services/node.service");
 
 const calcWeights = (vote, decimals, voteThreshold) => {
   return {
     ...vote,
     weights: {
       balanceOf: vote.weights.balanceOf?.toString(),
-      quadraticBalanceOf: enhancedSqrtOfBalance(vote.weights.balanceOf?.toString(), decimals, voteThreshold),
+      quadraticBalanceOf: enhancedSqrtOfBalance(
+        vote.weights.balanceOf?.toString(),
+        decimals,
+        voteThreshold
+      ),
     },
   };
-}
-
-const addProposalStatus = (now) => (p) => ({
-  ...p,
-  status: now < p.startDate ? "pending" : now < p.endDate ? "active" : "closed",
-});
+};
 
 async function pinData(data, address, signature, prefix) {
   const { buf, cid } = await getObjectBufAndCid({
@@ -86,11 +76,11 @@ async function createProposal(
   proposerNetwork,
   data,
   address,
-  signature,
+  signature
 ) {
   if (title.length > PostTitleLengthLimitation) {
     throw new HttpError(400, {
-      title: [ "Title must be no more than %d characters" ],
+      title: ["Title must be no more than %d characters"],
     });
   }
 
@@ -101,12 +91,17 @@ async function createProposal(
   const now = new Date();
 
   if (endDate < now.getTime()) {
-    throw new HttpError(400, "End date should not be earlier than current time");
+    throw new HttpError(
+      400,
+      "End date should not be earlier than current time"
+    );
   }
 
   const uniqueChoices = Array.from(new Set(choices));
   if (uniqueChoices.length < 2) {
-    throw new HttpError(400, { choices: ["There must be at least 2 different choices"] });
+    throw new HttpError(400, {
+      choices: ["There must be at least 2 different choices"],
+    });
   }
 
   const spaceService = spaceServices[space];
@@ -116,9 +111,14 @@ async function createProposal(
 
   // Check if the snapshot heights is matching the space configuration
   const snapshotNetworks = Object.keys(snapshotHeights || {});
-  if (snapshotNetworks.length === 0 || snapshotNetworks.length !== spaceService.networks.length) {
+  if (
+    snapshotNetworks.length === 0 ||
+    snapshotNetworks.length !== spaceService.networks.length
+  ) {
     throw new HttpError(400, {
-      snapshotHeights: ["The snapshot heights must match the space configuration"],
+      snapshotHeights: [
+        "The snapshot heights must match the space configuration",
+      ],
     });
   }
   for (const spaceNetwork of spaceService.networks) {
@@ -127,14 +127,17 @@ async function createProposal(
     }
 
     throw new HttpError(400, {
-      snapshotHeights: [ `Missing snapshot height of ${network.network}` ],
+      snapshotHeights: [`Missing snapshot height of ${network.network}`],
     });
   }
 
   for (const chain in snapshotHeights) {
     const lastHeight = getLatestHeight(chain);
     if (lastHeight && snapshotHeights[chain] > lastHeight) {
-      throw new HttpError(400, `Snapshot height should not be higher than the current finalized height: ${chain}`);
+      throw new HttpError(
+        400,
+        `Snapshot height should not be higher than the current finalized height: ${chain}`
+      );
     }
   }
 
@@ -155,53 +158,53 @@ async function createProposal(
 
   const proposer = realProposer || address;
 
-  const creatorBalance = await getBalanceFromNetwork(
-    api,
-    {
-      networksConfig,
-      networkName: proposerNetwork,
-      address: proposer,
-      blockHeight: lastHeight,
-    }
-  );
+  const creatorBalance = await getBalanceFromNetwork(api, {
+    networksConfig,
+    networkName: proposerNetwork,
+    address: proposer,
+    blockHeight: lastHeight,
+  });
 
   const bnCreatorBalance = new BigNumber(creatorBalance);
   if (bnCreatorBalance.lt(spaceService.proposeThreshold)) {
     throw new HttpError(403, `Balance is not enough to create the proposal`);
   }
 
-  const { cid, pinHash } = await pinData(data, address, signature, "voting-proposal-");
+  const { cid, pinHash } = await pinData(
+    data,
+    address,
+    signature,
+    "voting-proposal-"
+  );
 
   const postUid = await nextPostUid();
 
   const proposalCol = await getProposalCollection();
-  const result = await proposalCol.insertOne(
-    {
-      space,
-      networksConfig,
-      postUid,
-      title,
-      content: contentType === ContentType.Html ? safeHtml(content) : content,
-      contentType,
-      choiceType,
-      choices: uniqueChoices,
-      startDate,
-      endDate,
-      snapshotHeights,
-      weightStrategy,
-      proposer,
-      proposerNetwork,
-      data,
-      address,
-      signature,
-      lastActivityAt: new Date(),
-      createdAt: now,
-      updatedAt: now,
-      cid,
-      pinHash,
-      version: "2",
-    }
-  );
+  const result = await proposalCol.insertOne({
+    space,
+    networksConfig,
+    postUid,
+    title,
+    content: contentType === ContentType.Html ? safeHtml(content) : content,
+    contentType,
+    choiceType,
+    choices: uniqueChoices,
+    startDate,
+    endDate,
+    snapshotHeights,
+    weightStrategy,
+    proposer,
+    proposerNetwork,
+    data,
+    address,
+    signature,
+    lastActivityAt: new Date(),
+    createdAt: now,
+    updatedAt: now,
+    cid,
+    pinHash,
+    version: "2",
+  });
 
   if (!result.insertedId) {
     throw new HttpError(500, "Failed to create post");
@@ -215,128 +218,11 @@ async function createProposal(
 
 async function getProposalBySpace(space, page, pageSize) {
   const q = { space };
-
-  const proposalCol = await getProposalCollection();
-  const total = await proposalCol.countDocuments(q);
-
-  if (page === "last") {
-    const totalPages = Math.ceil(total / pageSize);
-    page = Math.max(totalPages, 1);
-  }
-
-  const proposals = await proposalCol.find(q)
-    .sort({ lastActivityAt: -1 })
-    .skip((page - 1) * pageSize)
-    .limit(pageSize)
-    .toArray();
-
-  const now = Date.now();
-  const addStatus = addProposalStatus(now);
-
-  return {
-    items: proposals.map(addStatus),
-    total,
-    page,
-    pageSize,
-  };
-}
-
-async function getPendingProposalBySpace(space, page, pageSize) {
-  const now = Date.now();
-  const q = {
-    space,
-    startDate: { $gt: now }
-  };
-
-  const proposalCol = await getProposalCollection();
-  const total = await proposalCol.countDocuments(q);
-
-  if (page === "last") {
-    const totalPages = Math.ceil(total / pageSize);
-    page = Math.max(totalPages, 1);
-  }
-
-  const proposals = await proposalCol.find(q)
-    .sort({ startDate: 1 })
-    .skip((page - 1) * pageSize)
-    .limit(pageSize)
-    .toArray();
-
-  const addStatus = addProposalStatus(now);
-
-  return {
-    items: proposals.map(addStatus),
-    total,
-    page,
-    pageSize,
-  };
-}
-
-async function getActiveProposalBySpace(space, page, pageSize) {
-  const now = Date.now();
-  const q = {
-    space,
-    startDate: { $lte: now },
-    endDate: { $gt: now }
-  };
-
-  const proposalCol = await getProposalCollection();
-  const total = await proposalCol.countDocuments(q);
-
-  if (page === "last") {
-    const totalPages = Math.ceil(total / pageSize);
-    page = Math.max(totalPages, 1);
-  }
-
-  const proposals = await proposalCol.find(q)
-    .sort({ endDate: 1 })
-    .skip((page - 1) * pageSize)
-    .limit(pageSize)
-    .toArray();
-
-  const addStatus = addProposalStatus(now);
-
-  return {
-    items: proposals.map(addStatus),
-    total,
-    page,
-    pageSize,
-  };
-}
-
-async function getClosedProposalBySpace(space, page, pageSize) {
-  const now = Date.now();
-  const q = {
-    space,
-    endDate: { $lte: now }
-  };
-
-  const proposalCol = await getProposalCollection();
-  const total = await proposalCol.countDocuments(q);
-
-  if (page === "last") {
-    const totalPages = Math.ceil(total / pageSize);
-    page = Math.max(totalPages, 1);
-  }
-
-  const proposals = await proposalCol.find(q)
-    .sort({ endDate: -1 })
-    .skip((page - 1) * pageSize)
-    .limit(pageSize)
-    .toArray();
-
-  const addStatus = addProposalStatus(now);
-
-  return {
-    items: proposals.map(addStatus),
-    total,
-    page,
-    pageSize,
-  };
+  return queryProposals(q, { lastActivityAt: -1 }, page, pageSize);
 }
 
 async function getProposalSpace(proposal) {
-  const spaceService = spaceServices[proposal.space]
+  const spaceService = spaceServices[proposal.space];
   if (!spaceService) {
     throw new HttpError(500, "Unkown space");
   }
@@ -349,7 +235,7 @@ async function getProposalSpaceByCid(proposalCid) {
   if (!proposal) {
     throw new HttpError(404, "Proposal does not exists");
   }
-  const spaceService = spaceServices[proposal.space]
+  const spaceService = spaceServices[proposal.space];
   if (!spaceService) {
     throw new HttpError(500, "Unkown space");
   }
@@ -373,7 +259,7 @@ async function getProposalById(proposalId) {
     throw new HttpError(404, "Post not found");
   }
 
-  const spaceService = spaceServices[proposal.space]
+  const spaceService = spaceServices[proposal.space];
   if (!spaceService) {
     throw new HttpError(500, "Unkown space");
   }
@@ -384,11 +270,19 @@ async function getProposalById(proposalId) {
   const votesCount = await voteCol.countDocuments({ proposal: proposal._id });
 
   const votes = await voteCol.find({ proposal: proposal._id }).toArray();
-  const calculatedVotes = votes.map(v => calcWeights(v, decimals, voteThreshold));
+  const calculatedVotes = votes.map((v) =>
+    calcWeights(v, decimals, voteThreshold)
+  );
   const votedWeights = {};
   for (const vote of calculatedVotes) {
-    votedWeights.balanceOf = new BigNumber(votedWeights.balanceOf || 0).plus(vote.weights.balanceOf).toString();
-    votedWeights.quadraticBalanceOf = new BigNumber(votedWeights.quadraticBalanceOf || 0).plus(vote.weights.quadraticBalanceOf).toString();
+    votedWeights.balanceOf = new BigNumber(votedWeights.balanceOf || 0)
+      .plus(vote.weights.balanceOf)
+      .toString();
+    votedWeights.quadraticBalanceOf = new BigNumber(
+      votedWeights.quadraticBalanceOf || 0
+    )
+      .plus(vote.weights.quadraticBalanceOf)
+      .toString();
   }
   proposal.votesCount = votesCount;
   proposal.votedWeights = votedWeights;
@@ -406,7 +300,7 @@ async function postComment(
   commenterNetwork,
   data,
   address,
-  signature,
+  signature
 ) {
   const proposalCol = await getProposalCollection();
   const proposal = await proposalCol.findOne({ cid: proposalCid });
@@ -416,10 +310,18 @@ async function postComment(
 
   const snapshotNetworks = Object.keys(proposal.snapshotHeights);
   if (!snapshotNetworks.includes(commenterNetwork)) {
-    throw new HttpError(400, "Commenter network is not supported by this proposal");
+    throw new HttpError(
+      400,
+      "Commenter network is not supported by this proposal"
+    );
   }
 
-  const { cid, pinHash } = await pinData(data, address, signature, "voting-comment-");
+  const { cid, pinHash } = await pinData(
+    data,
+    address,
+    signature,
+    "voting-comment-"
+  );
 
   const commentCol = await getCommentCollection();
   const height = await commentCol.countDocuments({ proposal: proposal._id });
@@ -452,9 +354,9 @@ async function postComment(
     { cid: proposalCid },
     {
       $set: {
-        lastActivityAt: new Date()
-      }
-    },
+        lastActivityAt: new Date(),
+      },
+    }
   );
 
   return newCommentId;
@@ -476,7 +378,8 @@ async function getComments(proposalCid, page, pageSize) {
     page = Math.max(totalPages, 1);
   }
 
-  const comments = await commentCol.find(q)
+  const comments = await commentCol
+    .find(q)
     .sort({ createdAt: 1 })
     .skip((page - 1) * pageSize)
     .limit(pageSize)
@@ -498,7 +401,7 @@ async function vote(
   data,
   address,
   voterNetwork,
-  signature,
+  signature
 ) {
   const proposalCol = await getProposalCollection();
   const proposal = await proposalCol.findOne({ cid: proposalCid });
@@ -539,20 +442,27 @@ async function vote(
 
   const voter = realVoter || address;
 
-  const balanceOf = await getBalanceFromNetwork(
-    api,
-    {
-      networksConfig: proposal.networksConfig,
-      networkName: voterNetwork,
-      address: voter,
-      blockHeight: proposal.snapshotHeights?.[voterNetwork],
-    }
-  );
+  const balanceOf = await getBalanceFromNetwork(api, {
+    networksConfig: proposal.networksConfig,
+    networkName: voterNetwork,
+    address: voter,
+    blockHeight: proposal.snapshotHeights?.[voterNetwork],
+  });
   if (new BigNumber(balanceOf).lt(spaceService.voteThreshold)) {
-    const symbolVoteThreshold = new BigNumber(spaceService.voteThreshold).div(Math.pow(10, spaceService.decimals)).toString();
-    throw new HttpError(400, `Require the minimum of ${symbolVoteThreshold} ${spaceService.symbol} to vote`);
+    const symbolVoteThreshold = new BigNumber(spaceService.voteThreshold)
+      .div(Math.pow(10, spaceService.decimals))
+      .toString();
+    throw new HttpError(
+      400,
+      `Require the minimum of ${symbolVoteThreshold} ${spaceService.symbol} to vote`
+    );
   }
-  const { cid, pinHash } = await pinData(data, address, signature, "voting-vote-");
+  const { cid, pinHash } = await pinData(
+    data,
+    address,
+    signature,
+    "voting-vote-"
+  );
 
   const voteCol = await getVoteCollection();
   const result = await voteCol.findOneAndUpdate(
@@ -578,12 +488,12 @@ async function vote(
       },
       $setOnInsert: {
         createdAt: now,
-      }
+      },
     },
     {
       upsert: true,
       returnDocument: "after",
-    },
+    }
   );
 
   if (!result.ok) {
@@ -594,9 +504,9 @@ async function vote(
     { cid: proposalCid },
     {
       $set: {
-        lastActivityAt: new Date()
-      }
-    },
+        lastActivityAt: new Date(),
+      },
+    }
   );
 
   return result.value?._id;
@@ -615,7 +525,8 @@ async function getVotes(proposalCid, page, pageSize) {
     page = Math.max(totalPages, 1);
   }
 
-  const votes = await voteCol.find(q)
+  const votes = await voteCol
+    .find(q)
     .sort({ createdAt: 1 })
     .skip((page - 1) * pageSize)
     .limit(pageSize)
@@ -624,7 +535,9 @@ async function getVotes(proposalCid, page, pageSize) {
   const spaceService = await getProposalSpace(proposal);
 
   return {
-    items: votes.map(v => calcWeights(v, spaceService.decimals, spaceService.voteThreshold)),
+    items: votes.map((v) =>
+      calcWeights(v, spaceService.decimals, spaceService.voteThreshold)
+    ),
     total,
     page,
     pageSize,
@@ -641,7 +554,9 @@ async function getAddressVote(proposalCid, address) {
 
   const voteCol = await getVoteCollection();
   const vote = await voteCol.findOne(q);
-  return vote ? calcWeights(vote, spaceService.decimals, spaceService.voteThreshold) : vote;
+  return vote
+    ? calcWeights(vote, spaceService.decimals, spaceService.voteThreshold)
+    : vote;
 }
 
 async function getStats(proposalCid) {
@@ -653,34 +568,43 @@ async function getStats(proposalCid) {
 
   const voteCol = await getVoteCollection();
   const votes = await voteCol.find(q).toArray();
-  const calculatedVotes = votes.map(v => calcWeights(v, spaceService.decimals, spaceService.voteThreshold));
-  const stats = Object
-    .fromEntries(
-      proposal.choices.map(choice =>
-        [
-          choice,
-          {
-            choice,
-            balanceOf: "0",
-            quadraticBalanceOf: "0",
-            votesCount: 0,
-          }
-        ]
-      )
+  const calculatedVotes = votes.map((v) =>
+    calcWeights(v, spaceService.decimals, spaceService.voteThreshold)
+  );
+  const stats = Object.fromEntries(
+    proposal.choices.map((choice) => [
+      choice,
+      {
+        choice,
+        balanceOf: "0",
+        quadraticBalanceOf: "0",
+        votesCount: 0,
+      },
+    ])
   );
   for (const vote of calculatedVotes) {
-    const weights = stats[vote.choice] = stats[vote.choice] || { choice: vote.choice };
-    weights.balanceOf = new BigNumber(weights.balanceOf || 0).plus(vote.weights.balanceOf).toString();
-    weights.quadraticBalanceOf = new BigNumber(weights.quadraticBalanceOf || 0).plus(vote.weights.quadraticBalanceOf).toString();
+    const weights = (stats[vote.choice] = stats[vote.choice] || {
+      choice: vote.choice,
+    });
+    weights.balanceOf = new BigNumber(weights.balanceOf || 0)
+      .plus(vote.weights.balanceOf)
+      .toString();
+    weights.quadraticBalanceOf = new BigNumber(weights.quadraticBalanceOf || 0)
+      .plus(vote.weights.quadraticBalanceOf)
+      .toString();
     weights.votesCount = (weights.votesCount || 0) + 1;
   }
 
   if (
-    ["rmrk", "rmrk-curation", "polarisdao"].includes(proposal.space) &&
     proposal.choices?.length === 2 &&
-    proposal.weightStrategy?.includes("biased-voting")
+    proposal.weightStrategy?.includes(strategies.biasedVoting)
   ) {
-    let totalIssuance = getTotalIssuance(proposal.space);
+    const blockHeight =
+      proposal.snapshotHeights[tokenParentChain[spaceService.symbol]];
+    let totalIssuance = await getTotalIssuance(
+      spaceService.symbol,
+      blockHeight
+    );
     calcBiasedVotingResult(proposal, stats, totalIssuance);
   }
 
@@ -695,37 +619,20 @@ function calcBiasedVotingResult(proposal, stats, totalIssuance) {
     ayeChoice.balanceOf || 0,
     nayChoice.balanceOf || 0,
     "SuperMajorityApprove",
-    totalIssuance,
+    totalIssuance
   );
   const superMajorityAgainst = calcPassing(
     ayeChoice.balanceOf || 0,
     nayChoice.balanceOf || 0,
     "SuperMajorityAgainst",
-    totalIssuance,
+    totalIssuance
   );
 
   ayeChoice.biasedVoting = {
     superMajorityApprove,
     superMajorityAgainst,
+    electorate: new BigNumber(totalIssuance).toString(),
   };
-}
-
-async function getHottestProposals() {
-  const now = Date.now();
-  const q = {
-    startDate: { $lte: now },
-    endDate: { $gt: now }
-  };
-
-  const proposalCol = await getProposalCollection();
-  const proposals = await proposalCol
-    .find(q, { sort: { lastActivityAt: -1 } })
-    .limit(10)
-    .toArray();
-
-  const addStatus = addProposalStatus(now);
-
-  return proposals.map(addStatus);
 }
 
 async function getVoterBalance(proposalCid, network, address, snapshot) {
@@ -738,26 +645,20 @@ async function getVoterBalance(proposalCid, network, address, snapshot) {
 
   const blockHeight = snapshot ? parseInt(snapshot) : getLatestHeight(network);
   const api = await getApi(network);
-  const totalBalance = await getBalanceFromNetwork(
-    api,
-    {
-      networksConfig,
-      networkName: network,
-      address,
-      blockHeight,
-    }
-  );
+  const totalBalance = await getBalanceFromNetwork(api, {
+    networksConfig,
+    networkName: network,
+    address,
+    blockHeight,
+  });
   return {
-    balance: totalBalance
+    balance: totalBalance,
   };
 }
 
 module.exports = {
   createProposal,
   getProposalBySpace,
-  getPendingProposalBySpace,
-  getActiveProposalBySpace,
-  getClosedProposalBySpace,
   getProposalById,
   postComment,
   getComments,
@@ -765,6 +666,5 @@ module.exports = {
   getVotes,
   getAddressVote,
   getStats,
-  getHottestProposals,
   getVoterBalance,
 };

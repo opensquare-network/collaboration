@@ -1,13 +1,13 @@
-const { strategies } = require("./consts");
-const config = {
-  id: "polkadex",
-  name: "Polkadex",
-  symbol: "PDEX",
+const { networks, strategies } = require("./consts");
+const bifrostConfig = {
+  id: "bifrost",
+  name: "Bifrost",
+  symbol: "BNC",
   decimals: 12,
   networks: [
     {
-      network: "polkadex",
-      ss58Format: 88,
+      network: networks.bifrost,
+      ss58Format: 6,
     },
   ],
   proposeThreshold: "1000000000000",
@@ -17,5 +17,5 @@ const config = {
 };
 
 module.exports = {
-  polkadexConfig: config,
+  bifrostConfig,
 };

@@ -6,6 +6,18 @@ const { isTestAccount } = require("../utils");
 
 const cachedApis = {};
 
+let nodeApi = null;
+
+function getNodeApi() {
+  if (!nodeApi) {
+    nodeApi = axios.create({
+      baseURL: `${getEnvNodeApiEndpoint()}/`,
+    });
+  }
+
+  return nodeApi;
+}
+
 function getApi(chain) {
   if (!cachedApis[chain]) {
     cachedApis[chain] = axios.create({
@@ -125,4 +137,5 @@ module.exports = {
   getApi,
   getBalanceFromNetwork,
   getFinalizedHeightFromTime,
+  getNodeApi,
 };

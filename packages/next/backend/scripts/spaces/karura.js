@@ -1,13 +1,13 @@
-const { strategies } = require("./consts");
+const { networks, strategies } = require("./consts");
 const config = {
-  id: "polkadex",
-  name: "Polkadex",
-  symbol: "PDEX",
+  id: "karura",
+  name: "Karura",
+  symbol: "KAR",
   decimals: 12,
   networks: [
     {
-      network: "polkadex",
-      ss58Format: 88,
+      network: networks.karura,
+      ss58Format: 8,
     },
   ],
   proposeThreshold: "1000000000000",
@@ -17,5 +17,5 @@ const config = {
 };
 
 module.exports = {
-  polkadexConfig: config,
+  karuraConfig: config,
 };
