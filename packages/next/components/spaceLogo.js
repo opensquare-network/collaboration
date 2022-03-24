@@ -20,6 +20,7 @@ const SpaceIcons = {
   polarisdao: "polarisdao.png",
   polkadex: "polkadex.svg",
   chrwna: "chrwna.svg",
+  interlay: "interlay.svg",
 };
 
 export default function SpaceLogo({ spaceId }) {

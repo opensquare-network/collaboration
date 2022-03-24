@@ -6,6 +6,7 @@ import Kintsugi from "public/imgs/icons/chain/kintsugi.svg";
 import Default from "public/imgs/icons/chain/default.svg";
 import Moonriver from "public/imgs/icons/chain/moonriver.svg";
 import Polkadex from "public/imgs/icons/chain/polkadex.svg";
+import Interlay from "public/imgs/icons/chain/interlay.svg";
 import { CHAINS } from "../../frontedUtils/consts/chains";
 
 function ChainIcon({ chainName, size = 24 }) {
@@ -26,6 +27,8 @@ function ChainIcon({ chainName, size = 24 }) {
       return <Kintsugi viewBox="0 0 24 24" width={size} height={size} />;
     case "moonriver":
       return <Moonriver viewBox="0 0 24 24" width={size} height={size} />;
+    case "interlay":
+      return <Interlay viewBox="0 0 24 24" width={size} height={size} />;
     case CHAINS.polkadex:
       return <Polkadex viewBox="0 0 24 24" width={size} height={size} />;
     default:

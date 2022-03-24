@@ -1,5 +1,6 @@
 const dotenv = require("dotenv");
 const { chrwnaConfig } = require("./spaces/chrwna");
+const { interlayConfig } = require("./spaces/interlay");
 dotenv.config();
 
 const { getSpaceCollection } = require("../mongo");
@@ -173,6 +174,7 @@ const spaces = [
   },
   // polkadexConfig,
   chrwnaConfig,
+  interlayConfig,
 ];
 
 async function main() {

@@ -7,6 +7,7 @@ export const CHAINS = Object.freeze({
   bifrost: "bifrost",
   kintsugi: "kintsugi",
   polkadex: "polkadex",
+  interlay: "interlay",
 });
 
 export const chainSs58Format = Object.freeze({
@@ -18,4 +19,5 @@ export const chainSs58Format = Object.freeze({
   [CHAINS.bifrost]: 6,
   [CHAINS.kintsugi]: 2092,
   [CHAINS.polkadex]: 88,
+  [CHAINS.interlay]: 2032,
 });
