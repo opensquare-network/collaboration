@@ -759,24 +759,6 @@ function calcBiasedVotingResult(proposal, stats, totalIssuance) {
   };
 }
 
-async function getHottestProposals() {
-  const now = Date.now();
-  const q = {
-    startDate: { $lte: now },
-    endDate: { $gt: now },
-  };
-
-  const proposalCol = await getProposalCollection();
-  const proposals = await proposalCol
-    .find(q, { sort: { lastActivityAt: -1 } })
-    .limit(10)
-    .toArray();
-
-  const addStatus = addProposalStatus(now);
-
-  return proposals.map(addStatus);
-}
-
 async function getVoterBalance(proposalCid, network, address, snapshot) {
   const proposalCol = await getProposalCollection();
   const proposal = await proposalCol.findOne({ cid: proposalCid });
@@ -811,6 +793,6 @@ module.exports = {
   getVotes,
   getAddressVote,
   getStats,
-  getHottestProposals,
   getVoterBalance,
+  addProposalStatus,
 };
