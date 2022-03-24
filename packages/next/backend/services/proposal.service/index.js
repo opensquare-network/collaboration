@@ -1,5 +1,7 @@
 const { ObjectId } = require("mongodb");
 const BigNumber = require("bignumber.js");
+const { addProposalStatus } = require("./common");
+const { queryProposals } = require("./proposalQuery");
 const { strategies } = require("../../consts/voting");
 const { tokenParentChain } = require("../../consts/token");
 const { getTotalIssuance } = require("../node.service/issuance");
@@ -40,11 +42,6 @@ const calcWeights = (vote, decimals, voteThreshold) => {
     },
   };
 };
-
-const addProposalStatus = (now) => (p) => ({
-  ...p,
-  status: now < p.startDate ? "pending" : now < p.endDate ? "active" : "closed",
-});
 
 async function pinData(data, address, signature, prefix) {
   const { buf, cid } = await getObjectBufAndCid({
@@ -221,128 +218,7 @@ async function createProposal(
 
 async function getProposalBySpace(space, page, pageSize) {
   const q = { space };
-
-  const proposalCol = await getProposalCollection();
-  const total = await proposalCol.countDocuments(q);
-
-  if (page === "last") {
-    const totalPages = Math.ceil(total / pageSize);
-    page = Math.max(totalPages, 1);
-  }
-
-  const proposals = await proposalCol
-    .find(q)
-    .sort({ lastActivityAt: -1 })
-    .skip((page - 1) * pageSize)
-    .limit(pageSize)
-    .toArray();
-
-  const now = Date.now();
-  const addStatus = addProposalStatus(now);
-
-  return {
-    items: proposals.map(addStatus),
-    total,
-    page,
-    pageSize,
-  };
-}
-
-async function getPendingProposalBySpace(space, page, pageSize) {
-  const now = Date.now();
-  const q = {
-    space,
-    startDate: { $gt: now },
-  };
-
-  const proposalCol = await getProposalCollection();
-  const total = await proposalCol.countDocuments(q);
-
-  if (page === "last") {
-    const totalPages = Math.ceil(total / pageSize);
-    page = Math.max(totalPages, 1);
-  }
-
-  const proposals = await proposalCol
-    .find(q)
-    .sort({ startDate: 1 })
-    .skip((page - 1) * pageSize)
-    .limit(pageSize)
-    .toArray();
-
-  const addStatus = addProposalStatus(now);
-
-  return {
-    items: proposals.map(addStatus),
-    total,
-    page,
-    pageSize,
-  };
-}
-
-async function getActiveProposalBySpace(space, page, pageSize) {
-  const now = Date.now();
-  const q = {
-    space,
-    startDate: { $lte: now },
-    endDate: { $gt: now },
-  };
-
-  const proposalCol = await getProposalCollection();
-  const total = await proposalCol.countDocuments(q);
-
-  if (page === "last") {
-    const totalPages = Math.ceil(total / pageSize);
-    page = Math.max(totalPages, 1);
-  }
-
-  const proposals = await proposalCol
-    .find(q)
-    .sort({ endDate: 1 })
-    .skip((page - 1) * pageSize)
-    .limit(pageSize)
-    .toArray();
-
-  const addStatus = addProposalStatus(now);
-
-  return {
-    items: proposals.map(addStatus),
-    total,
-    page,
-    pageSize,
-  };
-}
-
-async function getClosedProposalBySpace(space, page, pageSize) {
-  const now = Date.now();
-  const q = {
-    space,
-    endDate: { $lte: now },
-  };
-
-  const proposalCol = await getProposalCollection();
-  const total = await proposalCol.countDocuments(q);
-
-  if (page === "last") {
-    const totalPages = Math.ceil(total / pageSize);
-    page = Math.max(totalPages, 1);
-  }
-
-  const proposals = await proposalCol
-    .find(q)
-    .sort({ endDate: -1 })
-    .skip((page - 1) * pageSize)
-    .limit(pageSize)
-    .toArray();
-
-  const addStatus = addProposalStatus(now);
-
-  return {
-    items: proposals.map(addStatus),
-    total,
-    page,
-    pageSize,
-  };
+  return queryProposals(q, { lastActivityAt: -1 }, page, pageSize);
 }
 
 async function getProposalSpace(proposal) {
@@ -759,24 +635,6 @@ function calcBiasedVotingResult(proposal, stats, totalIssuance) {
   };
 }
 
-async function getHottestProposals() {
-  const now = Date.now();
-  const q = {
-    startDate: { $lte: now },
-    endDate: { $gt: now },
-  };
-
-  const proposalCol = await getProposalCollection();
-  const proposals = await proposalCol
-    .find(q, { sort: { lastActivityAt: -1 } })
-    .limit(10)
-    .toArray();
-
-  const addStatus = addProposalStatus(now);
-
-  return proposals.map(addStatus);
-}
-
 async function getVoterBalance(proposalCid, network, address, snapshot) {
   const proposalCol = await getProposalCollection();
   const proposal = await proposalCol.findOne({ cid: proposalCid });
@@ -801,9 +659,6 @@ async function getVoterBalance(proposalCid, network, address, snapshot) {
 module.exports = {
   createProposal,
   getProposalBySpace,
-  getPendingProposalBySpace,
-  getActiveProposalBySpace,
-  getClosedProposalBySpace,
   getProposalById,
   postComment,
   getComments,
@@ -811,6 +666,5 @@ module.exports = {
   getVotes,
   getAddressVote,
   getStats,
-  getHottestProposals,
   getVoterBalance,
 };

@@ -59,7 +59,8 @@ function toDecimal128(num) {
 
 const testAccounts = (process.env.TEST_ACCOUNTS || "")
   .split("|")
-  .filter((acc) => acc).map(addr => encodeAddress(addr, 42));
+  .filter((acc) => acc)
+  .map((addr) => encodeAddress(addr, 42));
 
 function isTestAccount(address) {
   return testAccounts.includes(encodeAddress(address, 42));
@@ -71,11 +72,6 @@ function fromSymbolUnit(value, decimals) {
 
 function toSymbolUnit(value, decimals) {
   return new BigNumber(value).times(Math.pow(10, decimals)).toString();
-}
-
-function sqrtOfBalance(balance) {
-  const sqrt = new BigNumber(balance).sqrt().integerValue().toString();
-  return sqrt;
 }
 
 function enhancedSqrtOfBalance(balance, decimals, voteThreshold) {
@@ -101,6 +97,5 @@ module.exports = {
   isTestAccount,
   toSymbolUnit,
   fromSymbolUnit,
-  sqrtOfBalance,
   enhancedSqrtOfBalance,
 };

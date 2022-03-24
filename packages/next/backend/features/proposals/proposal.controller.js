@@ -1,15 +1,14 @@
 const { HttpError } = require("../../exc");
 const proposalService = require("../../services/proposal.service");
+const {
+  queryProposals,
+} = require("../../services/proposal.service/proposalQuery");
 const { ContentType, ChoiceType } = require("../../constants");
 const { extractPage } = require("../../utils");
 const { isAddress } = require("@polkadot/util-crypto");
 
 async function createProposal(ctx) {
-  const {
-    data,
-    address,
-    signature,
-  } = ctx.request.body;
+  const { data, address, signature } = ctx.request.body;
   const {
     space,
     title,
@@ -57,11 +56,13 @@ async function createProposal(ctx) {
   }
 
   if (
-    !Array.isArray(choices)
-    || choices.length < 2
-    || choices.some(item => typeof item !== "string")
+    !Array.isArray(choices) ||
+    choices.length < 2 ||
+    choices.some((item) => typeof item !== "string")
   ) {
-    throw new HttpError(400, { choices: ["Choices must be array of string with at least 2 items"] });
+    throw new HttpError(400, {
+      choices: ["Choices must be array of string with at least 2 items"],
+    });
   }
 
   if (new Set(choices).size < choices.length) {
@@ -69,7 +70,9 @@ async function createProposal(ctx) {
   }
 
   if (!proposerNetwork) {
-    throw new HttpError(400, { proposerNetwork: ["Proposer network is missing"] });
+    throw new HttpError(400, {
+      proposerNetwork: ["Proposer network is missing"],
+    });
   }
 
   if (
@@ -93,7 +96,7 @@ async function createProposal(ctx) {
     proposerNetwork,
     data,
     address,
-    signature,
+    signature
   );
 }
 
@@ -106,7 +109,8 @@ async function getProposals(ctx) {
     return;
   }
 
-  ctx.body = await proposalService.getProposalBySpace(space, page, pageSize);
+  const q = { space };
+  ctx.body = await queryProposals(q, { lastActivityAt: -1 }, page, pageSize);
 }
 
 async function getPendingProposals(ctx) {
@@ -118,7 +122,13 @@ async function getPendingProposals(ctx) {
     return;
   }
 
-  ctx.body = await proposalService.getPendingProposalBySpace(space, page, pageSize);
+  const now = Date.now();
+  const q = {
+    space,
+    startDate: { $gt: now },
+  };
+
+  ctx.body = await queryProposals(q, { startDate: 1 }, page, pageSize);
 }
 
 async function getActiveProposals(ctx) {
@@ -130,7 +140,14 @@ async function getActiveProposals(ctx) {
     return;
   }
 
-  ctx.body = await proposalService.getActiveProposalBySpace(space, page, pageSize);
+  const now = Date.now();
+  const q = {
+    space,
+    startDate: { $lte: now },
+    endDate: { $gt: now },
+  };
+
+  ctx.body = await queryProposals(q, { endDate: 1 }, page, pageSize);
 }
 
 async function getClosedProposals(ctx) {
@@ -142,7 +159,13 @@ async function getClosedProposals(ctx) {
     return;
   }
 
-  ctx.body = await proposalService.getClosedProposalBySpace(space, page, pageSize);
+  const now = Date.now();
+  const q = {
+    space,
+    endDate: { $lte: now },
+  };
+
+  ctx.body = await queryProposals(q, { endDate: -1 }, page, pageSize);
 }
 
 async function getProposalById(ctx) {
@@ -152,17 +175,8 @@ async function getProposalById(ctx) {
 }
 
 async function postComment(ctx) {
-  const {
-    data,
-    address,
-    signature,
-  } = ctx.request.body;
-  const {
-    proposalCid,
-    content,
-    contentType,
-    commenterNetwork,
-  } = data;
+  const { data, address, signature } = ctx.request.body;
+  const { proposalCid, content, contentType, commenterNetwork } = data;
 
   if (!content) {
     throw new HttpError(400, { content: ["Comment content is missing"] });
@@ -176,7 +190,9 @@ async function postComment(ctx) {
   }
 
   if (!commenterNetwork) {
-    throw new HttpError(400, { commenterNetwork: ["Commenter network is missing"] });
+    throw new HttpError(400, {
+      commenterNetwork: ["Commenter network is missing"],
+    });
   }
 
   ctx.body = await proposalService.postComment(
@@ -186,7 +202,7 @@ async function postComment(ctx) {
     commenterNetwork,
     data,
     address,
-    signature,
+    signature
   );
 }
 
@@ -202,18 +218,8 @@ async function getComments(ctx) {
 }
 
 async function vote(ctx) {
-  const {
-    data,
-    address,
-    signature,
-  } = ctx.request.body;
-  const {
-    proposalCid,
-    choice,
-    remark,
-    realVoter,
-    voterNetwork,
-  } = data;
+  const { data, address, signature } = ctx.request.body;
+  const { proposalCid, choice, remark, realVoter, voterNetwork } = data;
 
   if (!proposalCid) {
     throw new HttpError(400, { proposalCid: ["Proposal CID is missing"] });
@@ -235,7 +241,7 @@ async function vote(ctx) {
     data,
     address,
     voterNetwork,
-    signature,
+    signature
   );
 }
 
@@ -273,7 +279,12 @@ async function getVoterBalance(ctx) {
     throw new HttpError(400, "Invalid address");
   }
 
-  ctx.body = await proposalService.getVoterBalance(proposalCid, network, address, snapshot);
+  ctx.body = await proposalService.getVoterBalance(
+    proposalCid,
+    network,
+    address,
+    snapshot
+  );
 }
 
 module.exports = {
