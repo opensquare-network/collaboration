@@ -127,7 +127,7 @@ async function createProposal(
     }
 
     throw new HttpError(400, {
-      snapshotHeights: [`Missing snapshot height of ${network.network}`],
+      snapshotHeights: [`Missing snapshot height of ${spaceNetwork.network}`],
     });
   }
 
