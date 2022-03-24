@@ -35,7 +35,7 @@ module.exports = (app) => {
   );
 
   router.use(
-    `/evm/:chain(${Object.keys(evmChains).join("|")})`,
+    `/evm/chain/:chain(${Object.keys(evmChains).join("|")})`,
     evmRoutes.routes(),
     tokenRoutes.allowedMethods({ throw: true })
   );
