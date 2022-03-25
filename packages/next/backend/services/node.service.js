@@ -65,6 +65,14 @@ async function checkDelegation(api, delegatee, delegator, blockHeight) {
   }
 }
 
+async function getEvmAddressBalance(network, contract, address, height) {
+  let url = `${getEnvNodeApiEndpoint()}`;
+  url += `/evm/chain/${network}/contract/${contract}/address/${address}/height/${height}`;
+
+  const response = await axios.get(url);
+  return response.data;
+}
+
 async function getChainHeight(chain, time) {
   let url = `${getEnvNodeApiEndpoint()}/`;
   if (evmNetworks.includes(chain)) {
@@ -162,4 +170,5 @@ module.exports = {
   getFinalizedHeightFromTime,
   getNodeApi,
   getChainHeight,
+  getEvmAddressBalance,
 };

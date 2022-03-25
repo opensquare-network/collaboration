@@ -1,8 +1,14 @@
+const { evmNetworks } = require("../../consts/networks");
 const { HttpError } = require("../../exc");
 const { getLatestHeight } = require("../../services/chain.service");
 const { spaces: spaceServices } = require("../../spaces");
-const { isAddress } = require("@polkadot/util-crypto");
-const { getBalanceFromNetwork, getApi } = require("../../services/node.service");
+const { isAddress: isSubstrateAddress } = require("@polkadot/util-crypto");
+const {
+  getBalanceFromNetwork,
+  getApi,
+} = require("../../services/node.service");
+const ethers = require("ethers");
+const { getEvmAddressBalance } = require("../../services/node.service");
 
 async function getSpaceAccountBalance(ctx) {
   const { space, network, address } = ctx.params;
@@ -12,27 +18,43 @@ async function getSpaceAccountBalance(ctx) {
     throw new HttpError(400, "Invalid snapshot number");
   }
 
-  if (!isAddress(address)) {
+  const isEvm = evmNetworks.includes(network);
+
+  if (
+    (isEvm && !ethers.utils.isAddress(address)) ||
+    !isSubstrateAddress(address)
+  ) {
     throw new HttpError(400, "Invalid address");
   }
 
   const spaceService = spaceServices[space];
   const blockHeight = snapshot ? parseInt(snapshot) : getLatestHeight(network);
-  const api = await getApi(network);
-  const totalBalance = await getBalanceFromNetwork(
-    api,
-    {
-      networksConfig: spaceService,
-      networkName: network,
+
+  if (isEvm) {
+    const networkConfig = spaceService.networks.find(
+      ({ network: n }) => n === network
+    );
+    ctx.body = await getEvmAddressBalance(
+      network,
+      networkConfig.contract,
       address,
-      blockHeight,
-    }
-  );
+      blockHeight
+    );
+    return;
+  }
+
+  const api = await getApi(network);
+  const totalBalance = await getBalanceFromNetwork(api, {
+    networksConfig: spaceService,
+    networkName: network,
+    address,
+    blockHeight,
+  });
   ctx.body = {
-    balance: totalBalance
+    balance: totalBalance,
   };
 }
 
 module.exports = {
   getSpaceAccountBalance,
-}
+};
