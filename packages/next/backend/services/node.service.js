@@ -1,5 +1,6 @@
 const axios = require("axios");
 const BigNumber = require("bignumber.js");
+const { evmNetworks } = require("../consts/networks");
 const { HttpError } = require("../exc");
 const { getEnvNodeApiEndpoint } = require("../env");
 const { isTestAccount } = require("../utils");
@@ -61,6 +62,36 @@ async function checkDelegation(api, delegatee, delegator, blockHeight) {
 
   if (!isProxy) {
     throw new HttpError(400, "You are not a proxy of the given address");
+  }
+}
+
+async function getEvmAddressBalance(network, contract, address, height) {
+  let url = `${getEnvNodeApiEndpoint()}`;
+  url += `/evm/chain/${network}/contract/${contract}/address/${address}/height/${height}`;
+
+  const response = await axios.get(url);
+  return response.data;
+}
+
+async function getChainHeight(chain, time) {
+  let url = `${getEnvNodeApiEndpoint()}/`;
+  if (evmNetworks.includes(chain)) {
+    url += `evm/chain/${chain}/height`;
+    if (time) {
+      url += `/${time}`;
+    }
+  } else {
+    url += `${chain}/chain/height`;
+    if (time) {
+      url += `?time=${time}`;
+    }
+  }
+
+  try {
+    const response = await axios.get(url);
+    return response.data;
+  } catch (e) {
+    throw new HttpError(500, "Failed to get chain height");
   }
 }
 
@@ -138,4 +169,6 @@ module.exports = {
   getBalanceFromNetwork,
   getFinalizedHeightFromTime,
   getNodeApi,
+  getChainHeight,
+  getEvmAddressBalance,
 };

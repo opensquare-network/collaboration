@@ -19,10 +19,16 @@ const statemineCommonConfig = {
   ss58Format: 2,
 };
 
+const movrErc20CommonConfig = {
+  type: "erc20",
+  network: networks.moonriver,
+};
+
 module.exports = {
   karuraTokenConfig,
   bifrostTokenConfig,
   statemineCommonConfig,
   networks,
   strategies,
+  movrErc20CommonConfig,
 };

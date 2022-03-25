@@ -1,5 +1,6 @@
+const { evmChains } = require("../../constants");
 const { erc20Abi } = require("./abi");
-const { evmChains, evmProviderMap } = require("./providers");
+const { evmProviderMap } = require("./providers");
 const { ethers } = require("ethers");
 
 class Erc20Controller {
