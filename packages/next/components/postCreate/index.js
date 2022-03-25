@@ -61,7 +61,7 @@ export default function PostCreate({ space }) {
   const snapshotHeights = useSelector(snapshotHeightsSelector);
   const router = useRouter();
 
-  const [title, setTitle] = useState(router.query.title);
+  const [title, setTitle] = useState(router.query.title || "");
   const [content, setContent] = useState("");
   const [choices, setChoices] = useState(["", ""]);
   const [startDate, setStartDate] = useState();

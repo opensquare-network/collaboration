@@ -1,9 +1,15 @@
+const { movrErc20CommonConfig } = require("./consts");
 const {
   karuraTokenConfig,
   bifrostTokenConfig,
   statemineCommonConfig,
   strategies,
 } = require("./consts");
+
+const rmrkMovrConfig = {
+  ...movrErc20CommonConfig,
+  contract: "0xffffffFF893264794d9d57E1E0E21E0042aF5A0A",
+};
 
 const config = {
   id: "rmrk",
@@ -17,6 +23,7 @@ const config = {
     },
     karuraTokenConfig,
     bifrostTokenConfig,
+    // rmrkMovrConfig,
   ],
   proposeThreshold: "500000000000000",
   voteThreshold: "10000000000",
@@ -40,6 +47,7 @@ const curationConfig = {
     },
     karuraTokenConfig,
     bifrostTokenConfig,
+    // rmrkMovrConfig,
   ],
   proposeThreshold: "4310000000000",
   voteThreshold: "10000000000",
