@@ -1,31 +1,37 @@
-const { getApi } = require("./node.service");
-const { spaces: spaceServices } = require("../spaces");
-const { getFinalizedHeight } = require("./node.service");
+const { getAllSpaces } = require("../spaces");
+const { getChainHeight } = require("./node.service");
+const flatten = require("lodash.flatten");
 
 let latestHeights = {};
 let timer = null;
 
-function startUpdateHeight() {
-  const doUpdate = () => {
-    const networkNames = new Set();
-    Object.keys(spaceServices).forEach(async (spaceName) => {
-      const spaceService = spaceServices[spaceName];
-      spaceService.networks?.forEach(async (network) => {
-        networkNames.add(network.network);
-      });
-    });
-    networkNames.forEach(async (networkName) => {
-      try {
-        const api = await getApi(networkName);
-        const { height } = await getFinalizedHeight(api);
-        latestHeights[networkName] = height;
-      } catch (e) {
-        // ignore
-      }
-    });
-  };
+async function updateChainHeight(network) {
+  try {
+    const { height } = await getChainHeight(network);
+    latestHeights[network] = height;
+  } catch (e) {
+    console.error(`can not update ${network} height`);
+  }
+}
 
-  doUpdate();
+async function doUpdate() {
+  const spaces = getAllSpaces();
+  const networks = flatten(spaces.map((space) => space.networks));
+  const networkNameSet = new Set(networks.map((network) => network.network));
+
+  let promises = [];
+  for (const network of networkNameSet) {
+    promises.push(updateChainHeight(network));
+  }
+
+  await Promise.all(promises);
+}
+
+function startUpdateHeight() {
+  doUpdate().then(() => {
+    console.log("Change heights initialized");
+  });
+
   timer = setInterval(doUpdate, 12 * 1000);
 }
 

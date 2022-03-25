@@ -6,8 +6,13 @@ const networks = Object.freeze({
   polkadot: "polkadot",
   khala: "khala",
   kintsugi: "kintsugi",
+  moonriver: "moonriver",
+  moonbeam: "moonbeam",
 });
+
+const evmNetworks = [networks.moonbeam, networks.moonriver];
 
 module.exports = {
   networks,
+  evmNetworks,
 };

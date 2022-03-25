@@ -69,7 +69,9 @@ async function getHeightByTime(chain, targetTime, lastHeightTime) {
 }
 
 async function getTargetHeight(ctx) {
-  const { chain, time: targetTime } = ctx.params;
+  const { chain, timestamp } = ctx.params;
+  const targetTime = timestamp || String(new Date().getTime());
+
   if (!/^\d+$/.test(targetTime)) {
     ctx.throw(400, `Invalid time`);
     return;
@@ -84,7 +86,10 @@ async function getTargetHeight(ctx) {
     parseInt(height)
   );
 
-  ctx.body = await getHeightByTime(chain, targetTime, { height, time });
+  ctx.body = await getHeightByTime(chain, targetTime, {
+    height: parseInt(height),
+    time,
+  });
 }
 
 module.exports = {

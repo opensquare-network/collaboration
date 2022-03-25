@@ -9,6 +9,6 @@ router.get(
   erc20Controller.getBalance
 );
 
-router.get("/height/:time", getTargetHeight);
+router.get("/height/:timestamp?", getTargetHeight);
 
 module.exports = router;
