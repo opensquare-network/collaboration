@@ -65,12 +65,18 @@ async function checkDelegation(api, delegatee, delegator, blockHeight) {
   }
 }
 
-async function getChainHeight(chain) {
+async function getChainHeight(chain, time) {
   let url = `${getEnvNodeApiEndpoint()}/`;
   if (evmNetworks.includes(chain)) {
-    url = `evm/chain/${chain}/height`;
+    url += `evm/chain/${chain}/height`;
+    if (time) {
+      url += `/${time}`;
+    }
   } else {
     url += `${chain}/chain/height`;
+    if (time) {
+      url += `?time=${time}`;
+    }
   }
 
   try {
