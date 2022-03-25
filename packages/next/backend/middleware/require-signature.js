@@ -1,5 +1,7 @@
 const { HttpError } = require("../exc");
 const { isValidSignature } = require("../utils");
+const { ethers } = require("ethers");
+const { hexAddPrefix } = require("@polkadot/util");
 
 async function verifySignature(msg, address, signature) {
   if (!signature) {
@@ -10,12 +12,19 @@ async function verifySignature(msg, address, signature) {
     throw new HttpError(400, "Address is missing");
   }
 
-  const isValid = isValidSignature(msg, signature, address);
-  if (!isValid) {
-    throw new HttpError(400, "Signature is invalid");
+  if (ethers.utils.isAddress(address)) {
+    try {
+      const verifiedAddress = ethers.utils.verifyMessage(
+        msg,
+        hexAddPrefix(signature)
+      );
+      return verifiedAddress === address;
+    } catch (e) {
+      return false;
+    }
   }
 
-  return true;
+  return isValidSignature(msg, signature, address);
 }
 
 async function requireSignature(ctx, next) {
@@ -29,7 +38,10 @@ async function requireSignature(ctx, next) {
   }
 
   const msg = JSON.stringify(data);
-  await verifySignature(msg, address, signature);
+  const verified = await verifySignature(msg, address, signature);
+  if (!verified) {
+    throw new HttpError(400, "Signature is invalid");
+  }
 
   await next();
 }

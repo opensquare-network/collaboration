@@ -16,6 +16,8 @@
     "@koa/cors": "^3.1.0",
     "@osn/polkadot-react-identicon": "^1.0.6",
     "@polkadot/extension-dapp": "0.42.8-14",
+    "@polkadot/util": "8.6.1",
+    "@polkadot/util-crypto": "8.6.1",
     "@reduxjs/toolkit": "^1.6.1",
     "@svgr/webpack": "^5.5.0",
     "axios": "^0.24.0",
