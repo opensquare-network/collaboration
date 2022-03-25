@@ -3,7 +3,6 @@ const { statusLogger } = require("../logger");
 const { khalaOptions } = require("./khala");
 const { karuraOptions } = require("./karura");
 const { bifrostOptions } = require("./bifrost");
-const { kintsugiOptions } = require("./kintsugi");
 const { polkadexOptions } = require("./polkadex");
 const { interlayOptions } = require("./interlay");
 const { chains } = require("../constants");
@@ -46,11 +45,9 @@ async function createApi(network, endpoint) {
     options = khalaOptions;
   } else if (chains.bifrost === network) {
     options = bifrostOptions;
-  } else if (chains.kintsugi === network) {
-    options = kintsugiOptions;
   } else if (chains.polkadex === network) {
     options = polkadexOptions;
-  } else if (chains.interlay === network) {
+  } else if ([chains.kintsugi, chains.interlay].includes(network)) {
     options = interlayOptions;
   }
 

@@ -9,7 +9,7 @@ const config = {
       ss58Format: 2032,
     },
   ],
-  proposeThreshold: "1000000000000",
+  proposeThreshold: "10000000000",
   voteThreshold: "10000000000",
   weightStrategy: ["balance-of", "quadratic-balance-of"],
   version: "2",
