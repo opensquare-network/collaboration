@@ -1,7 +1,7 @@
 const lib = require("@interlay/interbtc-types");
 const definitions = lib.default;
 
-const kintsugiOptions = {
+const interlayOptions = {
   spec: {
     "interbtc-parachain": definitions,
   },
@@ -9,5 +9,5 @@ const kintsugiOptions = {
 };
 
 module.exports = {
-  kintsugiOptions,
-}
+  interlayOptions,
+};
