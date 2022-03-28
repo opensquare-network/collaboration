@@ -6,7 +6,6 @@ const chains = {
   statemine: "statemine",
   bifrost: "bifrost",
   kintsugi: "kintsugi",
-  polkadex: "polkadex",
   interlay: "interlay",
 };
 
