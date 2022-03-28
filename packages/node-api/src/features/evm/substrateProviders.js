@@ -28,9 +28,7 @@ async function initEvmSubstrateProviders(chain) {
   }
 
   chainProviders[chain] = providers;
-  return await Promise.all(
-    providers.map(({ provider }) => provider.isReadyOrError)
-  );
+  return await Promise.all(providers.map(({ provider }) => provider.isReady));
 }
 
 async function initEvmProviders() {
