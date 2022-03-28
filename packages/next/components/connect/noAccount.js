@@ -1,14 +1,7 @@
-import {
-  ActionBar,
-  CloseBar,
-  StyledCard,
-  StyledDescription,
-  StyledModal,
-  StyledTitle,
-} from "@/components/connect/styled";
-import SvgClose from "../../public/imgs/icons/close.svg";
-import Button from "@/components/button";
+import { ActionBar, StyledDescription } from "@/components/connect/styled";
 import { memo } from "react";
+import Closeable from "@/components/connect/closeable";
+import Button from "@/components/button";
 import { useDispatch } from "react-redux";
 import { closeConnect } from "../../store/reducers/showConnectSlice";
 
@@ -17,36 +10,18 @@ function NoAccount({ open }) {
   const closeModal = () => dispatch(closeConnect());
 
   return (
-    <StyledModal open={open} dimmer onClose={closeModal} size="tiny">
-      <StyledCard>
-        <CloseBar>
-          <SvgClose onClick={closeModal} />
-        </CloseBar>
-        <StyledTitle>Connect Wallet</StyledTitle>
+    <Closeable open={open}>
+      <StyledDescription>
+        Polkadot-js extension is connected, but no account found. Please create
+        or import some accounts first.
+      </StyledDescription>
 
-        <StyledDescription>
-          Polkadot-js extension is connected, but no account found. Please
-          create or import some accounts first.
-        </StyledDescription>
-
-        <ActionBar>
-          <Button
-            color="orange"
-            onClick={() => {
-              closeModal();
-              const newWindow = window.open(
-                "https://polkadot.js.org/extension/",
-                "_blank",
-                "noopener,noreferrer"
-              );
-              if (newWindow) newWindow.opener = null;
-            }}
-          >
-            Create/Import addresses
-          </Button>
-        </ActionBar>
-      </StyledCard>
-    </StyledModal>
+      <ActionBar>
+        <Button color="orange" onClick={closeModal}>
+          Got it.
+        </Button>
+      </ActionBar>
+    </Closeable>
   );
 }
 
