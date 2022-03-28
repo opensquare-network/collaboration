@@ -1,9 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import nextApi from "services/nextApi";
-import { useSelector } from "react-redux";
-import { loginAccountSelector } from "store/reducers/accountSlice";
-import { encodeAddress } from "@polkadot/util-crypto";
 import debounce from "lodash.debounce";
 
 export function useWindowSize() {
