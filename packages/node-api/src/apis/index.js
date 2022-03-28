@@ -31,6 +31,7 @@ async function reConnect(network, endpoint) {
   }
   delete endpointApis[endpoint];
 
+  console.log(`re-connect network: ${network} with endpoint: ${endpoint}`);
   await createApi(network, endpoint);
   statusLogger.info(`Reconnect to ${network} ${endpoint}`);
 }
@@ -55,7 +56,7 @@ async function createApi(network, endpoint) {
   endpointApis[endpoint] = api;
 
   try {
-    await api.isReadyOrError;
+    await api.isReady;
   } catch (e) {
     statusLogger.error(`Can not connect to ${network} ${endpoint}`);
     return;
@@ -90,6 +91,10 @@ async function createApiInLimitTime(network, endpoint) {
 
 async function createApiForChain({ chain, endpoints }) {
   for (const endpoint of endpoints) {
+    if (!endpoint) {
+      continue;
+    }
+
     try {
       await createApiInLimitTime(chain, endpoint);
       console.log(`${chain}: ${endpoint} created!`);
@@ -110,7 +115,9 @@ async function createChainApis() {
 
   const promises = [];
   for (const { chain, endpoints } of chainEndpoints) {
-    promises.push(createApiForChain({ chain, endpoints }));
+    if ((endpoints || []).length > 0) {
+      promises.push(createApiForChain({ chain, endpoints }));
+    }
   }
 
   return Promise.all(promises);
