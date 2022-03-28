@@ -257,7 +257,7 @@ export default function PostResult({ data, voteStatus, space }) {
             <div>Electorate</div>
             <div>
               <ValueDisplay
-                value={voteStatus?.[0]?.biasedVoting?.electorate}
+                value={voteStatus?.[0]?.biasedVoting?.electorate || 0}
                 space={space}
               />
             </div>
