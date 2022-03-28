@@ -14,7 +14,7 @@ async function initEvmSubstrateProviders(chain) {
     endpoints = (process.env.EVM_GLMR_ENDPOINTS || "").split(";");
   }
 
-  if (!endpoints) {
+  if (!endpoints || (endpoints || []).length <= 0) {
     throw new Error(`No endpoints set for ${chain}`);
   }
 
