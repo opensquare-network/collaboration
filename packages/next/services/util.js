@@ -1,5 +1,7 @@
 export const findNetworkConfig = (space, network) => {
-  const networkConfig = space?.networks?.find(item => item.network === network);
+  const networkConfig = space?.networks?.find(
+    (item) => item.network === network
+  );
   if (!networkConfig) {
     return null;
   }
@@ -8,5 +10,6 @@ export const findNetworkConfig = (space, network) => {
     ...networkConfig,
     symbol: space?.symbol,
     decimals: space?.decimals,
-  }
+    networks: space.networks,
+  };
 };

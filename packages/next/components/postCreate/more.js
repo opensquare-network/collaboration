@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { popUpConnect } from "../../store/reducers/showConnectSlice";
 import Information from "./information";
 import SnapshotHeightPicker from "@/components/snapshotHeightPicker";
-import { spaceConfigSelector } from "../../store/reducers/spaceConfigSlice";
 import { p_14_medium } from "../../styles/textStyles";
 import {
   setSnapshotHeights,
@@ -120,21 +119,20 @@ export default function More({
     0;
   const dispatch = useDispatch();
   const [snapshotHeightDate, setSnapshotHeightDate] = useState();
-  const spaceConfig = useSelector(spaceConfigSelector);
   const snapshotHeights = useSelector(snapshotHeightsSelector);
 
   useEffect(() => {
-    if (spaceConfig?.networks) {
+    if (space?.networks) {
       dispatch(
         setSnapshotHeights(
-          spaceConfig?.networks.map((network) => ({
+          space?.networks.map((network) => ({
             network: network.network,
             height: 0,
           }))
         )
       );
     }
-  }, [dispatch, spaceConfig?.networks]);
+  }, [dispatch, space?.networks]);
 
   function getMinEndDate() {
     if (!startDate || startDate < new Date()) {
@@ -185,6 +183,7 @@ export default function More({
           <SnapshotHeightPicker
             date={snapshotHeightDate}
             setDate={setSnapshotHeightDate}
+            space={space}
           />
           {snapshotHeights?.map((snapshot) => (
             <Snapshot className="snapshot" key={snapshot.network}>

@@ -4,8 +4,6 @@ import Ellipsis from "@/components/ellipsis";
 import Flex from "@/components/flex";
 import ValueDisplay from "@/components/valueDisplay";
 import Voter from "@/components/role/voter";
-import { useSelector } from "react-redux";
-import { spaceSupportMultiChainSelector } from "../../store/reducers/spaceConfigSlice";
 
 const Item = styled.div`
   padding: 20px 0;
@@ -53,12 +51,14 @@ const Square = styled.div`
   width: 20px;
   height: 20px;
   background: url("/imgs/icons/ipfs.svg");
-  ${p => !p.noHover && css`
-    cursor: pointer;
-    :hover {
-      background: url("/imgs/icons/ipfs-active.svg");
-    }
-  `}
+  ${(p) =>
+    !p.noHover &&
+    css`
+      cursor: pointer;
+      :hover {
+        background: url("/imgs/icons/ipfs-active.svg");
+      }
+    `}
 `;
 
 const EqualWrapper = styled.div`
@@ -85,16 +85,15 @@ const MyVoteTag = styled.div`
 `;
 
 export default function PostVotes({ data, space, isMyVote = false }) {
-  const spaceSupportMultiChain = useSelector(spaceSupportMultiChainSelector)
-
+  const spaceSupportMultiChain = space?.networks?.length > 1;
   return (
     <Item>
       <InfoWrapper>
         <EqualWrapper>
           <Voter
-            address={ data.voter ?? data.address }
-            network={ data.voterNetwork }
-            showNetwork={ spaceSupportMultiChain }
+            address={data.voter ?? data.address}
+            network={data.voterNetwork}
+            showNetwork={spaceSupportMultiChain}
           />
           {isMyVote && <MyVoteTag>My Vote</MyVoteTag>}
         </EqualWrapper>
@@ -106,7 +105,11 @@ export default function PostVotes({ data, space, isMyVote = false }) {
         </EqualWrapper>
         <EqualWrapper>
           <BalanceWrapper>
-            <ValueDisplay value={data.weights?.balanceOf} space={space} showAEM={true}/>
+            <ValueDisplay
+              value={data.weights?.balanceOf}
+              space={space}
+              showAEM={true}
+            />
             {data?.pinHash ? (
               <ExternalLink
                 href={`https://ipfs-hk.decoo.io/ipfs/${data.pinHash}`}

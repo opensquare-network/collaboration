@@ -21,7 +21,6 @@ import {
   showConnectSelector,
 } from "../store/reducers/showConnectSlice";
 import ChainIcon from "@/components/chain/chainIcon";
-import { spaceSupportMultiChainSelector } from "../store/reducers/spaceConfigSlice";
 
 const ConnectModal = dynamic(() => import("./connect"), {
   ssr: false,
@@ -184,7 +183,7 @@ export default function Account({ space, showMenu, setShowMenu }) {
   const [pageMounted, setPageMounted] = useState(false);
   const [identity, setIdentity] = useState();
   const address = useSelector(loginAddressSelector);
-  const spaceSupportMultiChain = useSelector(spaceSupportMultiChainSelector);
+  const spaceSupportMultiChain = space?.networks?.length > 1;
 
   useEffect(() => setPageMounted(true), []);
 
