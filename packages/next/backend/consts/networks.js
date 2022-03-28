@@ -6,6 +6,7 @@ const networks = Object.freeze({
   polkadot: "polkadot",
   khala: "khala",
   kintsugi: "kintsugi",
+  interlay: "interlay",
   moonriver: "moonriver",
   moonbeam: "moonbeam",
 });
