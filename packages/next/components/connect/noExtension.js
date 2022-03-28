@@ -9,8 +9,13 @@ import {
 import SvgClose from "../../public/imgs/icons/close.svg";
 import Button from "@/components/button";
 import { memo } from "react";
+import { closeConnect } from "../../store/reducers/showConnectSlice";
+import { useDispatch } from "react-redux";
 
-function NoExtension({ closeModal, open }) {
+function NoExtension({ open }) {
+  const dispatch = useDispatch();
+  const closeModal = () => dispatch(closeConnect());
+
   return (
     <StyledModal open={open} dimmer onClose={closeModal} size="tiny">
       <StyledCard>

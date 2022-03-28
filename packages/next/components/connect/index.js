@@ -41,7 +41,6 @@ export default function Connect({ space, setShowMenu }) {
   const [address, setAddress] = useState();
   const [isPolkadotAccessible, setIsPolkadotAccessible] = useState(null);
   const availableNetworks = useSelector(availableNetworksSelector);
-  console.log("chain", chain);
 
   const getAddresses = useCallback(async () => {
     const extensionAccounts = await web3Accounts();
@@ -63,7 +62,7 @@ export default function Connect({ space, setShowMenu }) {
 
   useEffect(() => {
     (async () => {
-      await web3Enable("voting");
+      const web3Apps = await web3Enable("voting");
 
       if (isMounted.current) {
         setHasExtension(isWeb3Injected);
@@ -73,7 +72,6 @@ export default function Connect({ space, setShowMenu }) {
         return;
       }
 
-      const web3Apps = await web3Enable("voting");
       const polkadotEnabled = web3Apps?.length > 0;
       if (isMounted.current) {
         setIsPolkadotAccessible(polkadotEnabled);
@@ -137,17 +135,9 @@ export default function Connect({ space, setShowMenu }) {
         </StyledCard>
       </StyledModal>
 
-      <NoAccount
-        open={isPolkadotAccessible && accounts.length === 0}
-        closeModal={closeModal}
-      />
-
-      <NoExtension open={hasExtension === false} closeModal={closeModal} />
-
-      <NotAccessible
-        open={hasExtension && isPolkadotAccessible === false}
-        closeModal={closeModal}
-      />
+      <NoAccount open={isPolkadotAccessible && accounts.length === 0} />
+      <NoExtension open={hasExtension === false} />
+      <NotAccessible open={hasExtension && isPolkadotAccessible === false} />
     </Wrapper>
   );
 }
