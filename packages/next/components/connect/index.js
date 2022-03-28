@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   isWeb3Injected,
   web3Accounts,
@@ -6,8 +6,8 @@ import {
 } from "@polkadot/extension-dapp";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  setAccount,
   availableNetworksSelector,
+  setAccount,
 } from "store/reducers/accountSlice";
 
 import Button from "components/button";
@@ -15,20 +15,13 @@ import AccountSelector from "../accountSelector";
 
 import { useIsMounted } from "frontedUtils/hooks";
 import styled from "styled-components";
-import SvgClose from "public/imgs/icons/close.svg";
 import { closeConnect } from "../../store/reducers/showConnectSlice";
 import ChainSelector from "@/components/chainSelector";
-import {
-  ActionBar,
-  CloseBar,
-  StyledCard,
-  StyledModal,
-  StyledText,
-  StyledTitle,
-} from "@/components/connect/styled";
+import { ActionBar, StyledText } from "@/components/connect/styled";
 import NotAccessible from "@/components/connect/notAccessible";
 import NoExtension from "@/components/connect/noExtension";
 import NoAccount from "@/components/connect/noAccount";
+import Closeable from "@/components/connect/closeable";
 
 const Wrapper = styled.div``;
 
@@ -98,42 +91,28 @@ export default function Connect({ space, setShowMenu }) {
     }
   };
 
-  const closeModal = () => dispatch(closeConnect());
-
   return (
     <Wrapper>
-      <StyledModal
-        open={isPolkadotAccessible && accounts.length > 0}
-        dimmer
-        onClose={closeModal}
-        size="tiny"
-      >
-        <StyledCard>
-          <CloseBar>
-            <SvgClose onClick={closeModal} />
-          </CloseBar>
-          <StyledTitle>Connect Wallet</StyledTitle>
+      <Closeable open={isPolkadotAccessible && accounts.length > 0}>
+        <StyledText>Chain</StyledText>
+        <ChainSelector
+          chains={availableNetworks}
+          onSelect={(chain) => setChain(chain)}
+        />
 
-          <StyledText>Chain</StyledText>
-          <ChainSelector
-            chains={availableNetworks}
-            onSelect={(chain) => setChain(chain)}
-          />
+        <StyledText>Account</StyledText>
+        <AccountSelector
+          accounts={accounts}
+          onSelect={(account) => setAddress(account?.address)}
+          chain={chain}
+        />
 
-          <StyledText>Account</StyledText>
-          <AccountSelector
-            accounts={accounts}
-            onSelect={(account) => setAddress(account?.address)}
-            chain={chain}
-          />
-
-          <ActionBar>
-            <Button primary onClick={doConnect}>
-              Connect
-            </Button>
-          </ActionBar>
-        </StyledCard>
-      </StyledModal>
+        <ActionBar>
+          <Button primary onClick={doConnect}>
+            Connect
+          </Button>
+        </ActionBar>
+      </Closeable>
 
       <NoAccount open={isPolkadotAccessible && accounts.length === 0} />
       <NoExtension open={hasExtension === false} />
