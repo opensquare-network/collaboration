@@ -4,9 +4,7 @@ const { HttpError } = require("../../exc");
 
 // TODO: Different tokens may have same name, but we will handle this case in the future.
 async function getTotalIssuance(tokenName, blockHeight) {
-  const url = blockHeight
-    ? `/issuance/token/${tokenName}/${blockHeight}`
-    : `/issuance/${tokenName}`;
+  const url = `/issuance/token/${tokenName}/${blockHeight || ""}`;
   const api = getNodeApi();
   try {
     const {
