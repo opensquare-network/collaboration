@@ -3,13 +3,8 @@ import Nav from "components/nav";
 import PostCreate from "@/components/postCreate";
 import { ssrNextApi } from "services/nextApi";
 import { to404 } from "../../../frontedUtils/serverSideUtil";
-import { useDispatch } from "react-redux";
-import { setSpaceConfig } from "../../../store/reducers/spaceConfigSlice";
 
 export default function Create({ space }) {
-  const dispatch = useDispatch();
-  dispatch(setSpaceConfig(space));
-
   return (
     <Layout bgHeight="183px" space={space}>
       <Nav

@@ -8,8 +8,6 @@ import PostList from "components/postList";
 import { EmptyQuery } from "frontedUtils/constants";
 import { ssrNextApi } from "services/nextApi";
 import { to404 } from "../../../frontedUtils/serverSideUtil";
-import { setSpaceConfig } from "../../../store/reducers/spaceConfigSlice";
-import { useDispatch } from "react-redux";
 import Seo from "@/components/seo";
 
 const HeaderWrapper = styled.div`
@@ -38,9 +36,6 @@ export default function List({
   activeTab,
   defaultPage,
 }) {
-  const dispatch = useDispatch();
-  dispatch(setSpaceConfig(space));
-
   const [tab, setTab] = useState(activeTab);
 
   if (!space) {

@@ -12,8 +12,6 @@ import { useEffect, useState } from "react";
 import { useWindowSize } from "../frontedUtils/hooks";
 import PostResult from "./postResult";
 import { findNetworkConfig } from "../services/util";
-import { useSelector } from "react-redux";
-import { spaceSupportMultiChainSelector } from "../store/reducers/spaceConfigSlice";
 
 const Wrapper = styled.div`
   background: #ffffff;
