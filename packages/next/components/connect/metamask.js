@@ -36,6 +36,8 @@ export async function getMetamaskElement(network, dispatch, hookFn = () => {}) {
       );
       dispatch(closeConnect());
       hookFn();
+
+      // todo: listen the metamask address/network change event, then logout
     } catch (error) {
       console.error(error);
     }
