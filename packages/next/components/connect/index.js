@@ -1,9 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
-import {
-  isWeb3Injected,
-  web3Accounts,
-  web3Enable,
-} from "@polkadot/extension-dapp";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   availableNetworksSelector,
@@ -13,7 +8,6 @@ import {
 import Button from "components/button";
 import AccountSelector from "../accountSelector";
 
-import { useIsMounted } from "frontedUtils/hooks";
 import styled from "styled-components";
 import { closeConnect } from "../../store/reducers/showConnectSlice";
 import ChainSelector from "@/components/chainSelector";
@@ -22,59 +16,17 @@ import NotAccessible from "@/components/connect/notAccessible";
 import NoExtension from "@/components/connect/noExtension";
 import NoAccount from "@/components/connect/noAccount";
 import Closeable from "@/components/connect/closeable";
+import useExtension from "../../frontedUtils/hooks/useExtension";
 
 const Wrapper = styled.div``;
 
 export default function Connect({ space, setShowMenu }) {
   const dispatch = useDispatch();
-  const isMounted = useIsMounted();
-  const [hasExtension, setHasExtension] = useState(null);
-  const [accounts, setAccounts] = useState([]);
   const [chain, setChain] = useState(space.networks[0]);
   const [address, setAddress] = useState();
-  const [isPolkadotAccessible, setIsPolkadotAccessible] = useState(null);
   const availableNetworks = useSelector(availableNetworksSelector);
-
-  const getAddresses = useCallback(async () => {
-    const extensionAccounts = await web3Accounts();
-    const accounts = (extensionAccounts || []).map((item) => {
-      const {
-        address,
-        meta: { name },
-      } = item;
-      return {
-        address,
-        name,
-      };
-    });
-    if (isMounted.current) {
-      setAccounts(accounts);
-      setAddress(accounts[0]?.address);
-    }
-  }, [isMounted]);
-
-  useEffect(() => {
-    (async () => {
-      const web3Apps = await web3Enable("voting");
-
-      if (isMounted.current) {
-        setHasExtension(isWeb3Injected);
-      }
-
-      if (!isWeb3Injected) {
-        return;
-      }
-
-      const polkadotEnabled = web3Apps?.length > 0;
-      if (isMounted.current) {
-        setIsPolkadotAccessible(polkadotEnabled);
-      }
-      if (!polkadotEnabled) {
-        return;
-      }
-      getAddresses();
-    })();
-  }, [isMounted, getAddresses]);
+  const { accounts, hasExtension, extensionAccessible, detecting } =
+    useExtension();
 
   const doConnect = async () => {
     try {
@@ -93,7 +45,9 @@ export default function Connect({ space, setShowMenu }) {
 
   return (
     <Wrapper>
-      <Closeable open={isPolkadotAccessible && accounts.length > 0}>
+      <Closeable
+        open={extensionAccessible && accounts.length > 0 && !detecting}
+      >
         <StyledText>Chain</StyledText>
         <ChainSelector
           chains={availableNetworks}
@@ -114,9 +68,13 @@ export default function Connect({ space, setShowMenu }) {
         </ActionBar>
       </Closeable>
 
-      <NoAccount open={isPolkadotAccessible && accounts.length === 0} />
-      <NoExtension open={hasExtension === false} />
-      <NotAccessible open={hasExtension && isPolkadotAccessible === false} />
+      <NoExtension open={!hasExtension && !detecting} />
+      <NoAccount
+        open={extensionAccessible && accounts.length === 0 && !detecting}
+      />
+      <NotAccessible
+        open={hasExtension && !extensionAccessible && !detecting}
+      />
     </Wrapper>
   );
 }

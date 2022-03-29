@@ -22,9 +22,9 @@ const AccountSelector = ({ accounts, chain, onSelect = () => {} }) => {
     value: index,
     content: (
       <AccountItem
-        accountName={ item.name }
-        accountAddress={ item.address }
-        chain={ chain.network }
+        accountName={item?.meta?.name}
+        accountAddress={item.address}
+        chain={chain.network}
       />
     ),
   }));
@@ -40,8 +40,8 @@ const AccountSelector = ({ accounts, chain, onSelect = () => {} }) => {
           }}
         />
         <AccountItem
-          accountName={accounts?.[selectedIndex]?.name}
-          accountAddress={ accounts?.[selectedIndex]?.address }
+          accountName={accounts?.[selectedIndex]?.meta?.name}
+          accountAddress={accounts?.[selectedIndex]?.address}
           chain={chain.network}
           header
         />
