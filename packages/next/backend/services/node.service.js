@@ -4,6 +4,7 @@ const { evmNetworks } = require("../consts/networks");
 const { HttpError } = require("../exc");
 const { getEnvNodeApiEndpoint } = require("../env");
 const { isTestAccount } = require("../utils");
+const fetch = require("node-fetch");
 
 const cachedApis = {};
 
@@ -88,8 +89,9 @@ async function getChainHeight(chain, time) {
   }
 
   try {
-    const response = await axios.get(url);
-    return response.data;
+    const response = await fetch(url);
+    const json = await response.json();
+    return json;
   } catch (e) {
     throw new HttpError(500, "Failed to get chain height");
   }
