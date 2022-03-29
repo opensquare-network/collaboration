@@ -8,7 +8,10 @@ export const CHAINS = Object.freeze({
   kintsugi: "kintsugi",
   polkadex: "polkadex",
   interlay: "interlay",
+  moonriver: "moonriver",
 });
+
+export const evmChains = [CHAINS.moonriver];
 
 export const chainSs58Format = Object.freeze({
   [CHAINS.polkadot]: 0,
