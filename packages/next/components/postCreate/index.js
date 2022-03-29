@@ -8,6 +8,7 @@ import Choices from "./choices";
 import More from "./more";
 import {
   loginAccountSelector,
+  loginAddressSelector,
   setAvailableNetworks,
 } from "store/reducers/accountSlice";
 import { addToast } from "store/reducers/toastSlice";
@@ -20,6 +21,10 @@ import {
   setSnapshotHeights,
   snapshotHeightsSelector,
 } from "../../store/reducers/snapshotHeightSlice";
+import {
+  loginNetworkSnapshot,
+  loginNetworkSnapshotSelector,
+} from "../../store/selectors/snapshot";
 
 const Wrapper = styled.div`
   display: flex;
@@ -58,6 +63,11 @@ const FETCH_BALANCE_ERROR =
 export default function PostCreate({ space }) {
   const dispatch = useDispatch();
   const account = useSelector(loginAccountSelector);
+  const loginAddress = useSelector(loginAddressSelector);
+  const loginNetworkSnapshot = useSelector(loginNetworkSnapshotSelector);
+  console.log("account", account);
+  console.log("space", space);
+
   const snapshotHeights = useSelector(snapshotHeightsSelector);
   const router = useRouter();
 
@@ -115,21 +125,17 @@ export default function PostCreate({ space }) {
     // Create proposal with the connected wallet directly
     // Read the wallet balance, so that we can check
     // if the balance is above the threshold
-    const address = account?.address ?? "";
-    const ss58Format = account?.ss58Format ?? 0;
-    if (!address) {
+    if (!loginAddress) {
       setBalance(null);
       setBalanceError("Link an address to create proposal.");
       return;
     }
     setBalanceError(null);
-    const height =
-      snapshotHeights?.find(
-        (snapshotHeight) => account?.network === snapshotHeight.network
-      )?.height || 0;
-    if (!(height > 0)) {
+
+    if (loginNetworkSnapshot <= 0) {
       return;
     }
+
     if (!account?.network) {
       return;
     }
@@ -138,12 +144,10 @@ export default function PostCreate({ space }) {
         resolve();
       }, 2000);
     });
+
     Promise.all([
       nextApi.fetch(
-        `${space.id}/${account?.network}/account/${encodeAddress(
-          address,
-          ss58Format
-        )}/balance?snapshot=${height}`
+        `${space.id}/${account?.network}/account/${loginAddress}/balance?snapshot=${loginNetworkSnapshot}`
       ),
       delay,
     ])
@@ -316,11 +320,6 @@ export default function PostCreate({ space }) {
     }
   };
 
-  const connectedNetworkConfig = account && {
-    network: account.network,
-    ss58Format: account.ss58Format,
-  };
-
   return (
     <Wrapper>
       <MainWrapper>
@@ -349,7 +348,7 @@ export default function PostCreate({ space }) {
           setProxyPublish={setProxyPublish}
           proxyAddress={proxyAddress}
           setProxyAddress={setProxyAddress}
-          space={connectedNetworkConfig}
+          space={space}
           info={info}
           setInfo={setInfo}
           getProxyBalance={getProxyBalance}

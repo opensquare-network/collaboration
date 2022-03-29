@@ -83,9 +83,16 @@ export const loginAccountSelector = createSelector(
     if (!network) {
       return null;
     }
+
+    let address = account.address;
+    if (!evmChains.includes(network.network)) {
+      address = encodeAddress(address, network.ss58Format);
+    }
+
     return {
       ...network,
       ...account,
+      address,
     };
   }
 );

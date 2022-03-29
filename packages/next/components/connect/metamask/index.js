@@ -1,11 +1,11 @@
-import NoMetamask from "@/components/connect/noMetamask";
+import NoMetamask from "@/components/connect/metamask/noMetamask";
 import { ActionBar } from "@/components/connect/styled";
 import ConnectButton from "@/components/connect/connectButton";
-import { evmChainId } from "../../frontedUtils/consts/chains";
-import WrongNetwork from "@/components/connect/wrongNetwork";
+import { evmChainId } from "../../../frontedUtils/consts/chains";
+import WrongNetwork from "@/components/connect/metamask/wrongNetwork";
 import MetamaskNoAccount from "@/components/connect/metamask/noAccount";
-import { setAccount } from "../../store/reducers/accountSlice";
-import { closeConnect } from "../../store/reducers/showConnectSlice";
+import { setAccount } from "../../../store/reducers/accountSlice";
+import { closeConnect } from "../../../store/reducers/showConnectSlice";
 
 export async function getMetamaskElement(network, dispatch, hookFn = () => {}) {
   if (!window.ethereum || !window.ethereum.isMetaMask) {

@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { useSelector } from "react-redux";
 
 import Row from "@/components/row";
 import Tooltip from "@/components/tooltip";
@@ -8,7 +7,6 @@ import Toggle from "../toggle";
 import PostAddress from "../postAddress";
 import BigNumber from "bignumber.js";
 import { bigNumber2LocaleWithAbbr, toPrecision } from "../../frontedUtils";
-import { loginAccountSelector } from "store/reducers/accountSlice";
 
 const Hint = styled.div`
   margin-top: 4px !important;
@@ -50,8 +48,6 @@ export default function Information({
   setProxyBalance,
   symbol,
 }) {
-  const account = useSelector(loginAccountSelector);
-
   return (
     <>
       {!proxyPublish && (
