@@ -149,14 +149,14 @@ export default function PostCreate({ space }) {
       ),
       delay,
     ])
-      .then((results) => {
+      .then(([result]) => {
         if (
-          results[0]?.result?.balance !== undefined &&
-          results[0]?.result?.balance !== null
+          result?.result?.balance !== undefined &&
+          result?.result?.balance !== null
         ) {
-          setBalance(results[0]?.result?.balance ?? 0);
+          setBalance(result?.result?.balance ?? 0);
         } else {
-          const message = results[0]?.error?.message || FETCH_BALANCE_ERROR;
+          const message = result?.error?.message || FETCH_BALANCE_ERROR;
           dispatch(addToast({ type: TOAST_TYPES.ERROR, message }));
           setBalanceError(message);
         }

@@ -70,8 +70,9 @@ async function getEvmAddressBalance(network, contract, address, height) {
   let url = `${getEnvNodeApiEndpoint()}`;
   url += `/evm/chain/${network}/contract/${contract}/address/${address}/height/${height}`;
 
-  const response = await axios.get(url);
-  return response.data;
+  const response = await fetch(url);
+  const json = await response.json();
+  return json;
 }
 
 async function getChainHeight(chain, time) {
