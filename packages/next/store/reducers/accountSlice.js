@@ -1,8 +1,8 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
 
-import { setCookie, getCookie, clearCookie } from "frontedUtils/cookie";
+import { clearCookie, getCookie, setCookie } from "frontedUtils/cookie";
 import { encodeAddress, isAddress } from "@polkadot/util-crypto";
-import { CHAINS } from "../../frontedUtils/consts/chains";
+import { CHAINS, evmChains } from "../../frontedUtils/consts/chains";
 
 const accountSlice = createSlice({
   name: "account",
@@ -97,6 +97,11 @@ export const loginAddressSelector = createSelector(
     if (!network || !account) {
       return null;
     }
+
+    if (evmChains.includes(network.network)) {
+      return account.address;
+    }
+
     return encodeAddress(account.address, network.ss58Format);
   }
 );

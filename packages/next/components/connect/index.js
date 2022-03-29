@@ -5,7 +5,6 @@ import {
   setAccount,
 } from "store/reducers/accountSlice";
 
-import Button from "components/button";
 import AccountSelector from "../accountSelector";
 
 import styled from "styled-components";
@@ -18,6 +17,8 @@ import NoAccount from "@/components/connect/noAccount";
 import Closeable from "@/components/connect/closeable";
 import useExtension from "../../frontedUtils/hooks/useExtension";
 import { evmChains } from "../../frontedUtils/consts/chains";
+import ConnectButton from "@/components/connect/connectButton";
+import { getMetamaskElement } from "@/components/connect/metamask";
 
 const Wrapper = styled.div``;
 
@@ -29,6 +30,12 @@ export default function Connect({ space, setShowMenu }) {
   const availableNetworks = useSelector(availableNetworksSelector);
   const { accounts, hasExtension, extensionAccessible, detecting } =
     useExtension();
+
+  useEffect(() => {
+    if (accounts && accounts.length > 0) {
+      setAddress(accounts[0].address);
+    }
+  }, [accounts]);
 
   const doConnect = async () => {
     try {
@@ -49,7 +56,12 @@ export default function Connect({ space, setShowMenu }) {
 
   useEffect(() => {
     if (isEvmChain) {
-      return setElement(null);
+      getMetamaskElement(chain.network, dispatch, () =>
+        setShowMenu(false)
+      ).then((element) => {
+        setElement(element);
+      });
+      return;
     }
 
     if (detecting) {
@@ -78,13 +90,18 @@ export default function Connect({ space, setShowMenu }) {
         />
 
         <ActionBar>
-          <Button primary onClick={doConnect}>
-            Connect
-          </Button>
+          <ConnectButton doConnect={doConnect} />
         </ActionBar>
       </>
     );
-  }, [extensionAccessible, accounts, hasExtension, detecting, isEvmChain]);
+  }, [
+    dispatch,
+    extensionAccessible,
+    accounts,
+    hasExtension,
+    detecting,
+    isEvmChain,
+  ]);
 
   return (
     <Wrapper>

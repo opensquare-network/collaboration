@@ -1,22 +1,12 @@
 import Button from "@/components/button";
-import { useDispatch } from "react-redux";
-import { closeConnect } from "../../store/reducers/showConnectSlice";
 import { memo } from "react";
 
-function GoToExtension({ text }) {
-  const dispatch = useDispatch();
-  const closeModal = () => dispatch(closeConnect());
-
+function GoToExtension({ text, link = "https://polkadot.js.org/extension/" }) {
   return (
     <Button
       color="orange"
       onClick={() => {
-        closeModal();
-        const newWindow = window.open(
-          "https://polkadot.js.org/extension/",
-          "_blank",
-          "noopener,noreferrer"
-        );
+        const newWindow = window.open(link, "_blank", "noopener,noreferrer");
         if (newWindow) newWindow.opener = null;
       }}
     >

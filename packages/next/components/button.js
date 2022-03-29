@@ -2,24 +2,25 @@ import styled, { css } from "styled-components";
 import { p_14_medium } from "../styles/textStyles";
 
 const Wrapper = styled.div`
+  display: flex;
   ${p_14_medium};
   text-align: center;
   padding: 7px 15px;
   border: 1px solid #b7c0cc;
   cursor: pointer;
   color: #1e2134;
-  &:hover{
+  &:hover {
     border-color: #404753;
   }
   ${(p) =>
-          p?.color === "orange" &&
-          css`
+    p?.color === "orange" &&
+    css`
       color: #ffffff;
-      background: #E37F06;
-      border-color: #E37F06;
-      &:hover{
-        background: #E7932E;
-        border-color: #E7932E;
+      background: #e37f06;
+      border-color: #e37f06;
+      &:hover {
+        background: #e7932e;
+        border-color: #e7932e;
       }
     `}
   ${(p) =>
@@ -29,29 +30,29 @@ const Wrapper = styled.div`
       border: none;
       color: #ffffff;
       background: #191e27;
-      &:hover{
+      &:hover {
         background: #404753;
       }
     `}
   ${(p) =>
-          p.large &&
-          css`
+    p.large &&
+    css`
       padding: 12px 16px;
     `}
   ${(p) =>
-          (p.isLoading || p.disabled) &&
-          css`
+    (p.isLoading || p.disabled) &&
+    css`
       background: #e2e8f0;
       pointer-events: none;
     `}
   ${(p) =>
-          (p.isLoading) &&
-          css`
+    p.isLoading &&
+    css`
       cursor: wait;
     `}
   ${(p) =>
-          (p.disabled) &&
-          css`
+    p.disabled &&
+    css`
       cursor: not-allowed;
     `}
 `;

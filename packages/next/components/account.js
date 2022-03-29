@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   loginAccountSelector,
   loginAddressSelector,
@@ -12,7 +12,7 @@ import Avatar from "./avatar";
 import { p_14_medium } from "../styles/textStyles";
 import UserIcon from "../public/imgs/icons/user.svg";
 import { shadow_200 } from "../styles/globalCss";
-import { useWindowSize, useIsMounted } from "../frontedUtils/hooks";
+import { useIsMounted, useWindowSize } from "../frontedUtils/hooks";
 import { fetchIdentity } from "services/identity";
 import IdentityIcon from "components/identityIcon";
 import ButtonPrimary from "components/button";
@@ -21,6 +21,7 @@ import {
   showConnectSelector,
 } from "../store/reducers/showConnectSlice";
 import ChainIcon from "@/components/chain/chainIcon";
+import { evmChains } from "../frontedUtils/consts/chains";
 
 const ConnectModal = dynamic(() => import("./connect"), {
   ssr: false,
@@ -188,7 +189,11 @@ export default function Account({ space, showMenu, setShowMenu }) {
   useEffect(() => setPageMounted(true), []);
 
   useEffect(() => {
-    if (account?.address && account?.network) {
+    if (
+      account?.address &&
+      account?.network &&
+      !evmChains.includes(account.network)
+    ) {
       fetchIdentity(account.network, account?.address)
         .then((identity) => {
           if (isMounted.current) {
