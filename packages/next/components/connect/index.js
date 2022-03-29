@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   availableNetworksSelector,
@@ -17,6 +17,7 @@ import NoExtension from "@/components/connect/noExtension";
 import NoAccount from "@/components/connect/noAccount";
 import Closeable from "@/components/connect/closeable";
 import useExtension from "../../frontedUtils/hooks/useExtension";
+import { evmChains } from "../../frontedUtils/consts/chains";
 
 const Wrapper = styled.div``;
 
@@ -24,6 +25,7 @@ export default function Connect({ space, setShowMenu }) {
   const dispatch = useDispatch();
   const [chain, setChain] = useState(space.networks[0]);
   const [address, setAddress] = useState();
+  const [element, setElement] = useState(null);
   const availableNetworks = useSelector(availableNetworksSelector);
   const { accounts, hasExtension, extensionAccessible, detecting } =
     useExtension();
@@ -43,17 +45,31 @@ export default function Connect({ space, setShowMenu }) {
     }
   };
 
-  return (
-    <Wrapper>
-      <Closeable
-        open={extensionAccessible && accounts.length > 0 && !detecting}
-      >
-        <StyledText>Chain</StyledText>
-        <ChainSelector
-          chains={availableNetworks}
-          onSelect={(chain) => setChain(chain)}
-        />
+  const isEvmChain = evmChains.includes(chain?.network);
 
+  useEffect(() => {
+    if (isEvmChain) {
+      return setElement(null);
+    }
+
+    if (detecting) {
+      return setElement(null);
+    }
+
+    if (!hasExtension) {
+      return setElement(<NoExtension />);
+    }
+
+    if (!extensionAccessible) {
+      return setElement(<NotAccessible />);
+    }
+
+    if (accounts.length <= 0) {
+      return setElement(<NoAccount />);
+    }
+
+    setElement(
+      <>
         <StyledText>Account</StyledText>
         <AccountSelector
           accounts={accounts}
@@ -66,15 +82,21 @@ export default function Connect({ space, setShowMenu }) {
             Connect
           </Button>
         </ActionBar>
-      </Closeable>
+      </>
+    );
+  }, [extensionAccessible, accounts, hasExtension, detecting, isEvmChain]);
 
-      <NoExtension open={!hasExtension && !detecting} />
-      <NoAccount
-        open={extensionAccessible && accounts.length === 0 && !detecting}
-      />
-      <NotAccessible
-        open={hasExtension && !extensionAccessible && !detecting}
-      />
+  return (
+    <Wrapper>
+      <Closeable open={!detecting}>
+        <StyledText>Chain</StyledText>
+        <ChainSelector
+          chains={availableNetworks}
+          onSelect={(chain) => setChain(chain)}
+        />
+
+        {element}
+      </Closeable>
     </Wrapper>
   );
 }

@@ -1,16 +1,15 @@
 import { ActionBar, StyledDescription } from "@/components/connect/styled";
 import Button from "@/components/button";
-import { memo } from "react";
+import { Fragment, memo } from "react";
 import { useDispatch } from "react-redux";
 import { closeConnect } from "../../store/reducers/showConnectSlice";
-import Closeable from "@/components/connect/closeable";
 
-function NotAccessible({ open }) {
+function NotAccessible() {
   const dispatch = useDispatch();
   const closeModal = () => dispatch(closeConnect());
 
   return (
-    <Closeable open={open}>
+    <Fragment>
       <StyledDescription>
         Polkadot-js extension is detected but unaccessible, please go to
         Polkadot-js extension, settings, and check Manage Website Access
@@ -22,7 +21,7 @@ function NotAccessible({ open }) {
           Got it.
         </Button>
       </ActionBar>
-    </Closeable>
+    </Fragment>
   );
 }
 

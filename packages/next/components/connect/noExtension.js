@@ -1,11 +1,10 @@
 import { ActionBar, StyledDescription } from "@/components/connect/styled";
-import { memo } from "react";
-import Closeable from "@/components/connect/closeable";
+import { Fragment, memo } from "react";
 import GoToExtension from "@/components/connect/gotoExtensionButton";
 
-function NoExtension({ open }) {
+function NoExtension() {
   return (
-    <Closeable open={open}>
+    <Fragment>
       <StyledDescription>
         Polkadot-js extension not detected. No web3 account could be found.
         Visit this page on a computer with polkadot-js extension.
@@ -14,7 +13,7 @@ function NoExtension({ open }) {
       <ActionBar>
         <GoToExtension text="Polkadot{.js} Extension" />
       </ActionBar>
-    </Closeable>
+    </Fragment>
   );
 }
 
