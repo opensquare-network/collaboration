@@ -65,8 +65,6 @@ export default function PostCreate({ space }) {
   const account = useSelector(loginAccountSelector);
   const loginAddress = useSelector(loginAddressSelector);
   const loginNetworkSnapshot = useSelector(loginNetworkSnapshotSelector);
-  console.log("account", account);
-  console.log("space", space);
 
   const snapshotHeights = useSelector(snapshotHeightsSelector);
   const router = useRouter();
