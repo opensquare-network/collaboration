@@ -81,10 +81,6 @@ export default function PostCreate({ space }) {
   const [endDate, setEndDate] = useState();
   const [viewFunc, setViewFunc] = useState(null);
 
-  const threshold = space.proposeThreshold;
-  const decimals = space.decimals;
-  const symbol = space.symbol;
-
   const useProxy = useSelector(useProxySelector);
   const proxyAddress = useSelector(proxySelector);
 
@@ -257,9 +253,6 @@ export default function PostCreate({ space }) {
           endDate={endDate}
           setEndDate={setEndDate}
           onPublish={onPublish}
-          threshold={threshold}
-          symbol={symbol}
-          decimals={decimals}
           space={space}
         />
       </SiderWrapper>

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import DatePicker from "components/datePicker";
-import BigNumber from "bignumber.js";
 import Title from "@/components/styled/subTitle";
 import { useDispatch, useSelector } from "react-redux";
 import Information from "./information";
@@ -15,8 +14,6 @@ import QuestionMark from "../../public/imgs/icons/question-mark.svg";
 import BlockIcon from "../../public/imgs/icons/block.svg";
 import Tooltip from "@/components/tooltip";
 import Flex from "@/components/styled/flex";
-import { balanceSelector } from "../../store/reducers/accountSlice";
-import { loadBalanceErrorSelector } from "../../store/reducers/statusSlice";
 import Publish from "@/components/postCreate/publish";
 
 const Wrapper = styled.div`
@@ -93,9 +90,6 @@ export default function More({
   endDate,
   setEndDate,
   onPublish,
-  threshold,
-  symbol,
-  decimals,
   space,
 }) {
   const dispatch = useDispatch();
@@ -186,14 +180,9 @@ export default function More({
           <img src="/imgs/icons/info.svg" alt="" />
         </TitleWrapper>
         <Divider />
-        <Information
-          decimals={decimals}
-          threshold={threshold}
-          space={space}
-          symbol={symbol}
-        />
+        <Information space={space} />
       </InnerWrapper>
-      <Publish threshold={threshold} onPublish={onPublish} />
+      <Publish threshold={space.proposeThreshold} onPublish={onPublish} />
     </Wrapper>
   );
 }

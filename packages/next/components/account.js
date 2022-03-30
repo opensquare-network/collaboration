@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  isEvmSelector,
   loginAccountSelector,
   loginAddressSelector,
   logout,
@@ -186,6 +187,7 @@ export default function Account({ space }) {
   const [pageMounted, setPageMounted] = useState(false);
   const [identity, setIdentity] = useState();
   const address = useSelector(loginAddressSelector);
+  const isEvm = useSelector(isEvmSelector);
   const spaceSupportMultiChain = space?.networks?.length > 1;
 
   const showMenu = useSelector(showHeaderMenuSelector);
@@ -193,6 +195,8 @@ export default function Account({ space }) {
   useEffect(() => setPageMounted(true), []);
 
   useEffect(() => {
+    setIdentity(null);
+
     if (
       account?.address &&
       account?.network &&
@@ -249,7 +253,9 @@ export default function Account({ space }) {
               {spaceSupportMultiChain && (
                 <ChainIcon chainName={account?.network} size={16} />
               )}
-              {identity?.info && identity?.info?.status !== "NO_ID" ? (
+              {!isEvm &&
+              identity?.info &&
+              identity?.info?.status !== "NO_ID" ? (
                 <IdentityWrapper>
                   <IdentityIcon
                     status={identity.info.status}

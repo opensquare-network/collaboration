@@ -155,15 +155,18 @@ export default function PostAddress({ space, size }) {
   const [isLoading, setIsLoading] = useState(false);
   const { width } = useWindowSize();
   const [inputAddress, setInputAddress] = useState(proxyAddress);
-  const loginNetwork = useSelector(loginNetworkSelector);
   const loginNetworkSnapshot = useSelector(loginNetworkSnapshotSelector);
   const [identityInfo, setIdentityInfo] = useState();
-
+  const loginNetwork = useSelector(loginNetworkSelector);
   const { network, ss58Format } = loginNetwork || {};
 
   const ref = useRef();
 
   useEffect(() => {
+    if (isNil(ss58Format)) {
+      return;
+    }
+
     if (!inputAddress) {
       dispatch(setProxy(null));
       dispatch(setProxyBalance(null));

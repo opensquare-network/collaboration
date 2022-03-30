@@ -8,6 +8,7 @@ import { toPrecision } from "../../frontedUtils";
 import { useDispatch, useSelector } from "react-redux";
 import {
   canUseProxySelector,
+  loginAddressSelector,
   setUseProxy,
   targetBalanceSelector,
   useProxySelector,
@@ -32,18 +33,16 @@ const PostAddressWrapper = styled.div`
   margin-top: 4px !important;
 `;
 
-const Placeholder = styled.div`
-  height: 8px;
-  margin-top: 0 !important;
-`;
+export default function Information({ space }) {
+  const { proposeThreshold: threshold, decimals, symbol } = space;
 
-export default function Information({ decimals, threshold, space, symbol }) {
   const dispatch = useDispatch();
   const balance = useSelector(targetBalanceSelector);
   const canUseProxy = useSelector(canUseProxySelector);
   const loadBalanceError = useSelector(loadBalanceErrorSelector);
   const useProxy = useSelector(useProxySelector);
   const belowThreshold = new BigNumber(balance).isLessThan(threshold);
+  const loginAddress = useSelector(loginAddressSelector);
 
   const proxyBalanceLoading = useSelector(proxyBalanceLoadingSelector);
   const balanceLoading = useSelector(balanceLoadingSelector);
@@ -75,7 +74,9 @@ export default function Information({ decimals, threshold, space, symbol }) {
   }
 
   let hint = null;
-  if (loadBalanceError) {
+  if (!loginAddress) {
+    hint = <Hint>Link an address to create proposal.</Hint>;
+  } else if (loadBalanceError) {
     hint = <Hint>{loadBalanceError}</Hint>;
   } else if (belowThreshold) {
     hint = (
