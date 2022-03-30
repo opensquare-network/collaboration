@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   availableNetworksSelector,
@@ -37,20 +37,22 @@ export default function Connect({ space, setShowMenu }) {
     }
   }, [accounts]);
 
-  const doConnect = async () => {
-    try {
-      dispatch(
-        setAccount({
-          address,
-          network: chain.network,
-        })
-      );
-      dispatch(closeConnect());
-      setShowMenu(false);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const doConnect = useCallback(() => {
+    return function () {
+      try {
+        dispatch(
+          setAccount({
+            address,
+            network: chain.network,
+          })
+        );
+        dispatch(closeConnect());
+        setShowMenu(false);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+  }, [dispatch, address, chain.network, setShowMenu]);
 
   const isEvmChain = evmChains.includes(chain?.network);
 
@@ -101,6 +103,9 @@ export default function Connect({ space, setShowMenu }) {
     hasExtension,
     detecting,
     isEvmChain,
+    chain,
+    setShowMenu,
+    doConnect,
   ]);
 
   return (

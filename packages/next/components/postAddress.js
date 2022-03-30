@@ -159,6 +159,8 @@ export default function PostAddress({ space, size }) {
   const loginNetworkSnapshot = useSelector(loginNetworkSnapshotSelector);
   const [identityInfo, setIdentityInfo] = useState();
 
+  const { network, ss58Format } = loginNetwork || {};
+
   const ref = useRef();
 
   useEffect(() => {
@@ -178,23 +180,23 @@ export default function PostAddress({ space, size }) {
       return;
     }
 
-    dispatch(setProxy(encodeAddress(inputAddress, loginNetwork.ss58Format)));
-  }, [dispatch, inputAddress]);
+    dispatch(setProxy(encodeAddress(inputAddress, ss58Format)));
+  }, [dispatch, inputAddress, ss58Format]);
 
   useEffect(() => {
-    if (!proxyAddress) {
+    if (!proxyAddress || !network) {
       return;
     }
 
     setIsLoading(true);
-    fetchIdentity(loginNetwork.network, inputAddress)
+    fetchIdentity(network, proxyAddress)
       .then((response) => {
         setIdentityInfo(response?.info);
       })
       .finally(() => {
         setIsLoading(false);
       });
-  }, [proxyAddress]);
+  }, [proxyAddress, inputAddress, network]);
 
   useEffect(() => {
     if (!proxyAddress) {
@@ -204,7 +206,7 @@ export default function PostAddress({ space, size }) {
     dispatch(setProxyBalanceLoading(true));
     dispatch(setLoadBalanceError(""));
     delayLoading(
-      `${space.id}/${loginNetwork.network}/account/${proxyAddress}/balance?snapshot=${loginNetworkSnapshot}`
+      `${space.id}/${network}/account/${proxyAddress}/balance?snapshot=${loginNetworkSnapshot}`
     )
       .then(([result]) => {
         if (!isNil(result?.result?.balance)) {
@@ -223,7 +225,7 @@ export default function PostAddress({ space, size }) {
       .finally(() => {
         dispatch(setProxyBalanceLoading(false));
       });
-  }, [proxyAddress]);
+  }, [proxyAddress, dispatch, network, loginNetworkSnapshot, space.id]);
 
   return (
     <Wrapper size={size}>

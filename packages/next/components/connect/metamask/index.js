@@ -24,8 +24,6 @@ export async function getMetamaskElement(network, dispatch, hookFn = () => {}) {
     return <MetamaskNoAccount />;
   }
 
-  console.log("accounts", accounts);
-
   const doConnect = async () => {
     try {
       dispatch(

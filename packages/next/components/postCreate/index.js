@@ -90,7 +90,7 @@ export default function PostCreate({ space }) {
 
   useEffect(() => {
     dispatch(setLoadBalanceError(""));
-  }, [loginAddress]);
+  }, [loginAddress, dispatch]);
 
   useEffect(() => {
     dispatch(
@@ -161,14 +161,7 @@ export default function PostCreate({ space }) {
       .finally(() => {
         dispatch(setBalanceLoading(false));
       });
-  }, [
-    space,
-    account?.network,
-    account?.address,
-    account?.ss58Format,
-    dispatch,
-    snapshotHeights,
-  ]);
+  }, [space, account?.network, dispatch, loginAddress, loginNetworkSnapshot]);
 
   useEffect(() => {
     if (isInputting) {
