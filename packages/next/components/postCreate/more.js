@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import DatePicker from "components/datePicker";
-import Title from "@/components/styled/subTitle";
 import { useDispatch, useSelector } from "react-redux";
 import Information from "./information";
 import SnapshotHeightPicker from "@/components/snapshotHeightPicker";
@@ -10,11 +9,8 @@ import {
   setSnapshotHeights,
   snapshotHeightsSelector,
 } from "../../store/reducers/snapshotHeightSlice";
-import QuestionMark from "../../public/imgs/icons/question-mark.svg";
-import BlockIcon from "../../public/imgs/icons/block.svg";
-import Tooltip from "@/components/tooltip";
-import Flex from "@/components/styled/flex";
 import Publish from "@/components/postCreate/publish";
+import SideSectionTitle from "@/components/sideBar/sideSectionTitle";
 
 const Wrapper = styled.div`
   min-width: 302px;
@@ -40,12 +36,6 @@ const InnerWrapper = styled.div`
   > :not(:first-child) {
     margin-top: 16px;
   }
-`;
-
-const TitleWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 `;
 
 const SystemWrapper = styled.div`
@@ -119,17 +109,11 @@ export default function More({
   return (
     <Wrapper>
       <InnerWrapper>
-        <TitleWrapper>
-          <Title>System</Title>
-          <img src="/imgs/icons/action.svg" alt="" />
-        </TitleWrapper>
+        <SideSectionTitle title="System" img="/imgs/icons/action.svg" />
         <SystemWrapper>Single choice voting</SystemWrapper>
       </InnerWrapper>
       <InnerWrapper>
-        <TitleWrapper>
-          <Title>Period</Title>
-          <img src="/imgs/icons/date.svg" alt="" />
-        </TitleWrapper>
+        <SideSectionTitle title="Period" img="/imgs/icons/date.svg" />
         <DateWrapper>
           <DatePicker
             date={startDate}
@@ -145,15 +129,11 @@ export default function More({
         </DateWrapper>
       </InnerWrapper>
       <InnerWrapper>
-        <TitleWrapper>
-          <Flex style={{ gap: 4 }}>
-            <Title>Snapshot</Title>
-            <Tooltip content={"Support multiple chain voting"} size="fit">
-              <QuestionMark />
-            </Tooltip>
-          </Flex>
-          <BlockIcon />
-        </TitleWrapper>
+        <SideSectionTitle
+          title="Snapshot"
+          tooltip="Support multiple chain voting"
+          img="/imgs/icons/block.svg"
+        />
         <DateWrapper>
           <SnapshotHeightPicker
             date={snapshotHeightDate}
@@ -175,10 +155,7 @@ export default function More({
         )} */}
       </InnerWrapper>
       <InnerWrapper>
-        <TitleWrapper>
-          <Title>Information</Title>
-          <img src="/imgs/icons/info.svg" alt="" />
-        </TitleWrapper>
+        <SideSectionTitle title="Information" img="/imgs/icons/info.svg" />
         <Divider />
         <Information space={space} />
       </InnerWrapper>

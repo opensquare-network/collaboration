@@ -6,13 +6,7 @@ import ValueDisplay from "../valueDisplay";
 import LinkSvg from "public/imgs/icons/link.svg";
 import ExternalLink from "components/externalLink";
 import Panel from "@/components/postDetail/panel";
-
-const TitleWrapper = styled.div`
-  ${p_16_semibold};
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
+import SideSectionTitle from "@/components/sideBar/sideSectionTitle";
 
 const Divider = styled.div`
   height: 1px;
@@ -307,10 +301,7 @@ export default function PostResult({ data, voteStatus, space }) {
 
   return (
     <Panel>
-      <TitleWrapper>
-        Results
-        <img src="/imgs/icons/strategy.svg" alt="" />
-      </TitleWrapper>
+      <SideSectionTitle title="Results" img="/imgs/icons/strategy.svg" />
       <Divider />
       <div>
         <VoteItem>
