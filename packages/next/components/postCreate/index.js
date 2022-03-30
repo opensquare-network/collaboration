@@ -6,6 +6,7 @@ import Content from "./content";
 import Choices from "./choices";
 import More from "./more";
 import {
+  isEvmSelector,
   loginAccountSelector,
   loginAddressSelector,
   proxySelector,
@@ -72,6 +73,7 @@ export default function PostCreate({ space }) {
   const account = useSelector(loginAccountSelector);
   const loginAddress = useSelector(loginAddressSelector);
   const loginNetworkSnapshot = useSelector(loginNetworkSnapshotSelector);
+  const isEvm = useSelector(isEvmSelector);
 
   const snapshotHeights = useSelector(snapshotHeightsSelector);
   const router = useRouter();
@@ -187,7 +189,7 @@ export default function PostCreate({ space }) {
       startDate: startDate?.getTime(),
       endDate: endDate?.getTime(),
       snapshotHeights: proposalSnapshotHeights,
-      address: encodeAddress(address, ss58Format),
+      address: isEvm ? address : encodeAddress(address, ss58Format),
       realProposer: useProxy ? proxyAddress : null,
       proposerNetwork: account.network,
     };

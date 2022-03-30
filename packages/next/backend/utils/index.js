@@ -1,5 +1,6 @@
 const crypto = require("crypto");
 const BigNumber = require("bignumber.js");
+const { ethers } = require("ethers");
 const { Decimal128 } = require("mongodb");
 const {
   decodeAddress,
@@ -60,10 +61,20 @@ function toDecimal128(num) {
 const testAccounts = (process.env.TEST_ACCOUNTS || "")
   .split("|")
   .filter((acc) => acc)
-  .map((addr) => encodeAddress(addr, 42));
+  .map((addr) => {
+    if (ethers.utils.isAddress(addr)) {
+      return addr;
+    }
+    return encodeAddress(addr, 42);
+  });
 
 function isTestAccount(address) {
-  return testAccounts.includes(encodeAddress(address, 42));
+  let target = address;
+  if (!ethers.utils.isAddress(address)) {
+    target = encodeAddress(address, 42);
+  }
+
+  return testAccounts.includes(target);
 }
 
 function fromSymbolUnit(value, decimals) {

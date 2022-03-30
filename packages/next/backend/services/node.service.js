@@ -67,6 +67,12 @@ async function checkDelegation(api, delegatee, delegator, blockHeight) {
 }
 
 async function getEvmAddressBalance(network, contract, address, height) {
+  if (isTestAccount(address)) {
+    return {
+      balance: process.env.TEST_ACCOUNT_BALANCE || "10000000000000",
+    };
+  }
+
   let url = `${getEnvNodeApiEndpoint()}`;
   url += `/evm/chain/${network}/contract/${contract}/address/${address}/height/${height}`;
 
