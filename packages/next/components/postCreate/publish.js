@@ -7,7 +7,10 @@ import {
 } from "../../store/reducers/accountSlice";
 import Button from "@/components/button";
 import { popUpConnect } from "../../store/reducers/showConnectSlice";
-import { balanceLoadingSelector } from "../../store/reducers/statusSlice";
+import {
+  balanceLoadingSelector,
+  createProposalLoadingSelector,
+} from "../../store/reducers/statusSlice";
 import BigNumber from "bignumber.js";
 
 function Publish({ threshold, onPublish }) {
@@ -17,6 +20,7 @@ function Publish({ threshold, onPublish }) {
   const balanceLoading = useSelector(balanceLoadingSelector);
   const balance = useSelector(targetBalanceSelector);
   const belowThreshold = new BigNumber(balance).isLessThan(threshold);
+  const createProposalLoading = useSelector(createProposalLoadingSelector);
 
   if (!loginAddress) {
     return (
@@ -31,7 +35,7 @@ function Publish({ threshold, onPublish }) {
       large
       primary
       onClick={onPublish}
-      isLoading={balanceLoading}
+      isLoading={balanceLoading || createProposalLoading}
       disabled={belowThreshold}
     >
       {useProxy ? "Proxy Publish" : "Publish"}

@@ -8,8 +8,10 @@ import More from "./more";
 import {
   loginAccountSelector,
   loginAddressSelector,
+  proxySelector,
   setAvailableNetworks,
   setBalance,
+  useProxySelector,
 } from "store/reducers/accountSlice";
 import { addToast } from "store/reducers/toastSlice";
 import { TOAST_TYPES } from "frontedUtils/constants";
@@ -25,6 +27,7 @@ import isNil from "lodash.isnil";
 import delayLoading from "../../services/delayLoading";
 import {
   setBalanceLoading,
+  setCreateProposalLoading,
   setLoadBalanceError,
 } from "../../store/reducers/statusSlice";
 
@@ -76,17 +79,14 @@ export default function PostCreate({ space }) {
   const [choices, setChoices] = useState(["", ""]);
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
-  const [balanceError, setBalanceError] = useState(null);
   const [viewFunc, setViewFunc] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [proxyPublish, setProxyPublish] = useState(false);
-  const [proxyAddress, setProxyAddress] = useState("");
-  const [proxyBalance, setProxyBalance] = useState(null);
-  const [isInputting, setIsInputting] = useState(false);
 
   const threshold = space.proposeThreshold;
   const decimals = space.decimals;
   const symbol = space.symbol;
+
+  const useProxy = useSelector(useProxySelector);
+  const proxyAddress = useSelector(proxySelector);
 
   useEffect(() => {
     dispatch(setLoadBalanceError(""));
@@ -126,10 +126,8 @@ export default function PostCreate({ space }) {
     // if the balance is above the threshold
     if (!loginAddress) {
       dispatch(setBalance(null));
-      setBalanceError("Link an address to create proposal.");
       return;
     }
-    setBalanceError(null);
 
     if (loginNetworkSnapshot <= 0) {
       return;
@@ -163,15 +161,7 @@ export default function PostCreate({ space }) {
       });
   }, [space, account?.network, dispatch, loginAddress, loginNetworkSnapshot]);
 
-  useEffect(() => {
-    if (isInputting) {
-      setProxyBalance(null);
-    }
-  }, [proxyBalance, isInputting]);
-
   const onPublish = async () => {
-    if (isLoading) return;
-
     const address = account?.address ?? "";
     const ss58Format = account?.ss58Format ?? 0;
     if (!address) {
@@ -199,9 +189,7 @@ export default function PostCreate({ space }) {
       endDate: endDate?.getTime(),
       snapshotHeights: proposalSnapshotHeights,
       address: encodeAddress(address, ss58Format),
-      realProposer: proxyPublish
-        ? encodeAddress(proxyAddress, ss58Format)
-        : null,
+      realProposer: useProxy ? proxyAddress : null,
       proposerNetwork: account.network,
     };
 
@@ -216,7 +204,7 @@ export default function PostCreate({ space }) {
       return;
     }
 
-    setIsLoading(true);
+    dispatch(setCreateProposalLoading(true));
     try {
       const { result, error } = await viewFunc.createProposal(proposal);
       if (result) {
@@ -247,7 +235,7 @@ export default function PostCreate({ space }) {
         })
       );
     } finally {
-      setIsLoading(false);
+      dispatch(setCreateProposalLoading(false));
     }
   };
 
@@ -269,20 +257,10 @@ export default function PostCreate({ space }) {
           endDate={endDate}
           setEndDate={setEndDate}
           onPublish={onPublish}
-          isLoading={isLoading}
           threshold={threshold}
           symbol={symbol}
           decimals={decimals}
-          balanceError={balanceError}
-          proxyPublish={proxyPublish}
-          setProxyPublish={setProxyPublish}
-          proxyAddress={proxyAddress}
-          setProxyAddress={setProxyAddress}
           space={space}
-          proxyBalance={proxyBalance}
-          setProxyBalance={setProxyBalance}
-          isInputting={isInputting}
-          setIsInputting={setIsInputting}
         />
       </SiderWrapper>
     </Wrapper>

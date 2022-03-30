@@ -93,27 +93,11 @@ export default function More({
   endDate,
   setEndDate,
   onPublish,
-  isLoading,
   threshold,
   symbol,
   decimals,
-  proxyPublish,
-  proxyAddress,
-  setProxyAddress,
   space,
-  setProxyBalance,
-  proxyBalance,
-  isInputting,
-  setIsInputting,
 }) {
-  const balanceError = useSelector(loadBalanceErrorSelector);
-  const balance = useSelector(balanceSelector);
-
-  const thresholdFulfilled =
-    new BigNumber(balance).comparedTo(new BigNumber(threshold)) >= 0;
-  const proxyThresholdFulfilled =
-    new BigNumber(Number(proxyBalance)).comparedTo(new BigNumber(threshold)) >=
-    0;
   const dispatch = useDispatch();
   const [snapshotHeightDate, setSnapshotHeightDate] = useState();
   const snapshotHeights = useSelector(snapshotHeightsSelector);
@@ -204,17 +188,8 @@ export default function More({
         <Divider />
         <Information
           decimals={decimals}
-          thresholdFulfilled={thresholdFulfilled}
           threshold={threshold}
-          balanceError={balanceError}
-          proxyBalance={proxyBalance}
-          isInputting={isInputting}
-          proxyThresholdFulfilled={proxyThresholdFulfilled}
-          proxyAddress={proxyAddress}
-          setProxyAddress={setProxyAddress}
           space={space}
-          setIsInputting={setIsInputting}
-          setProxyBalance={setProxyBalance}
           symbol={symbol}
         />
       </InnerWrapper>

@@ -18,7 +18,9 @@ import IdentityIcon from "components/identityIcon";
 import ButtonPrimary from "components/button";
 import {
   popUpConnect,
+  setShowHeaderMenu,
   showConnectSelector,
+  showHeaderMenuSelector,
 } from "../store/reducers/showConnectSlice";
 import ChainIcon from "@/components/chain/chainIcon";
 import { evmChains } from "../frontedUtils/consts/chains";
@@ -175,7 +177,7 @@ const IdentityWrapper = styled.div`
   }
 `;
 
-export default function Account({ space, showMenu, setShowMenu }) {
+export default function Account({ space }) {
   const dispatch = useDispatch();
   const isMounted = useIsMounted();
   const windowSize = useWindowSize();
@@ -185,6 +187,8 @@ export default function Account({ space, showMenu, setShowMenu }) {
   const [identity, setIdentity] = useState();
   const address = useSelector(loginAddressSelector);
   const spaceSupportMultiChain = space?.networks?.length > 1;
+
+  const showMenu = useSelector(showHeaderMenuSelector);
 
   useEffect(() => setPageMounted(true), []);
 
@@ -210,12 +214,12 @@ export default function Account({ space, showMenu, setShowMenu }) {
 
   const onSwitch = () => {
     dispatch(popUpConnect());
-    setShowMenu(false);
+    dispatch(setShowHeaderMenu(false));
   };
 
   const onLogout = () => {
     dispatch(logout());
-    setShowMenu(false);
+    dispatch(setShowHeaderMenu(false));
   };
 
   const ConnectWalletButton = (
@@ -279,7 +283,7 @@ export default function Account({ space, showMenu, setShowMenu }) {
 
   // show ConnectModal on first priority if  showConnect = true
   if (showConnect) {
-    return <ConnectModal space={space} setShowMenu={setShowMenu} />;
+    return <ConnectModal space={space} />;
   }
 
   // if already connected, show address on right top corner
@@ -289,7 +293,7 @@ export default function Account({ space, showMenu, setShowMenu }) {
         <AccountWrapperPC
           show={showMenu}
           onClick={() => {
-            setShowMenu(!showMenu);
+            dispatch(setShowHeaderMenu(!showMenu));
           }}
         >
           <div>

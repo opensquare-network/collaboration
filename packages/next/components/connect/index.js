@@ -1,14 +1,11 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  availableNetworksSelector,
-  setAccount,
-} from "store/reducers/accountSlice";
+import { availableNetworksSelector } from "store/reducers/accountSlice";
 
 import AccountSelector from "../accountSelector";
 
 import styled from "styled-components";
-import { closeConnect } from "../../store/reducers/showConnectSlice";
+import { setShowHeaderMenu } from "../../store/reducers/showConnectSlice";
 import ChainSelector from "@/components/chainSelector";
 import { ActionBar, StyledText } from "@/components/connect/styled";
 import NotAccessible from "@/components/connect/notAccessible";
@@ -22,7 +19,7 @@ import { getMetamaskElement } from "@/components/connect/metamask";
 
 const Wrapper = styled.div``;
 
-export default function Connect({ space, setShowMenu }) {
+export default function Connect({ space }) {
   const dispatch = useDispatch();
   const [chain, setChain] = useState(space.networks[0]);
   const [address, setAddress] = useState();
@@ -37,29 +34,12 @@ export default function Connect({ space, setShowMenu }) {
     }
   }, [accounts]);
 
-  const doConnect = useCallback(() => {
-    return function () {
-      try {
-        dispatch(
-          setAccount({
-            address,
-            network: chain.network,
-          })
-        );
-        dispatch(closeConnect());
-        setShowMenu(false);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-  }, [dispatch, address, chain.network, setShowMenu]);
-
   const isEvmChain = evmChains.includes(chain?.network);
 
   useEffect(() => {
     if (isEvmChain) {
       getMetamaskElement(chain.network, dispatch, () =>
-        setShowMenu(false)
+        dispatch(setShowHeaderMenu(false))
       ).then((element) => {
         setElement(element);
       });
@@ -87,12 +67,14 @@ export default function Connect({ space, setShowMenu }) {
         <StyledText>Account</StyledText>
         <AccountSelector
           accounts={accounts}
-          onSelect={(account) => setAddress(account?.address)}
+          onSelect={(account) => {
+            setAddress(account?.address);
+          }}
           chain={chain}
         />
 
         <ActionBar>
-          <ConnectButton doConnect={doConnect} />
+          <ConnectButton address={address} network={chain.network} />
         </ActionBar>
       </>
     );
@@ -104,8 +86,8 @@ export default function Connect({ space, setShowMenu }) {
     detecting,
     isEvmChain,
     chain,
-    setShowMenu,
-    doConnect,
+    address,
+    chain.network,
   ]);
 
   return (

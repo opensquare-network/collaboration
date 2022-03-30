@@ -11,7 +11,6 @@ export default function encodeAddressByChain(origin, chain) {
     return origin;
   }
 
-  console.log("origin", origin, "chain", chain);
   const ss58Format = chainSs58Format[chain];
   if (typeof ss58Format === "undefined") {
     throw new Error(`Can not find ss58Format for ${chain}`);

@@ -3,6 +3,12 @@ import Button from "@/components/button";
 import Metamask from "./metamask.svg";
 import Polkadot from "./polkadot.svg";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import { setAccount } from "../../../store/reducers/accountSlice";
+import {
+  closeConnect,
+  setShowHeaderMenu,
+} from "../../../store/reducers/showConnectSlice";
 
 const Wrapper = styled.span`
   display: inline-flex;
@@ -13,9 +19,23 @@ const Wrapper = styled.span`
   }
 `;
 
-function ConnectButton({ doConnect, isMetamask = false }) {
+function ConnectButton({ address, network, isMetamask = false }) {
+  const dispatch = useDispatch();
+
   return (
-    <Button primary onClick={doConnect}>
+    <Button
+      primary
+      onClick={() => {
+        dispatch(
+          setAccount({
+            address,
+            network: network,
+          })
+        );
+        dispatch(closeConnect());
+        dispatch(setShowHeaderMenu(false));
+      }}
+    >
       <Wrapper>
         {isMetamask ? <Metamask /> : <Polkadot />}
         Connect

@@ -37,16 +37,7 @@ const Placeholder = styled.div`
   margin-top: 0 !important;
 `;
 
-export default function Information({
-  decimals,
-  threshold,
-  proxyAddress,
-  setProxyAddress,
-  space,
-  setIsInputting,
-  setProxyBalance,
-  symbol,
-}) {
+export default function Information({ decimals, threshold, space, symbol }) {
   const dispatch = useDispatch();
   const balance = useSelector(targetBalanceSelector);
   const canUseProxy = useSelector(canUseProxySelector);
@@ -76,15 +67,7 @@ export default function Information({
         </ProxyVoteWrapper>
         {useProxy && (
           <PostAddressWrapper>
-            <PostAddress
-              size="small"
-              address={proxyAddress}
-              setAddress={setProxyAddress}
-              space={space}
-              setProxyBalance={setProxyBalance}
-              setIsInputting={setIsInputting}
-              flag={false}
-            />
+            <PostAddress size="small" space={space} flag={false} />
           </PostAddressWrapper>
         )}
       </>
