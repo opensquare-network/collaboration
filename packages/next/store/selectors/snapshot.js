@@ -1,6 +1,6 @@
 import { createSelector } from "@reduxjs/toolkit";
 import { loginNetworkSelector } from "../reducers/accountSlice";
-import { snapshotHeightsSelector } from "../reducers/snapshotHeightSlice";
+import { snapshotHeightsSelector } from "../reducers/authoringSlice";
 
 export const loginNetworkSnapshotSelector = createSelector(
   loginNetworkSelector,

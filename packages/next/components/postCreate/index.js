@@ -19,9 +19,11 @@ import { useRouter } from "next/router";
 import { encodeAddress } from "@polkadot/util-crypto";
 import pick from "lodash.pick";
 import {
+  authoringEndDateSelector,
+  authoringStartDateSelector,
   setSnapshotHeights,
   snapshotHeightsSelector,
-} from "../../store/reducers/snapshotHeightSlice";
+} from "../../store/reducers/authoringSlice";
 import { loginNetworkSnapshotSelector } from "../../store/selectors/snapshot";
 import isNil from "lodash.isnil";
 import delayLoading from "../../services/delayLoading";
@@ -77,9 +79,10 @@ export default function PostCreate({ space }) {
   const [title, setTitle] = useState(router.query.title || "");
   const [content, setContent] = useState("");
   const [choices, setChoices] = useState(["", ""]);
-  const [startDate, setStartDate] = useState();
-  const [endDate, setEndDate] = useState();
   const [viewFunc, setViewFunc] = useState(null);
+
+  const startDate = useSelector(authoringStartDateSelector);
+  const endDate = useSelector(authoringEndDateSelector);
 
   const useProxy = useSelector(useProxySelector);
   const proxyAddress = useSelector(proxySelector);
@@ -247,14 +250,7 @@ export default function PostCreate({ space }) {
         <Choices choices={choices} setChoices={setChoices} />
       </MainWrapper>
       <SiderWrapper>
-        <More
-          startDate={startDate}
-          setStartDate={setStartDate}
-          endDate={endDate}
-          setEndDate={setEndDate}
-          onPublish={onPublish}
-          space={space}
-        />
+        <More onPublish={onPublish} space={space} />
       </SiderWrapper>
     </Wrapper>
   );

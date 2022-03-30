@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
 import DatePicker from "components/datePicker";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,9 +6,13 @@ import Information from "./information";
 import SnapshotHeightPicker from "@/components/snapshotHeightPicker";
 import { p_14_medium } from "../../styles/textStyles";
 import {
+  authoringEndDateSelector,
+  authoringStartDateSelector,
+  setEndTimestamp,
   setSnapshotHeights,
+  setStartTimestamp,
   snapshotHeightsSelector,
-} from "../../store/reducers/snapshotHeightSlice";
+} from "../../store/reducers/authoringSlice";
 import Publish from "@/components/postCreate/publish";
 import SideSectionTitle from "@/components/sideBar/sideSectionTitle";
 
@@ -74,17 +78,11 @@ const NetworkName = styled.div`
   color: #506176;
   text-transform: capitalize;
 `;
-export default function More({
-  startDate,
-  setStartDate,
-  endDate,
-  setEndDate,
-  onPublish,
-  space,
-}) {
+export default function More({ onPublish, space }) {
   const dispatch = useDispatch();
-  const [snapshotHeightDate, setSnapshotHeightDate] = useState();
   const snapshotHeights = useSelector(snapshotHeightsSelector);
+  const authoringStartDate = useSelector(authoringStartDateSelector);
+  const authoringEndDate = useSelector(authoringEndDateSelector);
 
   useEffect(() => {
     if (space?.networks) {
@@ -100,10 +98,10 @@ export default function More({
   }, [dispatch, space?.networks]);
 
   function getMinEndDate() {
-    if (!startDate || startDate < new Date()) {
+    if (!authoringStartDate || authoringStartDate < new Date()) {
       return new Date();
     }
-    return startDate;
+    return authoringStartDate;
   }
 
   return (
@@ -116,14 +114,23 @@ export default function More({
         <SideSectionTitle title="Period" img="/imgs/icons/date.svg" />
         <DateWrapper>
           <DatePicker
-            date={startDate}
-            setDate={setStartDate}
+            date={authoringStartDate}
+            setDate={(value) => {
+              if (value?.getTime) {
+                dispatch(setStartTimestamp(value.getTime()));
+              }
+            }}
             placeholder="Start date"
+            defaultTime="now"
           />
           <DatePicker
             minDate={getMinEndDate()}
-            date={endDate}
-            setDate={setEndDate}
+            date={authoringEndDate}
+            setDate={(value) => {
+              if (value?.getTime) {
+                dispatch(setEndTimestamp(value?.getTime()));
+              }
+            }}
             placeholder="End date"
           />
         </DateWrapper>
@@ -135,11 +142,7 @@ export default function More({
           img="/imgs/icons/block.svg"
         />
         <DateWrapper>
-          <SnapshotHeightPicker
-            date={snapshotHeightDate}
-            setDate={setSnapshotHeightDate}
-            space={space}
-          />
+          <SnapshotHeightPicker space={space} />
           {snapshotHeights?.map((snapshot) => (
             <Snapshot className="snapshot" key={snapshot.network}>
               <NetworkName>{snapshot.network}</NetworkName>

@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   setSnapshotHeights,
   snapshotHeightsSelector,
-} from "../../store/reducers/snapshotHeightSlice";
+} from "../../store/reducers/authoringSlice";
 
 const Wrapper = styled.div`
   position: relative;
