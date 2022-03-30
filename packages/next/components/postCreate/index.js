@@ -1,7 +1,6 @@
 import styled from "styled-components";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 
 import Content from "./content";
 import Choices from "./choices";
@@ -10,21 +9,24 @@ import {
   loginAccountSelector,
   loginAddressSelector,
   setAvailableNetworks,
+  setBalance,
 } from "store/reducers/accountSlice";
 import { addToast } from "store/reducers/toastSlice";
 import { TOAST_TYPES } from "frontedUtils/constants";
-import nextApi from "services/nextApi";
 import { useRouter } from "next/router";
-import { encodeAddress, isAddress } from "@polkadot/util-crypto";
+import { encodeAddress } from "@polkadot/util-crypto";
 import pick from "lodash.pick";
 import {
   setSnapshotHeights,
   snapshotHeightsSelector,
 } from "../../store/reducers/snapshotHeightSlice";
+import { loginNetworkSnapshotSelector } from "../../store/selectors/snapshot";
+import isNil from "lodash.isnil";
+import delayLoading from "../../services/delayLoading";
 import {
-  loginNetworkSnapshot,
-  loginNetworkSnapshotSelector,
-} from "../../store/selectors/snapshot";
+  setBalanceLoading,
+  setLoadBalanceError,
+} from "../../store/reducers/statusSlice";
 
 const Wrapper = styled.div`
   display: flex;
@@ -74,22 +76,21 @@ export default function PostCreate({ space }) {
   const [choices, setChoices] = useState(["", ""]);
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
-  const [balance, setBalance] = useState(null);
   const [balanceError, setBalanceError] = useState(null);
   const [viewFunc, setViewFunc] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [proxyPublish, setProxyPublish] = useState(false);
   const [proxyAddress, setProxyAddress] = useState("");
-  const [info, setInfo] = useState();
   const [proxyBalance, setProxyBalance] = useState(null);
-  const [proxyBalanceError, setProxyBalanceError] = useState(
-    "Link an address to create proposal."
-  );
   const [isInputting, setIsInputting] = useState(false);
 
   const threshold = space.proposeThreshold;
   const decimals = space.decimals;
   const symbol = space.symbol;
+
+  useEffect(() => {
+    dispatch(setLoadBalanceError(""));
+  }, [loginAddress]);
 
   useEffect(() => {
     dispatch(
@@ -124,7 +125,7 @@ export default function PostCreate({ space }) {
     // Read the wallet balance, so that we can check
     // if the balance is above the threshold
     if (!loginAddress) {
-      setBalance(null);
+      dispatch(setBalance(null));
       setBalanceError("Link an address to create proposal.");
       return;
     }
@@ -137,34 +138,28 @@ export default function PostCreate({ space }) {
     if (!account?.network) {
       return;
     }
-    const delay = new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve();
-      }, 2000);
-    });
 
-    Promise.all([
-      nextApi.fetch(
-        `${space.id}/${account?.network}/account/${loginAddress}/balance?snapshot=${loginNetworkSnapshot}`
-      ),
-      delay,
-    ])
+    dispatch(setBalanceLoading(true));
+    dispatch(setLoadBalanceError(""));
+    delayLoading(
+      `${space.id}/${account?.network}/account/${loginAddress}/balance?snapshot=${loginNetworkSnapshot}`
+    )
       .then(([result]) => {
-        if (
-          result?.result?.balance !== undefined &&
-          result?.result?.balance !== null
-        ) {
-          setBalance(result?.result?.balance ?? 0);
+        if (!isNil(result?.result?.balance)) {
+          dispatch(setBalance(result?.result?.balance ?? 0));
         } else {
           const message = result?.error?.message || FETCH_BALANCE_ERROR;
           dispatch(addToast({ type: TOAST_TYPES.ERROR, message }));
-          setBalanceError(message);
+          dispatch(setLoadBalanceError(message));
         }
       })
       .catch((error) => {
         const message = error?.message || FETCH_BALANCE_ERROR;
         dispatch(addToast({ type: TOAST_TYPES.ERROR, message }));
-        setBalanceError(message);
+        dispatch(setLoadBalanceError(message));
+      })
+      .finally(() => {
+        dispatch(setBalanceLoading(false));
       });
   }, [
     space,
@@ -174,61 +169,6 @@ export default function PostCreate({ space }) {
     dispatch,
     snapshotHeights,
   ]);
-
-  const getProxyBalance = (proxyAddress) => {
-    // Create proposal with the proxy address
-    // We need to check the balance of the proxy address
-    const address = proxyAddress ?? "";
-    const ss58Format = account?.ss58Format ?? 0;
-    if (!address || !isAddress(address)) {
-      setProxyBalance(null);
-      setProxyBalanceError("Link an address to create proposal.");
-      return;
-    }
-    setProxyBalanceError(null);
-    const height =
-      snapshotHeights?.find(
-        (snapshotHeight) => account?.network === snapshotHeight.network
-      )?.height || 0;
-    if (!(height > 0)) {
-      setProxyBalanceError("Please set snapshot height.");
-      return;
-    }
-    if (!account?.network) {
-      return;
-    }
-    const delay = new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve();
-      }, 2000);
-    });
-    Promise.all([
-      nextApi.fetch(
-        `${space.id}/${account?.network}/account/${encodeAddress(
-          address,
-          ss58Format
-        )}/balance?snapshot=${height}`
-      ),
-      delay,
-    ])
-      .then((results) => {
-        if (
-          results[0]?.result?.balance !== undefined &&
-          results[0]?.result?.balance !== null
-        ) {
-          setProxyBalance(results[0]?.result?.balance ?? 0);
-        } else {
-          const message = results[0]?.error?.message || FETCH_BALANCE_ERROR;
-          dispatch(addToast({ type: TOAST_TYPES.ERROR, message }));
-          setProxyBalanceError(message);
-        }
-      })
-      .catch((error) => {
-        const message = error?.message || FETCH_BALANCE_ERROR;
-        dispatch(addToast({ type: TOAST_TYPES.ERROR, message }));
-        setProxyBalanceError(message);
-      });
-  };
 
   useEffect(() => {
     if (isInputting) {
@@ -335,7 +275,6 @@ export default function PostCreate({ space }) {
           setStartDate={setStartDate}
           endDate={endDate}
           setEndDate={setEndDate}
-          balance={balance}
           onPublish={onPublish}
           isLoading={isLoading}
           threshold={threshold}
@@ -347,11 +286,7 @@ export default function PostCreate({ space }) {
           proxyAddress={proxyAddress}
           setProxyAddress={setProxyAddress}
           space={space}
-          info={info}
-          setInfo={setInfo}
-          getProxyBalance={getProxyBalance}
           proxyBalance={proxyBalance}
-          proxyBalanceError={proxyBalanceError}
           setProxyBalance={setProxyBalance}
           isInputting={isInputting}
           setIsInputting={setIsInputting}

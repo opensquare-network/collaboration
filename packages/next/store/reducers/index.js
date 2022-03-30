@@ -5,6 +5,7 @@ import toastReducer from "./toastSlice";
 import showConnectReducer from "./showConnectSlice";
 import voteReducer from "./voteSlice";
 import snapshotHeightSlice from "./snapshotHeightSlice";
+import statusReducer from "./statusSlice";
 
 export default combineReducers({
   account: accountReducer,
@@ -12,4 +13,5 @@ export default combineReducers({
   showConnect: showConnectReducer,
   vote: voteReducer,
   snapshotHeight: snapshotHeightSlice,
+  status: statusReducer,
 });

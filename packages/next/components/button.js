@@ -4,6 +4,7 @@ import { p_14_medium } from "../styles/textStyles";
 const Wrapper = styled.div`
   display: flex;
   ${p_14_medium};
+  justify-content: center;
   text-align: center;
   padding: 7px 15px;
   border: 1px solid #b7c0cc;

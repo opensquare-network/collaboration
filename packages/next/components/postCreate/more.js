@@ -1,11 +1,9 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import DatePicker from "components/datePicker";
 import BigNumber from "bignumber.js";
-import Button from "@/components/button";
 import Title from "@/components/styled/subTitle";
 import { useDispatch, useSelector } from "react-redux";
-import { popUpConnect } from "../../store/reducers/showConnectSlice";
 import Information from "./information";
 import SnapshotHeightPicker from "@/components/snapshotHeightPicker";
 import { p_14_medium } from "../../styles/textStyles";
@@ -17,6 +15,9 @@ import QuestionMark from "../../public/imgs/icons/question-mark.svg";
 import BlockIcon from "../../public/imgs/icons/block.svg";
 import Tooltip from "@/components/tooltip";
 import Flex from "@/components/styled/flex";
+import { balanceSelector } from "../../store/reducers/accountSlice";
+import { loadBalanceErrorSelector } from "../../store/reducers/statusSlice";
+import Publish from "@/components/postCreate/publish";
 
 const Wrapper = styled.div`
   min-width: 302px;
@@ -91,27 +92,23 @@ export default function More({
   setStartDate,
   endDate,
   setEndDate,
-  balance,
-  balanceError,
   onPublish,
   isLoading,
   threshold,
   symbol,
   decimals,
   proxyPublish,
-  setProxyPublish,
   proxyAddress,
   setProxyAddress,
   space,
-  info,
-  setInfo,
   setProxyBalance,
-  getProxyBalance,
   proxyBalance,
-  proxyBalanceError,
   isInputting,
   setIsInputting,
 }) {
+  const balanceError = useSelector(loadBalanceErrorSelector);
+  const balance = useSelector(balanceSelector);
+
   const thresholdFulfilled =
     new BigNumber(balance).comparedTo(new BigNumber(threshold)) >= 0;
   const proxyThresholdFulfilled =
@@ -206,53 +203,22 @@ export default function More({
         </TitleWrapper>
         <Divider />
         <Information
-          balance={balance}
           decimals={decimals}
           thresholdFulfilled={thresholdFulfilled}
           threshold={threshold}
           balanceError={balanceError}
-          proxyPublish={proxyPublish}
           proxyBalance={proxyBalance}
           isInputting={isInputting}
           proxyThresholdFulfilled={proxyThresholdFulfilled}
-          proxyBalanceError={proxyBalanceError}
-          setProxyPublish={setProxyPublish}
           proxyAddress={proxyAddress}
           setProxyAddress={setProxyAddress}
           space={space}
-          info={info}
-          setInfo={setInfo}
-          getProxyBalance={getProxyBalance}
           setIsInputting={setIsInputting}
           setProxyBalance={setProxyBalance}
           symbol={symbol}
         />
       </InnerWrapper>
-      {balanceError === "Link an address to create proposal." ? (
-        <Button large primary onClick={() => dispatch(popUpConnect())}>
-          Connect Wallet
-        </Button>
-      ) : (
-        <Button
-          large
-          primary
-          onClick={onPublish}
-          isLoading={
-            isLoading ||
-            (!proxyPublish &&
-              (new BigNumber(balance).isNaN() ||
-                !thresholdFulfilled ||
-                balanceError)) ||
-            (proxyPublish &&
-              (new BigNumber(proxyBalance).isNaN() ||
-                !proxyThresholdFulfilled ||
-                proxyBalanceError ||
-                isInputting))
-          }
-        >
-          {proxyPublish ? "Proxy Publish" : "Publish"}
-        </Button>
-      )}
+      <Publish threshold={threshold} onPublish={onPublish} />
     </Wrapper>
   );
 }
