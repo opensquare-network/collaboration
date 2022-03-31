@@ -6,6 +6,7 @@ import showConnectReducer from "./showConnectSlice";
 import voteReducer from "./voteSlice";
 import statusReducer from "./statusSlice";
 import authoringSlice from "./authoringSlice";
+import metaMaskReducer from "./metamaskSlice";
 
 export default combineReducers({
   account: accountReducer,
@@ -14,4 +15,5 @@ export default combineReducers({
   vote: voteReducer,
   authoring: authoringSlice,
   status: statusReducer,
+  metamask: metaMaskReducer,
 });

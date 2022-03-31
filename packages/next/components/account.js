@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -178,7 +178,7 @@ const IdentityWrapper = styled.div`
   }
 `;
 
-export default function Account({ space }) {
+function Account({ space }) {
   const dispatch = useDispatch();
   const isMounted = useIsMounted();
   const windowSize = useWindowSize();
@@ -346,3 +346,5 @@ export default function Account({ space }) {
 
   return null;
 }
+
+export default memo(Account);

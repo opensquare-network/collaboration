@@ -25,7 +25,8 @@ const accountSlice = createSlice({
       } else {
         state.account = null;
       }
-      if (typeof window !== "undefined") {
+
+      if (typeof window !== "undefined" && payload) {
         setCookie("addressV3", `${payload.network}/${payload.address}`, 7);
       }
     },
@@ -60,6 +61,7 @@ export const logout = () => async (dispatch) => {
   if (typeof window !== "undefined") {
     clearCookie();
   }
+
   dispatch(setAccount(""));
 };
 
