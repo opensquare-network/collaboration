@@ -15,7 +15,6 @@ import {
 import {
   isEvmSelector,
   loginAccountSelector,
-  loginNetworkSelector,
   logout,
 } from "../store/reducers/accountSlice";
 import { evmChainId } from "../frontedUtils/consts/chains";
