@@ -1,34 +1,9 @@
-const axios = require("axios");
 const BigNumber = require("bignumber.js");
 const { evmNetworks } = require("../consts/networks");
 const { HttpError } = require("../exc");
 const { getEnvNodeApiEndpoint } = require("../env");
 const { isTestAccount } = require("../utils");
 const fetch = require("node-fetch");
-
-const cachedApis = {};
-
-let nodeApi = null;
-
-function getNodeApi() {
-  if (!nodeApi) {
-    nodeApi = axios.create({
-      baseURL: `${getEnvNodeApiEndpoint()}/`,
-    });
-  }
-
-  return nodeApi;
-}
-
-function getApi(chain) {
-  if (!cachedApis[chain]) {
-    cachedApis[chain] = axios.create({
-      baseURL: `${getEnvNodeApiEndpoint()}/${chain}/`,
-    });
-  }
-
-  return cachedApis[chain];
-}
 
 async function getSystemBalance(network, blockHeight, address) {
   if (isTestAccount(address)) {
@@ -48,17 +23,17 @@ async function getSystemBalance(network, blockHeight, address) {
   }
 }
 
-async function checkDelegation(api, delegatee, delegator, blockHeight) {
+async function checkDelegation(network, delegatee, delegator, blockHeight) {
   if (isTestAccount(delegator)) {
     return;
   }
 
+  let url = `${getEnvNodeApiEndpoint()}/${network}/proxy/${delegator}/${delegatee}/${blockHeight}`;
   let isProxy = false;
   try {
-    const result = await api.get(
-      `/proxy/${delegator}/${delegatee}/${blockHeight}`
-    );
-    isProxy = result.data.isProxy;
+    const response = await fetch(url);
+    const json = await response.json();
+    isProxy = json.isProxy;
   } catch (err) {
     throw new HttpError(500, "Failed to verify the proxy address");
   }
@@ -139,10 +114,12 @@ async function getTokenBalance(network, assetIdOrSymbol, blockHeight, address) {
   }
 }
 
-function getBalanceFromNetwork(
-  api,
-  { networksConfig, networkName, address, blockHeight }
-) {
+function getBalanceFromNetwork({
+  networksConfig,
+  networkName,
+  address,
+  blockHeight,
+}) {
   const symbol = networksConfig?.symbol;
   const network = networksConfig?.networks?.find(
     (n) => n.network === networkName
@@ -155,22 +132,9 @@ function getBalanceFromNetwork(
   if (type === "asset") {
     return getTokenBalance(networkName, assetId, blockHeight, address);
   } else if (type === "token") {
-    return getTokenBalance(api, symbol, blockHeight, address);
+    return getTokenBalance(networkName, symbol, blockHeight, address);
   } else {
     return getTotalBalance(networkName, blockHeight, address);
-  }
-}
-
-async function getFinalizedHeightFromTime(api, time) {
-  try {
-    const result = await api.get("/chain/height", {
-      params: {
-        time,
-      },
-    });
-    return result.data;
-  } catch (err) {
-    throw new HttpError(500, "Failed to get block height from time");
   }
 }
 
@@ -179,10 +143,7 @@ module.exports = {
   getTokenBalance,
   checkDelegation,
   getFinalizedHeight,
-  getApi,
   getBalanceFromNetwork,
-  getFinalizedHeightFromTime,
-  getNodeApi,
   getChainHeight,
   getEvmAddressBalance,
 };

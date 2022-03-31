@@ -24,10 +24,7 @@ const {
 } = require("../ipfs.service");
 const { toDecimal128, enhancedSqrtOfBalance } = require("../../utils");
 const { calcPassing } = require("../biased-voting.service");
-const {
-  getApi,
-  getBalanceFromNetwork,
-} = require("../../services/node.service");
+const { getBalanceFromNetwork } = require("../../services/node.service");
 
 const calcWeights = (vote, decimals, voteThreshold) => {
   return {
@@ -149,16 +146,15 @@ async function createProposal(
 
   const weightStrategy = spaceService.weightStrategy;
 
-  const api = await getApi(proposerNetwork);
   const lastHeight = getLatestHeight(proposerNetwork);
 
   if (realProposer && realProposer !== address) {
-    await checkDelegation(api, address, realProposer, lastHeight);
+    await checkDelegation(proposerNetwork, address, realProposer, lastHeight);
   }
 
   const proposer = realProposer || address;
 
-  const creatorBalance = await getBalanceFromNetwork(api, {
+  const creatorBalance = await getBalanceFromNetwork({
     networksConfig,
     networkName: proposerNetwork,
     address: proposer,
@@ -434,15 +430,14 @@ async function vote(
     throw new HttpError(400, "Voter network is not supported by this proposal");
   }
 
-  const api = await getApi(voterNetwork);
   if (realVoter && realVoter !== address) {
     const snapshotHeight = proposal.snapshotHeights?.[voterNetwork];
-    await checkDelegation(api, address, realVoter, snapshotHeight);
+    await checkDelegation(voterNetwork, address, realVoter, snapshotHeight);
   }
 
   const voter = realVoter || address;
 
-  const balanceOf = await getBalanceFromNetwork(api, {
+  const balanceOf = await getBalanceFromNetwork({
     networksConfig: proposal.networksConfig,
     networkName: voterNetwork,
     address: voter,
@@ -644,8 +639,7 @@ async function getVoterBalance(proposalCid, network, address, snapshot) {
   const networksConfig = proposal.networksConfig;
 
   const blockHeight = snapshot ? parseInt(snapshot) : getLatestHeight(network);
-  const api = await getApi(network);
-  const totalBalance = await getBalanceFromNetwork(api, {
+  const totalBalance = await getBalanceFromNetwork({
     networksConfig,
     networkName: network,
     address,
