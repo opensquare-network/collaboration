@@ -230,7 +230,7 @@ export default function PostAddress({ spaceId, size, snapshot }) {
       .finally(() => {
         dispatch(setProxyBalanceLoading(false));
       });
-  }, [proxyAddress, dispatch, network, loginNetworkSnapshot, spaceId]);
+  }, [proxyAddress, dispatch, network, accountSnapshot, spaceId]);
 
   return (
     <Wrapper size={size}>

@@ -19,7 +19,6 @@ import { TOAST_TYPES } from "frontedUtils/constants";
 import {
   bigNumber2Locale,
   fromAssetUnit,
-  isEmpty,
   toApproximatelyFixed,
 } from "frontedUtils";
 import nextApi from "services/nextApi";
@@ -131,7 +130,7 @@ export default function PostVote({ proposal, threshold = 0 }) {
     } else {
       setBalance(null);
     }
-  }, [proposal, loginNetwork, loginAddress, dispatch]);
+  }, [proposal, loginNetwork, loginAddress, dispatch, snapshot]);
 
   const onVote = async () => {
     if (isLoading) return;

@@ -65,7 +65,7 @@ export default function Author({
         }
       })
       .catch(() => {});
-  }, [network, address, isMounted]);
+  }, [network, address, isMounted, isEvm]);
 
   return (
     <Wrapper>

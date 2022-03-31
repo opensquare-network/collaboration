@@ -59,7 +59,7 @@ export default function Voter({ address, network, showNetwork = true }) {
         }
       })
       .catch(() => {});
-  }, [network, address, isMounted]);
+  }, [network, address, isMounted, isEvm]);
 
   return (
     <Wrapper>
