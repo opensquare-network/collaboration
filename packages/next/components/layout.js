@@ -14,6 +14,7 @@ import {
 } from "../store/reducers/metamaskSlice";
 import {
   isEvmSelector,
+  loginAccountSelector,
   loginNetworkSelector,
   logout,
 } from "../store/reducers/accountSlice";
@@ -31,12 +32,19 @@ export default function Layout({ bgHeight, children, space }) {
   const dispatch = useDispatch();
   const metamaskChainId = useSelector(metamaskChainIdSelector);
   const metamaskAddr = useSelector(metamaskAddrSelector);
-  const { network: loginNetwork } = useSelector(loginNetworkSelector) || {};
   const isEvm = useSelector(isEvmSelector);
+  const { address: loginAddress, network: loginNetwork } =
+    useSelector(loginAccountSelector) || {};
 
   function setChainId(chainId) {
     dispatch(setMetaMaskChainId(chainId));
   }
+
+  useEffect(() => {
+    if (isEvm && metamaskAddr !== loginAddress) {
+      dispatch(logout());
+    }
+  }, [dispatch, isEvm, metamaskAddr, loginAddress]);
 
   useEffect(() => {
     if (!window.ethereum) {

@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { availableNetworksSelector } from "store/reducers/accountSlice";
 
 import AccountSelector from "../accountSelector";
 
 import styled from "styled-components";
-import { setShowHeaderMenu } from "../../store/reducers/showConnectSlice";
 import ChainSelector from "@/components/chainSelector";
 import { ActionBar, StyledText } from "@/components/connect/styled";
 import NotAccessible from "@/components/connect/notAccessible";
