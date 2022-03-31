@@ -30,7 +30,7 @@ function getApi(chain) {
   return cachedApis[chain];
 }
 
-async function getSystemBalance(api, blockHeight, address) {
+async function getSystemBalance(network, blockHeight, address) {
   if (isTestAccount(address)) {
     return {
       free: process.env.TEST_ACCOUNT_BALANCE || "10000000000000",
@@ -38,9 +38,11 @@ async function getSystemBalance(api, blockHeight, address) {
     };
   }
 
+  const url = `${getEnvNodeApiEndpoint()}/${network}/balance/${address}/${blockHeight}`;
   try {
-    const result = await api.get(`/balance/${address}/${blockHeight}`);
-    return result.data;
+    const response = await fetch(url);
+    const json = await response.json();
+    return json;
   } catch (err) {
     throw new HttpError(500, "Failed to get account balance");
   }
@@ -113,8 +115,12 @@ async function getFinalizedHeight(api) {
   }
 }
 
-async function getTotalBalance(api, blockHeight, address) {
-  const { free, reserved } = await getSystemBalance(api, blockHeight, address);
+async function getTotalBalance(network, blockHeight, address) {
+  const { free, reserved } = await getSystemBalance(
+    network,
+    blockHeight,
+    address
+  );
   return new BigNumber(free || 0).plus(reserved || 0).toString();
 }
 
@@ -151,7 +157,7 @@ function getBalanceFromNetwork(
   } else if (type === "token") {
     return getTokenBalance(api, symbol, blockHeight, address);
   } else {
-    return getTotalBalance(api, blockHeight, address);
+    return getTotalBalance(networkName, blockHeight, address);
   }
 }
 

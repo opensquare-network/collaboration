@@ -57,16 +57,14 @@ export default function Information({ space }) {
             content={
               <Toggle
                 active={useProxy}
-                onClick={() => {
-                  dispatch(setUseProxy(!useProxy));
-                }}
+                onClick={() => dispatch(setUseProxy(!useProxy))}
               />
             }
           />
         </ProxyVoteWrapper>
         {useProxy && (
           <PostAddressWrapper>
-            <PostAddress size="small" space={space} flag={false} />
+            <PostAddress size="small" spaceId={space.id} />
           </PostAddressWrapper>
         )}
       </>

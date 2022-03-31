@@ -6,8 +6,13 @@ import { useRouter } from "next/router";
 import Input from "components/input";
 import { useViewfunc } from "frontedUtils/hooks";
 import {
-  loginAccountSelector,
+  canUseProxySelector,
   loginAddressSelector,
+  loginNetworkSelector,
+  proxyBalanceSelector,
+  proxySelector,
+  setUseProxy,
+  useProxySelector,
 } from "store/reducers/accountSlice";
 import { addToast } from "store/reducers/toastSlice";
 import { TOAST_TYPES } from "frontedUtils/constants";
@@ -19,13 +24,14 @@ import {
 } from "frontedUtils";
 import nextApi from "services/nextApi";
 import PostAddress from "../postAddress";
-import { encodeAddress } from "@polkadot/util-crypto";
 import ButtonPrimary from "@/components/button";
 import Option from "@/components/option";
 import { text_secondary_red_500 } from "../../styles/colorStyles";
 import BigNumber from "bignumber.js";
 import Toggle from "../toggle";
 import { findNetworkConfig } from "services/util";
+import isNil from "lodash.isnil";
+import { proposalStatus } from "../../frontedUtils/consts/proposal";
 
 const Wrapper = styled.div`
   > :not(:first-child) {
@@ -76,37 +82,44 @@ const RedText = styled.span`
   ${text_secondary_red_500};
 `;
 
-export default function PostVote({ proposal, space }) {
+export default function PostVote({ proposal, threshold = 0 }) {
   const dispatch = useDispatch();
-  const account = useSelector(loginAccountSelector);
   const [choiceIndex, setChoiceIndex] = useState(null);
   const [remark, setRemark] = useState("");
-  const [proxyVote, setProxyVote] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [proxyAddress, setProxyAddress] = useState("");
-  const [info, setInfo] = useState();
   const [balance, setBalance] = useState();
-  const [proxyBalance, setProxyBalance] = useState(0);
   const viewfunc = useViewfunc();
   const router = useRouter();
+  const useProxy = useSelector(useProxySelector);
+  const proxyAddress = useSelector(proxySelector);
+  const proxyBalance = useSelector(proxyBalanceSelector);
 
   const loginAddress = useSelector(loginAddressSelector);
+  const { network: loginNetwork } = useSelector(loginNetworkSelector) || {};
+
+  const voteBalance = useProxy ? proxyBalance : balance;
+  const belowThreshold = new BigNumber(voteBalance).isLessThan(threshold);
+  const canVote =
+    !belowThreshold &&
+    !isNil(choiceIndex) &&
+    proposalStatus.active === proposal?.status;
+
+  const supportProxy = useSelector(canUseProxySelector);
+  const snapshot = proposal.snapshotHeights[loginNetwork];
 
   const reset = () => {
     setChoiceIndex(null);
     setRemark("");
   };
 
-  const status = proposal?.status;
+  const proposalClosed = proposalStatus.closed === proposal?.status;
 
   useEffect(() => {
-    if (proposal && loginAddress && account?.network) {
+    if (proposal && loginAddress && loginNetwork) {
       nextApi
         .fetch(
-          `${proposal.space}/proposal/${proposal.cid}/voterbalance/${account.network}/${loginAddress}`,
-          {
-            snapshot: proposal.snapshotHeights[account.network],
-          }
+          `${proposal.space}/proposal/${proposal.cid}/voterbalance/${loginNetwork}/${loginAddress}`,
+          { snapshot }
         )
         .then((response) => {
           setBalance(response?.result?.balance);
@@ -118,44 +131,16 @@ export default function PostVote({ proposal, space }) {
     } else {
       setBalance(null);
     }
-  }, [proposal, account?.network, loginAddress, dispatch]);
-
-  useEffect(() => {
-    const zero = new BigNumber("0");
-    setIsLoading(
-      new BigNumber(
-        proxyVote ? proxyBalance ?? 0 : balance ?? 0
-      ).isLessThanOrEqualTo(zero)
-    );
-  }, [balance, proxyVote, proxyBalance]);
-
-  const getProxyBalance = (proxyAddress) => {
-    if (proposal && proxyAddress && account?.network) {
-      nextApi
-        .fetch(
-          `${proposal.space}/proposal/${proposal.cid}/voterbalance/${account.network}/${proxyAddress}`,
-          {
-            snapshot: proposal.snapshotHeights[account.network],
-          }
-        )
-        .then((response) => {
-          setProxyBalance(response?.result?.balance);
-        })
-        .catch((e) => {
-          const message = e?.message || "Failed to get balance.";
-          dispatch(addToast({ type: TOAST_TYPES.ERROR, message }));
-        });
-    } else {
-      setProxyBalance(null);
-    }
-  };
+  }, [proposal, loginNetwork, loginAddress, dispatch]);
 
   const onVote = async () => {
     if (isLoading) return;
+
     if (!viewfunc) {
       return;
     }
-    if (!account) {
+
+    if (!loginAddress) {
       dispatch(
         addToast({
           type: TOAST_TYPES.ERROR,
@@ -181,11 +166,9 @@ export default function PostVote({ proposal, space }) {
         proposal?.cid,
         proposal?.choices?.[choiceIndex],
         remark,
-        encodeAddress(account?.address, account?.ss58Format),
-        proxyVote
-          ? encodeAddress(proxyAddress, account?.ss58Format)
-          : undefined,
-        account?.network
+        loginAddress,
+        useProxy ? proxyAddress : undefined,
+        loginNetwork
       );
     } catch (error) {
       if (error.toString() === "Error: Cancelled") {
@@ -194,7 +177,6 @@ export default function PostVote({ proposal, space }) {
       dispatch(
         addToast({ type: TOAST_TYPES.ERROR, message: error.toString() })
       );
-      setIsLoading(false);
       return;
     } finally {
       setIsLoading(false);
@@ -222,15 +204,13 @@ export default function PostVote({ proposal, space }) {
 
   const networkConfig = findNetworkConfig(
     proposal.networksConfig,
-    account?.network
+    loginNetwork
   );
 
   return (
     <Wrapper>
       <InnerWrapper>
-        <Title>
-          {status && status !== "closed" ? "Cast your vote" : "Options"}
-        </Title>
+        <Title>{proposalClosed ? "Options" : "Cast your vote"}</Title>
         <ButtonsWrapper>
           {(proposal.choices || []).map((item, index) => (
             <Option
@@ -243,7 +223,7 @@ export default function PostVote({ proposal, space }) {
                   setChoiceIndex(index);
                 }
               }}
-              disabled={!status || status === "closed"}
+              disabled={proposalClosed}
             >
               <div className="index">{`#${index + 1}`}</div>
               <div className="option">{item}</div>
@@ -251,7 +231,7 @@ export default function PostVote({ proposal, space }) {
           ))}
         </ButtonsWrapper>
       </InnerWrapper>
-      {choiceIndex !== null && (
+      {!isNil(choiceIndex) && (
         <InnerWrapper>
           <Title>Remark</Title>
           <Input
@@ -261,50 +241,39 @@ export default function PostVote({ proposal, space }) {
           />
         </InnerWrapper>
       )}
-      {status !== "closed" && (
+      {!proposalClosed && (
         <InnerWrapper>
           <ProxyHeader>
             <div>
-              {(proxyVote ? !isEmpty(proxyBalance) : !isEmpty(balance)) &&
+              {!isNil(voteBalance) &&
                 `Available ${toApproximatelyFixed(
                   bigNumber2Locale(
-                    fromAssetUnit(
-                      proxyVote ? proxyBalance : balance,
-                      networkConfig?.decimals
-                    )
+                    fromAssetUnit(voteBalance, networkConfig?.decimals)
                   )
                 )} ${networkConfig?.symbol}`}
-              {(proxyVote ? proxyBalance === "0" : balance === "0") && (
-                <RedText>Insufficient</RedText>
-              )}
+              {belowThreshold && <RedText>Insufficient</RedText>}
             </div>
-            <ToggleWrapper>
-              <div>Proxy vote</div>
-              <Toggle
-                active={proxyVote}
-                onClick={() => setProxyVote(!proxyVote)}
-              />
-            </ToggleWrapper>
+            {supportProxy && (
+              <ToggleWrapper>
+                <div>Proxy vote</div>
+                <Toggle
+                  active={useProxy}
+                  onClick={() => dispatch(setUseProxy(!useProxy))}
+                />
+              </ToggleWrapper>
+            )}
           </ProxyHeader>
-          {proxyVote && (
-            <PostAddress
-              address={proxyAddress}
-              setAddress={setProxyAddress}
-              space={networkConfig}
-              info={info}
-              setInfo={setInfo}
-              setProxyBalance={setProxyBalance}
-              getProxyBalance={getProxyBalance}
-            />
+          {useProxy && (
+            <PostAddress spaceId={proposal.space} snapshot={snapshot} />
           )}
           <ButtonPrimary
             primary
             large
             isLoading={isLoading}
             onClick={onVote}
-            disabled={status === "pending"}
+            disabled={!canVote}
           >
-            {proxyVote ? "Proxy Vote" : "Vote"}
+            {useProxy ? "Proxy Vote" : "Vote"}
           </ButtonPrimary>
         </InnerWrapper>
       )}

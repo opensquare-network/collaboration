@@ -8,6 +8,7 @@ import ExternalLink from "@/components/externalLink";
 import IdentityIcon from "@/components/identityIcon";
 import styled from "styled-components";
 import ChainIcon from "@/components/chain/chainIcon";
+import { evmChains } from "../../frontedUtils/consts/chains";
 
 const Wrapper = styled.div`
   display: flex;
@@ -43,8 +44,10 @@ export default function Voter({ address, network, showNetwork = true }) {
   const explorer = getExplorer(network);
   const link = `https://${network}.${explorer}.io/account/${address}`;
 
+  const isEvm = evmChains.includes(network);
+
   useEffect(() => {
-    if (!address || !network) {
+    if (!address || !network || isEvm) {
       return;
     }
 
@@ -65,7 +68,11 @@ export default function Voter({ address, network, showNetwork = true }) {
       <ExternalLink href={link}>
         {identity?.info && identity?.info?.status !== "NO_ID" ? (
           <IdentityWrapper>
-            <IdentityIcon status={ identity.info.status } showTooltip size={ showNetwork ? 12 : 14 } />
+            <IdentityIcon
+              status={identity.info.status}
+              showTooltip
+              size={showNetwork ? 12 : 14}
+            />
             <Name>{identity.info.display}</Name>
           </IdentityWrapper>
         ) : (

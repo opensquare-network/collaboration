@@ -149,7 +149,7 @@ const IdentityWrapper = styled.div`
   }
 `;
 
-export default function PostAddress({ space, size }) {
+export default function PostAddress({ spaceId, size, snapshot }) {
   const dispatch = useDispatch();
   const proxyAddress = useSelector(proxySelector);
   const [isLoading, setIsLoading] = useState(false);
@@ -159,6 +159,8 @@ export default function PostAddress({ space, size }) {
   const [identityInfo, setIdentityInfo] = useState();
   const loginNetwork = useSelector(loginNetworkSelector);
   const { network, ss58Format } = loginNetwork || {};
+
+  const accountSnapshot = snapshot || loginNetworkSnapshot;
 
   const ref = useRef();
 
@@ -209,7 +211,7 @@ export default function PostAddress({ space, size }) {
     dispatch(setProxyBalanceLoading(true));
     dispatch(setLoadBalanceError(""));
     delayLoading(
-      `${space.id}/${network}/account/${proxyAddress}/balance?snapshot=${loginNetworkSnapshot}`
+      `${spaceId}/${network}/account/${proxyAddress}/balance?snapshot=${accountSnapshot}`
     )
       .then(([result]) => {
         if (!isNil(result?.result?.balance)) {
@@ -228,7 +230,7 @@ export default function PostAddress({ space, size }) {
       .finally(() => {
         dispatch(setProxyBalanceLoading(false));
       });
-  }, [proxyAddress, dispatch, network, loginNetworkSnapshot, space.id]);
+  }, [proxyAddress, dispatch, network, loginNetworkSnapshot, spaceId]);
 
   return (
     <Wrapper size={size}>
