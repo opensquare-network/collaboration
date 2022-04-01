@@ -10,14 +10,9 @@ const { ApiPromise, WsProvider } = require("@polkadot/api");
 const { getEndpoints } = require("../env");
 
 /**
- * { polkadot: { apis: [ { endpoint: 'wss:...', api } ] } }
+ * {polkadot: [{ endpoint: 'wss:...', api }]}
  */
 const chainApis = {};
-
-/**
- * { 'wss://rpc.polkadot.io': [a api object] }
- */
-const endpointApis = {};
 
 const rejectInTime = (seconds) =>
   new Promise((resolve, reject) => setTimeout(reject, seconds * 1000));
@@ -27,9 +22,11 @@ async function reConnect(network, endpoint) {
 
   const index = nowApis.findIndex(({ endpoint: url }) => url === endpoint);
   if (index >= 0) {
-    nowApis.splice(index, 1);
+    const [targetApi] = nowApis.splice(index, 1);
+    if (targetApi && targetApi.api) {
+      await targetApi.api.disconnect();
+    }
   }
-  delete endpointApis[endpoint];
 
   console.log(`re-connect network: ${network} with endpoint: ${endpoint}`);
   await createApi(network, endpoint);
@@ -52,14 +49,12 @@ async function createApi(network, endpoint) {
     options = interlayOptions;
   }
 
-  const api = new ApiPromise({ provider, ...options });
-  endpointApis[endpoint] = api;
-
+  let api;
   try {
-    await api.isReady;
+    api = await ApiPromise.create({ provider, ...options });
   } catch (e) {
     statusLogger.error(`Can not connect to ${network} ${endpoint}`);
-    return;
+    throw e;
   }
 
   api.on("error", (err) => {
@@ -102,10 +97,6 @@ async function createApiForChain({ chain, endpoints }) {
       statusLogger.info(
         `Can not connected to ${endpoint} in ${nodeTimeoutSeconds} seconds, just disconnect it`
       );
-      const maybeApi = endpointApis[endpoint];
-      if (maybeApi) {
-        maybeApi.disconnect();
-      }
     }
   }
 }
