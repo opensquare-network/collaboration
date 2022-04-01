@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
-import { useState, useRef, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import { fetchIdentity } from "services/identity";
 import Avatar from "./avatar";
@@ -12,6 +12,23 @@ import { encodeAddress, isAddress } from "@polkadot/util-crypto";
 import { addToast } from "store/reducers/toastSlice";
 import { TOAST_TYPES } from "frontedUtils/constants";
 import { p_14_normal } from "../styles/textStyles";
+import {
+  clearProxy,
+  loginNetworkSelector,
+  proxySelector,
+  setProxy,
+  setProxyBalance,
+} from "../store/reducers/accountSlice";
+import delayLoading from "../services/delayLoading";
+import isNil from "lodash.isnil";
+import { loginNetworkSnapshotSelector } from "../store/selectors/snapshot";
+import {
+  setLoadBalanceError,
+  setProxyBalanceLoading,
+} from "../store/reducers/statusSlice";
+
+const FETCH_BALANCE_ERROR =
+  "something went wrong while querying balance, please try again later.";
 
 const Wrapper = styled.div`
   padding: 20px;
@@ -132,115 +149,92 @@ const IdentityWrapper = styled.div`
   }
 `;
 
-export default function PostAddress({
-  space,
-  address,
-  setAddress,
-  info,
-  setInfo,
-  setProxyBalance,
-  getProxyBalance,
-  size,
-  setIsInputting,
-  flag,
-}) {
+export default function PostAddress({ spaceId, size, snapshot }) {
   const dispatch = useDispatch();
+  const proxyAddress = useSelector(proxySelector);
   const [isLoading, setIsLoading] = useState(false);
-  const [isInput, setIsInput] = useState(false);
   const { width } = useWindowSize();
-  const [inputAddress, setInputAddress] = useState(address);
-  const [proxyAddressChange, setProxyAddressChange] = useState(false);
+  const [inputAddress, setInputAddress] = useState(proxyAddress);
+  const loginNetworkSnapshot = useSelector(loginNetworkSnapshotSelector);
+  const [identityInfo, setIdentityInfo] = useState();
+  const loginNetwork = useSelector(loginNetworkSelector);
+  const { network, ss58Format } = loginNetwork || {};
+
+  const accountSnapshot = snapshot || loginNetworkSnapshot;
 
   const ref = useRef();
 
   useEffect(() => {
-    setProxyAddressChange(true);
-  }, [inputAddress, space?.network]);
-
-  useEffect(() => {
-    if (!proxyAddressChange) {
+    if (isNil(ss58Format)) {
       return;
     }
-    setProxyAddressChange(false);
 
-    if (!inputAddress || !space) {
-      setProxyBalance(null);
+    if (!inputAddress) {
+      dispatch(setProxy(null));
+      dispatch(setProxyBalance(null));
       return;
     }
+
     if (!isAddress(inputAddress)) {
       dispatch(
         addToast({
           type: TOAST_TYPES.ERROR,
-          message: "Invalid address",
+          message: "Invalid proxy address",
         })
       );
       return;
     }
 
-    let spaceAddr;
-    try {
-      spaceAddr = encodeAddress(inputAddress, space.ss58Format);
-      setAddress(spaceAddr);
-    } catch (e) {
-      setAddress(inputAddress);
-      setIsInput(false);
-      dispatch(
-        addToast({
-          type: TOAST_TYPES.ERROR,
-          message: e.message,
-        })
-      );
+    dispatch(setProxy(encodeAddress(inputAddress, ss58Format)));
+  }, [dispatch, inputAddress, ss58Format]);
+
+  useEffect(() => {
+    if (!proxyAddress || !network) {
       return;
     }
 
     setIsLoading(true);
-    fetchIdentity(space.network, inputAddress)
-      .then(response => {
-        setInfo(response?.info)
+    fetchIdentity(network, proxyAddress)
+      .then((response) => {
+        setIdentityInfo(response?.info);
       })
       .finally(() => {
         setIsLoading(false);
-        setIsInput(false);
       });
-
-    getProxyBalance(spaceAddr);
-  }, [
-    dispatch,
-    proxyAddressChange,
-    inputAddress,
-    space,
-    setAddress,
-    setInfo,
-    getProxyBalance,
-    setProxyBalance
-  ]);
+  }, [proxyAddress, inputAddress, network]);
 
   useEffect(() => {
-    if (!address && !isInput) {
-      setIsInput(true);
+    if (!proxyAddress) {
+      return;
     }
-  }, [address, isInput]);
 
-  useEffect(() => {
-    if (isInput) {
-      ref.current.focus();
-      setProxyBalance(null);
-      setInfo(null);
-      if (flag) {
-        setAddress("");
-      }
-    }
-  }, [isInput, setProxyBalance, setInfo, setAddress, flag]);
-
-  useEffect(() => {
-    if (setIsInputting) {
-      setIsInputting(isInput);
-    }
-  }, [isInput, setIsInputting]);
+    dispatch(setProxyBalanceLoading(true));
+    dispatch(setLoadBalanceError(""));
+    delayLoading(
+      `${spaceId}/${network}/account/${proxyAddress}/balance?snapshot=${accountSnapshot}`
+    )
+      .then(([result]) => {
+        if (!isNil(result?.result?.balance)) {
+          dispatch(setProxyBalance(result?.result?.balance ?? 0));
+        } else {
+          const message = result?.error?.message || FETCH_BALANCE_ERROR;
+          dispatch(addToast({ type: TOAST_TYPES.ERROR, message }));
+          dispatch(setLoadBalanceError(message));
+        }
+      })
+      .catch((e) => {
+        const message = e?.message || FETCH_BALANCE_ERROR;
+        dispatch(addToast({ type: TOAST_TYPES.ERROR, message }));
+        dispatch(setLoadBalanceError(message));
+      })
+      .finally(() => {
+        dispatch(setProxyBalanceLoading(false));
+      });
+  }, [proxyAddress, dispatch, network, accountSnapshot, spaceId]);
 
   return (
     <Wrapper size={size}>
-      {isInput && (
+      {!proxyAddress && (
         <InputWrapper size={size}>
           <Input
             size={size}
@@ -262,30 +256,37 @@ export default function PostAddress({
           {isLoading && <Loading />}
         </InputWrapper>
       )}
-      {!isInput && (
+      {proxyAddress && (
         <ItemWrapper
           size={size}
           onClick={() => {
-            setIsInput(true);
+            setInputAddress("");
+            dispatch(clearProxy());
+
+            setTimeout(() => {
+              ref.current.focus();
+            }, 1);
           }}
         >
-          <Avatar address={address} size={size === "small" ? 20 : 40} />
+          <Avatar address={proxyAddress} size={size === "small" ? 20 : 40} />
           <DetailWrapper size={size}>
-            {!info && (
+            {!identityInfo && (
               <div>
                 {width <= 1100 || size === "small"
-                  ? addressEllipsis(address)
-                  : address}
+                  ? addressEllipsis(proxyAddress)
+                  : proxyAddress}
               </div>
             )}
-            {info && (
+            {identityInfo && (
               <IdentityWrapper>
-                <IdentityIcon status={info?.status} />
-                <div>{info?.display}</div>
+                <IdentityIcon status={identityInfo?.status} />
+                <div>{identityInfo?.display}</div>
               </IdentityWrapper>
             )}
             {size !== "small" && (
-              <div>{width <= 1100 ? addressEllipsis(address) : address}</div>
+              <div>
+                {width <= 1100 ? addressEllipsis(proxyAddress) : proxyAddress}
+              </div>
             )}
           </DetailWrapper>
         </ItemWrapper>

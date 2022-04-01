@@ -1,13 +1,15 @@
-const { getApi, getFinalizedHeightFromTime }= require("../../services/node.service");
+const fetch = require("node-fetch");
+const { getEnvNodeApiEndpoint } = require("../../env");
 
 async function getHeight(ctx) {
   const { chain } = ctx.params;
   const { time } = ctx.query;
-  const api = await getApi(chain);
-  const result = await getFinalizedHeightFromTime(api, time);
-  ctx.body = result;
+  let url = `${getEnvNodeApiEndpoint()}/${chain}/chain/height?`;
+  const response = await fetch(url + new URLSearchParams({ time }));
+  const json = await response.json();
+  ctx.body = json;
 }
 
 module.exports = {
   getHeight,
-}
+};

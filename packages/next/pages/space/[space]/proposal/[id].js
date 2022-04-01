@@ -13,7 +13,6 @@ import {
   setAvailableNetworks,
 } from "store/reducers/accountSlice";
 import pick from "lodash.pick";
-import { setSpaceConfig } from "../../../../store/reducers/spaceConfigSlice";
 import {
   defaultSeoImage,
   spaceToSeoImageMap,
@@ -31,7 +30,6 @@ export default function Index({
   myVote,
 }) {
   const dispatch = useDispatch();
-  dispatch(setSpaceConfig(space));
   const isMounted = useIsMounted();
 
   useEffect(() => {

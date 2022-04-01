@@ -8,8 +8,6 @@ import StatusTag from "components/statusTag";
 import MicromarkMd from "components/micromarkMd";
 import { findNetworkConfig } from "services/util";
 import Share from "components/share";
-import { useSelector } from "react-redux";
-import { spaceSupportMultiChainSelector } from "../../store/reducers/spaceConfigSlice";
 import Panel from "@/components/postDetail/panel";
 
 const Title = styled.div`
@@ -64,7 +62,7 @@ export default function PostContent({ data, space }) {
     data.networksConfig,
     data.proposerNetwork
   );
-  const spaceSupportMultiChain = useSelector(spaceSupportMultiChainSelector);
+  const spaceSupportMultiChain = space?.networks?.length > 1;
   return (
     <Panel>
       <Title>{data?.title}</Title>
@@ -86,7 +84,7 @@ export default function PostContent({ data, space }) {
       </Content>
       <Divider />
       <Share />
-      <PostVote proposal={data} space={space} />
+      <PostVote proposal={data} threshold={space.voteThreshold} />
     </Panel>
   );
 }

@@ -1,14 +1,24 @@
 import styled from "styled-components";
-import { useSelector } from "react-redux";
 
 import Row from "@/components/row";
-import Tooltip from "@/components/tooltip";
-import Loading from "../../public/imgs/icons/loading.svg";
 import Toggle from "../toggle";
 import PostAddress from "../postAddress";
 import BigNumber from "bignumber.js";
-import { bigNumber2LocaleWithAbbr, toPrecision } from "../../frontedUtils";
-import { loginAccountSelector } from "store/reducers/accountSlice";
+import { toPrecision } from "../../frontedUtils";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  canUseProxySelector,
+  loginAddressSelector,
+  setUseProxy,
+  targetBalanceSelector,
+  useProxySelector,
+} from "../../store/reducers/accountSlice";
+import {
+  balanceLoadingSelector,
+  loadBalanceErrorSelector,
+  proxyBalanceLoadingSelector,
+} from "../../store/reducers/statusSlice";
+import BalanceRow from "@/components/postCreate/BalanceRow";
 
 const Hint = styled.div`
   margin-top: 4px !important;
@@ -23,133 +33,68 @@ const PostAddressWrapper = styled.div`
   margin-top: 4px !important;
 `;
 
-const Placeholder = styled.div`
-  height: 8px;
-  margin-top: 0 !important;
-`;
+export default function Information({ space }) {
+  const { proposeThreshold: threshold, decimals, symbol } = space;
 
-export default function Information({
-  balance,
-  decimals,
-  thresholdFulfilled,
-  threshold,
-  balanceError,
-  proxyPublish,
-  proxyBalance,
-  isInputting,
-  proxyThresholdFulfilled,
-  proxyBalanceError,
-  setProxyPublish,
-  proxyAddress,
-  setProxyAddress,
-  space,
-  info,
-  setInfo,
-  getProxyBalance,
-  setIsInputting,
-  setProxyBalance,
-  symbol,
-}) {
-  const account = useSelector(loginAccountSelector);
+  const dispatch = useDispatch();
+  const balance = useSelector(targetBalanceSelector);
+  const canUseProxy = useSelector(canUseProxySelector);
+  const loadBalanceError = useSelector(loadBalanceErrorSelector);
+  const useProxy = useSelector(useProxySelector);
+  const belowThreshold = new BigNumber(balance).isLessThan(threshold);
+  const loginAddress = useSelector(loginAddressSelector);
+
+  const proxyBalanceLoading = useSelector(proxyBalanceLoadingSelector);
+  const balanceLoading = useSelector(balanceLoadingSelector);
+
+  let proxyElements = null;
+  if (canUseProxy) {
+    proxyElements = (
+      <>
+        <ProxyVoteWrapper>
+          <Row
+            header="Proxy vote"
+            content={
+              <Toggle
+                active={useProxy}
+                onClick={() => dispatch(setUseProxy(!useProxy))}
+              />
+            }
+          />
+        </ProxyVoteWrapper>
+        {useProxy && (
+          <PostAddressWrapper>
+            <PostAddress size="small" spaceId={space.id} />
+          </PostAddressWrapper>
+        )}
+      </>
+    );
+  }
+
+  let hint = null;
+  if (!loginAddress) {
+    hint = <Hint>Link an address to create proposal.</Hint>;
+  } else if (loadBalanceError) {
+    hint = <Hint>{loadBalanceError}</Hint>;
+  } else if (belowThreshold) {
+    hint = (
+      <Hint>
+        You need to have a minimum of {toPrecision(threshold, decimals)}{" "}
+        {symbol} in order to publish a proposal.
+      </Hint>
+    );
+  }
 
   return (
     <>
-      {!proxyPublish && (
-        <>
-          {!new BigNumber(balance).isNaN() ? (
-            <>
-              <Row
-                header="Balance"
-                content={
-                  <Tooltip
-                    content={`${toPrecision(balance, decimals)} ${symbol}`}
-                  >
-                    {`${bigNumber2LocaleWithAbbr(balance, decimals)} ${symbol}`}
-                  </Tooltip>
-                }
-              />
-              {!thresholdFulfilled && (
-                <Hint>
-                  You need to have a minimum of{" "}
-                  {toPrecision(threshold, decimals)} {symbol} in order to
-                  publish a proposal.
-                </Hint>
-              )}
-            </>
-          ) : balanceError ? (
-            <>
-              <Placeholder />
-              <Hint>{balanceError}</Hint>
-            </>
-          ) : (
-            <Row header="Balance" content={<Loading />} />
-          )}
-        </>
-      )}
-      {proxyPublish && (
-        <>
-          {!new BigNumber(proxyBalance).isNaN() && !isInputting ? (
-            <>
-              <Row
-                header="Balance"
-                content={
-                  <Tooltip
-                    content={`${toPrecision(proxyBalance, decimals)} ${symbol}`}
-                  >
-                    {`${bigNumber2LocaleWithAbbr(
-                      proxyBalance,
-                      decimals
-                    )} ${symbol}`}
-                  </Tooltip>
-                }
-              />
-              {!proxyThresholdFulfilled && (
-                <Hint>
-                  You need to have a minimum of{" "}
-                  {toPrecision(threshold, decimals)} {symbol} in order to
-                  publish a proposal.
-                </Hint>
-              )}
-            </>
-          ) : proxyBalanceError ? (
-            <>
-              <Row header="Balance" content={`0 ${symbol}`} />
-              <Hint>{proxyBalanceError}</Hint>
-            </>
-          ) : (
-            <Row header="Balance" content={<Loading />} />
-          )}
-        </>
-      )}
-      <ProxyVoteWrapper>
-        <Row
-          header="Proxy vote"
-          content={
-            <Toggle
-              active={proxyPublish}
-              onClick={() => {
-                setProxyPublish(!proxyPublish);
-              }}
-            />
-          }
-        />
-      </ProxyVoteWrapper>
-      {proxyPublish && (
-        <PostAddressWrapper>
-          <PostAddress
-            size="small"
-            address={proxyAddress}
-            setAddress={setProxyAddress}
-            space={space}
-            info={info}
-            setInfo={setInfo}
-            setProxyBalance={setProxyBalance}
-            getProxyBalance={getProxyBalance}
-            setIsInputting={setIsInputting}
-            flag={false}
-          />
-        </PostAddressWrapper>
-      )}
+      <BalanceRow
+        balance={balance}
+        isLoading={useProxy ? proxyBalanceLoading : balanceLoading}
+        decimals={decimals}
+        symbol={symbol}
+      />
+      {hint}
+      {proxyElements}
     </>
   );
 }

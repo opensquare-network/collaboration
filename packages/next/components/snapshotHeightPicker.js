@@ -6,12 +6,11 @@ import Divider from "@/components/styled/divider";
 import BlockHeightInput from "@/components/chain/blockHeightInput";
 import Button from "@/components/button";
 import { useDispatch, useSelector } from "react-redux";
-import { spaceConfigSelector } from "../store/reducers/spaceConfigSlice";
 import { useState } from "react";
 import {
   setSnapshotHeights,
   snapshotHeightsSelector,
-} from "../store/reducers/snapshotHeightSlice";
+} from "../store/reducers/authoringSlice";
 import nextApi from "../services/nextApi";
 import { addToast } from "store/reducers/toastSlice";
 import { useIsMountedBool } from "../frontedUtils/hooks";
@@ -41,12 +40,13 @@ const ButtonWrapper = styled.div`
   margin-top: 20px;
 `;
 
-function SnapshotHeightPicker({ date, setDate }) {
+function SnapshotHeightPicker({ space }) {
   const dispatch = useDispatch();
-  const spaceConfig = useSelector(spaceConfigSelector);
-  const networks = spaceConfig.networks || [];
+  const networks = space?.networks || [];
   const [showHeights, setShowHeights] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [date, setDate] = useState();
+
   const hideHeights = () => setShowHeights(false);
   const snapshotHeights = useSelector(snapshotHeightsSelector);
   const isMounted = useIsMountedBool();
@@ -54,7 +54,7 @@ function SnapshotHeightPicker({ date, setDate }) {
   const fetchHeights = () => {
     setLoading(true);
     nextApi
-      .fetch(`${spaceConfig.id}/networkheights`, { time: date.getTime() })
+      .fetch(`${space.id}/networkheights`, { time: date.getTime() })
       .then(({ result, error }) => {
         if (result && isMounted) {
           dispatch(

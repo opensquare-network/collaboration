@@ -15,7 +15,6 @@ import MicromarkMd from "components/micromarkMd";
 import ExternalLink from "components/externalLink";
 import { encodeAddress } from "@polkadot/util-crypto";
 import { findNetworkConfig } from "services/util";
-import { spaceSupportMultiChainSelector } from "../../store/reducers/spaceConfigSlice";
 import Panel from "@/components/postDetail/panel";
 import HeaderWithNumber from "@/components/postDetail/numberHeader";
 
@@ -170,7 +169,7 @@ export default function PostDiscussion({
 
   const getNetwork = (comment) =>
     findNetworkConfig(proposal.networksConfig, comment.commenterNetwork);
-  const spaceSupportMultiChain = useSelector(spaceSupportMultiChainSelector);
+  const spaceSupportMultiChain = space?.networks?.length > 1;
   return (
     <Panel>
       <HeaderWithNumber title="Discussions" number={comments?.total} />

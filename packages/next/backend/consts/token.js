@@ -9,6 +9,7 @@ const tokens = Object.freeze({
   BNC: "BNC",
   ARIS: "ARIS",
   CHRWNA: "CHRWNA",
+  INTR: "INTR",
 });
 
 const tokenParentChain = Object.freeze({
@@ -21,6 +22,7 @@ const tokenParentChain = Object.freeze({
   [tokens.BNC]: networks.bifrost,
   [tokens.ARIS]: networks.statemine,
   [tokens.CHRWNA]: networks.statemine,
+  [tokens.INTR]: networks.interlay,
 });
 
 module.exports = {

@@ -12,8 +12,6 @@ import { useEffect, useState } from "react";
 import { useWindowSize } from "../frontedUtils/hooks";
 import PostResult from "./postResult";
 import { findNetworkConfig } from "../services/util";
-import { useSelector } from "react-redux";
-import { spaceSupportMultiChainSelector } from "../store/reducers/spaceConfigSlice";
 
 const Wrapper = styled.div`
   background: #ffffff;
@@ -107,7 +105,6 @@ export default function Post({ data, showSpace, space, spaces }) {
   const getSpaceFromId = (spaceId) => spaces?.[spaceId];
   const getSpaceDisplayName = (spaceId) => getSpaceFromId(spaceId)?.name;
   const windowSize = useWindowSize();
-
   const [showRichInfo, setShowRichInfo] = useState(true);
 
   useEffect(() => {
@@ -124,7 +121,7 @@ export default function Post({ data, showSpace, space, spaces }) {
     data.networksConfig,
     data.proposerNetwork
   );
-  const spaceSupportMultiChain = useSelector(spaceSupportMultiChainSelector);
+  const spaceSupportMultiChain = proposerNetworkConfig?.networks?.length > 1;
 
   return (
     <Wrapper>

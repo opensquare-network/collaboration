@@ -1,24 +1,17 @@
 import styled from "styled-components";
 import moment from "moment";
 
-import { p_16_semibold } from "styles/textStyles";
 import ExternalLink from "../externalLink";
 import { capitalize, getExplorer } from "../../frontedUtils";
 import ChainIcon from "@/components/chain/chainIcon";
 import Tooltip from "@/components/tooltip";
 import Panel from "@/components/postDetail/panel";
+import SideSectionTitle from "@/components/sideBar/sideSectionTitle";
 
 const Wrapper = styled(Panel)`
   > :not(:first-child) {
     margin-top: 20px;
   }
-`;
-
-const TitleWrapper = styled.div`
-  ${p_16_semibold};
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 `;
 
 const Divider = styled.div`
@@ -82,10 +75,7 @@ export default function PostInfo({ data, space }) {
   return (
     <Wrapper>
       <div>
-        <TitleWrapper>
-          Information
-          <img src="/imgs/icons/info.svg" alt="" />
-        </TitleWrapper>
+        <SideSectionTitle title="Information" img="/imgs/icons/info.svg" />
         <Divider />
         <div>
           <InfoItem>
@@ -122,10 +112,7 @@ export default function PostInfo({ data, space }) {
         </div>
       </div>
       <div>
-        <TitleWrapper>
-          Timestamp
-          <img src="/imgs/icons/timeline.svg" alt="" />
-        </TitleWrapper>
+        <SideSectionTitle title="Timestamp" img="/imgs/icons/timeline.svg" />
         <Divider />
         <TimestampWrapper>
           {data?.createdAt && (

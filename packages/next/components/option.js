@@ -1,9 +1,10 @@
 import styled from "styled-components";
 import Button from "@/components/button";
 import { p_14_medium } from "../styles/textStyles";
-import {css } from "styled-components";
+import { css } from "styled-components";
 
 const Option = styled(Button)`
+  display: block;
   border: 1px solid #e2e8f0;
   padding: 12px 24px;
   text-align: center;
@@ -14,8 +15,8 @@ const Option = styled(Button)`
     border-color: #b7c0cc;
   }
   ${(p) =>
-          p.active &&
-          css`
+    p.active &&
+    css`
       border-color: #6848ff !important;
       color: #6848ff;
       .index {
@@ -32,8 +33,8 @@ const Option = styled(Button)`
     margin-right: 47px;
   }
   ${(p) =>
-          p.disabled &&
-          css`
+    p.disabled &&
+    css`
       background: none;
       pointer-events: none;
     `}

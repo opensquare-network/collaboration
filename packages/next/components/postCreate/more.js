@@ -1,23 +1,20 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
 import DatePicker from "components/datePicker";
-import BigNumber from "bignumber.js";
-import Button from "@/components/button";
-import Title from "@/components/styled/subTitle";
 import { useDispatch, useSelector } from "react-redux";
-import { popUpConnect } from "../../store/reducers/showConnectSlice";
 import Information from "./information";
 import SnapshotHeightPicker from "@/components/snapshotHeightPicker";
-import { spaceConfigSelector } from "../../store/reducers/spaceConfigSlice";
 import { p_14_medium } from "../../styles/textStyles";
 import {
+  authoringEndDateSelector,
+  authoringStartDateSelector,
+  setEndTimestamp,
   setSnapshotHeights,
+  setStartTimestamp,
   snapshotHeightsSelector,
-} from "../../store/reducers/snapshotHeightSlice";
-import QuestionMark from "../../public/imgs/icons/question-mark.svg";
-import BlockIcon from "../../public/imgs/icons/block.svg";
-import Tooltip from "@/components/tooltip";
-import Flex from "@/components/styled/flex";
+} from "../../store/reducers/authoringSlice";
+import Publish from "@/components/postCreate/publish";
+import SideSectionTitle from "@/components/sideBar/sideSectionTitle";
 
 const Wrapper = styled.div`
   min-width: 302px;
@@ -43,12 +40,6 @@ const InnerWrapper = styled.div`
   > :not(:first-child) {
     margin-top: 16px;
   }
-`;
-
-const TitleWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 `;
 
 const SystemWrapper = styled.div`
@@ -87,105 +78,71 @@ const NetworkName = styled.div`
   color: #506176;
   text-transform: capitalize;
 `;
-export default function More({
-  startDate,
-  setStartDate,
-  endDate,
-  setEndDate,
-  balance,
-  balanceError,
-  onPublish,
-  isLoading,
-  threshold,
-  symbol,
-  decimals,
-  proxyPublish,
-  setProxyPublish,
-  proxyAddress,
-  setProxyAddress,
-  space,
-  info,
-  setInfo,
-  setProxyBalance,
-  getProxyBalance,
-  proxyBalance,
-  proxyBalanceError,
-  isInputting,
-  setIsInputting,
-}) {
-  const thresholdFulfilled =
-    new BigNumber(balance).comparedTo(new BigNumber(threshold)) >= 0;
-  const proxyThresholdFulfilled =
-    new BigNumber(Number(proxyBalance)).comparedTo(new BigNumber(threshold)) >=
-    0;
+export default function More({ onPublish, space }) {
   const dispatch = useDispatch();
-  const [snapshotHeightDate, setSnapshotHeightDate] = useState();
-  const spaceConfig = useSelector(spaceConfigSelector);
   const snapshotHeights = useSelector(snapshotHeightsSelector);
+  const authoringStartDate = useSelector(authoringStartDateSelector);
+  const authoringEndDate = useSelector(authoringEndDateSelector);
 
   useEffect(() => {
-    if (spaceConfig?.networks) {
+    if (space?.networks) {
       dispatch(
         setSnapshotHeights(
-          spaceConfig?.networks.map((network) => ({
+          space?.networks.map((network) => ({
             network: network.network,
             height: 0,
           }))
         )
       );
     }
-  }, [dispatch, spaceConfig?.networks]);
+  }, [dispatch, space?.networks]);
 
   function getMinEndDate() {
-    if (!startDate || startDate < new Date()) {
+    if (!authoringStartDate || authoringStartDate < new Date()) {
       return new Date();
     }
-    return startDate;
+    return authoringStartDate;
   }
 
   return (
     <Wrapper>
       <InnerWrapper>
-        <TitleWrapper>
-          <Title>System</Title>
-          <img src="/imgs/icons/action.svg" alt="" />
-        </TitleWrapper>
+        <SideSectionTitle title="System" img="/imgs/icons/action.svg" />
         <SystemWrapper>Single choice voting</SystemWrapper>
       </InnerWrapper>
       <InnerWrapper>
-        <TitleWrapper>
-          <Title>Period</Title>
-          <img src="/imgs/icons/date.svg" alt="" />
-        </TitleWrapper>
+        <SideSectionTitle title="Period" img="/imgs/icons/date.svg" />
         <DateWrapper>
           <DatePicker
-            date={startDate}
-            setDate={setStartDate}
+            date={authoringStartDate}
+            setDate={(value) => {
+              if (value?.getTime) {
+                dispatch(setStartTimestamp(value.getTime()));
+              }
+            }}
             placeholder="Start date"
+            defaultTime="now"
           />
           <DatePicker
             minDate={getMinEndDate()}
-            date={endDate}
-            setDate={setEndDate}
+            date={authoringEndDate}
+            setDate={(value) => {
+              if (value?.getTime) {
+                dispatch(setEndTimestamp(value?.getTime()));
+              }
+            }}
             placeholder="End date"
           />
         </DateWrapper>
       </InnerWrapper>
       <InnerWrapper>
-        <TitleWrapper>
-          <Flex style={{ gap: 4 }}>
-            <Title>Snapshot</Title>
-            <Tooltip content={"Support multiple chain voting"} size="fit">
-              <QuestionMark />
-            </Tooltip>
-          </Flex>
-          <BlockIcon />
-        </TitleWrapper>
+        <SideSectionTitle
+          title="Snapshot"
+          tooltip="Support multiple chain voting"
+          img="/imgs/icons/block.svg"
+        />
         <DateWrapper>
-          <SnapshotHeightPicker
-            date={snapshotHeightDate}
-            setDate={setSnapshotHeightDate}
-          />
+          <SnapshotHeightPicker space={space} />
           {snapshotHeights?.map((snapshot) => (
             <Snapshot className="snapshot" key={snapshot.network}>
               <NetworkName>{snapshot.network}</NetworkName>
@@ -201,59 +158,11 @@ export default function More({
         )} */}
       </InnerWrapper>
       <InnerWrapper>
-        <TitleWrapper>
-          <Title>Information</Title>
-          <img src="/imgs/icons/info.svg" alt="" />
-        </TitleWrapper>
+        <SideSectionTitle title="Information" img="/imgs/icons/info.svg" />
         <Divider />
-        <Information
-          balance={balance}
-          decimals={decimals}
-          thresholdFulfilled={thresholdFulfilled}
-          threshold={threshold}
-          balanceError={balanceError}
-          proxyPublish={proxyPublish}
-          proxyBalance={proxyBalance}
-          isInputting={isInputting}
-          proxyThresholdFulfilled={proxyThresholdFulfilled}
-          proxyBalanceError={proxyBalanceError}
-          setProxyPublish={setProxyPublish}
-          proxyAddress={proxyAddress}
-          setProxyAddress={setProxyAddress}
-          space={space}
-          info={info}
-          setInfo={setInfo}
-          getProxyBalance={getProxyBalance}
-          setIsInputting={setIsInputting}
-          setProxyBalance={setProxyBalance}
-          symbol={symbol}
-        />
+        <Information space={space} />
       </InnerWrapper>
-      {balanceError === "Link an address to create proposal." ? (
-        <Button large primary onClick={() => dispatch(popUpConnect())}>
-          Connect Wallet
-        </Button>
-      ) : (
-        <Button
-          large
-          primary
-          onClick={onPublish}
-          isLoading={
-            isLoading ||
-            (!proxyPublish &&
-              (new BigNumber(balance).isNaN() ||
-                !thresholdFulfilled ||
-                balanceError)) ||
-            (proxyPublish &&
-              (new BigNumber(proxyBalance).isNaN() ||
-                !proxyThresholdFulfilled ||
-                proxyBalanceError ||
-                isInputting))
-          }
-        >
-          {proxyPublish ? "Proxy Publish" : "Publish"}
-        </Button>
-      )}
+      <Publish threshold={space.proposeThreshold} onPublish={onPublish} />
     </Wrapper>
   );
 }

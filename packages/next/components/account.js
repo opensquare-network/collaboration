@@ -1,8 +1,9 @@
 import styled, { css } from "styled-components";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
+  isEvmSelector,
   loginAccountSelector,
   loginAddressSelector,
   logout,
@@ -12,16 +13,18 @@ import Avatar from "./avatar";
 import { p_14_medium } from "../styles/textStyles";
 import UserIcon from "../public/imgs/icons/user.svg";
 import { shadow_200 } from "../styles/globalCss";
-import { useWindowSize, useIsMounted } from "../frontedUtils/hooks";
+import { useIsMounted, useWindowSize } from "../frontedUtils/hooks";
 import { fetchIdentity } from "services/identity";
 import IdentityIcon from "components/identityIcon";
 import ButtonPrimary from "components/button";
 import {
   popUpConnect,
+  setShowHeaderMenu,
   showConnectSelector,
+  showHeaderMenuSelector,
 } from "../store/reducers/showConnectSlice";
 import ChainIcon from "@/components/chain/chainIcon";
-import { spaceSupportMultiChainSelector } from "../store/reducers/spaceConfigSlice";
+import { evmChains } from "../frontedUtils/consts/chains";
 
 const ConnectModal = dynamic(() => import("./connect"), {
   ssr: false,
@@ -175,7 +178,7 @@ const IdentityWrapper = styled.div`
   }
 `;
 
-export default function Account({ space, showMenu, setShowMenu }) {
+function Account({ space }) {
   const dispatch = useDispatch();
   const isMounted = useIsMounted();
   const windowSize = useWindowSize();
@@ -184,12 +187,21 @@ export default function Account({ space, showMenu, setShowMenu }) {
   const [pageMounted, setPageMounted] = useState(false);
   const [identity, setIdentity] = useState();
   const address = useSelector(loginAddressSelector);
-  const spaceSupportMultiChain = useSelector(spaceSupportMultiChainSelector);
+  const isEvm = useSelector(isEvmSelector);
+  const spaceSupportMultiChain = space?.networks?.length > 1;
+
+  const showMenu = useSelector(showHeaderMenuSelector);
 
   useEffect(() => setPageMounted(true), []);
 
   useEffect(() => {
-    if (account?.address && account?.network) {
+    setIdentity(null);
+
+    if (
+      account?.address &&
+      account?.network &&
+      !evmChains.includes(account.network)
+    ) {
       fetchIdentity(account.network, account?.address)
         .then((identity) => {
           if (isMounted.current) {
@@ -206,12 +218,12 @@ export default function Account({ space, showMenu, setShowMenu }) {
 
   const onSwitch = () => {
     dispatch(popUpConnect());
-    setShowMenu(false);
+    dispatch(setShowHeaderMenu(false));
   };
 
   const onLogout = () => {
     dispatch(logout());
-    setShowMenu(false);
+    dispatch(setShowHeaderMenu(false));
   };
 
   const ConnectWalletButton = (
@@ -241,7 +253,9 @@ export default function Account({ space, showMenu, setShowMenu }) {
               {spaceSupportMultiChain && (
                 <ChainIcon chainName={account?.network} size={16} />
               )}
-              {identity?.info && identity?.info?.status !== "NO_ID" ? (
+              {!isEvm &&
+              identity?.info &&
+              identity?.info?.status !== "NO_ID" ? (
                 <IdentityWrapper>
                   <IdentityIcon
                     status={identity.info.status}
@@ -275,7 +289,7 @@ export default function Account({ space, showMenu, setShowMenu }) {
 
   // show ConnectModal on first priority if  showConnect = true
   if (showConnect) {
-    return <ConnectModal space={space} setShowMenu={setShowMenu} />;
+    return <ConnectModal space={space} />;
   }
 
   // if already connected, show address on right top corner
@@ -285,7 +299,7 @@ export default function Account({ space, showMenu, setShowMenu }) {
         <AccountWrapperPC
           show={showMenu}
           onClick={() => {
-            setShowMenu(!showMenu);
+            dispatch(setShowHeaderMenu(!showMenu));
           }}
         >
           <div>
@@ -332,3 +346,5 @@ export default function Account({ space, showMenu, setShowMenu }) {
 
   return null;
 }
+
+export default memo(Account);

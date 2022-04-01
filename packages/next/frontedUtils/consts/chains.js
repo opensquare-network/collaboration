@@ -8,6 +8,19 @@ export const CHAINS = Object.freeze({
   kintsugi: "kintsugi",
   polkadex: "polkadex",
   interlay: "interlay",
+  moonriver: "moonriver",
+});
+
+export const evmChains = [CHAINS.moonriver];
+
+export const nonProxyChains = [
+  CHAINS.moonriver,
+  CHAINS.kintsugi,
+  CHAINS.interlay,
+];
+
+export const evmChainId = Object.freeze({
+  [CHAINS.moonriver]: 1285,
 });
 
 export const chainSs58Format = Object.freeze({

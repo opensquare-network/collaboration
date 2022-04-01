@@ -1,17 +1,16 @@
 const BigNumber = require("bignumber.js");
-const { getNodeApi } = require("../node.service");
 const { HttpError } = require("../../exc");
+const fetch = require("node-fetch");
+const { getEnvNodeApiEndpoint } = require("../../env");
 
 // TODO: Different tokens may have same name, but we will handle this case in the future.
 async function getTotalIssuance(tokenName, blockHeight) {
-  const url = blockHeight
-    ? `/issuance/token/${tokenName}/${blockHeight}`
-    : `/issuance/${tokenName}`;
-  const api = getNodeApi();
+  const url = `${getEnvNodeApiEndpoint()}/issuance/token/${tokenName}/${
+    blockHeight || ""
+  }`;
   try {
-    const {
-      data: { totalIssuance },
-    } = await api.get(url);
+    const response = await fetch(url);
+    const { totalIssuance } = await response.json();
     return new BigNumber(totalIssuance).toString();
   } catch (err) {
     throw new HttpError(500, "Failed to get token total issuance");

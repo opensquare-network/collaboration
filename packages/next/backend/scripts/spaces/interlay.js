@@ -1,3 +1,5 @@
+const { networks, strategies } = require("./consts");
+
 const config = {
   id: "interlay",
   name: "Interlay",
@@ -5,13 +7,17 @@ const config = {
   decimals: 10,
   networks: [
     {
-      network: "interlay",
+      network: networks.interlay,
       ss58Format: 2032,
     },
   ],
   proposeThreshold: "10000000000",
   voteThreshold: "10000000000",
-  weightStrategy: ["balance-of", "quadratic-balance-of"],
+  weightStrategy: [
+    strategies.balanceOf,
+    strategies.quadraticBalanceOf,
+    strategies.biasedVoting,
+  ],
   version: "2",
 };
 

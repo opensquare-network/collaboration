@@ -18,7 +18,7 @@ async function verifySignature(msg, address, signature) {
         msg,
         hexAddPrefix(signature)
       );
-      return verifiedAddress === address;
+      return (verifiedAddress || "").toLowerCase() === address.toLowerCase();
     } catch (e) {
       return false;
     }

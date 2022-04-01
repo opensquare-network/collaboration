@@ -4,8 +4,25 @@ import {
   web3FromAddress,
 } from "@polkadot/extension-dapp";
 import { stringToHex } from "@polkadot/util";
+import { ethers } from "ethers";
+
+async function singByMetaMask(text, address) {
+  if (!window.ethereum || !window.ethereum.isMetaMask) {
+    throw new Error("No MetaMask detected");
+  }
+
+  const hex = stringToHex(text);
+  return await window.ethereum.request({
+    method: "personal_sign",
+    params: [hex, address],
+  });
+}
 
 export const signMessage = async (text, address) => {
+  if (ethers.utils.isAddress(address)) {
+    return singByMetaMask(text, address);
+  }
+
   if (!isWeb3Injected) {
     throw new Error("Polkadot Extension is not installed");
   }
