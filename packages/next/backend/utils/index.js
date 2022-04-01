@@ -63,7 +63,7 @@ const testAccounts = (process.env.TEST_ACCOUNTS || "")
   .filter((acc) => acc)
   .map((addr) => {
     if (ethers.utils.isAddress(addr)) {
-      return addr;
+      return addr.toLowerCase();
     }
     return encodeAddress(addr, 42);
   });
@@ -74,7 +74,7 @@ function isTestAccount(address) {
     target = encodeAddress(address, 42);
   }
 
-  return testAccounts.includes(target);
+  return testAccounts.includes((target || "").toLowerCase());
 }
 
 function fromSymbolUnit(value, decimals) {
