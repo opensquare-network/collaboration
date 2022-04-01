@@ -7,6 +7,7 @@ const {
   getEnvDecooApiOAuthEndpoint,
   getEnvDecooApiUploadEndpoint,
 } = require("../../env");
+const fetch = require("node-fetch");
 
 const DECOO_API_TOKEN = getEnvDecooApiToken();
 if (!DECOO_API_TOKEN) {
@@ -49,7 +50,7 @@ async function pinJsonToIpfs(buf, cid, prefix = "voting-") {
   formdata.append("cid", cid);
   formdata.append("secret", secret);
 
-  const tokenResult = await axios.get(
+  const response = await fetch(
     `${trimTailSlash(DECOO_API_OAUTH_ENDPOINT)}/oauth/accessToken`,
     {
       headers: {
@@ -57,7 +58,8 @@ async function pinJsonToIpfs(buf, cid, prefix = "voting-") {
       },
     }
   );
-  const accessToken = tokenResult.data.Data;
+  const data = await response.json();
+  const accessToken = data.Data;
 
   const pinResult = await axios.post(
     `${trimTailSlash(DECOO_API_UPLOAD_ENDPOINT)}/pinning/pinFile`,
