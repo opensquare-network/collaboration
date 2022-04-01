@@ -35,10 +35,6 @@ export default function Layout({ bgHeight, children, space }) {
   const { address: loginAddress, network: loginNetwork } =
     useSelector(loginAccountSelector) || {};
 
-  function setChainId(chainId) {
-    dispatch(setMetaMaskChainId(chainId));
-  }
-
   useEffect(() => {
     if (isEvm && metamaskAddr !== loginAddress) {
       dispatch(logout());
@@ -50,14 +46,16 @@ export default function Layout({ bgHeight, children, space }) {
       return;
     }
 
-    window.ethereum.request({ method: "eth_chainId" }).then(setChainId);
+    window.ethereum
+      .request({ method: "eth_chainId" })
+      .then((chainId) => dispatch(setMetaMaskChainId(chainId)));
     window.ethereum.on("chainChanged", (chainId) => {
       if (isEvm && evmChainId[loginNetwork] !== parseInt(chainId)) {
         dispatch(logout());
       }
 
       if (chainId !== metamaskChainId) {
-        setChainId(chainId);
+        dispatch(setMetaMaskChainId(chainId));
       }
     });
 
@@ -75,7 +73,14 @@ export default function Layout({ bgHeight, children, space }) {
     }, 2000);
 
     return () => clearInterval(intervalId);
-  }, [metamaskAddr, metamaskChainId, isEvm, evmChainId, loginNetwork]);
+  }, [
+    metamaskAddr,
+    metamaskChainId,
+    isEvm,
+    evmChainId,
+    loginNetwork,
+    dispatch,
+  ]);
 
   return (
     <Wrapper>
