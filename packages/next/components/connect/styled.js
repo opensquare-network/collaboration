@@ -42,11 +42,11 @@ export const StyledText = styled.p`
 
 export const StyledDescription = styled.p`
   ${p_14_normal};
-  color: #506176;
+  color: #ee4444;
 `;
 
 export const ActionBar = styled.div`
   display: flex;
   flex-direction: row-reverse;
-  margin-top: 28px;
+  margin-top: 20px;
 `;

@@ -84,7 +84,7 @@ export default function PostContent({ data, space }) {
       </Content>
       <Divider />
       <Share />
-      <PostVote proposal={data} space={space} />
+      <PostVote proposal={data} threshold={space.voteThreshold} />
     </Panel>
   );
 }

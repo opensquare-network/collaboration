@@ -7,9 +7,9 @@ export const findNetworkConfig = (space, network) => {
   }
 
   return {
-    ...networkConfig,
     symbol: space?.symbol,
     decimals: space?.decimals,
     networks: space.networks,
+    ...networkConfig,
   };
 };

@@ -3,10 +3,7 @@ const { HttpError } = require("../../exc");
 const { getLatestHeight } = require("../../services/chain.service");
 const { spaces: spaceServices } = require("../../spaces");
 const { isAddress: isSubstrateAddress } = require("@polkadot/util-crypto");
-const {
-  getBalanceFromNetwork,
-  getApi,
-} = require("../../services/node.service");
+const { getBalanceFromNetwork } = require("../../services/node.service");
 const ethers = require("ethers");
 const { getEvmAddressBalance } = require("../../services/node.service");
 
@@ -43,8 +40,7 @@ async function getSpaceAccountBalance(ctx) {
     return;
   }
 
-  const api = await getApi(network);
-  const totalBalance = await getBalanceFromNetwork(api, {
+  const totalBalance = await getBalanceFromNetwork({
     networksConfig: spaceService,
     networkName: network,
     address,

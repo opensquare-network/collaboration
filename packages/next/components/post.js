@@ -106,7 +106,6 @@ export default function Post({ data, showSpace, space, spaces }) {
   const getSpaceDisplayName = (spaceId) => getSpaceFromId(spaceId)?.name;
   const windowSize = useWindowSize();
   const [showRichInfo, setShowRichInfo] = useState(true);
-  const spaceSupportMultiChain = space?.networks?.length > 1;
 
   useEffect(() => {
     if (windowSize.width <= 900) {
@@ -122,6 +121,7 @@ export default function Post({ data, showSpace, space, spaces }) {
     data.networksConfig,
     data.proposerNetwork
   );
+  const spaceSupportMultiChain = proposerNetworkConfig?.networks?.length > 1;
 
   return (
     <Wrapper>

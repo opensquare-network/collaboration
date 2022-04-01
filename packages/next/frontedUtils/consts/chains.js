@@ -13,6 +13,16 @@ export const CHAINS = Object.freeze({
 
 export const evmChains = [CHAINS.moonriver];
 
+export const nonProxyChains = [
+  CHAINS.moonriver,
+  CHAINS.kintsugi,
+  CHAINS.interlay,
+];
+
+export const evmChainId = Object.freeze({
+  [CHAINS.moonriver]: 1285,
+});
+
 export const chainSs58Format = Object.freeze({
   [CHAINS.polkadot]: 0,
   [CHAINS.kusama]: 2,

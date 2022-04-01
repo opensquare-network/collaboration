@@ -10,7 +10,7 @@ import { useState } from "react";
 import {
   setSnapshotHeights,
   snapshotHeightsSelector,
-} from "../store/reducers/snapshotHeightSlice";
+} from "../store/reducers/authoringSlice";
 import nextApi from "../services/nextApi";
 import { addToast } from "store/reducers/toastSlice";
 import { useIsMountedBool } from "../frontedUtils/hooks";
@@ -40,11 +40,13 @@ const ButtonWrapper = styled.div`
   margin-top: 20px;
 `;
 
-function SnapshotHeightPicker({ date, setDate, space }) {
+function SnapshotHeightPicker({ space }) {
   const dispatch = useDispatch();
   const networks = space?.networks || [];
   const [showHeights, setShowHeights] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [date, setDate] = useState();
+
   const hideHeights = () => setShowHeights(false);
   const snapshotHeights = useSelector(snapshotHeightsSelector);
   const isMounted = useIsMountedBool();

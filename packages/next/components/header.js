@@ -1,11 +1,16 @@
 import styled from "styled-components";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import Link from "next/link";
 import Container from "./container";
 import { useOnClickOutside } from "frontedUtils/hooks";
 import Account from "./account";
 import { p_18_semibold } from "../styles/textStyles";
 import { useRouter } from "next/router";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setShowHeaderMenu,
+  showHeaderMenuSelector,
+} from "../store/reducers/showConnectSlice";
 
 const Wrapper = styled.header`
   flex: 0 0 auto;
@@ -102,19 +107,21 @@ const IconWrapper = styled.div`
 `;
 
 export default function Header({ space }) {
-  const [showMenu, setShowMenu] = useState(false);
+  const dispatch = useDispatch();
+  const showMenu = useSelector(showHeaderMenuSelector);
+
   const ref = useRef();
   useOnClickOutside(ref, (event) => {
     // connect modal is at body level, doesn't contained in the <Header/>, so exclude manually
     if (document?.querySelector(".modals")?.contains(event.target)) {
       return;
     }
-    setShowMenu(false);
+    dispatch(setShowHeaderMenu(false));
   });
   const router = useRouter();
   const showConnect = [
     "/space/[space]/proposal/[id]",
-    "/space/[space]/create"
+    "/space/[space]/create",
   ].includes(router.pathname);
 
   return (
@@ -133,7 +140,7 @@ export default function Header({ space }) {
           </LeftWrapper>
           <IconWrapper
             onClick={() => {
-              setShowMenu(!showMenu);
+              dispatch(setShowHeaderMenu(!showMenu));
             }}
           >
             <img
@@ -141,13 +148,11 @@ export default function Header({ space }) {
               alt=""
             />
           </IconWrapper>
-          {showConnect && <AccountWrapper>
-            <Account
-              space={space}
-              showMenu={showMenu}
-              setShowMenu={setShowMenu}
-            />
-          </AccountWrapper>}
+          {showConnect && (
+            <AccountWrapper>
+              <Account space={space} />
+            </AccountWrapper>
+          )}
         </ContentWrapper>
       </Container>
     </Wrapper>

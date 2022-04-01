@@ -1,16 +1,15 @@
 import { ActionBar, StyledDescription } from "@/components/connect/styled";
-import { memo } from "react";
-import Closeable from "@/components/connect/closeable";
+import { Fragment, memo } from "react";
 import Button from "@/components/button";
 import { useDispatch } from "react-redux";
 import { closeConnect } from "../../store/reducers/showConnectSlice";
 
-function NoAccount({ open }) {
+function NoAccount() {
   const dispatch = useDispatch();
   const closeModal = () => dispatch(closeConnect());
 
   return (
-    <Closeable open={open}>
+    <Fragment>
       <StyledDescription>
         Polkadot-js extension is connected, but no account found. Please create
         or import some accounts first.
@@ -21,7 +20,7 @@ function NoAccount({ open }) {
           Got it.
         </Button>
       </ActionBar>
-    </Closeable>
+    </Fragment>
   );
 }
 
