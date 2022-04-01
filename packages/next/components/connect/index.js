@@ -15,7 +15,6 @@ import useExtension from "../../frontedUtils/hooks/useExtension";
 import { evmChains } from "../../frontedUtils/consts/chains";
 import ConnectButton from "@/components/connect/connectButton";
 import { getMetamaskElement } from "@/components/connect/metamask";
-import { metamaskChainIdSelector } from "../../store/reducers/metamaskSlice";
 
 const Wrapper = styled.div``;
 
@@ -26,7 +25,6 @@ export default function Connect({ space }) {
   const availableNetworks = useSelector(availableNetworksSelector);
   const { accounts, hasExtension, extensionAccessible, detecting } =
     useExtension();
-  const metamaskChainId = useSelector(metamaskChainIdSelector);
 
   useEffect(() => {
     if (accounts && accounts.length > 0) {
@@ -38,7 +36,7 @@ export default function Connect({ space }) {
 
   useEffect(() => {
     if (isEvmChain) {
-      getMetamaskElement(chain.network, metamaskChainId).then((element) => {
+      getMetamaskElement(chain.network).then((element) => {
         setElement(element);
       });
       return;
@@ -85,7 +83,6 @@ export default function Connect({ space }) {
     chain,
     address,
     chain.network,
-    metamaskChainId,
   ]);
 
   return (

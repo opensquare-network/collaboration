@@ -26,7 +26,8 @@ const accountSlice = createSlice({
         state.account = null;
       }
 
-      if (typeof window !== "undefined" && payload) {
+      const isEvmChain = evmChains.includes(payload?.network);
+      if (typeof window !== "undefined" && payload && !isEvmChain) {
         setCookie("addressV3", `${payload.network}/${payload.address}`, 7);
       }
     },

@@ -9,6 +9,7 @@ import {
   closeConnect,
   setShowHeaderMenu,
 } from "../../../store/reducers/showConnectSlice";
+import { registerMetaMaskEventHandlers } from "../../../services/metamask";
 
 const Wrapper = styled.span`
   display: inline-flex;
@@ -34,6 +35,8 @@ function ConnectButton({ address, network, isMetamask = false }) {
         );
         dispatch(closeConnect());
         dispatch(setShowHeaderMenu(false));
+
+        registerMetaMaskEventHandlers();
       }}
     >
       <Wrapper>
