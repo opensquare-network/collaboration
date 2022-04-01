@@ -73,14 +73,7 @@ export default function Layout({ bgHeight, children, space }) {
     }, 2000);
 
     return () => clearInterval(intervalId);
-  }, [
-    metamaskAddr,
-    metamaskChainId,
-    isEvm,
-    evmChainId,
-    loginNetwork,
-    dispatch,
-  ]);
+  }, [metamaskAddr, metamaskChainId, isEvm, loginNetwork, dispatch]);
 
   return (
     <Wrapper>
