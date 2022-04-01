@@ -1,8 +1,5 @@
 const { HttpError } = require("../../exc");
 const proposalService = require("../../services/proposal.service");
-const {
-  queryProposals,
-} = require("../../services/proposal.service/proposalQuery");
 const { ContentType, ChoiceType } = require("../../constants");
 const { extractPage } = require("../../utils");
 const { isAddress } = require("@polkadot/util-crypto");
@@ -109,8 +106,7 @@ async function getProposals(ctx) {
     return;
   }
 
-  const q = { space };
-  ctx.body = await queryProposals(q, { lastActivityAt: -1 }, page, pageSize);
+  ctx.body = await proposalService.getProposals(space, page, pageSize);
 }
 
 async function getPendingProposals(ctx) {
@@ -122,13 +118,7 @@ async function getPendingProposals(ctx) {
     return;
   }
 
-  const now = Date.now();
-  const q = {
-    space,
-    startDate: { $gt: now },
-  };
-
-  ctx.body = await queryProposals(q, { startDate: 1 }, page, pageSize);
+  ctx.body = await proposalService.getPendingProposals(space, page, pageSize);
 }
 
 async function getActiveProposals(ctx) {
@@ -140,14 +130,7 @@ async function getActiveProposals(ctx) {
     return;
   }
 
-  const now = Date.now();
-  const q = {
-    space,
-    startDate: { $lte: now },
-    endDate: { $gt: now },
-  };
-
-  ctx.body = await queryProposals(q, { endDate: 1 }, page, pageSize);
+  ctx.body = await proposalService.getActiveProposals(space, page, pageSize);
 }
 
 async function getClosedProposals(ctx) {
@@ -159,13 +142,7 @@ async function getClosedProposals(ctx) {
     return;
   }
 
-  const now = Date.now();
-  const q = {
-    space,
-    endDate: { $lte: now },
-  };
-
-  ctx.body = await queryProposals(q, { endDate: -1 }, page, pageSize);
+  ctx.body = await proposalService.getClosedProposals(space, page, pageSize);
 }
 
 async function getProposalById(ctx) {

@@ -656,10 +656,62 @@ async function getVoterBalance(proposalCid, network, address, snapshot) {
   };
 }
 
+async function getHottestProposals(page, pageSize) {
+  const now = Date.now();
+  const q = {
+    startDate: { $lte: now },
+    endDate: { $gt: now },
+  };
+
+  return queryProposals(q, { lastActivityAt: -1 }, page, pageSize);
+}
+
+async function getProposals(space, page, pageSize) {
+  const q = { space };
+
+  return queryProposals(q, { lastActivityAt: -1 }, page, pageSize);
+}
+
+async function getPendingProposals(space, page, pageSize) {
+  const now = Date.now();
+  const q = {
+    space,
+    startDate: { $gt: now },
+  };
+
+  return queryProposals(q, { startDate: 1 }, page, pageSize);
+}
+
+async function getActiveProposals(space, page, pageSize) {
+  const now = Date.now();
+  const q = {
+    space,
+    startDate: { $lte: now },
+    endDate: { $gt: now },
+  };
+
+  return queryProposals(q, { endDate: 1 }, page, pageSize);
+}
+
+async function getClosedProposals(space, page, pageSize) {
+  const now = Date.now();
+  const q = {
+    space,
+    endDate: { $lte: now },
+  };
+
+  return queryProposals(q, { endDate: -1 }, page, pageSize);
+}
+
 module.exports = {
   createProposal,
   getProposalBySpace,
   getProposalById,
+  getHottestProposals,
+  getProposals,
+  getPendingProposals,
+  getActiveProposals,
+  getClosedProposals,
   postComment,
   getComments,
   vote,

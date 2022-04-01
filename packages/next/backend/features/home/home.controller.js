@@ -1,22 +1,7 @@
-const { addProposalStatus } = require("../../services/proposal.service/common");
-const { getProposalCollection } = require("../../mongo");
+const proposalService = require("../../services/proposal.service");
 
 async function getHottestProposals(ctx) {
-  const now = Date.now();
-  const q = {
-    startDate: { $lte: now },
-    endDate: { $gt: now },
-  };
-
-  const proposalCol = await getProposalCollection();
-  const proposals = await proposalCol
-    .find(q, { sort: { lastActivityAt: -1 } })
-    .limit(10)
-    .toArray();
-
-  const addStatus = addProposalStatus(now);
-
-  ctx.body = proposals.map(addStatus);
+  ctx.body = await proposalService.getHottestProposals(1, 10);
 }
 
 module.exports = {
