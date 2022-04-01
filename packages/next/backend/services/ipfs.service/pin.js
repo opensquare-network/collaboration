@@ -1,5 +1,4 @@
 const crypto = require("crypto");
-const axios = require("axios");
 const FormData = require("form-data");
 const {
   getEnvDecooApiToken,
@@ -61,18 +60,19 @@ async function pinJsonToIpfs(buf, cid, prefix = "voting-") {
   const data = await response.json();
   const accessToken = data.Data;
 
-  const pinResult = await axios.post(
+  const pinResult = await fetch(
     `${trimTailSlash(DECOO_API_UPLOAD_ENDPOINT)}/pinning/pinFile`,
-    formdata,
     {
+      method: "POST",
+      body: formdata,
       headers: {
         ...formdata.getHeaders(),
         useraccesstoken: accessToken,
       },
-    }
+    },
   );
 
-  return pinResult.data;
+  return await pinResult.json();
 }
 
 module.exports = {
