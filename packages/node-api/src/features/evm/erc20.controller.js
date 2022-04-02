@@ -1,7 +1,5 @@
+const { queryBalance } = require("./query/erc20");
 const { evmChains } = require("../../constants");
-const { erc20Abi } = require("./abi");
-const { evmProviderMap } = require("./providers");
-const { ethers } = require("ethers");
 
 class Erc20Controller {
   async getBalance(ctx) {
@@ -17,12 +15,7 @@ class Erc20Controller {
       return;
     }
 
-    const erc20 = new ethers.Contract(
-      contract,
-      erc20Abi,
-      evmProviderMap[chain]
-    );
-    const balance = await erc20.balanceOf(address, { blockTag });
+    const balance = await queryBalance(chain, contract, address, blockTag);
 
     ctx.body = {
       balance: balance.toString(),
