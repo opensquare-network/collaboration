@@ -11,9 +11,9 @@
   },
   "dependencies": {
     "@osn/polkadot-react-identicon": "^1.0.6",
-    "@polkadot/extension-dapp": "0.42.8-14",
-    "@polkadot/util": "8.6.1",
-    "@polkadot/util-crypto": "8.6.1",
+    "@polkadot/extension-dapp": "0.42.10-4",
+    "@polkadot/util": "8.7.1",
+    "@polkadot/util-crypto": "8.7.1",
     "@reduxjs/toolkit": "^1.6.1",
     "@svgr/webpack": "^5.5.0",
     "bignumber.js": "^9.0.1",
