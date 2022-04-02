@@ -15,7 +15,6 @@ const commonFeatureRouters = [
   require("./features/chain/routes"),
 ];
 
-
 async function checkSpaceExisten(ctx, next) {
   if (!spaceServices[ctx.params.space]) {
     return ctx.throw(404, "Space does not exists");
