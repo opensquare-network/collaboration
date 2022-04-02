@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     {
       name: "voting-pin-to-ipfs",
-      script: "backend/scripts/pin-to-ipfs.js",
+      script: "src/scripts/pin-to-ipfs.js",
       log_date_format: "YYYY-MM-DD HH:mm Z",
       env: {
         NODE_ENV: "development",
@@ -11,6 +11,5 @@ module.exports = {
         NODE_ENV: "production",
       },
     },
-
   ],
 };

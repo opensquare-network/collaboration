@@ -9,6 +9,7 @@ const { reloadSpaces } = require("../../../spaces");
 const { ObjectId, Decimal128 } = require("mongodb");
 const { getProposalById } = require("..");
 const { getDb } = require("../../../mongo");
+const { karuraConfig } = require("../../../scripts/spaces/karura");
 
 describe("Query Proposal Test", () => {
   let db;
@@ -22,20 +23,7 @@ describe("Query Proposal Test", () => {
     voteCol = db.getCollection("vote");
     spaceCol = db.getCollection("space");
 
-    await spaceCol.insertMany([
-      {
-        id: "karura",
-        name: "Karura",
-        network: "karura",
-        symbol: "KAR",
-        ss58Format: 8,
-        decimals: 12,
-        proposeThreshold: "1000000000000",
-        voteThreshold: "10000000000",
-        weightStrategy: ["balance-of", "quadratic-balance-of"],
-        identity: "kusama",
-      },
-    ]);
+    await spaceCol.insertMany([karuraConfig]);
 
     await reloadSpaces();
 
@@ -43,6 +31,7 @@ describe("Query Proposal Test", () => {
       {
         _id: ObjectId("616e454d8f661dee51552e6a"),
         space: "karura",
+        networksConfig: [karuraConfig],
         postUid: "36",
         title: "Proposal#1",
         content: "Proposal#1",
@@ -51,7 +40,7 @@ describe("Query Proposal Test", () => {
         choices: ["Aye", "Nay"],
         startDate: Date.now() - 3600 * 1000,
         endDate: Date.now() + 3600 * 1000,
-        snapshotHeight: 779147,
+        snapshotHeights: { karura: 779147 },
         weightStrategy: ["balance-of", "quadratic-balance-of"],
         cid: "QmRgpY9WUuxKkptU6Sj9ow97u5QtFeRYnx4pqXzVBfMapE",
         pinHash: "QmRgpY9WUuxKkptU6Sj9ow97u5QtFeRYnx4pqXzVBfMapE",
@@ -63,6 +52,7 @@ describe("Query Proposal Test", () => {
         proposal: ObjectId("616e454d8f661dee51552e6a"),
         voter: "13d8i62igrsVw2bbRBzMtg7fH298n8exz7Y8y1Ty4K5bFuzf",
         address: "13d8i62igrsVw2bbRBzMtg7fH298n8exz7Y8y1Ty4K5bFuzf",
+        voterNetwork: "karura",
         choice: "Aye",
         cid: "QmXoJvVbwdtBU5JC1ZgzZUtE2eBE92BVjmUsjzK98RJVec",
         data: {},
@@ -79,6 +69,7 @@ describe("Query Proposal Test", () => {
         proposal: ObjectId("616e454d8f661dee51552e6a"),
         voter: "14uSQFo8WePzpZaBUZHKa8AqDxigH1wjtNDHaRAG8ipSqQS3",
         address: "14uSQFo8WePzpZaBUZHKa8AqDxigH1wjtNDHaRAG8ipSqQS3",
+        voterNetwork: "karura",
         choice: "Nay",
         cid: "QmXoJvVbwdtBU5JC1ZgzZUtE2eBE92BVjmUsjzK98RJVec",
         data: {},
@@ -107,13 +98,14 @@ describe("Query Proposal Test", () => {
     expect(proposal).toMatchObject({
       _id: new ObjectId("616e454d8f661dee51552e6a"),
       space: "karura",
+      networksConfig: [karuraConfig],
       postUid: "36",
       title: "Proposal#1",
       content: "Proposal#1",
       contentType: "markdown",
       choiceType: "single",
       choices: ["Aye", "Nay"],
-      snapshotHeight: 779147,
+      snapshotHeights: { karura: 779147 },
       weightStrategy: ["balance-of", "quadratic-balance-of"],
       cid: "QmRgpY9WUuxKkptU6Sj9ow97u5QtFeRYnx4pqXzVBfMapE",
       pinHash: "QmRgpY9WUuxKkptU6Sj9ow97u5QtFeRYnx4pqXzVBfMapE",
@@ -134,13 +126,14 @@ describe("Query Proposal Test", () => {
     expect(proposal).toMatchObject({
       _id: new ObjectId("616e454d8f661dee51552e6a"),
       space: "karura",
+      networksConfig: [karuraConfig],
       postUid: "36",
       title: "Proposal#1",
       content: "Proposal#1",
       contentType: "markdown",
       choiceType: "single",
       choices: ["Aye", "Nay"],
-      snapshotHeight: 779147,
+      snapshotHeights: { karura: 779147 },
       weightStrategy: ["balance-of", "quadratic-balance-of"],
       cid: "QmRgpY9WUuxKkptU6Sj9ow97u5QtFeRYnx4pqXzVBfMapE",
       pinHash: "QmRgpY9WUuxKkptU6Sj9ow97u5QtFeRYnx4pqXzVBfMapE",

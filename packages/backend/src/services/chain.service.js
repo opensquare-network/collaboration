@@ -29,7 +29,7 @@ async function doUpdate() {
 
 function startUpdateHeight() {
   doUpdate().then(() => {
-    console.log("Change heights initialized");
+    console.log("Chain heights initialized");
   });
 
   timer = setInterval(doUpdate, 12 * 1000);

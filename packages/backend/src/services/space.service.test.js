@@ -9,6 +9,7 @@ const { getDb } = require("../mongo");
 const { startUpdateHeight, stopUpdateHeight } = require("./chain.service");
 const { getSpace, getSpaces } = require("./space.service");
 const { reloadSpaces } = require("../spaces");
+const { karuraConfig } = require("../scripts/spaces/karura");
 
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -21,18 +22,7 @@ describe("Spaces Test", () => {
     spaceCol = db.getCollection("space");
 
     await spaceCol.insertMany([
-      {
-        id: "karura",
-        name: "Karura",
-        network: "karura",
-        symbol: "KAR",
-        ss58Format: 8,
-        decimals: 12,
-        proposeThreshold: "1000000000000",
-        voteThreshold: "10000000000",
-        weightStrategy: ["balance-of","quadratic-balance-of"],
-        identity: "kusama",
-      },
+      karuraConfig,
     ]);
 
     await reloadSpaces();
@@ -51,21 +41,7 @@ describe("Spaces Test", () => {
     const spaces = await getSpaces();
     expect(spaces).toMatchObject({
       karura:
-        {
-          id: "karura",
-          name: "Karura",
-          network: "karura",
-          symbol: "KAR",
-          ss58Format: 8,
-          decimals: 12,
-          proposeThreshold: "1000000000000",
-          voteThreshold: "10000000000",
-          weightStrategy: ["balance-of","quadratic-balance-of"],
-          identity: {
-            network: "kusama",
-            ss58Format: 2
-          },
-        },
+      karuraConfig,
 
     });
   });
@@ -73,20 +49,7 @@ describe("Spaces Test", () => {
   test("getSpace", async () => {
     const space = await getSpace("karura");
     expect(space).toMatchObject({
-      id: "karura",
-      name: "Karura",
-      network: "karura",
-      symbol: "KAR",
-      ss58Format: 8,
-      decimals: 12,
-      proposeThreshold: "1000000000000",
-      voteThreshold: "10000000000",
-      weightStrategy: ["balance-of","quadratic-balance-of"],
-      identity: {
-        network: "kusama",
-        ss58Format: 2
-      },
-      latestFinalizedHeight: 100000,
+      ...karuraConfig,
     });
   });
 });
