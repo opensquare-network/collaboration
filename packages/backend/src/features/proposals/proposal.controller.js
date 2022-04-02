@@ -1,5 +1,6 @@
 const { HttpError } = require("../../exc");
 const proposalService = require("../../services/proposal.service");
+const { getVoteCollection } = require("../../mongo");
 const {
   queryProposals,
 } = require("../../services/proposal.service/proposalQuery");
@@ -262,6 +263,15 @@ async function getAddressVote(ctx) {
   ctx.body = await proposalService.getAddressVote(proposalCid, address);
 }
 
+async function getVoteByNetworkAddress(ctx) {
+  const { proposalCid, network, address } = ctx.params;
+  ctx.body = await proposalService.getAddressVote(
+    proposalCid,
+    address,
+    network
+  );
+}
+
 async function getStats(ctx) {
   const { proposalCid } = ctx.params;
   ctx.body = await proposalService.getStats(proposalCid);
@@ -299,6 +309,7 @@ module.exports = {
   getComments,
   getVotes,
   getAddressVote,
+  getVoteByNetworkAddress,
   getStats,
   getVoterBalance,
 };

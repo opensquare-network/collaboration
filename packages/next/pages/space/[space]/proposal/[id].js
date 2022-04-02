@@ -4,7 +4,6 @@ import Nav from "components/nav";
 import PostDetail from "@/components/postDetail/index";
 import nextApi, { ssrNextApi } from "services/nextApi";
 import { EmptyQuery } from "frontedUtils/constants";
-import { encodeAddress } from "@polkadot/util-crypto";
 import { useEffect, useState } from "react";
 import FourOFour from "../../../404";
 import {
@@ -19,6 +18,7 @@ import {
 } from "../../../../frontedUtils/consts/spaces";
 import Seo from "@/components/seo";
 import { useIsMounted } from "../../../../frontedUtils/hooks";
+import encodeAddressByChain from "../../../../frontedUtils/chain/addr";
 
 export default function Index({
   detail,
@@ -156,12 +156,13 @@ export async function getServerSideProps(context) {
     }),
   ]);
 
-  const address = context.req.cookies.address;
+  const cookieValue = context.req.cookies.addressV3;
   let myVote;
-  if (address) {
-    const encodedAddress = encodeAddress(address, space.ss58Format);
+  if (cookieValue) {
+    const [network, address] = cookieValue.split("/");
+    const encodedAddress = encodeAddressByChain(address, network);
     const result = await ssrNextApi.fetch(
-      `${spaceId}/proposal/${detail?.cid}/votes/${encodedAddress}`
+      `${spaceId}/proposal/${detail?.cid}/votes/network/${network}/address/${encodedAddress}`
     );
     myVote = result.result ?? null;
   }
