@@ -127,9 +127,11 @@ function getBalanceFromNetwork({
   if (!network) {
     throw new HttpError(400, "Network not found");
   }
-  const { type, assetId } = network;
+  const { type, assetId, contract } = network;
 
-  if (type === "asset") {
+  if ("erc20" === type) {
+    return getEvmAddressBalance(networkName, contract, address, blockHeight);
+  } else if (type === "asset") {
     return getTokenBalance(networkName, assetId, blockHeight, address);
   } else if (type === "token") {
     return getTokenBalance(networkName, symbol, blockHeight, address);
