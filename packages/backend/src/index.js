@@ -1,3 +1,7 @@
+const dotenv = require("dotenv");
+dotenv.config();
+
+const { createServer } = require("http");
 const Koa = require("koa");
 const bodyParser = require("koa-bodyparser");
 const logger = require("koa-logger");
@@ -27,10 +31,18 @@ app.use(async (ctx, next) => {
 
 require("./routes")(app);
 
-const koaHandler = app.callback();
-
 reloadSpaces().then(() => startUpdateHeight());
 
-module.exports = {
-  koaHandler,
-};
+const PORT = process.env.PORT;
+if (!PORT) {
+  console.log("PORT is not defined");
+  process.exit();
+}
+
+const koaHandler = app.callback();
+const httpServer = createServer(koaHandler);
+
+httpServer.listen(PORT, (err) => {
+  if (err) throw err;
+  console.log(`> Ready on http://127.0.0.1:${PORT}`);
+});

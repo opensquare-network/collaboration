@@ -539,11 +539,15 @@ async function getVotes(proposalCid, page, pageSize) {
   };
 }
 
-async function getAddressVote(proposalCid, address) {
+async function getAddressVote(proposalCid, address, network) {
   const q = {
     "data.proposalCid": proposalCid,
     voter: address,
   };
+
+  if (network) {
+    q["voterNetwork"] = network;
+  }
 
   const spaceService = await getProposalSpaceByCid(proposalCid);
 

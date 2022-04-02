@@ -114,7 +114,7 @@ async function getTokenBalance(network, assetIdOrSymbol, blockHeight, address) {
   }
 }
 
-function getBalanceFromNetwork({
+async function getBalanceFromNetwork({
   networksConfig,
   networkName,
   address,
@@ -130,7 +130,13 @@ function getBalanceFromNetwork({
   const { type, assetId, contract } = network;
 
   if ("erc20" === type) {
-    return getEvmAddressBalance(networkName, contract, address, blockHeight);
+    const { balance } = await getEvmAddressBalance(
+      networkName,
+      contract,
+      address,
+      blockHeight
+    );
+    return balance;
   } else if (type === "asset") {
     return getTokenBalance(networkName, assetId, blockHeight, address);
   } else if (type === "token") {

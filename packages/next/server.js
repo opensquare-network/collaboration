@@ -7,17 +7,15 @@ const httpProxy = require("http-proxy");
 const projectDir = process.cwd();
 loadEnvConfig(projectDir);
 
-const ssrUrl = new URL(process.env.NEXT_PUBLIC_SSR_API_END_POINT);
+const ssrUrl = new URL(process.env.NEXT_PUBLIC_BACKEND_API_END_POINT);
 const proxy = httpProxy.createProxyServer({
   target: {
     protocol: ssrUrl.protocol,
-    host: ssrUrl.host,
+    host: ssrUrl.hostname,
     port: ssrUrl.port,
   },
   changeOrigin: true,
 });
-
-const { koaHandler } = require("./backend");
 
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
@@ -35,12 +33,8 @@ app.prepare().then(() => {
     const { pathname } = parsedUrl;
 
     if (pathname.startsWith("/api/")) {
-      if (process.env.MODE === "cors-api-server") {
-        proxy.web(req, res, { autoRewrite: false });
-      } else {
-        req.url = req.url.replace(/^\/api/, "");
-        koaHandler(req, res);
-      }
+      req.url = req.url.replace(/^\/api/, "");
+      proxy.web(req, res, { autoRewrite: false });
     } else {
       nextHandler(req, res, parsedUrl);
     }

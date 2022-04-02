@@ -15,8 +15,18 @@ router.get("/proposals/closed", proposalController.getClosedProposals);
 router.get("/proposal/:proposalId", proposalController.getProposalById);
 router.get("/proposal/:proposalCid/comments", proposalController.getComments);
 router.get("/proposal/:proposalCid/votes", proposalController.getVotes);
-router.get("/proposal/:proposalCid/votes/:address", proposalController.getAddressVote);
+router.get(
+  "/proposal/:proposalCid/votes/:address",
+  proposalController.getAddressVote
+);
+router.get(
+  "/proposal/:proposalCid/votes/network/:network/address/:address",
+  proposalController.getVoteByNetworkAddress
+);
 router.get("/proposal/:proposalCid/stats", proposalController.getStats);
-router.get("/proposal/:proposalCid/voterbalance/:network/:address", proposalController.getVoterBalance);
+router.get(
+  "/proposal/:proposalCid/voterbalance/:network/:address",
+  proposalController.getVoterBalance
+);
 
 module.exports = router;
