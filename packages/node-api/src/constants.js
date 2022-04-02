@@ -37,6 +37,7 @@ const symbols = {
   KSM: "KSM",
   ARIS: "ARIS",
   KINT: "KINT",
+  KAR: "KAR",
 };
 
 const nodeTimeoutSeconds = 20;
