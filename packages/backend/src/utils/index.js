@@ -62,7 +62,7 @@ const testAccounts = (process.env.TEST_ACCOUNTS || "")
     if (ethers.utils.isAddress(addr)) {
       return addr.toLowerCase();
     }
-    return encodeAddress(addr, 42);
+    return encodeAddress(addr, 42).toLowerCase();
   });
 
 function isTestAccount(address) {

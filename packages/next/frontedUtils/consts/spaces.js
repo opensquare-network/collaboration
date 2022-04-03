@@ -11,6 +11,7 @@ export const spaceToSeoImageMap = Object.freeze({
   rmrk: "bafybeibhjq4ls327o52xm76zgabalkltmdofzku57sfjw2afsao3ud2yjq",
   polkadex: "bafybeig3y3dlntpdhrge7v7vzdsq4poi6yuymvemmvqqptcbiisr3652ma",
   interlay: "bafybeiaengdfa3yelfkx3hbrmnktvpjx3ht4uqaj5wd4sy6vknuctxroja",
+  acala: "bafybeid6yjg7n2vh3kc34tv6wpqzr53bnbuij6nvxz5bkgvbi2jb5cy2mq",
 });
 
 export const defaultSeoImage =

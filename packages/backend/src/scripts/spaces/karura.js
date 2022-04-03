@@ -22,7 +22,11 @@ const config = {
   ],
   proposeThreshold: "1000000000000",
   voteThreshold: "10000000000",
-  weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
+  weightStrategy: [
+    strategies.balanceOf,
+    strategies.quadraticBalanceOf,
+    strategies.biasedVoting,
+  ],
   version: "2",
 };
 

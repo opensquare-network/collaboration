@@ -7,6 +7,7 @@ const chains = {
   bifrost: "bifrost",
   kintsugi: "kintsugi",
   interlay: "interlay",
+  acala: "acala",
 };
 
 const oneSecond = 1000;
@@ -28,6 +29,7 @@ const chainBlockTime = {
   kintsugi: twelveSecond,
   polkadex: twelveSecond,
   interlay: twelveSecond,
+  [chains.acala]: twelveSecond,
   [evmChains.moonriver]: twelveSecond,
   [evmChains.moonbeam]: twelveSecond,
 };

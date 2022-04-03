@@ -29,6 +29,8 @@ function ChainIcon({ chainName, size = 24 }) {
       return <Moonriver viewBox="0 0 24 24" width={size} height={size} />;
     case "interlay":
       return <Interlay viewBox="0 0 24 24" width={size} height={size} />;
+    case CHAINS.acala:
+      return <img src="/imgs/icons/chain/acala.svg" width={size} alt="" />;
     case CHAINS.polkadex:
       return <Polkadex viewBox="0 0 24 24" width={size} height={size} />;
     default:
