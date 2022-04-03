@@ -9,6 +9,7 @@ export const CHAINS = Object.freeze({
   polkadex: "polkadex",
   interlay: "interlay",
   moonriver: "moonriver",
+  acala: "acala",
 });
 
 export const evmChains = [CHAINS.moonriver];
@@ -33,4 +34,5 @@ export const chainSs58Format = Object.freeze({
   [CHAINS.kintsugi]: 2092,
   [CHAINS.polkadex]: 88,
   [CHAINS.interlay]: 2032,
+  [CHAINS.acala]: 10,
 });

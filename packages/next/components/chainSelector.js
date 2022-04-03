@@ -61,14 +61,19 @@ const ChainItem = ({ header, chainName }) => {
 
 const ChainSelector = ({ chains = [], onSelect = () => {} }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
+
   useEffect(() => {
     onSelect(chains[selectedIndex]);
   }, [chains, onSelect, selectedIndex]);
+
   const options = chains.map((item, index) => ({
     key: index,
     value: index,
     content: <ChainItem chainName={item.network} />,
   }));
+
+  console.log("chains", chains);
+  console.log("options", options);
 
   return (
     <Wrapper>

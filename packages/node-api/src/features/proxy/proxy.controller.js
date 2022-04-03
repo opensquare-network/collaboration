@@ -1,5 +1,4 @@
-import { evmChains } from "@collaboration/voting/frontedUtils/consts/chains";
-
+const { evmChains } = require("../../constants");
 const { getBlockApi } = require("../utils");
 const { getApis } = require("../../apis");
 const { u8aToHex } = require("@polkadot/util");

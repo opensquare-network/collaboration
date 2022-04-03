@@ -21,6 +21,7 @@ const SpaceIcons = {
   polkadex: "polkadex.svg",
   chrwna: "chrwna.svg",
   interlay: "interlay.svg",
+  acala: "acala.svg",
 };
 
 export default function SpaceLogo({ spaceId }) {

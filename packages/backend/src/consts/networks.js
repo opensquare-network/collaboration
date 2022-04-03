@@ -9,6 +9,7 @@ const networks = Object.freeze({
   interlay: "interlay",
   moonriver: "moonriver",
   moonbeam: "moonbeam",
+  acala: "acala",
 });
 
 const evmNetworks = [networks.moonbeam, networks.moonriver];

@@ -93,7 +93,6 @@ export default function Connect({ space }) {
           chains={availableNetworks}
           onSelect={(chain) => setChain(chain)}
         />
-
         {element}
       </Closeable>
     </Wrapper>
