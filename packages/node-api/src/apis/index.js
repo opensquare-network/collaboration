@@ -37,7 +37,7 @@ async function createApi(network, endpoint) {
   const provider = new WsProvider(endpoint, 100);
 
   let options = {};
-  if (chains.karura === network) {
+  if ([chains.karura, chains.acala].includes(network)) {
     options = karuraOptions;
   } else if (chains.khala === network) {
     options = khalaOptions;
