@@ -27,6 +27,11 @@ const tokens = {
     chain: chains.karura,
     isNative: true,
   },
+  aca: {
+    isChain: true,
+    chain: chains.acala,
+    isNative: true,
+  },
   pha: {
     isChain: true,
     chain: chains.khala,

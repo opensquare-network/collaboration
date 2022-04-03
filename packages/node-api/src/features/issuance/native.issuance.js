@@ -3,9 +3,7 @@ const { getApis } = require("../../apis");
 
 async function queryOneApi(api, blockHashOrHeight) {
   const blockApi = await getBlockApi(api, blockHashOrHeight);
-  const issuance = await blockApi.query.balances.totalIssuance(
-    blockHashOrHeight
-  );
+  const issuance = await blockApi.query.balances.totalIssuance();
   return issuance.toString();
 }
 
