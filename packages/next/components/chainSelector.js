@@ -72,9 +72,6 @@ const ChainSelector = ({ chains = [], onSelect = () => {} }) => {
     content: <ChainItem chainName={item.network} />,
   }));
 
-  console.log("chains", chains);
-  console.log("options", options);
-
   return (
     <Wrapper>
       <DropdownWrapper>
