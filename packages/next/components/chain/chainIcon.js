@@ -7,9 +7,6 @@ import Default from "public/imgs/icons/chain/default.svg";
 import Moonriver from "public/imgs/icons/chain/moonriver.svg";
 import Polkadex from "public/imgs/icons/chain/polkadex.svg";
 import Interlay from "public/imgs/icons/chain/interlay.svg";
-import Acala from "public/imgs/icons/chain/acala.svg";
-import Karura from "public/imgs/icons/chain/karura.svg";
-import Bifrost from "public/imgs/icons/chain/bifrost.svg";
 import { CHAINS } from "../../frontedUtils/consts/chains";
 
 function ChainIcon({ chainName, size = 24 }) {
@@ -21,19 +18,19 @@ function ChainIcon({ chainName, size = 24 }) {
     case "statemine":
       return <Statemine viewBox="0 0 24 24" width={size} height={size} />;
     case "karura":
-      return <Karura viewBox="0 0 24 24" width={size} height={size} />;
+      return <img src="/imgs/icons/chain/karura.svg" width={size} alt="" />;
     case "khala":
       return <Khala viewBox="0 0 24 24" width={size} height={size} />;
     case "bifrost":
-      return <Bifrost viewBox="0 0 24 24" width={size} height={size} />;
+      return <img src="/imgs/icons/chain/bifrost.svg" width={size} alt="" />;
     case "kintsugi":
       return <Kintsugi viewBox="0 0 24 24" width={size} height={size} />;
     case "moonriver":
       return <Moonriver viewBox="0 0 24 24" width={size} height={size} />;
     case "interlay":
       return <Interlay viewBox="0 0 24 24" width={size} height={size} />;
-    case "acala":
-      return <Acala viewBox="0 0 24 24" width={size} height={size} />;
+    case CHAINS.acala:
+      return <img src="/imgs/icons/chain/acala.svg" width={size} alt="" />;
     case CHAINS.polkadex:
       return <Polkadex viewBox="0 0 24 24" width={size} height={size} />;
     default:
