@@ -8,7 +8,7 @@ import IdentityIcon from "./identityIcon";
 import Loading from "public/imgs/icons/loading.svg";
 import { useWindowSize } from "frontedUtils/hooks";
 import { addressEllipsis } from "frontedUtils";
-import { encodeAddress, isAddress } from "@polkadot/util-crypto";
+import { isAddress } from "@polkadot/util-crypto";
 import { addToast } from "store/reducers/toastSlice";
 import { TOAST_TYPES } from "frontedUtils/constants";
 import { p_14_normal } from "../styles/textStyles";
@@ -26,6 +26,7 @@ import {
   setLoadBalanceError,
   setProxyBalanceLoading,
 } from "../store/reducers/statusSlice";
+import encodeAddressByChain from "../frontedUtils/chain/addr";
 
 const FETCH_BALANCE_ERROR =
   "something went wrong while querying balance, please try again later.";
@@ -158,14 +159,14 @@ export default function PostAddress({ spaceId, size, snapshot }) {
   const loginNetworkSnapshot = useSelector(loginNetworkSnapshotSelector);
   const [identityInfo, setIdentityInfo] = useState();
   const loginNetwork = useSelector(loginNetworkSelector);
-  const { network, ss58Format } = loginNetwork || {};
+  const { network } = loginNetwork || {};
 
   const accountSnapshot = snapshot || loginNetworkSnapshot;
 
   const ref = useRef();
 
   useEffect(() => {
-    if (isNil(ss58Format)) {
+    if (isNil(network)) {
       return;
     }
 
@@ -185,8 +186,8 @@ export default function PostAddress({ spaceId, size, snapshot }) {
       return;
     }
 
-    dispatch(setProxy(encodeAddress(inputAddress, ss58Format)));
-  }, [dispatch, inputAddress, ss58Format]);
+    dispatch(setProxy(encodeAddressByChain(inputAddress, network)));
+  }, [dispatch, inputAddress, network]);
 
   useEffect(() => {
     if (!proxyAddress || !network) {

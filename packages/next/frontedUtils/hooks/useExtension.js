@@ -6,6 +6,7 @@ import {
 } from "@polkadot/extension-dapp";
 import { useIsMountedBool } from "./index";
 import { appName } from "../consts/app";
+import { ethers } from "ethers";
 
 export default function useExtension() {
   const isMounted = useIsMountedBool();
@@ -35,8 +36,13 @@ export default function useExtension() {
       }
 
       const extensionAccounts = await web3Accounts();
+      // Currently we don't support sign in ethereum address with polkadot extension
+      const filteredAccounts = extensionAccounts.filter(
+        ({ address }) => !ethers.utils.isAddress(address)
+      );
+
       if (isMounted) {
-        setAccounts(extensionAccounts);
+        setAccounts(filteredAccounts);
         setDetecting(false);
       }
     })();

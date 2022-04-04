@@ -24,7 +24,6 @@ export function registerMetaMaskEventHandlers() {
   });
 
   window.ethereum.on("accountsChanged", (accounts = []) => {
-    console.log("accounts", accounts);
     const firstAccount = accounts[0];
     if (isEvm && !sameIgnoreCase(address, firstAccount)) {
       store.dispatch(logout());
