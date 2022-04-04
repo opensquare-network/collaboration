@@ -26,6 +26,18 @@ export default function Connect({ space }) {
   const { accounts, hasExtension, extensionAccessible, detecting } =
     useExtension();
 
+  const [metaMaskNetworkChangeCount, setMetaMaskNetworkChangeCount] =
+    useState(1);
+  useEffect(() => {
+    if (!window.ethereum || !window.ethereum.isMetaMask) {
+      return;
+    }
+
+    window.ethereum.on("chainChanged", () => {
+      setMetaMaskNetworkChangeCount(metaMaskNetworkChangeCount + 1);
+    });
+  }, [metaMaskNetworkChangeCount]);
+
   useEffect(() => {
     if (accounts && accounts.length > 0) {
       setAddress(accounts[0].address);
@@ -83,6 +95,7 @@ export default function Connect({ space }) {
     chain,
     address,
     chain.network,
+    metaMaskNetworkChangeCount,
   ]);
 
   return (

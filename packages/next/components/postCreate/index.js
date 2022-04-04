@@ -33,6 +33,7 @@ import {
   setCreateProposalLoading,
   setLoadBalanceError,
 } from "../../store/reducers/statusSlice";
+import encodeAddressByChain from "../../frontedUtils/chain/addr";
 
 const Wrapper = styled.div`
   display: flex;
@@ -164,7 +165,6 @@ export default function PostCreate({ space }) {
 
   const onPublish = async () => {
     const address = account?.address ?? "";
-    const ss58Format = account?.ss58Format ?? 0;
     if (!address) {
       dispatch(
         addToast({ type: TOAST_TYPES.ERROR, message: "Please connect wallet" })
@@ -189,7 +189,7 @@ export default function PostCreate({ space }) {
       startDate: startDate?.getTime(),
       endDate: endDate?.getTime(),
       snapshotHeights: proposalSnapshotHeights,
-      address: isEvm ? address : encodeAddress(address, ss58Format),
+      address: encodeAddressByChain(address, account?.network),
       realProposer: useProxy ? proxyAddress : null,
       proposerNetwork: account.network,
     };

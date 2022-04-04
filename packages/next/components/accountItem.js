@@ -4,8 +4,7 @@ import styled, { css } from "styled-components";
 import Avatar from "./avatar";
 import Address from "./address";
 import { p_14_normal, p_16_semibold } from "../styles/textStyles";
-import { chainSs58Format } from "../frontedUtils/consts/chains";
-import { encodeAddress } from "@polkadot/util-crypto";
+import encodeAddressByChain from "../frontedUtils/chain/addr";
 
 const Text = styled.p`
   ${p_16_semibold};
@@ -26,6 +25,9 @@ const ItemWrapper = styled.div`
   & > div:first-child {
     margin-right: 16px;
   }
+  & > span:first-child {
+    margin-right: 16px;
+  }
   ${(p) =>
     p.header &&
     css`
@@ -37,23 +39,19 @@ const ItemWrapper = styled.div`
     `}
 `;
 
-const AccountItem = ({ header, accountName, accountAddress, chain, }) => {
-  const ss58Format = chainSs58Format[chain];
-  let address = accountAddress;
-  if (typeof ss58Format === 'number') {
-    address = encodeAddress(accountAddress, ss58Format);
-  }
+const AccountItem = ({ header, accountName, accountAddress, chain }) => {
+  const address = encodeAddressByChain(accountAddress, chain);
 
   return (
-    <ItemWrapper header={ header } >
-      <Avatar address={ accountAddress } size={ 40 } />
-      <div >
-        <Text >{ accountName }</Text >
-        <TextMinor >
-          <Address >{ address }</Address >
-        </TextMinor >
-      </div >
-    </ItemWrapper >
+    <ItemWrapper header={header}>
+      <Avatar address={accountAddress} size={40} />
+      <div>
+        <Text>{accountName}</Text>
+        <TextMinor>
+          <Address>{address}</Address>
+        </TextMinor>
+      </div>
+    </ItemWrapper>
   );
 };
 

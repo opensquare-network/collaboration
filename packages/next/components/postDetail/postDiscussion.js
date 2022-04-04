@@ -13,10 +13,10 @@ import { TOAST_TYPES } from "frontedUtils/constants";
 import { timeDuration } from "frontedUtils";
 import MicromarkMd from "components/micromarkMd";
 import ExternalLink from "components/externalLink";
-import { encodeAddress } from "@polkadot/util-crypto";
 import { findNetworkConfig } from "services/util";
 import Panel from "@/components/postDetail/panel";
 import HeaderWithNumber from "@/components/postDetail/numberHeader";
+import encodeAddressByChain from "../../frontedUtils/chain/addr";
 
 const Item = styled.div`
   padding-top: 20px;
@@ -134,7 +134,7 @@ export default function PostDiscussion({
         proposal?.cid,
         content,
         "markdown",
-        encodeAddress(account?.address, account?.ss58Format),
+        encodeAddressByChain(account?.address, account?.network),
         account?.network
       );
     } catch (error) {
