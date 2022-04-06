@@ -85,4 +85,5 @@ export const TOAST_TYPES = {
   SUCCESS: "Success",
   ERROR: "Error",
   INFO: "Info",
+  PENDING: "Pending",
 };
