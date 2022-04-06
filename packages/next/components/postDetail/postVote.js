@@ -14,7 +14,7 @@ import {
   setUseProxy,
   useProxySelector,
 } from "store/reducers/accountSlice";
-import { addToast } from "store/reducers/toastSlice";
+import { addToast, newToastId, updateToast } from "store/reducers/toastSlice";
 import { TOAST_TYPES } from "frontedUtils/constants";
 import {
   bigNumber2Locale,
@@ -158,6 +158,15 @@ export default function PostVote({ proposal, threshold = 0 }) {
       return;
     }
     setIsLoading(true);
+    const toastId = newToastId();
+    dispatch(
+      addToast({
+        id: toastId,
+        type: TOAST_TYPES.PENDING,
+        message: "Waiting for syncing extrinsic data...",
+        sticky: true,
+      })
+    );
     let result;
     try {
       result = await viewfunc.addVote(
@@ -171,10 +180,16 @@ export default function PostVote({ proposal, threshold = 0 }) {
       );
     } catch (error) {
       if (error.toString() === "Error: Cancelled") {
+        updateToast({ id: toastId, sticky: false });
         return;
       }
       dispatch(
-        addToast({ type: TOAST_TYPES.ERROR, message: error.toString() })
+        updateToast({
+          id: toastId,
+          type: TOAST_TYPES.ERROR,
+          message: error.toString(),
+          sticky: false,
+        })
       );
       return;
     } finally {
@@ -182,7 +197,12 @@ export default function PostVote({ proposal, threshold = 0 }) {
     }
     if (result?.error) {
       dispatch(
-        addToast({ type: TOAST_TYPES.ERROR, message: result.error.message })
+        updateToast({
+          id: toastId,
+          type: TOAST_TYPES.ERROR,
+          message: result.error.message,
+          sticky: false,
+        })
       );
     } else if (result) {
       router.replace({
@@ -192,9 +212,11 @@ export default function PostVote({ proposal, threshold = 0 }) {
         },
       });
       dispatch(
-        addToast({
+        updateToast({
+          id: toastId,
           type: TOAST_TYPES.SUCCESS,
           message: "Vote submitted!",
+          sticky: false,
         })
       );
       reset();
