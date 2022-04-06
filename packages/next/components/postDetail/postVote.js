@@ -180,7 +180,11 @@ export default function PostVote({ proposal, threshold = 0 }) {
       );
     } catch (error) {
       if (error.toString() === "Error: Cancelled") {
-        updateToast({ id: toastId, sticky: false });
+        updateToast({
+          id: toastId,
+          message: "Canceled manually",
+          sticky: false,
+        });
         return;
       }
       dispatch(
