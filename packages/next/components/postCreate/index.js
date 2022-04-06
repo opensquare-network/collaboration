@@ -14,7 +14,7 @@ import {
   setBalance,
   useProxySelector,
 } from "store/reducers/accountSlice";
-import { addToast } from "store/reducers/toastSlice";
+import { addToast, newToastId, updateToast } from "store/reducers/toastSlice";
 import { TOAST_TYPES } from "frontedUtils/constants";
 import { useRouter } from "next/router";
 import { encodeAddress } from "@polkadot/util-crypto";
@@ -206,22 +206,35 @@ export default function PostCreate({ space }) {
     }
 
     dispatch(setCreateProposalLoading(true));
+    const toastId = newToastId();
+    dispatch(
+      addToast({
+        id: toastId,
+        type: TOAST_TYPES.PENDING,
+        message: "Waiting for syncing extrinsic data...",
+        sticky: true,
+      })
+    );
     try {
       const { result, error } = await viewFunc.createProposal(proposal);
       if (result) {
         dispatch(
-          addToast({
+          updateToast({
+            id: toastId,
             type: TOAST_TYPES.SUCCESS,
             message: "Proposal created successfully!",
+            sticky: false,
           })
         );
         router.push(`/space/${space.id}/proposal/${result.cid}`);
       }
       if (error) {
         dispatch(
-          addToast({
+          updateToast({
+            id: toastId,
             type: TOAST_TYPES.ERROR,
             message: error.message,
+            sticky: false,
           })
         );
       }
@@ -230,9 +243,11 @@ export default function PostCreate({ space }) {
         return;
       }
       dispatch(
-        addToast({
+        updateToast({
+          id: toastId,
           type: TOAST_TYPES.ERROR,
           message: e.toString(),
+          sticky: false,
         })
       );
     } finally {
