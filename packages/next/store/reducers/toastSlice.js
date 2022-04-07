@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { TOAST_TYPES } from "../../frontedUtils/constants";
 
 const MAX_TOASTS = 6;
 let count = 0;
@@ -36,5 +37,31 @@ export const toastsSelector = (state) => state.toast.toasts;
 export const { addToast, removeToast, updateToast } = toastSlice.actions;
 
 export const newToastId = () => count++;
+
+export const newPendingToast = (id, message) => (dispatch) => {
+  dispatch(
+    addToast({
+      id,
+      type: TOAST_TYPES.PENDING,
+      message,
+      sticky: true,
+    })
+  );
+};
+
+export const finishPendingToast = (id, successMessage) => (dispatch) => {
+  dispatch(
+    updateToast({
+      id,
+      type: TOAST_TYPES.SUCCESS,
+      message: successMessage,
+      sticky: false,
+    })
+  );
+
+  setTimeout(() => {
+    dispatch(removeToast(id));
+  }, 10);
+};
 
 export default toastSlice.reducer;

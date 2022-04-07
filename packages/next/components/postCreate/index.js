@@ -14,10 +14,15 @@ import {
   setBalance,
   useProxySelector,
 } from "store/reducers/accountSlice";
-import { addToast, newToastId, updateToast } from "store/reducers/toastSlice";
+import {
+  addToast,
+  finishPendingToast,
+  newPendingToast,
+  newToastId,
+  updateToast,
+} from "store/reducers/toastSlice";
 import { TOAST_TYPES } from "frontedUtils/constants";
 import { useRouter } from "next/router";
-import { encodeAddress } from "@polkadot/util-crypto";
 import pick from "lodash.pick";
 import {
   authoringEndDateSelector,
@@ -207,25 +212,11 @@ export default function PostCreate({ space }) {
 
     dispatch(setCreateProposalLoading(true));
     const toastId = newToastId();
-    dispatch(
-      addToast({
-        id: toastId,
-        type: TOAST_TYPES.PENDING,
-        message: "Waiting for syncing extrinsic data...",
-        sticky: true,
-      })
-    );
+    dispatch(newPendingToast(toastId, "Creating and uploading to IPFS..."));
     try {
       const { result, error } = await viewFunc.createProposal(proposal);
       if (result) {
-        dispatch(
-          updateToast({
-            id: toastId,
-            type: TOAST_TYPES.SUCCESS,
-            message: "Proposal created successfully!",
-            sticky: false,
-          })
-        );
+        dispatch(finishPendingToast(toastId, "Proposal created successfully!"));
         router.push(`/space/${space.id}/proposal/${result.cid}`);
       }
       if (error) {
