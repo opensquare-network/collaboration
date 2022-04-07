@@ -212,7 +212,9 @@ export default function PostCreate({ space }) {
 
     dispatch(setCreateProposalLoading(true));
     const toastId = newToastId();
-    dispatch(newPendingToast(toastId, "Creating and uploading to IPFS..."));
+    dispatch(
+      newPendingToast(toastId, "Creating and uploading proposal to IPFS...")
+    );
     try {
       const { result, error } = await viewFunc.createProposal(proposal);
       if (result) {
