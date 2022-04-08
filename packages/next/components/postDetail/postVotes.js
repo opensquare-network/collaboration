@@ -3,8 +3,8 @@ import styled from "styled-components";
 import Pagination from "components/pagination";
 import PostVotesItem from "./postVotesItem";
 import { findNetworkConfig } from "../../services/util";
-import Panel from "@/components/postDetail/panel";
 import HeaderWithNumber from "@/components/postDetail/numberHeader";
+import AccordionPanel from "@/components/accordionPanel/panel";
 
 const PaginationWrapper = styled.div`
   padding: 20px 0;
@@ -34,8 +34,9 @@ export default function PostVotes({
     findNetworkConfig(proposal.networksConfig, vote.voterNetwork);
 
   return (
-    <Panel>
-      <HeaderWithNumber title="Votes" number={votes?.total} />
+    <AccordionPanel
+      head={<HeaderWithNumber title="Votes" number={votes?.total} />}
+    >
       <div>
         {myVote && (
           <PostVotesItem
@@ -67,6 +68,6 @@ export default function PostVotes({
           }}
         />
       </PaginationWrapper>
-    </Panel>
+    </AccordionPanel>
   );
 }
