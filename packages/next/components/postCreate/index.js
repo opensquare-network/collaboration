@@ -6,7 +6,6 @@ import Content from "./content";
 import Choices from "./choices";
 import More from "./more";
 import {
-  isEvmSelector,
   loginAccountSelector,
   loginAddressSelector,
   proxySelector,
@@ -17,7 +16,6 @@ import {
 import { addToast } from "store/reducers/toastSlice";
 import { TOAST_TYPES } from "frontedUtils/constants";
 import { useRouter } from "next/router";
-import { encodeAddress } from "@polkadot/util-crypto";
 import pick from "lodash.pick";
 import {
   authoringEndDateSelector,
@@ -74,14 +72,20 @@ export default function PostCreate({ space }) {
   const account = useSelector(loginAccountSelector);
   const loginAddress = useSelector(loginAddressSelector);
   const loginNetworkSnapshot = useSelector(loginNetworkSnapshotSelector);
-  const isEvm = useSelector(isEvmSelector);
 
   const snapshotHeights = useSelector(snapshotHeightsSelector);
   const router = useRouter();
 
   const [title, setTitle] = useState(router.query.title || "");
   const [content, setContent] = useState("");
-  const [choices, setChoices] = useState(["", ""]);
+
+  let options = ["", ""];
+  const optionsQuery = (router.query.options || "").trim();
+  if (optionsQuery) {
+    options = optionsQuery.split("|");
+  }
+  const [choices, setChoices] = useState(options);
+
   const [viewFunc, setViewFunc] = useState(null);
 
   const startDate = useSelector(authoringStartDateSelector);
