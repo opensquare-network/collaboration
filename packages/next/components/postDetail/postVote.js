@@ -14,7 +14,13 @@ import {
   setUseProxy,
   useProxySelector,
 } from "store/reducers/accountSlice";
-import { addToast, newToastId, updateToast } from "store/reducers/toastSlice";
+import {
+  addToast,
+  newPendingToast,
+  newToastId,
+  removeToast,
+  updateToast,
+} from "store/reducers/toastSlice";
 import { TOAST_TYPES } from "frontedUtils/constants";
 import {
   bigNumber2Locale,
@@ -157,19 +163,11 @@ export default function PostVote({ proposal, threshold = 0 }) {
       );
       return;
     }
+
+    let signedData;
     setIsLoading(true);
-    const toastId = newToastId();
-    dispatch(
-      addToast({
-        id: toastId,
-        type: TOAST_TYPES.PENDING,
-        message: "Waiting for syncing extrinsic data...",
-        sticky: true,
-      })
-    );
-    let result;
     try {
-      result = await viewfunc.addVote(
+      signedData = await viewfunc.signVote(
         proposal?.space,
         proposal?.cid,
         proposal?.choices?.[choiceIndex],
@@ -179,26 +177,21 @@ export default function PostVote({ proposal, threshold = 0 }) {
         loginNetwork
       );
     } catch (error) {
-      if (error.toString() === "Error: Cancelled") {
-        updateToast({
-          id: toastId,
-          message: "Canceled manually",
-          sticky: false,
-        });
-        return;
-      }
-      dispatch(
-        updateToast({
-          id: toastId,
-          type: TOAST_TYPES.ERROR,
-          message: error.toString(),
-          sticky: false,
-        })
-      );
+      console.log("sign canceled or failed");
+      setIsLoading(false);
       return;
+    }
+
+    const toastId = newToastId();
+    dispatch(newPendingToast(toastId, "Uploading proposal to IPFS..."));
+    let result;
+    try {
+      result = await nextApi.post(`${proposal?.space}/votes`, signedData);
     } finally {
+      dispatch(removeToast(toastId));
       setIsLoading(false);
     }
+
     if (result?.error) {
       dispatch(
         updateToast({
@@ -215,14 +208,6 @@ export default function PostVote({ proposal, threshold = 0 }) {
           page: "last",
         },
       });
-      dispatch(
-        updateToast({
-          id: toastId,
-          type: TOAST_TYPES.SUCCESS,
-          message: "Vote submitted!",
-          sticky: false,
-        })
-      );
       reset();
     }
   };

@@ -15,10 +15,11 @@ import {
 } from "store/reducers/accountSlice";
 import {
   addToast,
-  finishPendingToast,
+  newErrorToast,
   newPendingToast,
+  newSuccessToast,
   newToastId,
-  updateToast,
+  removeToast,
 } from "store/reducers/toastSlice";
 import { TOAST_TYPES } from "frontedUtils/constants";
 import { useRouter } from "next/router";
@@ -38,6 +39,8 @@ import {
   setLoadBalanceError,
 } from "../../store/reducers/statusSlice";
 import encodeAddressByChain from "../../frontedUtils/chain/addr";
+import nextApi from "../../services/nextApi";
+import sleep from "../../frontedUtils/sleep";
 
 const Wrapper = styled.div`
   display: flex;
@@ -216,39 +219,35 @@ export default function PostCreate({ space }) {
     }
 
     dispatch(setCreateProposalLoading(true));
+    let signedData;
+    try {
+      signedData = await viewFunc.signProposal(proposal);
+    } catch (e) {
+      console.log("sign canceled or failed");
+      dispatch(setCreateProposalLoading(false));
+      return;
+    }
+
     const toastId = newToastId();
     dispatch(
       newPendingToast(toastId, "Creating and uploading proposal to IPFS...")
     );
     try {
-      const { result, error } = await viewFunc.createProposal(proposal);
+      const { result, error } = await nextApi.post(
+        `${proposal.space}/proposals`,
+        signedData
+      );
       if (result) {
-        dispatch(finishPendingToast(toastId, "Proposal created successfully!"));
+        dispatch(removeToast(toastId));
+        dispatch(newSuccessToast("Proposal created successfully!"));
         router.push(`/space/${space.id}/proposal/${result.cid}`);
       }
       if (error) {
-        dispatch(
-          updateToast({
-            id: toastId,
-            type: TOAST_TYPES.ERROR,
-            message: error.message,
-            sticky: false,
-          })
-        );
+        dispatch(removeToast(toastId));
+        dispatch(newErrorToast(error.message));
       }
-    } catch (e) {
-      if (error.toString() === "Error: Cancelled") {
-        return;
-      }
-      dispatch(
-        updateToast({
-          id: toastId,
-          type: TOAST_TYPES.ERROR,
-          message: e.toString(),
-          sticky: false,
-        })
-      );
     } finally {
+      dispatch(removeToast(toastId));
       dispatch(setCreateProposalLoading(false));
     }
   };
