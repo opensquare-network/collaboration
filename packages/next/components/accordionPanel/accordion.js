@@ -1,6 +1,5 @@
 import React, { memo, useState } from "react";
 import styled from "styled-components";
-import Caret from "@/components/caret";
 import Fold from "@/components/accordionPanel/fold";
 
 const Header = styled.header`
