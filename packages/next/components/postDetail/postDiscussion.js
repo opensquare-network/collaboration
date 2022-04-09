@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 
 import Author from "components/author";
@@ -14,9 +14,9 @@ import { timeDuration } from "frontedUtils";
 import MicromarkMd from "components/micromarkMd";
 import ExternalLink from "components/externalLink";
 import { findNetworkConfig } from "services/util";
-import Panel from "@/components/postDetail/panel";
 import HeaderWithNumber from "@/components/postDetail/numberHeader";
 import encodeAddressByChain from "../../frontedUtils/chain/addr";
+import AccordionPanel from "@/components/accordionPanel/panel";
 
 const Item = styled.div`
   padding-top: 20px;
@@ -171,8 +171,9 @@ export default function PostDiscussion({
     findNetworkConfig(proposal.networksConfig, comment.commenterNetwork);
   const spaceSupportMultiChain = space?.networks?.length > 1;
   return (
-    <Panel>
-      <HeaderWithNumber title="Discussions" number={comments?.total} />
+    <AccordionPanel
+      head={<HeaderWithNumber title="Discussions" number={comments?.total} />}
+    >
       {(comments?.items || []).map((item, index) => (
         <Item key={index}>
           <InfoWrapper>
@@ -223,6 +224,6 @@ export default function PostDiscussion({
           onSubmit={onSubmit}
         />
       </RichInputWrapper>
-    </Panel>
+    </AccordionPanel>
   );
 }

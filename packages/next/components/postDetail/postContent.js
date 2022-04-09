@@ -9,6 +9,7 @@ import MicromarkMd from "components/micromarkMd";
 import { findNetworkConfig } from "services/util";
 import Share from "components/share";
 import Panel from "@/components/postDetail/panel";
+import Accordion from "@/components/accordionPanel/accordion";
 
 const Title = styled.div`
   ${p_semibold};
@@ -78,10 +79,11 @@ export default function PostContent({ data, space }) {
         <StatusTag>{data.status}</StatusTag>
       </InfoWrapper>
       <Divider margin={20} />
-      <SubTitle>Description</SubTitle>
-      <Content>
-        <MicromarkMd md={data?.content} />
-      </Content>
+      <Accordion head={<SubTitle>Description</SubTitle>}>
+        <Content>
+          <MicromarkMd md={data?.content} />
+        </Content>
+      </Accordion>
       <Divider />
       <Share />
       <PostVote proposal={data} threshold={space.voteThreshold} />
