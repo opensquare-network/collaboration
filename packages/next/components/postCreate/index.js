@@ -13,7 +13,14 @@ import {
   setBalance,
   useProxySelector,
 } from "store/reducers/accountSlice";
-import { addToast } from "store/reducers/toastSlice";
+import {
+  addToast,
+  newErrorToast,
+  newPendingToast,
+  newSuccessToast,
+  newToastId,
+  removeToast,
+} from "store/reducers/toastSlice";
 import { TOAST_TYPES } from "frontedUtils/constants";
 import { useRouter } from "next/router";
 import pick from "lodash.pick";
@@ -32,6 +39,8 @@ import {
   setLoadBalanceError,
 } from "../../store/reducers/statusSlice";
 import encodeAddressByChain from "../../frontedUtils/chain/addr";
+import nextApi from "../../services/nextApi";
+import { extensionCancelled } from "../../frontedUtils/consts/extension";
 
 const Wrapper = styled.div`
   display: flex;
@@ -200,46 +209,44 @@ export default function PostCreate({ space }) {
 
     const formError = viewFunc.validateProposal(proposal);
     if (formError) {
-      dispatch(
-        addToast({
-          type: TOAST_TYPES.ERROR,
-          message: formError,
-        })
-      );
+      dispatch(newErrorToast(formError));
       return;
     }
 
     dispatch(setCreateProposalLoading(true));
+    let signedData;
     try {
-      const { result, error } = await viewFunc.createProposal(proposal);
+      signedData = await viewFunc.signProposal(proposal);
+    } catch (e) {
+      const errorMessage = e.message;
+      if (extensionCancelled === errorMessage) {
+        dispatch(setCreateProposalLoading(false));
+      } else {
+        dispatch(newErrorToast(errorMessage));
+      }
+      return;
+    }
+
+    const toastId = newToastId();
+    dispatch(
+      newPendingToast(toastId, "Creating and uploading proposal to IPFS...")
+    );
+    try {
+      const { result, error } = await nextApi.post(
+        `${proposal.space}/proposals`,
+        signedData
+      );
       if (result) {
-        dispatch(
-          addToast({
-            type: TOAST_TYPES.SUCCESS,
-            message: "Proposal created successfully!",
-          })
-        );
+        dispatch(removeToast(toastId));
+        dispatch(newSuccessToast("Proposal created successfully!"));
         router.push(`/space/${space.id}/proposal/${result.cid}`);
       }
       if (error) {
-        dispatch(
-          addToast({
-            type: TOAST_TYPES.ERROR,
-            message: error.message,
-          })
-        );
+        dispatch(removeToast(toastId));
+        dispatch(newErrorToast(error.message));
       }
-    } catch (e) {
-      if (error.toString() === "Error: Cancelled") {
-        return;
-      }
-      dispatch(
-        addToast({
-          type: TOAST_TYPES.ERROR,
-          message: e.toString(),
-        })
-      );
     } finally {
+      dispatch(removeToast(toastId));
       dispatch(setCreateProposalLoading(false));
     }
   };

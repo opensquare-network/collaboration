@@ -2,7 +2,7 @@ import {
   validateProposal,
   createProposal,
   addComment,
-  addVote,
+  signVote,
 } from "./viewfunc";
 
 test("validation a proposal before creating", () => {
@@ -50,7 +50,7 @@ test("create a new comment via calling API", () => {
 });
 
 test("create a new vote via calling API", () => {
-  addVote(
+  signVote(
     "polkadot",
     "1",
     "choice",

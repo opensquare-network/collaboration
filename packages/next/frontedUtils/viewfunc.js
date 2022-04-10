@@ -2,7 +2,19 @@ import nextApi from "../services/nextApi";
 import { signApiData } from "../services/chainApi";
 
 export function validateProposal(formData) {
-  const fields = ["space", "title", "content", "contentType", "choiceType", "choices", "startDate", "endDate", "snapshotHeights", "address", "proposerNetwork"];
+  const fields = [
+    "space",
+    "title",
+    "content",
+    "contentType",
+    "choiceType",
+    "choices",
+    "startDate",
+    "endDate",
+    "snapshotHeights",
+    "address",
+    "proposerNetwork",
+  ];
   for (let field of fields) {
     if (!formData[field] || formData[field]?.length === 0) {
       return `${field} must not be empty.`;
@@ -25,36 +37,113 @@ export function validateProposal(formData) {
 }
 
 export async function createProposal(proposal) {
-  const {address, ...data} = proposal;
-  const signedData = await signApiData({
-    ...data,
-    version: "2",
-  }, address);
+  const { address, ...data } = proposal;
+  const signedData = await signApiData(
+    {
+      ...data,
+      version: "2",
+    },
+    address
+  );
 
   return await nextApi.post(`${proposal.space}/proposals`, signedData);
 }
 
-export async function addComment(space, proposalCid, content, contentType, address, commenterNetwork) {
-  const signedData = await signApiData({
-    proposalCid,
-    content,
-    contentType,
-    commenterNetwork,
-    version: "2",
-  }, address);
+export async function signProposal(proposal) {
+  const { address, ...data } = proposal;
+  return await signApiData(
+    {
+      ...data,
+      version: "2",
+    },
+    address
+  );
+}
+
+export async function addComment(
+  space,
+  proposalCid,
+  content,
+  contentType,
+  address,
+  commenterNetwork
+) {
+  const signedData = await signApiData(
+    {
+      proposalCid,
+      content,
+      contentType,
+      commenterNetwork,
+      version: "2",
+    },
+    address
+  );
 
   return await nextApi.post(`${space}/comments`, signedData);
 }
 
-export async function addVote(space, proposalCid, choice, remark, address, realVoter, voterNetwork) {
-  const signedData = await signApiData({
-    proposalCid,
-    choice,
-    remark,
-    realVoter,
-    voterNetwork,
-    version: "2",
-  }, address);
+export async function signComment(
+  space,
+  proposalCid,
+  content,
+  contentType,
+  address,
+  commenterNetwork
+) {
+  return await signApiData(
+    {
+      proposalCid,
+      content,
+      contentType,
+      commenterNetwork,
+      version: "2",
+    },
+    address
+  );
+}
+
+export async function addVote(
+  space,
+  proposalCid,
+  choice,
+  remark,
+  address,
+  realVoter,
+  voterNetwork
+) {
+  const signedData = await signApiData(
+    {
+      proposalCid,
+      choice,
+      remark,
+      realVoter,
+      voterNetwork,
+      version: "2",
+    },
+    address
+  );
 
   return await nextApi.post(`${space}/votes`, signedData);
+}
+
+export async function signVote(
+  space,
+  proposalCid,
+  choice,
+  remark,
+  address,
+  realVoter,
+  voterNetwork
+) {
+  return await signApiData(
+    {
+      proposalCid,
+      choice,
+      remark,
+      realVoter,
+      voterNetwork,
+      version: "2",
+    },
+    address
+  );
 }

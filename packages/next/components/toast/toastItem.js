@@ -4,6 +4,7 @@ import styled, { css } from "styled-components";
 
 import { removeToast } from "store/reducers/toastSlice";
 import Close from "public/imgs/icons/close.svg";
+import Sticky from "public/imgs/icons/sticky.svg";
 import { TOAST_TYPES } from "frontedUtils/constants";
 import { useIsMounted } from "frontedUtils/hooks";
 
@@ -75,23 +76,27 @@ const getToastColor = (type) => {
     case TOAST_TYPES.ERROR:
       return "#EE4444";
     case TOAST_TYPES.INFO:
+    case TOAST_TYPES.PENDING:
       return "#6848FF";
     default:
       return "#9DA9BB";
   }
 };
 
-const ToastItem = ({ type, message, id }) => {
+const ToastItem = ({ type, message, id, sticky }) => {
   const dispatch = useDispatch();
   const color = getToastColor(type);
   const isMounted = useIsMounted();
   const [tranClass, setTranClass] = useState("");
 
   useEffect(() => {
+    if (sticky) {
+      return;
+    }
     setTimeout(() => {
       dispatch(removeToast(id));
     }, 5000);
-  });
+  }, [dispatch, id, sticky]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -109,7 +114,11 @@ const ToastItem = ({ type, message, id }) => {
         <Content>{message}</Content>
       </LeftWrapper>
       <RightWrapper>
-        <Close onClick={() => dispatch(removeToast(id))} />
+        {sticky ? (
+          <Sticky />
+        ) : (
+          <Close onClick={() => dispatch(removeToast(id))} />
+        )}
       </RightWrapper>
     </Wrapper>
   );

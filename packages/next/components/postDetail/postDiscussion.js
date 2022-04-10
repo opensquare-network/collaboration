@@ -8,8 +8,13 @@ import Pagination from "components/pagination";
 import RichInput from "components/richInput";
 import { useViewfunc } from "frontedUtils/hooks";
 import { loginAccountSelector } from "store/reducers/accountSlice";
-import { addToast } from "store/reducers/toastSlice";
-import { TOAST_TYPES } from "frontedUtils/constants";
+import {
+  newErrorToast,
+  newPendingToast,
+  newSuccessToast,
+  newToastId,
+  removeToast,
+} from "store/reducers/toastSlice";
 import { timeDuration } from "frontedUtils";
 import MicromarkMd from "components/micromarkMd";
 import ExternalLink from "components/externalLink";
@@ -17,6 +22,9 @@ import { findNetworkConfig } from "services/util";
 import HeaderWithNumber from "@/components/postDetail/numberHeader";
 import encodeAddressByChain from "../../frontedUtils/chain/addr";
 import AccordionPanel from "@/components/accordionPanel/panel";
+import nextApi from "../../services/nextApi";
+import sleep from "../../frontedUtils/sleep";
+import { extensionCancelled } from "../../frontedUtils/consts/extension";
 
 const Item = styled.div`
   padding-top: 20px;
@@ -109,27 +117,17 @@ export default function PostDiscussion({
       return;
     }
     if (!account) {
-      dispatch(
-        addToast({
-          type: TOAST_TYPES.ERROR,
-          message: "Please connect wallet",
-        })
-      );
+      dispatch(newErrorToast("Please connect wallet"));
       return;
     }
     if (!content) {
-      dispatch(
-        addToast({
-          type: TOAST_TYPES.ERROR,
-          message: "Content is missing",
-        })
-      );
+      dispatch(newErrorToast("Content is missing"));
       return;
     }
     setIsLoading(true);
-    let result;
+    let signedData;
     try {
-      result = await viewfunc.addComment(
+      signedData = await viewfunc.signComment(
         space.id,
         proposal?.cid,
         content,
@@ -137,18 +135,30 @@ export default function PostDiscussion({
         encodeAddressByChain(account?.address, account?.network),
         account?.network
       );
-    } catch (error) {
-      dispatch(
-        addToast({ type: TOAST_TYPES.ERROR, message: error.toString() })
-      );
-      setIsLoading(false);
+    } catch (e) {
+      const errorMessage = e.message;
+      if (extensionCancelled === errorMessage) {
+        setIsLoading(false);
+      } else {
+        dispatch(newErrorToast(errorMessage));
+      }
       return;
     }
-    setIsLoading(false);
+
+    const toastId = newToastId();
+    dispatch(
+      newPendingToast(toastId, "Creating and uploading comment to IPFS...")
+    );
+    let result;
+    try {
+      result = await nextApi.post(`${space.id}/comments`, signedData);
+    } finally {
+      dispatch(removeToast(toastId));
+      setIsLoading(false);
+    }
+
     if (result?.error) {
-      dispatch(
-        addToast({ type: TOAST_TYPES.ERROR, message: result.error.message })
-      );
+      dispatch(newErrorToast(result.error.message));
     } else if (result) {
       setContent("");
       if (callback) callback();
@@ -158,12 +168,7 @@ export default function PostDiscussion({
           page: "last",
         },
       });
-      dispatch(
-        addToast({
-          type: TOAST_TYPES.SUCCESS,
-          message: "Comment submitted!",
-        })
-      );
+      dispatch(newSuccessToast("Comment submitted!"));
     }
   };
 

@@ -14,7 +14,14 @@ import {
   setUseProxy,
   useProxySelector,
 } from "store/reducers/accountSlice";
-import { addToast } from "store/reducers/toastSlice";
+import {
+  addToast,
+  newErrorToast,
+  newPendingToast,
+  newToastId,
+  removeToast,
+  updateToast,
+} from "store/reducers/toastSlice";
 import { TOAST_TYPES } from "frontedUtils/constants";
 import {
   bigNumber2Locale,
@@ -31,6 +38,7 @@ import Toggle from "../toggle";
 import { findNetworkConfig } from "services/util";
 import isNil from "lodash.isnil";
 import { proposalStatus } from "../../frontedUtils/consts/proposal";
+import { extensionCancelled } from "../../frontedUtils/consts/extension";
 
 const Wrapper = styled.div`
   > :not(:first-child) {
@@ -157,10 +165,11 @@ export default function PostVote({ proposal, threshold = 0 }) {
       );
       return;
     }
+
+    let signedData;
     setIsLoading(true);
-    let result;
     try {
-      result = await viewfunc.addVote(
+      signedData = await viewfunc.signVote(
         proposal?.space,
         proposal?.cid,
         proposal?.choices?.[choiceIndex],
@@ -170,20 +179,27 @@ export default function PostVote({ proposal, threshold = 0 }) {
         loginNetwork
       );
     } catch (error) {
-      if (error.toString() === "Error: Cancelled") {
-        return;
+      const errorMessage = error.message;
+      if (extensionCancelled === errorMessage) {
+        setIsLoading(false);
+      } else {
+        dispatch(newErrorToast(errorMessage));
       }
-      dispatch(
-        addToast({ type: TOAST_TYPES.ERROR, message: error.toString() })
-      );
       return;
+    }
+
+    const toastId = newToastId();
+    dispatch(newPendingToast(toastId, "Uploading proposal to IPFS..."));
+    let result;
+    try {
+      result = await nextApi.post(`${proposal?.space}/votes`, signedData);
     } finally {
+      dispatch(removeToast(toastId));
       setIsLoading(false);
     }
+
     if (result?.error) {
-      dispatch(
-        addToast({ type: TOAST_TYPES.ERROR, message: result.error.message })
-      );
+      dispatch(newErrorToast(result.error.message));
     } else if (result) {
       router.replace({
         query: {
@@ -191,12 +207,6 @@ export default function PostVote({ proposal, threshold = 0 }) {
           page: "last",
         },
       });
-      dispatch(
-        addToast({
-          type: TOAST_TYPES.SUCCESS,
-          message: "Vote submitted!",
-        })
-      );
       reset();
     }
   };
