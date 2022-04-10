@@ -147,7 +147,7 @@ export default function PostDiscussion({
 
     const toastId = newToastId();
     dispatch(
-      newPendingToast(toastId, "Creating and uploading comment to IPFS...")
+      newPendingToast(toastId, "Saving and uploading comment to IPFS...")
     );
     let result;
     try {

@@ -229,7 +229,7 @@ export default function PostCreate({ space }) {
 
     const toastId = newToastId();
     dispatch(
-      newPendingToast(toastId, "Creating and uploading proposal to IPFS...")
+      newPendingToast(toastId, "Saving and uploading proposal to IPFS...")
     );
     try {
       const { result, error } = await nextApi.post(

@@ -189,7 +189,9 @@ export default function PostVote({ proposal, threshold = 0 }) {
     }
 
     const toastId = newToastId();
-    dispatch(newPendingToast(toastId, "Uploading proposal to IPFS..."));
+    dispatch(
+      newPendingToast(toastId, "Saving and uploading the vote to IPFS...")
+    );
     let result;
     try {
       result = await nextApi.post(`${proposal?.space}/votes`, signedData);
