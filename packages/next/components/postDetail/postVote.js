@@ -16,6 +16,7 @@ import {
 } from "store/reducers/accountSlice";
 import {
   addToast,
+  newErrorToast,
   newPendingToast,
   newToastId,
   removeToast,
@@ -37,6 +38,7 @@ import Toggle from "../toggle";
 import { findNetworkConfig } from "services/util";
 import isNil from "lodash.isnil";
 import { proposalStatus } from "../../frontedUtils/consts/proposal";
+import { extensionCancelled } from "../../frontedUtils/consts/extension";
 
 const Wrapper = styled.div`
   > :not(:first-child) {
@@ -177,8 +179,12 @@ export default function PostVote({ proposal, threshold = 0 }) {
         loginNetwork
       );
     } catch (error) {
-      console.log("sign canceled or failed");
-      setIsLoading(false);
+      const errorMessage = error.message;
+      if (extensionCancelled === errorMessage) {
+        setIsLoading(false);
+      } else {
+        dispatch(newErrorToast(errorMessage));
+      }
       return;
     }
 
@@ -193,14 +199,7 @@ export default function PostVote({ proposal, threshold = 0 }) {
     }
 
     if (result?.error) {
-      dispatch(
-        updateToast({
-          id: toastId,
-          type: TOAST_TYPES.ERROR,
-          message: result.error.message,
-          sticky: false,
-        })
-      );
+      dispatch(newErrorToast(result.error.message));
     } else if (result) {
       router.replace({
         query: {

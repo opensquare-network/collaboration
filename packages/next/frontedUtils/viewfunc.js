@@ -82,6 +82,26 @@ export async function addComment(
   return await nextApi.post(`${space}/comments`, signedData);
 }
 
+export async function signComment(
+  space,
+  proposalCid,
+  content,
+  contentType,
+  address,
+  commenterNetwork
+) {
+  return await signApiData(
+    {
+      proposalCid,
+      content,
+      contentType,
+      commenterNetwork,
+      version: "2",
+    },
+    address
+  );
+}
+
 export async function addVote(
   space,
   proposalCid,

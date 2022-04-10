@@ -40,7 +40,7 @@ import {
 } from "../../store/reducers/statusSlice";
 import encodeAddressByChain from "../../frontedUtils/chain/addr";
 import nextApi from "../../services/nextApi";
-import sleep from "../../frontedUtils/sleep";
+import { extensionCancelled } from "../../frontedUtils/consts/extension";
 
 const Wrapper = styled.div`
   display: flex;
@@ -209,12 +209,7 @@ export default function PostCreate({ space }) {
 
     const formError = viewFunc.validateProposal(proposal);
     if (formError) {
-      dispatch(
-        addToast({
-          type: TOAST_TYPES.ERROR,
-          message: formError,
-        })
-      );
+      dispatch(newErrorToast(formError));
       return;
     }
 
@@ -223,8 +218,12 @@ export default function PostCreate({ space }) {
     try {
       signedData = await viewFunc.signProposal(proposal);
     } catch (e) {
-      console.log("sign canceled or failed");
-      dispatch(setCreateProposalLoading(false));
+      const errorMessage = e.message;
+      if (extensionCancelled === errorMessage) {
+        dispatch(setCreateProposalLoading(false));
+      } else {
+        dispatch(newErrorToast(errorMessage));
+      }
       return;
     }
 
