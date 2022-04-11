@@ -21,6 +21,9 @@ const toastSlice = createSlice({
     removeToast(state, { payload }) {
       state.toasts = state.toasts.filter((item) => item.id !== payload);
     },
+    clearToasts(state) {
+      state.toasts = [];
+    },
     updateToast(state, { payload }) {
       state.toasts = state.toasts.map((t) => {
         if (t.id === payload.id) {
@@ -34,7 +37,8 @@ const toastSlice = createSlice({
 
 export const toastsSelector = (state) => state.toast.toasts;
 
-export const { addToast, removeToast, updateToast } = toastSlice.actions;
+export const { addToast, removeToast, clearToasts, updateToast } =
+  toastSlice.actions;
 
 export const newToastId = () => count++;
 

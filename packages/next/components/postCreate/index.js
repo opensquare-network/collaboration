@@ -15,6 +15,7 @@ import {
 } from "store/reducers/accountSlice";
 import {
   addToast,
+  clearToasts,
   newErrorToast,
   newPendingToast,
   newSuccessToast,
@@ -239,7 +240,9 @@ export default function PostCreate({ space }) {
       if (result) {
         dispatch(removeToast(toastId));
         dispatch(newSuccessToast("Proposal created successfully!"));
-        router.push(`/space/${space.id}/proposal/${result.cid}`);
+        router
+          .push(`/space/${space.id}/proposal/${result.cid}`)
+          .then((redirected) => redirected && dispatch(clearToasts()));
       }
       if (error) {
         dispatch(removeToast(toastId));
