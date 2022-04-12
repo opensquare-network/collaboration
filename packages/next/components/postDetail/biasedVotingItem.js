@@ -22,13 +22,22 @@ const LabelWrapper = styled.div`
   }
 `;
 
-function BiasedVotingItem({ label, value, space }) {
+function BiasedVotingItem({ label = "", value, space }) {
+  const Label = <div className="label">{label}</div>;
+
   return (
     <Wrapper>
       <LabelWrapper>
-        <Tooltip content={label} size="fit">
-          <div className="label">{label}</div>
-        </Tooltip>
+        {/*
+          TODO: Should refator, this is not a smart way to show the tooltip or not
+        */}
+        {label.length > 10 ? (
+          <Tooltip content={label} size="full">
+            {Label}
+          </Tooltip>
+        ) : (
+          Label
+        )}
       </LabelWrapper>
 
       <ValueDisplay value={value} space={space} />
