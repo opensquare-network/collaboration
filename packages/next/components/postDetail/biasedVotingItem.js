@@ -23,7 +23,7 @@ const LabelWrapper = styled.div`
 `;
 
 function BiasedVotingItem({ label = "", value, space }) {
-  const Label = <div className="label">{label}</div>;
+  const displayLabel = <div className="label">{label}</div>;
 
   return (
     <Wrapper>
@@ -33,10 +33,10 @@ function BiasedVotingItem({ label = "", value, space }) {
         */}
         {label.length > 10 ? (
           <Tooltip content={label} size="full">
-            {Label}
+            {displayLabel}
           </Tooltip>
         ) : (
-          Label
+          displayLabel
         )}
       </LabelWrapper>
 
