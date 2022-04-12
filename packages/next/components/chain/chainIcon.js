@@ -65,7 +65,7 @@ function ChainIcon({
           offset={offset}
           size="full"
         >
-          <div />
+          <></>
         </Tooltip>
       )}
     </Wrapper>
