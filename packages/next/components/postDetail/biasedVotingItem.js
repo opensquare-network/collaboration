@@ -29,7 +29,7 @@ function BiasedVotingItem({ label = "", value, space }) {
     <Wrapper>
       <LabelWrapper>
         {/*
-          TODO: Should refator, this is not a smart way to show the tooltip or not
+          TODO: Should refactor, this is not a smart way to show the tooltip or not
         */}
         {label.length > 10 ? (
           <Tooltip content={label} size="full">
