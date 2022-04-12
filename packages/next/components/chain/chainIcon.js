@@ -10,6 +10,7 @@ import Interlay from "public/imgs/icons/chain/interlay.svg";
 import { CHAINS } from "../../frontedUtils/consts/chains";
 import styled from "styled-components";
 import Tooltip from "../tooltip";
+import { capitalize } from "frontedUtils";
 
 const Wrapper = styled.span`
   position: relative;
@@ -59,7 +60,7 @@ function ChainIcon({
       {Icon}
       {showTooltip && (
         <Tooltip
-          content={chainName}
+          content={capitalize(chainName)}
           position={position}
           offset={offset}
           size="full"
