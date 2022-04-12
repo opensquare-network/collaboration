@@ -7,6 +7,7 @@ import LinkSvg from "public/imgs/icons/link.svg";
 import ExternalLink from "components/externalLink";
 import Panel from "@/components/postDetail/panel";
 import SideSectionTitle from "@/components/sideBar/sideSectionTitle";
+import BiasedVotingItem from "./biasedVotingItem";
 
 const Divider = styled.div`
   height: 1px;
@@ -119,9 +120,6 @@ const BiasedVotingWrapper = styled.div`
     font-weight: 500;
     font-size: 14px;
     line-height: 24px;
-    > :first-child {
-      color: #506176;
-    }
   }
 `;
 
@@ -232,29 +230,30 @@ export default function PostResult({ data, voteStatus, space }) {
         <BiasedVotingWrapper>
           {(voteStatus || []).map((item, index) => (
             <div key={index}>
-              <div>{item.choice}</div>
-              <ValueDisplay value={item.balanceOf} space={space} />
+              <BiasedVotingItem
+                label={item.choice}
+                value={item.balanceOf}
+                space={space}
+              />
             </div>
           ))}
           <div>
-            <div>Turnout</div>
-            <ValueDisplay
+            <BiasedVotingItem
+              label="Turnout"
               value={voteStatus.reduce(
                 (pre, cur) =>
                   new BigNumber(pre).plus(new BigNumber(cur.balanceOf ?? 0)),
                 0
               )}
               space={space}
-            />
+            ></BiasedVotingItem>
           </div>
           <div>
-            <div>Electorate</div>
-            <div>
-              <ValueDisplay
-                value={voteStatus?.[0]?.biasedVoting?.electorate || 0}
-                space={space}
-              />
-            </div>
+            <BiasedVotingItem
+              label="Electorate"
+              value={voteStatus?.[0]?.biasedVoting?.electorate || 0}
+              space={space}
+            ></BiasedVotingItem>
           </div>
         </BiasedVotingWrapper>
         <Divider />
