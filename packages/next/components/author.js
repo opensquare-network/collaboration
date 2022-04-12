@@ -70,7 +70,9 @@ export default function Author({
   return (
     <Wrapper>
       <Avatar address={address} size={size} />
-      {showNetwork && <ChainIcon chainName={space?.network} size={16} />}
+      {showNetwork && (
+        <ChainIcon showTooltip chainName={space?.network} size={16} />
+      )}
       <ExternalLink href={link}>
         {identity?.info && identity?.info?.status !== "NO_ID" ? (
           <IdentityWrapper>
