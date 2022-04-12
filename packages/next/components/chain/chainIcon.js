@@ -8,8 +8,15 @@ import Moonriver from "public/imgs/icons/chain/moonriver.svg";
 import Polkadex from "public/imgs/icons/chain/polkadex.svg";
 import Interlay from "public/imgs/icons/chain/interlay.svg";
 import { CHAINS } from "../../frontedUtils/consts/chains";
+import styled from "styled-components";
+import Tooltip from "../tooltip";
 
-function ChainIcon({ chainName, size = 24 }) {
+const Wrapper = styled.span`
+  position: relative;
+  display: flex;
+`;
+
+function resolveChainIcon({ chainName, size = 24 }) {
   switch (chainName) {
     case "polkadot":
       return <Polkadot viewBox="0 0 24 24" width={size} height={size} />;
@@ -36,6 +43,32 @@ function ChainIcon({ chainName, size = 24 }) {
     default:
       return <Default viewBox="0 0 24 24" width={size} height={size} />;
   }
+}
+
+function ChainIcon({
+  chainName,
+  position,
+  offset,
+  showTooltip = false,
+  size = 24,
+}) {
+  const Icon = resolveChainIcon({ chainName, size });
+
+  return (
+    <Wrapper>
+      {Icon}
+      {showTooltip && (
+        <Tooltip
+          content={chainName}
+          position={position}
+          offset={offset}
+          size="full"
+        >
+          <div />
+        </Tooltip>
+      )}
+    </Wrapper>
+  );
 }
 
 export default ChainIcon;
