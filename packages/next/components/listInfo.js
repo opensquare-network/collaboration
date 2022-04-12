@@ -81,7 +81,8 @@ const AboutDivider = styled.div`
 `;
 
 const ChainIcons = styled.div`
-  > svg,
+  display: flex;
+  svg,
   img {
     margin-right: 4px;
     vertical-align: middle;
