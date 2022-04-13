@@ -23,7 +23,6 @@ import HeaderWithNumber from "@/components/postDetail/numberHeader";
 import encodeAddressByChain from "../../frontedUtils/chain/addr";
 import AccordionPanel from "@/components/accordionPanel/panel";
 import nextApi from "../../services/nextApi";
-import sleep from "../../frontedUtils/sleep";
 import { extensionCancelled } from "../../frontedUtils/consts/extension";
 
 const Item = styled.div`

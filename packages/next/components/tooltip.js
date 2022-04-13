@@ -2,7 +2,7 @@ import styled, { css } from "styled-components";
 import { useDispatch } from "react-redux";
 import copy from "copy-to-clipboard";
 
-import { addToast } from "store/reducers/toastSlice";
+import { newSuccessToast } from "store/reducers/toastSlice";
 import { p_14_normal } from "../styles/textStyles";
 
 const Wrapper = styled.div`
@@ -150,7 +150,7 @@ export default function Tooltip({
 
   const onCopy = () => {
     if (isCopy && content && copy(copyText || content)) {
-      dispatch(addToast({ type: "success", message: "Copied" }));
+      dispatch(newSuccessToast("Copied"));
     }
   };
 

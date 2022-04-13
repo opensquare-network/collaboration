@@ -15,14 +15,11 @@ import {
   useProxySelector,
 } from "store/reducers/accountSlice";
 import {
-  addToast,
   newErrorToast,
   newPendingToast,
   newToastId,
   removeToast,
-  updateToast,
 } from "store/reducers/toastSlice";
-import { TOAST_TYPES } from "frontedUtils/constants";
 import {
   bigNumber2Locale,
   fromAssetUnit,
@@ -133,7 +130,7 @@ export default function PostVote({ proposal, threshold = 0 }) {
         })
         .catch((e) => {
           const message = e?.message || "Failed to get balance.";
-          dispatch(addToast({ type: TOAST_TYPES.ERROR, message }));
+          dispatch(newErrorToast(message));
         });
     } else {
       setBalance(null);
@@ -148,21 +145,11 @@ export default function PostVote({ proposal, threshold = 0 }) {
     }
 
     if (!loginAddress) {
-      dispatch(
-        addToast({
-          type: TOAST_TYPES.ERROR,
-          message: "Please connect wallet",
-        })
-      );
+      dispatch(newErrorToast("Please connect wallet"));
       return;
     }
     if (choiceIndex === null) {
-      dispatch(
-        addToast({
-          type: TOAST_TYPES.ERROR,
-          message: "Choice is missing",
-        })
-      );
+      dispatch(newErrorToast("Choice is missing"));
       return;
     }
 
