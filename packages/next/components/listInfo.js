@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { toPrecision } from "frontedUtils";
 import {
   p_14_normal,
   p_16_semibold,
@@ -7,6 +6,7 @@ import {
 } from "../styles/textStyles";
 import SpaceLogo from "@/components/spaceLogo";
 import ChainIcon from "./chain/chainIcon";
+import ValueDisplay from "./valueDisplay";
 
 const Wrapper = styled.div`
   display: flex;
@@ -110,10 +110,12 @@ export default function ListInfo({ space }) {
           <AboutIcon src="/imgs/icons/threshold.svg" />
           <div>
             <AboutName>Threshold</AboutName>
-            <AboutDetail>{`${toPrecision(
-              space.proposeThreshold,
-              space.decimals
-            )} ${space.symbol}`}</AboutDetail>
+            <AboutDetail>
+              <ValueDisplay
+                value={space.proposeThreshold}
+                space={space}
+              ></ValueDisplay>
+            </AboutDetail>
           </div>
         </AboutItem>
         <AboutDivider />
