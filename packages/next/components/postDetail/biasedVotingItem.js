@@ -22,6 +22,7 @@ const LabelWrapper = styled.div`
 `;
 
 const Label = styled.span`
+  display: block;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
