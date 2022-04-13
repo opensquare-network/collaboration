@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import {
+  p_14_medium,
   p_14_normal,
   p_16_semibold,
   p_20_semibold,
@@ -7,6 +8,10 @@ import {
 import SpaceLogo from "@/components/spaceLogo";
 import ChainIcon from "./chain/chainIcon";
 import ValueDisplay from "./valueDisplay";
+import Modal from "./modal";
+import { useState } from "react";
+import Divider from "./styled/divider";
+import { capitalize, toPrecision } from "frontedUtils";
 
 const Wrapper = styled.div`
   display: flex;
@@ -95,7 +100,62 @@ const ChainIcons = styled.div`
   }
 `;
 
+const ModalLogoWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  // override 'SpaceLogo' margin-right
+  > :first-child {
+    margin-right: 0;
+  }
+`;
+
+const ModalLogoName = styled(LogoName)`
+  margin-top: 16px;
+`;
+
+const ModalAboutWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const ModalAboutTitle = styled.div`
+  ${p_16_semibold};
+`;
+
+const ModalInfoWrapper = styled.div``;
+
+const ModalInfoItem = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+`;
+
+const ModalInfoName = styled.div``;
+
+const ModalInfoValue = styled.div`
+  ${p_14_medium};
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 4px;
+`;
+
+const ModalInfoNetwork = styled.span`
+  margin-right: 8px;
+`;
+
 export default function ListInfo({ space }) {
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const strategyCount = space.weightStrategy?.length || 0;
+  const networkCount = space.networks?.length || 0;
+
+  const handleShowModal = () => {
+    setModalVisible(true);
+  };
+
   return (
     <Wrapper>
       <LogoWrapper>
@@ -109,7 +169,7 @@ export default function ListInfo({ space }) {
         <AboutItem>
           <AboutIcon src="/imgs/icons/threshold.svg" />
           <div>
-            <AboutName>Threshold</AboutName>
+            <AboutName onClick={handleShowModal}>Threshold</AboutName>
             <AboutDetail>
               <ValueDisplay
                 value={space.proposeThreshold}
@@ -122,7 +182,7 @@ export default function ListInfo({ space }) {
         <AboutItem>
           <AboutIcon src="/imgs/icons/strategy.svg" />
           <div>
-            <AboutName>Strategy({space.weightStrategy?.length || 0})</AboutName>
+            <AboutName>Strategy({strategyCount})</AboutName>
             <StrategyAboutDetail>
               {space.weightStrategy?.[0]}
               {space.weightStrategy?.length > 1 && ", ..."}
@@ -133,7 +193,7 @@ export default function ListInfo({ space }) {
         <AboutItem>
           <AboutIcon src="/imgs/icons/network.svg" />
           <div>
-            <AboutName>Network({space.networks?.length || 0})</AboutName>
+            <AboutName>Network({networkCount})</AboutName>
             <ChainIconsWrapper>
               <ChainIcons>
                 {space.networks?.slice(0, 3).map((network, index) => (
@@ -144,6 +204,54 @@ export default function ListInfo({ space }) {
             </ChainIconsWrapper>
           </div>
         </AboutItem>
+
+        <Modal open={modalVisible} setOpen={setModalVisible}>
+          <ModalLogoWrapper>
+            <SpaceLogo spaceId={space.id} />
+            <ModalLogoName>{space.name}</ModalLogoName>
+            <LogoSymbol>{space.symbol}</LogoSymbol>
+          </ModalLogoWrapper>
+
+          <ModalAboutWrapper>
+            <ModalAboutTitle>About</ModalAboutTitle>
+            <img src="/imgs/icons/info.svg" />
+          </ModalAboutWrapper>
+
+          <Divider />
+
+          <ModalInfoWrapper>
+            <ModalInfoItem>
+              <ModalInfoName>Threshold</ModalInfoName>
+              <ModalInfoValue>
+                {toPrecision(space.proposeThreshold, space.decimals)}{" "}
+                {space.symbol}
+              </ModalInfoValue>
+            </ModalInfoItem>
+
+            <ModalInfoItem>
+              <ModalInfoName>Strategies({strategyCount})</ModalInfoName>
+              <div>
+                {space.weightStrategy?.map((strategy, index) => (
+                  <ModalInfoValue key={index}>{strategy}</ModalInfoValue>
+                ))}
+              </div>
+            </ModalInfoItem>
+
+            <ModalInfoItem>
+              <ModalInfoName>Networks({networkCount})</ModalInfoName>
+              <div>
+                {space.networks?.map((network, index) => (
+                  <ModalInfoValue key={index}>
+                    <ModalInfoNetwork>
+                      {capitalize(network.network)}
+                    </ModalInfoNetwork>{" "}
+                    <ChainIcon chainName={network.network} />
+                  </ModalInfoValue>
+                ))}
+              </div>
+            </ModalInfoItem>
+          </ModalInfoWrapper>
+        </Modal>
       </AboutWrapper>
     </Wrapper>
   );
