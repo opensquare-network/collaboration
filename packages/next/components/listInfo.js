@@ -6,9 +6,7 @@ import {
   p_20_semibold,
 } from "../styles/textStyles";
 import SpaceLogo from "@/components/spaceLogo";
-import Tooltip from "@/components/tooltip";
 import ChainIcon from "./chain/chainIcon";
-import { capitalize } from "frontedUtils";
 
 const Wrapper = styled.div`
   display: flex;
@@ -112,15 +110,6 @@ export default function ListInfo({ space }) {
               space.decimals
             )} ${space.symbol}`}</AboutDetail>
           </div>
-          <Tooltip
-            content={`At least ${toPrecision(
-              space.proposeThreshold,
-              space.decimals
-            )}${space.symbol} to create a proposal`}
-            size="full"
-          >
-            <div />
-          </Tooltip>
         </AboutItem>
         <AboutDivider />
         <AboutItem>
@@ -132,9 +121,6 @@ export default function ListInfo({ space }) {
               {space.weightStrategy?.length > 1 && ", ..."}
             </StrategyAboutDetail>
           </div>
-          <Tooltip content={space.weightStrategy?.join(", ")} size="full">
-            <div />
-          </Tooltip>
         </AboutItem>
         <AboutDivider />
         <AboutItem>
@@ -150,14 +136,6 @@ export default function ListInfo({ space }) {
               </ChainIcons>
             </ChainIconsWrapper>
           </div>
-          <Tooltip
-            content={space.networks
-              ?.map((item) => capitalize(item.network))
-              .join(", ")}
-            size="full"
-          >
-            <div />
-          </Tooltip>
         </AboutItem>
       </AboutWrapper>
     </Wrapper>
