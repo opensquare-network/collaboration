@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Tooltip from "../tooltip";
 import ValueDisplay from "../valueDisplay";
+import { useEffect, useRef, useState } from "react";
 
 const Wrapper = styled.div`
   position: relative;
@@ -8,38 +9,43 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-item: center;
   width: 100%;
+  .noHover {
+    pointer-events: none;
+  }
 `;
 
 const LabelWrapper = styled.div`
   color: #506176;
   position: relative;
-  width: 50%;
+  max-width: 50%;
 
-  .label {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  > div {
+    position: initial;
   }
 `;
 
+const TextEllipsis = styled.span`
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+
 function BiasedVotingItem({ label = "", value, space }) {
-  const Label = <div className="label">{label}</div>;
+  const ref = useRef();
+  const [showTooltip, setShowTooltip] = useState(false);
+
+  useEffect(() => {
+    setShowTooltip(ref?.current?.offsetWidth > 111);
+  }, []);
 
   return (
     <Wrapper>
-      <LabelWrapper>
-        {/*
-          TODO: Should refator, this is not a smart way to show the tooltip or not
-        */}
-        {label.length > 10 ? (
-          <Tooltip content={label} size="full">
-            {Label}
-          </Tooltip>
-        ) : (
-          Label
-        )}
+      <LabelWrapper className={!showTooltip && "noHover"} ref={ref}>
+        <Tooltip content={label} size="full">
+          <TextEllipsis>{label}</TextEllipsis>
+        </Tooltip>
       </LabelWrapper>
-
       <ValueDisplay value={value} space={space} />
     </Wrapper>
   );
