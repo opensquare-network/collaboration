@@ -12,7 +12,7 @@ import {
   snapshotHeightsSelector,
 } from "../store/reducers/authoringSlice";
 import nextApi from "../services/nextApi";
-import { addToast } from "store/reducers/toastSlice";
+import { newErrorToast } from "store/reducers/toastSlice";
 import { useIsMountedBool } from "../frontedUtils/hooks";
 
 const Wrapper = styled.div`
@@ -71,12 +71,7 @@ function SnapshotHeightPicker({ space }) {
         }
       })
       .catch((e) => {
-        dispatch(
-          addToast({
-            type: "error",
-            message: e.message,
-          })
-        );
+        dispatch(newErrorToast(e.message));
       })
       .finally(() => {
         if (isMounted) {

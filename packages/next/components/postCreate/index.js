@@ -14,7 +14,6 @@ import {
   useProxySelector,
 } from "store/reducers/accountSlice";
 import {
-  addToast,
   clearToasts,
   newErrorToast,
   newPendingToast,
@@ -22,7 +21,6 @@ import {
   newToastId,
   removeToast,
 } from "store/reducers/toastSlice";
-import { TOAST_TYPES } from "frontedUtils/constants";
 import { useRouter } from "next/router";
 import pick from "lodash.pick";
 import {
@@ -163,13 +161,13 @@ export default function PostCreate({ space }) {
           dispatch(setBalance(result?.result?.balance ?? 0));
         } else {
           const message = result?.error?.message || FETCH_BALANCE_ERROR;
-          dispatch(addToast({ type: TOAST_TYPES.ERROR, message }));
+          dispatch(newErrorToast(message));
           dispatch(setLoadBalanceError(message));
         }
       })
       .catch((error) => {
         const message = error?.message || FETCH_BALANCE_ERROR;
-        dispatch(addToast({ type: TOAST_TYPES.ERROR, message }));
+        dispatch(newErrorToast(message));
         dispatch(setLoadBalanceError(message));
       })
       .finally(() => {
@@ -180,9 +178,7 @@ export default function PostCreate({ space }) {
   const onPublish = async () => {
     const address = account?.address ?? "";
     if (!address) {
-      dispatch(
-        addToast({ type: TOAST_TYPES.ERROR, message: "Please connect wallet" })
-      );
+      dispatch(newErrorToast("Please connect wallet"));
       return;
     }
 

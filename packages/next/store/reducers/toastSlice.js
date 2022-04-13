@@ -42,33 +42,24 @@ export const { addToast, removeToast, clearToasts, updateToast } =
 
 export const newToastId = () => count++;
 
-export const newPendingToast = (id, message) => (dispatch) => {
-  dispatch(
-    addToast({
-      id,
-      type: TOAST_TYPES.PENDING,
-      message,
-      sticky: true,
-    })
-  );
-};
+export const newPendingToast = (id, message) =>
+  addToast({
+    id,
+    type: TOAST_TYPES.PENDING,
+    message,
+    sticky: true,
+  });
 
-export const newSuccessToast = (message) => (dispatch) => {
-  dispatch(
-    addToast({
-      type: TOAST_TYPES.SUCCESS,
-      message,
-    })
-  );
-};
+export const newSuccessToast = (message) =>
+  addToast({
+    type: TOAST_TYPES.SUCCESS,
+    message,
+  });
 
-export const newErrorToast = (message) => (dispatch) => {
-  dispatch(
-    addToast({
-      type: TOAST_TYPES.ERROR,
-      message,
-    })
-  );
-};
+export const newErrorToast = (message) =>
+  addToast({
+    type: TOAST_TYPES.ERROR,
+    message,
+  });
 
 export default toastSlice.reducer;

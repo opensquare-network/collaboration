@@ -9,8 +9,7 @@ import Loading from "public/imgs/icons/loading.svg";
 import { useWindowSize } from "frontedUtils/hooks";
 import { addressEllipsis } from "frontedUtils";
 import { isAddress } from "@polkadot/util-crypto";
-import { addToast } from "store/reducers/toastSlice";
-import { TOAST_TYPES } from "frontedUtils/constants";
+import { newErrorToast } from "store/reducers/toastSlice";
 import { p_14_normal } from "../styles/textStyles";
 import {
   clearProxy,
@@ -177,12 +176,7 @@ export default function PostAddress({ spaceId, size, snapshot }) {
     }
 
     if (!isAddress(inputAddress)) {
-      dispatch(
-        addToast({
-          type: TOAST_TYPES.ERROR,
-          message: "Invalid proxy address",
-        })
-      );
+      dispatch(newErrorToast("Invalid proxy address"));
       return;
     }
 
@@ -219,13 +213,13 @@ export default function PostAddress({ spaceId, size, snapshot }) {
           dispatch(setProxyBalance(result?.result?.balance ?? 0));
         } else {
           const message = result?.error?.message || FETCH_BALANCE_ERROR;
-          dispatch(addToast({ type: TOAST_TYPES.ERROR, message }));
+          dispatch(newErrorToast(message));
           dispatch(setLoadBalanceError(message));
         }
       })
       .catch((e) => {
         const message = e?.message || FETCH_BALANCE_ERROR;
-        dispatch(addToast({ type: TOAST_TYPES.ERROR, message }));
+        dispatch(newErrorToast(message));
         dispatch(setLoadBalanceError(message));
       })
       .finally(() => {
