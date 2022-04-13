@@ -12,6 +12,7 @@ import Modal from "./modal";
 import { useState } from "react";
 import Divider from "./styled/divider";
 import { capitalize, toPrecision } from "frontedUtils";
+import Button from "./button";
 
 const Wrapper = styled.div`
   display: flex;
@@ -147,6 +148,15 @@ const ModalInfoNetwork = styled.span`
   margin-right: 8px;
 `;
 
+const ModalInfoActions = styled.div`
+  margin-top: 20px;
+  text-align: right;
+`;
+
+const ModalInfoCloseButton = styled(Button)`
+  display: inline-block;
+`;
+
 export default function ListInfo({ space }) {
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -256,6 +266,12 @@ export default function ListInfo({ space }) {
               </div>
             </ModalInfoItem>
           </ModalInfoWrapper>
+
+          <ModalInfoActions>
+            <ModalInfoCloseButton onClick={() => setModalOpen(false)}>
+              Close
+            </ModalInfoCloseButton>
+          </ModalInfoActions>
         </Modal>
       </AboutWrapper>
     </Wrapper>
