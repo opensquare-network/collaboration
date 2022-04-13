@@ -89,6 +89,7 @@ const ChainIconsWrapper = styled.div`
   font-size: 14px;
   line-height: 24px;
   color: #a1a8b3;
+  display: flex;
 `;
 
 const ChainIcons = styled.div`
@@ -203,8 +204,8 @@ export default function ListInfo({ space }) {
                 {space.networks?.slice(0, 3).map((network, index) => (
                   <ChainIcon key={index} chainName={network.network} />
                 ))}
-                {space.networks?.length > 3 && "..."}
               </ChainIcons>
+              {space.networks?.length > 3 && "..."}
             </ChainIconsWrapper>
           </div>
         </AboutItem>
