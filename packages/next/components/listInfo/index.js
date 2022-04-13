@@ -1,18 +1,16 @@
 import styled from "styled-components";
 import {
-  p_14_medium,
   p_14_normal,
   p_16_semibold,
   p_20_semibold,
-} from "../styles/textStyles";
+} from "../../styles/textStyles";
 import SpaceLogo from "@/components/spaceLogo";
-import ChainIcon from "./chain/chainIcon";
-import ValueDisplay from "./valueDisplay";
-import Modal from "./modal";
+import ChainIcon from "../chain/chainIcon";
+import ValueDisplay from "../valueDisplay";
+import Modal from "../modal";
 import { useState } from "react";
-import Divider from "./styled/divider";
-import { capitalize, toPrecision } from "frontedUtils";
-import Button from "./button";
+import Details from "./details";
+import Button from "../button";
 
 const Wrapper = styled.div`
   display: flex;
@@ -102,58 +100,12 @@ const ChainIcons = styled.div`
   }
 `;
 
-const ModalLogoWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  // override 'SpaceLogo' margin-right
-  > :first-child {
-    margin-right: 0;
-  }
-`;
-
-const ModalLogoName = styled(LogoName)`
-  margin-top: 16px;
-`;
-
-const ModalAboutWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-
-const ModalAboutTitle = styled.div`
-  ${p_16_semibold};
-`;
-
-const ModalInfoWrapper = styled.div``;
-
-const ModalInfoItem = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 16px;
-`;
-
-const ModalInfoName = styled.div``;
-
-const ModalInfoValue = styled.div`
-  ${p_14_medium};
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  margin-bottom: 4px;
-`;
-
-const ModalInfoNetwork = styled.span`
-  margin-right: 8px;
-`;
-
-const ModalInfoActions = styled.div`
+const ModalActions = styled.div`
   margin-top: 20px;
   text-align: right;
 `;
 
-const ModalInfoCloseButton = styled(Button)`
+const ModalCloseButton = styled(Button)`
   display: inline-block;
 `;
 
@@ -221,57 +173,13 @@ export default function ListInfo({ space }) {
         </AboutItem>
 
         <Modal open={modalOpen} setOpen={setModalOpen}>
-          <ModalLogoWrapper>
-            <SpaceLogo spaceId={space.id} />
-            <ModalLogoName>{space.name}</ModalLogoName>
-            <LogoSymbol>{space.symbol}</LogoSymbol>
-          </ModalLogoWrapper>
+          <Details space={space} />
 
-          <ModalAboutWrapper>
-            <ModalAboutTitle>About</ModalAboutTitle>
-            <img src="/imgs/icons/info.svg" />
-          </ModalAboutWrapper>
-
-          <Divider />
-
-          <ModalInfoWrapper>
-            <ModalInfoItem>
-              <ModalInfoName>Threshold</ModalInfoName>
-              <ModalInfoValue>
-                {toPrecision(space.proposeThreshold, space.decimals)}{" "}
-                {space.symbol}
-              </ModalInfoValue>
-            </ModalInfoItem>
-
-            <ModalInfoItem>
-              <ModalInfoName>Strategies({strategyCount})</ModalInfoName>
-              <div>
-                {space.weightStrategy?.map((strategy, index) => (
-                  <ModalInfoValue key={index}>{strategy}</ModalInfoValue>
-                ))}
-              </div>
-            </ModalInfoItem>
-
-            <ModalInfoItem>
-              <ModalInfoName>Networks({networkCount})</ModalInfoName>
-              <div>
-                {space.networks?.map((network, index) => (
-                  <ModalInfoValue key={index}>
-                    <ModalInfoNetwork>
-                      {capitalize(network.network)}
-                    </ModalInfoNetwork>{" "}
-                    <ChainIcon chainName={network.network} />
-                  </ModalInfoValue>
-                ))}
-              </div>
-            </ModalInfoItem>
-          </ModalInfoWrapper>
-
-          <ModalInfoActions>
-            <ModalInfoCloseButton onClick={() => setModalOpen(false)}>
+          <ModalActions>
+            <ModalCloseButton onClick={() => setModalOpen(false)}>
               Close
-            </ModalInfoCloseButton>
-          </ModalInfoActions>
+            </ModalCloseButton>
+          </ModalActions>
         </Modal>
       </AboutWrapper>
     </Wrapper>
