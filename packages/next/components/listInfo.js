@@ -120,9 +120,7 @@ export default function ListInfo({ space }) {
         <AboutItem>
           <AboutIcon src="/imgs/icons/strategy.svg" />
           <div>
-            <AboutName>
-              Strategies({space.weightStrategy?.length || 0})
-            </AboutName>
+            <AboutName>Strategy({space.weightStrategy?.length || 0})</AboutName>
             <StrategyAboutDetail>
               {space.weightStrategy?.[0]}
               {space.weightStrategy?.length > 1 && ", ..."}
