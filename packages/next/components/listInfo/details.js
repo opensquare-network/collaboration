@@ -7,7 +7,6 @@ import {
 } from "../../styles/textStyles";
 import SpaceLogo from "@/components/spaceLogo";
 import ChainIcon from "../chain/chainIcon";
-import Button from "../button";
 import Divider from "../styled/divider";
 import { capitalize, toPrecision } from "frontedUtils";
 
