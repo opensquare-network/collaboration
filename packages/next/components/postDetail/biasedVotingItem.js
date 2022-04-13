@@ -33,7 +33,7 @@ const ValueDisplayWrapper = styled.div`
   width: 40%;
 `;
 
-function BiasedVotingItem({ label = "", value, space }) {
+function BiasedVotingItem({ label, value, space }) {
   return (
     <Wrapper>
       <LabelWrapper>
