@@ -103,7 +103,7 @@ export default function ListInfo({ space }) {
         <AboutItem>
           <AboutIcon src="/imgs/icons/network.svg" />
           <div>
-            <AboutName>Networks</AboutName>
+            <AboutName>Networks({space.networks?.length || 0})</AboutName>
             <ChainIcons>
               {space.networks?.map((network, index) => (
                 <ChainIcon key={index} chainName={network.network} />
@@ -147,7 +147,8 @@ export default function ListInfo({ space }) {
               Strategies({space.weightStrategy?.length || 0})
             </AboutName>
             <StrategyAboutDetail>
-              {space.weightStrategy?.join(", ")}
+              {space.weightStrategy?.[0]}
+              {space.weightStrategy?.length > 1 && ", ..."}
             </StrategyAboutDetail>
           </div>
           <Tooltip content={space.weightStrategy?.join(", ")} size="full">
