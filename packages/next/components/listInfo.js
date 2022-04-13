@@ -182,7 +182,9 @@ export default function ListInfo({ space }) {
         <AboutItem>
           <AboutIcon src="/imgs/icons/strategy.svg" />
           <div>
-            <AboutName>Strategy({strategyCount})</AboutName>
+            <AboutName onClick={handleShowModal}>
+              Strategy({strategyCount})
+            </AboutName>
             <StrategyAboutDetail>
               {space.weightStrategy?.[0]}
               {space.weightStrategy?.length > 1 && ", ..."}
@@ -193,7 +195,9 @@ export default function ListInfo({ space }) {
         <AboutItem>
           <AboutIcon src="/imgs/icons/network.svg" />
           <div>
-            <AboutName>Network({networkCount})</AboutName>
+            <AboutName onClick={handleShowModal}>
+              Network({networkCount})
+            </AboutName>
             <ChainIconsWrapper>
               <ChainIcons>
                 {space.networks?.slice(0, 3).map((network, index) => (
