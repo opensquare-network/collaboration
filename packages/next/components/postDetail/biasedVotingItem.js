@@ -19,12 +19,12 @@ const LabelWrapper = styled.div`
   > *:first-child {
     max-width: 100%;
   }
+`;
 
-  .label {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
+const Label = styled.span`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 const ValueDisplayWrapper = styled.div`
@@ -38,7 +38,7 @@ function BiasedVotingItem({ label, value, space }) {
     <Wrapper>
       <LabelWrapper>
         <Tooltip content={label} size="fit">
-          <div className="label">{label}</div>
+          <Label>{label}</Label>
         </Tooltip>
       </LabelWrapper>
 
