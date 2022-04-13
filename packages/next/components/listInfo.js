@@ -52,6 +52,11 @@ const AboutIcon = styled.img`
 const AboutName = styled.div`
   ${p_16_semibold};
   margin-bottom: 2px;
+  cursor: pointer;
+
+  :hover {
+    text-decoration: underline;
+  }
 `;
 
 const AboutDetail = styled.div`
