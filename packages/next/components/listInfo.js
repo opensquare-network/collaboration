@@ -110,10 +110,12 @@ export default function ListInfo({ space }) {
           <AboutIcon src="/imgs/icons/threshold.svg" />
           <div>
             <AboutName>Threshold</AboutName>
-            <AboutDetail>{`${toPrecision(
-              space.proposeThreshold,
-              space.decimals
-            )} ${space.symbol}`}</AboutDetail>
+            <AboutDetail>
+              <ValueDisplay
+                value={space.proposeThreshold}
+                space={space}
+              ></ValueDisplay>
+            </AboutDetail>
           </div>
         </AboutItem>
         <AboutDivider />
