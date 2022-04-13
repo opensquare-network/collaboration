@@ -12,7 +12,13 @@ const Wrapper = styled.div`
 const LabelWrapper = styled.div`
   color: #506176;
   position: relative;
-  width: 50%;
+  display: flex;
+  width: 60%;
+
+  // for tooltip with size=fit
+  > *:first-child {
+    max-width: 100%;
+  }
 
   .label {
     overflow: hidden;
@@ -21,25 +27,24 @@ const LabelWrapper = styled.div`
   }
 `;
 
-function BiasedVotingItem({ label = "", value, space }) {
-  const displayLabel = <div className="label">{label}</div>;
+const ValueDisplayWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  width: 40%;
+`;
 
+function BiasedVotingItem({ label = "", value, space }) {
   return (
     <Wrapper>
       <LabelWrapper>
-        {/*
-          TODO: Should refactor, this is not a smart way to show the tooltip or not
-        */}
-        {label.length > 10 ? (
-          <Tooltip content={label} size="full">
-            {displayLabel}
-          </Tooltip>
-        ) : (
-          displayLabel
-        )}
+        <Tooltip content={label} size="fit">
+          <div className="label">{label}</div>
+        </Tooltip>
       </LabelWrapper>
 
-      <ValueDisplay value={value} space={space} />
+      <ValueDisplayWrapper>
+        <ValueDisplay value={value} space={space} />
+      </ValueDisplayWrapper>
     </Wrapper>
   );
 }
