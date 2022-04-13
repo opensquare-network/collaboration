@@ -67,10 +67,7 @@ const StrategyAboutDetail = styled.div`
   font-size: 14px;
   line-height: 24px;
   color: #a1a8b3;
-  text-overflow: ellipsis;
   max-width: 240px;
-  overflow: hidden;
-  white-space: nowrap;
 `;
 
 const AboutDivider = styled.div`
