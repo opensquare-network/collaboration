@@ -77,6 +77,12 @@ const AboutDivider = styled.div`
   margin: 0 40px;
 `;
 
+const ChainIconsWrapper = styled.div`
+  font-size: 14px;
+  line-height: 24px;
+  color: #a1a8b3;
+`;
+
 const ChainIcons = styled.div`
   display: flex;
   svg,
@@ -134,12 +140,15 @@ export default function ListInfo({ space }) {
         <AboutItem>
           <AboutIcon src="/imgs/icons/network.svg" />
           <div>
-            <AboutName>Networks({space.networks?.length || 0})</AboutName>
-            <ChainIcons>
-              {space.networks?.map((network, index) => (
-                <ChainIcon key={index} chainName={network.network} />
-              ))}
-            </ChainIcons>
+            <AboutName>Network({space.networks?.length || 0})</AboutName>
+            <ChainIconsWrapper>
+              <ChainIcons>
+                {space.networks?.slice(0, 3).map((network, index) => (
+                  <ChainIcon key={index} chainName={network.network} />
+                ))}
+                {space.networks?.length > 3 && "..."}
+              </ChainIcons>
+            </ChainIconsWrapper>
           </div>
           <Tooltip
             content={space.networks
