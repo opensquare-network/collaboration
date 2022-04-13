@@ -101,26 +101,6 @@ export default function ListInfo({ space }) {
       </LogoWrapper>
       <AboutWrapper>
         <AboutItem>
-          <AboutIcon src="/imgs/icons/network.svg" />
-          <div>
-            <AboutName>Networks({space.networks?.length || 0})</AboutName>
-            <ChainIcons>
-              {space.networks?.map((network, index) => (
-                <ChainIcon key={index} chainName={network.network} />
-              ))}
-            </ChainIcons>
-          </div>
-          <Tooltip
-            content={space.networks
-              ?.map((item) => capitalize(item.network))
-              .join(", ")}
-            size="full"
-          >
-            <div />
-          </Tooltip>
-        </AboutItem>
-        <AboutDivider />
-        <AboutItem>
           <AboutIcon src="/imgs/icons/threshold.svg" />
           <div>
             <AboutName>Threshold</AboutName>
@@ -152,6 +132,26 @@ export default function ListInfo({ space }) {
             </StrategyAboutDetail>
           </div>
           <Tooltip content={space.weightStrategy?.join(", ")} size="full">
+            <div />
+          </Tooltip>
+        </AboutItem>
+        <AboutDivider />
+        <AboutItem>
+          <AboutIcon src="/imgs/icons/network.svg" />
+          <div>
+            <AboutName>Networks({space.networks?.length || 0})</AboutName>
+            <ChainIcons>
+              {space.networks?.map((network, index) => (
+                <ChainIcon key={index} chainName={network.network} />
+              ))}
+            </ChainIcons>
+          </div>
+          <Tooltip
+            content={space.networks
+              ?.map((item) => capitalize(item.network))
+              .join(", ")}
+            size="full"
+          >
             <div />
           </Tooltip>
         </AboutItem>
