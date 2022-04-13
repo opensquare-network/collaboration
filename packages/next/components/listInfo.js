@@ -147,13 +147,13 @@ const ModalInfoNetwork = styled.span`
 `;
 
 export default function ListInfo({ space }) {
-  const [modalVisible, setModalVisible] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const strategyCount = space.weightStrategy?.length || 0;
   const networkCount = space.networks?.length || 0;
 
   const handleShowModal = () => {
-    setModalVisible(true);
+    setModalOpen(true);
   };
 
   return (
@@ -209,7 +209,7 @@ export default function ListInfo({ space }) {
           </div>
         </AboutItem>
 
-        <Modal open={modalVisible} setOpen={setModalVisible}>
+        <Modal open={modalOpen} setOpen={setModalOpen}>
           <ModalLogoWrapper>
             <SpaceLogo spaceId={space.id} />
             <ModalLogoName>{space.name}</ModalLogoName>
