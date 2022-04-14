@@ -48,9 +48,6 @@ const DetailsItem = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 16px;
-`;
-
-const DetailsLabel = styled.span`
   line-height: 24px;
 `;
 
@@ -87,14 +84,14 @@ export default function Details({ space }) {
 
       <div>
         <DetailsItem>
-          <DetailsLabel>Threshold</DetailsLabel>
+          <span>Threshold</span>
           <DetailsValue>
             {toPrecision(space.proposeThreshold, space.decimals)} {space.symbol}
           </DetailsValue>
         </DetailsItem>
 
         <DetailsItem>
-          <DetailsLabel>Strategies({strategyCount})</DetailsLabel>
+          <span>Strategies({strategyCount})</span>
           <div>
             {space.weightStrategy?.map((strategy, index) => (
               <DetailsValue key={index}>{strategy}</DetailsValue>
@@ -103,7 +100,7 @@ export default function Details({ space }) {
         </DetailsItem>
 
         <DetailsItem>
-          <DetailsLabel>Networks({networkCount})</DetailsLabel>
+          <span>Networks({networkCount})</span>
           <div>
             {space.networks?.map((network, index) => (
               <DetailsValue key={index}>
