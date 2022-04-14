@@ -8,7 +8,7 @@ import {
 import SpaceLogo from "@/components/spaceLogo";
 import ChainIcon from "../chain/chainIcon";
 import Divider from "../styled/divider";
-import { capitalize, toPrecision } from "frontedUtils";
+import { abbreviateBigNumber, capitalize, toPrecision } from "frontedUtils";
 
 const Wrapper = styled.div``;
 
@@ -90,7 +90,10 @@ export default function Details({ space }) {
         <DetailsItem>
           <DetailsLabel>Threshold</DetailsLabel>
           <DetailsValue>
-            {toPrecision(space.proposeThreshold, space.decimals)} {space.symbol}
+            {abbreviateBigNumber(
+              toPrecision(space.proposeThreshold, space?.decimals)
+            )}{" "}
+            {space.symbol}
           </DetailsValue>
         </DetailsItem>
 
