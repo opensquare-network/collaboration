@@ -70,7 +70,7 @@ const AboutDetail = styled.div`
   text-transform: capitalize;
 `;
 
-const StrategyAboutDetail = styled.div`
+const StrategyAboutDetail = styled.span`
   font-size: 14px;
   line-height: 24px;
   color: #a1a8b3;
@@ -145,7 +145,7 @@ export default function ListInfo({ space }) {
             <AboutName onClick={handleShowModal}>
               Strategy({strategyCount})
             </AboutName>
-            <StrategyAboutDetail>
+            <StrategyAboutDetail title={space.weightStrategy?.join(", ")}>
               {space.weightStrategy?.[0]}
               {space.weightStrategy?.length > 1 && ", ..."}
             </StrategyAboutDetail>
