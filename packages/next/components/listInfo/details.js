@@ -61,7 +61,6 @@ const DetailsValue = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  margin-bottom: 4px;
 `;
 
 const DetailsNetwork = styled.span`
@@ -110,7 +109,7 @@ export default function Details({ space }) {
             {space.networks?.map((network, index) => (
               <DetailsValue key={index}>
                 <DetailsNetwork>{capitalize(network.network)}</DetailsNetwork>{" "}
-                <ChainIcon chainName={network.network} />
+                <ChainIcon chainName={network.network} size={20} />
               </DetailsValue>
             ))}
           </div>
