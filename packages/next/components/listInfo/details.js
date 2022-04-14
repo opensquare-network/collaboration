@@ -27,6 +27,7 @@ const LogoName = styled.div`
   ${p_20_semibold};
   margin-top: 16px;
   text-transform: capitalize;
+  line-height: 28px;
 `;
 
 const LogoSymbol = styled.div`
