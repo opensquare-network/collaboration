@@ -134,10 +134,7 @@ export default function ListInfo({ space }) {
           <div>
             <AboutName onClick={handleShowModal}>Threshold</AboutName>
             <AboutDetail>
-              <ValueDisplay
-                value={space.proposeThreshold}
-                space={space}
-              ></ValueDisplay>
+              <ValueDisplay value={space.proposeThreshold} space={space} />
             </AboutDetail>
           </div>
         </AboutItem>
