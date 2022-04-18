@@ -82,7 +82,7 @@ export default function Details({ space }) {
 
       <DetailsWrapper>
         <DetailsTitle>About</DetailsTitle>
-        <img src="/imgs/icons/info.svg" />
+        <img src="/imgs/icons/info.svg" alt="" />
       </DetailsWrapper>
 
       <Divider />
