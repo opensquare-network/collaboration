@@ -1,13 +1,15 @@
 const { nodeTimeoutSeconds } = require("../constants");
 const { statusLogger } = require("../logger");
-const { khalaOptions } = require("./khala");
-const { karuraOptions } = require("./karura");
-const { bifrostOptions } = require("./bifrost");
-const { polkadexOptions } = require("./polkadex");
-const { interlayOptions } = require("./interlay");
 const { chains } = require("../constants");
 const { ApiPromise, WsProvider } = require("@polkadot/api");
 const { getEndpoints } = require("../env");
+const {
+  bifrostOptions,
+  khalaOptions,
+  karuraOptions,
+  polkadexOptions,
+  kintsugiOptions,
+} = require("@osn/provider-options");
 
 /**
  * {polkadot: [{ endpoint: 'wss:...', api }]}
@@ -46,7 +48,7 @@ async function createApi(network, endpoint) {
   } else if (chains.polkadex === network) {
     options = polkadexOptions;
   } else if ([chains.kintsugi, chains.interlay].includes(network)) {
-    options = interlayOptions;
+    options = kintsugiOptions;
   }
 
   let api;
