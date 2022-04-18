@@ -8,7 +8,7 @@ import { useOnClickOutside } from "frontedUtils/hooks";
 import CaretRight from "/public/imgs/icons/caret-right.svg";
 import ArrowLeft from "/public/imgs/icons/arrow-left.svg";
 import ArrowRight from "/public/imgs/icons/arrow-right.svg";
-import Button from "components/button";
+import Button from "@osn/common-ui/dist/styled/Button";
 
 const Wrapper = styled.div`
   position: relative;
