@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Button from "@/components/button";
+import Button from "@osn/common-ui/dist/styled/Button";
 import { p_14_medium } from "../styles/textStyles";
 import { css } from "styled-components";
 

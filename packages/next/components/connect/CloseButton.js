@@ -1,4 +1,4 @@
-import Button from "@/components/button";
+import Button from "@osn/common-ui/dist/styled/Button";
 import { useDispatch } from "react-redux";
 import { closeConnect } from "../../store/reducers/showConnectSlice";
 import { memo } from "react";

@@ -27,7 +27,7 @@ import {
 } from "frontedUtils";
 import nextApi from "services/nextApi";
 import PostAddress from "../postAddress";
-import ButtonPrimary from "@/components/button";
+import ButtonPrimary from "@osn/common-ui/dist/styled/Button";
 import Option from "@/components/option";
 import { text_secondary_red_500 } from "../../styles/colorStyles";
 import BigNumber from "bignumber.js";

@@ -1,5 +1,5 @@
 import { ActionBar, StyledDescription } from "@/components/connect/styled";
-import Button from "@/components/button";
+import Button from "@osn/common-ui/dist/styled/Button";
 import { Fragment, memo } from "react";
 import { useDispatch } from "react-redux";
 import { closeConnect } from "../../store/reducers/showConnectSlice";

@@ -2,7 +2,7 @@ import styled, { css } from "styled-components";
 import { useState } from "react";
 
 import MarkdownEditor from "./markdownEditor";
-import Button from "@/components/button";
+import Button from "@osn/common-ui/dist/styled/Button";
 import MicromarkMd from "./micromarkMd";
 
 const MarkdownWrapper = styled.div``;

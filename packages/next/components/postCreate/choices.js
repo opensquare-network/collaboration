@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 import Choice from "./choice";
-import Button from "@/components/button";
+import Button from "@osn/common-ui/dist/styled/Button";
 
 const Wrapper = styled.div`
   background: #ffffff;
