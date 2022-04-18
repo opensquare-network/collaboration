@@ -16,7 +16,7 @@ import { shadow_200 } from "../styles/globalCss";
 import { useIsMounted, useWindowSize } from "../frontedUtils/hooks";
 import { fetchIdentity } from "services/identity";
 import IdentityIcon from "components/identityIcon";
-import ButtonPrimary from "components/button";
+import ButtonPrimary from "@osn/common-ui/dist/styled/Button";
 import {
   popUpConnect,
   setShowHeaderMenu,

@@ -10,7 +10,7 @@ import ValueDisplay from "../valueDisplay";
 import Modal from "../modal";
 import { useState } from "react";
 import Details from "./details";
-import Button from "../button";
+import Button from "@osn/common-ui/dist/styled/Button";
 
 const Wrapper = styled.div`
   display: flex;

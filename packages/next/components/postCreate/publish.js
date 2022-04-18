@@ -5,7 +5,7 @@ import {
   targetBalanceSelector,
   useProxySelector,
 } from "../../store/reducers/accountSlice";
-import Button from "@/components/button";
+import Button from "@osn/common-ui/dist/styled/Button";
 import { popUpConnect } from "../../store/reducers/showConnectSlice";
 import {
   balanceLoadingSelector,

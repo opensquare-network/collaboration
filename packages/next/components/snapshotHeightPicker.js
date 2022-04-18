@@ -4,7 +4,7 @@ import Title from "@/components/styled/subTitle";
 import Datetime from "@/components/datetime";
 import Divider from "@/components/styled/divider";
 import BlockHeightInput from "@/components/chain/blockHeightInput";
-import Button from "@/components/button";
+import Button from "@osn/common-ui/dist/styled/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import {
