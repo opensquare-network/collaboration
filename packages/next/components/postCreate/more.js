@@ -78,6 +78,11 @@ const NetworkName = styled.div`
   color: #506176;
   text-transform: capitalize;
 `;
+
+const TextGrey = styled.span`
+  color: #a1a8b3;
+`;
+
 export default function More({ onPublish, space }) {
   const dispatch = useDispatch();
   const snapshotHeights = useSelector(snapshotHeightsSelector);
@@ -143,10 +148,12 @@ export default function More({ onPublish, space }) {
         />
         <DateWrapper>
           <SnapshotHeightPicker space={space} />
-          {snapshotHeights?.map((snapshot) => (
-            <Snapshot className="snapshot" key={snapshot.network}>
-              <NetworkName>{snapshot.network}</NetworkName>
-              <span>{snapshot.height?.toLocaleString()}</span>
+          {space.networks?.map((network) => (
+            <Snapshot className="snapshot" key={network.network}>
+              <NetworkName>{network.network}</NetworkName>
+              {snapshotHeights.find(
+                (snapshotHeight) => snapshotHeight.network === network.network
+              )?.height || <TextGrey>-</TextGrey>}
             </Snapshot>
           ))}
         </DateWrapper>
