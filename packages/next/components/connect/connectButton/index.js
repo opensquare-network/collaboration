@@ -1,5 +1,5 @@
 import { memo } from "react";
-import { ReactComponent as Button } from "@osn/common-ui/dist/styled/Button";
+import Button from "@osn/common-ui/dist/styled/Button";
 import { ReactComponent as Metamask } from "./metamask.svg";
 import { ReactComponent as Polkadot } from "./polkadot.svg";
 import styled from "styled-components";
