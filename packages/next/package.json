@@ -10,7 +10,7 @@
     "test": "jest frontedUtils --config jest.fronted.config.js"
   },
   "dependencies": {
-    "@osn/common-ui": "^0.0.16",
+    "@osn/common-ui": "^0.0.26",
     "@osn/polkadot-react-identicon": "^1.0.6",
     "@polkadot/extension-dapp": "0.43.1",
     "@polkadot/util": "9.0.1",
@@ -53,6 +53,7 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "^27.3.0",
     "jest-environment-node": "^27.3.0",
+    "next-transpile-modules": "^9.0.0",
     "react-test-renderer": "^17.0.2"
   }
 }
