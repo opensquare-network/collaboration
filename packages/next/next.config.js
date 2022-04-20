@@ -1,4 +1,6 @@
-module.exports = {
+const withTM = require("next-transpile-modules")(["@osn/common-ui"]);
+
+module.exports = withTM({
   webpack(config) {
     config.module.rules.push(
       {
@@ -32,4 +34,4 @@ module.exports = {
     );
     return config;
   },
-};
+});
