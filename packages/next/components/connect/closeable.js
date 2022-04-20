@@ -7,7 +7,7 @@ import {
 } from "@/components/connect/styled";
 import { useDispatch } from "react-redux";
 import { closeConnect } from "../../store/reducers/showConnectSlice";
-import SvgClose from "../../public/imgs/icons/close.svg";
+import { ReactComponent as SvgClose } from "../../public/imgs/icons/close.svg";
 
 function Closeable({ open, children }) {
   const dispatch = useDispatch();

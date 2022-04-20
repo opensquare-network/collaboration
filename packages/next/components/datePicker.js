@@ -5,9 +5,9 @@ import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 
 import { useOnClickOutside } from "frontedUtils/hooks";
-import CaretRight from "/public/imgs/icons/caret-right.svg";
-import ArrowLeft from "/public/imgs/icons/arrow-left.svg";
-import ArrowRight from "/public/imgs/icons/arrow-right.svg";
+import { ReactCopmonent as CaretRight } from "/public/imgs/icons/caret-right.svg";
+import { ReactComponent as ArrowLeft } from "/public/imgs/icons/arrow-left.svg";
+import { ReactComponent as ArrowRight } from "/public/imgs/icons/arrow-right.svg";
 import Button from "@osn/common-ui/dist/styled/Button";
 
 const Wrapper = styled.div`

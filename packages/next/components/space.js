@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 import { useCallback, useEffect, useState } from "react";
-import Plus from "public/imgs/icons/plus.svg";
+import { ReactComponent as Plus } from "public/imgs/icons/plus.svg";
 
 import InternalLink from "./internalLink";
 import {

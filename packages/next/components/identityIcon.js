@@ -1,11 +1,11 @@
 import styled from "styled-components";
 
-import AuthIcon from "public/imgs/icons/identity/auth.svg";
-import SubIcon from "public/imgs/icons/identity/sub.svg";
-import ErrorIcon from "public/imgs/icons/identity/error.svg";
-import UnauthorizedIcon from "public/imgs/icons/identity/error-grey.svg";
-import SubGreyIcon from "public/imgs/icons/identity/sub-grey.svg";
-import SubRedIcon from "public/imgs/icons/identity/sub-red.svg";
+import { ReactComponent as AuthIcon } from "public/imgs/icons/identity/auth.svg";
+import { ReactComponent as SubIcon } from "public/imgs/icons/identity/sub.svg";
+import { ReactComponent as ErrorIcon } from "public/imgs/icons/identity/error.svg";
+import { ReactComponent as UnauthorizedIcon } from "public/imgs/icons/identity/error-grey.svg";
+import { ReactComponent as SubGreyIcon } from "public/imgs/icons/identity/sub-grey.svg";
+import { ReactComponent as SubRedIcon } from "public/imgs/icons/identity/sub-red.svg";
 import Tooltip from "./tooltip";
 
 const Wrapper = styled.span`
@@ -41,7 +41,7 @@ export default function IdentityIcon({
 
   return (
     <Wrapper>
-      <StatusIcon width={ size } height={ size } />
+      <StatusIcon width={size} height={size} />
       {showTooltip && (
         <Tooltip
           content={statusDesc}
