@@ -4,8 +4,8 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 
 import { encodeURIQuery } from "../frontedUtils/index";
-import CaretLeft from "/public/imgs/icons/caret-left.svg";
-import CaretRight from "/public/imgs/icons/caret-right.svg";
+import { ReactComponent as CaretLeft } from "/public/imgs/icons/caret-left.svg";
+import { ReactComponent as CaretRight } from "/public/imgs/icons/caret-right.svg";
 
 const Wrapper = styled.div`
   display: flex;

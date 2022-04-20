@@ -11,7 +11,7 @@ import {
 import { addressEllipsis } from "frontedUtils";
 import Avatar from "./avatar";
 import { p_14_medium } from "../styles/textStyles";
-import UserIcon from "../public/imgs/icons/user.svg";
+import { ReactComponent as UserIcon } from "../public/imgs/icons/user.svg";
 import { shadow_200 } from "../styles/globalCss";
 import { useIsMounted, useWindowSize } from "../frontedUtils/hooks";
 import { fetchIdentity } from "services/identity";

@@ -3,7 +3,7 @@ import { p_14_medium, p_16_semibold } from "styles/textStyles";
 import BigNumber from "bignumber.js";
 import { Fragment } from "react";
 import ValueDisplay from "../valueDisplay";
-import LinkSvg from "public/imgs/icons/link.svg";
+import { ReactComponent as LinkSvg } from "public/imgs/icons/link.svg";
 import ExternalLink from "components/externalLink";
 import Panel from "@/components/postDetail/panel";
 import SideSectionTitle from "@/components/sideBar/sideSectionTitle";

@@ -4,7 +4,7 @@ import { memo } from "react";
 import Flex from "@/components/styled/flex";
 import Title from "@/components/styled/subTitle";
 import Tooltip from "@/components/tooltip";
-import QuestionMark from "../../public/imgs/icons/question-mark.svg";
+import { ReactComponent as QuestionMark } from "../../public/imgs/icons/question-mark.svg";
 
 const TitleWrapper = styled.div`
   ${p_16_semibold};

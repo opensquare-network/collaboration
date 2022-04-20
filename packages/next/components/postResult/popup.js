@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { p_14_medium, p_16_semibold } from "styles/textStyles";
 import ValueDisplay from "../valueDisplay";
 import { votesSelector, fetchVote } from "store/reducers/voteSlice";
-import LoadingSvg from "public/imgs/icons/loading.svg";
+import { ReactComponent as LoadingSvg } from "public/imgs/icons/loading.svg";
 import BigNumber from "bignumber.js";
 
 const ResultWrapper = styled.div`

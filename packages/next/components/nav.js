@@ -2,7 +2,7 @@ import styled, { css } from "styled-components";
 import { Fragment } from "react";
 
 import InternalLink from "./internalLink";
-import CaretLeft from "/public/imgs/icons/caret-left.svg";
+import { ReactComponent as CaretLeft } from "/public/imgs/icons/caret-left.svg";
 
 const Wrapper = styled.div`
   display: flex;

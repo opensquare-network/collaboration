@@ -1,7 +1,7 @@
 import { memo } from "react";
-import Button from "@osn/common-ui/dist/styled/Button";
-import Metamask from "./metamask.svg";
-import Polkadot from "./polkadot.svg";
+import { ReactComponent as Button } from "@osn/common-ui/dist/styled/Button";
+import { ReactComponent as Metamask } from "./metamask.svg";
+import { ReactComponent as Polkadot } from "./polkadot.svg";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { setAccount } from "../../../store/reducers/accountSlice";

@@ -1,8 +1,8 @@
 import { useState, useCallback } from "react";
 import copy from "copy-to-clipboard";
 import styled from "styled-components";
-import Twitter from "./twitter.svg";
-import CopySvg from "./copy.svg";
+import { ReactComponent as Twitter } from "./twitter.svg";
+import { ReactComponent as CopySvg } from "./copy.svg";
 import Tooltip from "@/components/tooltip";
 
 const Wrapper = styled.div`

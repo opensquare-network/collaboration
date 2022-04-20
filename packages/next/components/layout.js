@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 import Header from "./header";
 import Main from "./main";
-import Footer from "./footer";
+import Footer from "@osn/common-ui/dist/Footer";
 import Toast from "components/toast";
 
 const Wrapper = styled.div`
