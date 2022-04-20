@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { h3_36_bold, h4_24_bold, p_16_normal } from "../styles/textStyles";
 import Header from "@/components/header";
-import Footer from "@/components/footer";
+import Footer from "@osn/common-ui/dist/Footer";
 import Toast from "@/components/toast";
 import InternalLink from "@/components/internalLink";
 
@@ -15,12 +15,12 @@ const Wrapper = styled.div`
 
 const Section = styled.div`
   background: #fff;
-  border-top: 1px solid #F0F3F8;
+  border-top: 1px solid #f0f3f8;
   @media screen and (max-width: 800px) {
     border-top: none;
   }
-  border-bottom: 1px solid #F0F3F8;
-`
+  border-bottom: 1px solid #f0f3f8;
+`;
 
 const H1 = styled.h1`
   width: 1080px;
@@ -32,7 +32,7 @@ const H1 = styled.h1`
   }
   line-height: 116px;
   margin: auto;
-`
+`;
 
 const Content = styled.div`
   padding-top: 80px;
@@ -48,7 +48,7 @@ const Content = styled.div`
   p {
     max-width: 440px;
     @media screen and (max-width: 800px) {
-      max-width:  calc(100vw - 80px);
+      max-width: calc(100vw - 80px);
     }
   }
 
@@ -56,26 +56,29 @@ const Content = styled.div`
     display: inline-block;
     padding-left: 16px;
     padding-right: 16px;
-    border: 1px solid #B7C0CC;
+    border: 1px solid #b7c0cc;
     line-height: 40px;
   }
-`
+`;
 
 export default function FourOFour() {
   return (
     <Wrapper>
-      <Header/>
+      <Header />
       <Section>
         <H1>404: Page Not Found</H1>
       </Section>
       <Content>
-        <div style={{maxWidth: 1080, margin:"auto"}}>
-          <p>Sorry. the content you’re looking for doesn’t exist. Either it was removed, or you mistyped the link.</p>
+        <div style={{ maxWidth: 1080, margin: "auto" }}>
+          <p>
+            Sorry. the content you’re looking for doesn’t exist. Either it was
+            removed, or you mistyped the link.
+          </p>
           <InternalLink href="/">Back to Square</InternalLink>
         </div>
       </Content>
-      <Footer/>
-      <Toast/>
+      <Footer github="https://github.com/opensquare-network/collaboration/" />
+      <Toast />
     </Wrapper>
   );
 }

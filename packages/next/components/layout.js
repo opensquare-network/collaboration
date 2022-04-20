@@ -18,7 +18,7 @@ export default function Layout({ bgHeight, children, space }) {
     <Wrapper>
       <Header space={space} />
       <Main bgHeight={bgHeight}>{children}</Main>
-      <Footer />
+      <Footer github="https://github.com/opensquare-network/collaboration/" />
       <Toast />
     </Wrapper>
   );
