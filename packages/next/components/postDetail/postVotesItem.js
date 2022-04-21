@@ -4,6 +4,7 @@ import Ellipsis from "@/components/ellipsis";
 import Flex from "@/components/flex";
 import ValueDisplay from "@/components/valueDisplay";
 import Voter from "@/components/role/voter";
+import Tooltip from "@/components/tooltip";
 
 const Item = styled.div`
   padding: 20px 0;
@@ -69,6 +70,10 @@ const EqualWrapper = styled.div`
   :last-child {
     justify-content: flex-end;
   }
+  > div > div:nth-child(2) {
+    position: relative;
+    height: 24px;
+  }
 `;
 
 const MyVoteTag = styled.div`
@@ -100,7 +105,9 @@ export default function PostVotes({ data, space, isMyVote = false }) {
         <EqualWrapper className="center">
           <Flex style={{ maxWidth: "30vw" }}>
             <Label>Vote</Label>
-            <Ellipsis width={189}>{data.choice}</Ellipsis>
+            <Tooltip content={data.choice}>
+              <Ellipsis width={189}>{data.choice}</Ellipsis>
+            </Tooltip>
           </Flex>
         </EqualWrapper>
         <EqualWrapper>

@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 import Post from "./post";
 import { p_20_semibold } from "../styles/textStyles";
-import NoPost from "./noPost";
 import Pagination from "@/components/pagination";
+import NoData from "@osn/common-ui/dist/NoData";
 
 const Title = styled.div`
   ${p_20_semibold};
@@ -37,7 +37,7 @@ export default function PostList({
             spaces={spaces}
           />
         ))}
-        {items.length === 0 && <NoPost />}
+        {items.length === 0 && <NoData message="No current active proposals" />}
         {posts?.page && (
           <Pagination
             page={posts?.page}
