@@ -10,7 +10,7 @@ import styled from "styled-components";
 import ChainIcon from "@/components/chain/chainIcon";
 import { evmChains } from "../../frontedUtils/consts/chains";
 import Popup from "@/components/popup";
-import Flex from "@/components/styled/flex";
+import Flex from "@osn/common-ui/dist/styled/Flex";
 
 const Wrapper = styled.div`
   display: flex;

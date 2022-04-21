@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 import ExternalLink from "@osn/common-ui/dist/ExternalLink";
 import Ellipsis from "@/components/ellipsis";
-import Flex from "@/components/flex";
+import Flex from "@osn/common-ui/dist/styled/Flex";
 import ValueDisplay from "@/components/valueDisplay";
 import Voter from "@/components/role/voter";
 import Tooltip from "@/components/tooltip";
