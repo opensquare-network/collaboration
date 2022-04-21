@@ -1,5 +1,9 @@
+import React from "react";
 import styled from "styled-components";
 import { Modal as SemanticModal } from "semantic-ui-react";
+
+import Button from "@osn/common-ui/dist/styled/Button";
+import CloseIcon from "@osn/common-ui/dist/imgs/icons/close.svg";
 
 const Wrapper = styled.div``;
 
@@ -8,7 +12,7 @@ const StyledModal = styled(SemanticModal)`
   border-radius: 0 !important;
 `;
 
-const StyledCard = styled.div`
+const ContentWrapper = styled.div`
   margin: 0 !important;
   padding: 24px !important;
   position: relative !important;
@@ -22,25 +26,61 @@ const CloseBar = styled.div`
   > svg path {
     fill: #9da9bb;
   }
+`;
 
+const CloseButton = styled.img`
   cursor: pointer;
 `;
 
-export default function Modal({ open, setOpen, children }) {
-  const closeModal = () => setOpen(false);
+const FooterWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+`;
+
+export default function Modal({
+  open,
+  setOpen = () => {},
+  children,
+  footer,
+  onOk = () => {},
+  onClose = () => {},
+  okText = "OK",
+  okButtonProps = {},
+  closeBar = true,
+  closeOnClickOutside = true,
+}) {
+  const closeModal = () => {
+    onClose();
+    setOpen(false);
+  };
 
   const closeButton = (
-    <img onClick={closeModal} src="/imgs/icons/close.svg" width={24} alt="" />
+    <CloseButton onClick={closeModal} src={CloseIcon} width={24} alt="" />
+  );
+
+  footer = footer || (
+    <Button primary onClick={onOk} {...okButtonProps}>
+      {okText}
+    </Button>
   );
 
   return (
     <Wrapper>
-      <StyledModal open={open} onClose={closeModal} dimmer size="tiny">
-        <StyledCard>
-          <CloseBar>{closeButton}</CloseBar>
+      <StyledModal
+        open={open}
+        onClose={closeModal}
+        dimmer
+        size="tiny"
+        closeOnDimmerClick={closeOnClickOutside}
+      >
+        <ContentWrapper>
+          {closeBar && <CloseBar>{closeButton}</CloseBar>}
 
           {children}
-        </StyledCard>
+
+          {footer && <FooterWrapper>{footer}</FooterWrapper>}
+        </ContentWrapper>
       </StyledModal>
     </Wrapper>
   );
