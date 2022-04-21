@@ -8,6 +8,7 @@ import SpaceLogo from "@/components/spaceLogo";
 import ChainIcon from "../chain/chainIcon";
 import ValueDisplay from "../valueDisplay";
 import Modal from "@osn/common-ui/dist/Modal";
+// import Modal from "../modal";
 import { useState } from "react";
 import Details from "./details";
 import Button from "@osn/common-ui/dist/styled/Button";
