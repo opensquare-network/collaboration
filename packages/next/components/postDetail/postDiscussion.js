@@ -24,6 +24,7 @@ import encodeAddressByChain from "../../frontedUtils/chain/addr";
 import AccordionPanel from "@/components/accordionPanel/panel";
 import nextApi from "../../services/nextApi";
 import { extensionCancelled } from "../../frontedUtils/consts/extension";
+import NoData from "@osn/common-ui/dist/NoData";
 
 const Item = styled.div`
   padding-top: 20px;
@@ -87,14 +88,14 @@ const Square = styled.div`
 `;
 
 const NoCommentWrapper = styled.div`
-  display: flex;
   height: 104px;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  line-height: 24px;
-  color: #a1a8b3;
   border-bottom: 1px solid #f0f3f8;
+
+  > div {
+    border: none;
+    box-shadow: none;
+    height: 100%;
+  }
 `;
 
 export default function PostDiscussion({
@@ -208,7 +209,9 @@ export default function PostDiscussion({
         </Item>
       ))}
       {!comments?.items?.length > 0 && (
-        <NoCommentWrapper>No current comments</NoCommentWrapper>
+        <NoCommentWrapper>
+          <NoData message="No current comments" />
+        </NoCommentWrapper>
       )}
       <PaginationWrapper>
         <Pagination
