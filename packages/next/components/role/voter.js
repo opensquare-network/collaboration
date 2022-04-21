@@ -4,7 +4,7 @@ import { addressEllipsis, getExplorer } from "../../frontedUtils";
 import { fetchIdentity } from "../../services/identity";
 import encodeAddressByChain from "../../frontedUtils/chain/addr";
 import Avatar from "@/components/avatar";
-import ExternalLink from "@/components/externalLink";
+import ExternalLink from "@osn/common-ui/dist/ExternalLink";
 import IdentityIcon from "@/components/identityIcon";
 import styled from "styled-components";
 import ChainIcon from "@/components/chain/chainIcon";

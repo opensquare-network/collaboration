@@ -17,7 +17,7 @@ import {
 } from "store/reducers/toastSlice";
 import { timeDuration } from "frontedUtils";
 import MicromarkMd from "components/micromarkMd";
-import ExternalLink from "components/externalLink";
+import ExternalLink from "@osn/common-ui/dist/ExternalLink";
 import { findNetworkConfig } from "services/util";
 import HeaderWithNumber from "@/components/postDetail/numberHeader";
 import encodeAddressByChain from "../../frontedUtils/chain/addr";
