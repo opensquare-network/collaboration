@@ -5,6 +5,7 @@ import PostVotesItem from "./postVotesItem";
 import { findNetworkConfig } from "../../services/util";
 import HeaderWithNumber from "@/components/postDetail/numberHeader";
 import AccordionPanel from "@/components/accordionPanel/panel";
+import NoData from "@osn/common-ui/dist/NoData";
 
 const PaginationWrapper = styled.div`
   padding: 20px 0;
@@ -14,14 +15,14 @@ const PaginationWrapper = styled.div`
 `;
 
 const NoVoteWrapper = styled.div`
-  display: flex;
   height: 104px;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  line-height: 24px;
-  color: #a1a8b3;
   border-bottom: 1px solid #f0f3f8;
+
+  > div {
+    border: none;
+    box-shadow: none;
+    height: 100%;
+  }
 `;
 
 export default function PostVotes({
@@ -56,7 +57,9 @@ export default function PostVotes({
           <PostVotesItem data={item} space={getNetwork(item)} key={index} />
         ))}
       {!votes?.items?.length > 0 && (
-        <NoVoteWrapper>No current votes</NoVoteWrapper>
+        <NoVoteWrapper>
+          <NoData message="No current votes" />
+        </NoVoteWrapper>
       )}
       <PaginationWrapper>
         <Pagination
