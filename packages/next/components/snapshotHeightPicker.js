@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import DatePicker from "@/components/datePicker";
-import Title from "@/components/styled/subTitle";
+import SubTitle from "@osn/common-ui/dist/styled/SubTitle";
 import Datetime from "@/components/datetime";
 import Divider from "@/components/styled/divider";
 import BlockHeightInput from "@/components/chain/blockHeightInput";
@@ -95,12 +95,12 @@ function SnapshotHeightPicker({ space }) {
       {showHeights && (
         <Wrapper>
           <DialogWrapper>
-            <Title>Snapshot</Title>
+            <SubTitle>Snapshot</SubTitle>
             <Divider />
             <Datetime datetime={date} />
-            <Title style={{ marginTop: 20, marginBottom: 8 }}>
+            <SubTitle style={{ marginTop: 20, marginBottom: 8 }}>
               Blocks height
-            </Title>
+            </SubTitle>
             {networks?.map((network) => (
               <BlockHeightInput
                 height={
