@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import moment from "moment";
 
-import ExternalLink from "../externalLink";
+import ExternalLink from "@osn/common-ui/dist/ExternalLink";
 import { capitalize, getExplorer } from "../../frontedUtils";
 import ChainIcon from "@/components/chain/chainIcon";
 import Tooltip from "@/components/tooltip";

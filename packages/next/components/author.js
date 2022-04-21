@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { addressEllipsis } from "frontedUtils";
 import Avatar from "./avatar";
 import { fetchIdentity } from "services/identity";
-import ExternalLink from "./externalLink";
+import ExternalLink from "@osn/common-ui/dist/ExternalLink";
 import IdentityIcon from "components/identityIcon";
 import { useIsMounted } from "frontedUtils/hooks";
 import { getExplorer } from "../frontedUtils";

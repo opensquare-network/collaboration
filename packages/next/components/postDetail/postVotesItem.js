@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import ExternalLink from "components/externalLink";
+import ExternalLink from "@osn/common-ui/dist/ExternalLink";
 import Ellipsis from "@/components/ellipsis";
 import Flex from "@/components/flex";
 import ValueDisplay from "@/components/valueDisplay";

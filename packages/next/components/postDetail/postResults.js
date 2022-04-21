@@ -4,7 +4,7 @@ import BigNumber from "bignumber.js";
 import { Fragment } from "react";
 import ValueDisplay from "../valueDisplay";
 import { ReactComponent as LinkSvg } from "public/imgs/icons/link.svg";
-import ExternalLink from "components/externalLink";
+import ExternalLink from "@osn/common-ui/dist/ExternalLink";
 import Panel from "@/components/postDetail/panel";
 import SideSectionTitle from "@/components/sideBar/sideSectionTitle";
 import BiasedVotingItem from "./biasedVotingItem";
