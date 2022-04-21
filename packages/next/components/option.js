@@ -25,6 +25,8 @@ const Option = styled(Button)`
     `}
   .index {
     position: absolute;
+    left: 24px;
+    top: calc(50% - 12px);
     ${p_14_medium};
     color: #a1a8b3;
   }
