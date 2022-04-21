@@ -7,7 +7,7 @@ import {
 import SpaceLogo from "@/components/spaceLogo";
 import ChainIcon from "../chain/chainIcon";
 import ValueDisplay from "../valueDisplay";
-import Modal from "../modal";
+import Modal from "@osn/common-ui/dist/Modal";
 import { useState } from "react";
 import Details from "./details";
 import Button from "@osn/common-ui/dist/styled/Button";
@@ -100,15 +100,6 @@ const ChainIcons = styled.div`
   }
 `;
 
-const ModalActions = styled.div`
-  margin-top: 20px;
-  text-align: right;
-`;
-
-const ModalCloseButton = styled(Button)`
-  display: inline-block;
-`;
-
 export default function ListInfo({ space }) {
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -117,6 +108,9 @@ export default function ListInfo({ space }) {
 
   const handleShowModal = () => {
     setModalOpen(true);
+  };
+  const handleCloseModal = () => {
+    setModalOpen(false);
   };
 
   return (
@@ -169,14 +163,14 @@ export default function ListInfo({ space }) {
           </div>
         </AboutItem>
 
-        <Modal open={modalOpen} setOpen={setModalOpen}>
+        <Modal
+          open={modalOpen}
+          setOpen={setModalOpen}
+          okText="Cancel"
+          okButtonProps={{ primary: false }}
+          onOk={handleCloseModal}
+        >
           <Details space={space} />
-
-          <ModalActions>
-            <ModalCloseButton onClick={() => setModalOpen(false)}>
-              Close
-            </ModalCloseButton>
-          </ModalActions>
         </Modal>
       </AboutWrapper>
     </Wrapper>
