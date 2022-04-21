@@ -32,9 +32,15 @@ const Name = styled.span`
 const IdentityWrapper = styled.span`
   display: inline-flex;
   align-items: center;
+  max-width: calc(100% - 10px);
 
   > :not(:first-child) {
     margin-left: 4px;
+  }
+  > span:last-child {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 `;
 
@@ -73,7 +79,7 @@ export default function Voter({ address, network, showNetwork = true }) {
               showTooltip
               size={showNetwork ? 12 : 14}
             />
-            <Name>{identity.info.display}</Name>
+            <Name title={identity.info.display}>{identity.info.display}</Name>
           </IdentityWrapper>
         ) : (
           <Name>{addressEllipsis(address)}</Name>
