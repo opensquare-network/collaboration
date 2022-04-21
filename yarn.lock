@@ -1977,15 +1977,14 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@osn/common-ui@^0.0.26":
-  version "0.0.26"
-  resolved "https://registry.yarnpkg.com/@osn/common-ui/-/common-ui-0.0.26.tgz#479177ee02f65250bc0d268be358a476204fd269"
-  integrity sha512-kRzHFLuyoiYn3+v1LR9SAY5LUDJGofLBy92/t3P68saRBOsaf93AIlPtYlTx3Gooq/yrN96VcnMafntQid3hEg==
+"@osn/common-ui@^0.0.30":
+  version "0.0.30"
+  resolved "https://registry.yarnpkg.com/@osn/common-ui/-/common-ui-0.0.30.tgz#9caefb0eeb86e169e12ea2acfba3c9d79e0278e0"
+  integrity sha512-XwxueWFHoy8XaofyzQ+bk055nNU/EqO0PlctmMrRPOYqHeqWuI9Q7CK8j7/CYk0Z0lp1FqHQg62Pr02a0zxlVg==
   dependencies:
     "@craco/craco" "^6.4.3"
     "@osn/common" "^0.0.8"
     "@osn/consts" "^0.0.2"
-    "@polkadot/util-crypto" "^8.4.1"
     dayjs "^1.10.8"
     micromark "^3.0.10"
     micromark-extension-gfm "^2.0.1"
@@ -2440,7 +2439,7 @@
     "@polkadot/util-crypto" "^9.0.1"
     rxjs "^7.5.5"
 
-"@polkadot/util-crypto@8.7.1", "@polkadot/util-crypto@^8.4.1", "@polkadot/util-crypto@^8.7.1":
+"@polkadot/util-crypto@8.7.1", "@polkadot/util-crypto@^8.7.1":
   version "8.7.1"
   resolved "https://registry.yarnpkg.com/@polkadot/util-crypto/-/util-crypto-8.7.1.tgz#f9fcca2895b5f160ce1c2faa0aa3054cc7aa4655"
   integrity sha512-TaSuJ2aNrB5sYK7YXszkEv24nYJKRFqjF2OrggoMg6uYxUAECvTkldFnhtgeizMweRMxJIBu6bMHlSIutbWgjw==
