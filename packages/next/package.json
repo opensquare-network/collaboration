@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@osn/common-ui": "^0.0.30",
-    "@osn/polkadot-react-identicon": "^1.0.6",
+    "@osn/polkadot-react-identicon": "^1.0.8",
     "@polkadot/extension-dapp": "0.43.1",
     "@polkadot/util": "9.0.1",
     "@polkadot/util-crypto": "9.0.1",
