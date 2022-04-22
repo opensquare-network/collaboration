@@ -24,10 +24,7 @@ import AccordionPanel from "@/components/accordionPanel/panel";
 import nextApi from "../../services/nextApi";
 import { extensionCancelled } from "../../frontedUtils/consts/extension";
 import NoData from "@osn/common-ui/dist/NoData";
-import dynamic from "next/dynamic";
-const Preview = dynamic(() => import("@osn/common-ui/es/Preview"), {
-  ssr: false,
-});
+import Preview from "@osn/common-ui/es/Preview";
 
 const Item = styled.div`
   padding-top: 20px;
