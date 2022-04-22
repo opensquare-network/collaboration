@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 
 import Author from "components/author";
 import Pagination from "components/pagination";
-import RichInput from "components/richInput";
+import RichEditor from "@osn/common-ui/es/RichEdit";
 import { useViewfunc } from "frontedUtils/hooks";
 import { loginAccountSelector } from "store/reducers/accountSlice";
 import {
@@ -25,6 +25,7 @@ import AccordionPanel from "@/components/accordionPanel/panel";
 import nextApi from "../../services/nextApi";
 import { extensionCancelled } from "../../frontedUtils/consts/extension";
 import NoData from "@osn/common-ui/dist/NoData";
+import "react-mde/lib/styles/css/react-mde-all.css";
 
 const Item = styled.div`
   padding-top: 20px;
@@ -61,10 +62,6 @@ const PaginationWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-`;
-
-const RichInputWrapper = styled.div`
-  margin-top: 20px;
 `;
 
 const InfoWrapper = styled.div`
@@ -224,13 +221,12 @@ export default function PostDiscussion({
           }}
         />
       </PaginationWrapper>
-      <RichInputWrapper>
-        <RichInput
-          content={content}
-          setContent={setContent}
-          onSubmit={onSubmit}
-        />
-      </RichInputWrapper>
+
+      <RichEditor
+        content={content}
+        setContent={setContent}
+        onSubmit={onSubmit}
+      />
     </AccordionPanel>
   );
 }
