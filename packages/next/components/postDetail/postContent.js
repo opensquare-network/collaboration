@@ -5,12 +5,15 @@ import Author from "components/author";
 import { p_14_normal, p_semibold } from "styles/textStyles";
 import PostTime from "components/postTime";
 import StatusTag from "components/statusTag";
-import MicromarkMd from "components/micromarkMd";
 import { findNetworkConfig } from "services/util";
 import Share from "components/share";
 import Panel from "@/components/postDetail/panel";
 import Accordion from "@/components/accordionPanel/accordion";
 import SubTitle from "@osn/common-ui/dist/styled/SubTitle";
+import dynamic from "next/dynamic";
+const Preview = dynamic(() => import("@osn/common-ui/es/Preview"), {
+  ssr: false,
+});
 
 const Title = styled.div`
   ${p_semibold};
@@ -79,7 +82,7 @@ export default function PostContent({ data, space }) {
         head={<SubTitle style={{ marginBottom: 16 }}>Description</SubTitle>}
       >
         <Content>
-          <MicromarkMd md={data?.content} />
+          <Preview content={data?.content} bordered={false} />
         </Content>
       </Accordion>
       <Divider />
