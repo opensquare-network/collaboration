@@ -67,7 +67,7 @@ const ChainSelector = ({ chains = [], onSelect = () => {} }) => {
         options={options}
         value={selectedIndex}
         onSelect={setSelectedIndex}
-      ></DropdownSelector>
+      />
     </Wrapper>
   );
 };
