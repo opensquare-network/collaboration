@@ -1,20 +1,11 @@
 import React, { useState, useEffect } from "react";
 import styled, { css } from "styled-components";
-import Dropdown from "@/components/styled/dropdown";
 import { p_14_medium } from "../styles/textStyles";
 import ChainIcon from "@/components/chain/chainIcon";
+import DropdownSelector from "@osn/common-ui/dist/DropdownSelector";
 
 const Wrapper = styled.div`
   margin-bottom: 8px;
-`;
-
-const DropdownWrapper = styled.div`
-  position: relative;
-  height: 48px;
-`;
-
-const StyledDropdown = styled(Dropdown)`
-  height: 48px !important;
 `;
 
 const Text = styled.p`
@@ -25,8 +16,6 @@ const Text = styled.p`
 `;
 
 const ItemWrapper = styled.div`
-  height: 48px;
-  padding: 12px 16px;
   display: flex;
   align-items: center;
 
@@ -74,16 +63,11 @@ const ChainSelector = ({ chains = [], onSelect = () => {} }) => {
 
   return (
     <Wrapper>
-      <DropdownWrapper>
-        <StyledDropdown
-          selection
-          options={options}
-          onChange={(_, { value }) => {
-            setSelectedIndex(value);
-          }}
-        />
-        <ChainItem chainName={chains[selectedIndex].network} header />
-      </DropdownWrapper>
+      <DropdownSelector
+        options={options}
+        value={selectedIndex}
+        onSelect={setSelectedIndex}
+      />
     </Wrapper>
   );
 };
