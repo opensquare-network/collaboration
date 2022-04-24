@@ -16,7 +16,6 @@ import {
   removeToast,
 } from "store/reducers/toastSlice";
 import { timeDuration } from "frontedUtils";
-import MicromarkMd from "components/micromarkMd";
 import ExternalLink from "@osn/common-ui/dist/ExternalLink";
 import { findNetworkConfig } from "services/util";
 import HeaderWithNumber from "@/components/postDetail/numberHeader";
@@ -25,6 +24,7 @@ import AccordionPanel from "@/components/accordionPanel/panel";
 import nextApi from "../../services/nextApi";
 import { extensionCancelled } from "../../frontedUtils/consts/extension";
 import NoData from "@osn/common-ui/dist/NoData";
+import Preview from "@osn/common-ui/es/Preview";
 
 const Item = styled.div`
   padding-top: 20px;
@@ -203,7 +203,7 @@ export default function PostDiscussion({
           </InfoWrapper>
           <ContentWrapper>
             <Content>
-              <MicromarkMd md={item.content} />
+              <Preview content={item.content} bordered={false} />
             </Content>
           </ContentWrapper>
         </Item>
