@@ -1808,10 +1808,10 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@osn/common-ui@^0.0.33":
-  version "0.0.33"
-  resolved "https://registry.yarnpkg.com/@osn/common-ui/-/common-ui-0.0.33.tgz#817e5fc0bfb0a49b61df73e421a9b3eb33524be8"
-  integrity sha512-+/4NR5eruIEuTwwX62c7enNe746LQ+n3TLTmUnZCF5xFfDDogvZAIusBDhWfEY9qsff2z49LGlu1wsD+pfN+6Q==
+"@osn/common-ui@^0.0.34":
+  version "0.0.34"
+  resolved "https://registry.yarnpkg.com/@osn/common-ui/-/common-ui-0.0.34.tgz#5a96393a25ccac8b9f79bce17f5ae142bc83419f"
+  integrity sha512-YdQ3j8HmFjINHwoemr7vCzTmXO57adR5VN/egQ1iCEoVCxyR13sVajrdGOXCJyEzfgVRfzD49sZS3NXPCnU0VQ==
   dependencies:
     "@craco/craco" "^6.4.3"
     "@osn/common" "^0.0.8"
@@ -1819,6 +1819,7 @@
     dayjs "^1.10.8"
     micromark "^3.0.10"
     micromark-extension-gfm "^2.0.1"
+    react-mde "^11.5.0"
     react-router-dom "^6.3.0"
     sanitize-html "^2.7.0"
     styled-components "4.3.2"
