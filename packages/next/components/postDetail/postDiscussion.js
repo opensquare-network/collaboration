@@ -24,7 +24,6 @@ import AccordionPanel from "@/components/accordionPanel/panel";
 import nextApi from "../../services/nextApi";
 import { extensionCancelled } from "../../frontedUtils/consts/extension";
 import NoData from "@osn/common-ui/dist/NoData";
-import "react-mde/lib/styles/css/react-mde-all.css";
 import Preview from "@osn/common-ui/es/Preview";
 
 const Item = styled.div`

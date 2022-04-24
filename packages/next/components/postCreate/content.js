@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 import Input from "components/input";
 import RichEditor from "@osn/common-ui/es/RichEdit";
-import "react-mde/lib/styles/css/react-mde-all.css";
 
 const Wrapper = styled.div`
   background: #ffffff;
