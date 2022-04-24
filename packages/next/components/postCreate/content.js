@@ -1,7 +1,8 @@
 import styled from "styled-components";
 
 import Input from "components/input";
-import RichInput from "components/richInput";
+import RichEditor from "@osn/common-ui/es/RichEdit";
+import "react-mde/lib/styles/css/react-mde-all.css";
 
 const Wrapper = styled.div`
   background: #ffffff;
@@ -45,10 +46,10 @@ export default function Content({ title, setTitle, content, setContent }) {
       </InnerWrapper>
       <InnerWrapper>
         <Title>Proposal</Title>
-        <RichInput
+        <RichEditor
           content={content}
           setContent={setContent}
-          showSUbmitButton={false}
+          showButtons={false}
         />
       </InnerWrapper>
     </Wrapper>
