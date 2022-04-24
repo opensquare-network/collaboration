@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 
 import Author from "components/author";
 import Pagination from "components/pagination";
-import RichInput from "components/richInput";
+import RichEditor from "@osn/common-ui/es/RichEdit";
 import { useViewfunc } from "frontedUtils/hooks";
 import { loginAccountSelector } from "store/reducers/accountSlice";
 import {
@@ -61,10 +61,6 @@ const PaginationWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-`;
-
-const RichInputWrapper = styled.div`
-  margin-top: 20px;
 `;
 
 const InfoWrapper = styled.div`
@@ -224,13 +220,12 @@ export default function PostDiscussion({
           }}
         />
       </PaginationWrapper>
-      <RichInputWrapper>
-        <RichInput
-          content={content}
-          setContent={setContent}
-          onSubmit={onSubmit}
-        />
-      </RichInputWrapper>
+
+      <RichEditor
+        content={content}
+        setContent={setContent}
+        onSubmit={onSubmit}
+      />
     </AccordionPanel>
   );
 }
