@@ -5,7 +5,7 @@ import { addressEllipsis } from "frontedUtils";
 import Avatar from "./avatar";
 import { fetchIdentity } from "services/identity";
 import ExternalLink from "@osn/common-ui/dist/ExternalLink";
-import IdentityIcon from "components/identityIcon";
+import IdentityIcon from "@osn/common-ui/dist/User/IdentityIcon";
 import { useIsMounted } from "frontedUtils/hooks";
 import { getExplorer } from "../frontedUtils";
 import ChainIcon from "@/components/chain/chainIcon";
