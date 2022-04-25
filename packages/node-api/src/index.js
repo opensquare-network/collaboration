@@ -6,7 +6,6 @@ const logger = require("koa-logger");
 const helmet = require("koa-helmet");
 const http = require("http");
 const cors = require("@koa/cors");
-const { initEvmProviders } = require("./features/evm/substrateProviders");
 const { createChainApis, logApiStatus } = require("./apis");
 
 const app = new Koa();
@@ -34,9 +33,6 @@ const server = http.createServer(app.callback());
 async function main() {
   await createChainApis();
   setInterval(logApiStatus, 5 * 60 * 1000);
-
-  // Init the substrate chain providers for moonriver/moonbeam
-  await initEvmProviders();
 
   const port = parseInt(process.env.SERVER_PORT) || 3223;
   server.listen(port, () =>

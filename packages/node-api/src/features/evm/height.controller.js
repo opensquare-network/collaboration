@@ -1,23 +1,8 @@
+const { getBlockTimeByHeight } = require("./query/blockTime");
+const { getBlockNumber } = require("./query/height");
 const { chainBlockTime } = require("../../constants");
-const { getEvmProviders } = require("./substrateProviders");
 
 const blockNumberThreshold = 3;
-
-async function getBlockTimeByHeightFromProvider(provider, expectedHeight) {
-  const block = await provider.send("eth_getBlockByNumber", [
-    expectedHeight,
-    false,
-  ]);
-  return block.timestamp * 1000;
-}
-
-async function getBlockTimeByHeightFromProviders(providers, expectedHeight) {
-  return Promise.any(
-    providers.map((provider) =>
-      getBlockTimeByHeightFromProvider(provider, expectedHeight)
-    )
-  );
-}
 
 async function getExpected(chain, lastHeightTime, targetTime) {
   const { height, time } = lastHeightTime;
@@ -32,10 +17,7 @@ async function getExpected(chain, lastHeightTime, targetTime) {
     expectedHeight = Math.max(height + heightGap, 1);
   }
 
-  const expectedTime = await getBlockTimeByHeightFromProviders(
-    getEvmProviders(chain),
-    expectedHeight
-  );
+  const expectedTime = await getBlockTimeByHeight(chain, expectedHeight);
   const newGap = Math.abs(expectedTime - targetTime);
   return newGap < gap
     ? {
@@ -77,14 +59,8 @@ async function getTargetHeight(ctx) {
     return;
   }
 
-  const providers = getEvmProviders(chain);
-  const height = await Promise.any(
-    providers.map((provider) => provider.send("eth_blockNumber", []))
-  );
-  const time = await getBlockTimeByHeightFromProviders(
-    providers,
-    parseInt(height)
-  );
+  const height = await getBlockNumber(chain);
+  const time = await getBlockTimeByHeight(chain, height);
 
   ctx.body = await getHeightByTime(chain, targetTime, {
     height: parseInt(height),
