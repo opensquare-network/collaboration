@@ -21,6 +21,7 @@ const polarisDaoConfig = {
     strategies.quadraticBalanceOf,
     strategies.biasedVoting,
   ],
+  version: "2",
 };
 
 module.exports = {
