@@ -98,8 +98,8 @@ BNC_ENDPOINTS=wss://bifrost-parachain.api.onfinality.io/public-ws;wss://bifrost-
 KINT_ENDPOINTS=wss://kintsugi.api.onfinality.io/public-ws;wss://api-kusama.interlay.io/parachain
 INTR_ENDPOINTS=wss://interlay.api.onfinality.io/public-ws;wss://api.interlay.io/parachain
 
-EVM_MOVR_ENDPOINTS=wss://wss.api.moonriver.moonbeam.network;wss://moonriver.api.onfinality.io/public-ws;wss://moonriver-rpc.dwellir.com
-EVM_GLMR_ENDPOINTS=wss://wss.api.moonbeam.network;wss://moonbeam.api.onfinality.io/public-ws;wss://moonbeam-rpc.dwellir.com
+# You need a infura key to call the ethereum rpcs
+INFURA_KEY=xxx
 
 SERVER_PORT=3223 # keep it
 ```

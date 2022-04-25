@@ -13,10 +13,12 @@ const chains = {
 const oneSecond = 1000;
 const sixSecond = 6 * oneSecond;
 const twelveSecond = 12 * oneSecond;
+const thirteenSecond = 13 * oneSecond;
 
 const evmChains = Object.freeze({
   moonriver: "moonriver",
   moonbeam: "moonbeam",
+  ethereum: "ethereum",
 });
 
 const chainBlockTime = {
@@ -32,6 +34,7 @@ const chainBlockTime = {
   [chains.acala]: twelveSecond,
   [evmChains.moonriver]: twelveSecond,
   [evmChains.moonbeam]: twelveSecond,
+  [evmChains.ethereum]: thirteenSecond,
 };
 
 const symbols = {

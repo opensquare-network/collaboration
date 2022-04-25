@@ -17,12 +17,21 @@ const glmrUrls = [
   "wss://moonbeam-alpha.api.onfinality.io/public-ws",
 ];
 
-function createProvider(url = "", network) {
-  if (url.startsWith("wss")) {
-    return new ethers.providers.WebSocketProvider(url, network);
-  }
+const ethUrls = [
+  `wss://mainnet.infura.io/ws/v3/${process.env.INFURA_KEY}`,
+  `https://mainnet.infura.io/v3/${process.env.INFURA_KEY}`,
+];
 
-  return new ethers.providers.StaticJsonRpcProvider(url, network);
+function createProvider(url = "", network) {
+  try {
+    if (url.startsWith("wss")) {
+      return new ethers.providers.WebSocketProvider(url, network);
+    }
+
+    return new ethers.providers.StaticJsonRpcProvider(url, network);
+  } catch (e) {
+    statusLogger.error(`Can not construct provider from ${url}, ignore`);
+  }
 }
 
 const movrChainId = 1285;
@@ -35,25 +44,24 @@ const glmrNetwork = {
   chainId: glmrChainId,
   name: evmChains.moonbeam,
 };
+const ethNetwork = {
+  chainId: 1,
+  name: "homestead",
+};
 
 function initProviders() {
-  const movrProviders = [];
-  for (const url of movrUrls) {
-    try {
-      const provider = createProvider(url, movrNetwork);
-      if (provider) {
-        movrProviders.push(provider);
-      }
-    } catch (e) {
-      statusLogger.error(`Can not construct provider from ${url}, ignore`);
-    }
+  if (!process.env.INFURA_KEY) {
+    throw new Error("INFURA_KEY environment variable not set");
   }
 
+  const movrProviders = movrUrls.map((url) => createProvider(url, movrNetwork));
   const glmrProviders = glmrUrls.map((url) => createProvider(url, glmrNetwork));
+  const ethProviders = ethUrls.map((url) => createProvider(url, ethNetwork));
 
   evmProviderMap = {
     [evmChains.moonriver]: movrProviders,
     [evmChains.moonbeam]: glmrProviders,
+    [evmChains.ethereum]: ethProviders,
   };
 }
 
