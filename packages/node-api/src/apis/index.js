@@ -9,6 +9,7 @@ const {
   karuraOptions,
   polkadexOptions,
   kintsugiOptions,
+  crustOptions,
 } = require("@osn/provider-options");
 
 /**
@@ -49,6 +50,8 @@ async function createApi(network, endpoint) {
     options = polkadexOptions;
   } else if ([chains.kintsugi, chains.interlay].includes(network)) {
     options = kintsugiOptions;
+  } else if (chains.crust === network) {
+    options = crustOptions;
   }
 
   let api;

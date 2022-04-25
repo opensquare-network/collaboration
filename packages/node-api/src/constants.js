@@ -8,7 +8,10 @@ const chains = {
   kintsugi: "kintsugi",
   interlay: "interlay",
   acala: "acala",
+  crust: "crust",
 };
+
+const noProxyChains = [chains.kintsugi, chains.interlay, chains.crust];
 
 const oneSecond = 1000;
 const sixSecond = 6 * oneSecond;
@@ -31,6 +34,7 @@ const chainBlockTime = {
   kintsugi: twelveSecond,
   polkadex: twelveSecond,
   interlay: twelveSecond,
+  crust: sixSecond,
   [chains.acala]: twelveSecond,
   [evmChains.moonriver]: twelveSecond,
   [evmChains.moonbeam]: twelveSecond,
@@ -49,6 +53,7 @@ const nodeTimeoutSeconds = 20;
 
 module.exports = {
   chains,
+  noProxyChains,
   evmChains,
   symbols,
   nodeTimeoutSeconds,
