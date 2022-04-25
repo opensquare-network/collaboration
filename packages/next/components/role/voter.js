@@ -5,12 +5,11 @@ import { fetchIdentity } from "../../services/identity";
 import encodeAddressByChain from "../../frontedUtils/chain/addr";
 import Avatar from "@/components/avatar";
 import ExternalLink from "@osn/common-ui/dist/ExternalLink";
-import IdentityIcon from "@/components/identityIcon";
+import IdentityIcon from "@osn/common-ui/dist/User/IdentityIcon";
 import styled from "styled-components";
 import ChainIcon from "@/components/chain/chainIcon";
 import { evmChains } from "../../frontedUtils/consts/chains";
 import Popup from "@/components/popup";
-import Flex from "@osn/common-ui/dist/styled/Flex";
 
 const Wrapper = styled.div`
   display: flex;
