@@ -8,6 +8,7 @@ import { ReactComponent as Moonriver } from "public/imgs/icons/chain/moonriver.s
 import { ReactComponent as Polkadex } from "public/imgs/icons/chain/polkadex.svg";
 import { ReactComponent as Interlay } from "public/imgs/icons/chain/interlay.svg";
 import { ReactComponent as Crust } from "public/imgs/icons/chain/crust.svg";
+import { ReactComponent as Ethereum } from "public/imgs/icons/chain/ethereum.svg";
 import { CHAINS } from "../../frontedUtils/consts/chains";
 import styled from "styled-components";
 import Tooltip from "../tooltip";
@@ -44,6 +45,8 @@ function resolveChainIcon({ chainName, size = 24 }) {
       return <Polkadex viewBox="0 0 24 24" width={size} height={size} />;
     case CHAINS.crust:
       return <Crust viewBox="0 0 24 24" width={size} height={size} />;
+    case CHAINS.ethereum:
+      return <Ethereum viewBox="0 0 24 24" width={size} height={size} />;
     default:
       return <Default viewBox="0 0 24 24" width={size} height={size} />;
   }

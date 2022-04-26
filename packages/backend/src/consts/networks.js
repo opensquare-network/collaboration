@@ -11,9 +11,10 @@ const networks = Object.freeze({
   moonbeam: "moonbeam",
   acala: "acala",
   crust: "crust",
+  ethereum: "ethereum",
 });
 
-const evmNetworks = [networks.moonbeam, networks.moonriver];
+const evmNetworks = [networks.moonbeam, networks.moonriver, networks.ethereum];
 
 module.exports = {
   networks,
