@@ -4,6 +4,7 @@ const { HttpError } = require("../exc");
 const { getEnvNodeApiEndpoint } = require("../env");
 const { isTestAccount } = require("../utils");
 const fetch = require("node-fetch");
+const { adaptBalance } = require("../utils/balance");
 
 async function getSystemBalance(network, blockHeight, address) {
   if (isTestAccount(address)) {
@@ -43,7 +44,13 @@ async function checkDelegation(network, delegatee, delegator, blockHeight) {
   }
 }
 
-async function getEvmAddressBalance(network, contract, address, height) {
+async function getEvmAddressBalance(
+  { network, decimals },
+  contract,
+  address,
+  height,
+  spaceDecimals
+) {
   if (isTestAccount(address)) {
     return {
       balance: process.env.TEST_ACCOUNT_BALANCE || "10000000000000",
@@ -54,8 +61,9 @@ async function getEvmAddressBalance(network, contract, address, height) {
   url += `/evm/chain/${network}/contract/${contract}/address/${address}/height/${height}`;
 
   const response = await fetch(url);
-  const json = await response.json();
-  return json;
+  const { balance } = await response.json();
+  const adaptedBalance = adaptBalance(balance, decimals, spaceDecimals);
+  return { balance: adaptedBalance };
 }
 
 async function getChainHeight(chain, time) {
@@ -119,6 +127,7 @@ async function getBalanceFromNetwork({
   networkName,
   address,
   blockHeight,
+  spaceDecimals,
 }) {
   const symbol = networksConfig?.symbol;
   const network = networksConfig?.networks?.find(
@@ -131,10 +140,11 @@ async function getBalanceFromNetwork({
 
   if ("erc20" === type) {
     const { balance } = await getEvmAddressBalance(
-      networkName,
+      network,
       contract,
       address,
-      blockHeight
+      blockHeight,
+      spaceDecimals
     );
     return balance;
   } else if (type === "asset") {
