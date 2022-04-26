@@ -15,7 +15,7 @@ import {
 } from "../../store/reducers/authoringSlice";
 import Publish from "@/components/postCreate/publish";
 import SideSectionTitle from "@/components/sideBar/sideSectionTitle";
-import FlexBetween from "@osn/common-ui/dist/styled/FlexBetween";
+import FlexBetween from "@osn/common-ui/es/styled/FlexBetween";
 
 const Wrapper = styled.div`
   min-width: 302px;

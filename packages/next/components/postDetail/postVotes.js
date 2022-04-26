@@ -5,7 +5,7 @@ import PostVotesItem from "./postVotesItem";
 import { findNetworkConfig } from "../../services/util";
 import HeaderWithNumber from "@/components/postDetail/numberHeader";
 import AccordionPanel from "@/components/accordionPanel/panel";
-import NoData from "@osn/common-ui/dist/NoData";
+import NoData from "@osn/common-ui/es/NoData";
 
 const PaginationWrapper = styled.div`
   padding: 20px 0;

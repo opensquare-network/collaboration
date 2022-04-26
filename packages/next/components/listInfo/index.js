@@ -7,11 +7,11 @@ import {
 import SpaceLogo from "@/components/spaceLogo";
 import ChainIcon from "../chain/chainIcon";
 import ValueDisplay from "../valueDisplay";
-import Modal from "@osn/common-ui/dist/Modal";
+import Modal from "@osn/common-ui/es/Modal";
 import { useState } from "react";
 import Details from "./details";
-import FlexBetween from "@osn/common-ui/dist/styled/FlexBetween";
-import Flex from "@osn/common-ui/dist/styled/Flex";
+import FlexBetween from "@osn/common-ui/es/styled/FlexBetween";
+import Flex from "@osn/common-ui/es/styled/Flex";
 
 const Wrapper = styled(FlexBetween)`
   @media screen and (max-width: 900px) {

@@ -3,7 +3,7 @@ import { useRef, useState } from "react";
 
 import { ReactComponent as Substract } from "public/imgs/icons/substract.svg";
 import { p_14_medium } from "../../styles/textStyles";
-import FlexBetween from "@osn/common-ui/dist/styled/FlexBetween";
+import FlexBetween from "@osn/common-ui/es/styled/FlexBetween";
 
 const Wrapper = styled(FlexBetween)`
   padding: 12px 24px;
