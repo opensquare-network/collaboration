@@ -16,14 +16,14 @@ import {
   removeToast,
 } from "store/reducers/toastSlice";
 import { timeDuration } from "frontedUtils";
-import ExternalLink from "@osn/common-ui/dist/ExternalLink";
+import ExternalLink from "@osn/common-ui/es/ExternalLink";
 import { findNetworkConfig } from "services/util";
 import HeaderWithNumber from "@/components/postDetail/numberHeader";
 import encodeAddressByChain from "../../frontedUtils/chain/addr";
 import AccordionPanel from "@/components/accordionPanel/panel";
 import nextApi from "../../services/nextApi";
 import { extensionCancelled } from "../../frontedUtils/consts/extension";
-import NoData from "@osn/common-ui/dist/NoData";
+import NoData from "@osn/common-ui/es/NoData";
 import Preview from "@osn/common-ui/es/Preview";
 
 const Item = styled.div`

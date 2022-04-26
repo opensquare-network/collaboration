@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Post from "./post";
 import { p_20_semibold } from "../styles/textStyles";
 import Pagination from "@/components/pagination";
-import NoData from "@osn/common-ui/dist/NoData";
+import NoData from "@osn/common-ui/es/NoData";
 
 const Title = styled.div`
   ${p_20_semibold};

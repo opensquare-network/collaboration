@@ -10,8 +10,8 @@ import ChainIcon from "../chain/chainIcon";
 import Divider from "../styled/divider";
 import { capitalize } from "frontedUtils";
 import ValueDisplay from "../valueDisplay";
-import Flex from "@osn/common-ui/dist/styled/Flex";
-import FlexBetween from "@osn/common-ui/dist/styled/FlexBetween";
+import Flex from "@osn/common-ui/es/styled/Flex";
+import FlexBetween from "@osn/common-ui/es/styled/FlexBetween";
 
 const Wrapper = styled.div``;
 

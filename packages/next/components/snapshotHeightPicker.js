@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import DatePicker from "@/components/datePicker";
-import SubTitle from "@osn/common-ui/dist/styled/SubTitle";
+import SubTitle from "@osn/common-ui/es/styled/SubTitle";
 import Datetime from "@/components/datetime";
 import Divider from "@/components/styled/divider";
 import BlockHeightInput from "@/components/chain/blockHeightInput";
-import Button from "@osn/common-ui/dist/styled/Button";
+import Button from "@osn/common-ui/es/styled/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import {

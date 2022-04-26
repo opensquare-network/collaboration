@@ -15,8 +15,8 @@ import { ReactComponent as UserIcon } from "../public/imgs/icons/user.svg";
 import { shadow_200 } from "../styles/globalCss";
 import { useIsMounted, useWindowSize } from "../frontedUtils/hooks";
 import { fetchIdentity } from "services/identity";
-import IdentityIcon from "@osn/common-ui/dist/User/IdentityIcon";
-import ButtonPrimary from "@osn/common-ui/dist/styled/Button";
+import IdentityIcon from "@osn/common-ui/es/User/IdentityIcon";
+import ButtonPrimary from "@osn/common-ui/es/styled/Button";
 import {
   popUpConnect,
   setShowHeaderMenu,

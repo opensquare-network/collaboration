@@ -9,7 +9,7 @@ import { findNetworkConfig } from "services/util";
 import Share from "components/share";
 import Panel from "@/components/postDetail/panel";
 import Accordion from "@/components/accordionPanel/accordion";
-import SubTitle from "@osn/common-ui/dist/styled/SubTitle";
+import SubTitle from "@osn/common-ui/es/styled/SubTitle";
 import Preview from "@osn/common-ui/es/Preview";
 
 const Title = styled.div`
