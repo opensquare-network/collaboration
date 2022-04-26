@@ -13,8 +13,8 @@ const config = {
       decimals: 12,
     },
   ],
-  proposeThreshold: "10000000000",
-  voteThreshold: "10000000000",
+  proposeThreshold: "1000000000000",
+  voteThreshold: "1000000000000",
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
   version: "2",
 };

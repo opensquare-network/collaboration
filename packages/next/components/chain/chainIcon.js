@@ -7,6 +7,7 @@ import { ReactComponent as Default } from "public/imgs/icons/chain/default.svg";
 import { ReactComponent as Moonriver } from "public/imgs/icons/chain/moonriver.svg";
 import { ReactComponent as Polkadex } from "public/imgs/icons/chain/polkadex.svg";
 import { ReactComponent as Interlay } from "public/imgs/icons/chain/interlay.svg";
+import { ReactComponent as Crust } from "public/imgs/icons/chain/crust.svg";
 import { CHAINS } from "../../frontedUtils/consts/chains";
 import styled from "styled-components";
 import Tooltip from "../tooltip";
@@ -41,6 +42,8 @@ function resolveChainIcon({ chainName, size = 24 }) {
       return <img src="/imgs/icons/chain/acala.svg" width={size} alt="" />;
     case CHAINS.polkadex:
       return <Polkadex viewBox="0 0 24 24" width={size} height={size} />;
+    case CHAINS.crust:
+      return <Crust viewBox="0 0 24 24" width={size} height={size} />;
     default:
       return <Default viewBox="0 0 24 24" width={size} height={size} />;
   }

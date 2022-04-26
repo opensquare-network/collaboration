@@ -6,4 +6,5 @@ export const identityChainMap = Object.freeze({
   [CHAINS.karura]: [CHAINS.kusama],
   [CHAINS.interlay]: [CHAINS.polkadot],
   [CHAINS.acala]: [CHAINS.polkadot],
+  [CHAINS.crust]: [CHAINS.crust],
 });

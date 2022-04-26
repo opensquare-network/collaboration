@@ -10,6 +10,7 @@ export const CHAINS = Object.freeze({
   interlay: "interlay",
   moonriver: "moonriver",
   acala: "acala",
+  crust: "crust",
 });
 
 export const evmChains = [CHAINS.moonriver];
@@ -35,4 +36,5 @@ export const chainSs58Format = Object.freeze({
   [CHAINS.polkadex]: 88,
   [CHAINS.interlay]: 2032,
   [CHAINS.acala]: 10,
+  [CHAINS.crust]: 66,
 });
