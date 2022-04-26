@@ -33,10 +33,11 @@ async function getSpaceAccountBalance(ctx) {
       ({ network: n }) => n === network
     );
     ctx.body = await getEvmAddressBalance(
-      network,
+      networkConfig,
       networkConfig.contract,
       address,
-      blockHeight
+      blockHeight,
+      spaceService.decimals
     );
     return;
   }

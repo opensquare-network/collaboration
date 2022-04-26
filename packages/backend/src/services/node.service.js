@@ -60,6 +60,7 @@ async function getEvmAddressBalance(
   let url = `${getEnvNodeApiEndpoint()}`;
   url += `/evm/chain/${network}/contract/${contract}/address/${address}/height/${height}`;
 
+  // fixme: fix the fetch error handling
   const response = await fetch(url);
   const { balance } = await response.json();
   const adaptedBalance = adaptBalance(balance, decimals, spaceDecimals);
