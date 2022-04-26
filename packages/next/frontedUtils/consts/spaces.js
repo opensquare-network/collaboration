@@ -1,3 +1,5 @@
+import { CHAINS } from "./chains";
+
 export const spaceToSeoImageMap = Object.freeze({
   bifrost: "bafybeigefryb4kw7wskzv7cc6jtbj5454vmsyzlddeuowg4fsd2lnui37m",
   karura: "bafybeidqwvg6pjgcxs52ujondwclidzgvowj3osy2vegzywfcz7pzqygxy",
@@ -12,6 +14,7 @@ export const spaceToSeoImageMap = Object.freeze({
   polkadex: "bafybeig3y3dlntpdhrge7v7vzdsq4poi6yuymvemmvqqptcbiisr3652ma",
   interlay: "bafybeiaengdfa3yelfkx3hbrmnktvpjx3ht4uqaj5wd4sy6vknuctxroja",
   acala: "bafybeid6yjg7n2vh3kc34tv6wpqzr53bnbuij6nvxz5bkgvbi2jb5cy2mq",
+  [CHAINS.crust]: "bafybeiembasna4ccja4qnod6xyrg6a67bvx7djn3zz4tdiajbav6ge3tle",
 });
 
 export const defaultSeoImage =

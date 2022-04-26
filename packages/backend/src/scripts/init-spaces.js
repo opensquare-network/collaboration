@@ -1,6 +1,7 @@
 const dotenv = require("dotenv");
 dotenv.config();
 
+const { crustConfig } = require("./spaces/crust");
 const { polarisDaoConfig } = require("./spaces/polarisDao");
 const { polkadotConfig } = require("./spaces/polkadot");
 const { bifrostConfig } = require("./spaces/bifrost");
@@ -29,6 +30,7 @@ const spaces = [
   chrwnaConfig,
   interlayConfig,
   acalaConfig,
+  crustConfig,
 ];
 
 async function main() {

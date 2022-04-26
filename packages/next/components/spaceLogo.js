@@ -22,6 +22,7 @@ const SpaceIcons = {
   chrwna: "chrwna.svg",
   interlay: "interlay.svg",
   acala: "acala.svg",
+  crust: "crust.svg",
 };
 
 export default function SpaceLogo({ spaceId }) {
