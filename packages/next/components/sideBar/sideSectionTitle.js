@@ -5,12 +5,10 @@ import Flex from "@osn/common-ui/dist/styled/Flex";
 import SubTitle from "@osn/common-ui/dist/styled/SubTitle";
 import Tooltip from "@/components/tooltip";
 import { ReactComponent as QuestionMark } from "../../public/imgs/icons/question-mark.svg";
+import FlexBetween from "@osn/common-ui/dist/styled/FlexBetween";
 
-const TitleWrapper = styled.div`
+const TitleWrapper = styled(FlexBetween)`
   ${p_16_semibold};
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 `;
 
 function SideSectionTitle({ title, tooltip, img }) {

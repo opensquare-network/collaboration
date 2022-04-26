@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 import Choice from "./choice";
 import Button from "@osn/common-ui/dist/styled/Button";
+import { p_16_semibold } from "../../styles/textStyles";
 
 const Wrapper = styled.div`
   background: #ffffff;
@@ -27,9 +28,7 @@ const InnerWrapper = styled.div`
 `;
 
 const Title = styled.div`
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 24px;
+  ${p_16_semibold};
 `;
 
 const ItemList = styled.div`

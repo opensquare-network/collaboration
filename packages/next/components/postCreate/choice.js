@@ -3,14 +3,12 @@ import { useRef, useState } from "react";
 
 import { ReactComponent as Substract } from "public/imgs/icons/substract.svg";
 import { p_14_medium } from "../../styles/textStyles";
+import FlexBetween from "@osn/common-ui/dist/styled/FlexBetween";
 
-const Wrapper = styled.div`
+const Wrapper = styled(FlexBetween)`
   padding: 12px 24px;
   border: 1px solid #e2e8f0;
-  display: flex;
-  align-items: center;
   ${p_14_medium};
-  justify-content: space-between;
   :hover {
     border-color: #b7c0cc;
   }

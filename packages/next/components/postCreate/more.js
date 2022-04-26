@@ -15,6 +15,7 @@ import {
 } from "../../store/reducers/authoringSlice";
 import Publish from "@/components/postCreate/publish";
 import SideSectionTitle from "@/components/sideBar/sideSectionTitle";
+import FlexBetween from "@osn/common-ui/dist/styled/FlexBetween";
 
 const Wrapper = styled.div`
   min-width: 302px;
@@ -67,9 +68,7 @@ const Divider = styled.div`
   background: #f0f3f8;
 `;
 
-const Snapshot = styled.div`
-  display: flex;
-  justify-content: space-between;
+const Snapshot = styled(FlexBetween)`
   ${p_14_medium};
 `;
 
