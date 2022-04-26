@@ -10,13 +10,13 @@ import ChainIcon from "../chain/chainIcon";
 import Divider from "../styled/divider";
 import { capitalize } from "frontedUtils";
 import ValueDisplay from "../valueDisplay";
+import Flex from "@osn/common-ui/dist/styled/Flex";
+import FlexBetween from "@osn/common-ui/dist/styled/FlexBetween";
 
 const Wrapper = styled.div``;
 
-const LogoWrapper = styled.div`
-  display: flex;
+const LogoWrapper = styled(Flex)`
   flex-direction: column;
-  align-items: center;
 
   // override 'SpaceLogo' margin-right
   > :first-child {
@@ -45,9 +45,8 @@ const DetailsTitle = styled.div`
   ${p_16_semibold};
 `;
 
-const DetailsItem = styled.div`
-  display: flex;
-  justify-content: space-between;
+const DetailsItem = styled(FlexBetween)`
+  align-items: start;
   margin-bottom: 16px;
   line-height: 24px;
 `;
@@ -57,10 +56,8 @@ const DetailsLabel = styled.span`
   color: #506176;
 `;
 
-const DetailsValue = styled.div`
+const DetailsValue = styled(Flex)`
   ${p_14_medium};
-  display: flex;
-  align-items: center;
   justify-content: flex-end;
 `;
 

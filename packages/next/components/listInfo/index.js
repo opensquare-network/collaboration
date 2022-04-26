@@ -10,19 +10,13 @@ import ValueDisplay from "../valueDisplay";
 import Modal from "@osn/common-ui/dist/Modal";
 import { useState } from "react";
 import Details from "./details";
+import FlexBetween from "@osn/common-ui/dist/styled/FlexBetween";
+import Flex from "@osn/common-ui/dist/styled/Flex";
 
-const Wrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+const Wrapper = styled(FlexBetween)`
   @media screen and (max-width: 900px) {
     display: none;
   }
-`;
-
-const LogoWrapper = styled.div`
-  display: flex;
-  align-items: center;
 `;
 
 const LogoName = styled.div`
@@ -33,11 +27,6 @@ const LogoName = styled.div`
 const LogoSymbol = styled.div`
   ${p_14_normal};
   color: #a1a8b3;
-`;
-
-const AboutWrapper = styled.div`
-  display: flex;
-  align-items: center;
 `;
 
 const AboutItem = styled.div`
@@ -63,15 +52,13 @@ const AboutName = styled.div`
 `;
 
 const AboutDetail = styled.div`
-  font-size: 14px;
-  line-height: 24px;
+  ${p_14_normal};
   color: #a1a8b3;
   text-transform: capitalize;
 `;
 
 const StrategyAboutDetail = styled.span`
-  font-size: 14px;
-  line-height: 24px;
+  ${p_14_normal};
   color: #a1a8b3;
   max-width: 240px;
 `;
@@ -84,8 +71,7 @@ const AboutDivider = styled.div`
 `;
 
 const ChainIconsWrapper = styled.div`
-  font-size: 14px;
-  line-height: 24px;
+  ${p_14_normal};
   color: #a1a8b3;
   display: flex;
 `;
@@ -114,14 +100,14 @@ export default function ListInfo({ space }) {
 
   return (
     <Wrapper>
-      <LogoWrapper>
+      <Flex>
         <SpaceLogo spaceId={space.id} />
         <div>
           <LogoName>{space.name}</LogoName>
           <LogoSymbol>{space.symbol}</LogoSymbol>
         </div>
-      </LogoWrapper>
-      <AboutWrapper>
+      </Flex>
+      <Flex>
         <AboutItem>
           <AboutIcon src="/imgs/icons/threshold.svg" />
           <div>
@@ -171,7 +157,7 @@ export default function ListInfo({ space }) {
         >
           <Details space={space} />
         </Modal>
-      </AboutWrapper>
+      </Flex>
     </Wrapper>
   );
 }
