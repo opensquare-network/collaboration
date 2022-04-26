@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 import Choice from "./choice";
-import Button from "@osn/common-ui/dist/styled/Button";
+import Button from "@osn/common-ui/es/styled/Button";
 import { p_16_semibold } from "../../styles/textStyles";
 
 const Wrapper = styled.div`
