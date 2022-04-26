@@ -10,6 +10,7 @@ const config = {
     {
       network: networks.crust,
       ss58Format: 66,
+      decimals: 12,
     },
   ],
   proposeThreshold: "10000000000",
