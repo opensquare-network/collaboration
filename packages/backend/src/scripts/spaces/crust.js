@@ -16,6 +16,7 @@ const config = {
     {
       ...ethErc20CommonConfig,
       contract: "0x32a7C02e79c4ea1008dD6564b35F131428673c41",
+      decimals: 18,
     },
   ],
   proposeThreshold: "1000000000000",
