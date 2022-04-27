@@ -159,6 +159,7 @@ async function createProposal(
     networkName: proposerNetwork,
     address: proposer,
     blockHeight: lastHeight,
+    spaceDecimals: spaceService?.decimals,
   });
 
   const bnCreatorBalance = new BigNumber(creatorBalance);
@@ -442,6 +443,7 @@ async function vote(
     networkName: voterNetwork,
     address: voter,
     blockHeight: proposal.snapshotHeights?.[voterNetwork],
+    spaceDecimals: spaceService?.decimals,
   });
   if (new BigNumber(balanceOf).lt(spaceService.voteThreshold)) {
     const symbolVoteThreshold = new BigNumber(spaceService.voteThreshold)
@@ -648,6 +650,7 @@ async function getVoterBalance(proposalCid, network, address, snapshot) {
     networkName: network,
     address,
     blockHeight,
+    spaceDecimals: networksConfig?.decimals,
   });
   return {
     balance: totalBalance,

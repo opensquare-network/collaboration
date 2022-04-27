@@ -24,6 +24,11 @@ const movrErc20CommonConfig = {
   network: networks.moonriver,
 };
 
+const ethErc20CommonConfig = {
+  type: "erc20",
+  network: networks.ethereum,
+};
+
 module.exports = {
   karuraTokenConfig,
   bifrostTokenConfig,
@@ -31,4 +36,5 @@ module.exports = {
   networks,
   strategies,
   movrErc20CommonConfig,
+  ethErc20CommonConfig,
 };

@@ -11,18 +11,16 @@ export const CHAINS = Object.freeze({
   moonriver: "moonriver",
   acala: "acala",
   crust: "crust",
+  ethereum: "ethereum",
 });
 
-export const evmChains = [CHAINS.moonriver];
+export const evmChains = [CHAINS.moonriver, CHAINS.ethereum];
 
-export const nonProxyChains = [
-  CHAINS.moonriver,
-  CHAINS.kintsugi,
-  CHAINS.interlay,
-];
+export const nonProxyChains = [...evmChains, CHAINS.kintsugi, CHAINS.interlay];
 
 export const evmChainId = Object.freeze({
   [CHAINS.moonriver]: 1285,
+  [CHAINS.ethereum]: 1,
 });
 
 export const chainSs58Format = Object.freeze({
