@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled, { css } from "styled-components";
 import { p_14_medium } from "../styles/textStyles";
-import ChainIcon from "@/components/chain/chainIcon";
+import ChainIcon from "@osn/common-ui/es/Chain/ChainIcon";
 import DropdownSelector from "@osn/common-ui/es/DropdownSelector";
 
 const Wrapper = styled.div`

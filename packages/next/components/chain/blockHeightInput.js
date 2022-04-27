@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Input from "@osn/common-ui/es/styled/Input";
-import ChainIcon from "@/components/chain/chainIcon";
+import ChainIcon from "@osn/common-ui/es/Chain/ChainIcon";
 import { ReactComponent as Loading } from "public/imgs/icons/loading.svg";
 import { useDispatch, useSelector } from "react-redux";
 import {

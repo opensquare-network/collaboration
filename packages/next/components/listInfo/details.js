@@ -6,7 +6,7 @@ import {
   p_20_semibold,
 } from "../../styles/textStyles";
 import SpaceLogo from "@/components/spaceLogo";
-import ChainIcon from "../chain/chainIcon";
+import ChainIcon from "@osn/common-ui/es/Chain/ChainIcon";
 import Divider from "../styled/divider";
 import { capitalize } from "frontedUtils";
 import ValueDisplay from "../valueDisplay";

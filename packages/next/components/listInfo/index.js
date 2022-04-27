@@ -5,7 +5,7 @@ import {
   p_20_semibold,
 } from "../../styles/textStyles";
 import SpaceLogo from "@/components/spaceLogo";
-import ChainIcon from "../chain/chainIcon";
+import ChainIcon from "@osn/common-ui/es/Chain/ChainIcon";
 import ValueDisplay from "../valueDisplay";
 import Modal from "@osn/common-ui/es/Modal";
 import { useState } from "react";
