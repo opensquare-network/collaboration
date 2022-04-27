@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import Input from "components/input";
+import Input from "@osn/common-ui/es/styled/Input";
 import RichEditor from "@osn/common-ui/es/RichEdit";
 
 const Wrapper = styled.div`

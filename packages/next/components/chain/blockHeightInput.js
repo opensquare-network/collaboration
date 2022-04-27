@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Input from "@/components/input";
+import Input from "@osn/common-ui/es/styled/Input";
 import ChainIcon from "@/components/chain/chainIcon";
 import { ReactComponent as Loading } from "public/imgs/icons/loading.svg";
 import { useDispatch, useSelector } from "react-redux";
@@ -25,6 +25,7 @@ const Wrapper = styled.div`
 const StyledInput = styled(Input)`
   padding-left: 48px;
   width: 216px;
+  box-sizing: content-box;
 `;
 
 function BlockHeightInput({ network, height, loading }) {
