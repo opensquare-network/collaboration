@@ -9,6 +9,14 @@ import { ReactComponent as CaretRight } from "/public/imgs/icons/caret-right.svg
 import { ReactComponent as ArrowLeft } from "/public/imgs/icons/arrow-left.svg";
 import { ReactComponent as ArrowRight } from "/public/imgs/icons/arrow-right.svg";
 import Button from "@osn/common-ui/es/styled/Button";
+import {
+  p_14_medium,
+  p_14_normal,
+  p_16_normal,
+  p_16_semibold,
+} from "../styles/textStyles";
+import Flex from "@osn/common-ui/es/styled/Flex";
+import FlexBetween from "@osn/common-ui/es/styled/FlexBetween";
 
 const Wrapper = styled.div`
   position: relative;
@@ -61,11 +69,8 @@ const DateWrapper = styled.div`
 
   .react-datepicker__day-name {
     width: 40px;
-    font-family: Inter;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 24px;
+    font-family: Inter, sans-serif;
+    ${p_14_medium};
     text-align: center;
     color: #506176;
     margin: 0 !important;
@@ -87,10 +92,8 @@ const DateWrapper = styled.div`
   .react-datepicker__day {
     width: 40px;
     height: 40px;
-    font-family: Inter;
-    font-size: 14px;
-    line-height: 24px;
-    font-weight: normal;
+    font-family: Inter, sans-serif;
+    ${p_14_normal};
     color: #1e2134;
     display: inline-flex;
     align-items: center;
@@ -128,15 +131,10 @@ const DateWrapper = styled.div`
   }
 `;
 
-const DateHeader = styled.div`
-  display: flex;
-  align-items: center;
+const DateHeader = styled(Flex)`
   > div {
-    font-family: Inter;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 16px;
-    line-height: 24px;
+    font-family: Inter, sans-serif;
+    ${p_16_semibold};
     text-align: center;
     color: #1e2134;
     flex: 1 1 auto;
@@ -155,10 +153,8 @@ const Divider = styled.div`
   margin: 16px 0;
 `;
 
-const ButtonWrapper = styled.div`
+const ButtonWrapper = styled(Flex)`
   margin-top: 20px;
-  display: flex;
-  align-items: center;
   justify-content: flex-end;
   > :not(:first-child) {
     margin-left: 16px;
@@ -175,12 +171,8 @@ const TimeWrapper = styled.div`
     0px 0.751293px 8px rgba(26, 33, 44, 0.04);
 `;
 
-const TimeHeaderWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 16px;
-  line-height: 24px;
+const TimeHeaderWrapper = styled(FlexBetween)`
+  ${p_16_normal};
   white-space: nowrap;
   > :first-child {
     font-weight: 600;
@@ -192,17 +184,14 @@ const TimeHeaderWrapper = styled.div`
   }
 `;
 
-const TimeInputWrapper = styled.div`
+const TimeInputWrapper = styled(FlexBetween)`
+  margin: 20px 0;
+  padding: 12px 4px;
   width: 280px;
   height: 48px;
-  background: #fbfcfe;
   border-bottom: 1px solid #e2e8f0;
-  margin: 20px 0;
-  display: flex;
-  font-size: 14px;
-  line-height: 24px;
-  padding: 12px 4px;
-  justify-content: space-between;
+  ${p_14_normal};
+  background: #fbfcfe;
 `;
 
 const TimeInput = styled.input`

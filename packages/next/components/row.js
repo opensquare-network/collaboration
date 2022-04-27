@@ -1,11 +1,7 @@
 import styled from "styled-components";
 import { p_14_medium } from "../styles/textStyles";
-
-const Wrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
+import FlexBetween from "@osn/common-ui/es/styled/FlexBetween";
+import Flex from "@osn/common-ui/es/styled/Flex";
 
 const Header = styled.div`
   ${p_14_medium};
@@ -13,21 +9,19 @@ const Header = styled.div`
   flex-shrink: 1;
   white-space: nowrap;
 `;
-const Content = styled.div`
+const Content = styled(Flex)`
   width: 100%;
   flex-grow: 1;
   ${p_14_medium};
   color: #1e2134;
-  display: flex;
   justify-content: right;
-  align-items: center;
 `;
 
 export default function Row({ header, content }) {
   return (
-    <Wrapper>
+    <FlexBetween>
       <Header>{header}</Header>
       <Content>{content}</Content>
-    </Wrapper>
+    </FlexBetween>
   );
 }
