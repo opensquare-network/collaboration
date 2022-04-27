@@ -26,6 +26,7 @@ import {
   setProxyBalanceLoading,
 } from "../store/reducers/statusSlice";
 import encodeAddressByChain from "../frontedUtils/chain/addr";
+import Flex from "@osn/common-ui/es/styled/Flex";
 
 const FETCH_BALANCE_ERROR =
   "something went wrong while querying balance, please try again later.";
@@ -101,13 +102,11 @@ const Input = styled.input`
     `}
 `;
 
-const ItemWrapper = styled.div`
+const ItemWrapper = styled(Flex)`
   padding: 11px 15px;
   border: 1px solid #e2e8f0;
   background: #ffffff;
   cursor: pointer;
-  display: flex;
-  align-items: center;
   overflow: hidden;
   text-overflow: ellipsis;
   ${(p) =>
@@ -140,9 +139,7 @@ const DetailWrapper = styled.div`
     `}
 `;
 
-const IdentityWrapper = styled.div`
-  display: flex;
-  align-items: center;
+const IdentityWrapper = styled(Flex)`
   > :not(:first-child) {
     margin-left: 4px;
     white-space: nowrap;
