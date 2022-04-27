@@ -50,12 +50,20 @@ const ethNetwork = {
 };
 
 function initProviders() {
+  const movrProviders = movrUrls.map((url) => createProvider(url, movrNetwork));
+  const glmrProviders = glmrUrls.map((url) => createProvider(url, glmrNetwork));
+
   if (!process.env.INFURA_KEY) {
     throw new Error("INFURA_KEY environment variable not set");
   }
-
-  const movrProviders = movrUrls.map((url) => createProvider(url, movrNetwork));
-  const glmrProviders = glmrUrls.map((url) => createProvider(url, glmrNetwork));
+  if (process.env.ALCHEMY_KEY) {
+    ethUrls.push(
+      ...[
+        `https://eth-mainnet.alchemyapi.io/v2/${process.env.ALCHEMY_KEY}`,
+        `wss://eth-mainnet.alchemyapi.io/v2/${process.env.ALCHEMY_KEY}`,
+      ]
+    );
+  }
   const ethProviders = ethUrls.map((url) => createProvider(url, ethNetwork));
 
   evmProviderMap = {

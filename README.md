@@ -100,6 +100,8 @@ INTR_ENDPOINTS=wss://interlay.api.onfinality.io/public-ws;wss://api.interlay.io/
 
 # You need a infura key to call the ethereum rpcs
 INFURA_KEY=xxx
+# Alchemy.com api key. Optional, there will be no alchemy nodes if not set
+ALCHEMY_KEY=xxx
 
 SERVER_PORT=3223 # keep it
 ```
