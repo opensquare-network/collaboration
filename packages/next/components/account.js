@@ -23,7 +23,7 @@ import {
   showConnectSelector,
   showHeaderMenuSelector,
 } from "../store/reducers/showConnectSlice";
-import ChainIcon from "@/components/chain/chainIcon";
+import ChainIcon from "@osn/common-ui/es/Chain/ChainIcon";
 import { evmChains } from "../frontedUtils/consts/chains";
 
 const ConnectModal = dynamic(() => import("./connect"), {

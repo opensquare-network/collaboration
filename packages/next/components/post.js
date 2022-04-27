@@ -12,6 +12,9 @@ import { useEffect, useState } from "react";
 import { useWindowSize } from "../frontedUtils/hooks";
 import PostResult from "./postResult";
 import { findNetworkConfig } from "../services/util";
+import Flex from "@osn/common-ui/es/styled/Flex";
+import FlexBetween from "@osn/common-ui/es/styled/FlexBetween";
+import { p_14_medium } from "../styles/componentCss";
 
 const Wrapper = styled.div`
   background: #ffffff;
@@ -43,16 +46,11 @@ const Divider = styled.div`
   margin: 16px 0;
 `;
 
-const InfoWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+const InfoWrapper = styled(FlexBetween)`
   flex-wrap: wrap;
 `;
 
-const LeftWrapper = styled.div`
-  display: flex;
-  align-items: center;
+const LeftWrapper = styled(Flex)`
   line-height: 24px;
   color: #a1a8b3;
   flex-wrap: wrap;
@@ -63,10 +61,7 @@ const LeftWrapper = styled.div`
   }
 `;
 
-const FromSpace = styled.div`
-  display: flex;
-  align-items: center;
-
+const FromSpace = styled(Flex)`
   .ml-4px {
     margin-left: 8px;
   }
@@ -75,10 +70,7 @@ const FromSpace = styled.div`
 const SpaceName = styled.a`
   text-transform: capitalize;
   margin-left: 6px;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 24px;
+  ${p_14_medium};
   color: #1e2134 !important;
 
   :hover {
@@ -86,10 +78,8 @@ const SpaceName = styled.a`
   }
 `;
 
-const TitleWrapper = styled.div`
-  display: flex;
+const TitleWrapper = styled(FlexBetween)`
   align-items: flex-start;
-  justify-content: space-between;
 `;
 
 const ProjectIcons = {
