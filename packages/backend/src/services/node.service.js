@@ -4,6 +4,7 @@ const { HttpError } = require("../exc");
 const { getEnvNodeApiEndpoint } = require("../env");
 const { isTestAccount } = require("../utils");
 const fetch = require("node-fetch");
+const { fetchApi } = require("../utils/fech.api");
 const { adaptBalance } = require("../utils/balance");
 
 async function getSystemBalance(network, blockHeight, address) {
@@ -16,9 +17,7 @@ async function getSystemBalance(network, blockHeight, address) {
 
   const url = `${getEnvNodeApiEndpoint()}/${network}/balance/${address}/${blockHeight}`;
   try {
-    const response = await fetch(url);
-    const json = await response.json();
-    return json;
+    return await fetchApi(url);
   } catch (err) {
     throw new HttpError(500, "Failed to get account balance");
   }
@@ -32,9 +31,8 @@ async function checkDelegation(network, delegatee, delegator, blockHeight) {
   let url = `${getEnvNodeApiEndpoint()}/${network}/proxy/${delegator}/${delegatee}/${blockHeight}`;
   let isProxy = false;
   try {
-    const response = await fetch(url);
-    const json = await response.json();
-    isProxy = json.isProxy;
+    const json = await fetchApi(url);
+    isProxy = json?.isProxy;
   } catch (err) {
     throw new HttpError(500, "Failed to verify the proxy address");
   }
@@ -60,9 +58,7 @@ async function getEvmAddressBalance(
   let url = `${getEnvNodeApiEndpoint()}`;
   url += `/evm/chain/${network}/contract/${contract}/address/${address}/height/${height}`;
 
-  // fixme: fix the fetch error handling
-  const response = await fetch(url);
-  const { balance } = await response.json();
+  const { balance } = await fetchApi(url);
   const adaptedBalance = adaptBalance(balance, decimals, spaceDecimals);
   return { balance: adaptedBalance };
 }
@@ -82,9 +78,7 @@ async function getChainHeight(chain, time) {
   }
 
   try {
-    const response = await fetch(url);
-    const json = await response.json();
-    return json;
+    return await fetchApi(url);
   } catch (e) {
     throw new HttpError(500, "Failed to get chain height");
   }
@@ -115,8 +109,7 @@ async function getTokenBalance(network, assetIdOrSymbol, blockHeight, address) {
 
   let url = `${getEnvNodeApiEndpoint()}/${network}/token/${assetIdOrSymbol}/account/${address}/${blockHeight}`;
   try {
-    const response = await fetch(url);
-    const { free, reserved } = await response.json();
+    const { free, reserved } = await fetchApi(url);
     return new BigNumber(free || 0).plus(reserved || 0).toString();
   } catch (err) {
     throw new HttpError(500, "Failed to get account token balance");
