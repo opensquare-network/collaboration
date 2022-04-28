@@ -7,7 +7,7 @@ import Avatar from "@/components/avatar";
 import ExternalLink from "@osn/common-ui/es/ExternalLink";
 import IdentityIcon from "@osn/common-ui/es/User/IdentityIcon";
 import styled from "styled-components";
-import ChainIcon from "@osn/common-ui/es/Chain/ChainIcon";
+import { ChainIcon } from "@osn/common-ui";
 import { evmChains } from "../../frontedUtils/consts/chains";
 import Popup from "@/components/popup";
 
