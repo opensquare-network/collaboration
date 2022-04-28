@@ -116,7 +116,8 @@ const MenuWrapper = styled.div`
     box-shadow: none;
     width: 100%;
     position: initial;
-    padding: 0;
+    padding-top: 0;
+    padding-bottom: 0;
     border-bottom: 20px solid white;
   }
 
@@ -161,7 +162,6 @@ const Shade = styled.div`
   @media screen and (min-width: 800px) {
     display: none;
   }
-  margin-left: -20px;
   width: 100vw;
   height: 100vh;
   background: black;
