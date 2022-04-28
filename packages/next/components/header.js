@@ -42,17 +42,19 @@ const AccountWrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    width: calc(100vw - 40px);
+    width: 100vw;
     z-index: 1;
     position: absolute;
     top: 68px;
+    left: 0;
+    right: 0;
   }
 `;
 
 const IconWrapper = styled.div`
   display: none;
   @media screen and (max-width: 800px) {
-    display: block;
+    display: flex;
     cursor: pointer;
   }
 `;
