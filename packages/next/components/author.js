@@ -8,7 +8,7 @@ import ExternalLink from "@osn/common-ui/es/ExternalLink";
 import IdentityIcon from "@osn/common-ui/es/User/IdentityIcon";
 import { useIsMounted } from "frontedUtils/hooks";
 import { getExplorer } from "../frontedUtils";
-import ChainIcon from "@osn/common-ui/es/Chain/ChainIcon";
+import { ChainIcon } from "@osn/common-ui";
 import { CHAINS, evmChains } from "../frontedUtils/consts/chains";
 
 const Wrapper = styled.div`
