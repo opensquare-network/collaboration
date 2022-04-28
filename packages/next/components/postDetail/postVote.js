@@ -31,7 +31,7 @@ import ButtonPrimary from "@osn/common-ui/es/styled/Button";
 import Option from "@/components/option";
 import { text_secondary_red_500 } from "../../styles/colorStyles";
 import BigNumber from "bignumber.js";
-import Toggle from "../toggle";
+import Toggle from "@osn/common-ui/es/Toggle";
 import { findNetworkConfig } from "services/util";
 import isNil from "lodash.isnil";
 import { proposalStatus } from "../../frontedUtils/consts/proposal";
@@ -255,8 +255,8 @@ export default function PostVote({ proposal, threshold = 0 }) {
               <ToggleWrapper>
                 <div>Proxy vote</div>
                 <Toggle
-                  active={useProxy}
-                  onClick={() => dispatch(setUseProxy(!useProxy))}
+                  on={useProxy}
+                  setOn={() => dispatch(setUseProxy(!useProxy))}
                 />
               </ToggleWrapper>
             )}
