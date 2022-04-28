@@ -10,8 +10,7 @@ import ValueDisplay from "../valueDisplay";
 import Modal from "@osn/common-ui/es/Modal";
 import { useState } from "react";
 import Details from "./details";
-import { FlexBetween } from "@osn/common-ui";
-import { Flex } from "@osn/common-ui";
+import { Flex, FlexBetween } from "@osn/common-ui";
 
 const Wrapper = styled(FlexBetween)`
   @media screen and (max-width: 900px) {
