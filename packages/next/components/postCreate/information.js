@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 import Row from "@/components/row";
-import Toggle from "../toggle";
+import Toggle from "@osn/common-ui/es/Toggle";
 import PostAddress from "../postAddress";
 import BigNumber from "bignumber.js";
 import { toPrecision } from "../../frontedUtils";
@@ -56,8 +56,8 @@ export default function Information({ space }) {
             header="Proxy vote"
             content={
               <Toggle
-                active={useProxy}
-                onClick={() => dispatch(setUseProxy(!useProxy))}
+                on={useProxy}
+                setOn={() => dispatch(setUseProxy(!useProxy))}
               />
             }
           />
