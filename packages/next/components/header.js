@@ -10,7 +10,7 @@ import {
   setShowHeaderMenu,
   showHeaderMenuSelector,
 } from "../store/reducers/showConnectSlice";
-import OsnHeader from "@osn/common-ui/es/Header";
+import { Header as OsnHeader } from "@osn/common-ui";
 
 const ContentWrapper = styled.div`
   width: 100%;
@@ -81,7 +81,7 @@ export default function Header({ space }) {
     <OsnHeader
       logoRender={(logo) => (
         <Link href="/" passHref>
-          {logo}
+          <a>{logo}</a>
         </Link>
       )}
     >
