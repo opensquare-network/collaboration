@@ -12,8 +12,7 @@ import { useEffect, useState } from "react";
 import { useWindowSize } from "../frontedUtils/hooks";
 import PostResult from "./postResult";
 import { findNetworkConfig } from "../services/util";
-import Flex from "@osn/common-ui/es/styled/Flex";
-import FlexBetween from "@osn/common-ui/es/styled/FlexBetween";
+import { Flex, FlexBetween } from "@osn/common-ui";
 import { p_14_medium } from "../styles/componentCss";
 
 const Wrapper = styled.div`

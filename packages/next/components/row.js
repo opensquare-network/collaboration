@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { p_14_medium } from "../styles/textStyles";
-import FlexBetween from "@osn/common-ui/es/styled/FlexBetween";
-import Flex from "@osn/common-ui/es/styled/Flex";
+import { Flex, FlexBetween } from "@osn/common-ui";
 
 const Header = styled.div`
   ${p_14_medium};

@@ -10,6 +10,7 @@ export default new Api(
 export const ssrNextApi = new Api(
   new URL(
     `/`,
-    process.env.NEXT_PUBLIC_BACKEND_API_END_POINT || "https://test.opensquare.io/"
+    process.env.NEXT_PUBLIC_BACKEND_API_END_POINT ||
+      "https://test.opensquare.io/"
   ).href
 );

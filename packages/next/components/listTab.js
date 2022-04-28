@@ -5,8 +5,7 @@ import { LIST_TAB_ITEMS } from "frontedUtils/constants";
 import { p_16_semibold } from "../styles/textStyles";
 import { useRouter } from "next/router";
 import Tooltip from "@/components/tooltip";
-import FlexBetween from "@osn/common-ui/es/styled/FlexBetween";
-import Flex from "@osn/common-ui/es/styled/Flex";
+import { Flex, FlexBetween } from "@osn/common-ui";
 
 const Wrapper = styled(FlexBetween)`
   align-items: flex-start;
