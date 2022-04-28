@@ -26,7 +26,7 @@ import {
   setProxyBalanceLoading,
 } from "../store/reducers/statusSlice";
 import encodeAddressByChain from "../frontedUtils/chain/addr";
-import Flex from "@osn/common-ui/es/styled/Flex";
+import { Flex } from "@osn/common-ui";
 
 const FETCH_BALANCE_ERROR =
   "something went wrong while querying balance, please try again later.";

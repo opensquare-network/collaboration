@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import { p_16_semibold } from "../../styles/textStyles";
 import { memo } from "react";
-import Flex from "@osn/common-ui/es/styled/Flex";
+import { Flex } from "@osn/common-ui";
 import SubTitle from "@osn/common-ui/es/styled/SubTitle";
 import Tooltip from "@/components/tooltip";
 import { ReactComponent as QuestionMark } from "../../public/imgs/icons/question-mark.svg";
-import FlexBetween from "@osn/common-ui/es/styled/FlexBetween";
+import { FlexBetween } from "@osn/common-ui";
 
 const TitleWrapper = styled(FlexBetween)`
   ${p_16_semibold};

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { h3_36_bold, h4_24_bold, p_16_normal } from "../styles/textStyles";
 import Header from "@/components/header";
-import Footer from "@osn/common-ui/dist/Footer";
+import { Footer } from "@osn/common-ui";
 import Toast from "@/components/toast";
 import InternalLink from "@/components/internalLink";
 

@@ -15,8 +15,7 @@ import {
   p_16_normal,
   p_16_semibold,
 } from "../styles/textStyles";
-import Flex from "@osn/common-ui/es/styled/Flex";
-import FlexBetween from "@osn/common-ui/es/styled/FlexBetween";
+import { Flex, FlexBetween } from "@osn/common-ui";
 
 const Wrapper = styled.div`
   position: relative;
