@@ -1,16 +1,15 @@
 import styled, { css } from "styled-components";
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { ReactComponent as QuestionMark } from "../public/imgs/icons/question-mark.svg";
 import { LIST_TAB_ITEMS } from "frontedUtils/constants";
 import { p_16_semibold } from "../styles/textStyles";
 import { useRouter } from "next/router";
 import Tooltip from "@/components/tooltip";
+import FlexBetween from "@osn/common-ui/es/styled/FlexBetween";
+import Flex from "@osn/common-ui/es/styled/Flex";
 
-const Wrapper = styled.div`
-  display: flex;
+const Wrapper = styled(FlexBetween)`
   align-items: flex-start;
-  justify-content: space-between;
   overflow-x: scroll;
   white-space: nowrap;
   -ms-overflow-style: none;
@@ -27,11 +26,6 @@ const Wrapper = styled.div`
     padding-right: 20px;
     margin-top: -80px !important;
   }
-`;
-
-const ItemWrapper = styled.div`
-  display: flex;
-  align-items: center;
 `;
 
 const Item = styled.div`
@@ -57,9 +51,7 @@ const Item = styled.div`
   }
 `;
 
-const NewPostLink = styled.div`
-  display: flex;
-  align-items: center;
+const NewPostLink = styled(Flex)`
   cursor: pointer;
   ${p_16_semibold};
   color: #04d2c5;
@@ -93,7 +85,7 @@ export default function ListTab({
 
   return (
     <Wrapper>
-      <ItemWrapper>
+      <Flex>
         {LIST_TAB_ITEMS.map((item, index) => (
           <Item
             key={index}
@@ -125,7 +117,7 @@ export default function ListTab({
             )}
           </Item>
         ))}
-      </ItemWrapper>
+      </Flex>
       <a href={`/space/${spaceId}/create`}>
         <NewPostLink>
           <img src="/imgs/icons/add.svg" alt="" />
