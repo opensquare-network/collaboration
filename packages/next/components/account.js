@@ -25,6 +25,7 @@ import {
 } from "../store/reducers/showConnectSlice";
 import { ChainIcon } from "@osn/common-ui";
 import { evmChains } from "../frontedUtils/consts/chains";
+import IdentityOrAddr from "@/components/identityOrAddr";
 
 const ConnectModal = dynamic(() => import("./connect"), {
   ssr: false,
@@ -307,20 +308,7 @@ function Account({ space }) {
             {spaceSupportMultiChain && (
               <ChainIcon chainName={account?.network} size={16} />
             )}
-            {identity?.info && identity?.info?.status !== "NO_ID" ? (
-              <IdentityWrapper>
-                <IdentityIcon
-                  status={identity.info.status}
-                  position="down"
-                  offset="10px"
-                  showTooltip
-                  size={spaceSupportMultiChain ? 12 : 14}
-                />
-                <div>{identity.info.display}</div>
-              </IdentityWrapper>
-            ) : (
-              <>{addressEllipsis(address)}</>
-            )}
+            <IdentityOrAddr identity={identity} addr={address}/>
           </div>
         </AccountWrapperPC>
         {showMenu && Menu}

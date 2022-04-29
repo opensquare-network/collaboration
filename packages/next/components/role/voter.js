@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { useIsMounted } from "../../frontedUtils/hooks";
-import { addressEllipsis, getExplorer } from "../../frontedUtils";
+import { getExplorer } from "../../frontedUtils";
 import { fetchIdentity } from "../../services/identity";
 import encodeAddressByChain from "../../frontedUtils/chain/addr";
 import Avatar from "@/components/avatar";
 import ExternalLink from "@osn/common-ui/es/ExternalLink";
-import IdentityIcon from "@osn/common-ui/es/User/IdentityIcon";
 import styled from "styled-components";
 import { ChainIcon } from "@osn/common-ui";
 import { evmChains } from "../../frontedUtils/consts/chains";
 import Popup from "@/components/popup";
+import IdentityOrAddr from "@/components/identityOrAddr";
 
 const Wrapper = styled.div`
   display: flex;
@@ -21,27 +21,6 @@ const Wrapper = styled.div`
   }
   .ui--IdentityIcon svg:first-child {
     margin-right: 4px;
-  }
-`;
-
-const Name = styled.span`
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 24px;
-`;
-
-const IdentityWrapper = styled.span`
-  display: inline-flex;
-  align-items: center;
-  max-width: calc(100% - 10px);
-
-  > :not(:first-child) {
-    margin-left: 4px;
-  }
-  > span:last-child {
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
   }
 `;
 
@@ -98,7 +77,7 @@ export default function Voter({ address, network, showNetwork = true }) {
       <div>
         <Avatar address={address} size={20} />
         <ChainIcon chainName={network} size={16} />
-        <Name>{addressEllipsis(address)}</Name>
+        <IdentityOrAddr identity={identity} addr={address} showNetwork={showNetwork}/>
       </div>
       <Divider />
       <TextMinor>{address}</TextMinor>
@@ -111,18 +90,7 @@ export default function Voter({ address, network, showNetwork = true }) {
       {showNetwork && <ChainIcon chainName={network} size={16} />}
       <Popup content={popup}>
         <ExternalLink href={link}>
-          {identity?.info && identity?.info?.status !== "NO_ID" ? (
-            <IdentityWrapper>
-              <IdentityIcon
-                status={identity.info.status}
-                showTooltip
-                size={showNetwork ? 12 : 14}
-              />
-              <Name title={identity.info.display}>{identity.info.display}</Name>
-            </IdentityWrapper>
-          ) : (
-            <Name>{addressEllipsis(address)}</Name>
-          )}
+          <IdentityOrAddr identity={identity} addr={address} showNetwork={showNetwork} ellipsis/>
         </ExternalLink>
       </Popup>
     </Wrapper>
