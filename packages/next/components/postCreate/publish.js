@@ -5,7 +5,7 @@ import {
   targetBalanceSelector,
   useProxySelector,
 } from "../../store/reducers/accountSlice";
-import Button from "@osn/common-ui/es/styled/Button";
+import { Button } from "@osn/common-ui";
 import { popUpConnect } from "../../store/reducers/showConnectSlice";
 import {
   balanceLoadingSelector,
@@ -24,7 +24,7 @@ function Publish({ threshold, onPublish }) {
 
   if (!loginAddress) {
     return (
-      <Button large primary onClick={() => dispatch(popUpConnect())}>
+      <Button block large primary onClick={() => dispatch(popUpConnect())}>
         Connect Wallet
       </Button>
     );
@@ -32,6 +32,7 @@ function Publish({ threshold, onPublish }) {
 
   return (
     <Button
+      block
       large
       primary
       onClick={onPublish}
