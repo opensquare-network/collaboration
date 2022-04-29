@@ -1,46 +1,37 @@
 import styled from "styled-components";
-import Button from "@osn/common-ui/es/styled/Button";
-import { p_14_medium } from "../styles/textStyles";
+import { Button as OsnButton } from "@osn/common-ui";
 import { css } from "styled-components";
 
-const Option = styled(Button)`
-  display: block;
-  border: 1px solid #e2e8f0;
-  padding: 12px 24px;
-  text-align: center;
-  position: relative;
-  ${p_14_medium};
-  cursor: pointer;
-  :hover {
-    border-color: #b7c0cc;
-  }
+const Button = styled(OsnButton)`
   ${(p) =>
     p.active &&
     css`
       border-color: #6848ff !important;
       color: #6848ff;
-      .index {
-        color: #6848ff !important;
-      }
-    `}
-  .index {
-    position: absolute;
-    left: 24px;
-    top: calc(50% - 12px);
-    ${p_14_medium};
-    color: #a1a8b3;
-  }
-  .option {
-    margin-left: 47px;
-    margin-right: 47px;
-  }
-  ${(p) =>
-    p.disabled &&
-    css`
-      color: #a1a8b3;
-      background: none;
-      pointer-events: none;
     `}
 `;
+
+const Content = styled.div`
+  position: relative;
+
+  ${(p) => css`
+    ::before {
+      content: "#${p.index}";
+      position: absolute;
+      left: 0;
+      color: ${p.active ? "#6848ff" : "#a1a8b3"};
+    }
+  `}
+`;
+
+function Option({ children, index, active, ...props }) {
+  return (
+    <Button block active={active} {...props}>
+      <Content active={active} index={index}>
+        {children}
+      </Content>
+    </Button>
+  );
+}
 
 export default Option;
