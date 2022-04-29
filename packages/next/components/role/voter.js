@@ -93,12 +93,26 @@ export default function Voter({ address, network, showNetwork = true }) {
       .catch(() => {});
   }, [network, address, isMounted, isEvm]);
 
+  const displayName =
+    identity?.info && identity?.info?.status !== "NO_ID" ? (
+      <IdentityWrapper>
+        <IdentityIcon
+          status={identity.info.status}
+          showTooltip
+          size={showNetwork ? 12 : 14}
+        />
+        <Name title={identity.info.display}>{identity.info.display}</Name>
+      </IdentityWrapper>
+    ) : (
+      <Name>{addressEllipsis(address)}</Name>
+    );
+
   const popup = (
     <PopupCard>
       <div>
         <Avatar address={address} size={20} />
         <ChainIcon chainName={network} size={16} />
-        <Name>{addressEllipsis(address)}</Name>
+        {displayName}
       </div>
       <Divider />
       <TextMinor>{address}</TextMinor>
@@ -110,20 +124,7 @@ export default function Voter({ address, network, showNetwork = true }) {
       <Avatar address={address} size={20} />
       {showNetwork && <ChainIcon chainName={network} size={16} />}
       <Popup content={popup}>
-        <ExternalLink href={link}>
-          {identity?.info && identity?.info?.status !== "NO_ID" ? (
-            <IdentityWrapper>
-              <IdentityIcon
-                status={identity.info.status}
-                showTooltip
-                size={showNetwork ? 12 : 14}
-              />
-              <Name title={identity.info.display}>{identity.info.display}</Name>
-            </IdentityWrapper>
-          ) : (
-            <Name>{addressEllipsis(address)}</Name>
-          )}
-        </ExternalLink>
+        <ExternalLink href={link}>{displayName}</ExternalLink>
       </Popup>
     </Wrapper>
   );
