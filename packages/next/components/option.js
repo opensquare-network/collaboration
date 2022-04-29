@@ -37,6 +37,7 @@ const Option = styled(Button)`
   ${(p) =>
     p.disabled &&
     css`
+      color: #a1a8b3;
       background: none;
       pointer-events: none;
     `}
