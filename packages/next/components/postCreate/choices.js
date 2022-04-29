@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 import Choice from "./choice";
-import Button from "@osn/common-ui/es/styled/Button";
+import { Button } from "@osn/common-ui";
 import { p_16_semibold } from "../../styles/textStyles";
 
 const Wrapper = styled.div`
@@ -74,7 +74,7 @@ export default function Choices({ choices, setChoices }) {
           ))}
         </ItemList>
       </InnerWrapper>
-      <Button onClick={onAdd} large>
+      <Button block onClick={onAdd} large>
         Add choice
       </Button>
     </Wrapper>
