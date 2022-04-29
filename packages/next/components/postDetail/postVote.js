@@ -222,9 +222,9 @@ export default function PostVote({ proposal, threshold = 0 }) {
                 }
               }}
               disabled={proposalClosed}
+              index={index + 1}
             >
-              <div className="index">{`#${index + 1}`}</div>
-              <div className="option">{item}</div>
+              {item}
             </Option>
           ))}
         </ButtonsWrapper>

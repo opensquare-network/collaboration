@@ -12,7 +12,7 @@ import {
 import { registerMetaMaskEventHandlers } from "../../../services/metamask";
 
 const Wrapper = styled.span`
-  display: inline-flex;
+  display: flex;
   align-items: center;
 
   svg {
