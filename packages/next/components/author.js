@@ -1,15 +1,14 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 
-import { addressEllipsis } from "frontedUtils";
 import Avatar from "./avatar";
 import { fetchIdentity } from "services/identity";
 import ExternalLink from "@osn/common-ui/es/ExternalLink";
-import IdentityIcon from "@osn/common-ui/es/User/IdentityIcon";
 import { useIsMounted } from "frontedUtils/hooks";
 import { getExplorer } from "../frontedUtils";
 import { ChainIcon } from "@osn/common-ui";
 import { CHAINS, evmChains } from "../frontedUtils/consts/chains";
+import IdentityOrAddr from "@/components/identityOrAddr";
 
 const Wrapper = styled.div`
   display: flex;
@@ -20,20 +19,6 @@ const Wrapper = styled.div`
   }
   > :first-child {
     margin-right: 4px;
-  }
-`;
-
-const Name = styled.div`
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 24px;
-`;
-
-const IdentityWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  > :not(:first-child) {
-    margin-left: 4px;
   }
 `;
 
@@ -74,18 +59,7 @@ export default function Author({
         <ChainIcon showTooltip chainName={space?.network} size={16} />
       )}
       <ExternalLink href={link}>
-        {identity?.info && identity?.info?.status !== "NO_ID" ? (
-          <IdentityWrapper>
-            <IdentityIcon
-              status={identity.info.status}
-              showTooltip
-              size={showNetwork ? 12 : 14}
-            />
-            <Name>{identity.info.display}</Name>
-          </IdentityWrapper>
-        ) : (
-          <Name>{addressEllipsis(address)}</Name>
-        )}
+        <IdentityOrAddr identity={identity} addr={address} showNetwork={showNetwork}/>
       </ExternalLink>
     </Wrapper>
   );
