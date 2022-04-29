@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
-import Input from "@osn/common-ui/es/styled/Input";
-import RichEditor from "@osn/common-ui/es/RichEdit";
+import { Input, RichEditor } from "@osn/common-ui";
 
 const Wrapper = styled.div`
   background: #ffffff;
@@ -32,6 +31,14 @@ const Title = styled.div`
   line-height: 24px;
 `;
 
+const RichEditorWrapper = styled.div`
+  .rich-editor {
+    .button-submit {
+      display: none;
+    }
+  }
+`;
+
 export default function Content({ title, setTitle, content, setContent }) {
   return (
     <Wrapper>
@@ -45,11 +52,9 @@ export default function Content({ title, setTitle, content, setContent }) {
       </InnerWrapper>
       <InnerWrapper>
         <Title>Proposal</Title>
-        <RichEditor
-          content={content}
-          setContent={setContent}
-          showButtons={false}
-        />
+        <RichEditorWrapper>
+          <RichEditor content={content} setContent={setContent} />
+        </RichEditorWrapper>
       </InnerWrapper>
     </Wrapper>
   );
