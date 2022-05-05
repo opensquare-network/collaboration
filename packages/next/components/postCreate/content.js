@@ -47,7 +47,7 @@ export default function Content({ title, setTitle, content, setContent }) {
         <RichEditor
           content={content}
           setContent={setContent}
-          showOkButton={false}
+          showSubmitButton={false}
         />
       </InnerWrapper>
     </Wrapper>
