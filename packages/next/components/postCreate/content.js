@@ -31,14 +31,6 @@ const Title = styled.div`
   line-height: 24px;
 `;
 
-const RichEditorWrapper = styled.div`
-  .rich-editor {
-    .button-submit {
-      display: none;
-    }
-  }
-`;
-
 export default function Content({ title, setTitle, content, setContent }) {
   return (
     <Wrapper>
@@ -52,9 +44,11 @@ export default function Content({ title, setTitle, content, setContent }) {
       </InnerWrapper>
       <InnerWrapper>
         <Title>Proposal</Title>
-        <RichEditorWrapper>
-          <RichEditor content={content} setContent={setContent} />
-        </RichEditorWrapper>
+        <RichEditor
+          content={content}
+          setContent={setContent}
+          showOkButton={false}
+        />
       </InnerWrapper>
     </Wrapper>
   );
