@@ -1796,10 +1796,10 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@osn/common-ui@^0.0.52":
-  version "0.0.52"
-  resolved "https://registry.yarnpkg.com/@osn/common-ui/-/common-ui-0.0.52.tgz#157a2ebda72007d051923fefd6fef8f9601a38c0"
-  integrity sha512-4eRq+0XjmwLkrjk1oC+cg9CkRM6N/nfB5pnHVpLWH7B6iNIgizbyraulgJvnx5kuu0Xy4g7kp/D/AXR2JjCRsg==
+"@osn/common-ui@^0.0.53":
+  version "0.0.53"
+  resolved "https://registry.yarnpkg.com/@osn/common-ui/-/common-ui-0.0.53.tgz#fadda285ed561809e3017fff211ba514b780f4d1"
+  integrity sha512-YNQVUYbfwXD7ieK14OFv+L+7vbAGuwpwrxY7lHdJoy7xd5h90h2jaQ1ce+g3yptm43T2JGucu7LNbdhYYz7Bjw==
   dependencies:
     "@craco/craco" "^6.4.3"
     "@osn/common" "^0.0.8"
