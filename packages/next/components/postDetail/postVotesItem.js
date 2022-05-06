@@ -13,7 +13,7 @@ const Item = styled.div`
 
 const InfoWrapper = styled.div`
   display: flex;
-  align-items: center;
+  align-items: start;
   justify-content: space-between;
   font-weight: 500;
   line-height: 24px;
