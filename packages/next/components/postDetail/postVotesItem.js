@@ -13,7 +13,7 @@ const Item = styled.div`
 
 const InfoWrapper = styled.div`
   display: flex;
-  align-items: center;
+  align-items: start;
   justify-content: space-between;
   font-weight: 500;
   line-height: 24px;
@@ -70,45 +70,52 @@ const EqualWrapper = styled.div`
   :last-child {
     justify-content: flex-end;
   }
-  > div > div:nth-child(2) {
-    position: relative;
-    height: 24px;
-  }
 `;
 
 const MyVoteTag = styled.div`
   background: linear-gradient(270deg, #04d2c5 2.06%, #6848ff 100%);
   border-radius: 9px;
+  margin-top: 3px;
   padding: 2px 10px;
   color: #ffffff;
   font-weight: 600;
   font-size: 10px;
   line-height: 14px;
-  align-self: center;
   white-space: nowrap;
   margin-left: 8px;
 `;
+
+const Vote = styled(Flex)`
+  > div:nth-child(2) {
+    position: relative;
+    height: 24px;
+  }
+`
+
+const VoterWrapper = styled(EqualWrapper)`
+  align-items: start;
+`
 
 export default function PostVotes({ data, space, isMyVote = false }) {
   const spaceSupportMultiChain = space?.networks?.length > 1;
   return (
     <Item>
       <InfoWrapper>
-        <EqualWrapper>
+        <VoterWrapper>
           <Voter
             address={data.voter ?? data.address}
             network={data.voterNetwork}
             showNetwork={spaceSupportMultiChain}
           />
           {isMyVote && <MyVoteTag>My Vote</MyVoteTag>}
-        </EqualWrapper>
+        </VoterWrapper>
         <EqualWrapper className="center">
-          <Flex style={{ maxWidth: "30vw" }}>
+          <Vote>
             <Label>Vote</Label>
             <Tooltip content={data.choice}>
               <Ellipsis width={189}>{data.choice}</Ellipsis>
             </Tooltip>
-          </Flex>
+          </Vote>
         </EqualWrapper>
         <EqualWrapper>
           <BalanceWrapper>
