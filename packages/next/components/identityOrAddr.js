@@ -4,8 +4,12 @@ import { addressEllipsis } from "../frontedUtils";
 
 const IdentityWrapper = styled.span`
   display: inline-flex;
-  align-items: center;
+  align-items: start;
 
+  > span:first-child {
+    height: 24px;
+  }
+  
   > :not(:first-child) {
     margin-left: 4px;
   }
@@ -13,12 +17,8 @@ const IdentityWrapper = styled.span`
   ${(p) =>
           p.ellipsis &&
           css`
-            > span:first-child {
-              height: 24px;
-            }
             > span:last-child {
-              position: absolute;
-              left: 14px;
+              word-break: break-all;
             }
     `}
 `;
