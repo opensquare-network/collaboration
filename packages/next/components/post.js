@@ -82,7 +82,6 @@ const TitleWrapper = styled(FlexBetween)`
 `;
 
 const ProjectIcons = {
-  polarisdao: "project-polarisdao.png",
 };
 
 const getProjectIcon = (spaceId) => {
