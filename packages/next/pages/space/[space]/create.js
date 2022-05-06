@@ -1,5 +1,5 @@
 import Layout from "components/layout";
-import Nav from "components/nav";
+import Breadcrumb from "components/breadcrumb";
 import PostCreate from "@/components/postCreate";
 import { ssrNextApi } from "services/nextApi";
 import { to404 } from "../../../frontedUtils/serverSideUtil";
@@ -16,10 +16,10 @@ export default function Create({ space }) {
 
   return (
     <Layout bgHeight="183px" space={space}>
-      <Nav
-        data={[
+      <Breadcrumb
+        routes={[
           { name: "Home", link: "/" },
-          { name: space?.name, link: `/space/${space?.id}`, back: true },
+          { name: space?.name, link: `/space/${space?.id}` },
           { name: "New Post" },
         ]}
       />
