@@ -1,6 +1,6 @@
 import Layout from "components/layout";
 import { useDispatch, useSelector } from "react-redux";
-import Nav from "components/nav";
+import Breadcrumb from "components/breadcrumb";
 import PostDetail from "@/components/postDetail/index";
 import nextApi, { ssrNextApi } from "services/nextApi";
 import { EmptyQuery } from "frontedUtils/constants";
@@ -101,10 +101,10 @@ export default function Index({
     <>
       <Seo spaceId={space?.id} title={detail?.title} desc={desc} />
       <Layout bgHeight="183px" space={space}>
-        <Nav
-          data={[
+        <Breadcrumb
+          routes={[
             { name: "Home", link: "/" },
-            { name: space?.name, link: `/space/${space?.id}`, back: true },
+            { name: space?.name, link: `/space/${space?.id}` },
             { name: "Proposal" },
           ]}
         />

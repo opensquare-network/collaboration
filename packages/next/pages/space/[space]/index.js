@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import Layout from "components/layout";
-import Nav from "components/nav";
+import Breadcrumb from "components/breadcrumb";
 import ListInfo from "components/listInfo";
 import ListTab from "components/listTab";
 import PostList from "components/postList";
@@ -63,11 +63,8 @@ export default function List({
       />
       <Layout bgHeight="264px" space={space}>
         <HeaderWrapper>
-          <Nav
-            data={[
-              { name: "Home", link: "/", back: true },
-              { name: space.name },
-            ]}
+          <Breadcrumb
+            routes={[{ name: "Home", link: "/" }, { name: space.name }]}
           />
           <ListInfo spaceId={spaceId} space={space} />
           <ListTab
