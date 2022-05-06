@@ -13,14 +13,17 @@ import IdentityOrAddr from "@/components/identityOrAddr";
 
 const Wrapper = styled.div`
   display: flex;
-  align-items: center;
+  align-items: start;
   color: #2e343d;
 
   > :not(:first-child) {
     margin-left: 4px;
   }
-  .ui--IdentityIcon svg:first-child {
-    margin-right: 4px;
+  .ui--IdentityIcon  {
+    margin-top: 2px;
+    svg:first-child{
+      margin-right: 4px;  
+    }
   }
 `;
 
