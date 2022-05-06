@@ -13,11 +13,12 @@ const IdentityWrapper = styled.span`
   ${(p) =>
           p.ellipsis &&
           css`
-            max-width: calc(100% - 10px);
+            > span:first-child {
+              height: 24px;
+            }
             > span:last-child {
-              white-space: nowrap;
-              text-overflow: ellipsis;
-              overflow: hidden;
+              position: absolute;
+              left: 14px;
             }
     `}
 `;
