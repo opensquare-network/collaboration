@@ -90,11 +90,11 @@ const Vote = styled(Flex)`
     position: relative;
     height: 24px;
   }
-`;
+`
 
 const VoterWrapper = styled(EqualWrapper)`
-  align-items: center;
-`;
+  align-items: start;
+`
 
 export default function PostVotes({ data, space, isMyVote = false }) {
   const spaceSupportMultiChain = space?.networks?.length > 1;
