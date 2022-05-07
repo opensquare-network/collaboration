@@ -13,16 +13,16 @@ import IdentityOrAddr from "@/components/identityOrAddr";
 
 const Wrapper = styled.div`
   display: flex;
-  align-items: start;
+  align-items: center;
   color: #2e343d;
 
   > :not(:first-child) {
     margin-left: 4px;
   }
-  .ui--IdentityIcon  {
+  .ui--IdentityIcon {
     margin-top: 2px;
-    svg:first-child{
-      margin-right: 4px;  
+    svg:first-child {
+      margin-right: 4px;
     }
   }
 `;
@@ -80,7 +80,11 @@ export default function Voter({ address, network, showNetwork = true }) {
       <div>
         <Avatar address={address} size={20} />
         <ChainIcon chainName={network} size={16} />
-        <IdentityOrAddr identity={identity} addr={address} showNetwork={showNetwork}/>
+        <IdentityOrAddr
+          identity={identity}
+          addr={address}
+          showNetwork={showNetwork}
+        />
       </div>
       <Divider />
       <TextMinor>{address}</TextMinor>
@@ -93,7 +97,12 @@ export default function Voter({ address, network, showNetwork = true }) {
       {showNetwork && <ChainIcon chainName={network} size={16} />}
       <Popup content={popup}>
         <ExternalLink href={link}>
-          <IdentityOrAddr identity={identity} addr={address} showNetwork={showNetwork} ellipsis/>
+          <IdentityOrAddr
+            identity={identity}
+            addr={address}
+            showNetwork={showNetwork}
+            ellipsis
+          />
         </ExternalLink>
       </Popup>
     </Wrapper>
