@@ -13,8 +13,7 @@ const LabelWrapper = styled.div`
   color: #506176;
   position: relative;
   display: flex;
-  width: 60%;
-
+  max-width: 55%;
   // for tooltip with size=fit
   > *:first-child {
     max-width: 100%;
@@ -31,7 +30,6 @@ const Label = styled.span`
 const ValueDisplayWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
-  width: 40%;
 `;
 
 function BiasedVotingItem({ label, value, space }) {
