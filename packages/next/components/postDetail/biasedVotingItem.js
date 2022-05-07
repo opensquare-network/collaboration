@@ -13,7 +13,7 @@ const LabelWrapper = styled.div`
   color: #506176;
   position: relative;
   display: flex;
-
+  max-width: 55%;
   // for tooltip with size=fit
   > *:first-child {
     max-width: 100%;
