@@ -222,6 +222,7 @@ export default function PostVote({ proposal, threshold = 0 }) {
                 }
               }}
               disabled={proposalClosed}
+              block
             >
               <div className="index">{`#${index + 1}`}</div>
               <div className="option">{item}</div>
