@@ -1,0 +1,114 @@
+diff --git a/node_modules/@osn/common-ui/es/Chain/ChainIcon.js b/node_modules/@osn/common-ui/es/Chain/ChainIcon.js
+index f40106a..29f9749 100644
+--- a/node_modules/@osn/common-ui/es/Chain/ChainIcon.js
++++ b/node_modules/@osn/common-ui/es/Chain/ChainIcon.js
+@@ -29,8 +29,8 @@ var Wrapper = styled.div(_templateObject || (_templateObject = _taggedTemplateLi
+ 
+ function ResolveChainIcon(_ref) {
+   var chainName = _ref.chainName,
+-      _ref$size = _ref.size,
+-      size = _ref$size === void 0 ? 24 : _ref$size;
++    _ref$size = _ref.size,
++    size = _ref$size === void 0 ? 24 : _ref$size;
+ 
+   switch (chainName) {
+     case "chrwna":
+@@ -70,22 +70,25 @@ function ResolveChainIcon(_ref) {
+ 
+     case "statemine":
+       return /*#__PURE__*/React.createElement("img", {
+-        src: Statemine,
++        src: Statemine.src,
+         width: size,
++        height: size,
+         alt: chainName
+       });
+ 
+     case "statemint":
+       return /*#__PURE__*/React.createElement("img", {
+-        src: Statemint,
++        src: Statemint.src,
+         width: size,
++        height: size,
+         alt: chainName
+       });
+ 
+     case "westmint":
+       return /*#__PURE__*/React.createElement("img", {
+-        src: Westmint,
++        src: Westmint.src,
+         width: size,
++        height: size,
+         alt: chainName
+       });
+ 
+@@ -98,22 +101,25 @@ function ResolveChainIcon(_ref) {
+ 
+     case "bifrost":
+       return /*#__PURE__*/React.createElement("img", {
+-        src: Bifrost,
++        src: Bifrost.src,
+         width: size,
++        height: size,
+         alt: chainName
+       });
+ 
+     case "karura":
+       return /*#__PURE__*/React.createElement("img", {
+-        src: Karura,
++        src: Karura.src,
+         width: size,
++        height: size,
+         alt: chainName
+       });
+ 
+     case "kintsugi":
+       return /*#__PURE__*/React.createElement("img", {
+-        src: Kintsugi,
++        src: Kintsugi.src,
+         width: size,
++        height: size,
+         alt: chainName
+       });
+ 
+@@ -126,8 +132,9 @@ function ResolveChainIcon(_ref) {
+ 
+     case "westend":
+       return /*#__PURE__*/React.createElement("img", {
+-        src: Westend,
++        src: Westend.src,
+         width: size,
++        height: size,
+         alt: chainName
+       });
+ 
+@@ -140,8 +147,9 @@ function ResolveChainIcon(_ref) {
+ 
+     case "acala":
+       return /*#__PURE__*/React.createElement("img", {
+-        src: Acala,
++        src: Acala.src,
+         width: size,
++        height: size,
+         alt: chainName
+       });
+ 
+@@ -181,12 +189,12 @@ var capitalize = function capitalize(str) {
+ 
+ function ChainIcon(_ref2) {
+   var chainName = _ref2.chainName,
+-      position = _ref2.position,
+-      offset = _ref2.offset,
+-      _ref2$showTooltip = _ref2.showTooltip,
+-      showTooltip = _ref2$showTooltip === void 0 ? false : _ref2$showTooltip,
+-      _ref2$size = _ref2.size,
+-      size = _ref2$size === void 0 ? 24 : _ref2$size;
++    position = _ref2.position,
++    offset = _ref2.offset,
++    _ref2$showTooltip = _ref2.showTooltip,
++    showTooltip = _ref2$showTooltip === void 0 ? false : _ref2$showTooltip,
++    _ref2$size = _ref2.size,
++    size = _ref2$size === void 0 ? 24 : _ref2$size;
+   var Icon = ResolveChainIcon({
+     chainName: chainName,
+     size: size

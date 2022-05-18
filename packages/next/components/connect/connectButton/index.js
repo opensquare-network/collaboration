@@ -38,6 +38,7 @@ function ConnectButton({ address, network, isMetamask = false }) {
 
         registerMetaMaskEventHandlers();
       }}
+      style={{ height: 42 }}
     >
       <Wrapper>
         {isMetamask ? <Metamask /> : <Polkadot />}

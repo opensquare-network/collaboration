@@ -59,7 +59,7 @@ export default function Author({
         <ChainIcon showTooltip chainName={space?.network} size={16} />
       )}
       <ExternalLink href={link}>
-        <IdentityOrAddr identity={identity} addr={address} showNetwork={showNetwork}/>
+        <IdentityOrAddr identity={identity} addr={address} />
       </ExternalLink>
     </Wrapper>
   );
