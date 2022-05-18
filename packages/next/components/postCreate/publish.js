@@ -24,7 +24,7 @@ function Publish({ threshold, onPublish }) {
 
   if (!loginAddress) {
     return (
-      <Button large primary onClick={() => dispatch(popUpConnect())}>
+      <Button large primary block onClick={() => dispatch(popUpConnect())}>
         Connect Wallet
       </Button>
     );
@@ -34,6 +34,7 @@ function Publish({ threshold, onPublish }) {
     <Button
       large
       primary
+      block
       onClick={onPublish}
       isLoading={balanceLoading || createProposalLoading}
       disabled={belowThreshold}
