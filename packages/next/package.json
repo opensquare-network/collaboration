@@ -7,10 +7,11 @@
     "build": "next build",
     "start": "NODE_ENV=production node server.js",
     "lint": "next lint",
-    "test": "jest frontedUtils --config jest.fronted.config.js"
+    "test": "jest frontedUtils --config jest.fronted.config.js",
+    "postinstall": "patch-package"
   },
   "dependencies": {
-    "@osn/common-ui": "^0.0.55",
+    "@osn/common-ui": "^0.0.57",
     "@osn/polkadot-react-identicon": "^1.0.8",
     "@polkadot/extension-dapp": "0.43.1",
     "@polkadot/util": "9.0.1",
@@ -55,6 +56,8 @@
     "jest": "^27.3.0",
     "jest-environment-node": "^27.3.0",
     "next-transpile-modules": "^9.0.0",
+    "patch-package": "^6.4.7",
+    "postinstall-postinstall": "^2.1.0",
     "react-test-renderer": "^17.0.2"
   }
 }

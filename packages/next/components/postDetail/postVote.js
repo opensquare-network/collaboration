@@ -223,6 +223,7 @@ export default function PostVote({ proposal, threshold = 0 }) {
               }}
               disabled={proposalClosed}
               index={index + 1}
+              block
             >
               {item}
             </Option>
