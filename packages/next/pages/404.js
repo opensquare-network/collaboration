@@ -15,7 +15,6 @@ const Wrapper = styled.div`
 
 const Section = styled.div`
   background: #fff;
-  border-top: 1px solid #f0f3f8;
   @media screen and (max-width: 800px) {
     border-top: none;
   }
