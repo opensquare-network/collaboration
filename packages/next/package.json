@@ -7,8 +7,7 @@
     "build": "next build",
     "start": "NODE_ENV=production node server.js",
     "lint": "next lint",
-    "test": "jest frontedUtils --config jest.fronted.config.js",
-    "postinstall": "patch-package"
+    "test": "jest frontedUtils --config jest.fronted.config.js"
   },
   "dependencies": {
     "@osn/common-ui": "^0.0.68",
@@ -58,7 +57,6 @@
     "jest": "^27.3.0",
     "jest-environment-node": "^27.3.0",
     "next-transpile-modules": "^9.0.0",
-    "patch-package": "^6.4.7",
     "postinstall-postinstall": "^2.1.0",
     "react-test-renderer": "^17.0.2"
   }
