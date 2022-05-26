@@ -35,7 +35,6 @@ function Publish({ threshold, onPublish }) {
       block
       large
       primary
-      block
       onClick={onPublish}
       isLoading={balanceLoading || createProposalLoading}
       disabled={belowThreshold}
