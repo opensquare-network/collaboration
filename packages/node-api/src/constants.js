@@ -9,6 +9,7 @@ const chains = {
   interlay: "interlay",
   acala: "acala",
   crust: "crust",
+  darwinia: "darwinia",
 };
 
 const noProxyChains = [chains.kintsugi, chains.interlay, chains.crust];
@@ -36,6 +37,7 @@ const chainBlockTime = {
   interlay: twelveSecond,
   crust: sixSecond,
   [chains.acala]: twelveSecond,
+  [chains.darwinia]: sixSecond,
   [evmChains.moonriver]: twelveSecond,
   [evmChains.moonbeam]: twelveSecond,
   [evmChains.ethereum]: thirteenSecond,
