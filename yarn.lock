@@ -1859,10 +1859,10 @@
   resolved "https://registry.yarnpkg.com/@osn/provider-options/-/provider-options-1.0.2.tgz#0577c26ebcc41ac773b9718d47f9637bbb4cd952"
   integrity sha512-1buGMpp5eD/sL3UFb6Fjqo+3KjWNao2MM/RqjR4NKdAeTxVaJmEkdid6BVN9FBVmYYZ2kBIbOTTXEl5uzy6wGg==
 
-"@osn/rich-text-editor@^0.1.9":
-  version "0.1.9"
-  resolved "https://registry.yarnpkg.com/@osn/rich-text-editor/-/rich-text-editor-0.1.9.tgz#66debd109df98331653f8a00096f507a2cb98c4f"
-  integrity sha512-+Qc9wXKJ3+qsrgahDgBu/m3R85Bfls/lTEY34aj0aIlZFjTIhQiEVRHCg+Vnz0deoTUhcsv7gk39hWRCZmTFPQ==
+"@osn/rich-text-editor@^0.1.10":
+  version "0.1.10"
+  resolved "https://registry.yarnpkg.com/@osn/rich-text-editor/-/rich-text-editor-0.1.10.tgz#0ab8f1de564fbb9ada15a7ac704b8e901e40629d"
+  integrity sha512-lhFM6LxkhbAR0/hh6t1l7mGX/X5AhrqeJmVqd0EYKheCWKZltvTDZBm1vLMEQWEhXwDH+fkmbHBG3MIABhkf2Q==
   dependencies:
     github-markdown-css "^5.1.0"
     marked "^4.0.15"
