@@ -33,14 +33,6 @@ module.exports = withTM({
         use: "babel-loader",
       }
     );
-    config.resolve.fallback = {
-      process: "process/browser",
-      tty: "tty-browserify",
-      querystring: false,
-      path: false,
-      fs: false,
-      buffer: false,
-    };
     return config;
   },
 });
