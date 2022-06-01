@@ -5,7 +5,6 @@ const { spaces: spaceServices } = require("../../spaces");
 const { isAddress: isSubstrateAddress } = require("@polkadot/util-crypto");
 const { getBalanceFromNetwork } = require("../../services/node.service");
 const ethers = require("ethers");
-const { adaptBalance } = require("../../utils/balance");
 const { getEvmAddressBalance } = require("../../services/node.service");
 
 async function getSpaceAccountBalance(ctx) {
