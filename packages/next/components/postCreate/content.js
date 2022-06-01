@@ -50,7 +50,7 @@ export default function Content({ title, setTitle, content, setContent }) {
           onChange={(value) => {
             setContent(value);
           }}
-          minHeight={300}
+          minHeight={144}
         />
       </InnerWrapper>
     </Wrapper>

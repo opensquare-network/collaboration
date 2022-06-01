@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 
 import Author from "components/author";
 import Pagination from "components/pagination";
-import RichEditor from "@osn/common-ui/es/RichEdit";
 import { useViewfunc } from "frontedUtils/hooks";
 import { loginAccountSelector } from "store/reducers/accountSlice";
 import {
@@ -25,6 +24,8 @@ import nextApi from "../../services/nextApi";
 import { extensionCancelled } from "../../frontedUtils/consts/extension";
 import NoData from "@osn/common-ui/es/NoData";
 import Preview from "@osn/common-ui/es/Preview";
+import Editor from "@osn/rich-text-editor";
+import { Button, Flex } from "@osn/common-ui";
 
 const Item = styled.div`
   padding-top: 20px;
@@ -92,6 +93,14 @@ const NoCommentWrapper = styled.div`
     box-shadow: none;
     height: 100%;
   }
+`;
+
+const RightWrapper = styled(Flex)`
+  justify-content: flex-end;
+`;
+
+const SubmitButton = styled(Button)`
+  margin-top: 20px;
 `;
 
 export default function PostDiscussion({
@@ -221,11 +230,18 @@ export default function PostDiscussion({
         />
       </PaginationWrapper>
 
-      <RichEditor
-        content={content}
-        setContent={setContent}
-        onSubmit={onSubmit}
+      <Editor
+        value={content}
+        onChange={(value) => {
+          setContent(value);
+        }}
+        minHeight={144}
       />
+      <RightWrapper>
+        <SubmitButton primary onClick={onSubmit}>
+          Post
+        </SubmitButton>
+      </RightWrapper>
     </AccordionPanel>
   );
 }
