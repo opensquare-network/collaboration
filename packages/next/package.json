@@ -10,7 +10,7 @@
     "test": "jest frontedUtils --config jest.fronted.config.js"
   },
   "dependencies": {
-    "@osn/common-ui": "^0.0.68",
+    "@osn/common-ui": "^0.0.69",
     "@osn/polkadot-react-identicon": "^1.0.8",
     "@osn/rich-text-editor": "^0.1.10",
     "@polkadot/api": "8.5.1",
