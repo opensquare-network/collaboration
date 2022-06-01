@@ -13,6 +13,7 @@ const networks = Object.freeze({
   crust: "crust",
   turing: "turing",
   darwinia: "darwinia",
+  crab: "crab",
   ethereum: "ethereum",
 });
 

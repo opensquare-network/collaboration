@@ -1,4 +1,5 @@
 const dotenv = require("dotenv");
+const { crabConfig } = require("./spaces/crab");
 dotenv.config();
 
 const { turingConfig } = require("./spaces/turing");
@@ -35,6 +36,7 @@ const spaces = [
   // crustConfig,
   darwiniaConfig,
   turingConfig,
+  crabConfig,
 ];
 
 async function main() {

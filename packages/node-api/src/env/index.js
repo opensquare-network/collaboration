@@ -27,6 +27,8 @@ const endpoints = Object.values(chains).map((chain) => {
     endpoints = (process.env.CRU_ENDPOINTS || "").split(";");
   } else if (chains.darwinia === chain) {
     endpoints = (process.env.RING_ENDPOINTS || "").split(";");
+  } else if (chains.crab === chain) {
+    endpoints = (process.env.CRAB_ENDPOINTS || "").split(";");
   } else if (chains.turing === chain) {
     endpoints = (process.env.TUR_ENDPOINTS || "").split(";");
   }

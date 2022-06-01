@@ -8,4 +8,5 @@ export const identityChainMap = Object.freeze({
   [CHAINS.acala]: [CHAINS.polkadot],
   [CHAINS.crust]: [CHAINS.crust],
   [CHAINS.turing]: [CHAINS.kusama],
+  [CHAINS.crab]: [CHAINS.crab],
 });

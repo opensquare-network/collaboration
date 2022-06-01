@@ -12,6 +12,7 @@ export const CHAINS = Object.freeze({
   acala: "acala",
   turing: "turing",
   crust: "crust",
+  crab: "crab",
   ethereum: "ethereum",
 });
 

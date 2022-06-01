@@ -25,6 +25,7 @@ const SpaceIcons = {
   acala: "acala.svg",
   crust: "crust.svg",
   [CHAINS.turing]: "turing.svg",
+  [CHAINS.crab]: "crab.svg",
 };
 
 export default function SpaceLogo({ spaceId }) {
