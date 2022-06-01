@@ -11,8 +11,8 @@
   },
   "dependencies": {
     "@osn/common-ui": "^0.0.68",
-    "@osn/rich-text-editor": "0.1.7",
     "@osn/polkadot-react-identicon": "^1.0.8",
+    "@osn/rich-text-editor": "^0.1.9",
     "@polkadot/api": "8.5.1",
     "@polkadot/extension-dapp": "0.43.2",
     "@polkadot/util": "9.2.1",
@@ -59,8 +59,6 @@
     "jest-environment-node": "^27.3.0",
     "next-transpile-modules": "^9.0.0",
     "postinstall-postinstall": "^2.1.0",
-    "react-test-renderer": "^17.0.2",
-    "tty-browserify": "^0.0.1",
-    "process": "^0.11.10"
+    "react-test-renderer": "^17.0.2"
   }
 }
