@@ -1,6 +1,7 @@
 const dotenv = require("dotenv");
 dotenv.config();
 
+const { turingConfig } = require("./spaces/turing");
 // const { crustConfig } = require("./spaces/crust");
 const { polarisDaoConfig } = require("./spaces/polarisDao");
 const { polkadotConfig } = require("./spaces/polkadot");
@@ -33,6 +34,7 @@ const spaces = [
   acalaConfig,
   // crustConfig,
   darwiniaConfig,
+  turingConfig,
 ];
 
 async function main() {
