@@ -10,6 +10,7 @@ const chains = {
   acala: "acala",
   crust: "crust",
   darwinia: "darwinia",
+  turing: "turing",
 };
 
 const noProxyChains = [chains.kintsugi, chains.interlay, chains.crust];
@@ -38,6 +39,7 @@ const chainBlockTime = {
   crust: sixSecond,
   [chains.acala]: twelveSecond,
   [chains.darwinia]: sixSecond,
+  [chains.turing]: twelveSecond,
   [evmChains.moonriver]: twelveSecond,
   [evmChains.moonbeam]: twelveSecond,
   [evmChains.ethereum]: thirteenSecond,
