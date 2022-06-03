@@ -12,6 +12,7 @@ const chains = {
   darwinia: "darwinia",
   turing: "turing",
   crab: "crab",
+  polkadex: "polkadex",
 };
 
 const noProxyChains = [chains.kintsugi, chains.interlay, chains.crust];
@@ -35,7 +36,7 @@ const chainBlockTime = {
   statemine: twelveSecond,
   bifrost: twelveSecond,
   kintsugi: twelveSecond,
-  polkadex: twelveSecond,
+  [chains.polkadex]: twelveSecond,
   interlay: twelveSecond,
   crust: sixSecond,
   [chains.acala]: twelveSecond,

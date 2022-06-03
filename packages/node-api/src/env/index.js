@@ -31,6 +31,8 @@ const endpoints = Object.values(chains).map((chain) => {
     endpoints = (process.env.CRAB_ENDPOINTS || "").split(";");
   } else if (chains.turing === chain) {
     endpoints = (process.env.TUR_ENDPOINTS || "").split(";");
+  } else if (chains.polkadex === chain) {
+    endpoints = (process.env.PDEX_ENDPOINTS || "").split(";");
   }
 
   return {
