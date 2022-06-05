@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { makeSquare } from "../styles/globalCss";
+import { CHAINS } from "../frontedUtils/consts/chains";
 
 const LogoImg = styled.img`
   ${makeSquare(64)};
@@ -23,6 +24,9 @@ const SpaceIcons = {
   interlay: "interlay.svg",
   acala: "acala.svg",
   crust: "crust.svg",
+  [CHAINS.turing]: "turing.svg",
+  [CHAINS.crab]: "crab.svg",
+  [CHAINS.darwinia]: "darwinia.svg",
 };
 
 export default function SpaceLogo({ spaceId }) {

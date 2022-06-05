@@ -11,6 +11,10 @@ const networks = Object.freeze({
   moonbeam: "moonbeam",
   acala: "acala",
   crust: "crust",
+  turing: "turing",
+  darwinia: "darwinia",
+  crab: "crab",
+  polkadex: "polkadex",
   ethereum: "ethereum",
 });
 

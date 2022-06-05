@@ -1,7 +1,10 @@
 const dotenv = require("dotenv");
 dotenv.config();
 
-const { crustConfig } = require("./spaces/crust");
+const { polkadexConfig } = require("./spaces/polkadex");
+// const { crabConfig } = require("./spaces/crab");
+const { turingConfig } = require("./spaces/turing");
+// const { crustConfig } = require("./spaces/crust");
 const { polarisDaoConfig } = require("./spaces/polarisDao");
 const { polkadotConfig } = require("./spaces/polkadot");
 const { bifrostConfig } = require("./spaces/bifrost");
@@ -12,6 +15,7 @@ const { kusamaConfig } = require("./spaces/kusama");
 const { chrwnaConfig } = require("./spaces/chrwna");
 const { interlayConfig } = require("./spaces/interlay");
 const { acalaConfig } = require("./spaces/acala");
+const { darwiniaConfig } = require("./spaces/darwinia");
 
 const { getSpaceCollection } = require("../mongo");
 const { kintsugiConfig } = require("./spaces/kintsugi");
@@ -26,11 +30,14 @@ const spaces = [
   bifrostConfig,
   kintsugiConfig,
   polarisDaoConfig,
-  // polkadexConfig,
+  polkadexConfig,
   chrwnaConfig,
   interlayConfig,
   acalaConfig,
-  crustConfig,
+  // crustConfig,
+  darwiniaConfig,
+  turingConfig,
+  // crabConfig,
 ];
 
 async function main() {
