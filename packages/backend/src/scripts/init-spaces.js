@@ -2,7 +2,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const { polkadexConfig } = require("./spaces/polkadex");
-const { crabConfig } = require("./spaces/crab");
+// const { crabConfig } = require("./spaces/crab");
 const { turingConfig } = require("./spaces/turing");
 // const { crustConfig } = require("./spaces/crust");
 const { polarisDaoConfig } = require("./spaces/polarisDao");
@@ -37,7 +37,7 @@ const spaces = [
   // crustConfig,
   darwiniaConfig,
   turingConfig,
-  crabConfig,
+  // crabConfig,
 ];
 
 async function main() {
