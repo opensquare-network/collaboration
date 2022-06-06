@@ -111,7 +111,7 @@ async function getProposals(ctx) {
   }
 
   const q = { space };
-  ctx.body = await queryProposals(q, { lastActivityAt: -1 }, page, pageSize);
+  ctx.body = await queryProposals(q, { endDate: -1 }, page, pageSize);
 }
 
 async function getPendingProposals(ctx) {
