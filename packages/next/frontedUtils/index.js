@@ -170,12 +170,6 @@ export function toApproximatelyFixed(value, fixed = 2) {
   return "≈ " + fixedValue;
 }
 
-export function matchMdLink(t) {
-  const expression =
-    /(?<!\]\()((?:https?|ftp):\/\/[^\s\]\)]*)(?:[\s\]\)](?!\()|$)/gi;
-  return t.replace(expression, "[$1]($1) ");
-}
-
 export function getEffectiveNumbers(n) {
   const result = [];
   let flag = false;
