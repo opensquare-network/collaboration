@@ -52,7 +52,12 @@ const Divider = styled.div`
   background-color: #f0f3f8;
 `;
 
-export default function Voter({ address, network, showNetwork = true }) {
+export default function Voter({
+  address,
+  network,
+  showNetwork = true,
+  isSafari = false,
+}) {
   const [identity, setIdentity] = useState();
   const isMounted = useIsMounted();
   const explorer = getExplorer(network);
@@ -101,6 +106,7 @@ export default function Voter({ address, network, showNetwork = true }) {
             identity={identity}
             addr={address}
             showNetwork={showNetwork}
+            isSafari={isSafari}
             ellipsis
           />
         </ExternalLink>

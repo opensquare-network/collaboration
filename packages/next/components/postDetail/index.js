@@ -49,6 +49,7 @@ export default function PostDetail({
   comments,
   defaultPage,
   myVote,
+  isSafari = false,
 }) {
   return (
     <Wrapper>
@@ -59,6 +60,7 @@ export default function PostDetail({
           votes={votes}
           myVote={myVote}
           discussionPage={defaultPage?.discussionPage}
+          isSafari={isSafari}
         />
         <PostDiscussion proposal={data} comments={comments} space={space} />
       </MainWrapper>

@@ -29,10 +29,19 @@ const Name = styled.span`
   line-height: 24px;
 `;
 
-export default function IdentityOrAddr({ identity, addr, ellipsis = false }) {
+export default function IdentityOrAddr({
+  identity,
+  addr,
+  ellipsis = false,
+  isSafari = false,
+}) {
   return identity?.info && identity?.info?.status !== "NO_ID" ? (
     <IdentityWrapper ellipsis={ellipsis}>
-      <IdentityIcon status={identity.info.status} showTooltip size={12} />
+      <IdentityIcon
+        status={identity.info.status}
+        showTooltip={!isSafari}
+        size={12}
+      />
       <Name title={identity.info.display}>{identity.info.display}</Name>
     </IdentityWrapper>
   ) : (
