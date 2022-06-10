@@ -129,7 +129,7 @@ async function createProposal(
   }
 
   for (const chain in snapshotHeights) {
-    const lastHeight = getLatestHeight(chain);
+    const lastHeight = await getLatestHeight(chain);
     if (lastHeight && snapshotHeights[chain] > lastHeight) {
       throw new HttpError(
         400,
@@ -146,7 +146,7 @@ async function createProposal(
 
   const weightStrategy = spaceService.weightStrategy;
 
-  const lastHeight = getLatestHeight(proposerNetwork);
+  const lastHeight = await getLatestHeight(proposerNetwork);
 
   if (realProposer && realProposer !== address) {
     await checkDelegation(proposerNetwork, address, realProposer, lastHeight);
@@ -644,7 +644,9 @@ async function getVoterBalance(proposalCid, network, address, snapshot) {
   }
   const networksConfig = proposal.networksConfig;
 
-  const blockHeight = snapshot ? parseInt(snapshot) : getLatestHeight(network);
+  const blockHeight = snapshot
+    ? parseInt(snapshot)
+    : await getLatestHeight(network);
   const totalBalance = await getBalanceFromNetwork({
     networksConfig,
     networkName: network,

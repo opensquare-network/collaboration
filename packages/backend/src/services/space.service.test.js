@@ -6,12 +6,11 @@ jest.mock("./node.service");
 jest.mock("../env");
 
 const { getDb } = require("../mongo");
-const { startUpdateHeight, stopUpdateHeight } = require("./chain.service");
 const { getSpace, getSpaces } = require("./space.service");
 const { reloadSpaces } = require("../spaces");
 const { karuraConfig } = require("../scripts/spaces/karura");
 
-const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 describe("Spaces Test", () => {
   let db;
@@ -21,14 +20,9 @@ describe("Spaces Test", () => {
     db = await getDb();
     spaceCol = db.getCollection("space");
 
-    await spaceCol.insertMany([
-      karuraConfig,
-    ]);
+    await spaceCol.insertMany([karuraConfig]);
 
     await reloadSpaces();
-
-    startUpdateHeight();
-    await sleep(1000);
   });
 
   afterAll(async () => {
@@ -40,9 +34,7 @@ describe("Spaces Test", () => {
   test("getSpaces", async () => {
     const spaces = await getSpaces();
     expect(spaces).toMatchObject({
-      karura:
-      karuraConfig,
-
+      karura: karuraConfig,
     });
   });
 
