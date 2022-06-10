@@ -128,15 +128,17 @@ async function createProposal(
     });
   }
 
-  for (const chain in snapshotHeights) {
-    const lastHeight = await getLatestHeight(chain);
-    if (lastHeight && snapshotHeights[chain] > lastHeight) {
-      throw new HttpError(
-        400,
-        `Snapshot height should not be higher than the current finalized height: ${chain}`
-      );
-    }
-  }
+  await Promise.all(
+    Object.keys(snapshotHeights).map(async (chain) => {
+      const lastHeight = await getLatestHeight(chain);
+      if (lastHeight && snapshotHeights[chain] > lastHeight) {
+        throw new HttpError(
+          400,
+          `Snapshot height should not be higher than the current finalized height: ${chain}`
+        );
+      }
+    })
+  );
 
   const networksConfig = {
     symbol: spaceService.symbol,
