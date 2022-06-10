@@ -116,7 +116,10 @@ export default function PostVote({ proposal, threshold = 0 }) {
     setRemark("");
   };
 
-  const proposalClosed = proposalStatus.closed === proposal?.status;
+  const proposalClosed = [
+    proposalStatus.closed,
+    proposalStatus.terminated,
+  ].includes(proposal?.status);
 
   useEffect(() => {
     if (proposal && loginAddress && loginNetwork) {

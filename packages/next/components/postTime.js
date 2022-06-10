@@ -9,6 +9,8 @@ export default function PostTime({ post }) {
         ? "End " + timeDuration(post.endDate)
         : post.status === "closed"
         ? "Ended " + timeDuration(post.endDate)
+        : post.status === "terminated"
+        ? "Terminated " + timeDuration(post.terminated.terminatedAt)
         : ""}
     </div>
   );

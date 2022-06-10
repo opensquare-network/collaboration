@@ -7,6 +7,7 @@ const router = new Router();
 router.post("/proposals", requireSignature, proposalController.createProposal);
 router.post("/comments", requireSignature, proposalController.postComment);
 router.post("/votes", requireSignature, proposalController.vote);
+router.post("/terminate", requireSignature, proposalController.terminate);
 
 router.get("/proposals", proposalController.getProposals);
 router.get("/proposals/pending", proposalController.getPendingProposals);

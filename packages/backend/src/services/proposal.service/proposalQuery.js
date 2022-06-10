@@ -11,10 +11,19 @@ async function queryProposals(q, sort = {}, page, pageSize) {
   }
 
   const proposals = await proposalCol
-    .find(q)
-    .sort(sort)
-    .skip((page - 1) * pageSize)
-    .limit(pageSize)
+    .aggregate([
+      { $match: q },
+      {
+        $addFields: {
+          terminatedOrEndedAt: {
+            $ifNull: ["$terminated.terminatedAt", "$endDate"],
+          },
+        },
+      },
+      { $sort: sort },
+      { $skip: (page - 1) * pageSize },
+      { $limit: pageSize },
+    ])
     .toArray();
 
   return {

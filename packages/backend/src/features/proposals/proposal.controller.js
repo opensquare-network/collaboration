@@ -111,7 +111,12 @@ async function getProposals(ctx) {
   }
 
   const q = { space };
-  ctx.body = await queryProposals(q, { endDate: -1 }, page, pageSize);
+  ctx.body = await queryProposals(
+    q,
+    { terminatedOrEndedAt: -1 },
+    page,
+    pageSize
+  );
 }
 
 async function getPendingProposals(ctx) {
@@ -127,6 +132,7 @@ async function getPendingProposals(ctx) {
   const q = {
     space,
     startDate: { $gt: now },
+    terminated: null,
   };
 
   ctx.body = await queryProposals(q, { startDate: 1 }, page, pageSize);
@@ -146,6 +152,7 @@ async function getActiveProposals(ctx) {
     space,
     startDate: { $lte: now },
     endDate: { $gt: now },
+    terminated: null,
   };
 
   ctx.body = await queryProposals(q, { endDate: 1 }, page, pageSize);
@@ -163,10 +170,15 @@ async function getClosedProposals(ctx) {
   const now = Date.now();
   const q = {
     space,
-    endDate: { $lte: now },
+    $or: [{ endDate: { $lte: now } }, { terminated: { $ne: null } }],
   };
 
-  ctx.body = await queryProposals(q, { endDate: -1 }, page, pageSize);
+  ctx.body = await queryProposals(
+    q,
+    { terminatedOrEndedAt: -1 },
+    page,
+    pageSize
+  );
 }
 
 async function getProposalById(ctx) {
@@ -246,6 +258,29 @@ async function vote(ctx) {
   );
 }
 
+async function terminate(ctx) {
+  const { data, address, signature } = ctx.request.body;
+  const { proposalCid, terminatorNetwork } = data;
+
+  if (!proposalCid) {
+    throw new HttpError(400, { proposalCid: ["Proposal CID is missing"] });
+  }
+
+  if (!terminatorNetwork) {
+    throw new HttpError(400, {
+      terminatorNetwork: ["Terminator network is missing"],
+    });
+  }
+
+  ctx.body = await proposalService.terminate(
+    proposalCid,
+    terminatorNetwork,
+    data,
+    address,
+    signature
+  );
+}
+
 async function getVotes(ctx) {
   const { page, pageSize } = extractPage(ctx);
   if (pageSize === 0 || page < 1) {
@@ -312,4 +347,5 @@ module.exports = {
   getVoteByNetworkAddress,
   getStats,
   getVoterBalance,
+  terminate,
 };
