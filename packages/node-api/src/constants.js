@@ -54,6 +54,7 @@ const symbols = {
   ARIS: "ARIS",
   KINT: "KINT",
   KAR: "KAR",
+  BNC: "BNC",
 };
 
 const nodeTimeoutSeconds = 20;
