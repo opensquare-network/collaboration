@@ -1,13 +1,18 @@
+const { timeout } = require("../utils");
 const { getChainHeight } = require("./node.service");
 
 let latestHeights = {};
 
 async function updateChainHeight(network) {
   try {
-    const { height } = await getChainHeight(network);
-    latestHeights[network] = { height, updateTime: Date.now() };
+    await Promise.race([
+      getChainHeight(network).then(({ height }) => {
+        latestHeights[network] = { height, updateTime: Date.now() };
+      }),
+      timeout(2000),
+    ]);
   } catch (e) {
-    console.error(`can not update ${network} height`);
+    console.error(`Can not update ${network} height: ${e.message}`);
   }
 }
 
