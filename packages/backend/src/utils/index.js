@@ -96,6 +96,15 @@ function enhancedSqrtOfBalance(balance, decimals, voteThreshold) {
   return num.times(Math.pow(10, decimals)).integerValue().toString();
 }
 
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function timeout(ms) {
+  await sleep(ms);
+  throw new Error("timeout");
+}
+
 module.exports = {
   extractPage,
   handler,
@@ -106,4 +115,6 @@ module.exports = {
   toSymbolUnit,
   fromSymbolUnit,
   enhancedSqrtOfBalance,
+  sleep,
+  timeout,
 };
