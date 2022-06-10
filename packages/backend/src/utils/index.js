@@ -96,6 +96,10 @@ function enhancedSqrtOfBalance(balance, decimals, voteThreshold) {
   return num.times(Math.pow(10, decimals)).integerValue().toString();
 }
 
+function isSamePublicKey(address1, address2) {
+  return encodeAddress(address1, 42) === encodeAddress(address2, 42);
+}
+
 module.exports = {
   extractPage,
   handler,
@@ -106,4 +110,5 @@ module.exports = {
   toSymbolUnit,
   fromSymbolUnit,
   enhancedSqrtOfBalance,
+  isSamePublicKey,
 };

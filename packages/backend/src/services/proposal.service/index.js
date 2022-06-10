@@ -22,7 +22,11 @@ const {
   getObjectBufAndCid,
   pinJsonToIpfsWithTimeout,
 } = require("../ipfs.service");
-const { toDecimal128, enhancedSqrtOfBalance } = require("../../utils");
+const {
+  toDecimal128,
+  enhancedSqrtOfBalance,
+  isSamePublicKey,
+} = require("../../utils");
 const { calcPassing } = require("../biased-voting.service");
 const { getBalanceFromNetwork } = require("../../services/node.service");
 
@@ -509,6 +513,48 @@ async function vote(
   return result.value?._id;
 }
 
+async function terminate(
+  proposalCid,
+  terminatorNetwork,
+  data,
+  address,
+  signature
+) {
+  const proposalCol = await getProposalCollection();
+  const proposal = await proposalCol.findOne({ cid: proposalCid });
+  if (!proposal) {
+    throw new HttpError(400, "Proposal not found.");
+  }
+
+  const now = Date.now();
+
+  if (proposal.endDate < now) {
+    throw new HttpError(400, "The voting had already ended");
+  }
+
+  if (
+    !isSamePublicKey(address, proposal.proposer) &&
+    !isSamePublicKey(address, proposal.address)
+  ) {
+    throw new HttpError(400, "Only the proposer can terminate the proposal");
+  }
+
+  await proposalCol.updateOne(
+    { _id: proposal._id },
+    {
+      $set: {
+        terminated: {
+          data,
+          address,
+          signature,
+          terminatorNetwork,
+          terminatedAt: now,
+        },
+      },
+    }
+  );
+}
+
 async function getVotes(proposalCid, page, pageSize) {
   const proposalCol = await getProposalCollection();
   const proposal = await proposalCol.findOne({ cid: proposalCid });
@@ -668,4 +714,5 @@ module.exports = {
   getAddressVote,
   getStats,
   getVoterBalance,
+  terminate,
 };
