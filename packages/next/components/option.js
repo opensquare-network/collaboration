@@ -3,6 +3,7 @@ import { Button as OsnButton } from "@osn/common-ui";
 import { css } from "styled-components";
 
 const Button = styled(OsnButton)`
+  padding: 12px 24px;
   ${(p) =>
     p.active &&
     css`
