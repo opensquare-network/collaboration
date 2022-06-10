@@ -128,15 +128,17 @@ async function createProposal(
     });
   }
 
-  for (const chain in snapshotHeights) {
-    const lastHeight = getLatestHeight(chain);
-    if (lastHeight && snapshotHeights[chain] > lastHeight) {
-      throw new HttpError(
-        400,
-        `Snapshot height should not be higher than the current finalized height: ${chain}`
-      );
-    }
-  }
+  await Promise.all(
+    Object.keys(snapshotHeights).map(async (chain) => {
+      const lastHeight = await getLatestHeight(chain);
+      if (lastHeight && snapshotHeights[chain] > lastHeight) {
+        throw new HttpError(
+          400,
+          `Snapshot height should not be higher than the current finalized height: ${chain}`
+        );
+      }
+    })
+  );
 
   const networksConfig = {
     symbol: spaceService.symbol,
@@ -146,7 +148,7 @@ async function createProposal(
 
   const weightStrategy = spaceService.weightStrategy;
 
-  const lastHeight = getLatestHeight(proposerNetwork);
+  const lastHeight = await getLatestHeight(proposerNetwork);
 
   if (realProposer && realProposer !== address) {
     await checkDelegation(proposerNetwork, address, realProposer, lastHeight);
@@ -644,7 +646,9 @@ async function getVoterBalance(proposalCid, network, address, snapshot) {
   }
   const networksConfig = proposal.networksConfig;
 
-  const blockHeight = snapshot ? parseInt(snapshot) : getLatestHeight(network);
+  const blockHeight = snapshot
+    ? parseInt(snapshot)
+    : await getLatestHeight(network);
   const totalBalance = await getBalanceFromNetwork({
     networksConfig,
     networkName: network,
