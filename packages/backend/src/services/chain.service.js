@@ -12,9 +12,10 @@ async function updateChainHeight(network) {
 }
 
 async function getLatestHeight(networkName) {
-  if (!latestHeights[networkName]) {
-    await updateChainHeight(networkName);
-  } else if (latestHeights[networkName].updateTime < Date.now() - 12 * 1000) {
+  if (
+    !latestHeights[networkName] ||
+    latestHeights[networkName].updateTime < Date.now() - 12 * 1000
+  ) {
     await updateChainHeight(networkName);
   }
 
