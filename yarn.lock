@@ -1849,10 +1849,10 @@
     util "npm:util"
     web-vitals "^2.1.4"
 
-"@osn/provider-options@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.npmjs.org/@osn/provider-options/-/provider-options-1.0.1.tgz#88ff3f45ee607b57ffacf99a9d45024768f971f0"
-  integrity sha512-an2kSR9ezoRqWeFNnEm92kOWbs84jl9gPowRAoETBGV5QKJGXrHlEQ5La72d2+Mcrh3alObd/VQ6hxsMIO1MEw==
+"@osn/provider-options@1.0.7":
+  version "1.0.7"
+  resolved "https://registry.npmjs.org/@osn/provider-options/-/provider-options-1.0.7.tgz#bd7fce7426b44c370812376704aa9092ca6cc216"
+  integrity sha512-8P45Pc/N9FrFJz4R922J47w2u8ZCQ8e7/UpMpUmRKayCgQ3oCSH1xtsKYNozbSUsuGNsWJ+UZaap2AfIJIrgjA==
 
 "@osn/provider-options@^1.0.2":
   version "1.0.2"

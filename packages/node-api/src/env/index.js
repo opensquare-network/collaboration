@@ -33,6 +33,8 @@ const endpoints = Object.values(chains).map((chain) => {
     endpoints = (process.env.TUR_ENDPOINTS || "").split(";");
   } else if (chains.polkadex === chain) {
     endpoints = (process.env.PDEX_ENDPOINTS || "").split(";");
+  } else if (chains.centrifuge === chain) {
+    endpoints = (process.env.CFG_ENDPOINTS || "").split(";");
   }
 
   return {
