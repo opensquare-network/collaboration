@@ -147,3 +147,18 @@ export async function signVote(
     address
   );
 }
+
+export async function signTerminate({
+  proposalCid,
+  terminatorNetwork,
+  address,
+}) {
+  return await signApiData(
+    {
+      proposalCid,
+      terminatorNetwork,
+      version: "2",
+    },
+    address
+  );
+}
