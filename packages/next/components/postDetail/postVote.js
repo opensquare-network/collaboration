@@ -101,7 +101,11 @@ export default function PostVote({ proposal, threshold = 0 }) {
   const loginAddress = useSelector(loginAddressSelector);
   const { network: loginNetwork } = useSelector(loginNetworkSelector) || {};
 
-  const { terminateButton } = useTerminate({ proposal, loginAddress });
+  const { terminateButton } = useTerminate({
+    proposal,
+    loginAddress,
+    loginNetwork,
+  });
 
   const voteBalance = useProxy ? proxyBalance : balance;
   const belowThreshold = new BigNumber(voteBalance).isLessThan(threshold);
