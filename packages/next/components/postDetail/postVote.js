@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 
-import Input from "@osn/common-ui/es/styled/Input";
+import { Input, Button } from "@osn/common-ui";
 import { useViewfunc } from "frontedUtils/hooks";
 import {
   canUseProxySelector,
@@ -27,7 +27,6 @@ import {
 } from "frontedUtils";
 import nextApi from "services/nextApi";
 import PostAddress from "../postAddress";
-import ButtonPrimary from "@osn/common-ui/es/styled/Button";
 import Option from "@/components/option";
 import { text_secondary_red_500 } from "../../styles/colorStyles";
 import BigNumber from "bignumber.js";
@@ -268,7 +267,7 @@ export default function PostVote({ proposal, threshold = 0 }) {
           {useProxy && (
             <PostAddress spaceId={proposal.space} snapshot={snapshot} />
           )}
-          <ButtonPrimary
+          <Button
             primary
             large
             isLoading={isLoading}
@@ -276,7 +275,7 @@ export default function PostVote({ proposal, threshold = 0 }) {
             disabled={!canVote}
           >
             {useProxy ? "Proxy Vote" : "Vote"}
-          </ButtonPrimary>
+          </Button>
         </InnerWrapper>
       )}
     </Wrapper>
