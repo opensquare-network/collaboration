@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 
-import { Input, Button } from "@osn/common-ui";
+import { Input, Button, Flex } from "@osn/common-ui";
 import { useViewfunc } from "frontedUtils/hooks";
 import {
   canUseProxySelector,
@@ -35,6 +35,7 @@ import { findNetworkConfig } from "services/util";
 import isNil from "lodash.isnil";
 import { proposalStatus } from "../../frontedUtils/consts/proposal";
 import { extensionCancelled } from "../../frontedUtils/consts/extension";
+import { useTerminate } from "./terminate";
 
 const Wrapper = styled.div`
   > :not(:first-child) {
@@ -99,6 +100,8 @@ export default function PostVote({ proposal, threshold = 0 }) {
 
   const loginAddress = useSelector(loginAddressSelector);
   const { network: loginNetwork } = useSelector(loginNetworkSelector) || {};
+
+  const { terminateButton } = useTerminate({ proposal, loginAddress });
 
   const voteBalance = useProxy ? proxyBalance : balance;
   const belowThreshold = new BigNumber(voteBalance).isLessThan(threshold);
@@ -267,15 +270,21 @@ export default function PostVote({ proposal, threshold = 0 }) {
           {useProxy && (
             <PostAddress spaceId={proposal.space} snapshot={snapshot} />
           )}
-          <Button
-            primary
-            large
-            isLoading={isLoading}
-            onClick={onVote}
-            disabled={!canVote}
-          >
-            {useProxy ? "Proxy Vote" : "Vote"}
-          </Button>
+
+          <Flex>
+            <Button
+              primary
+              large
+              block
+              isLoading={isLoading}
+              onClick={onVote}
+              disabled={!canVote}
+            >
+              {useProxy ? "Proxy Vote" : "Vote"}
+            </Button>
+
+            {terminateButton}
+          </Flex>
         </InnerWrapper>
       )}
     </Wrapper>
