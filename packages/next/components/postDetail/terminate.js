@@ -11,6 +11,7 @@ import {
   newPendingToast,
   removeToast,
 } from "store/reducers/toastSlice";
+import { useState } from "react";
 
 const TerminateButton = styled(Button)`
   margin-left: 20px;
@@ -19,6 +20,7 @@ const TerminateButton = styled(Button)`
 export function useTerminate({ loginAddress, loginNetwork, proposal = {} }) {
   const dispatch = useDispatch();
   const viewfunc = useViewfunc();
+  const [isLoading, setIsLoading] = useState(false);
 
   const isAuthor = loginAddress === proposal.address;
 
@@ -27,7 +29,9 @@ export function useTerminate({ loginAddress, loginNetwork, proposal = {} }) {
     if (!viewfunc) {
       return;
     }
+
     let signedData;
+    setIsLoading(true);
     try {
       signedData = await viewfunc.signTerminate({
         address: loginAddress,
@@ -37,6 +41,7 @@ export function useTerminate({ loginAddress, loginNetwork, proposal = {} }) {
     } catch (error) {
       const errorMessage = error.message;
       if (extensionCancelled === errorMessage) {
+        setIsLoading(false);
       } else {
         dispatch(newErrorToast(errorMessage));
       }
@@ -50,6 +55,7 @@ export function useTerminate({ loginAddress, loginNetwork, proposal = {} }) {
       result = await nextApi.post(`${proposal?.space}/terminate`, signedData);
     } finally {
       dispatch(removeToast(toastId));
+      setIsLoading(false);
     }
 
     if (result?.error) {
@@ -61,7 +67,7 @@ export function useTerminate({ loginAddress, loginNetwork, proposal = {} }) {
 
   if (isAuthor) {
     terminateButton = (
-      <TerminateButton large onClick={handleTerminate}>
+      <TerminateButton isLoading={isLoading} large onClick={handleTerminate}>
         Terminate
       </TerminateButton>
     );
