@@ -553,6 +553,10 @@ async function terminate(
       },
     }
   );
+
+  return {
+    result: true,
+  };
 }
 
 async function getVotes(proposalCid, page, pageSize) {
