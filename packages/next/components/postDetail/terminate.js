@@ -52,7 +52,7 @@ export function useTerminate({ loginAddress, loginNetwork, proposal = {} }) {
     }
 
     const toastId = newToastId();
-    dispatch(newPendingToast(toastId, "Teminating proposal..."));
+    dispatch(newPendingToast(toastId, "Proposal terminating..."));
     let result;
     try {
       result = await nextApi.post(`${proposal?.space}/terminate`, signedData);
