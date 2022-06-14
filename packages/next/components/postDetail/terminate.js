@@ -4,12 +4,14 @@ import nextApi from "services/nextApi";
 import { useViewfunc } from "frontedUtils/hooks";
 import { extensionCancelled } from "frontedUtils/consts/extension";
 import { useDispatch } from "react-redux";
+import { useRouter } from "next/router";
 // TODO: use { createToast } from common-ui instead
 import {
   newToastId,
   newErrorToast,
   newPendingToast,
   removeToast,
+  newSuccessToast,
 } from "store/reducers/toastSlice";
 import { useState } from "react";
 
@@ -20,6 +22,7 @@ const TerminateButton = styled(Button)`
 export function useTerminate({ loginAddress, loginNetwork, proposal = {} }) {
   const dispatch = useDispatch();
   const viewfunc = useViewfunc();
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
   const isAuthor = loginAddress === proposal.address;
@@ -60,6 +63,13 @@ export function useTerminate({ loginAddress, loginNetwork, proposal = {} }) {
 
     if (result?.error) {
       dispatch(newErrorToast(result.error.message));
+    } else if (result) {
+      dispatch(newSuccessToast("Proposal terminated successfully!"));
+      router.replace({
+        query: {
+          ...router.query,
+        },
+      });
     }
   };
 
