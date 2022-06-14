@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 
-import Input from "@osn/common-ui/es/styled/Input";
+import { Input, Button, Flex } from "@osn/common-ui";
 import { useViewfunc } from "frontedUtils/hooks";
 import {
   canUseProxySelector,
@@ -27,7 +27,6 @@ import {
 } from "frontedUtils";
 import nextApi from "services/nextApi";
 import PostAddress from "../postAddress";
-import ButtonPrimary from "@osn/common-ui/es/styled/Button";
 import Option from "@/components/option";
 import { text_secondary_red_500 } from "../../styles/colorStyles";
 import BigNumber from "bignumber.js";
@@ -36,6 +35,7 @@ import { findNetworkConfig } from "services/util";
 import isNil from "lodash.isnil";
 import { proposalStatus } from "../../frontedUtils/consts/proposal";
 import { extensionCancelled } from "../../frontedUtils/consts/extension";
+import { useTerminate } from "./terminate";
 
 const Wrapper = styled.div`
   > :not(:first-child) {
@@ -100,6 +100,12 @@ export default function PostVote({ proposal, threshold = 0 }) {
 
   const loginAddress = useSelector(loginAddressSelector);
   const { network: loginNetwork } = useSelector(loginNetworkSelector) || {};
+
+  const { terminateButton } = useTerminate({
+    proposal,
+    loginAddress,
+    loginNetwork,
+  });
 
   const voteBalance = useProxy ? proxyBalance : balance;
   const belowThreshold = new BigNumber(voteBalance).isLessThan(threshold);
@@ -268,15 +274,21 @@ export default function PostVote({ proposal, threshold = 0 }) {
           {useProxy && (
             <PostAddress spaceId={proposal.space} snapshot={snapshot} />
           )}
-          <ButtonPrimary
-            primary
-            large
-            isLoading={isLoading}
-            onClick={onVote}
-            disabled={!canVote}
-          >
-            {useProxy ? "Proxy Vote" : "Vote"}
-          </ButtonPrimary>
+
+          <Flex>
+            <Button
+              primary
+              large
+              block
+              isLoading={isLoading}
+              onClick={onVote}
+              disabled={!canVote}
+            >
+              {useProxy ? "Proxy Vote" : "Vote"}
+            </Button>
+
+            {terminateButton}
+          </Flex>
         </InnerWrapper>
       )}
     </Wrapper>
