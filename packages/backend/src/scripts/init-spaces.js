@@ -16,7 +16,7 @@ const { chrwnaConfig } = require("./spaces/chrwna");
 const { interlayConfig } = require("./spaces/interlay");
 const { acalaConfig } = require("./spaces/acala");
 const { darwiniaConfig } = require("./spaces/darwinia");
-const { centrifugeConfig } = require("./spaces/centrifuge");
+// const { centrifugeConfig } = require("./spaces/centrifuge");
 
 const { getSpaceCollection } = require("../mongo");
 const { kintsugiConfig } = require("./spaces/kintsugi");
@@ -39,7 +39,7 @@ const spaces = [
   darwiniaConfig,
   turingConfig,
   // crabConfig,
-  centrifugeConfig,
+  // centrifugeConfig,
 ];
 
 async function main() {
