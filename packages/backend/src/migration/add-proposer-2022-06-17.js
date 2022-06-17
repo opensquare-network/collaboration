@@ -1,4 +1,4 @@
-const dotenv = require('dotenv');
+const dotenv = require("dotenv");
 dotenv.config();
 
 const { getProposalCollection } = require("../mongo");
@@ -9,14 +9,11 @@ async function main() {
 
   for (const proposal of proposals) {
     console.log(`Updating proposal ${proposal._id}`);
-    await collection.updateOne(
-      { _id: proposal._id },
-      { $set: { proposer: proposal.address } }
-    );
+    const proposer = proposal.data.realProposer || proposal.address;
+    await collection.updateOne({ _id: proposal._id }, { $set: { proposer } });
   }
 }
 
 main()
   .catch(console.error)
   .then(() => process.exit());
-
