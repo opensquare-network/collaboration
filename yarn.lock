@@ -1803,10 +1803,10 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@osn/common-ui@^0.0.71":
-  version "0.0.71"
-  resolved "https://registry.npmjs.org/@osn/common-ui/-/common-ui-0.0.71.tgz#729aca2688f72beee54eda4536069bc91145ed44"
-  integrity sha512-O6gtCxi6RhBhRzX0pGDHQ7b/7FPrcRKS0Mr5IygnVVO9WOI791q/yzCeRAqO7wjD0enQ+N1JZWJY6M54xpfU0w==
+"@osn/common-ui@^0.0.72":
+  version "0.0.72"
+  resolved "https://registry.npmjs.org/@osn/common-ui/-/common-ui-0.0.72.tgz#dbe9d15fb065aa9555e419f8a327991bb6c0e272"
+  integrity sha512-tf+f2hhFhvkxil19dCbU3xDh+W7r9pAq8S64vMD45oeLgNn6I2zt1O36KRTVI+/CHzBfMnbUdp8w056azJ9KHw==
   dependencies:
     "@craco/craco" "^6.4.3"
     "@osn/common" "^0.0.12"
@@ -1849,10 +1849,10 @@
     util "npm:util"
     web-vitals "^2.1.4"
 
-"@osn/provider-options@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.npmjs.org/@osn/provider-options/-/provider-options-1.0.1.tgz#88ff3f45ee607b57ffacf99a9d45024768f971f0"
-  integrity sha512-an2kSR9ezoRqWeFNnEm92kOWbs84jl9gPowRAoETBGV5QKJGXrHlEQ5La72d2+Mcrh3alObd/VQ6hxsMIO1MEw==
+"@osn/provider-options@1.0.7":
+  version "1.0.7"
+  resolved "https://registry.npmjs.org/@osn/provider-options/-/provider-options-1.0.7.tgz#bd7fce7426b44c370812376704aa9092ca6cc216"
+  integrity sha512-8P45Pc/N9FrFJz4R922J47w2u8ZCQ8e7/UpMpUmRKayCgQ3oCSH1xtsKYNozbSUsuGNsWJ+UZaap2AfIJIrgjA==
 
 "@osn/provider-options@^1.0.2":
   version "1.0.2"

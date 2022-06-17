@@ -90,13 +90,18 @@ const Vote = styled(Flex)`
     position: relative;
     height: 24px;
   }
-`
+`;
 
 const VoterWrapper = styled(EqualWrapper)`
   align-items: start;
-`
+`;
 
-export default function PostVotes({ data, space, isMyVote = false }) {
+export default function PostVotes({
+  data,
+  space,
+  isMyVote = false,
+  isSafari = false,
+}) {
   const spaceSupportMultiChain = space?.networks?.length > 1;
   return (
     <Item>
@@ -106,6 +111,7 @@ export default function PostVotes({ data, space, isMyVote = false }) {
             address={data.voter ?? data.address}
             network={data.voterNetwork}
             showNetwork={spaceSupportMultiChain}
+            isSafari={isSafari}
           />
           {isMyVote && <MyVoteTag>My Vote</MyVoteTag>}
         </VoterWrapper>

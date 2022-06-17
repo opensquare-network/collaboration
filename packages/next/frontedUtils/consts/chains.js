@@ -15,6 +15,7 @@ export const CHAINS = Object.freeze({
   crab: "crab",
   darwinia: "darwinia",
   ethereum: "ethereum",
+  centrifuge: "centrifuge",
 });
 
 export const evmChains = [CHAINS.moonriver, CHAINS.ethereum];
@@ -41,4 +42,5 @@ export const chainSs58Format = Object.freeze({
   [CHAINS.turing]: 51,
   [CHAINS.crab]: 42,
   [CHAINS.darwinia]: 18,
+  [CHAINS.centrifuge]: 36,
 });

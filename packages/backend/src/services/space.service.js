@@ -66,10 +66,12 @@ async function getSpace(space) {
   }
 
   const latestFinalizedHeights = Object.fromEntries(
-    (spaceService.networks || []).map((network) => [
-      network.network,
-      getLatestHeight(network.network),
-    ])
+    await Promise.all(
+      (spaceService.networks || []).map(async (network) => [
+        network.network,
+        await getLatestHeight(network.network),
+      ])
+    )
   );
 
   return {

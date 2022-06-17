@@ -28,6 +28,7 @@ export default function Index({
   comments,
   defaultPage,
   myVote,
+  isSafari,
 }) {
   const dispatch = useDispatch();
   const isMounted = useIsMounted();
@@ -116,6 +117,7 @@ export default function Index({
           comments={comments}
           defaultPage={defaultPage}
           myVote={savedMyVote}
+          isSafari={isSafari}
         />
       </Layout>
     </>
@@ -123,6 +125,10 @@ export default function Index({
 }
 
 export async function getServerSideProps(context) {
+  const userAgent = context?.req?.headers["user-agent"] ?? "";
+  const isSafari =
+    userAgent.includes("Safari") && !userAgent.includes("Chrome");
+
   const { id, space: spaceId } = context.params;
   const { page, discussion_page: discussionPage } = context.query;
 
@@ -176,6 +182,7 @@ export async function getServerSideProps(context) {
       comments: comments ?? EmptyQuery,
       defaultPage: { page: nPage, discussionPage: discusPage },
       myVote: myVote ?? null,
+      isSafari,
     },
   };
 }

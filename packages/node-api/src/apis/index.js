@@ -10,6 +10,7 @@ const {
   polkadexOptions,
   kintsugiOptions,
   crustOptions,
+  centrifugeOptions,
 } = require("@osn/provider-options");
 
 /**
@@ -52,6 +53,8 @@ async function createApi(network, endpoint) {
     options = kintsugiOptions;
   } else if (chains.crust === network) {
     options = crustOptions;
+  } else if (chains.centrifuge === network) {
+    options = centrifugeOptions;
   }
 
   let api;
