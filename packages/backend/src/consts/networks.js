@@ -15,6 +15,7 @@ const networks = Object.freeze({
   darwinia: "darwinia",
   crab: "crab",
   polkadex: "polkadex",
+  centrifuge: "centrifuge",
   ethereum: "ethereum",
 });
 

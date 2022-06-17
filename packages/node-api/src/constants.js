@@ -13,6 +13,7 @@ const chains = {
   turing: "turing",
   crab: "crab",
   polkadex: "polkadex",
+  centrifuge: "centrifuge",
 };
 
 const noProxyChains = [chains.kintsugi, chains.interlay, chains.crust];
@@ -43,6 +44,7 @@ const chainBlockTime = {
   [chains.darwinia]: sixSecond,
   [chains.crab]: sixSecond,
   [chains.turing]: twelveSecond,
+  [chains.centrifuge]: twelveSecond,
   [evmChains.moonriver]: twelveSecond,
   [evmChains.moonbeam]: twelveSecond,
   [evmChains.ethereum]: thirteenSecond,
@@ -54,6 +56,7 @@ const symbols = {
   ARIS: "ARIS",
   KINT: "KINT",
   KAR: "KAR",
+  BNC: "BNC",
 };
 
 const nodeTimeoutSeconds = 20;

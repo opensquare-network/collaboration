@@ -1,7 +1,13 @@
 const { chains, symbols } = require("../../constants");
 
 const supportedChainSymbols = {
-  [chains.karura]: [symbols.RMRK, symbols.KSM, symbols.ARIS, symbols.KINT],
+  [chains.karura]: [
+    symbols.RMRK,
+    symbols.KSM,
+    symbols.ARIS,
+    symbols.KINT,
+    symbols.BNC,
+  ],
   [chains.bifrost]: [symbols.RMRK, symbols.KSM, symbols.KAR],
 };
 
@@ -18,6 +24,9 @@ const chainOrmlTokenId = {
     },
     [symbols.KINT]: {
       Token: symbols.KINT,
+    },
+    [symbols.BNC]: {
+      Token: symbols.BNC,
     },
   },
   [chains.bifrost]: {

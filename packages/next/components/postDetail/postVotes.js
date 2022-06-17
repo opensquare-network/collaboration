@@ -30,6 +30,7 @@ export default function PostVotes({
   votes,
   myVote,
   discussionPage = 1,
+  isSafari = false,
 }) {
   const getNetwork = (vote) =>
     findNetworkConfig(proposal.networksConfig, vote.voterNetwork);
@@ -44,6 +45,7 @@ export default function PostVotes({
             data={myVote}
             space={getNetwork(myVote)}
             isMyVote={true}
+            isSafari={isSafari}
           />
         )}
       </div>
@@ -54,7 +56,12 @@ export default function PostVotes({
             item.voterNetwork !== myVote?.voterNetwork
         )
         .map((item, index) => (
-          <PostVotesItem data={item} space={getNetwork(item)} key={index} />
+          <PostVotesItem
+            data={item}
+            space={getNetwork(item)}
+            key={index}
+            isSafari={isSafari}
+          />
         ))}
       {!votes?.items?.length > 0 && (
         <NoVoteWrapper>

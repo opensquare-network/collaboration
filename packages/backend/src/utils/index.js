@@ -98,6 +98,14 @@ function enhancedSqrtOfBalance(balance, decimals, voteThreshold) {
 
 function isSamePublicKey(address1, address2) {
   return encodeAddress(address1, 42) === encodeAddress(address2, 42);
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function timeout(ms) {
+  await sleep(ms);
+  throw new Error("timeout");
 }
 
 module.exports = {
@@ -111,4 +119,6 @@ module.exports = {
   fromSymbolUnit,
   enhancedSqrtOfBalance,
   isSamePublicKey,
+  sleep,
+  timeout,
 };

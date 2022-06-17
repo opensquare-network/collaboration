@@ -7,7 +7,6 @@ const bodyParser = require("koa-bodyparser");
 const logger = require("koa-logger");
 const helmet = require("koa-helmet");
 const cors = require("@koa/cors");
-const { startUpdateHeight } = require("./services/chain.service");
 const { reloadSpaces } = require("./spaces");
 
 const app = new Koa();
@@ -31,7 +30,7 @@ app.use(async (ctx, next) => {
 
 require("./routes")(app);
 
-reloadSpaces().then(() => startUpdateHeight());
+reloadSpaces();
 
 const PORT = process.env.PORT;
 if (!PORT) {
