@@ -98,6 +98,7 @@ function enhancedSqrtOfBalance(balance, decimals, voteThreshold) {
 
 function isSamePublicKey(address1, address2) {
   return encodeAddress(address1, 42) === encodeAddress(address2, 42);
+}
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
