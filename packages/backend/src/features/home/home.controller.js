@@ -6,6 +6,7 @@ async function getHottestProposals(ctx) {
   const q = {
     startDate: { $lte: now },
     endDate: { $gt: now },
+    terminated: null,
   };
 
   const proposalCol = await getProposalCollection();
