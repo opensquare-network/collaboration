@@ -14,6 +14,7 @@ import {
   newSuccessToast,
 } from "store/reducers/toastSlice";
 import { useState } from "react";
+import { delayPromise } from "../../services/delayLoading";
 
 const TerminateButton = styled(Button)`
   margin-left: 20px;
@@ -53,7 +54,9 @@ export function useTerminate({ loginAddress, loginNetwork, proposal = {} }) {
     dispatch(newPendingToast(toastId, "Proposal terminating..."));
     let result;
     try {
-      result = await nextApi.post(`${proposal?.space}/terminate`, signedData);
+      [result] = await delayPromise(
+        nextApi.post(`${proposal?.space}/terminate`, signedData)
+      );
     } finally {
       dispatch(removeToast(toastId));
       setIsLoading(false);

@@ -1,13 +1,12 @@
 import nextApi from "./nextApi";
-
-const delay = new Promise((resolve, reject) => {
-  setTimeout(() => {
-    resolve();
-  }, 2000);
-});
+import sleep from "../frontedUtils/sleep";
 
 async function delayLoading(url) {
-  return Promise.all([nextApi.fetch(url), delay]);
+  return Promise.all([nextApi.fetch(url), sleep(2)]);
+}
+
+export async function delayPromise(promise) {
+  return Promise.all([promise, sleep(2)]);
 }
 
 export default delayLoading;
