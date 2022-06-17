@@ -260,7 +260,11 @@ async function vote(ctx) {
 
 async function terminate(ctx) {
   const { data, address, signature } = ctx.request.body;
-  const { proposalCid, terminatorNetwork } = data;
+  const { proposalCid, action, terminatorNetwork } = data;
+
+  if (action !== "terminate") {
+    throw new HttpError(400, { action: ['Action must be "terminate"'] });
+  }
 
   if (!proposalCid) {
     throw new HttpError(400, { proposalCid: ["Proposal CID is missing"] });

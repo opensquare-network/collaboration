@@ -155,6 +155,7 @@ export async function signTerminate({
 }) {
   return await signApiData(
     {
+      action: "terminate",
       proposalCid,
       terminatorNetwork,
       version: "2",
