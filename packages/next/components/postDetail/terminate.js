@@ -27,7 +27,6 @@ export function useTerminate({ loginAddress, loginNetwork, proposal = {} }) {
 
   const isAuthor = loginAddress === proposal.address;
 
-  // TODO: double check terminate
   const handleTerminate = async () => {
     if (!viewfunc) {
       return;
