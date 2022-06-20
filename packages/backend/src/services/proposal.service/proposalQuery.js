@@ -1,5 +1,5 @@
 const { getProposalCollection } = require("../../mongo");
-const { addProposalStatus } = require("./common");
+const { getProposalStatus } = require("./common");
 
 async function queryProposals(q, sort = {}, page, pageSize) {
   const proposalCol = await getProposalCollection();
@@ -27,7 +27,13 @@ async function queryProposals(q, sort = {}, page, pageSize) {
     .toArray();
 
   return {
-    items: (proposals || []).map(addProposalStatus(new Date())),
+    items: (proposals || []).map((proposal) => {
+      const status = getProposalStatus(proposal);
+      return {
+        ...proposal,
+        status,
+      };
+    }),
     total,
     page,
     pageSize,

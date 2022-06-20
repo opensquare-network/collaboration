@@ -1,4 +1,4 @@
-const { addProposalStatus } = require("../../services/proposal.service/common");
+const { getProposalStatus } = require("../../services/proposal.service/common");
 const { getProposalCollection } = require("../../mongo");
 
 async function getHottestProposals(ctx) {
@@ -15,9 +15,13 @@ async function getHottestProposals(ctx) {
     .limit(10)
     .toArray();
 
-  const addStatus = addProposalStatus(now);
-
-  ctx.body = proposals.map(addStatus);
+  ctx.body = (proposals || []).map((proposal) => {
+    const status = getProposalStatus(proposal);
+    return {
+      ...proposal,
+      status,
+    };
+  });
 }
 
 module.exports = {

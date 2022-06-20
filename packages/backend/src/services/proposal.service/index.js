@@ -1,6 +1,6 @@
 const { ObjectId } = require("mongodb");
 const BigNumber = require("bignumber.js");
-const { addProposalStatus } = require("./common");
+const { getProposalStatus } = require("./common");
 const { queryProposals } = require("./proposalQuery");
 const { strategies } = require("../../consts/voting");
 const { tokenParentChain } = require("../../consts/token");
@@ -290,10 +290,11 @@ async function getProposalById(proposalId) {
   proposal.votesCount = votesCount;
   proposal.votedWeights = votedWeights;
 
-  const now = Date.now();
-  const addStatus = addProposalStatus(now);
-
-  return addStatus(proposal);
+  const status = getProposalStatus(proposal);
+  return {
+    ...proposal,
+    status,
+  };
 }
 
 async function postComment(
