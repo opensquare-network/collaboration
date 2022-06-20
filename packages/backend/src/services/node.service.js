@@ -3,7 +3,6 @@ const { evmNetworks } = require("../consts/networks");
 const { HttpError } = require("../exc");
 const { getEnvNodeApiEndpoint } = require("../env");
 const { isTestAccount } = require("../utils");
-const fetch = require("node-fetch");
 const { fetchApi } = require("../utils/fech.api");
 const { adaptBalance } = require("../utils/balance");
 
@@ -84,15 +83,6 @@ async function getChainHeight(chain, time) {
   }
 }
 
-async function getFinalizedHeight(api) {
-  try {
-    const result = await api.get("/chain/height");
-    return result.data;
-  } catch (err) {
-    throw new HttpError(500, "Failed to get chain height");
-  }
-}
-
 async function getTotalBalance(network, blockHeight, address) {
   const { free, reserved } = await getSystemBalance(
     network,
@@ -154,7 +144,6 @@ module.exports = {
   getTotalBalance,
   getTokenBalance,
   checkDelegation,
-  getFinalizedHeight,
   getBalanceFromNetwork,
   getChainHeight,
   getEvmAddressBalance,
