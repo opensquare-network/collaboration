@@ -1,6 +1,6 @@
 const { getBlockApi } = require("../utils");
 const { getApis } = require("../../apis");
-const { chains } = require("../../constants")
+const { chains } = require("../../constants");
 
 async function getBalanceFromOneApi(api, address, blockHashOrHeight) {
   let blockApi = await getBlockApi(api, blockHashOrHeight);
@@ -22,13 +22,25 @@ async function getBalanceFromOneApi(api, address, blockHashOrHeight) {
   return {
     free: 0,
     reserved: 0,
-  }
+  };
 }
 
-async function getKintBalanceFromOneApi(api, address, blockHashOrHeight) {
+async function getKintBalanceFromOneApi(
+  api,
+  address,
+  blockHashOrHeight,
+  chain
+) {
   let blockApi = await getBlockApi(api, blockHashOrHeight);
 
-  const account = await blockApi.query.tokens.accounts(address, { token: 'KINT' })
+  let token;
+  if (chains.kintsugi === chain) {
+    token = "KINT";
+  } else if (chains.interlay === chain) {
+    token = "INTR";
+  }
+
+  const account = await blockApi.query.tokens.accounts(address, { token });
   return {
     free: account.free.toString(),
     reserved: account.reserved.toString(),
@@ -38,10 +50,12 @@ async function getKintBalanceFromOneApi(api, address, blockHashOrHeight) {
 async function getBalanceFromApis(apis, account, blockHashOrHeight, chain) {
   const promises = [];
   for (const api of apis) {
-    if (chains.kintsugi === chain) {
-      promises.push(getKintBalanceFromOneApi(api, account, blockHashOrHeight))
+    if ([chains.kintsugi, chains.interlay].includes(chain)) {
+      promises.push(
+        getKintBalanceFromOneApi(api, account, blockHashOrHeight, chain)
+      );
     } else {
-      promises.push(getBalanceFromOneApi(api, account, blockHashOrHeight))
+      promises.push(getBalanceFromOneApi(api, account, blockHashOrHeight));
     }
   }
 
@@ -53,16 +67,21 @@ class BalanceController {
     const { chain, account, blockHashOrHeight } = ctx.params;
 
     const apis = getApis(chain);
-    if (apis.every(api => !api.isConnected)) {
-      ctx.throw(500, "No apis connected")
-      return
+    if (apis.every((api) => !api.isConnected)) {
+      ctx.throw(500, "No apis connected");
+      return;
     }
 
     try {
-      ctx.body = await getBalanceFromApis(apis, account, blockHashOrHeight, chain);
+      ctx.body = await getBalanceFromApis(
+        apis,
+        account,
+        blockHashOrHeight,
+        chain
+      );
     } catch (e) {
-      console.error('Get balance from node fail', e)
-      ctx.throw(500, "Failed to query balance from node")
+      console.error("Get balance from node fail", e);
+      ctx.throw(500, "Failed to query balance from node");
     }
   }
 }
