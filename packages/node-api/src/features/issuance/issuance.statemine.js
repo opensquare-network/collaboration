@@ -1,5 +1,4 @@
-const { getApis } = require("@osn/polkadot-api-container");
-const { getBlockApi } = require("../utils");
+const { getApis, getBlockApi } = require("@osn/polkadot-api-container");
 
 async function queryOneApi(api, tokenConfig, blockHashOrHeight) {
   const blockApi = await getBlockApi(api, blockHashOrHeight);
