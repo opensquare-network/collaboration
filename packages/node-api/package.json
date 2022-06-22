@@ -5,8 +5,7 @@
   "scripts": {},
   "dependencies": {
     "@koa/cors": "^3.1.0",
-    "@osn/provider-options": "1.0.7",
-    "@polkadot/api": "8.5.1",
+    "@osn/polkadot-api-container": "^1.0.2",
     "bignumber.js": "^9.0.1",
     "dotenv": "^10.0.0",
     "ethers": "^5.6.1",
@@ -15,10 +14,6 @@
     "koa-helmet": "^6.1.0",
     "koa-logger": "^3.2.1",
     "koa-router": "^10.1.1",
-    "lodash.isnil": "^4.0.0",
     "log4js": "^6.4.0"
-  },
-  "resolutions": {
-    "@polkadot/api": "8.5.1"
   }
 }

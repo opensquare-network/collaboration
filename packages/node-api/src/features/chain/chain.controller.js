@@ -1,4 +1,4 @@
-const { getApis } = require("../../apis");
+const { getApis } = require("@osn/polkadot-api-container");
 const isNil = require("lodash.isnil");
 const { getHeightByTime } = require("./queryHeight");
 const { getFinalizedHeightFromApis } = require("./finalized");

@@ -1,5 +1,5 @@
 const { emptyBalance } = require("../constants");
-const { getBlockHash } = require("../../utils");
+const { getBlockHash } = require("@osn/polkadot-api-container");
 
 /**
  *
@@ -24,14 +24,17 @@ async function queryOrmlTokenAccounts(api, account, blockHash, currency) {
   };
 }
 
-async function queryOrmlTokenAccountsFromApis(apis, account, blockHashOrHeight, currency) {
+async function queryOrmlTokenAccountsFromApis(
+  apis,
+  account,
+  blockHashOrHeight,
+  currency
+) {
   const promises = [];
 
   const blockHash = await getBlockHash(apis, blockHashOrHeight);
   for (const api of apis) {
-    promises.push(
-      queryOrmlTokenAccounts(api, account, blockHash, currency)
-    );
+    promises.push(queryOrmlTokenAccounts(api, account, blockHash, currency));
   }
 
   return Promise.any(promises);
@@ -39,4 +42,4 @@ async function queryOrmlTokenAccountsFromApis(apis, account, blockHashOrHeight, 
 
 module.exports = {
   queryOrmlTokenAccountsFromApis,
-}
+};

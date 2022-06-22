@@ -1,8 +1,7 @@
 const { chainOrmlTokenId } = require("./constants");
 const { queryOrmlTokenAccountsFromApis } = require("./orml/balance");
 const { supportedChainSymbols, emptyBalance } = require("./constants");
-const { getBlockApi } = require("../utils");
-const { getApis } = require("../../apis");
+const { getApis, getBlockApi } = require("@osn/polkadot-api-container");
 const { chains } = require("../../constants");
 
 async function getBalanceFromOneApi(api, assetId, address, blockHashOrHeight) {
