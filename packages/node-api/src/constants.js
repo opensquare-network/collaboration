@@ -59,13 +59,10 @@ const symbols = {
   BNC: "BNC",
 };
 
-const nodeTimeoutSeconds = 20;
-
 module.exports = {
   chains,
   noProxyChains,
   evmChains,
   symbols,
-  nodeTimeoutSeconds,
   chainBlockTime,
 };

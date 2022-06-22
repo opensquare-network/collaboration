@@ -6,7 +6,9 @@ const logger = require("koa-logger");
 const helmet = require("koa-helmet");
 const http = require("http");
 const cors = require("@koa/cors");
-const { createChainApis, logApiStatus } = require("./apis");
+const { createChainApis } = require("./apis");
+const { logApiStatus } = require("@osn/polkadot-api-container");
+const { statusLogger } = require("./logger");
 
 const app = new Koa();
 
@@ -32,7 +34,7 @@ const server = http.createServer(app.callback());
 
 async function main() {
   await createChainApis();
-  setInterval(logApiStatus, 5 * 60 * 1000);
+  setInterval(logApiStatus.bind(null, statusLogger), 5 * 60 * 1000);
 
   const port = parseInt(process.env.SERVER_PORT) || 3223;
   server.listen(port, () =>

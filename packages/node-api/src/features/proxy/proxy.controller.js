@@ -1,6 +1,6 @@
 const { evmChains, noProxyChains } = require("../../constants");
 const { getBlockApi } = require("../utils");
-const { getApis } = require("../../apis");
+const { getApis } = require("@osn/polkadot-api-container");
 const { u8aToHex } = require("@polkadot/util");
 const { decodeAddress } = require("@polkadot/util-crypto");
 

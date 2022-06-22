@@ -1,5 +1,5 @@
 const { getBlockApi } = require("../utils");
-const { getApis } = require("../../apis");
+const { getApis } = require("@osn/polkadot-api-container");
 const { chains } = require("../../constants");
 
 async function getBalanceFromOneApi(api, address, blockHashOrHeight) {
