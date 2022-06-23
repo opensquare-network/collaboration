@@ -1,4 +1,5 @@
 const { getProposalCollection, getAppendantCollection } = require("../mongo");
+const { isSamePublicKey } = require("../utils");
 const { pinData } = require("./proposal.service/common");
 
 async function addAppendant(
@@ -38,7 +39,7 @@ async function addAppendant(
     content,
     contentType,
     appenderNetwork,
-    appender,
+    appender: address,
     data,
     address,
     signature,

@@ -12,6 +12,7 @@ const {
   getProposalCollection,
   getVoteCollection,
   getCommentCollection,
+  getAppendantCollection,
 } = require("../../mongo");
 const { HttpError } = require("../../exc");
 const { ContentType } = require("../../constants");
@@ -245,6 +246,13 @@ async function getProposalById(proposalId) {
   }
   const voteThreshold = spaceService.voteThreshold;
   const decimals = spaceService.decimals;
+
+  const appendantCol = await getAppendantCollection();
+  const appendants = await appendantCol
+    .find({ proposal: proposal._id })
+    .sort({ createdAt: 1 })
+    .toArray();
+  proposal.appendants = appendants;
 
   const voteCol = await getVoteCollection();
   const votesCount = await voteCol.countDocuments({ proposal: proposal._id });

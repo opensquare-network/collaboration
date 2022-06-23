@@ -163,3 +163,23 @@ export async function signTerminate({
     address
   );
 }
+
+export async function signAppendant(
+  space,
+  proposalCid,
+  content,
+  contentType,
+  address,
+  appenderNetwork
+) {
+  return await signApiData(
+    {
+      proposalCid,
+      content,
+      contentType,
+      appenderNetwork,
+      version: "2",
+    },
+    address
+  );
+}

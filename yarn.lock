@@ -1810,7 +1810,7 @@
 
 "@osn/common-ui@^0.0.72":
   version "0.0.72"
-  resolved "https://registry.npmjs.org/@osn/common-ui/-/common-ui-0.0.72.tgz#dbe9d15fb065aa9555e419f8a327991bb6c0e272"
+  resolved "https://registry.yarnpkg.com/@osn/common-ui/-/common-ui-0.0.72.tgz#dbe9d15fb065aa9555e419f8a327991bb6c0e272"
   integrity sha512-tf+f2hhFhvkxil19dCbU3xDh+W7r9pAq8S64vMD45oeLgNn6I2zt1O36KRTVI+/CHzBfMnbUdp8w056azJ9KHw==
   dependencies:
     "@craco/craco" "^6.4.3"
