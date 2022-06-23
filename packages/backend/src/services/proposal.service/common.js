@@ -1,3 +1,8 @@
+const {
+  getObjectBufAndCid,
+  pinJsonToIpfsWithTimeout,
+} = require("../ipfs.service");
+
 const status = Object.freeze({
   terminated: "terminated",
   pending: "pending",
@@ -21,6 +26,26 @@ function getProposalStatus(proposal = {}) {
   }
 }
 
+async function pinData(data, address, signature, prefix) {
+  const { buf, cid } = await getObjectBufAndCid({
+    msg: JSON.stringify(data),
+    address,
+    signature,
+    version: "1",
+  });
+
+  let pinHash = null;
+  try {
+    const pinResult = await pinJsonToIpfsWithTimeout(buf, cid, 3000, prefix);
+    pinHash = pinResult.PinHash ?? null;
+  } catch (e) {
+    console.error(e);
+  }
+
+  return { cid, pinHash };
+}
+
 module.exports = {
   getProposalStatus,
+  pinData,
 };

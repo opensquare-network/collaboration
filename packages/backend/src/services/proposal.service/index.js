@@ -1,6 +1,6 @@
 const { ObjectId } = require("mongodb");
 const BigNumber = require("bignumber.js");
-const { getProposalStatus } = require("./common");
+const { getProposalStatus, pinData } = require("./common");
 const { queryProposals } = require("./proposalQuery");
 const { strategies } = require("../../consts/voting");
 const { tokenParentChain } = require("../../consts/token");
@@ -18,10 +18,6 @@ const { ContentType } = require("../../constants");
 const { getLatestHeight } = require("../chain.service");
 const { spaces: spaceServices } = require("../../spaces");
 const { checkDelegation } = require("../../services/node.service");
-const {
-  getObjectBufAndCid,
-  pinJsonToIpfsWithTimeout,
-} = require("../ipfs.service");
 const {
   toDecimal128,
   enhancedSqrtOfBalance,
@@ -43,25 +39,6 @@ const calcWeights = (vote, decimals, voteThreshold) => {
     },
   };
 };
-
-async function pinData(data, address, signature, prefix) {
-  const { buf, cid } = await getObjectBufAndCid({
-    msg: JSON.stringify(data),
-    address,
-    signature,
-    version: "1",
-  });
-
-  let pinHash = null;
-  try {
-    const pinResult = await pinJsonToIpfsWithTimeout(buf, cid, 3000, prefix);
-    pinHash = pinResult.PinHash ?? null;
-  } catch (e) {
-    console.error(e);
-  }
-
-  return { cid, pinHash };
-}
 
 async function createProposal(
   space,
