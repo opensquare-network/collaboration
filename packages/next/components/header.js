@@ -3,7 +3,7 @@ import { useRef } from "react";
 import Link from "next/link";
 import { useOnClickOutside } from "frontedUtils/hooks";
 import Account from "./account";
-import { p_18_semibold } from "../styles/textStyles";
+import { p_16_semibold, p_18_semibold } from "../styles/textStyles";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -11,6 +11,10 @@ import {
   showHeaderMenuSelector,
 } from "../store/reducers/showConnectSlice";
 import { Header as OsnHeader } from "@osn/common-ui";
+import { ReactComponent as Plus } from "../public/imgs/icons/plus.svg";
+import { ReactComponent as Discussions } from "../public/imgs/icons/discussions.svg";
+import { Flex } from "@osn/common-ui";
+import Menu from "@/components/menu";
 
 const ContentWrapper = styled.div`
   width: 100%;
@@ -37,7 +41,7 @@ const AppWrapper = styled.div`
   }
 `;
 
-const AccountWrapper = styled.div`
+const HeaderItemWrapper = styled.div`
   @media screen and (max-width: 800px) {
     display: flex;
     align-items: center;
@@ -49,6 +53,7 @@ const AccountWrapper = styled.div`
     left: 0;
     right: 0;
   }
+  background-color: white;
 `;
 
 const IconWrapper = styled.div`
@@ -56,6 +61,31 @@ const IconWrapper = styled.div`
   @media screen and (max-width: 800px) {
     display: flex;
     cursor: pointer;
+  }
+`;
+
+const ExternalLinkWrapper = styled(Flex)`
+  gap: 32px;
+  @media screen and (max-width: 800px) {
+    display: none;
+  }
+`;
+
+const ExternalLink = styled.a`
+  ${p_16_semibold};
+  color: #506176;
+  display: none;
+  @media screen and (min-width: 800px) {
+    display: flex;
+  }
+  cursor: pointer;
+
+  svg {
+    margin-right: 8px;
+  }
+
+  &:hover {
+    color: #506176;
   }
 `;
 
@@ -100,10 +130,32 @@ export default function Header({ space }) {
             alt=""
           />
         </IconWrapper>
-        {showConnect && (
-          <AccountWrapper>
+        {showConnect ? (
+          <HeaderItemWrapper>
             <Account space={space} />
-          </AccountWrapper>
+          </HeaderItemWrapper>
+        ) : (
+          <ExternalLinkWrapper>
+            <ExternalLink
+              target="_blank"
+              href="https://github.com/opensquare-network/collaboration/discussions/813"
+            >
+              <Plus />
+              Add a Space
+            </ExternalLink>
+            <ExternalLink
+              target="_blank"
+              href="https://github.com/opensquare-network/collaboration/discussions"
+            >
+              <Discussions />
+              Discussions
+            </ExternalLink>
+          </ExternalLinkWrapper>
+        )}
+        {!showConnect && showMenu && (
+          <HeaderItemWrapper>
+            <Menu />
+          </HeaderItemWrapper>
         )}
       </ContentWrapper>
     </OsnHeader>

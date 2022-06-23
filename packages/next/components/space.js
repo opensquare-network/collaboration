@@ -124,24 +124,6 @@ const SpaceButton = styled.div`
   color: #506176;
 `;
 
-const AddSpaceLink = styled.a`
-  ${p_16_semibold};
-  color: #506176;
-  display: none;
-  @media screen and (min-width: 800px) {
-    display: flex;
-  }
-  cursor: pointer;
-
-  svg {
-    margin-right: 8px;
-  }
-
-  &:hover {
-    color: #506176;
-  }
-`;
-
 const ButtonWrapper = styled.div`
   display: flex;
   gap: 40px;
@@ -175,10 +157,6 @@ export default function Space({ spaces, showAllSpace }) {
       <TitleWrapper>
         <Title>Space</Title>
         <ButtonWrapper>
-          <AddSpaceLink href="mailto:yongfeng@opensquare.network">
-            <Plus />
-            Add a Space
-          </AddSpaceLink>
           <SpaceButton onClick={() => setShowAllSpace(!show)}>
             {sortedSpaces.length > showCount && show
               ? "Hide Spaces"
