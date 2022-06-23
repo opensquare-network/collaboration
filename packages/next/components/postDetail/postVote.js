@@ -256,7 +256,10 @@ export default function PostVote({ proposal, threshold = 0 }) {
               {!isNil(voteBalance) &&
                 `Available ${toApproximatelyFixed(
                   bigNumber2Locale(
-                    fromAssetUnit(voteBalance, networkConfig?.decimals)
+                    fromAssetUnit(
+                      voteBalance,
+                      proposal?.networksConfig?.decimals
+                    )
                   )
                 )} ${networkConfig?.symbol}`}
               {belowThreshold && <RedText>Insufficient</RedText>}

@@ -131,13 +131,18 @@ async function getBalanceFromNetwork({
       spaceDecimals
     );
     return balance;
-  } else if (type === "asset") {
-    return getTokenBalance(networkName, assetId, blockHeight, address);
-  } else if (type === "token") {
-    return getTokenBalance(networkName, symbol, blockHeight, address);
-  } else {
-    return getTotalBalance(networkName, blockHeight, address);
   }
+
+  let balance;
+  if (type === "asset") {
+    balance = await getTokenBalance(networkName, assetId, blockHeight, address);
+  } else if (type === "token") {
+    balance = await getTokenBalance(networkName, symbol, blockHeight, address);
+  } else {
+    balance = await getTotalBalance(networkName, blockHeight, address);
+  }
+
+  return adaptBalance(balance, network.decimals, spaceDecimals);
 }
 
 module.exports = {
