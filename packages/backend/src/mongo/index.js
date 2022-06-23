@@ -2,14 +2,11 @@ const { connectDb } = require("../utils/db");
 
 let db = null;
 
-async function createIndex(db) {
-}
+async function createIndex(db) {}
 
 async function initDb() {
   if (!db) {
-    db = await connectDb(
-      process.env.MONGO_DB_NAME || "voting"
-    );
+    db = await connectDb(process.env.MONGO_DB_NAME || "voting");
     await createIndex(db);
   }
 }
@@ -30,6 +27,7 @@ module.exports = {
   initDb,
   getDb,
   getProposalCollection: () => getCollection("proposal"),
+  getAppendantCollection: () => getCollection("appendant"),
   getVoteCollection: () => getCollection("vote"),
   getCommentCollection: () => getCollection("comment"),
   getStatusCollection: () => getCollection("status"),

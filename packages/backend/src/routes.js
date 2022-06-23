@@ -5,6 +5,7 @@ const router = new Router();
 
 const spaceFeatureRoutes = [
   require("./features/proposals/routes"),
+  require("./features/appendants/routes"),
   require("./features/accounts/routes"),
   require("./features/space-networks/routes"),
 ];
