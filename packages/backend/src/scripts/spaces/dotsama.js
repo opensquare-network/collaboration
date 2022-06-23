@@ -4,7 +4,7 @@ const { networks } = require("../../consts/networks");
 const config = {
   id: "dotsama",
   name: "DotSama",
-  symbol: "TICKET",
+  symbol: "VOTE",
   decimals: 10,
   networks: [
     {
