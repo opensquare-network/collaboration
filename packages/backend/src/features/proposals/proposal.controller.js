@@ -1,6 +1,5 @@
 const { HttpError } = require("../../exc");
 const proposalService = require("../../services/proposal.service");
-const { getVoteCollection } = require("../../mongo");
 const {
   queryProposals,
 } = require("../../services/proposal.service/proposalQuery");

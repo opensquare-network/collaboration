@@ -11,6 +11,10 @@ import Panel from "@/components/postDetail/panel";
 import Accordion from "@/components/accordionPanel/accordion";
 import SubTitle from "@osn/common-ui/es/styled/SubTitle";
 import Preview from "@osn/common-ui/es/Preview";
+import Appendants from "./appendants";
+import { useSelector } from "react-redux";
+import { loginAddressSelector } from "store/reducers/accountSlice";
+import { proposalStatus } from "frontedUtils/consts/proposal";
 
 const Title = styled.div`
   ${p_semibold};
@@ -55,11 +59,21 @@ const Content = styled.div`
 `;
 
 export default function PostContent({ data, space }) {
+  const loginAddress = useSelector(loginAddressSelector);
+  const isOwner = loginAddress === (data.proposor || data.address);
   const networkConfig = findNetworkConfig(
     data.networksConfig,
     data.proposerNetwork
   );
   const spaceSupportMultiChain = space?.networks?.length > 1;
+  const proposalClosed = [
+    proposalStatus.closed,
+    proposalStatus.terminated,
+  ].includes(data?.status);
+
+  const showAppendants =
+    (isOwner && !proposalClosed) || data.appendants?.length > 0;
+
   return (
     <Panel>
       <Title>{data?.title}</Title>
@@ -82,6 +96,16 @@ export default function PostContent({ data, space }) {
           <Preview content={data?.content} bordered={false} />
         </Content>
       </Accordion>
+      {showAppendants && (
+        <>
+          <Divider />
+          <Appendants
+            proposal={data}
+            appendants={data.appendants}
+            editable={isOwner && !proposalClosed}
+          />
+        </>
+      )}
       <Divider />
       <Share />
       <PostVote proposal={data} threshold={space.voteThreshold} />
