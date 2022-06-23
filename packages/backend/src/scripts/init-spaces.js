@@ -41,7 +41,7 @@ const spaces = [
   turingConfig,
   // crabConfig,
   // centrifugeConfig,
-  dotsamaConfig,
+  // dotsamaConfig,
 ];
 
 async function main() {
