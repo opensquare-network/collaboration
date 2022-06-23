@@ -28,6 +28,7 @@ const SpaceIcons = {
   [CHAINS.crab]: "crab.svg",
   [CHAINS.darwinia]: "darwinia.svg",
   [CHAINS.centrifuge]: "centrifuge.svg",
+  dotsama: "dotsama.svg",
 };
 
 export default function SpaceLogo({ spaceId }) {
