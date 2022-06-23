@@ -53,6 +53,7 @@ const HeaderItemWrapper = styled.div`
     left: 0;
     right: 0;
   }
+  background-color: white;
 `;
 
 const IconWrapper = styled.div`
