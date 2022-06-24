@@ -12,7 +12,7 @@
   "dependencies": {
     "@osn/common-ui": "^0.0.73",
     "@osn/polkadot-react-identicon": "^1.0.8",
-    "@osn/rich-text-editor": "^0.1.16",
+    "@osn/rich-text-editor": "^0.1.17",
     "@polkadot/api": "8.9.1",
     "@polkadot/extension-dapp": "0.44.1",
     "@polkadot/util": "9.5.1",

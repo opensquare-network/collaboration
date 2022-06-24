@@ -1874,12 +1874,11 @@
   resolved "https://registry.npmjs.org/@osn/provider-options/-/provider-options-1.0.7.tgz#bd7fce7426b44c370812376704aa9092ca6cc216"
   integrity sha512-8P45Pc/N9FrFJz4R922J47w2u8ZCQ8e7/UpMpUmRKayCgQ3oCSH1xtsKYNozbSUsuGNsWJ+UZaap2AfIJIrgjA==
 
-"@osn/rich-text-editor@^0.1.16":
-  version "0.1.16"
-  resolved "https://registry.yarnpkg.com/@osn/rich-text-editor/-/rich-text-editor-0.1.16.tgz#9688ab382448cd27dadadbad541963a6a01c1e3b"
-  integrity sha512-Hfj9eyLRzCaKXThE/SPyJzNLtSA1desYjaJ3KxurX8NCL80YqfBNvhzfP6LtA8kbse3u5w1fo7pncB4kjb9MCw==
+"@osn/rich-text-editor@^0.1.17":
+  version "0.1.17"
+  resolved "https://registry.yarnpkg.com/@osn/rich-text-editor/-/rich-text-editor-0.1.17.tgz#fb6100c849f2cf9319fbb79228ec069b5fa2fe79"
+  integrity sha512-Djb5ZzNZ0i7k5I2EW+uYIrKI4E8auZBIs/LT67gpxGu04Key6C1og89losnmsVyXTmULvkD9aVd8mzBOkfHFgg==
   dependencies:
-    github-markdown-css "^5.1.0"
     marked "^4.0.15"
     prismjs "^1.28.0"
     sanitize-html "^2.7.0"
@@ -4823,11 +4822,6 @@ get-symbol-description@^1.0.0:
   dependencies:
     call-bind "^1.0.2"
     get-intrinsic "^1.1.1"
-
-github-markdown-css@^5.1.0:
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/github-markdown-css/-/github-markdown-css-5.1.0.tgz#a96281cd90a8969e3c13b9d3ca6a733a523a00a6"
-  integrity sha512-QLtORwHHtUHhPMHu7i4GKfP6Vx5CWZn+NKQXe+cBhslY1HEt0CTEkP4d/vSROKV0iIJSpl4UtlQ16AD8C6lMug==
 
 glob-parent@^5.1.2:
   version "5.1.2"
