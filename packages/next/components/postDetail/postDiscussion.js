@@ -222,7 +222,7 @@ export default function PostDiscussion({
       </PaginationWrapper>
 
       <RichEditor
-        disabled={isLoading}
+        submitting={isLoading}
         content={content}
         setContent={setContent}
         onSubmit={onSubmit}
