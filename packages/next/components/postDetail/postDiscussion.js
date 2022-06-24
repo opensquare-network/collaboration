@@ -24,8 +24,7 @@ import nextApi from "../../services/nextApi";
 import { extensionCancelled } from "../../frontedUtils/consts/extension";
 import NoData from "@osn/common-ui/es/NoData";
 import Preview from "@osn/common-ui/es/Preview";
-import Editor from "@osn/rich-text-editor";
-import { Button, Flex } from "@osn/common-ui";
+import { RichEditor } from "@osn/common-ui";
 
 const Item = styled.div`
   padding-top: 20px;
@@ -93,14 +92,6 @@ const NoCommentWrapper = styled.div`
     box-shadow: none;
     height: 100%;
   }
-`;
-
-const RightWrapper = styled(Flex)`
-  justify-content: flex-end;
-`;
-
-const SubmitButton = styled(Button)`
-  margin-top: 20px;
 `;
 
 export default function PostDiscussion({
@@ -230,18 +221,12 @@ export default function PostDiscussion({
         />
       </PaginationWrapper>
 
-      <Editor
-        value={content}
-        onChange={(value) => {
-          setContent(value);
-        }}
-        minHeight={144}
+      <RichEditor
+        submitting={isLoading}
+        content={content}
+        setContent={setContent}
+        onSubmit={onSubmit}
       />
-      <RightWrapper>
-        <SubmitButton primary onClick={onSubmit}>
-          Post
-        </SubmitButton>
-      </RightWrapper>
     </AccordionPanel>
   );
 }

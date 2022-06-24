@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
-import { Input } from "@osn/common-ui";
-import Editor from "@osn/rich-text-editor";
+import { Input, RichEditor } from "@osn/common-ui";
 
 const Wrapper = styled.div`
   background: #ffffff;
@@ -45,12 +44,10 @@ export default function Content({ title, setTitle, content, setContent }) {
       </InnerWrapper>
       <InnerWrapper>
         <Title>Proposal</Title>
-        <Editor
-          value={content}
-          onChange={(value) => {
-            setContent(value);
-          }}
-          minHeight={144}
+        <RichEditor
+          content={content}
+          setContent={setContent}
+          showButtons={false}
         />
       </InnerWrapper>
     </Wrapper>
