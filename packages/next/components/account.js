@@ -312,7 +312,6 @@ function Account({ space }) {
           </div>
         </AccountWrapperPC>
         {showMenu && Menu}
-        {showMenu && <Shade />}
       </Wrapper>
     );
   }
