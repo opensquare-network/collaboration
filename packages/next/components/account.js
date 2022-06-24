@@ -308,7 +308,7 @@ function Account({ space }) {
             {spaceSupportMultiChain && (
               <ChainIcon chainName={account?.network} size={16} />
             )}
-            <IdentityOrAddr identity={identity} addr={address}/>
+            <IdentityOrAddr identity={identity} addr={address} />
           </div>
         </AccountWrapperPC>
         {showMenu && Menu}
@@ -324,12 +324,7 @@ function Account({ space }) {
 
   // show dropdown menu (Mobile only)
   if (showMenu) {
-    return (
-      <Wrapper>
-        {Menu}
-        <Shade />
-      </Wrapper>
-    );
+    return <Wrapper>{Menu}</Wrapper>;
   }
 
   return null;

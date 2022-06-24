@@ -4,6 +4,7 @@ import Header from "./header";
 import Main from "./main";
 import { Footer } from "@osn/common-ui";
 import Toast from "components/toast";
+import Shade from "components/shade";
 
 const Wrapper = styled.div`
   min-height: 100vh;
@@ -20,6 +21,7 @@ export default function Layout({ bgHeight, children, space }) {
       <Main bgHeight={bgHeight}>{children}</Main>
       <Footer github="https://github.com/opensquare-network/collaboration/" />
       <Toast />
+      <Shade />
     </Wrapper>
   );
 }
