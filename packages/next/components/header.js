@@ -56,6 +56,12 @@ const HeaderItemWrapper = styled.div`
   background-color: white;
 `;
 
+const SecondaryHeaderItemWrapper = styled(HeaderItemWrapper)`
+  @media screen and (min-width: 800px) {
+    display: none;
+  }
+`;
+
 const IconWrapper = styled.div`
   display: none;
   @media screen and (max-width: 800px) {
@@ -153,9 +159,9 @@ export default function Header({ space }) {
           </ExternalLinkWrapper>
         )}
         {!showConnect && showMenu && (
-          <HeaderItemWrapper>
+          <SecondaryHeaderItemWrapper>
             <Menu />
-          </HeaderItemWrapper>
+          </SecondaryHeaderItemWrapper>
         )}
       </ContentWrapper>
     </OsnHeader>
