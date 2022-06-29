@@ -1,6 +1,11 @@
 import styled, { css } from "styled-components";
 import IdentityIcon from "@osn/common-ui/es/User/IdentityIcon";
-import { addressEllipsis } from "../frontedUtils";
+import { addressEllipsis, getExplorer } from "../frontedUtils";
+import { useIsMounted } from "frontedUtils/hooks";
+import { CHAINS, evmChains } from "../frontedUtils/consts/chains";
+import { fetchIdentity } from "services/identity";
+import { useEffect, useState } from "react";
+import { ExternalLink } from "@osn/common-ui";
 
 const IdentityWrapper = styled.span`
   display: inline-flex;
@@ -21,6 +26,11 @@ const IdentityWrapper = styled.span`
         word-break: break-all;
       }
     `}
+  ${(p) =>
+    p.noLink &&
+    css`
+      pointer-events: none;
+    `}
 `;
 
 const Name = styled.span`
@@ -30,21 +40,57 @@ const Name = styled.span`
 `;
 
 export default function IdentityOrAddr({
-  identity,
-  addr,
+  noLink = false,
+  network,
+  address,
+  iconSize = 12,
   ellipsis = false,
   isSafari = false,
 }) {
-  return identity?.info && identity?.info?.status !== "NO_ID" ? (
-    <IdentityWrapper ellipsis={ellipsis}>
-      <IdentityIcon
-        status={identity.info.status}
-        showTooltip={!isSafari}
-        size={12}
-      />
-      <Name title={identity.info.display}>{identity.info.display}</Name>
-    </IdentityWrapper>
-  ) : (
-    <Name>{addressEllipsis(addr)}</Name>
-  );
+  const [identity, setIdentity] = useState();
+  const isMounted = useIsMounted();
+  const explorer = getExplorer(network);
+
+  const isLink = !noLink;
+
+  let link = `https://${network}.${explorer}.io/account/${address}`;
+  if (CHAINS.moonriver === network) {
+    link = `https://moonriver.moonscan.io/address/${address}`;
+  }
+
+  const isEvm = evmChains.includes(network);
+
+  useEffect(() => {
+    if (!address || !network || isEvm) {
+      return;
+    }
+
+    fetchIdentity(network, address)
+      .then((identity) => {
+        if (isMounted.current) {
+          setIdentity(identity);
+        }
+      })
+      .catch(() => {});
+  }, [network, address, isMounted, isEvm]);
+
+  let identityChild =
+    identity?.info && identity?.info?.status !== "NO_ID" ? (
+      <IdentityWrapper ellipsis={ellipsis}>
+        <IdentityIcon
+          status={identity?.info?.status}
+          showTooltip={!isSafari}
+          size={iconSize}
+        />
+        <Name title={identity?.info?.display}>{identity?.info?.display}</Name>
+      </IdentityWrapper>
+    ) : (
+      <Name>{addressEllipsis(address)}</Name>
+    );
+
+  if (isLink) {
+    identityChild = <ExternalLink href={link}>{identityChild}</ExternalLink>;
+  }
+
+  return identityChild;
 }
