@@ -1,13 +1,6 @@
-import { useEffect, useState } from "react";
-import { useIsMounted } from "../../frontedUtils/hooks";
-import { getExplorer } from "../../frontedUtils";
-import { fetchIdentity } from "../../services/identity";
-import encodeAddressByChain from "../../frontedUtils/chain/addr";
 import Avatar from "@/components/avatar";
-import ExternalLink from "@osn/common-ui/es/ExternalLink";
 import styled from "styled-components";
 import { ChainIcon } from "@osn/common-ui";
-import { evmChains } from "../../frontedUtils/consts/chains";
 import Popup from "@/components/popup";
 import IdentityOrAddr from "@/components/identityOrAddr";
 
@@ -58,38 +51,12 @@ export default function Voter({
   showNetwork = true,
   isSafari = false,
 }) {
-  const [identity, setIdentity] = useState();
-  const isMounted = useIsMounted();
-  const explorer = getExplorer(network);
-  const link = `https://${network}.${explorer}.io/account/${address}`;
-
-  const isEvm = evmChains.includes(network);
-
-  useEffect(() => {
-    if (!address || !network || isEvm) {
-      return;
-    }
-
-    const networkAddress = encodeAddressByChain(address, network);
-    fetchIdentity(network, networkAddress)
-      .then((identity) => {
-        if (isMounted.current) {
-          setIdentity(identity);
-        }
-      })
-      .catch(() => {});
-  }, [network, address, isMounted, isEvm]);
-
   const popup = (
     <PopupCard>
       <div>
         <Avatar address={address} size={20} />
         <ChainIcon chainName={network} size={16} />
-        <IdentityOrAddr
-          identity={identity}
-          addr={address}
-          showNetwork={showNetwork}
-        />
+        <IdentityOrAddr address={address} network={network} />
       </div>
       <Divider />
       <TextMinor>{address}</TextMinor>
@@ -101,15 +68,12 @@ export default function Voter({
       <Avatar address={address} size={20} />
       {showNetwork && <ChainIcon chainName={network} size={16} />}
       <Popup content={popup}>
-        <ExternalLink href={link}>
-          <IdentityOrAddr
-            identity={identity}
-            addr={address}
-            showNetwork={showNetwork}
-            isSafari={isSafari}
-            ellipsis
-          />
-        </ExternalLink>
+        <IdentityOrAddr
+          address={address}
+          network={network}
+          isSafari={isSafari}
+          ellipsis
+        />
       </Popup>
     </Wrapper>
   );
