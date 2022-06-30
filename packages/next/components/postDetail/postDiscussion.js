@@ -23,8 +23,12 @@ import AccordionPanel from "@/components/accordionPanel/panel";
 import nextApi from "../../services/nextApi";
 import { extensionCancelled } from "../../frontedUtils/consts/extension";
 import NoData from "@osn/common-ui/es/NoData";
-import Preview from "@osn/common-ui/es/Preview";
+import {
+  MarkdownPreviewer,
+  renderIdentityOrAddressPlugin,
+} from "@osn/previewer";
 import { RichEditor } from "@osn/common-ui";
+import IdentityOrAddr from "../identityOrAddr";
 
 const Item = styled.div`
   padding-top: 20px;
@@ -199,7 +203,10 @@ export default function PostDiscussion({
           </InfoWrapper>
           <ContentWrapper>
             <Content>
-              <Preview content={item.content} bordered={false} />
+              <MarkdownPreviewer
+                content={item.content}
+                plugins={[renderIdentityOrAddressPlugin(<IdentityOrAddr />)]}
+              />
             </Content>
           </ContentWrapper>
         </Item>

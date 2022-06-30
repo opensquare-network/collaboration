@@ -9,7 +9,6 @@ import {
   Time,
   FlexBetween,
   FlexCenter,
-  MarkdownPreview,
   IpfsSquare,
 } from "@osn/common-ui";
 import {
@@ -28,6 +27,7 @@ import {
 import { text_dark_accessory } from "@osn/common-ui/es/styles/colors";
 import { useViewfunc } from "frontedUtils/hooks";
 import nextApi from "services/nextApi";
+import { MarkdownPreviewer } from "@osn/previewer";
 
 const Wrapper = styled.div`
   > :first-child {
@@ -184,7 +184,7 @@ export default function Appendants({ proposal, appendants, editable }) {
           </div>
 
           <MarkdownPreviewWrapper>
-            <MarkdownPreview content={item.content} bordered={false} />
+            <MarkdownPreviewer content={item.content} />
           </MarkdownPreviewWrapper>
         </ItemWrapper>
       ))}
