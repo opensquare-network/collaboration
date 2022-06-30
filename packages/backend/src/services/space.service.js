@@ -11,6 +11,7 @@ async function getSpaces() {
         $match: {
           startDate: { $lte: now },
           endDate: { $gt: now },
+          terminated: null,
         },
       },
       {
