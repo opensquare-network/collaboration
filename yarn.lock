@@ -1864,10 +1864,10 @@
     util "npm:util"
     web-vitals "^2.1.4"
 
-"@osn/previewer@^0.4.1":
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/@osn/previewer/-/previewer-0.4.1.tgz#ee1d5e98830bd94773b8a3970d40c468d02d775f"
-  integrity sha512-CfOd0HYNzPw+VdQGOjZy642PaIy7nUZK9bJTvMY4NILnI7xivJQSIBzz5jWBdxTo25IqGS/a9brZUf99HMRe2A==
+"@osn/previewer@^0.4.2":
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/@osn/previewer/-/previewer-0.4.2.tgz#bbe013646312cc25f2ae2250929fba98ac6f8665"
+  integrity sha512-UFZeezvcmLxJ28AWQJ9g+ewm4/jNek7a04SMsMNtXYEuc3iRvcAvBlCIk0yHM76skfJI7AWlJ6ftTylisouNbg==
   dependencies:
     marked "^4.0.17"
     sanitize-html "^2.7.0"
