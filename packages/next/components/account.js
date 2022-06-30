@@ -3,19 +3,15 @@ import { memo, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  isEvmSelector,
   loginAccountSelector,
   loginAddressSelector,
   logout,
 } from "store/reducers/accountSlice";
-import { addressEllipsis } from "frontedUtils";
 import Avatar from "./avatar";
 import { p_14_medium } from "../styles/textStyles";
 import { ReactComponent as UserIcon } from "../public/imgs/icons/user.svg";
 import { shadow_200 } from "../styles/globalCss";
-import { useIsMounted, useWindowSize } from "../frontedUtils/hooks";
-import { fetchIdentity } from "services/identity";
-import IdentityIcon from "@osn/common-ui/es/User/IdentityIcon";
+import { useWindowSize } from "../frontedUtils/hooks";
 import ButtonPrimary from "@osn/common-ui/es/styled/Button";
 import {
   popUpConnect,
@@ -24,7 +20,6 @@ import {
   showHeaderMenuSelector,
 } from "../store/reducers/showConnectSlice";
 import { ChainIcon } from "@osn/common-ui";
-import { evmChains } from "../frontedUtils/consts/chains";
 import IdentityOrAddr from "@/components/identityOrAddr";
 
 const ConnectModal = dynamic(() => import("./connect"), {
@@ -169,49 +164,18 @@ const Shade = styled.div`
   opacity: 0.4;
 `;
 
-const IdentityWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  white-space: nowrap;
-
-  > :not(:first-child) {
-    margin-left: 4px;
-  }
-`;
-
 function Account({ space }) {
   const dispatch = useDispatch();
-  const isMounted = useIsMounted();
   const windowSize = useWindowSize();
   const account = useSelector(loginAccountSelector);
   const showConnect = useSelector(showConnectSelector);
   const [pageMounted, setPageMounted] = useState(false);
-  const [identity, setIdentity] = useState();
   const address = useSelector(loginAddressSelector);
-  const isEvm = useSelector(isEvmSelector);
   const spaceSupportMultiChain = space?.networks?.length > 1;
 
   const showMenu = useSelector(showHeaderMenuSelector);
 
   useEffect(() => setPageMounted(true), []);
-
-  useEffect(() => {
-    setIdentity(null);
-
-    if (
-      account?.address &&
-      account?.network &&
-      !evmChains.includes(account.network)
-    ) {
-      fetchIdentity(account.network, account?.address)
-        .then((identity) => {
-          if (isMounted.current) {
-            setIdentity(identity);
-          }
-        })
-        .catch(() => {});
-    }
-  }, [account?.address, account?.network, isMounted]);
 
   if (!space) {
     return null;
@@ -254,19 +218,11 @@ function Account({ space }) {
               {spaceSupportMultiChain && (
                 <ChainIcon chainName={account?.network} size={16} />
               )}
-              {!isEvm &&
-              identity?.info &&
-              identity?.info?.status !== "NO_ID" ? (
-                <IdentityWrapper>
-                  <IdentityIcon
-                    status={identity.info.status}
-                    size={spaceSupportMultiChain ? 12 : 14}
-                  />
-                  <div>{identity.info.display}</div>
-                </IdentityWrapper>
-              ) : (
-                <>{addressEllipsis(address)}</>
-              )}
+              <IdentityOrAddr
+                network={account?.network}
+                address={address}
+                noLink
+              />
             </div>
             <UserIcon />
           </AccountWrapper>
@@ -308,7 +264,11 @@ function Account({ space }) {
             {spaceSupportMultiChain && (
               <ChainIcon chainName={account?.network} size={16} />
             )}
-            <IdentityOrAddr identity={identity} addr={address} />
+            <IdentityOrAddr
+              network={account?.network}
+              address={address}
+              noLink
+            />
           </div>
         </AccountWrapperPC>
         {showMenu && Menu}
