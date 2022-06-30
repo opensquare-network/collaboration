@@ -14,11 +14,20 @@ const Button = styled(OsnButton)`
 
 const Content = styled.div`
   position: relative;
-
+  font-weight: 600;
+  @media screen and (max-width: 800px) {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    align-items: center;
+  }
   ${(p) => css`
     ::before {
       content: "#${p.index}";
       position: absolute;
+      @media screen and (max-width: 800px) {
+        position: initial;
+      }
       left: 0;
       color: ${p.active ? "#6848ff" : "#a1a8b3"};
     }
