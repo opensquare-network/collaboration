@@ -19,6 +19,15 @@ const InfoWrapper = styled.div`
   line-height: 24px;
   .center {
     justify-content: center;
+    @media screen and (max-width: 800px) {
+      justify-content: flex-start;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+  @media screen and (max-width: 800px) {
+    gap: 8px;
   }
 `;
 
@@ -69,6 +78,9 @@ const EqualWrapper = styled.div`
   flex-wrap: wrap;
   :last-child {
     justify-content: flex-end;
+  }
+  @media screen and (max-width: 800px) {
+    overflow: hidden;
   }
 `;
 
