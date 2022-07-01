@@ -1,26 +1,33 @@
 import styled from "styled-components";
-import { Button as OsnButton } from "@osn/common-ui";
+import { Button as OsnButton, Flex } from "@osn/common-ui";
 import { css } from "styled-components";
+import { p_14_medium } from "@osn/common-ui/es/styles/textStyles";
+import {
+  primary_purple_500,
+  text_dark_accessory,
+} from "@osn/common-ui/es/styles/colors";
 
 const Button = styled(OsnButton)`
   padding: 12px 24px;
   ${(p) =>
     p.active &&
     css`
-      border-color: #6848ff !important;
-      color: #6848ff;
+      border-color: ${primary_purple_500} !important;
+      color: ${primary_purple_500};
     `}
 `;
 
-const Content = styled.div`
+const Content = styled(Flex)`
+  ${p_14_medium};
   position: relative;
-
+  justify-content: center;
+  padding: 0 48px;
   ${(p) => css`
     ::before {
-      content: "#${p.index}";
       position: absolute;
       left: 0;
-      color: ${p.active ? "#6848ff" : "#a1a8b3"};
+      content: "#${p.index}";
+      color: ${p.active ? primary_purple_500 : text_dark_accessory};
     }
   `}
 `;

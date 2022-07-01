@@ -42,6 +42,7 @@ export default function PostVotes({
       <div>
         {myVote && (
           <PostVotesItem
+            choices={proposal.choices}
             data={myVote}
             space={getNetwork(myVote)}
             isMyVote={true}
@@ -57,6 +58,7 @@ export default function PostVotes({
         )
         .map((item, index) => (
           <PostVotesItem
+            choices={proposal.choices}
             data={item}
             space={getNetwork(item)}
             key={index}
