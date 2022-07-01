@@ -10,11 +10,11 @@ import Share from "components/share";
 import Panel from "@/components/postDetail/panel";
 import Accordion from "@/components/accordionPanel/accordion";
 import SubTitle from "@osn/common-ui/es/styled/SubTitle";
-import Preview from "@osn/common-ui/es/Preview";
 import Appendants from "./appendants";
 import { useSelector } from "react-redux";
 import { loginAddressSelector } from "store/reducers/accountSlice";
 import { proposalStatus } from "frontedUtils/consts/proposal";
+import { MarkdownPreviewer } from "@osn/previewer";
 
 const Title = styled.div`
   ${p_semibold};
@@ -93,7 +93,7 @@ export default function PostContent({ data, space }) {
         head={<SubTitle style={{ marginBottom: 16 }}>Description</SubTitle>}
       >
         <Content>
-          <Preview content={data?.content} bordered={false} />
+          <MarkdownPreviewer content={data?.content} />
         </Content>
       </Accordion>
       {showAppendants && (

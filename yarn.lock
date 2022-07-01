@@ -1864,6 +1864,14 @@
     util "npm:util"
     web-vitals "^2.1.4"
 
+"@osn/previewer@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@osn/previewer/-/previewer-0.5.0.tgz#9855312385b598d3c0c97d597a8fab38268c06e8"
+  integrity sha512-1nA/zr5s5Mwqlek/zUjQN0PeWW4n45oc5pLNnvhNgWs7hu6ev0AxVjGYqQ6qroSuoW+WN7H2RObG1LmRS/q5+A==
+  dependencies:
+    marked "^4.0.17"
+    sanitize-html "^2.7.0"
+
 "@osn/provider-options@^1.0.2":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@osn/provider-options/-/provider-options-1.0.2.tgz#0577c26ebcc41ac773b9718d47f9637bbb4cd952"
@@ -6332,6 +6340,11 @@ marked@^4.0.15:
   version "4.0.16"
   resolved "https://registry.yarnpkg.com/marked/-/marked-4.0.16.tgz#9ec18fc1a723032eb28666100344d9428cf7a264"
   integrity sha512-wahonIQ5Jnyatt2fn8KqF/nIqZM8mh3oRu2+l5EANGMhu6RFjiSG52QNE2eWzFMI94HqYSgN184NurgNG6CztA==
+
+marked@^4.0.17:
+  version "4.0.17"
+  resolved "https://registry.yarnpkg.com/marked/-/marked-4.0.17.tgz#1186193d85bb7882159cdcfc57d1dfccaffb3fe9"
+  integrity sha512-Wfk0ATOK5iPxM4ptrORkFemqroz0ZDxp5MWfYA7H/F+wO17NRWV5Ypxi6p3g2Xmw2bKeiYOl6oVnLHKxBA0VhA==
 
 md5-file@^5.0.0:
   version "5.0.0"
