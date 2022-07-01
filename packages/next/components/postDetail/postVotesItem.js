@@ -19,12 +19,6 @@ const InfoWrapper = styled.div`
   line-height: 24px;
   .center {
     justify-content: center;
-    @media screen and (max-width: 800px) {
-      justify-content: flex-start;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
   }
   @media screen and (max-width: 800px) {
     gap: 8px;
@@ -101,6 +95,16 @@ const Vote = styled(Flex)`
   > div:nth-child(2) {
     position: relative;
     height: 24px;
+    @media screen and (max-width: 800px) {
+      display: none;
+    }
+  }
+`;
+
+const MobileOnly = styled.div`
+  display: none;
+  @media screen and (max-width: 800px) {
+    display: block;
   }
 `;
 
@@ -108,7 +112,16 @@ const VoterWrapper = styled(EqualWrapper)`
   align-items: start;
 `;
 
+function getChoiceIndex(choices, userChoice) {
+  for (let index in choices) {
+    if (choices[index] === userChoice) {
+      return parseInt(index) + 1;
+    }
+  }
+}
+
 export default function PostVotes({
+  choices,
   data,
   space,
   isMyVote = false,
@@ -133,6 +146,9 @@ export default function PostVotes({
             <Tooltip content={data.choice}>
               <Ellipsis width={189}>{data.choice}</Ellipsis>
             </Tooltip>
+            <MobileOnly>
+              {`# ${getChoiceIndex(choices, data.choice)}`}
+            </MobileOnly>
           </Vote>
         </EqualWrapper>
         <EqualWrapper>
