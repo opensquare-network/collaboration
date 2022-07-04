@@ -29,6 +29,7 @@ import {
 } from "@osn/previewer";
 import { RichEditor } from "@osn/common-ui";
 import IdentityOrAddr from "../identityOrAddr";
+import { useSuggestions } from "./suggestions";
 
 const Item = styled.div`
   padding-top: 20px;
@@ -175,6 +176,9 @@ export default function PostDiscussion({
   const getNetwork = (comment) =>
     findNetworkConfig(proposal.networksConfig, comment.commenterNetwork);
   const spaceSupportMultiChain = space?.networks?.length > 1;
+
+  const { loadSuggestions } = useSuggestions(comments);
+
   return (
     <AccordionPanel
       head={<HeaderWithNumber title="Discussions" number={comments?.total} />}
@@ -233,6 +237,7 @@ export default function PostDiscussion({
         content={content}
         setContent={setContent}
         onSubmit={onSubmit}
+        loadSuggestions={loadSuggestions}
       />
     </AccordionPanel>
   );
