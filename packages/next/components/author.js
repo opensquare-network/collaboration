@@ -21,16 +21,17 @@ export default function Author({
   space = {},
   size = 20,
   showNetwork = false,
+  noLink,
 }) {
   const { network } = space;
 
   return (
-    <Wrapper>
+    <Wrapper noLink={noLink}>
       <Avatar address={address} size={size} />
       {showNetwork && (
         <ChainIcon showTooltip chainName={space?.network} size={16} />
       )}
-      <IdentityOrAddr network={network} address={address} />
+      <IdentityOrAddr network={network} address={address} noLink={noLink} />
     </Wrapper>
   );
 }

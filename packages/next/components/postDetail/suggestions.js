@@ -3,6 +3,7 @@ import { identityChainMap } from "frontedUtils/consts/identity";
 import { uniqWith } from "lodash";
 import { useCallback, useEffect, useState } from "react";
 import { fetchIdentity } from "services/identity";
+import Author from "../author";
 
 export function useSuggestions(comments = []) {
   const [suggestions, setSuggestions] = useState();
@@ -36,7 +37,14 @@ export function useSuggestions(comments = []) {
       return {
         address: user.address,
         value: resolveMentionFormat(user.identity, user),
-        preview: user.address,
+        preview: (
+          <Author
+            showNetwork
+            address={user.address}
+            space={{ network: user.network }}
+            noLink
+          />
+        ),
       };
     });
   }, [comments]);
