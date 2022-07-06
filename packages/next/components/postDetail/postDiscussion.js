@@ -25,9 +25,9 @@ import { extensionCancelled } from "../../frontedUtils/consts/extension";
 import NoData from "@osn/common-ui/es/NoData";
 import {
   MarkdownPreviewer,
-  renderIdentityOrAddressPlugin,
+  renderMentionIdentityUserPlugin,
 } from "@osn/previewer";
-import { RichEditor } from "@osn/common-ui";
+import { RichEditor, MentionIdentityUser } from "@osn/common-ui";
 import IdentityOrAddr from "../identityOrAddr";
 import { useSuggestions } from "./suggestions";
 
@@ -209,7 +209,11 @@ export default function PostDiscussion({
             <Content>
               <MarkdownPreviewer
                 content={item.content}
-                plugins={[renderIdentityOrAddressPlugin(<IdentityOrAddr />)]}
+                plugins={[
+                  renderMentionIdentityUserPlugin(
+                    <MentionIdentityUser explore />
+                  ),
+                ]}
               />
             </Content>
           </ContentWrapper>
