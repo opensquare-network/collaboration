@@ -1,5 +1,8 @@
 // https://www.reddit.com/r/reactjs/comments/qz21jg/nextjs_how_to_load_svg_that_is_required_in/
-const withTM = require("next-transpile-modules")(["@osn/common-ui"]);
+const withTM = require("next-transpile-modules")([
+  "@osn/common-ui",
+  "@osn/common",
+]);
 
 module.exports = withTM({
   webpack(config) {
