@@ -1829,10 +1829,10 @@
     react-router-dom "^6.3.0"
     styled-components "^5.3.1"
 
-"@osn/common@^0.0.14":
-  version "0.0.14"
-  resolved "https://registry.npmjs.org/@osn/common/-/common-0.0.14.tgz#00543847c0b2eb1fedd5bc8cf8e2627bbd844ba5"
-  integrity sha512-y0lzgXlHgD5CSO7Ax+uycYI3+t/fG+9AjLSuVWePP59zq04TfHRG1dAciUgYQ2xSfaMl7X2AvthQhI1iOY28gA==
+"@osn/common@^0.0.15":
+  version "0.0.15"
+  resolved "https://registry.npmjs.org/@osn/common/-/common-0.0.15.tgz#6471ecb7e5f33474beca1e7e4221fe0dee9ea42a"
+  integrity sha512-AwZmbYNfOMjgjJTUNjufx6o0O/tt3S4a6hjFTxwQ3auR/hLZI6lG6GkHrNSr8dhSNJy9cahjLbBk1BRvi3p8ow==
   dependencies:
     "@osn/constants" "^1.1.0"
     "@osn/provider-options" "^1.0.2"
