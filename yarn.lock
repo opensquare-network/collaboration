@@ -1869,12 +1869,13 @@
     util "npm:util"
     web-vitals "^2.1.4"
 
-"@osn/previewer@^0.9.1":
-  version "0.9.1"
-  resolved "https://registry.yarnpkg.com/@osn/previewer/-/previewer-0.9.1.tgz#c6a02c3d1f7928746755646196d799cc3e46ddb6"
-  integrity sha512-tTt5u1mzfFXtMmbDZBV4owehpsfok8ov+rc/ZTvMVTS0uIKn1LGa8wkz6Jt+Jr7ENkY0/4Pi+lxGN6BVd3zyyA==
+"@osn/previewer@^0.10.1":
+  version "0.10.1"
+  resolved "https://registry.npmjs.org/@osn/previewer/-/previewer-0.10.1.tgz#1c60eab249974c7ae677f334ecbe9130fa06409d"
+  integrity sha512-Bau3654Tv3Vty72srERYIgKRI30xsRgWu3tYJqvXFTYkUNHRcOlCzhhzNJDGt5+PWUDeaKizCI+GB6BjYc8GLg==
   dependencies:
     marked "^4.0.17"
+    prismjs "^1.28.0"
     sanitize-html "^2.7.0"
 
 "@osn/provider-options@^1.0.2", "@osn/provider-options@^1.0.7":
