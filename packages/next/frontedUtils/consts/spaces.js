@@ -4,6 +4,7 @@ export const spaceToSeoImageMap = Object.freeze({
   bifrost: "bafybeigefryb4kw7wskzv7cc6jtbj5454vmsyzlddeuowg4fsd2lnui37m",
   karura: "bafybeidqwvg6pjgcxs52ujondwclidzgvowj3osy2vegzywfcz7pzqygxy",
   khala: "bafybeihfumdgabiha5rc2tr5gpedo4zp2z6x4phzoqdjr45pmdmbyxghlm",
+  [CHAINS.phala]: "bafybeifj4smmnnn5t25quydmujkphoxymyylfbaxoaymszeovsejqyep5y",
   kintsugi: "bafybeif53hdkhwqijaxw6kgal6mywu3hel6wlpma2lge4nee2xqmxgq2fa",
   kusama: "bafybeidiohh5piq2dt5y2u3oqg4dtw3l3ok7yp5a5pmr73zs7mzsf6lbcm",
   polarisdao: "bafybeiha6qqajks5sava3rdkkxbgjaexijnr4vzvsvf6xfprjei745pc3y",

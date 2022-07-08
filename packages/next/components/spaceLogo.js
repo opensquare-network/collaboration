@@ -14,6 +14,7 @@ const SpaceIcons = {
   kusama: "kusama.svg",
   karura: "karura.svg",
   khala: "khala.svg",
+  [CHAINS.phala]: "phala.svg",
   rmrk: "rmrk.svg",
   "rmrk-curation": "rmrk-curation.png",
   bifrost: "bifrost.svg",

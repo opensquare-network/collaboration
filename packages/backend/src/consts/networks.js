@@ -5,6 +5,7 @@ const networks = Object.freeze({
   kusama: "kusama",
   polkadot: "polkadot",
   khala: "khala",
+  phala: "phala",
   kintsugi: "kintsugi",
   interlay: "interlay",
   moonriver: "moonriver",
