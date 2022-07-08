@@ -24,7 +24,7 @@ async function verifySignature(msg, address, signature) {
     }
   }
 
-  return isValidSignature(msg, signature, address);
+  return await isValidSignature(msg, signature, address);
 }
 
 async function requireSignature(ctx, next) {
