@@ -2,7 +2,11 @@ const crypto = require("crypto");
 const BigNumber = require("bignumber.js");
 const { ethers } = require("ethers");
 const { Decimal128 } = require("mongodb");
-const { encodeAddress, signatureVerify } = require("@polkadot/util-crypto");
+const {
+  encodeAddress,
+  signatureVerify,
+  cryptoWaitReady,
+} = require("@polkadot/util-crypto");
 
 function extractPage(ctx) {
   const { page_size: queryPageSize, page: queryPage } = ctx.query;
@@ -42,10 +46,11 @@ function md5(str) {
   return md5.update(str).digest("hex");
 }
 
-function isValidSignature(signedMessage, signature, address) {
-  const result = signatureVerify(signedMessage, signature, address);
+async function isValidSignature(signedMessage, signature, address) {
+  await cryptoWaitReady();
   try {
-    return encodeAddress(result.publicKey, 42) === encodeAddress(address, 42);
+    const result = signatureVerify(signedMessage, signature, address);
+    return result.isValid;
   } catch (e) {
     return false;
   }
