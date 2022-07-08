@@ -242,6 +242,7 @@ export default function PostDiscussion({
         setContent={setContent}
         onSubmit={onSubmit}
         loadSuggestions={loadSuggestions}
+        identifier={<MentionIdentityUser explore />}
       />
     </AccordionPanel>
   );
