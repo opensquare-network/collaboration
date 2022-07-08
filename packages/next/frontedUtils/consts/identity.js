@@ -4,6 +4,8 @@ export const identityChainMap = Object.freeze({
   [CHAINS.kintsugi]: [CHAINS.kusama],
   [CHAINS.statemine]: [CHAINS.kusama],
   [CHAINS.karura]: [CHAINS.kusama],
+  [CHAINS.khala]: [CHAINS.khala],
+  [CHAINS.phala]: [CHAINS.phala],
   [CHAINS.interlay]: [CHAINS.polkadot],
   [CHAINS.acala]: [CHAINS.polkadot],
   [CHAINS.crust]: [CHAINS.crust],

@@ -11,6 +11,8 @@ const endpoints = Object.values(chains).map((chain) => {
     endpoints = (process.env.KAR_ENDPOINTS || "").split(";");
   } else if (chains.khala === chain) {
     endpoints = (process.env.KHA_ENDPOINTS || "").split(";");
+  } else if (chains.phala === chain) {
+    endpoints = (process.env.PHA_ENDPOINTS || "").split(";");
   } else if (chains.statemine === chain) {
     endpoints = (process.env.STATEMINE_ENDPOINTS || "").split(";");
   } else if (chains.bifrost === chain) {

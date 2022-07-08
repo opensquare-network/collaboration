@@ -1,0 +1,7 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="64" height="64" fill="black"/>
+    <path fill-rule="evenodd" clip-rule="evenodd"
+          d="M41.2997 18.5H18.5V32.7506H24.2015V38.4496H41.2997V32.7506H47V24.2003L41.2997 24.2003V18.5ZM41.2997 32.7494V24.2003H24.2015V32.7494H41.2997Z"
+          fill="#CDFA50"/>
+    <path d="M18.5 38.4509H24.2015L24.2003 47H18.5V38.4509Z" fill="#CDFA50"/>
+</svg>
