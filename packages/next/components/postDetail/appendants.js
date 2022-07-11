@@ -5,7 +5,6 @@ import { ReactComponent as AddIcon } from "/public/imgs/icons/add-appendant.svg"
 import { useRouter } from "next/router";
 import {
   DividerWrapper,
-  RichEditor,
   Time,
   FlexBetween,
   FlexCenter,
@@ -28,6 +27,10 @@ import { text_dark_accessory } from "@osn/common-ui/es/styles/colors";
 import { useViewfunc } from "frontedUtils/hooks";
 import nextApi from "services/nextApi";
 import { MarkdownPreviewer } from "@osn/previewer";
+import dynamic from "next/dynamic";
+const RichEditor = dynamic(() => import("@osn/common-ui/RichEditor"), {
+  ssr: false,
+});
 
 const Wrapper = styled.div`
   > :first-child {

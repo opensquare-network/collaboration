@@ -1823,10 +1823,10 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@osn/common-ui@^0.0.81":
-  version "0.0.81"
-  resolved "https://registry.npmjs.org/@osn/common-ui/-/common-ui-0.0.81.tgz#64a196c9d87bdbf2bbd72237f72e91b4b751f325"
-  integrity sha512-WCeFcaj+vP+ns7sJqwAyxtUet+yr1JcbuB4VJZS/1qaLcjHh3F5bm+eecUHERQNi1004lOx54P8Qsk/aPf0oqg==
+"@osn/common-ui@^0.0.82":
+  version "0.0.82"
+  resolved "https://registry.npmjs.org/@osn/common-ui/-/common-ui-0.0.82.tgz#c81ae3878022a99d8499b0501b15bcdb74f3d1e8"
+  integrity sha512-z7a497wCRBPOwJ6EqWxdhWqLde7BhQeZwsQ4FuAPGILl2qThMsYOQ8I9Ko1Ni8lCF9Ja4CXe/0A3QV6hxutp3w==
   dependencies:
     "@craco/craco" "^6.4.3"
     dayjs "^1.10.8"
@@ -1874,10 +1874,10 @@
     util "npm:util"
     web-vitals "^2.1.4"
 
-"@osn/previewer@^0.10.2":
-  version "0.10.2"
-  resolved "https://registry.npmjs.org/@osn/previewer/-/previewer-0.10.2.tgz#59f835159c1d1760e30e871f6afd040ba47ad269"
-  integrity sha512-FZunTZyGQ3RLDI7RYcNcMiLSCN0jtS6Qr+2bRZaismZkRSiKmw1Rh3s7zRfEB869WlnS5gg04OOvYe7B5Cl70A==
+"@osn/previewer@^0.11.0":
+  version "0.11.0"
+  resolved "https://registry.npmjs.org/@osn/previewer/-/previewer-0.11.0.tgz#dad13244657f9e667256a8a4c27abd19211302eb"
+  integrity sha512-teLJKCIgzbaf1MdWCq60woQzXSzkilCR+mqE6bn4vpw0zoVk9aeFmvVSe/66eEPymCZgGy8g+b70Nbg6TD4Nrg==
   dependencies:
     marked "^4.0.17"
     prismjs "^1.28.0"
@@ -1888,10 +1888,10 @@
   resolved "https://registry.npmjs.org/@osn/provider-options/-/provider-options-1.0.7.tgz#bd7fce7426b44c370812376704aa9092ca6cc216"
   integrity sha512-8P45Pc/N9FrFJz4R922J47w2u8ZCQ8e7/UpMpUmRKayCgQ3oCSH1xtsKYNozbSUsuGNsWJ+UZaap2AfIJIrgjA==
 
-"@osn/rich-text-editor@^0.1.39":
-  version "0.1.39"
-  resolved "https://registry.npmjs.org/@osn/rich-text-editor/-/rich-text-editor-0.1.39.tgz#31f6be37ebb55b77184b017aed9b61026263c982"
-  integrity sha512-V8dPykAQjKv8ZJlXj8qhC8XEjaNBD1JAKVnTjao8CR9CyM32QnxCdI50oNKz/QVntGCEffiXE63IV+fOeiUA8g==
+"@osn/rich-text-editor@^0.1.47":
+  version "0.1.47"
+  resolved "https://registry.npmjs.org/@osn/rich-text-editor/-/rich-text-editor-0.1.47.tgz#3395025c05af0ff1db2ea07054fbc055adc762d1"
+  integrity sha512-WcBzP3TU48RdnnQI9ry19iLnCrUb8fldA4BP0q4oTCWQGKlAvs6smf6R7TOWfvtNbc1nFO6IjlbQZZCc/j+tAQ==
   dependencies:
     "@polkadot/keyring" "^9.6.2"
     "@types/lodash" "^4.14.182"
