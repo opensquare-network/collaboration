@@ -31,7 +31,7 @@ import { MentionIdentityUser } from "@osn/common-ui";
 import IdentityOrAddr from "../identityOrAddr";
 import { useSuggestions } from "./suggestions";
 import dynamic from "next/dynamic";
-const RichEditor = dynamic(() => import("@osn/common-ui/RichEditor"), {
+const RichEditor = dynamic(() => import("@osn/common-ui/es/RichEditor"), {
   ssr: false,
 });
 

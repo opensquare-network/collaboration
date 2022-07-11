@@ -28,7 +28,7 @@ import { useViewfunc } from "frontedUtils/hooks";
 import nextApi from "services/nextApi";
 import { MarkdownPreviewer } from "@osn/previewer";
 import dynamic from "next/dynamic";
-const RichEditor = dynamic(() => import("@osn/common-ui/RichEditor"), {
+const RichEditor = dynamic(() => import("@osn/common-ui/es/RichEditor"), {
   ssr: false,
 });
 
