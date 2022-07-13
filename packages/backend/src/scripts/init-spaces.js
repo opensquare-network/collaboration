@@ -4,7 +4,7 @@ dotenv.config();
 // const { polkadexConfig } = require("./spaces/polkadex");
 // const { crabConfig } = require("./spaces/crab");
 const { turingConfig } = require("./spaces/turing");
-// const { crustConfig } = require("./spaces/crust");
+const { crustConfig } = require("./spaces/crust");
 const { polarisDaoConfig } = require("./spaces/polarisDao");
 const { polkadotConfig } = require("./spaces/polkadot");
 const { bifrostConfig } = require("./spaces/bifrost");
@@ -38,7 +38,7 @@ const spaces = [
   chrwnaConfig,
   interlayConfig,
   acalaConfig,
-  // crustConfig,
+  crustConfig,
   darwiniaConfig,
   turingConfig,
   // crabConfig,
