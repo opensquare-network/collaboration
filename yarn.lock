@@ -1874,10 +1874,10 @@
     util "npm:util"
     web-vitals "^2.1.4"
 
-"@osn/previewer@^0.11.0":
-  version "0.11.0"
-  resolved "https://registry.npmjs.org/@osn/previewer/-/previewer-0.11.0.tgz#dad13244657f9e667256a8a4c27abd19211302eb"
-  integrity sha512-teLJKCIgzbaf1MdWCq60woQzXSzkilCR+mqE6bn4vpw0zoVk9aeFmvVSe/66eEPymCZgGy8g+b70Nbg6TD4Nrg==
+"@osn/previewer@^0.11.2":
+  version "0.11.2"
+  resolved "https://registry.npmjs.org/@osn/previewer/-/previewer-0.11.2.tgz#78b498b81ccdb2fe3104ee017f0ee6055ec51ac8"
+  integrity sha512-T4/H6HEhLL2dQa6m+bFBeKZ7c3yXLwimxTGvv7rpQWTK9u/ljKHJ37oK5vnfj/MG8IOjW3WWgbt4A0xmV7jWNA==
   dependencies:
     marked "^4.0.17"
     prismjs "^1.28.0"
