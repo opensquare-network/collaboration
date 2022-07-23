@@ -1835,10 +1835,10 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@osn/common-ui@^0.0.82":
-  version "0.0.82"
-  resolved "https://registry.npmjs.org/@osn/common-ui/-/common-ui-0.0.82.tgz#c81ae3878022a99d8499b0501b15bcdb74f3d1e8"
-  integrity sha512-z7a497wCRBPOwJ6EqWxdhWqLde7BhQeZwsQ4FuAPGILl2qThMsYOQ8I9Ko1Ni8lCF9Ja4CXe/0A3QV6hxutp3w==
+"@osn/common-ui@0.0.96":
+  version "0.0.96"
+  resolved "https://registry.npmjs.org/@osn/common-ui/-/common-ui-0.0.96.tgz#04e4f6daf95dabc3b34700ad0b4d15db7f3c826d"
+  integrity sha512-+FINLwuB6sblqAcVn/4vZUCESUgBOfs02fZlkJqgzPsoH15pe2fZeWoG2ASw30z34HXs5mFjQJ1cHk4v4v5jfw==
   dependencies:
     "@craco/craco" "^6.4.3"
     dayjs "^1.10.8"

@@ -12,4 +12,5 @@ export const identityChainMap = Object.freeze({
   [CHAINS.turing]: [CHAINS.turing],
   [CHAINS.crab]: [CHAINS.crab],
   [CHAINS.darwinia]: [CHAINS.darwinia],
+  [CHAINS.litmus]: [CHAINS.kusama],
 });

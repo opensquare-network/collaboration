@@ -22,6 +22,7 @@ const { dotsamaConfig } = require("./spaces/dotsama");
 
 const { getSpaceCollection } = require("../mongo");
 const { kintsugiConfig } = require("./spaces/kintsugi");
+const { litentryConfig } = require("./spaces/litentry");
 
 const spaces = [
   polkadotConfig,
@@ -41,6 +42,7 @@ const spaces = [
   crustConfig,
   darwiniaConfig,
   turingConfig,
+  litentryConfig,
   // crabConfig,
   // centrifugeConfig,
   // dotsamaConfig,

@@ -29,6 +29,7 @@ const SpaceIcons = {
   [CHAINS.crab]: "crab.svg",
   [CHAINS.darwinia]: "darwinia.svg",
   [CHAINS.centrifuge]: "centrifuge.svg",
+  [CHAINS.litentry]: "litentry.svg",
   dotsama: "dotsama.svg",
 };
 
