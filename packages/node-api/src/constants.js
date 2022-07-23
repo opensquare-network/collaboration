@@ -15,6 +15,7 @@ const chains = {
   crab: "crab",
   polkadex: "polkadex",
   centrifuge: "centrifuge",
+  litmus: "litmus",
 };
 
 const noProxyChains = [chains.kintsugi, chains.interlay, chains.crust];
@@ -47,6 +48,7 @@ const chainBlockTime = {
   [chains.crab]: sixSecond,
   [chains.turing]: twelveSecond,
   [chains.centrifuge]: twelveSecond,
+  [chains.litmus]: twelveSecond,
   [evmChains.moonriver]: twelveSecond,
   [evmChains.moonbeam]: twelveSecond,
   [evmChains.ethereum]: thirteenSecond,
