@@ -37,6 +37,8 @@ const endpoints = Object.values(chains).map((chain) => {
     endpoints = (process.env.PDEX_ENDPOINTS || "").split(";");
   } else if (chains.centrifuge === chain) {
     endpoints = (process.env.CFG_ENDPOINTS || "").split(";");
+  } else if (chains.litmus === chain) {
+    endpoints = (process.env.LITMUS_ENDPOINTS || "").split(";");
   }
 
   return {
