@@ -8,8 +8,8 @@ export const findNetworkConfig = (space, network) => {
 
   return {
     symbol: space?.symbol,
-    decimals: space?.decimals,
     networks: space.networks,
     ...networkConfig,
+    decimals: space?.decimals,
   };
 };
