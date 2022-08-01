@@ -1808,19 +1808,19 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@osn/common-ui@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.npmjs.org/@osn/common-ui/-/common-ui-1.0.0.tgz#9aedfce8cf56affae8699aaac6335a4f8d583cde"
-  integrity sha512-B7yoxoguhfh9G707C+ElDWgjXHCy8ofCuHC1KadwNDrpGP50oYPXZDRi1c/8aPBE64Vhas7BPe/PDlx/Xefouw==
+"@osn/common-ui@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.npmjs.org/@osn/common-ui/-/common-ui-1.2.0.tgz#bf67e88ddead459cd787028db0d5437c89e26271"
+  integrity sha512-KHPdDEqJS7cbSmchK9j+wn2RrnLSafYuX0fonyRqLHSbTh1RqLUPuuzJt8bQcxgMhivStBGEgdcHucEhWZssRA==
   dependencies:
     "@osn/polkadot-react-identicon" "^1.0.8"
     copy-to-clipboard "^3.3.1"
     dayjs "^1.10.8"
 
-"@osn/common@^0.0.15":
-  version "0.0.15"
-  resolved "https://registry.npmjs.org/@osn/common/-/common-0.0.15.tgz#6471ecb7e5f33474beca1e7e4221fe0dee9ea42a"
-  integrity sha512-AwZmbYNfOMjgjJTUNjufx6o0O/tt3S4a6hjFTxwQ3auR/hLZI6lG6GkHrNSr8dhSNJy9cahjLbBk1BRvi3p8ow==
+"@osn/common@^0.0.18":
+  version "0.0.18"
+  resolved "https://registry.npmjs.org/@osn/common/-/common-0.0.18.tgz#c364c7efbc7d1be7f7c00cdf8bb50fc2c2ac4500"
+  integrity sha512-Jc7aYHa41jg8MSAXAooeYvcZ1X67KjODejsRygkxQfb5LYTtjspBJWpstuAdsojgyYYxDdWE/vIRvhw1vvfvSw==
   dependencies:
     "@osn/constants" "^1.1.0"
     "@osn/provider-options" "^1.0.2"
