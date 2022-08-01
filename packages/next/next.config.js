@@ -2,6 +2,7 @@
 const withTM = require("next-transpile-modules")([
   "@osn/common-ui",
   "@osn/common",
+  "@osn/rich-text-editor",
 ]);
 
 module.exports = withTM({

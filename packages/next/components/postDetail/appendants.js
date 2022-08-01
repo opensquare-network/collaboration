@@ -9,6 +9,7 @@ import {
   FlexBetween,
   FlexCenter,
   IpfsSquare,
+  RichEditor,
 } from "@osn/common-ui";
 import {
   newErrorToast,
@@ -27,10 +28,6 @@ import { text_dark_accessory } from "@osn/common-ui/es/styles/colors";
 import { useViewfunc } from "frontedUtils/hooks";
 import nextApi from "services/nextApi";
 import { MarkdownPreviewer } from "@osn/previewer";
-import dynamic from "next/dynamic";
-const RichEditor = dynamic(() => import("@osn/common-ui/es/RichEditor"), {
-  ssr: false,
-});
 
 const Wrapper = styled.div`
   > :first-child {

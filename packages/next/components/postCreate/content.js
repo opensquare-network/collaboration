@@ -1,10 +1,6 @@
 import styled from "styled-components";
 
-import { Input } from "@osn/common-ui";
-import dynamic from "next/dynamic";
-const RichEditor = dynamic(() => import("@osn/common-ui/es/RichEditor"), {
-  ssr: false,
-});
+import { Input, RichEditor } from "@osn/common-ui";
 
 const Wrapper = styled.div`
   background: #ffffff;

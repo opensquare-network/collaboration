@@ -27,13 +27,9 @@ import {
   MarkdownPreviewer,
   renderMentionIdentityUserPlugin,
 } from "@osn/previewer";
-import { MentionIdentityUser } from "@osn/common-ui";
+import { MentionIdentityUser, RichEditor } from "@osn/common-ui";
 import IdentityOrAddr from "../identityOrAddr";
 import { useSuggestions } from "./suggestions";
-import dynamic from "next/dynamic";
-const RichEditor = dynamic(() => import("@osn/common-ui/es/RichEditor"), {
-  ssr: false,
-});
 
 const Item = styled.div`
   padding-top: 20px;
