@@ -100,7 +100,12 @@ export default function Index({
 
   return (
     <>
-      <Seo spaceId={space?.id} title={detail?.title} desc={desc} />
+      <Seo
+        spaceId={space?.id}
+        title={detail?.title}
+        desc={desc}
+        banner={detail?.banner}
+      />
       <Layout bgHeight="183px" space={space}>
         <Breadcrumb
           routes={[
