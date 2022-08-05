@@ -15,6 +15,7 @@ import { useSelector } from "react-redux";
 import { loginAddressSelector } from "store/reducers/accountSlice";
 import { proposalStatus } from "frontedUtils/consts/proposal";
 import { MarkdownPreviewer } from "@osn/previewer";
+import PostBanner from "@/components/postDetail/postBanner";
 
 const Title = styled.div`
   ${p_semibold};
@@ -89,6 +90,7 @@ export default function PostContent({ data, space }) {
         <StatusTag>{data.status}</StatusTag>
       </InfoWrapper>
       <Divider margin={20} />
+      <PostBanner bannerUrl={data?.banner} />
       <Accordion
         head={<SubTitle style={{ marginBottom: 16 }}>Description</SubTitle>}
       >

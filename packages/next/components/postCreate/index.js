@@ -40,6 +40,7 @@ import {
 import encodeAddressByChain from "../../frontedUtils/chain/addr";
 import nextApi from "../../services/nextApi";
 import { extensionCancelled } from "../../frontedUtils/consts/extension";
+import Uploader from "@/components/uploadBanner/uploader";
 
 const Wrapper = styled.div`
   display: flex;
@@ -86,6 +87,8 @@ export default function PostCreate({ space }) {
 
   const [title, setTitle] = useState(router.query.title || "");
   const [content, setContent] = useState("");
+  const [isSetBanner, setIsSetBanner] = useState(false);
+  const [bannerUrl, setBannerUrl] = useState("");
 
   let options = ["", ""];
   const optionsQuery = (router.query.options || "").trim();
@@ -202,6 +205,7 @@ export default function PostCreate({ space }) {
       address: encodeAddressByChain(address, account?.network),
       realProposer: useProxy ? proxyAddress : null,
       proposerNetwork: account.network,
+      ...(isSetBanner && bannerUrl ? { banner: bannerUrl } : {}),
     };
 
     const formError = viewFunc.validateProposal(proposal);
@@ -258,6 +262,9 @@ export default function PostCreate({ space }) {
           setTitle={setTitle}
           content={content}
           setContent={setContent}
+          isSetBanner={isSetBanner}
+          setIsSetBanner={setIsSetBanner}
+          setBannerUrl={setBannerUrl}
         />
         <Choices choices={choices} setChoices={setChoices} />
       </MainWrapper>
