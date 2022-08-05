@@ -21,6 +21,7 @@ async function createProposal(ctx) {
     snapshotHeights,
     realProposer,
     proposerNetwork,
+    banner,
   } = data;
 
   if (!title) {
@@ -94,6 +95,7 @@ async function createProposal(ctx) {
     snapshotHeights,
     realProposer,
     proposerNetwork,
+    banner,
     data,
     address,
     signature

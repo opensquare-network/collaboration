@@ -53,6 +53,7 @@ async function createProposal(
   snapshotHeights,
   realProposer,
   proposerNetwork,
+  banner,
   data,
   address,
   signature
@@ -176,6 +177,7 @@ async function createProposal(
     weightStrategy,
     proposer,
     proposerNetwork,
+    banner,
     data,
     address,
     signature,

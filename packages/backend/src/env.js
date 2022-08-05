@@ -18,10 +18,15 @@ function getEnvDecooApiUploadEndpoint() {
   return process.env[`DECOO_API_UPLOAD_ENDPOINT`];
 }
 
+function getEnvDecooIpfsEndpoint() {
+  return process.env[`DECOO_IPFS_ENDPOINT`];
+}
+
 module.exports = {
   getEnvNodeApiEndpoint,
   getEnvDecooApiToken,
   getEnvDecooApiSecretKey,
   getEnvDecooApiOAuthEndpoint,
   getEnvDecooApiUploadEndpoint,
+  getEnvDecooIpfsEndpoint,
 };
