@@ -36,8 +36,7 @@ async function pinData(data, address, signature, prefix) {
 
   let pinHash = null;
   try {
-    const pinResult = await pinJsonToIpfsWithTimeout(buf, cid, 3000, prefix);
-    pinHash = pinResult.PinHash ?? null;
+    pinHash = await pinJsonToIpfsWithTimeout(buf, cid, 3000, prefix);
   } catch (e) {
     console.error(e);
   }

@@ -1,6 +1,8 @@
 import styled from "styled-components";
 
-import { Input, RichEditor } from "@osn/common-ui";
+import { Input, RichEditor, FlexBetween } from "@osn/common-ui";
+import ToggleText from "@/components/uploadBanner/toggleText";
+import Uploader from "@/components/uploadBanner/uploader";
 
 const Wrapper = styled.div`
   background: #ffffff;
@@ -31,17 +33,34 @@ const Title = styled.div`
   line-height: 24px;
 `;
 
-export default function Content({ title, setTitle, content, setContent }) {
+export default function Content({
+  title,
+  setTitle,
+  content,
+  setContent,
+  isSetBanner,
+  setIsSetBanner,
+  setBannerUrl,
+}) {
   return (
     <Wrapper>
       <InnerWrapper>
-        <Title>Title</Title>
+        <FlexBetween>
+          <Title>Title</Title>
+          <ToggleText
+            isSetBanner={isSetBanner}
+            setIsSetBanner={setIsSetBanner}
+          />
+        </FlexBetween>
         <Input
           placeholder="Please text here..."
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
       </InnerWrapper>
+
+      {isSetBanner && <Uploader setBannerUrl={setBannerUrl} />}
+
       <InnerWrapper>
         <Title>Proposal</Title>
         <RichEditor

@@ -4,7 +4,9 @@ const { pinJsonToIpfs } = require("./pin");
 async function pinJsonToIpfsWithTimeout(buf, cid, timeout, prefix) {
   const errorMsg = "Pin json to ipfs timeout";
   return await Promise.race([
-    new Promise((_, reject) => setTimeout(() => reject(new Error(errorMsg)), timeout)),
+    new Promise((_, reject) =>
+      setTimeout(() => reject(new Error(errorMsg)), timeout)
+    ),
     pinJsonToIpfs(buf, cid, prefix),
   ]);
 }
@@ -27,11 +29,10 @@ async function pinCollectionDataToIpfs(col, prefix) {
         signature: item.signature,
         version: "1",
       });
-      const pinResult = await pinJsonToIpfs(buf, cid, prefix);
-      pinHash = pinResult.PinHash;
+      const pinHash = await pinJsonToIpfs(buf, cid, prefix);
 
       if (pinHash) {
-        await col.updateOne({ _id: item._id }, { $set:{ pinHash } });
+        await col.updateOne({ _id: item._id }, { $set: { pinHash } });
         console.log(`Save pin hash ${pinHash} to: ${item._id}`);
       }
     } catch (e) {
@@ -39,7 +40,6 @@ async function pinCollectionDataToIpfs(col, prefix) {
     }
   }
 }
-
 
 module.exports = {
   pinJsonToIpfsWithTimeout,
