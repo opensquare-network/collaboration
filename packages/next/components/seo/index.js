@@ -4,14 +4,14 @@ import {
   spaceToSeoImageMap,
 } from "../../frontedUtils/consts/spaces";
 
-export default function Seo({ spaceId, title, desc }) {
+export default function Seo({ spaceId, title, desc, banner }) {
   let seoLogoHash = spaceToSeoImageMap[spaceId];
   if (!seoLogoHash) {
     seoLogoHash = defaultSeoImage;
   }
   const images = [
     {
-      url: `https://ipfs.fleek.co/ipfs/${seoLogoHash}`,
+      url: banner ?? `https://ipfs.fleek.co/ipfs/${seoLogoHash}`,
       width: 1200,
       height: 628,
     },
