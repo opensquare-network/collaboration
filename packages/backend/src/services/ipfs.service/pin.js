@@ -1,12 +1,13 @@
 const crypto = require("crypto");
+const fetch = require("node-fetch");
 const FormData = require("form-data");
+const Hash = require("ipfs-only-hash");
 const {
   getEnvDecooApiToken,
   getEnvDecooApiSecretKey,
   getEnvDecooApiOAuthEndpoint,
   getEnvDecooApiUploadEndpoint,
 } = require("../../env");
-const { fetchApi } = require("../../utils/fech.api");
 
 const DECOO_API_TOKEN = getEnvDecooApiToken();
 if (!DECOO_API_TOKEN) {
@@ -35,21 +36,20 @@ if (!DECOO_API_UPLOAD_ENDPOINT) {
 const trimTailSlash = (url) =>
   url.endsWith("/") ? url.substr(0, url.length - 1) : url;
 
-async function pinJsonToIpfs(buf, cid, prefix = "voting-") {
+async function pinDataToIpfs(buffer, cid, filename, mimeType) {
   const fullPrivateKey = `-----BEGIN PRIVATE KEY-----\n${DECOO_API_SECRET_KEY}\n-----END PRIVATE KEY-----`;
   const secret = crypto
     .privateEncrypt(fullPrivateKey, Buffer.from(cid))
     .toString("base64");
   const formdata = new FormData();
-  const filename = prefix + Date.now() + ".json";
-  formdata.append("file", buf, {
+  formdata.append("file", buffer, {
     filename,
-    contentType: "application/json",
+    contentType: mimeType,
   });
   formdata.append("cid", cid);
   formdata.append("secret", secret);
 
-  const data = await fetchApi(
+  const tokenResp = await fetch(
     `${trimTailSlash(DECOO_API_OAUTH_ENDPOINT)}/oauth/accessToken`,
     {
       headers: {
@@ -57,9 +57,13 @@ async function pinJsonToIpfs(buf, cid, prefix = "voting-") {
       },
     }
   );
-  const accessToken = data.Data;
+  const tokenResult = await tokenResp.json();
+  if (!tokenResp.ok || tokenResult.Code !== 200) {
+    throw new Error(tokenResult.Msg);
+  }
+  const accessToken = tokenResult.Data;
 
-  return await fetchApi(
+  const pinResp = await fetch(
     `${trimTailSlash(DECOO_API_UPLOAD_ENDPOINT)}/pinning/pinFile`,
     {
       method: "POST",
@@ -70,8 +74,36 @@ async function pinJsonToIpfs(buf, cid, prefix = "voting-") {
       },
     }
   );
+
+  const pinResult = await pinResp.json();
+  if (!tokenResp.ok || !pinResult.PinHash) {
+    throw new Error(pinResult.Msg);
+  }
+
+  return pinResult.PinHash;
+}
+
+async function pinJsonToIpfs(buffer, cid, prefix) {
+  return await pinDataToIpfs(
+    buffer,
+    cid,
+    prefix + Date.now() + ".json",
+    "application/json"
+  );
+}
+
+async function pinFileToIpfs(file) {
+  const cid = await Hash.of(file.buffer);
+  return await pinDataToIpfs(
+    file.buffer,
+    cid,
+    file.originalname,
+    file.mimetype
+  );
 }
 
 module.exports = {
+  pinDataToIpfs,
+  pinFileToIpfs,
   pinJsonToIpfs,
 };
