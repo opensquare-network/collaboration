@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { ChainIcon } from "@osn/common-ui";
 import Popup from "@/components/popup";
 import IdentityOrAddr from "@/components/identityOrAddr";
+import { IdentityUser } from "@osn/common-ui/es/identity/IdentityUser";
 
 const Wrapper = styled.div`
   display: flex;
@@ -65,16 +66,17 @@ export default function Voter({
 
   return (
     <Wrapper>
-      <Avatar address={address} size={20} />
-      {showNetwork && <ChainIcon chainName={network} size={16} />}
-      <Popup content={popup}>
-        <IdentityOrAddr
-          address={address}
-          network={network}
-          isSafari={isSafari}
-          ellipsis
-        />
-      </Popup>
+      <IdentityUser address={address} network={network} />
+      {/*<Avatar address={address} size={20} />*/}
+      {/*{showNetwork && <ChainIcon chainName={network} size={16} />}*/}
+      {/*<Popup content={popup}>*/}
+      {/*  <IdentityOrAddr*/}
+      {/*    address={address}*/}
+      {/*    network={network}*/}
+      {/*    isSafari={isSafari}*/}
+      {/*    ellipsis*/}
+      {/*  />*/}
+      {/*</Popup>*/}
     </Wrapper>
   );
 }

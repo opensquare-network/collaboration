@@ -1813,27 +1813,27 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@osn/common-ui@^1.2.2":
-  version "1.2.2"
-  resolved "https://registry.npmjs.org/@osn/common-ui/-/common-ui-1.2.2.tgz#5b3c3e1651ef1acd3bc53fbf9f9e4c313e9a5594"
-  integrity sha512-A4cSHB6b3Vq5pwZiM1WPG++G+wBNiBrOftJzn00wYWwhEGZiEbLzBo3J8FKgppkIKzu8tZTI5dwOPFQwoOoifA==
+"@osn/common-ui@^1.3.2":
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/@osn/common-ui/-/common-ui-1.3.2.tgz#456ab4850eb597e01e5e785188baa2d0cca37308"
+  integrity sha512-FiLA1DsJzBhG3YJX8W7y9diso3tjvrX+b7xDxMZml6AHKdEyPJGuRmhtTp8OefLRKx7M7f0uS7Wp/w3DtTxmpA==
   dependencies:
     "@osn/polkadot-react-identicon" "^1.0.8"
     copy-to-clipboard "^3.3.1"
     dayjs "^1.10.8"
 
-"@osn/common@^0.0.18":
-  version "0.0.18"
-  resolved "https://registry.npmjs.org/@osn/common/-/common-0.0.18.tgz#c364c7efbc7d1be7f7c00cdf8bb50fc2c2ac4500"
-  integrity sha512-Jc7aYHa41jg8MSAXAooeYvcZ1X67KjODejsRygkxQfb5LYTtjspBJWpstuAdsojgyYYxDdWE/vIRvhw1vvfvSw==
+"@osn/common@^0.0.19":
+  version "0.0.19"
+  resolved "https://registry.yarnpkg.com/@osn/common/-/common-0.0.19.tgz#34b0572f4dd3b5d2ef50bdf256a4d4724a1dbc86"
+  integrity sha512-a9UAazofh4K++DqXFUxwMWIBDnI26g1NUA9eyXSzZZCn8boZymnCiO0s/YK8AvIMSPJ65YFc1LhyBrrcJgo/6g==
   dependencies:
-    "@osn/constants" "^1.1.0"
+    "@osn/constants" "^1.1.1"
     "@osn/provider-options" "^1.0.2"
 
-"@osn/constants@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.npmjs.org/@osn/constants/-/constants-1.1.0.tgz#e098c43b7d34b5f4ae9c63772521457d4d480c95"
-  integrity sha512-Rc1LxlVvZ4OrHn+zfXe3KbZpoCJrLloxvLlHzN6nWcsw4SDOBNDguYfZPoKgR24rH8BQebgEDqu+8w0GaFAKgg==
+"@osn/constants@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@osn/constants/-/constants-1.1.1.tgz#b64d8fbce333e9a0c73f0f4fd77915cf329c6a7e"
+  integrity sha512-5wXukECKQIi0xXsGG38IAezgxS19zdph2jsnabbTHpJ0kDk1kMxCd3HL+2kzxyz/7w/wPWz/qg940qQs4N2ozA==
 
 "@osn/polkadot-api-container@1.0.4":
   version "1.0.4"
