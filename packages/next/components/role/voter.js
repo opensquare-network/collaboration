@@ -1,8 +1,6 @@
-import Avatar from "@/components/avatar";
 import styled from "styled-components";
-import { ChainIcon } from "@osn/common-ui";
 import Popup from "@/components/popup";
-import IdentityOrAddr from "@/components/identityOrAddr";
+import { IdentityUser } from "@osn/common-ui";
 
 const Wrapper = styled.div`
   display: flex;
@@ -11,12 +9,6 @@ const Wrapper = styled.div`
 
   > :not(:first-child) {
     margin-left: 4px;
-  }
-  .ui--IdentityIcon {
-    margin-top: 2px;
-    svg:first-child {
-      margin-right: 4px;
-    }
   }
 `;
 
@@ -53,11 +45,11 @@ export default function Voter({
 }) {
   const popup = (
     <PopupCard>
-      <div>
-        <Avatar address={address} size={20} />
-        <ChainIcon chainName={network} size={16} />
-        <IdentityOrAddr address={address} network={network} />
-      </div>
+      <IdentityUser
+        address={address}
+        network={network}
+        networkIconSize={showNetwork ? 16 : 0}
+      />
       <Divider />
       <TextMinor>{address}</TextMinor>
     </PopupCard>
@@ -65,14 +57,11 @@ export default function Voter({
 
   return (
     <Wrapper>
-      <Avatar address={address} size={20} />
-      {showNetwork && <ChainIcon chainName={network} size={16} />}
       <Popup content={popup}>
-        <IdentityOrAddr
+        <IdentityUser
           address={address}
           network={network}
-          isSafari={isSafari}
-          ellipsis
+          networkIconSize={showNetwork ? 16 : 0}
         />
       </Popup>
     </Wrapper>

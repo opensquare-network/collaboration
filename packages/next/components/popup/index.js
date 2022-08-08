@@ -46,7 +46,7 @@ const ChildrenWrapper = styled.div`
   display: flex;
   :hover {
     > * {
-      display: block;
+      display: flex;
     }
   }
   filter: drop-shadow(0px 4px 31px rgba(26, 33, 44, 0.06))
