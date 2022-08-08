@@ -1,8 +1,5 @@
-import Avatar from "@/components/avatar";
 import styled from "styled-components";
-import { ChainIcon } from "@osn/common-ui";
 import Popup from "@/components/popup";
-import IdentityOrAddr from "@/components/identityOrAddr";
 import { IdentityUser } from "@osn/common-ui";
 
 const Wrapper = styled.div`
