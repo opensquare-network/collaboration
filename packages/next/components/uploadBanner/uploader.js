@@ -170,7 +170,7 @@ function Uploader({ setBannerUrl }) {
           <>
             {currentBanner ? (
               <BannerPreview>
-                <img src={currentBanner} />
+                <img src={currentBanner} alt="" />
                 <Delete onClick={handleRemoveBanner}>Delete</Delete>
               </BannerPreview>
             ) : (
