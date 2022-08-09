@@ -1,5 +1,5 @@
 const { HttpError } = require("../../exc");
-const { IPFS_ENDPOINT, NODE_API_ENDPOINT } = require("../../env");
+const { IPFS_ENDPOINT } = require("../../env");
 const { pinFileToIpfs } = require("../../services/ipfs.service/pin");
 
 const Megabyte = 1024 * 1024;
@@ -35,7 +35,7 @@ async function upload(ctx) {
     const hash = await pinFileToIpfs(file);
     ctx.body = {
       hash,
-      url: `${trimTailSlash(NODE_API_ENDPOINT)}/ipfs/files/${hash}`,
+      url: `${trimTailSlash(IPFS_ENDPOINT)}/${hash}`,
     };
   } catch (e) {
     throw new HttpError(500, e.message);

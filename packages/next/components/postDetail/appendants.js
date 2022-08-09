@@ -177,7 +177,7 @@ export default function Appendants({ proposal, appendants, editable }) {
             <IpfsSquare
               href={
                 item.pinHash
-                  ? `https://ipfs.infura.io/ipfs/${item.pinHash}`
+                  ? `${process.env.NEXT_PUBLIC_API_END_POINT}api/ipfs/files/${item.pinHash}`
                   : null
               }
             />

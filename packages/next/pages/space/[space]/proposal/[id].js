@@ -104,7 +104,10 @@ export default function Index({
         spaceId={space?.id}
         title={detail?.title}
         desc={desc}
-        banner={detail?.banner}
+        banner={
+          detail?.banner &&
+          `${process.env.NEXT_PUBLIC_API_END_POINT}api/ipfs/files/${detail?.banner}`
+        }
       />
       <Layout bgHeight="183px" space={space}>
         <Breadcrumb

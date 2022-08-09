@@ -197,7 +197,7 @@ export default function PostDiscussion({
             </DividerWrapper>
             {item?.pinHash ? (
               <ExternalLink
-                href={`https://ipfs-hk.decoo.io/ipfs/${item.pinHash}`}
+                href={`${process.env.NEXT_PUBLIC_API_END_POINT}api/ipfs/files/${item.pinHash}`}
               >
                 <Square />
               </ExternalLink>
