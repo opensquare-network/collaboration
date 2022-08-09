@@ -1,12 +1,6 @@
 const { HttpError } = require("../../exc");
-const { getEnvDecooIpfsEndpoint } = require("../../env");
+const { IPFS_ENDPOINT } = require("../../env");
 const { pinFileToIpfs } = require("../../services/ipfs.service/pin");
-
-const DECOO_IPFS_ENDPOINT = getEnvDecooIpfsEndpoint();
-if (!DECOO_IPFS_ENDPOINT) {
-  console.error("DECOO_IPFS_ENDPOINT is not properly configured");
-  process.exit();
-}
 
 const Megabyte = 1024 * 1024;
 
@@ -15,12 +9,12 @@ const trimTailSlash = (url) =>
 
 async function getFile(ctx) {
   const { hash } = ctx.params;
-  ctx.redirect(`${trimTailSlash(DECOO_IPFS_ENDPOINT)}/${hash}`);
+  ctx.redirect(`${trimTailSlash(IPFS_ENDPOINT)}/${hash}`);
 }
 
 async function getIpfsEndpoint(ctx) {
   ctx.body = {
-    endpoint: trimTailSlash(DECOO_IPFS_ENDPOINT),
+    endpoint: trimTailSlash(IPFS_ENDPOINT),
   };
 }
 
@@ -41,7 +35,7 @@ async function upload(ctx) {
     const hash = await pinFileToIpfs(file);
     ctx.body = {
       hash,
-      url: `${trimTailSlash(DECOO_IPFS_ENDPOINT)}/${hash}`,
+      url: `${trimTailSlash(IPFS_ENDPOINT)}/${hash}`,
     };
   } catch (e) {
     throw new HttpError(500, e.message);
