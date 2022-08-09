@@ -134,7 +134,7 @@ function Uploader({ setBannerUrl }) {
       const formData = new FormData();
       formData.append("banner", image, image.name);
       nextApi
-        .postFormData("files/upload", formData)
+        .postFormData("ipfs/files", formData)
         .then(({ result, error }) => {
           if (result) {
             setCurrentBanner(result.url);

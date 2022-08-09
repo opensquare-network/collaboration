@@ -1,6 +1,6 @@
-async function pinJsonToIpfs(buf, cid) {
+async function pinJsonToIpfs(json) {
   console.log(`Use mock pinJsonToIpfs`);
-  return cid;
+  return "QmZPLzpusNUu6Re4CRhqcw74tEi9Rb9ecYePk2h2Sr2CjG";
 }
 
 module.exports = {

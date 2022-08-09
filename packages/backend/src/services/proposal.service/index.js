@@ -152,12 +152,7 @@ async function createProposal(
     throw new HttpError(403, `Balance is not enough to create the proposal`);
   }
 
-  const { cid, pinHash } = await pinData(
-    data,
-    address,
-    signature,
-    "voting-proposal-"
-  );
+  const { cid, pinHash } = await pinData(data, address, signature);
 
   const postUid = await nextPostUid();
 
@@ -307,12 +302,7 @@ async function postComment(
     );
   }
 
-  const { cid, pinHash } = await pinData(
-    data,
-    address,
-    signature,
-    "voting-comment-"
-  );
+  const { cid, pinHash } = await pinData(data, address, signature);
 
   const commentCol = await getCommentCollection();
   const height = await commentCol.countDocuments({ proposal: proposal._id });
@@ -448,12 +438,7 @@ async function vote(
       `Require the minimum of ${symbolVoteThreshold} ${spaceService.symbol} to vote`
     );
   }
-  const { cid, pinHash } = await pinData(
-    data,
-    address,
-    signature,
-    "voting-vote-"
-  );
+  const { cid, pinHash } = await pinData(data, address, signature);
 
   const voteCol = await getVoteCollection();
   const result = await voteCol.findOneAndUpdate(

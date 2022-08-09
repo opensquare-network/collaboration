@@ -26,17 +26,19 @@ function getProposalStatus(proposal = {}) {
   }
 }
 
-async function pinData(data, address, signature, prefix) {
-  const { buf, cid } = await getObjectBufAndCid({
+async function pinData(data, address, signature) {
+  const toBePin = {
     msg: JSON.stringify(data),
     address,
     signature,
     version: "1",
-  });
+  };
+
+  const { cid } = await getObjectBufAndCid(toBePin);
 
   let pinHash = null;
   try {
-    pinHash = await pinJsonToIpfsWithTimeout(buf, cid, 3000, prefix);
+    pinHash = await pinJsonToIpfsWithTimeout(toBePin, 3000);
   } catch (e) {
     console.error(e);
   }

@@ -1,7 +1,7 @@
 const BigNumber = require("bignumber.js");
 const { evmNetworks } = require("../consts/networks");
 const { HttpError } = require("../exc");
-const { getEnvNodeApiEndpoint } = require("../env");
+const { NODE_API_ENDPOINT } = require("../env");
 const { isTestAccount } = require("../utils");
 const { fetchApi } = require("../utils/fech.api");
 const { adaptBalance } = require("../utils/balance");
@@ -14,7 +14,7 @@ async function getSystemBalance(network, blockHeight, address) {
     };
   }
 
-  const url = `${getEnvNodeApiEndpoint()}/${network}/balance/${address}/${blockHeight}`;
+  const url = `${NODE_API_ENDPOINT}/${network}/balance/${address}/${blockHeight}`;
   try {
     return await fetchApi(url);
   } catch (err) {
@@ -27,7 +27,7 @@ async function checkDelegation(network, delegatee, delegator, blockHeight) {
     return;
   }
 
-  let url = `${getEnvNodeApiEndpoint()}/${network}/proxy/${delegator}/${delegatee}/${blockHeight}`;
+  let url = `${NODE_API_ENDPOINT}/${network}/proxy/${delegator}/${delegatee}/${blockHeight}`;
   let isProxy = false;
   try {
     const json = await fetchApi(url);
@@ -54,7 +54,7 @@ async function getEvmAddressBalance(
     };
   }
 
-  let url = `${getEnvNodeApiEndpoint()}`;
+  let url = `${NODE_API_ENDPOINT}`;
   url += `/evm/chain/${network}/contract/${contract}/address/${address}/height/${height}`;
 
   const { balance } = await fetchApi(url);
@@ -63,7 +63,7 @@ async function getEvmAddressBalance(
 }
 
 async function getChainHeight(chain, time) {
-  let url = `${getEnvNodeApiEndpoint()}/`;
+  let url = `${NODE_API_ENDPOINT}/`;
   if (evmNetworks.includes(chain)) {
     url += `evm/chain/${chain}/height`;
     if (time) {
@@ -97,7 +97,7 @@ async function getTokenBalance(network, assetIdOrSymbol, blockHeight, address) {
     return process.env.TEST_ACCOUNT_BALANCE;
   }
 
-  let url = `${getEnvNodeApiEndpoint()}/${network}/token/${assetIdOrSymbol}/account/${address}/${blockHeight}`;
+  let url = `${NODE_API_ENDPOINT}/${network}/token/${assetIdOrSymbol}/account/${address}/${blockHeight}`;
   try {
     const { free, reserved } = await fetchApi(url);
     return new BigNumber(free || 0).plus(reserved || 0).toString();
