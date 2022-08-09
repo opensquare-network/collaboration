@@ -2,7 +2,7 @@ const NODE_API_ENDPOINT = "http://localhost:3223";
 const INFURA_PROJECT_ID = "xxx";
 const INFURA_PROJECT_SECRET = "yyy";
 const LOCAL_IPFS_NODE_URL = "http://ipfs.dotask.cc:5001";
-const USE_LOCAL_IFPS_NODE = "false";
+const USE_LOCAL_IFPS_NODE = false;
 const IPFS_ENDPOINT = "https://ipfs.infura.io/ipfs/";
 
 module.exports = {
