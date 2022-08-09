@@ -7,6 +7,7 @@ import { ReactComponent as Upload } from "../../public/imgs/icons/upload.svg";
 
 const UploadIcon = styled(Upload)`
   flex-basis: 100%;
+  cursor: pointer;
 `;
 
 const Wrapper = styled.div`
@@ -175,9 +176,9 @@ function Uploader({ setBannerUrl }) {
               </BannerPreview>
             ) : (
               <UploadTip>
-                <UploadIcon />
+                <UploadIcon onClick={handleSelectFile} />
                 <Hint>
-                  <span>Drag image or</span>
+                  <span>Drop image or</span>
                   <SelectFile onClick={handleSelectFile}>Upload</SelectFile>
                 </Hint>
               </UploadTip>
