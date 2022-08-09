@@ -91,7 +91,6 @@ async function createProposal(
 
   // Check if the snapshot heights is matching the space configuration
   const snapshotNetworks = Object.keys(snapshotHeights || {});
-  console.log({ snapshotNetworks }, spaceService.networks);
   if (
     snapshotNetworks.length === 0 ||
     snapshotNetworks.length !== spaceService.networks.length

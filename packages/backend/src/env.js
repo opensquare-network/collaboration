@@ -1,5 +1,5 @@
 const NODE_API_ENDPOINT =
-  process.env.NODE_API_ENDPOINT || "http://localhost:3223";
+  process.env.NODE_API_ENDPOINT || "http://127.0.0.1:8081";
 const INFURA_PROJECT_ID = process.env.INFURA_PROJECT_ID || "";
 const INFURA_PROJECT_SECRET = process.env.INFURA_PROJECT_SECRET || "";
 const LOCAL_IPFS_NODE_URL =

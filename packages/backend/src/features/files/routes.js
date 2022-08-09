@@ -5,8 +5,8 @@ const fileController = require("./file.controller");
 const router = new Router();
 const upload = multer();
 
-router.post("/files/upload", upload.single("banner"), fileController.upload);
-router.get("/files/ipfs/:hash", fileController.getFile);
-router.get("/files/ipfs", fileController.getIpfsEndpoint);
+router.post("/ipfs/files", upload.single("banner"), fileController.upload);
+router.get("/ipfs/files/:hash", fileController.getFile);
+router.get("/ipfs/endpoint", fileController.getIpfsEndpoint);
 
 module.exports = router;
