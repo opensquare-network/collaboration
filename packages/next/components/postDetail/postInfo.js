@@ -105,7 +105,7 @@ export default function PostInfo({ data, space }) {
             <InfoItem>
               <div>IPFS</div>
               <ExternalLink
-                href={`https://ipfs-hk.decoo.io/ipfs/${data?.pinHash}`}
+                href={`${process.env.NEXT_PUBLIC_API_END_POINT}api/ipfs/files/${data?.pinHash}`}
               >{`#${data?.pinHash?.slice(0, 7)}`}</ExternalLink>
             </InfoItem>
           )}

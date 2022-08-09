@@ -160,7 +160,7 @@ export default function PostVotes({
             />
             {data?.pinHash ? (
               <ExternalLink
-                href={`https://ipfs-hk.decoo.io/ipfs/${data.pinHash}`}
+                href={`${process.env.NEXT_PUBLIC_API_END_POINT}api/ipfs/files/${data.pinHash}`}
               >
                 <Square />
               </ExternalLink>

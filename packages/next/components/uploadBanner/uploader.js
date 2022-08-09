@@ -138,7 +138,7 @@ function Uploader({ setBannerUrl }) {
         .then(({ result, error }) => {
           if (result) {
             setCurrentBanner(result.url);
-            setBannerUrl(result.url);
+            setBannerUrl(result.hash);
           }
           if (error) {
             // dispatch(newErrorToast(error.message));

@@ -90,7 +90,12 @@ export default function PostContent({ data, space }) {
         <StatusTag>{data.status}</StatusTag>
       </InfoWrapper>
       <Divider margin={20} />
-      <PostBanner bannerUrl={data?.banner} />
+      <PostBanner
+        bannerUrl={
+          data?.banner &&
+          `${process.env.NEXT_PUBLIC_API_END_POINT}api/ipfs/files/${data?.banner}`
+        }
+      />
       <Accordion
         head={<SubTitle style={{ marginBottom: 16 }}>Description</SubTitle>}
       >
