@@ -41,7 +41,9 @@ export async function createProposal(proposal) {
   const signedData = await signApiData(
     {
       ...data,
-      version: "2",
+      // Version 2: multi space network support
+      // Version 3: banner supported
+      version: "3",
     },
     address
   );
@@ -54,7 +56,9 @@ export async function signProposal(proposal) {
   return await signApiData(
     {
       ...data,
-      version: "2",
+      // Version 2: multi space network support
+      // Version 3: banner supported
+      version: "3",
     },
     address
   );
