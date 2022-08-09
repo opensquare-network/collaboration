@@ -26,7 +26,6 @@ describe("Spaces Test", () => {
   });
 
   afterAll(async () => {
-    stopUpdateHeight();
     await spaceCol.drop();
     await db.close();
   });

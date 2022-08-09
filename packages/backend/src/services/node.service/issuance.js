@@ -1,11 +1,11 @@
 const BigNumber = require("bignumber.js");
 const { HttpError } = require("../../exc");
 const { fetchApi } = require("../../utils/fech.api");
-const { getEnvNodeApiEndpoint } = require("../../env");
+const { NODE_API_ENDPOINT } = require("../../env");
 
 // TODO: Different tokens may have same name, but we will handle this case in the future.
 async function getTotalIssuance(tokenName, blockHeight) {
-  const url = `${getEnvNodeApiEndpoint()}/issuance/token/${tokenName}/${
+  const url = `${NODE_API_ENDPOINT}/issuance/token/${tokenName}/${
     blockHeight || ""
   }`;
   try {
