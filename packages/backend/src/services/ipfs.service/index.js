@@ -1,13 +1,13 @@
 const Hash = require("ipfs-only-hash");
 const { pinJsonToIpfs } = require("./pin");
 
-async function pinJsonToIpfsWithTimeout(buf, cid, timeout, prefix) {
+async function pinJsonToIpfsWithTimeout(json, timeout) {
   const errorMsg = "Pin json to ipfs timeout";
   return await Promise.race([
     new Promise((_, reject) =>
       setTimeout(() => reject(new Error(errorMsg)), timeout)
     ),
-    pinJsonToIpfs(buf, cid, prefix),
+    pinJsonToIpfs(json),
   ]);
 }
 
@@ -18,18 +18,26 @@ async function getObjectBufAndCid(data) {
   return { buf, cid };
 }
 
-async function pinCollectionDataToIpfs(col, prefix) {
+async function pinCollectionDataToIpfs(col) {
   const items = await col.find({ pinHash: null }).toArray();
+  await pinItemsToIpfs(col, items);
+}
+
+async function repinCollectionDataToIpfs(col) {
+  const items = await col.find().toArray();
+  await pinItemsToIpfs(col, items);
+}
+
+async function pinItemsToIpfs(col, items) {
   for (const item of items) {
     try {
-      const msg = JSON.stringify(item.data);
-      const { buf, cid } = await getObjectBufAndCid({
-        msg,
+      const toBePin = {
+        msg: JSON.stringify(item.data),
         address: item.address,
         signature: item.signature,
         version: "1",
-      });
-      const pinHash = await pinJsonToIpfs(buf, cid, prefix);
+      };
+      const pinHash = await pinJsonToIpfs(toBePin);
 
       if (pinHash) {
         await col.updateOne({ _id: item._id }, { $set: { pinHash } });
@@ -45,4 +53,5 @@ module.exports = {
   pinJsonToIpfsWithTimeout,
   getObjectBufAndCid,
   pinCollectionDataToIpfs,
+  repinCollectionDataToIpfs,
 };
