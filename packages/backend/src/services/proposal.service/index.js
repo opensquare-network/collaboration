@@ -464,6 +464,8 @@ async function vote(
         weights: {
           balanceOf: toDecimal128(balanceOf),
         },
+        // Version 2: multiple network space support
+        // version 3: multiple choices support
         version: "3",
       },
       $setOnInsert: {
