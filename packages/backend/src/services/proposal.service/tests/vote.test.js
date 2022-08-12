@@ -58,7 +58,7 @@ describe("Vote Test", () => {
 
   test("vote", async () => {
     let proposalCid = "QmRgpY9WUuxKkptU6Sj9ow97u5QtFeRYnx4pqXzVBfMapE",
-      choice = "Nay",
+      choices = ["Nay"],
       remark = "Remark",
       realVoter = null,
       voterNetwork = "karura",
@@ -69,7 +69,7 @@ describe("Vote Test", () => {
 
     await vote(
       proposalCid,
-      choice,
+      choices,
       remark,
       realVoter,
       data,
@@ -90,7 +90,7 @@ describe("Vote Test", () => {
           proposal: new ObjectId("616e454d8f661dee51552e6a"),
           voter: "14uSQFo8WePzpZaBUZHKa8AqDxigH1wjtNDHaRAG8ipSqQS3",
           address: "14uSQFo8WePzpZaBUZHKa8AqDxigH1wjtNDHaRAG8ipSqQS3",
-          choice: "Nay",
+          choices: ["Nay"],
           cid: "QmZPLzpusNUu6Re4CRhqcw74tEi9Rb9ecYePk2h2Sr2CjG",
           data: {},
           pinHash: "QmZPLzpusNUu6Re4CRhqcw74tEi9Rb9ecYePk2h2Sr2CjG",

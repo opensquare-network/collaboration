@@ -133,7 +133,7 @@ export async function addVote(
 export async function signVote(
   space,
   proposalCid,
-  choice,
+  choices,
   remark,
   address,
   realVoter,
@@ -142,11 +142,11 @@ export async function signVote(
   return await signApiData(
     {
       proposalCid,
-      choice,
+      choices,
       remark,
       realVoter,
       voterNetwork,
-      version: "2",
+      version: "3",
     },
     address
   );

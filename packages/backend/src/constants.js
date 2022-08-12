@@ -5,6 +5,7 @@ const ContentType = Object.freeze({
 
 const ChoiceType = Object.freeze({
   Single: "single",
+  Multiple: "multiple",
 });
 
 const PostTitleLengthLimitation = 160;

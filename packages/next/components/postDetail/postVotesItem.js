@@ -13,7 +13,7 @@ const Item = styled.div`
 
 const InfoWrapper = styled.div`
   display: flex;
-  align-items: start;
+  align-items: center;
   justify-content: space-between;
   font-weight: 500;
   line-height: 24px;
@@ -23,11 +23,6 @@ const InfoWrapper = styled.div`
   @media screen and (max-width: 800px) {
     gap: 8px;
   }
-`;
-
-const Label = styled.span`
-  color: #a1a8b3;
-  margin-right: 8px;
 `;
 
 const ContentWrapper = styled.div`
@@ -92,13 +87,18 @@ const MyVoteTag = styled.div`
 `;
 
 const Vote = styled(Flex)`
-  > div:nth-child(2) {
+  > div:nth-child(1) {
     position: relative;
-    height: 24px;
     @media screen and (max-width: 800px) {
       display: none;
     }
   }
+`;
+
+const Choices = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const MobileOnly = styled.div`
@@ -108,9 +108,7 @@ const MobileOnly = styled.div`
   }
 `;
 
-const VoterWrapper = styled(EqualWrapper)`
-  align-items: start;
-`;
+const VoterWrapper = styled(EqualWrapper)``;
 
 function getChoiceIndex(choices, userChoice) {
   for (let index in choices) {
@@ -142,12 +140,37 @@ export default function PostVotes({
         </VoterWrapper>
         <EqualWrapper className="center">
           <Vote>
-            <Label>Vote</Label>
-            <Tooltip content={data.choice}>
-              <Ellipsis width={189}>{data.choice}</Ellipsis>
+            <Tooltip
+              content={
+                <>
+                  {data.choices.map((choice) => (
+                    <>
+                      {choice}
+                      <br />
+                    </>
+                  ))}
+                </>
+              }
+            >
+              <div>
+                <Choices>
+                  {data.choices.map((choice) => (
+                    <Ellipsis key={choice} width={189}>
+                      {choice}
+                    </Ellipsis>
+                  ))}
+                </Choices>
+              </div>
             </Tooltip>
             <MobileOnly>
-              {`# ${getChoiceIndex(choices, data.choice)}`}
+              <Choices>
+                {data.choices.map((choice) => (
+                  <span key={choice}>{`# ${getChoiceIndex(
+                    choices,
+                    choice
+                  )}`}</span>
+                ))}
+              </Choices>
             </MobileOnly>
           </Vote>
         </EqualWrapper>

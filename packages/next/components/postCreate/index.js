@@ -26,6 +26,7 @@ import pick from "lodash.pick";
 import {
   authoringEndDateSelector,
   authoringStartDateSelector,
+  choiceTypeIndexSelector,
   setSnapshotHeights,
   snapshotHeightsSelector,
 } from "../../store/reducers/authoringSlice";
@@ -83,6 +84,7 @@ export default function PostCreate({ space }) {
   const loginNetworkSnapshot = useSelector(loginNetworkSnapshotSelector);
 
   const snapshotHeights = useSelector(snapshotHeightsSelector);
+  const choiceTypeIndex = useSelector(choiceTypeIndexSelector);
   const router = useRouter();
 
   const [title, setTitle] = useState(router.query.title || "");
@@ -197,7 +199,7 @@ export default function PostCreate({ space }) {
       title,
       content,
       contentType: "markdown",
-      choiceType: "single",
+      choiceType: choiceTypeIndex === 0 ? "single" : "multiple",
       choices: choices.filter(Boolean),
       startDate: startDate?.getTime(),
       endDate: endDate?.getTime(),

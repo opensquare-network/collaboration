@@ -6,6 +6,7 @@ const authoringSlice = createSlice({
     snapshotHeights: [],
     startTimestamp: null,
     endTimestamp: null,
+    choiceTypeIndex: 0,
   },
   reducers: {
     setSnapshotHeights: (state, { payload }) => {
@@ -19,11 +20,18 @@ const authoringSlice = createSlice({
     setEndTimestamp(state, { payload }) {
       state.endTimestamp = payload;
     },
+    setchoiceTypeIndex(state, { payload }) {
+      state.choiceTypeIndex = payload;
+    },
   },
 });
 
-export const { setSnapshotHeights, setStartTimestamp, setEndTimestamp } =
-  authoringSlice.actions;
+export const {
+  setSnapshotHeights,
+  setStartTimestamp,
+  setEndTimestamp,
+  setchoiceTypeIndex,
+} = authoringSlice.actions;
 
 export const snapshotHeightsSelector = (state) =>
   state.authoring.snapshotHeights;
@@ -43,5 +51,7 @@ export const authoringEndDateSelector = (state) => {
 
   return new Date(endTime);
 };
+export const choiceTypeIndexSelector = (state) =>
+  state.authoring.choiceTypeIndex;
 
 export default authoringSlice.reducer;

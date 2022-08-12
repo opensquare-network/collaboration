@@ -53,7 +53,7 @@ test("create a new vote via calling API", () => {
   signVote(
     "polkadot",
     "1",
-    "choice",
+    ["choice"],
     "test remark",
     "markdown",
     "some address",

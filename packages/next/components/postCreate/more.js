@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import DatePicker from "components/datePicker";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,6 +8,8 @@ import { p_14_medium } from "../../styles/textStyles";
 import {
   authoringEndDateSelector,
   authoringStartDateSelector,
+  choiceTypeIndexSelector,
+  setchoiceTypeIndex,
   setEndTimestamp,
   setSnapshotHeights,
   setStartTimestamp,
@@ -16,6 +18,7 @@ import {
 import Publish from "@/components/postCreate/publish";
 import SideSectionTitle from "@/components/sideBar/sideSectionTitle";
 import { FlexBetween } from "@osn/common-ui";
+import DropdownSelector from "@osn/common-ui/es/DropdownSelector";
 
 const Wrapper = styled.div`
   min-width: 302px;
@@ -82,11 +85,20 @@ const TextGrey = styled.span`
   color: #a1a8b3;
 `;
 
+const ChoiceWrapper = styled.div`
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 24px;
+  color: #1e2134;
+`;
+
 export default function More({ onPublish, space }) {
   const dispatch = useDispatch();
   const snapshotHeights = useSelector(snapshotHeightsSelector);
   const authoringStartDate = useSelector(authoringStartDateSelector);
   const authoringEndDate = useSelector(authoringEndDateSelector);
+  const choiceTypeIndex = useSelector(choiceTypeIndexSelector);
 
   useEffect(() => {
     if (space?.networks) {
@@ -108,11 +120,23 @@ export default function More({ onPublish, space }) {
     return authoringStartDate;
   }
 
+  const choiceTypes = ["Single choice voting", "Multiple choice voting"].map(
+    (item, i) => ({
+      key: i,
+      value: i,
+      content: <ChoiceWrapper>{item}</ChoiceWrapper>,
+    })
+  );
+
   return (
     <Wrapper>
       <InnerWrapper>
         <SideSectionTitle title="System" img="/imgs/icons/action.svg" />
-        <SystemWrapper>Single choice voting</SystemWrapper>
+        <DropdownSelector
+          options={choiceTypes}
+          value={choiceTypeIndex}
+          onSelect={(value) => dispatch(setchoiceTypeIndex(value))}
+        />
       </InnerWrapper>
       <InnerWrapper>
         <SideSectionTitle title="Period" img="/imgs/icons/date.svg" />
@@ -156,12 +180,6 @@ export default function More({ onPublish, space }) {
             </Snapshot>
           ))}
         </DateWrapper>
-        {/* {blocksMap.get(`${height}`) && (
-          <Row
-            header="Timestamp"
-            content={moment(blocksMap.get(height)).format("MMM,DD YYYY HH:mm")}
-          />
-        )} */}
       </InnerWrapper>
       <InnerWrapper>
         <SideSectionTitle title="Information" img="/imgs/icons/info.svg" />

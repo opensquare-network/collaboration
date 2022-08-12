@@ -48,7 +48,7 @@ async function createProposal(ctx) {
     throw new HttpError(400, { content: ["Snapshot height is missing"] });
   }
 
-  if (choiceType !== ChoiceType.Single) {
+  if (![ChoiceType.Single, ChoiceType.Multiple].includes(choiceType)) {
     throw new HttpError(400, { choiceType: ["Unknown choice type"] });
   }
 
@@ -233,14 +233,14 @@ async function getComments(ctx) {
 
 async function vote(ctx) {
   const { data, address, signature } = ctx.request.body;
-  const { proposalCid, choice, remark, realVoter, voterNetwork } = data;
+  const { proposalCid, choices, remark, realVoter, voterNetwork } = data;
 
   if (!proposalCid) {
     throw new HttpError(400, { proposalCid: ["Proposal CID is missing"] });
   }
 
-  if (!choice) {
-    throw new HttpError(400, { choice: ["Choice is missing"] });
+  if (!choices) {
+    throw new HttpError(400, { choices: ["Choices is missing"] });
   }
 
   if (!voterNetwork) {
@@ -249,7 +249,7 @@ async function vote(ctx) {
 
   ctx.body = await proposalService.vote(
     proposalCid,
-    choice,
+    choices,
     remark,
     realVoter,
     data,

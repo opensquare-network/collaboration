@@ -6,7 +6,7 @@ const { strategies } = require("../../consts/voting");
 const { tokenParentChain } = require("../../consts/token");
 const { getTotalIssuance } = require("../node.service/issuance");
 const { safeHtml } = require("../../utils/post");
-const { PostTitleLengthLimitation } = require("../../constants");
+const { PostTitleLengthLimitation, ChoiceType } = require("../../constants");
 const { nextPostUid } = require("../status.service");
 const {
   getProposalCollection,
@@ -376,7 +376,7 @@ async function getComments(proposalCid, page, pageSize) {
 
 async function vote(
   proposalCid,
-  choice,
+  choices,
   remark,
   realVoter,
   data,
@@ -390,8 +390,12 @@ async function vote(
     throw new HttpError(400, "Proposal not found.");
   }
 
-  if (!proposal.choices?.includes(choice)) {
-    throw new HttpError(400, "Invalid vote choice");
+  if (proposal.choiceType === ChoiceType.Single && choices.length !== 1) {
+    throw new HttpError(400, "Can vote single choice only");
+  }
+
+  if (choices.some((choice) => !proposal.choices?.includes(choice))) {
+    throw new HttpError(400, `Invalid choice: ${choice}`);
   }
 
   const now = new Date();
@@ -449,7 +453,7 @@ async function vote(
     },
     {
       $set: {
-        choice,
+        choices,
         remark,
         data,
         address,
@@ -460,7 +464,7 @@ async function vote(
         weights: {
           balanceOf: toDecimal128(balanceOf),
         },
-        version: "2",
+        version: "3",
       },
       $setOnInsert: {
         createdAt: now,
@@ -609,16 +613,18 @@ async function getStats(proposalCid) {
     ])
   );
   for (const vote of calculatedVotes) {
-    const weights = (stats[vote.choice] = stats[vote.choice] || {
-      choice: vote.choice,
-    });
-    weights.balanceOf = new BigNumber(weights.balanceOf || 0)
-      .plus(vote.weights.balanceOf)
-      .toString();
-    weights.quadraticBalanceOf = new BigNumber(weights.quadraticBalanceOf || 0)
-      .plus(vote.weights.quadraticBalanceOf)
-      .toString();
-    weights.votesCount = (weights.votesCount || 0) + 1;
+    for (const choice of vote.choices) {
+      const weights = (stats[choice] = stats[choice] || { choice });
+      weights.balanceOf = new BigNumber(weights.balanceOf || 0)
+        .plus(vote.weights.balanceOf)
+        .toString();
+      weights.quadraticBalanceOf = new BigNumber(
+        weights.quadraticBalanceOf || 0
+      )
+        .plus(vote.weights.quadraticBalanceOf)
+        .toString();
+      weights.votesCount = (weights.votesCount || 0) + 1;
+    }
   }
 
   if (
