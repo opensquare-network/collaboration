@@ -19,6 +19,7 @@ async function migrateVotes() {
         },
       }
     );
+    console.log(`Migrated vote: ${vote.cid}`);
   }
 }
 
