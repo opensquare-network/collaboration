@@ -7,6 +7,9 @@ async function migrateVotes() {
   const voteCol = await getVoteCollection();
   const votes = await voteCol.find({}).toArray();
   for (const vote of votes) {
+    if (vote.version !== "2") {
+      continue;
+    }
     await voteCol.updateOne(
       { cid: vote.cid },
       {
