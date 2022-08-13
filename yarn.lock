@@ -2199,12 +2199,12 @@
     ipfs-http-client "^56.0.1"
     it-all "^1.0.6"
 
-"@osn/polkadot-api-container@1.0.4":
-  version "1.0.4"
-  resolved "https://registry.npmjs.org/@osn/polkadot-api-container/-/polkadot-api-container-1.0.4.tgz#195a67a96998e1285fefa0b58cdd153776ec4ec0"
-  integrity sha512-HdajpR74zV0gcC7M8jsxex7K8b8bjF+N/r1A2yPt60EeTHkH2+6SrY4QodtMQVWRJICgKV3/FJN2DpFQX7tLJw==
+"@osn/polkadot-api-container@1.0.5":
+  version "1.0.5"
+  resolved "https://registry.npmjs.org/@osn/polkadot-api-container/-/polkadot-api-container-1.0.5.tgz#17571e22e8b3d078f709e99c57ecc509b2777e1a"
+  integrity sha512-GqVOusOAVGWsODIKz+3sjIV6ID8hmcM0LKfikSchop5jRJNtSdfZruZqCxxRK9LbS1xtotKwXqdAKkos/tUgdQ==
   dependencies:
-    "@osn/provider-options" "^1.0.7"
+    "@osn/provider-options" "1.0.9"
     "@polkadot/api" "8.12.1"
     "@polkadot/util" "10.0.1"
     lodash.isnil "^4.0.0"
@@ -2235,7 +2235,12 @@
     prismjs "^1.28.0"
     sanitize-html "^2.7.0"
 
-"@osn/provider-options@^1.0.2", "@osn/provider-options@^1.0.7":
+"@osn/provider-options@1.0.9":
+  version "1.0.9"
+  resolved "https://registry.npmjs.org/@osn/provider-options/-/provider-options-1.0.9.tgz#ee0740c78c2c39b2d29d4d7f3b3e957fcdcc747f"
+  integrity sha512-LhDTPkSPQjwco+5n7L4eLXeTV7uDABxQBcR3Ss5JwQkRhUtuSx7eCLQLT7xBX65rlepeSp/UVlIlOTHgrtbEjA==
+
+"@osn/provider-options@^1.0.2":
   version "1.0.7"
   resolved "https://registry.npmjs.org/@osn/provider-options/-/provider-options-1.0.7.tgz#bd7fce7426b44c370812376704aa9092ca6cc216"
   integrity sha512-8P45Pc/N9FrFJz4R922J47w2u8ZCQ8e7/UpMpUmRKayCgQ3oCSH1xtsKYNozbSUsuGNsWJ+UZaap2AfIJIrgjA==
