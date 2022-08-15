@@ -243,6 +243,16 @@ async function vote(ctx) {
     throw new HttpError(400, { choices: ["Choices is missing"] });
   }
 
+  if (
+    !Array.isArray(choices) ||
+    choices.length < 1 ||
+    choices.some((item) => typeof item !== "string")
+  ) {
+    throw new HttpError(400, {
+      choices: ["Choices must be array of string with at least 1 items"],
+    });
+  }
+
   if (!voterNetwork) {
     throw new HttpError(400, { voterNetwork: ["Voter network is missing"] });
   }
