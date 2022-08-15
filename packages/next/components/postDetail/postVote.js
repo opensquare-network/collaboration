@@ -52,9 +52,23 @@ const InnerWrapper = styled.div`
 `;
 
 const Title = styled.div`
+  display: flex;
+  justify-content: space-between;
   font-weight: 600;
   font-size: 16px;
   line-height: 24px;
+
+  span.type {
+    display: flex;
+    align-items: center;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    text-align: right;
+    color: #a1a8b3;
+    text-transform: capitalize;
+  }
 `;
 
 const ButtonsWrapper = styled.div`
@@ -88,7 +102,7 @@ const RedText = styled.span`
 
 export default function PostVote({ proposal, threshold = 0 }) {
   const dispatch = useDispatch();
-  const [choiceIndex, setChoiceIndex] = useState(null);
+  const [choiceIndexes, setChoiceIndexes] = useState([]);
   const [remark, setRemark] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [balance, setBalance] = useState();
@@ -111,14 +125,14 @@ export default function PostVote({ proposal, threshold = 0 }) {
   const belowThreshold = new BigNumber(voteBalance).isLessThan(threshold);
   const canVote =
     !belowThreshold &&
-    !isNil(choiceIndex) &&
+    choiceIndexes.length &&
     proposalStatus.active === proposal?.status;
 
   const supportProxy = useSelector(canUseProxySelector);
   const snapshot = proposal.snapshotHeights[loginNetwork];
 
   const reset = () => {
-    setChoiceIndex(null);
+    setChoiceIndexes([]);
     setRemark("");
   };
 
@@ -157,7 +171,7 @@ export default function PostVote({ proposal, threshold = 0 }) {
       dispatch(newErrorToast("Please connect wallet"));
       return;
     }
-    if (choiceIndex === null) {
+    if (!choiceIndexes.length) {
       dispatch(newErrorToast("Choice is missing"));
       return;
     }
@@ -165,10 +179,14 @@ export default function PostVote({ proposal, threshold = 0 }) {
     let signedData;
     setIsLoading(true);
     try {
+      const choices = choiceIndexes.map(
+        (choiceIndex) => proposal?.choices?.[choiceIndex]
+      );
+
       signedData = await viewfunc.signVote(
         proposal?.space,
         proposal?.cid,
-        proposal?.choices?.[choiceIndex],
+        choices,
         remark,
         loginAddress,
         useProxy ? proxyAddress : undefined,
@@ -214,22 +232,33 @@ export default function PostVote({ proposal, threshold = 0 }) {
     loginNetwork
   );
 
+  const onClickChoice = (index) => {
+    if (choiceIndexes.includes(index)) {
+      setChoiceIndexes(
+        choiceIndexes.filter((choiceIndex) => choiceIndex !== index)
+      );
+    } else {
+      if (proposal.choiceType === "single") {
+        setChoiceIndexes([index]);
+      } else {
+        setChoiceIndexes([...choiceIndexes, index]);
+      }
+    }
+  };
+
   return (
     <Wrapper>
       <InnerWrapper>
-        <Title>{proposalClosed ? "Options" : "Cast your vote"}</Title>
+        <Title>
+          {proposalClosed ? "Options" : "Cast your vote"}
+          <span className="type">{proposal.choiceType}</span>
+        </Title>
         <ButtonsWrapper>
           {(proposal.choices || []).map((item, index) => (
             <Option
               key={index}
-              active={index === choiceIndex}
-              onClick={() => {
-                if (index === choiceIndex) {
-                  setChoiceIndex(null);
-                } else {
-                  setChoiceIndex(index);
-                }
-              }}
+              active={choiceIndexes.includes(index)}
+              onClick={() => onClickChoice(index)}
               disabled={proposalClosed}
               index={index + 1}
               block
@@ -239,7 +268,7 @@ export default function PostVote({ proposal, threshold = 0 }) {
           ))}
         </ButtonsWrapper>
       </InnerWrapper>
-      {!isNil(choiceIndex) && (
+      {choiceIndexes.length > 0 && (
         <InnerWrapper>
           <Title>Remark</Title>
           <Input
