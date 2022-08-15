@@ -74,15 +74,18 @@ const EqualWrapper = styled.div`
 `;
 
 const MyVoteTag = styled.div`
+  display: flex;
+  align-items: center;
   background: linear-gradient(270deg, #04d2c5 2.06%, #6848ff 100%);
   border-radius: 9px;
-  margin-top: 3px;
   padding: 2px 10px;
   color: #ffffff;
   font-weight: 600;
   font-size: 10px;
   line-height: 14px;
   white-space: nowrap;
+  margin-top: 3px;
+  margin-bottom: 3px;
   margin-left: 8px;
 `;
 
