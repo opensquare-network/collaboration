@@ -3,6 +3,7 @@ dotenv.config();
 
 // const { polkadexConfig } = require("./spaces/polkadex");
 // const { crabConfig } = require("./spaces/crab");
+const { zeitgeistConfig } = require("./spaces/zeitgeist");
 const { turingConfig } = require("./spaces/turing");
 const { crustConfig } = require("./spaces/crust");
 const { polarisDaoConfig } = require("./spaces/polarisDao");
@@ -43,6 +44,7 @@ const spaces = [
   darwiniaConfig,
   turingConfig,
   litentryConfig,
+  zeitgeistConfig,
   // crabConfig,
   // centrifugeConfig,
   // dotsamaConfig,

@@ -19,6 +19,7 @@ export const CHAINS = Object.freeze({
   centrifuge: "centrifuge",
   litmus: "litmus",
   litentry: "litentry",
+  zeitgeist: "zeitgeist",
 });
 
 export const evmChains = [CHAINS.moonriver, CHAINS.ethereum];
@@ -48,4 +49,5 @@ export const chainSs58Format = Object.freeze({
   [CHAINS.darwinia]: 18,
   [CHAINS.centrifuge]: 36,
   [CHAINS.litmus]: 131,
+  [CHAINS.zeitgeist]: 73,
 });
