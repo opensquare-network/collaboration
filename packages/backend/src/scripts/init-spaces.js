@@ -20,6 +20,7 @@ const { acalaConfig } = require("./spaces/acala");
 const { darwiniaConfig } = require("./spaces/darwinia");
 // const { centrifugeConfig } = require("./spaces/centrifuge");
 const { dotsamaConfig } = require("./spaces/dotsama");
+const { shidenConfig } = require("./spaces/shiden");
 
 const { getSpaceCollection } = require("../mongo");
 const { kintsugiConfig } = require("./spaces/kintsugi");
@@ -45,6 +46,7 @@ const spaces = [
   turingConfig,
   litentryConfig,
   zeitgeistConfig,
+  shidenConfig,
   // crabConfig,
   // centrifugeConfig,
   // dotsamaConfig,
