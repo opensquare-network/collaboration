@@ -41,6 +41,8 @@ const endpoints = Object.values(chains).map((chain) => {
     endpoints = (process.env.LITMUS_ENDPOINTS || "").split(";");
   } else if (chains.zeitgeist === chain) {
     endpoints = (process.env.ZTG_ENDPOINTS || "").split(";");
+  } else if (chains.shiden === chain) {
+    endpoints = (process.env.SDN_ENDPOINTS || "").split(";");
   }
 
   return {
