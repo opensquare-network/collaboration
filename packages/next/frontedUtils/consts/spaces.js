@@ -24,6 +24,10 @@ export const spaceToSeoImageMap = Object.freeze({
   dotsama: "bafybeie2rgjfil5humlhb7sizikywk2klztqf2tlvz5kes4ou7m6japauy",
   [CHAINS.litentry]:
     "bafybeidhd2cwbkha2fybrzir2xwj3au4nagycgm3vssdvmdlw744ny4734",
+  [CHAINS.zeitgeist]:
+    "bafybeie36tzyj37hqwaavdibymki5vekejtp3gfmorrxxrwkrmhopo5j6y",
+  [CHAINS.shiden]:
+    "bafybeibf43ntawbzkd3ucwtogab64xfz4e6qoledxx27nifm4dkj6ckfie",
 });
 
 export const defaultSeoImage =

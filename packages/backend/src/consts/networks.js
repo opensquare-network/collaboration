@@ -19,6 +19,7 @@ const networks = Object.freeze({
   centrifuge: "centrifuge",
   litmus: "litmus",
   zeitgeist: "zeitgeist",
+  shiden: "shiden",
   ethereum: "ethereum",
 });
 
