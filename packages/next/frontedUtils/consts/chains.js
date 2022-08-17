@@ -20,11 +20,17 @@ export const CHAINS = Object.freeze({
   litmus: "litmus",
   litentry: "litentry",
   zeitgeist: "zeitgeist",
+  shiden: "shiden",
 });
 
 export const evmChains = [CHAINS.moonriver, CHAINS.ethereum];
 
-export const nonProxyChains = [...evmChains, CHAINS.kintsugi, CHAINS.interlay];
+export const nonProxyChains = [
+  ...evmChains,
+  CHAINS.kintsugi,
+  CHAINS.interlay,
+  CHAINS.shiden,
+];
 
 export const evmChainId = Object.freeze({
   [CHAINS.moonriver]: 1285,
@@ -50,4 +56,5 @@ export const chainSs58Format = Object.freeze({
   [CHAINS.centrifuge]: 36,
   [CHAINS.litmus]: 131,
   [CHAINS.zeitgeist]: 73,
+  [CHAINS.shiden]: 5,
 });
