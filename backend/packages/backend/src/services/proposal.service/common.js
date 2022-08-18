@@ -2,6 +2,10 @@ const {
   getObjectBufAndCid,
   pinJsonToIpfsWithTimeout,
 } = require("../ipfs.service");
+const { enhancedSqrtOfBalance } = require("../../utils");
+const { getProposalCollection } = require("../../mongo");
+const { HttpError } = require("../../exc");
+const { spaces: spaceServices } = require("../../spaces");
 
 const status = Object.freeze({
   terminated: "terminated",
@@ -46,7 +50,45 @@ async function pinData(data, address, signature) {
   return { cid, pinHash };
 }
 
+const calcWeights = (vote, decimals, voteThreshold) => {
+  return {
+    ...vote,
+    weights: {
+      balanceOf: vote.weights.balanceOf?.toString(),
+      quadraticBalanceOf: enhancedSqrtOfBalance(
+        vote.weights.balanceOf?.toString(),
+        decimals,
+        voteThreshold
+      ),
+    },
+  };
+};
+
+async function getProposalSpace(proposal) {
+  const spaceService = spaceServices[proposal.space];
+  if (!spaceService) {
+    throw new HttpError(500, "Unkown space");
+  }
+  return spaceService;
+}
+
+async function getProposalSpaceByCid(proposalCid) {
+  const proposalCol = await getProposalCollection();
+  const proposal = await proposalCol.findOne({ cid: proposalCid });
+  if (!proposal) {
+    throw new HttpError(404, "Proposal does not exists");
+  }
+  const spaceService = spaceServices[proposal.space];
+  if (!spaceService) {
+    throw new HttpError(500, "Unkown space");
+  }
+  return spaceService;
+}
+
 module.exports = {
   getProposalStatus,
   pinData,
+  calcWeights,
+  getProposalSpace,
+  getProposalSpaceByCid,
 };
