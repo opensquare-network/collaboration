@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import styled, { css } from "styled-components";
 import ExternalLink from "@osn/common-ui/es/ExternalLink";
 import Ellipsis from "@/components/ellipsis";
@@ -147,10 +148,10 @@ export default function PostVotes({
               content={
                 <>
                   {data.choices.map((choice) => (
-                    <>
+                    <Fragment key={choice}>
                       {choice}
                       <br />
-                    </>
+                    </Fragment>
                   ))}
                 </>
               }
