@@ -9,6 +9,7 @@ const { getLatestHeight } = require("../chain.service");
 const { spaces: spaceServices } = require("../../spaces");
 const { checkDelegation } = require("../../services/node.service");
 const { getBalanceFromNetwork } = require("../../services/node.service");
+const { pinData } = require("./common");
 
 async function createProposal(
   space,

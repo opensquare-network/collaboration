@@ -5,6 +5,8 @@ const { spaces: spaceServices } = require("../../spaces");
 const { checkDelegation } = require("../../services/node.service");
 const { toDecimal128 } = require("../../utils");
 const { getBalanceFromNetwork } = require("../../services/node.service");
+const { ChoiceType } = require("../../constants");
+const { pinData } = require("./common");
 
 async function vote(
   proposalCid,
