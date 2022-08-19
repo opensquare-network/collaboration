@@ -9,13 +9,12 @@ const config = {
     {
       network: "polkadex",
       ss58Format: 88,
-      decimals: 12,
     },
   ],
   proposeThreshold: "1000000000000",
   voteThreshold: "10000000000",
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
-  version: "2",
+  version: "3",
 };
 
 module.exports = {

@@ -13,7 +13,7 @@ const config = {
   proposeThreshold: "50000000000",
   voteThreshold: "1000000000",
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
-  version: "2",
+  version: "3",
 };
 
 module.exports = {

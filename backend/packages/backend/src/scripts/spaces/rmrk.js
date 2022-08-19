@@ -32,7 +32,7 @@ const config = {
     strategies.quadraticBalanceOf,
     strategies.biasedVoting,
   ],
-  version: "2",
+  version: "3",
 };
 
 const curationConfig = {

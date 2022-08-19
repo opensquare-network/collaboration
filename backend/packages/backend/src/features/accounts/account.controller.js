@@ -5,7 +5,6 @@ const { spaces: spaceServices } = require("../../spaces");
 const { isAddress: isSubstrateAddress } = require("@polkadot/util-crypto");
 const { getBalanceFromNetwork } = require("../../services/node.service");
 const ethers = require("ethers");
-const { getEvmAddressBalance } = require("../../services/node.service");
 
 async function getSpaceAccountBalance(ctx) {
   const { space, network, address } = ctx.params;
@@ -29,29 +28,14 @@ async function getSpaceAccountBalance(ctx) {
     ? parseInt(snapshot)
     : await getLatestHeight(network);
 
-  if (isEvm) {
-    const networkConfig = spaceService.networks.find(
-      ({ network: n }) => n === network
-    );
-    ctx.body = await getEvmAddressBalance(
-      networkConfig,
-      networkConfig.contract,
-      address,
-      blockHeight,
-      spaceService.decimals
-    );
-    return;
-  }
-
   const totalBalance = await getBalanceFromNetwork({
     networksConfig: spaceService,
     networkName: network,
     address,
     blockHeight,
-    spaceDecimals: spaceService?.decimals,
   });
   ctx.body = {
-    balance: totalBalance,
+    balance: totalBalance?.balanceOf,
   };
 }
 

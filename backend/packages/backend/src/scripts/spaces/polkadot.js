@@ -14,7 +14,7 @@ const polkadotConfig = {
   proposeThreshold: "10000000000",
   voteThreshold: "100000000",
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
-  version: "2",
+  version: "3",
 };
 
 module.exports = {

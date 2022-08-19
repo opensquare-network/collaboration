@@ -114,10 +114,9 @@ async function createProposal(
     networkName: proposerNetwork,
     address: proposer,
     blockHeight: lastHeight,
-    spaceDecimals: spaceService?.decimals,
   });
 
-  const bnCreatorBalance = new BigNumber(creatorBalance);
+  const bnCreatorBalance = new BigNumber(creatorBalance?.balanceOf);
   if (bnCreatorBalance.lt(spaceService.proposeThreshold)) {
     throw new HttpError(403, `Balance is not enough to create the proposal`);
   }
@@ -151,7 +150,9 @@ async function createProposal(
     updatedAt: now,
     cid,
     pinHash,
-    version: "2",
+    // Version 2: support multi-network space
+    // Version 3: support multi-assets network
+    version: "3",
   });
 
   if (!result.insertedId) {

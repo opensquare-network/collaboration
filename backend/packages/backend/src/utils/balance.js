@@ -19,11 +19,10 @@ function adaptBalance(networkBalance, networkDecimals, primaryDecimals) {
     throw new Error("Invalid balance to adapt");
   }
 
-  if (other > primary) {
-    return bigBalance.dividedBy(Math.pow(10, other - primary)).toNumber();
-  } else {
-    return bigBalance.multipliedBy(Math.pow(10, primary - other)).toNumber();
-  }
+  return bigBalance
+    .times(Math.pow(10, primary - other))
+    .integerValue(BigNumber.ROUND_DOWN)
+    .toNumber();
 }
 
 module.exports = {

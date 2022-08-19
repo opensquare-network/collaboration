@@ -12,7 +12,12 @@ import {
  * @param {boolean} showAEM - Initial of showAlmostEqualMark, default false
  */
 
-export default function ValueDisplay({ value, space, showAEM = false }) {
+export default function ValueDisplay({
+  value,
+  space,
+  showAEM = false,
+  tooltipContent,
+}) {
   const lostPrecision =
     getEffectiveNumbers(value) !==
     getEffectiveNumbers(abbreviateBigNumber(value));
@@ -20,7 +25,10 @@ export default function ValueDisplay({ value, space, showAEM = false }) {
 
   if (Number(precision) > 1000 || lostPrecision) {
     return (
-      <Tooltip size="fit" content={`${precision} ${space?.symbol}`}>
+      <Tooltip
+        size="fit"
+        content={tooltipContent || `${precision} ${space?.symbol}`}
+      >
         <div>
           {showAEM && lostPrecision && "≈"}{" "}
           {`${abbreviateBigNumber(precision)} ${space?.symbol}`}

@@ -41,13 +41,7 @@ async function checkDelegation(network, delegatee, delegator, blockHeight) {
   }
 }
 
-async function getEvmAddressBalance(
-  { network, decimals },
-  contract,
-  address,
-  height,
-  spaceDecimals
-) {
+async function getEvmAddressBalance({ network }, contract, address, height) {
   if (isTestAccount(address)) {
     return {
       balance: process.env.TEST_ACCOUNT_BALANCE || "10000000000000",
@@ -58,8 +52,7 @@ async function getEvmAddressBalance(
   url += `/evm/chain/${network}/contract/${contract}/address/${address}/height/${height}`;
 
   const { balance } = await fetchApi(url);
-  const adaptedBalance = adaptBalance(balance, decimals, spaceDecimals);
-  return { balance: adaptedBalance };
+  return { balance };
 }
 
 async function getChainHeight(chain, time) {
@@ -106,29 +99,146 @@ async function getTokenBalance(network, assetIdOrSymbol, blockHeight, address) {
   }
 }
 
+async function getBalanceFromMultiAssetsNetwork({
+  network,
+  networkName,
+  address,
+  blockHeight,
+  spaceSymbol,
+  spaceDecimals,
+}) {
+  const details = await Promise.all(
+    network.assets.map(async (asset) => {
+      const { type, assetId, contract } = asset;
+      const decimals = asset.decimals ?? network.decimals ?? spaceDecimals;
+      const symbol = asset.symbol ?? network.symbol ?? spaceSymbol;
+      const multiplier = asset.multiplier ?? network.multiplier ?? 1;
+
+      const balance = await getAssetBalanceFromNetwork({
+        networkName,
+        type,
+        assetId,
+        contract,
+        symbol,
+        blockHeight,
+        address,
+      });
+
+      return {
+        symbol,
+        decimals,
+        balance,
+        multiplier,
+      };
+    })
+  );
+
+  const balanceOf = details.reduce(
+    (prev, curr) =>
+      prev +
+      adaptBalance(curr.balance, curr.decimals, spaceDecimals) *
+        curr.multiplier,
+    0
+  );
+  return {
+    balanceOf,
+    decimals: spaceDecimals,
+    symbol: spaceSymbol,
+    details,
+  };
+}
+
+async function getBalanceFromSingleAssetNetwork({
+  network,
+  networkName,
+  address,
+  blockHeight,
+  spaceSymbol,
+  spaceDecimals,
+}) {
+  const { type, assetId, contract } = network;
+  const decimals = network.decimals ?? spaceDecimals;
+  const symbol = network.symbol ?? spaceSymbol;
+  const multiplier = network.multiplier ?? 1;
+
+  const balance = await getAssetBalanceFromNetwork({
+    networkName,
+    type,
+    assetId,
+    contract,
+    symbol,
+    blockHeight,
+    address,
+  });
+
+  const balanceOf = adaptBalance(balance, decimals, spaceDecimals) * multiplier;
+
+  return {
+    balanceOf,
+    decimals: spaceDecimals,
+    symbol: spaceSymbol,
+    details: [
+      {
+        symbol,
+        decimals,
+        balance,
+        multiplier,
+      },
+    ],
+  };
+}
+
 async function getBalanceFromNetwork({
   networksConfig,
   networkName,
   address,
   blockHeight,
-  spaceDecimals,
 }) {
-  const symbol = networksConfig?.symbol;
+  const spaceSymbol = networksConfig?.symbol;
+  const spaceDecimals = networksConfig?.decimals;
   const network = networksConfig?.networks?.find(
     (n) => n.network === networkName
   );
   if (!network) {
     throw new HttpError(400, "Network not found");
   }
-  const { type, assetId, contract } = network;
 
+  if (network.assets) {
+    return await getBalanceFromMultiAssetsNetwork({
+      network,
+      networkName,
+      address,
+      blockHeight,
+      spaceSymbol,
+      spaceDecimals,
+    });
+  } else {
+    return await getBalanceFromSingleAssetNetwork({
+      network,
+      networkName,
+      address,
+      blockHeight,
+      spaceSymbol,
+      spaceDecimals,
+    });
+  }
+}
+
+async function getAssetBalanceFromNetwork({
+  networkName,
+  type,
+  assetId,
+  contract,
+  symbol,
+  blockHeight,
+  address,
+}) {
   if ("erc20" === type) {
     const { balance } = await getEvmAddressBalance(
       network,
       contract,
       address,
-      blockHeight,
-      spaceDecimals
+      blockHeight
     );
     return balance;
   }
@@ -142,7 +252,7 @@ async function getBalanceFromNetwork({
     balance = await getTotalBalance(networkName, blockHeight, address);
   }
 
-  return adaptBalance(balance, network.decimals, spaceDecimals);
+  return balance;
 }
 
 module.exports = {

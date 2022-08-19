@@ -9,10 +9,12 @@ const phalaConfig = {
     {
       network: networks.phala,
       ss58Format: 30,
+      decimals: 12,
     },
     {
       network: networks.khala,
       ss58Format: 30,
+      decimals: 12,
     },
     {
       ...ethErc20CommonConfig,
@@ -23,7 +25,7 @@ const phalaConfig = {
   proposeThreshold: "10000000000000",
   voteThreshold: "10000000000",
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
-  version: "2",
+  version: "3",
 };
 
 module.exports = {

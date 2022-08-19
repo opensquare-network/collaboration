@@ -10,22 +10,28 @@ const config = {
     {
       network: networks.polkadot,
       ss58Format: 0,
+      symbol: "DOT",
+      decimals: 10,
     },
     {
       network: networks.kusama,
       ss58Format: 2,
-      decimals: 11,
+      symbol: "KSM",
+      decimals: 12,
+      multiplier: 10,
     },
     {
       network: networks.statemine,
       ss58Format: 2,
-      decimals: 11,
+      symbol: "KSM",
+      decimals: 12,
+      multiplier: 10,
     },
   ],
   proposeThreshold: "1000000000000",
   voteThreshold: "10000000000",
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
-  version: "2",
+  version: "3",
 };
 
 module.exports = {

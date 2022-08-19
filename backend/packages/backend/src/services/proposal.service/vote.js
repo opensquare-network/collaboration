@@ -60,20 +60,23 @@ async function vote(
 
   const voter = realVoter || address;
 
-  const balanceOf = await getBalanceFromNetwork({
+  const networkBalance = await getBalanceFromNetwork({
     networksConfig: proposal.networksConfig,
     networkName: voterNetwork,
     address: voter,
     blockHeight: proposal.snapshotHeights?.[voterNetwork],
-    spaceDecimals: spaceService?.decimals,
   });
+
+  const balanceOf = networkBalance?.balanceOf;
+  const networkBalanceDetails = networkBalance?.details;
+
   if (new BigNumber(balanceOf).lt(spaceService.voteThreshold)) {
     const symbolVoteThreshold = new BigNumber(spaceService.voteThreshold)
-      .div(Math.pow(10, spaceService.decimals))
+      .div(Math.pow(10, proposal.networksConfig.decimals))
       .toString();
     throw new HttpError(
       400,
-      `Require the minimum of ${symbolVoteThreshold} ${spaceService.symbol} to vote`
+      `Require the minimum of ${symbolVoteThreshold} ${proposal.networksConfig.symbol} to vote`
     );
   }
   const { cid, pinHash } = await pinData(data, address, signature);
@@ -97,10 +100,12 @@ async function vote(
         pinHash,
         weights: {
           balanceOf: toDecimal128(balanceOf),
+          details: networkBalanceDetails,
         },
         // Version 2: multiple network space support
-        // version 3: multiple choices support
-        version: "3",
+        // Version 3: multiple choices support
+        // Version 4: multi-assets network
+        version: "4",
       },
       $setOnInsert: {
         createdAt: now,
