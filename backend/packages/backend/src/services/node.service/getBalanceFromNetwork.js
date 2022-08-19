@@ -2,6 +2,7 @@ const { HttpError } = require("../../exc");
 const { adaptBalance } = require("../../utils/balance");
 const { getEvmAddressBalance } = require("./getEvmAddressBalance");
 const { getTokenBalance } = require("./getTokenBalance");
+const { getTotalBalance } = require("./getTotalBalance");
 
 async function getBalanceFromMultiAssetsNetwork({
   network,

@@ -27,11 +27,11 @@ const config = {
           symbol: "LKSM",
           decimals: 12,
         },
-        {
-          type: "token",
-          symbol: "taiKSM",
-          decimals: 12,
-        },
+        // {
+        //   type: "token",
+        //   symbol: "taiKSM",
+        //   decimals: 12,
+        // },
       ],
     },
     {
