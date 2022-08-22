@@ -11,7 +11,7 @@ const shidenConfig = {
       ss58Format: 5,
     },
   ],
-  proposeThreshold: "100000000000000000000",
+  proposeThreshold: "500000000000000000000",
   voteThreshold: "1000000000000000000",
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
   version: "2",
