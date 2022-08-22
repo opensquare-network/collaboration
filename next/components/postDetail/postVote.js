@@ -285,7 +285,7 @@ export default function PostVote({ proposal, threshold = 0 }) {
       {!proposalClosed && (
         <InnerWrapper>
           <ProxyHeader>
-            <div>
+            <div style={{ display: "flex" }}>
               {!isNil(voteBalance) && (
                 <div>
                   <Tooltip

@@ -34,7 +34,7 @@ const chainOrmlTokenId = {
       Token: symbols.LKSM,
     },
     [symbols.taiKSM]: {
-      Token: symbols.taiKSM,
+      StableAssetPoolToken: 0,
     },
   },
   [chains.bifrost]: {
