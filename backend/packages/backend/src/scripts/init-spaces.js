@@ -25,6 +25,7 @@ const { shidenConfig } = require("./spaces/shiden");
 const { getSpaceCollection } = require("../mongo");
 const { kintsugiConfig } = require("./spaces/kintsugi");
 const { litentryConfig } = require("./spaces/litentry");
+const { lksmConfig } = require("./spaces/lksm");
 
 const spaces = [
   polkadotConfig,
@@ -49,7 +50,8 @@ const spaces = [
   shidenConfig,
   // crabConfig,
   // centrifugeConfig,
-  // dotsamaConfig,
+  dotsamaConfig,
+  lksmConfig,
 ];
 
 async function main() {

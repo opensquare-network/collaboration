@@ -10,40 +10,15 @@ const karMovrConfig = {
 const config = {
   id: "karura",
   name: "Karura",
-  symbol: "VOTE",
+  symbol: "KAR",
   decimals: 12,
   networks: [
     {
       network: networks.karura,
       ss58Format: 8,
-      assets: [
-        {
-          type: "native",
-          symbol: "KAR",
-          decimals: 12,
-        },
-        {
-          type: "token",
-          symbol: "LKSM",
-          decimals: 12,
-        },
-        {
-          type: "token",
-          symbol: "taiKSM",
-          decimals: 12,
-        },
-      ],
     },
-    {
-      ...karMovrConfig,
-      symbol: "KAR",
-      decimals: 12,
-    },
-    {
-      ...bifrostTokenConfig,
-      symbol: "KAR",
-      decimals: 12,
-    },
+    karMovrConfig,
+    bifrostTokenConfig,
   ],
   proposeThreshold: "1000000000000",
   voteThreshold: "10000000000",
