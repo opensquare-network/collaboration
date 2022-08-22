@@ -43,7 +43,8 @@ export async function createProposal(proposal) {
       ...data,
       // Version 2: multi space network support
       // Version 3: banner supported
-      version: "3",
+      // Version 4: multi assets support
+      version: "4",
     },
     address
   );
@@ -58,7 +59,8 @@ export async function signProposal(proposal) {
       ...data,
       // Version 2: multi space network support
       // Version 3: banner supported
-      version: "3",
+      // Version 4: multi assets support
+      version: "4",
     },
     address
   );
@@ -109,7 +111,7 @@ export async function signComment(
 export async function addVote(
   space,
   proposalCid,
-  choice,
+  choices,
   remark,
   address,
   realVoter,
@@ -118,11 +120,11 @@ export async function addVote(
   const signedData = await signApiData(
     {
       proposalCid,
-      choice,
+      choices,
       remark,
       realVoter,
       voterNetwork,
-      version: "2",
+      version: "4",
     },
     address
   );
@@ -146,7 +148,10 @@ export async function signVote(
       remark,
       realVoter,
       voterNetwork,
-      version: "3",
+      // Version 2: multi space network support
+      // Version 3: multi choices support
+      // Version 4: multi assets support
+      version: "4",
     },
     address
   );
