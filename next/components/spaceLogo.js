@@ -33,6 +33,7 @@ const SpaceIcons = {
   [CHAINS.zeitgeist]: "zeitgeist.svg",
   [CHAINS.shiden]: "shiden.svg",
   dotsama: "dotsama.svg",
+  lksm: "lksm.svg",
 };
 
 export default function SpaceLogo({ spaceId }) {

@@ -11,6 +11,8 @@ import Divider from "../styled/divider";
 import { capitalize } from "frontedUtils";
 import ValueDisplay from "../valueDisplay";
 import { Flex, FlexBetween } from "@osn/common-ui";
+import Tooltip from "../tooltip";
+import SymbolIcon from "@/components/symbolIcon";
 
 const Wrapper = styled.div``;
 
@@ -64,16 +66,32 @@ const DetailsNetwork = styled.span`
   margin-right: 8px;
 `;
 
+const voteText = (n) => `${n} ${n === 1 ? "vote" : "votes"}`;
+
 export default function Details({ space }) {
   const strategyCount = space.weightStrategy?.length || 0;
   const networkCount = space.networks?.length || 0;
+
+  const symbolMultiplier = {};
+  const symbolSet = new Set();
+  symbolSet.add(space?.symbol);
+  for (const network of space.networks || []) {
+    symbolSet.add(network?.symbol);
+    symbolMultiplier[network?.symbol] = network?.multiplier;
+    for (const asset of network.assets || []) {
+      symbolSet.add(asset?.symbol);
+      symbolMultiplier[asset?.symbol] = asset?.multiplier;
+    }
+  }
+  symbolSet.delete("VOTE");
+  const symbols = [...symbolSet].filter((item) => !!item);
 
   return (
     <Wrapper>
       <LogoWrapper>
         <SpaceLogo spaceId={space.id} />
         <LogoName>{space.name}</LogoName>
-        <LogoSymbol>{space.symbol}</LogoSymbol>
+        <LogoSymbol>{symbols.join(" + ")}</LogoSymbol>
       </LogoWrapper>
 
       <DetailsWrapper>
@@ -111,6 +129,32 @@ export default function Details({ space }) {
             ))}
           </div>
         </DetailsItem>
+
+        {space?.symbol === "VOTE" && (
+          <DetailsItem>
+            <DetailsLabel>Assets({symbols.length})</DetailsLabel>
+            <div>
+              {symbols?.map((symbol, index) => (
+                <DetailsValue key={index}>
+                  <DetailsNetwork>
+                    <Tooltip
+                      content={`1 ${symbol} = ${voteText(
+                        symbolMultiplier[symbol] ?? 1
+                      )}`}
+                    >
+                      {`${symbol}${
+                        (symbolMultiplier[symbol] ?? 1) === 1
+                          ? ""
+                          : `(x${symbolMultiplier[symbol] ?? 1})`
+                      }`}
+                    </Tooltip>
+                  </DetailsNetwork>{" "}
+                  <SymbolIcon symbolName={symbol} size={20} />
+                </DetailsValue>
+              ))}
+            </div>
+          </DetailsItem>
+        )}
       </div>
     </Wrapper>
   );
