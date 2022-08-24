@@ -7,7 +7,7 @@ const altairConfig = {
   decimals: 18,
   networks: [
     {
-      network: networks.centrifuge,
+      network: networks.altair,
       ss58Format: 136,
     },
   ],
