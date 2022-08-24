@@ -18,6 +18,7 @@ const chains = {
   litmus: "litmus",
   zeitgeist: "zeitgeist",
   shiden: "shiden",
+  altair: "altair",
 };
 
 const noProxyChains = [chains.kintsugi, chains.interlay, chains.crust];
@@ -50,6 +51,7 @@ const chainBlockTime = {
   [chains.crab]: sixSecond,
   [chains.turing]: twelveSecond,
   [chains.centrifuge]: twelveSecond,
+  [chains.altair]: twelveSecond,
   [chains.litmus]: twelveSecond,
   [chains.zeitgeist]: twelveSecond,
   [chains.shiden]: twelveSecond,
