@@ -98,7 +98,7 @@ const TopTriangle = styled.div`
 `;
 
 const ChildrenWrapper = styled.div`
-  position: absolute;
+  position: relative;
   display: inline-block;
   :hover {
     > * {

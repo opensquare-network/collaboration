@@ -44,7 +44,7 @@ export default function PostVotes({
           <PostVotesItem
             choices={proposal.choices}
             data={myVote}
-            space={getNetwork(myVote)}
+            space={proposal.networksConfig}
             isMyVote={true}
             isSafari={isSafari}
           />
@@ -60,7 +60,7 @@ export default function PostVotes({
           <PostVotesItem
             choices={proposal.choices}
             data={item}
-            space={getNetwork(item)}
+            space={proposal.networksConfig}
             key={index}
             isSafari={isSafari}
           />

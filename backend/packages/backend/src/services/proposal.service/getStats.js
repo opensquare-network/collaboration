@@ -1,7 +1,7 @@
 const BigNumber = require("bignumber.js");
 const { strategies } = require("../../consts/voting");
 const { tokenParentChain } = require("../../consts/token");
-const { getTotalIssuance } = require("../node.service/issuance");
+const { getTotalIssuance } = require("../node.service");
 const { getProposalCollection, getVoteCollection } = require("../../mongo");
 const { calcPassing } = require("../biased-voting.service");
 const { calcWeights, getProposalSpace } = require("./common");
@@ -46,7 +46,8 @@ async function getStats(proposalCid) {
 
   if (
     proposal.choices?.length === 2 &&
-    proposal.weightStrategy?.includes(strategies.biasedVoting)
+    proposal.weightStrategy?.includes(strategies.biasedVoting) &&
+    proposal.networksConfig?.symbol !== "VOTE"
   ) {
     const blockHeight =
       proposal.snapshotHeights[tokenParentChain[spaceService.symbol]];

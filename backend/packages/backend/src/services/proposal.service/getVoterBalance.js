@@ -19,11 +19,9 @@ async function getVoterBalance(proposalCid, network, address, snapshot) {
     networkName: network,
     address,
     blockHeight,
-    spaceDecimals: networksConfig?.decimals,
   });
-  return {
-    balance: totalBalance,
-  };
+
+  return totalBalance;
 }
 
 module.exports = {

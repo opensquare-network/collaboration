@@ -26,6 +26,7 @@ const { altairConfig } = require("./spaces/altair");
 const { getSpaceCollection } = require("../mongo");
 const { kintsugiConfig } = require("./spaces/kintsugi");
 const { litentryConfig } = require("./spaces/litentry");
+const { lksmConfig } = require("./spaces/lksm");
 
 const spaces = [
   polkadotConfig,
@@ -49,8 +50,9 @@ const spaces = [
   zeitgeistConfig,
   shidenConfig,
   // crabConfig,
+  dotsamaConfig,
+  lksmConfig,
   centrifugeConfig,
-  // dotsamaConfig,
   altairConfig,
 ];
 

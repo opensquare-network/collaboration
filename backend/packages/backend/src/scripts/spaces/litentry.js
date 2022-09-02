@@ -9,6 +9,7 @@ const litentryConfig = {
     {
       network: networks.litmus,
       ss58Format: 131,
+      decimals: 12,
     },
     {
       ...ethErc20CommonConfig,
@@ -19,7 +20,7 @@ const litentryConfig = {
   proposeThreshold: "1000000000000",
   voteThreshold: "10000000000",
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
-  version: "2",
+  version: "3",
 };
 
 module.exports = {

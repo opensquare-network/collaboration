@@ -36,6 +36,8 @@ import isNil from "lodash.isnil";
 import { proposalStatus } from "../../frontedUtils/consts/proposal";
 import { extensionCancelled } from "../../frontedUtils/consts/extension";
 import { useTerminate } from "./terminate";
+import Tooltip from "../tooltip";
+import VoteBalanceDetail from "./VoteBalanceDetail";
 
 const Wrapper = styled.div`
   > :not(:first-child) {
@@ -106,6 +108,7 @@ export default function PostVote({ proposal, threshold = 0 }) {
   const [remark, setRemark] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [balance, setBalance] = useState();
+  const [balanceDetail, setBalanceDetail] = useState([]);
   const viewfunc = useViewfunc();
   const router = useRouter();
   const useProxy = useSelector(useProxySelector);
@@ -149,7 +152,8 @@ export default function PostVote({ proposal, threshold = 0 }) {
           { snapshot }
         )
         .then((response) => {
-          setBalance(response?.result?.balance);
+          setBalance(response?.result?.balanceOf);
+          setBalanceDetail(response?.result?.details);
         })
         .catch((e) => {
           const message = e?.message || "Failed to get balance.";
@@ -281,16 +285,23 @@ export default function PostVote({ proposal, threshold = 0 }) {
       {!proposalClosed && (
         <InnerWrapper>
           <ProxyHeader>
-            <div>
-              {!isNil(voteBalance) &&
-                `Available ${toApproximatelyFixed(
-                  bigNumber2Locale(
-                    fromAssetUnit(
-                      voteBalance,
-                      proposal?.networksConfig?.decimals
-                    )
-                  )
-                )} ${networkConfig?.symbol}`}
+            <div style={{ display: "flex" }}>
+              {!isNil(voteBalance) && (
+                <div>
+                  <Tooltip
+                    content={<VoteBalanceDetail details={balanceDetail} />}
+                  >
+                    {`Available ${toApproximatelyFixed(
+                      bigNumber2Locale(
+                        fromAssetUnit(
+                          voteBalance,
+                          proposal?.networksConfig?.decimals
+                        )
+                      )
+                    )} ${proposal.networksConfig?.symbol}`}
+                  </Tooltip>
+                </div>
+              )}
               {belowThreshold && <RedText>Insufficient</RedText>}
             </div>
             {supportProxy && (

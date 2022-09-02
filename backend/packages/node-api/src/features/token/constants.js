@@ -7,6 +7,8 @@ const supportedChainSymbols = {
     symbols.ARIS,
     symbols.KINT,
     symbols.BNC,
+    symbols.LKSM,
+    symbols.taiKSM,
   ],
   [chains.bifrost]: [symbols.RMRK, symbols.KSM, symbols.KAR],
 };
@@ -27,6 +29,12 @@ const chainOrmlTokenId = {
     },
     [symbols.BNC]: {
       Token: symbols.BNC,
+    },
+    [symbols.LKSM]: {
+      Token: symbols.LKSM,
+    },
+    [symbols.taiKSM]: {
+      StableAssetPoolToken: 0,
     },
   },
   [chains.bifrost]: {

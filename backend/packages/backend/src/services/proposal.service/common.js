@@ -60,6 +60,7 @@ const calcWeights = (vote, decimals, voteThreshold) => {
         decimals,
         voteThreshold
       ),
+      details: vote.weights.details,
     },
   };
 };

@@ -34,6 +34,7 @@ const SpaceIcons = {
   [CHAINS.shiden]: "shiden.svg",
   [CHAINS.altair]: "altair.svg",
   dotsama: "dotsama.svg",
+  lksm: "lksm.svg",
 };
 
 export default function SpaceLogo({ spaceId }) {

@@ -6,6 +6,7 @@ import { Flex } from "@osn/common-ui";
 import ValueDisplay from "@/components/valueDisplay";
 import Voter from "@/components/role/voter";
 import Tooltip from "@/components/tooltip";
+import VoteBalanceDetail from "./VoteBalanceDetail";
 
 const Item = styled.div`
   padding: 20px 0;
@@ -184,6 +185,11 @@ export default function PostVotes({
               value={data.weights?.balanceOf}
               space={space}
               showAEM={true}
+              tooltipContent={
+                data.weights?.details && (
+                  <VoteBalanceDetail details={data.weights?.details} />
+                )
+              }
             />
             {data?.pinHash ? (
               <ExternalLink

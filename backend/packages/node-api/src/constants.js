@@ -67,6 +67,8 @@ const symbols = {
   KINT: "KINT",
   KAR: "KAR",
   BNC: "BNC",
+  LKSM: "LKSM",
+  taiKSM: "taiKSM",
 };
 
 module.exports = {
