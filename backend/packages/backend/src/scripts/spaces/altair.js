@@ -1,22 +1,22 @@
 const { networks, strategies } = require("./consts");
 
-const shidenConfig = {
-  id: "shiden",
-  name: "Shiden",
-  symbol: "SDN",
+const altairConfig = {
+  id: networks.altair,
+  name: "Altair",
+  symbol: "AIR",
   decimals: 18,
   networks: [
     {
-      network: networks.shiden,
-      ss58Format: 5,
+      network: networks.altair,
+      ss58Format: 136,
     },
   ],
-  proposeThreshold: "500000000000000000000",
+  proposeThreshold: "1000000000000000000",
   voteThreshold: "1000000000000000000",
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
-  version: "3",
+  version: "2",
 };
 
 module.exports = {
-  shidenConfig,
+  altairConfig,
 };
