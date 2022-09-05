@@ -1830,10 +1830,10 @@
     util "npm:util"
     web-vitals "^2.1.4"
 
-"@osn/previewer@^0.11.2":
-  version "0.11.3"
-  resolved "https://registry.yarnpkg.com/@osn/previewer/-/previewer-0.11.3.tgz#f6f35b16e28ba2679f7eeee3cdc9bd2c1eabb47c"
-  integrity sha512-2za/QDsTKUFEvtjHoGuRKTzYsExbhSfdfqtVVOVPXSk0j+NVZY1UjvhnMZFtLnLKavnPtnEQi40wFeuwOFWEVw==
+"@osn/previewer@^0.12.3":
+  version "0.12.3"
+  resolved "https://registry.npmjs.org/@osn/previewer/-/previewer-0.12.3.tgz#e2f970462a84bb53fdaf66e1390b69e6bc00bda9"
+  integrity sha512-aNTP1qdGXb4xQUpHbLQuzqbSRgKMGShK3rTR7PFrVHbWMsnIgYkFm0mA7tZAzOr6rAgcLJxESId9CcCJoV5MOQ==
   dependencies:
     marked "^4.0.17"
     prismjs "^1.28.0"
