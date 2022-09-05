@@ -14,7 +14,7 @@
     "@osn/common-ui": "1.12.1",
     "@osn/constants": "^1.1.2",
     "@osn/polkadot-react-identicon": "^1.0.8",
-    "@osn/previewer": "^0.11.2",
+    "@osn/previewer": "^0.12.3",
     "@osn/rich-text-editor": "^0.1.55",
     "@polkadot/api": "^9.2.2",
     "@polkadot/extension-dapp": "^0.44.5",
