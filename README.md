@@ -7,8 +7,12 @@ Off chain voting now support [substrate](https://github.com/paritytech/substrate
 
 # Code structure
 
-The code is organized with [yarn workspaces](https://classic.yarnpkg.com/lang/en/docs/workspaces/) and make
-sure yarn is installed before running it. There are 3 packages `node-api`, `backend` and `next` under the `packages` folder.
+Code exists in 2 folders: [backend](./backend) and [next](./next). Backend is a yarn workspace containing 2 packages:
+
+1. backend is a restful api server.
+2. node-api serves apis to retrieve data by calling various chain RPCs.
+
+Make sure [yarn](https://yarnpkg.com/) is installed before going ahead. [Next](./next) hosts fronted code based on [next.js](https://nextjs.org/).
 
 ## node-api
 
@@ -61,27 +65,22 @@ docker run -d --name mongo -p 27017:27017 mongo:4.4.2
 
 You may need more configuration for production environment.
 
-### Decoo api key and secret
+### Infura ipfs project api key and secret
 
-Register an [decoo](https://decoo.io/) account and get the api key and secret. Or for your convenience, just use following test key.
+Register an [infura](https://infura.io/) account and get the api key and secret.
 
 ```dotenv
-DECOO_API_SECRET_KEY=MIICeAIBADANBgkqhkiG9w0BAQEFAASCAmIwggJeAgEAAoGBAJxxBVD13g3ah0E5OYS13yJ5UbON9cn9Q5dnCEM/T7opfClOGYeG/dH+8uoNEweCcTBkueU+sLtFAYRMThihmT8VolFvbEtI0rrdXClAqzjxoQwN5DPOyGKs2ngDjG6I8Ar5y0BIYdoHNvoU0k0PzefGT51LwnNZoVDMODpkKdjnAgMBAAECgYBCbge44j6hmVr3yknvXZ9brzKPUUe+tundv6WVkKvVPEp5660RjLP5WQ5jbpvXA3/28b6yZtV7IAlN2W0MLoq4wS/0Il0h1Kha5G6T6WI/SgD2bfC0AsuCBU5lA9iMCgoidfBE+6BjlJDH7QSsNI3LQWwxUQ7osN58p1k9i4egmQJBAN1Q0sBx2SgZjifwlSVA13iESrs0xe/Pagf5S9cuRUnHZs+9v7ZJXuOmJ7Ple7vstuMTMWqWtUWV3st1psdMbbMCQQC09XJDCyZD6soIVgWkV30rSUGRUf65QHC2K4HLtVdpSes1L6GiCxgxyxV/I24o8p/5JN11MMR5QpRc5go1d1X9AkEAxMZ9/Dm9mNfP+1b/ZRYX/sGxKG4tp6FFZz2S3wn29ThkA0V01YC667HqDxt1PoujuJZyE5FYLzyn0UMUPJOJ3QJBAJC83UaYrWOXcT8Xpu2a+MfdkS8t2ULNMxnSVL/d7OuPLy1cSrj0jMaO/EOz0BG6do/tl6B7gDrJMSfY64N2TvUCQQCzJDnyA38Fz9fo2htWp6cKzA4pNrHBpRtYVaLXp4Sc56JcN3SMS6f3E4n7rFLIZmvjW1MryiGN8fVzTgqQAmN4
-DECOO_API_TOKEN=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJrZXkiOnsiYXBpX2tleSI6IjExNThLQmZ3N1pmQ3pGdFd1NEFNaXRHRU9YYUxNMlZpN2Q1TzE2MzcxMzU2ODgyMDkiLCJ1c2VyX2lkIjoxMTU4fX0.tKeVjP4CxyVeZn8Y1OPzR177noAWzqgoWBXLnup1Y7Y
+INFURA_PROJECT_ID=
+INFURA_PROJECT_SECRET=
 ```
 
 ## Run
 
-### 1. Dependency installation
+### 1. Run node-api
 
 ```bash
+cd backend/packages/node-api
 yarn
-```
-
-### 2. Run node-api
-
-```bash
-cd packages/node-api
 cat .env.example > .env
 ```
 
@@ -114,12 +113,13 @@ node src/index.js
 
 Well, the node-api should be ready.
 
-### 3. Run [backend](./packages/backend) for the restful api server
+### 2. Run [backend](./packages/backend) for the restful api server
 
 Come back to the project root dir and run
 
 ```bash
-cd packages/backend
+cd backend/packages/backend
+yarn
 cat .env.example > .env
 ```
 
@@ -131,11 +131,11 @@ PORT=8081 # keep it, it will be the resutful api server port
 MONGO_URL=mongodb://localhost:27017 # set your mongodb url
 MONGO_DB_NAME=voting # keep it or change it to any name you like
 
-DECOO_API_OAUTH_ENDPOINT=https://api.decoo.io
-DECOO_API_UPLOAD_ENDPOINT=https://api-hk.decoo.io
-DECOO_IPFS_ENDPOINT=https://ipfs-hk.decoo.io/ipfs/
-DECOO_API_TOKEN=xxx # fill the decoo jwt token
-DECOO_API_SECRET_KEY=xxx # fill the decoo verification key
+INFURA_PROJECT_ID=
+INFURA_PROJECT_SECRET=
+LOCAL_IPFS_NODE_URL=http://localhost:5001
+USE_LOCAL_IPFS_NODE=false
+IPFS_ENDPOINT=https://opensquare.infura-ipfs.io/ipfs/
 
 TEST_ACCOUNTS=xxx|yyy # ignore it, for test
 TEST_ACCOUNT_BALANCE=100000000000 # ignore it, for test
@@ -147,7 +147,7 @@ NODE_API_ENDPOINT=http://localhost:3223
 Run following scripts to initialize the spaces in database
 
 ```bash
-cd packages/backend && node src/scripts/init-spaces.js
+cd backend/packages/backend && node src/scripts/init-spaces.js
 ```
 
 Then run
@@ -164,12 +164,12 @@ node server.js
 
 The restful api server will be ready.
 
-### 4. Run next package for the fronted
+### 3. Run next package for the fronted
 
 Come back to the project root dir and run
 
 ```bash
-cd packages/next
+cd next
 cat .env.example > .env
 ```
 
