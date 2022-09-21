@@ -52,7 +52,7 @@ class ProxyController {
       ctx.throw(400, "No delegatee given");
     }
 
-    if ([...noProxyChains, ...evmChains].includes(chain)) {
+    if ([...noProxyChains, ...Object.keys(evmChains)].includes(chain)) {
       ctx.body = { isProxy: false };
       return;
     }
