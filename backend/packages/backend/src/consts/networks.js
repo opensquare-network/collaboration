@@ -21,6 +21,7 @@ const networks = Object.freeze({
   zeitgeist: "zeitgeist",
   shiden: "shiden",
   altair: "altair",
+  parallel: "parallel",
   ethereum: "ethereum",
 });
 
