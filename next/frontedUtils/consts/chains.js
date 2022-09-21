@@ -22,6 +22,7 @@ export const CHAINS = Object.freeze({
   zeitgeist: "zeitgeist",
   shiden: "shiden",
   altair: "altair",
+  parallel: "parallel",
 });
 
 export const evmChains = [CHAINS.moonriver, CHAINS.ethereum];
@@ -59,4 +60,5 @@ export const chainSs58Format = Object.freeze({
   [CHAINS.zeitgeist]: 73,
   [CHAINS.shiden]: 5,
   [CHAINS.altair]: 136,
+  [CHAINS.parallel]: 172,
 });

@@ -31,6 +31,8 @@ export const spaceToSeoImageMap = Object.freeze({
   lksm: "QmSgPB9aA4ZLre2VizBn6ufM3EAVB8aJUZC28oFkT3pm8Q",
   [CHAINS.altair]:
     "bafybeia35246c4f5ahk2whjywwno7enn4yub4ln5e3acehhtzkw2yhrlae",
+  [CHAINS.parallel]:
+    "bafybeidtyeyfjpcwue2lqhogcq3ltxrkt6hqs7odlan46pamzuqesir2j4",
 });
 
 export const defaultSeoImage =

@@ -1789,10 +1789,10 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@osn/common-ui@^1.14.0":
-  version "1.14.0"
-  resolved "https://registry.npmjs.org/@osn/common-ui/-/common-ui-1.14.0.tgz#4871bc13eb6199841577f2b20967b26e64257524"
-  integrity sha512-rnivSyJ/8WzTvVDbXiG8yahMfx3QwfVyqlI1L4NP7Ly3i1yXxcF3gIGpBGfJu4m3lVbmbf/LGQOw0attvRxc3Q==
+"@osn/common-ui@^1.15.0":
+  version "1.15.0"
+  resolved "https://registry.npmjs.org/@osn/common-ui/-/common-ui-1.15.0.tgz#5fe234037c68f481d36ff3831902fca9803f4061"
+  integrity sha512-nNK8oE8sroE9HgNFmMSU1yeS1i4L0lGtcYUWmmPjG3emaYlGgVwJA0iEukVUFIwd419RlZ4bD/a2VrOK3Pa7mg==
   dependencies:
     "@osn/polkadot-react-identicon" "^1.0.8"
     "@popperjs/core" "^2.11.6"
