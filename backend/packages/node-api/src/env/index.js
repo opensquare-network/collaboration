@@ -45,6 +45,8 @@ const endpoints = Object.values(chains).map((chain) => {
     endpoints = (process.env.SDN_ENDPOINTS || "").split(";");
   } else if (chains.altair === chain) {
     endpoints = (process.env.AIR_ENDPOINTS || "").split(";");
+  } else if (chains.parallel === chain) {
+    endpoints = (process.env.PARA_ENDPOINTS || "").split(";");
   }
 
   return {

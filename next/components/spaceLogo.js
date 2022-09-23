@@ -33,6 +33,7 @@ const SpaceIcons = {
   [CHAINS.zeitgeist]: "zeitgeist.svg",
   [CHAINS.shiden]: "shiden.svg",
   [CHAINS.altair]: "altair.svg",
+  [CHAINS.parallel]: "parallel.svg",
   dotsama: "dotsama.svg",
   lksm: "lksm.svg",
 };

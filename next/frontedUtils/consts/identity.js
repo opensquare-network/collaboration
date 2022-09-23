@@ -16,4 +16,5 @@ export const identityChainMap = Object.freeze({
   [CHAINS.zeitgeist]: [CHAINS.zeitgeist],
   [CHAINS.shiden]: [CHAINS.shiden],
   [CHAINS.altair]: [CHAINS.altair],
+  [CHAINS.parallel]: [CHAINS.parallel],
 });

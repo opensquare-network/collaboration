@@ -27,6 +27,7 @@ const { getSpaceCollection } = require("../mongo");
 const { kintsugiConfig } = require("./spaces/kintsugi");
 const { litentryConfig } = require("./spaces/litentry");
 const { lksmConfig } = require("./spaces/lksm");
+const { parallelConfig } = require("./spaces/parallel");
 
 const spaces = [
   polkadotConfig,
@@ -54,6 +55,7 @@ const spaces = [
   lksmConfig,
   centrifugeConfig,
   altairConfig,
+  parallelConfig,
 ];
 
 async function main() {
