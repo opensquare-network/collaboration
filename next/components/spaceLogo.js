@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { makeSquare } from "../styles/globalCss";
-import { CHAINS } from "../frontedUtils/consts/chains";
 import getSpaceConfigs from "../frontedUtils/consts/spaces";
 
 const LogoImg = styled.img`
@@ -9,35 +8,6 @@ const LogoImg = styled.img`
   border-radius: 32px;
   margin-right: 24px;
 `;
-
-const SpaceIcons = {
-  polkadot: "polkadot.svg",
-  kusama: "kusama.svg",
-  karura: "karura.svg",
-  khala: "khala.svg",
-  [CHAINS.phala]: "phala.svg",
-  rmrk: "rmrk.svg",
-  "rmrk-curation": "rmrk-curation.png",
-  bifrost: "bifrost.svg",
-  kintsugi: "kintsugi.svg",
-  polarisdao: "polarisdao.svg",
-  polkadex: "polkadex.svg",
-  chrwna: "chrwna.svg",
-  interlay: "interlay.svg",
-  acala: "acala.svg",
-  crust: "crust.svg",
-  [CHAINS.turing]: "turing.svg",
-  [CHAINS.crab]: "crab.svg",
-  [CHAINS.darwinia]: "darwinia.svg",
-  [CHAINS.centrifuge]: "centrifuge.svg",
-  [CHAINS.litentry]: "litentry.svg",
-  [CHAINS.zeitgeist]: "zeitgeist.svg",
-  [CHAINS.shiden]: "shiden.svg",
-  [CHAINS.altair]: "altair.svg",
-  [CHAINS.parallel]: "parallel.svg",
-  dotsama: "dotsama.svg",
-  lksm: "lksm.svg",
-};
 
 export default function SpaceLogo({ spaceId }) {
   const config = getSpaceConfigs(spaceId);
