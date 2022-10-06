@@ -12,10 +12,7 @@ import {
   setAvailableNetworks,
 } from "store/reducers/accountSlice";
 import pick from "lodash.pick";
-import {
-  defaultSeoImage,
-  spaceToSeoImageMap,
-} from "../../../../frontedUtils/consts/spaces";
+import { getSpaceSeoImage } from "../../../../frontedUtils/consts/spaces";
 import Seo from "@/components/seo";
 import { useIsMounted } from "../../../../frontedUtils/hooks";
 import encodeAddressByChain from "../../../../frontedUtils/chain/addr";
@@ -93,7 +90,7 @@ export default function Index({
 
   const desc = getMetaDesc(detail, "Proposal");
 
-  const seoLogoHash = spaceToSeoImageMap[space?.id] || defaultSeoImage;
+  const seoLogoHash = getSpaceSeoImage(space?.id);
   if (!seoLogoHash) {
     throw new Error(`No seo logo hash found for space ${space?.id}`);
   }

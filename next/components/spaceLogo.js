@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { makeSquare } from "../styles/globalCss";
 import { CHAINS } from "../frontedUtils/consts/chains";
+import getSpaceConfigs from "../frontedUtils/consts/spaces";
 
 const LogoImg = styled.img`
   ${makeSquare(64)};
@@ -39,6 +40,6 @@ const SpaceIcons = {
 };
 
 export default function SpaceLogo({ spaceId }) {
-  const spaceIcon = SpaceIcons[spaceId] || "space-noicon.svg";
-  return <LogoImg src={`/imgs/icons/space/${spaceIcon}`} alt="" />;
+  const config = getSpaceConfigs(spaceId);
+  return <LogoImg src={`/imgs/icons/space/${config.spaceIcon}`} alt="" />;
 }
