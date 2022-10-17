@@ -33,7 +33,9 @@ app.prepare().then(() => {
     const { pathname } = parsedUrl;
 
     if (pathname.startsWith("/api/")) {
-      req.url = req.url.replace(/^\/api/, "");
+      req.url = req.url.replace(/^\/api\//, ssrUrl.pathname);
+      proxy.web(req, res, { autoRewrite: false });
+    } else if (pathname.startsWith("/socket.io/")) {
       proxy.web(req, res, { autoRewrite: false });
     } else {
       nextHandler(req, res, parsedUrl);

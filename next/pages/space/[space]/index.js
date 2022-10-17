@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Layout from "components/layout";
 import Breadcrumb from "components/breadcrumb";
@@ -9,6 +9,9 @@ import { EmptyQuery } from "frontedUtils/constants";
 import { ssrNextApi } from "services/nextApi";
 import { to404 } from "../../../frontedUtils/serverSideUtil";
 import Seo from "@/components/seo";
+import { useDispatch } from "react-redux";
+import { setAvailableNetworks } from "store/reducers/accountSlice";
+import pick from "lodash.pick";
 
 const HeaderWrapper = styled.div`
   > :not(:first-child) {
@@ -36,7 +39,17 @@ export default function List({
   activeTab,
   defaultPage,
 }) {
+  const dispatch = useDispatch();
   const [tab, setTab] = useState(activeTab);
+
+  useEffect(() => {
+    dispatch(
+      setAvailableNetworks(
+        space?.networks?.map((item) => pick(item, ["network", "ss58Format"])) ||
+          []
+      )
+    );
+  }, [dispatch, space]);
 
   if (!space) {
     return null;

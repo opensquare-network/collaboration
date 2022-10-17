@@ -111,6 +111,7 @@ export default function Header({ space }) {
   const showConnect = [
     "/space/[space]/proposal/[id]",
     "/space/[space]/create",
+    "/space/[space]",
   ].includes(router.pathname);
 
   return (
