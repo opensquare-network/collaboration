@@ -32,9 +32,6 @@ export default function PostVotes({
   discussionPage = 1,
   isSafari = false,
 }) {
-  const getNetwork = (vote) =>
-    findNetworkConfig(proposal.networksConfig, vote.voterNetwork);
-
   return (
     <AccordionPanel
       head={<HeaderWithNumber title="Votes" number={votes?.total} />}

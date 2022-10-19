@@ -14,6 +14,7 @@ import PostResult from "./postResult";
 import { findNetworkConfig } from "../services/util";
 import { Flex, FlexBetween } from "@osn/common-ui";
 import { p_14_medium } from "../styles/componentCss";
+import getSpaceConfigs from "../frontedUtils/consts/spaces";
 
 const Wrapper = styled.div`
   background: #ffffff;
@@ -81,13 +82,6 @@ const TitleWrapper = styled(FlexBetween)`
   align-items: flex-start;
 `;
 
-const ProjectIcons = {};
-
-const getProjectIcon = (spaceId) => {
-  const icon = ProjectIcons[spaceId] || `project-${spaceId}.svg`;
-  return `/imgs/icons/projects/${icon}`;
-};
-
 export default function Post({ data, showSpace, space, spaces }) {
   const getSpaceFromId = (spaceId) => spaces?.[spaceId];
   const getSpaceDisplayName = (spaceId) => getSpaceFromId(spaceId)?.name;
@@ -102,7 +96,7 @@ export default function Post({ data, showSpace, space, spaces }) {
     }
   }, [windowSize.width, setShowRichInfo]);
 
-  const icon = getProjectIcon(data.space);
+  const configs = getSpaceConfigs(data.space);
 
   const proposerNetworkConfig = findNetworkConfig(
     data.networksConfig,
@@ -139,7 +133,7 @@ export default function Post({ data, showSpace, space, spaces }) {
                 width="20px"
                 height="20px"
                 className="ml-4px"
-                src={icon}
+                src={configs.fromIcon}
                 alt=""
               />
               <InternalLink href={`/space/${data.space}`}>

@@ -2,11 +2,7 @@ import { createSelector, createSlice } from "@reduxjs/toolkit";
 
 import { clearCookie, getCookie, setCookie } from "frontedUtils/cookie";
 import { isAddress } from "@polkadot/util-crypto";
-import {
-  CHAINS,
-  evmChains,
-  nonProxyChains,
-} from "../../frontedUtils/consts/chains";
+import { chainConfigsMap, evmChains } from "../../frontedUtils/consts/chains";
 import encodeAddressByChain from "../../frontedUtils/chain/addr";
 
 const accountSlice = createSlice({
@@ -173,7 +169,8 @@ export const isEvmSelector = createSelector(loginNetworkSelector, (network) => {
 export const canUseProxySelector = createSelector(
   loginNetworkSelector,
   ({ network } = {}) => {
-    return !nonProxyChains.includes(network);
+    const configs = chainConfigsMap[network];
+    return configs ? configs.hasProxy : false;
   }
 );
 

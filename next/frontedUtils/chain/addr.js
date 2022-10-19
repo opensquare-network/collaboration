@@ -1,4 +1,4 @@
-import { chainSs58Format, evmChains } from "../consts/chains";
+import { evmChains, getChainConfigs } from "../consts/chains";
 import { encodeAddress } from "@polkadot/util-crypto";
 import { ethers } from "ethers";
 
@@ -12,15 +12,13 @@ export default function encodeAddressByChain(origin, chain) {
     return origin;
   }
 
-  const ss58Format = chainSs58Format[chain];
-  if (typeof ss58Format === "undefined") {
-    throw new Error(`Can not find ss58Format for ${chain}`);
-  }
-
+  const configs = getChainConfigs(chain);
   try {
-    return encodeAddress(origin, ss58Format);
+    return encodeAddress(origin, configs.ss58Format);
   } catch (e) {
-    console.error(`Can not encode ${origin} with ss58Format ${ss58Format}`);
+    console.error(
+      `Can not encode ${origin} with ss58Format ${configs.ss58Format}`
+    );
     return origin;
   }
 }

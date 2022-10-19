@@ -2,7 +2,7 @@ import styled, { css } from "styled-components";
 import IdentityIcon from "@osn/common-ui/es/User/IdentityIcon";
 import { addressEllipsis, getExplorer } from "../frontedUtils";
 import { useIsMounted } from "frontedUtils/hooks";
-import { CHAINS, evmChains } from "../frontedUtils/consts/chains";
+import { evm, evmChains } from "../frontedUtils/consts/chains";
 import { fetchIdentity } from "services/identity";
 import { useEffect, useState } from "react";
 import { ExternalLink } from "@osn/common-ui";
@@ -54,7 +54,7 @@ export default function IdentityOrAddr({
   const isLink = !noLink;
 
   let link = `https://${network}.${explorer}.io/account/${address}`;
-  if (CHAINS.moonriver === network) {
+  if (evm.moonriver === network) {
     link = `https://moonriver.moonscan.io/address/${address}`;
   }
 

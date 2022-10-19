@@ -1,6 +1,6 @@
 import debounce from "lodash.debounce";
-import { identityChainMap } from "../frontedUtils/consts/identity";
 import encodeAddressByChain from "../frontedUtils/chain/addr";
+import { chainConfigsMap } from "../frontedUtils/consts/chains";
 
 const cachedIdentities = new Map();
 let pendingQueries = new Map();
@@ -71,7 +71,8 @@ const delayQuery = debounce(() => {
 }, 0);
 
 export function fetchIdentity(chain, address) {
-  const targetChain = identityChainMap[chain] || chain;
+  const configs = chainConfigsMap[chain];
+  const targetChain = (configs && configs.identity) || chain;
   const targetAddress = encodeAddressByChain(address, targetChain);
   const idName = `${targetChain}/${targetAddress}`;
   if (cachedIdentities.has(idName)) {
