@@ -15,11 +15,11 @@ const Wrapper = styled.div`
   flex-direction: column;
 `;
 
-export default function Layout({ bgHeight, children, space }) {
+export default function Layout({ bgHeight, children, networks }) {
   return (
     <ThemeProvider theme={theme}>
       <Wrapper>
-        <Header space={space} />
+        <Header networks={networks} />
         <Main bgHeight={bgHeight}>{children}</Main>
         <Footer github="https://github.com/opensquare-network/collaboration/" />
         <Toast />

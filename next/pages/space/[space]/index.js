@@ -74,7 +74,7 @@ export default function List({
         title={`${space.name} off-chain voting`}
         desc={desc}
       />
-      <Layout bgHeight="264px" space={space}>
+      <Layout bgHeight="264px" networks={space.networks}>
         <HeaderWrapper>
           <Breadcrumb
             routes={[{ name: "Home", link: "/" }, { name: space.name }]}

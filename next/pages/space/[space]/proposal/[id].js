@@ -109,7 +109,7 @@ export default function Index({
           `${process.env.NEXT_PUBLIC_API_END_POINT}api/ipfs/files/${detail?.banner}`
         }
       />
-      <Layout bgHeight="183px" space={space}>
+      <Layout bgHeight="183px" networks={space.networks}>
         <Breadcrumb
           routes={[
             { name: "Home", link: "/" },

@@ -164,20 +164,20 @@ const Shade = styled.div`
   opacity: 0.4;
 `;
 
-function Account({ space }) {
+function Account({ networks }) {
   const dispatch = useDispatch();
   const windowSize = useWindowSize();
   const account = useSelector(loginAccountSelector);
   const showConnect = useSelector(showConnectSelector);
   const [pageMounted, setPageMounted] = useState(false);
   const address = useSelector(loginAddressSelector);
-  const spaceSupportMultiChain = space?.networks?.length > 1;
+  const spaceSupportMultiChain = networks?.length > 1;
 
   const showMenu = useSelector(showHeaderMenuSelector);
 
   useEffect(() => setPageMounted(true), []);
 
-  if (!space) {
+  if (!networks || networks.length === 0) {
     return null;
   }
 
@@ -246,7 +246,7 @@ function Account({ space }) {
 
   // show ConnectModal on first priority if  showConnect = true
   if (showConnect) {
-    return <ConnectModal space={space} />;
+    return <ConnectModal networks={networks} />;
   }
 
   // if already connected, show address on right top corner
