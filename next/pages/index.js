@@ -36,7 +36,7 @@ export async function getServerSideProps(context) {
   ]);
 
   const showAllSpace = context.req.cookies.showallspace;
-  const { result: allNetworks } = await ssrNextApi.fetch(`spaces/networks`);
+  const { result: allNetworks } = await ssrNextApi.fetch(`networks`);
 
   return {
     props: {
