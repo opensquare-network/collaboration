@@ -18,8 +18,8 @@ import { getMetamaskElement } from "@/components/connect/metamask";
 
 const Wrapper = styled.div``;
 
-export default function Connect({ space }) {
-  const [chain, setChain] = useState(space.networks[0]);
+export default function Connect({ networks }) {
+  const [chain, setChain] = useState(networks[0]);
   const [address, setAddress] = useState();
   const [element, setElement] = useState(null);
   const availableNetworks = useSelector(availableNetworksSelector);

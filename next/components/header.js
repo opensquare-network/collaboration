@@ -42,6 +42,9 @@ const AppWrapper = styled.div`
 `;
 
 const HeaderItemWrapper = styled.div`
+  display: flex;
+  gap: 32px;
+
   @media screen and (max-width: 800px) {
     display: flex;
     align-items: center;
@@ -95,7 +98,7 @@ const ExternalLink = styled.a`
   }
 `;
 
-export default function Header({ space }) {
+export default function Header({ networks }) {
   const dispatch = useDispatch();
   const showMenu = useSelector(showHeaderMenuSelector);
 
@@ -108,11 +111,7 @@ export default function Header({ space }) {
     dispatch(setShowHeaderMenu(false));
   });
   const router = useRouter();
-  const showConnect = [
-    "/space/[space]/proposal/[id]",
-    "/space/[space]/create",
-    "/space/[space]",
-  ].includes(router.pathname);
+  const isHomePage = router.pathname === "/";
 
   return (
     <OsnHeader
@@ -137,29 +136,28 @@ export default function Header({ space }) {
             alt=""
           />
         </IconWrapper>
-        {showConnect ? (
-          <HeaderItemWrapper>
-            <Account space={space} />
-          </HeaderItemWrapper>
-        ) : (
-          <ExternalLinkWrapper>
-            <ExternalLink
-              target="_blank"
-              href="https://github.com/opensquare-network/collaboration/discussions/813"
-            >
-              <Plus />
-              Add a Space
-            </ExternalLink>
-            <ExternalLink
-              target="_blank"
-              href="https://github.com/opensquare-network/collaboration/discussions"
-            >
-              <Discussions />
-              Discussions
-            </ExternalLink>
-          </ExternalLinkWrapper>
-        )}
-        {!showConnect && showMenu && (
+        <HeaderItemWrapper>
+          {isHomePage && (
+            <ExternalLinkWrapper>
+              <ExternalLink
+                target="_blank"
+                href="https://github.com/opensquare-network/collaboration/discussions/813"
+              >
+                <Plus />
+                Add a Space
+              </ExternalLink>
+              <ExternalLink
+                target="_blank"
+                href="https://github.com/opensquare-network/collaboration/discussions"
+              >
+                <Discussions />
+                Discussions
+              </ExternalLink>
+            </ExternalLinkWrapper>
+          )}
+          <Account networks={networks} />
+        </HeaderItemWrapper>
+        {showMenu && (
           <SecondaryHeaderItemWrapper>
             <Menu />
           </SecondaryHeaderItemWrapper>

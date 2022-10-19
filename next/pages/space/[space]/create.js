@@ -15,7 +15,7 @@ export default function Create({ space }) {
   }, [dispatch]);
 
   return (
-    <Layout bgHeight="183px" space={space}>
+    <Layout bgHeight="183px" networks={space.networks}>
       <Breadcrumb
         routes={[
           { name: "Home", link: "/" },
