@@ -7,7 +7,6 @@ import { EmptyQuery } from "frontedUtils/constants";
 import { useEffect, useState } from "react";
 import FourOFour from "../../../404";
 import {
-  initAccount,
   loginAddressSelector,
   setAvailableNetworks,
 } from "store/reducers/accountSlice";
@@ -29,10 +28,6 @@ export default function Index({
 }) {
   const dispatch = useDispatch();
   const isMounted = useIsMounted();
-
-  useEffect(() => {
-    dispatch(initAccount());
-  }, [dispatch]);
 
   const [savedMyVote, setSavedMyVote] = useState(myVote);
   const loginAddress = useSelector(loginAddressSelector);

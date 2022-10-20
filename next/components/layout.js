@@ -6,6 +6,9 @@ import { Footer } from "@osn/common-ui";
 import Toast from "components/toast";
 import Shade from "components/shade";
 import theme from "../styles/theme";
+import { useEffect } from "react";
+import { initAccount } from "store/reducers/accountSlice";
+import { useDispatch } from "react-redux";
 
 const Wrapper = styled.div`
   min-height: 100vh;
@@ -16,6 +19,11 @@ const Wrapper = styled.div`
 `;
 
 export default function Layout({ bgHeight, children, networks }) {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(initAccount());
+  }, [dispatch]);
+
   return (
     <ThemeProvider theme={theme}>
       <Wrapper>
