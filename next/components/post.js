@@ -133,7 +133,7 @@ export default function Post({ data, showSpace, space, spaces }) {
                 width="20px"
                 height="20px"
                 className="ml-4px"
-                src={configs.fromIcon}
+                src={`/imgs/icons/projects/${configs.fromIcon}`}
                 alt=""
               />
               <InternalLink href={`/space/${data.space}`}>
