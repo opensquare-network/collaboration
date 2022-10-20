@@ -95,7 +95,7 @@ export const initAccount = () => (dispatch) => {
   }
 
   const [network, address] = data.split("/");
-  if (!isAddress(address) || !Object.values(CHAINS).includes(network)) {
+  if (!isAddress(address) || !Object.keys(chainConfigsMap).includes(network)) {
     return;
   }
 
