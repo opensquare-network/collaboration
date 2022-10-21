@@ -1,12 +1,12 @@
 import { CHAINS } from "./chains";
 
 export const identityChainMap = Object.freeze({
-  [CHAINS.kintsugi]: [CHAINS.kusama],
+  [CHAINS.kintsugi]: [CHAINS.kintsugi],
   [CHAINS.statemine]: [CHAINS.kusama],
   [CHAINS.karura]: [CHAINS.kusama],
   [CHAINS.khala]: [CHAINS.khala],
   [CHAINS.phala]: [CHAINS.phala],
-  [CHAINS.interlay]: [CHAINS.polkadot],
+  [CHAINS.interlay]: [CHAINS.interlay],
   [CHAINS.acala]: [CHAINS.polkadot],
   [CHAINS.crust]: [CHAINS.crust],
   [CHAINS.turing]: [CHAINS.turing],
