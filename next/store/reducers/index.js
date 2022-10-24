@@ -5,15 +5,13 @@ import toastReducer from "./toastSlice";
 import showConnectReducer from "./showConnectSlice";
 import voteReducer from "./voteSlice";
 import statusReducer from "./statusSlice";
-import authoringReducer from "./authoringSlice";
-import notificationReducer from "./notificationSlice";
+import authoringSlice from "./authoringSlice";
 
 export default combineReducers({
   account: accountReducer,
   toast: toastReducer,
   showConnect: showConnectReducer,
   vote: voteReducer,
-  authoring: authoringReducer,
+  authoring: authoringSlice,
   status: statusReducer,
-  notification: notificationReducer,
 });

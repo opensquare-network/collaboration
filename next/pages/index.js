@@ -30,17 +30,13 @@ export default function Index({ spaces, hottestProposals, showAllSpace, allNetwo
 }
 
 export async function getServerSideProps(context) {
-  const [
-    { result: spaces },
-    { result: hottestProposals },
-    { result: allNetworks },
-  ] = await Promise.all([
+  const [{ result: spaces }, { result: hottestProposals }] = await Promise.all([
     ssrNextApi.fetch("spaces"),
     ssrNextApi.fetch("home/hottest"),
-    ssrNextApi.fetch(`networks`),
   ]);
 
   const showAllSpace = context.req.cookies.showallspace;
+  const { result: allNetworks } = await ssrNextApi.fetch(`networks`);
 
   return {
     props: {
