@@ -62,6 +62,9 @@ const AppWrapper = styled.div`
       display: flex;
       flex-wrap: wrap;
     }
+    .onHoverReverse {
+      transform: rotate(180deg);
+    }
   }
 
   > img {
@@ -201,13 +204,8 @@ export default function Header({ networks }) {
           />
           <span>Voting</span>
           <img
-            className="onHoverHidden"
+            className="onHoverReverse"
             src="/imgs/icons/caret-down-s.svg"
-            alt=""
-          />
-          <img
-            className="onHoverShow"
-            src="/imgs/icons/caret-up-s.svg"
             alt=""
           />
           <HoverMenu className="hoverMenu">
