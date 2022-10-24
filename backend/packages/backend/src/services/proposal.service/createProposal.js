@@ -9,8 +9,7 @@ const { getLatestHeight } = require("../chain.service");
 const { spaces: spaceServices } = require("../../spaces");
 const { checkDelegation } = require("../../services/node.service");
 const { getBalanceFromNetwork } = require("../../services/node.service");
-const { pinData } = require("./common");
-const { createNotification } = require("../notification.service");
+const { pinData, createSpaceNotifications } = require("./common");
 
 async function createProposal(
   space,
@@ -160,18 +159,15 @@ async function createProposal(
     throw new HttpError(500, "Failed to create post");
   }
 
-  createNotification(
-    "12ZBQqk7SD9qA7qPwpzAND6ZznXtgZuCMFWZr8xpdsVdbeva",
+  createSpaceNotifications(
+    space,
     NotificationType.NewProposal,
     {
       proposalCid: cid,
       space,
       title,
-    },
-  ).catch(e => {
-    //TODO:
-    console.error(e);
-  });
+    }
+  );
 
   return {
     cid,

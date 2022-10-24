@@ -6,6 +6,8 @@ const { enhancedSqrtOfBalance } = require("../../utils");
 const { getProposalCollection } = require("../../mongo");
 const { HttpError } = require("../../exc");
 const { spaces: spaceServices } = require("../../spaces");
+const { createNotification } = require("../notification");
+const { getSpaceMembers } = require("../spaceMember");
 
 const status = Object.freeze({
   terminated: "terminated",
@@ -86,10 +88,29 @@ async function getProposalSpaceByCid(proposalCid) {
   return spaceService;
 }
 
+async function createSpaceNotifications(space, notificationType, data) {
+  const members = await getSpaceMembers(space);
+
+  for (const member of members) {
+    const receiver = member.memberPublicKey;
+
+    try {
+      await createNotification(
+        receiver,
+        notificationType,
+        data,
+      );
+    } catch (e) {
+      // ignore
+    }
+  }
+}
+
 module.exports = {
   getProposalStatus,
   pinData,
   calcWeights,
   getProposalSpace,
   getProposalSpaceByCid,
+  createSpaceNotifications,
 };

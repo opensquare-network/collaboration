@@ -1,4 +1,4 @@
-const notificationService = require("../../services/notification.service");
+const notificationService = require("../../services/notification");
 const { extractPage } = require("../../utils");
 
 async function getNotifications(ctx) {

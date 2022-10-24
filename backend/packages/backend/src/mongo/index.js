@@ -33,4 +33,5 @@ module.exports = {
   getStatusCollection: () => getCollection("status"),
   getSpaceCollection: () => getCollection("space"),
   getNotificationCollection: () => getCollection("notification"),
+  getSpaceMemberCollection: () => getCollection("spaceMember"),
 };

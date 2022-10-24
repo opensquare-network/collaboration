@@ -1,6 +1,5 @@
 import styled, { css } from "styled-components";
 import { useCallback, useEffect, useState } from "react";
-import { ReactComponent as Plus } from "public/imgs/icons/plus.svg";
 
 import InternalLink from "./internalLink";
 import {
@@ -13,6 +12,10 @@ import { h3_36_bold, p_18_semibold, p_16_semibold } from "../styles/textStyles";
 import SpaceLogo from "@/components/spaceLogo";
 import { useWindowSize } from "../frontedUtils/hooks";
 import { setCookie } from "frontedUtils/cookie";
+import { Button } from "@osn/common-ui";
+import nextApi from "services/nextApi";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchJoinedSpace, joinedSpacesSelector, loginAddressSelector } from "store/reducers/accountSlice";
 
 const Title = styled.div`
   ${h3_36_bold};
@@ -130,6 +133,42 @@ const ButtonWrapper = styled.div`
 `;
 
 export default function Space({ spaces, showAllSpace }) {
+  const dispatch = useDispatch();
+  const address = useSelector(loginAddressSelector);
+  const joinedSpaces = useSelector(joinedSpacesSelector);
+
+  const isSpaceJoined = useCallback(
+    (spaceName) => !!joinedSpaces.find(item => item.space === spaceName),
+    [joinedSpaces]
+  );
+
+  useEffect(() => {
+    if (!address) {
+      return;
+    }
+    dispatch(fetchJoinedSpace(address))
+  }, [address]);
+
+  const joinSpace = useCallback(async (spaceName) => {
+    if (!address) {
+      return;
+    }
+    const { result } = await nextApi.post(`account/${address}/joined-spaces`, { space: spaceName });
+    if (result) {
+      dispatch(fetchJoinedSpace(address));
+    }
+  }, [address]);
+
+  const leaveSpace = useCallback(async (spaceName) => {
+    if (!address) {
+      return;
+    }
+    const { result } = await nextApi.delete(`account/${address}/joined-spaces/${spaceName}`);
+    if (result) {
+      dispatch(fetchJoinedSpace(address));
+    }
+  }, [address]);
+
   const [show, setShow] = useState(showAllSpace === "1");
   const [showCount, setShowCount] = useState(6);
 
@@ -187,6 +226,11 @@ export default function Space({ spaces, showAllSpace }) {
                     /{space.proposalsCount}
                   </Count>
                 </ActiveWrapper>
+                {!isSpaceJoined(name) ? (
+                  <Button onClick={() => joinSpace(name)}>Join</Button>
+                ) : (
+                  <Button onClick={() => leaveSpace(name)}>Leave</Button>
+                )}
               </Item>
             </InternalLink>
           )
