@@ -47,17 +47,7 @@ const AppWrapper = styled.div`
 
   cursor: pointer;
 
-  .onHoverShow {
-    display: none;
-  }
-
   &:hover {
-    .onHoverHidden {
-      display: none;
-    }
-    .onHoverShow {
-      display: initial;
-    }
     .hoverMenu {
       display: flex;
       flex-wrap: wrap;
@@ -196,12 +186,6 @@ export default function Header({ networks }) {
     >
       <ContentWrapper ref={ref}>
         <AppWrapper>
-          <img className="onHoverHidden" src="/imgs/icons/apps.svg" alt="" />
-          <img
-            className="onHoverShow"
-            src="/imgs/icons/apps-color.svg"
-            alt=""
-          />
           <span>Voting</span>
           <img
             className="onHoverReverse"
