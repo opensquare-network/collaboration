@@ -47,15 +47,15 @@ const AppWrapper = styled.div`
 
   cursor: pointer;
 
-  .color {
+  .onHoverShow {
     display: none;
   }
 
   &:hover {
-    .monochrome {
+    .onHoverHidden {
       display: none;
     }
-    .color {
+    .onHoverShow {
       display: initial;
     }
     .hoverMenu {
@@ -67,6 +67,10 @@ const AppWrapper = styled.div`
   > img {
     width: 24px;
     margin-right: 8px;
+  }
+
+  span {
+    margin-right: 4px;
   }
 `;
 
@@ -189,9 +193,23 @@ export default function Header({ networks }) {
     >
       <ContentWrapper ref={ref}>
         <AppWrapper>
-          <img className="monochrome" src="/imgs/icons/apps.svg" alt="" />
-          <img className="color" src="/imgs/icons/apps-color.svg" alt="" />
+          <img className="onHoverHidden" src="/imgs/icons/apps.svg" alt="" />
+          <img
+            className="onHoverShow"
+            src="/imgs/icons/apps-color.svg"
+            alt=""
+          />
           <span>Voting</span>
+          <img
+            className="onHoverHidden"
+            src="/imgs/icons/caret-down-s.svg"
+            alt=""
+          />
+          <img
+            className="onHoverShow"
+            src="/imgs/icons/caret-up-s.svg"
+            alt=""
+          />
           <HoverMenu className="hoverMenu">
             <MenuItem href="/">
               <img src="/imgs/icons/voting.svg" alt="" />
