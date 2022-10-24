@@ -15,6 +15,7 @@ import { ReactComponent as Plus } from "../public/imgs/icons/plus.svg";
 import { ReactComponent as Discussions } from "../public/imgs/icons/discussions.svg";
 import { Flex } from "@osn/common-ui";
 import Menu from "@/components/menu";
+import NotificationBell from "./notification/bell";
 
 const ContentWrapper = styled.div`
   width: 100%;
@@ -98,6 +99,11 @@ const ExternalLink = styled.a`
   }
 `;
 
+const AccountAndBell = styled.div`
+  display: flex;
+  gap: 16px;
+`;
+
 export default function Header({ networks }) {
   const dispatch = useDispatch();
   const showMenu = useSelector(showHeaderMenuSelector);
@@ -155,7 +161,10 @@ export default function Header({ networks }) {
               </ExternalLink>
             </ExternalLinkWrapper>
           )}
-          <Account networks={networks} />
+          <AccountAndBell>
+            <Account networks={networks} />
+            <NotificationBell />
+          </AccountAndBell>
         </HeaderItemWrapper>
         {showMenu && (
           <SecondaryHeaderItemWrapper>
