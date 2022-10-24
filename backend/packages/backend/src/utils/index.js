@@ -6,6 +6,7 @@ const {
   encodeAddress,
   signatureVerify,
   cryptoWaitReady,
+  decodeAddress,
 } = require("@polkadot/util-crypto");
 
 function extractPage(ctx) {
@@ -105,6 +106,11 @@ function isSamePublicKey(address1, address2) {
   return encodeAddress(address1, 42) === encodeAddress(address2, 42);
 }
 
+function toPublicKey(address) {
+  const publicKey = decodeAddress(address);
+  return Buffer.from(publicKey).toString("hex");
+}
+
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -125,6 +131,7 @@ module.exports = {
   fromSymbolUnit,
   enhancedSqrtOfBalance,
   isSamePublicKey,
+  toPublicKey,
   sleep,
   timeout,
 };

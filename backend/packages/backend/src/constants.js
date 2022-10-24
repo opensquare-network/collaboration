@@ -15,9 +15,17 @@ const WeightStrategy = Object.freeze({
   QuadraticBalanceOf: "quadratic-balance-of",
 });
 
+const NotificationType = Object.freeze({
+  NewProposal: "newProposal",
+  ProposalStarted: "proposalStarted",
+  ProposalCloseToEnd: "proposalCloseToEnd",
+  ProposalEnd: "proposalEnd",
+});
+
 module.exports = {
   ContentType,
   ChoiceType,
   PostTitleLengthLimitation,
   WeightStrategy,
+  NotificationType,
 };

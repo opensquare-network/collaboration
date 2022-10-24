@@ -32,4 +32,5 @@ module.exports = {
   getCommentCollection: () => getCollection("comment"),
   getStatusCollection: () => getCollection("status"),
   getSpaceCollection: () => getCollection("space"),
+  getNotificationCollection: () => getCollection("notification"),
 };
