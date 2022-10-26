@@ -29,7 +29,7 @@ async function leaveSpace(ctx) {
   const memberPublicKey = toPublicKey(address);
   const result = await spaceMemberService.removeSpaceMember(space, memberPublicKey);
 
-  ctx.body = { result };
+  ctx.body = { result }
 }
 
 module.exports = {
