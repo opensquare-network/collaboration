@@ -18,14 +18,18 @@ async function joinSpace(ctx) {
   }
 
   const memberPublicKey = toPublicKey(address);
-  ctx.body = await spaceMemberService.addSpaceMember(space, memberPublicKey);
+  const result = await spaceMemberService.addSpaceMember(space, memberPublicKey);
+
+  ctx.body = { result };
 }
 
 async function leaveSpace(ctx) {
   const { address, space } = ctx.params;
 
   const memberPublicKey = toPublicKey(address);
-  ctx.body = await spaceMemberService.removeSpaceMember(space, memberPublicKey);
+  const result = await spaceMemberService.removeSpaceMember(space, memberPublicKey);
+
+  ctx.body = { result };
 }
 
 module.exports = {

@@ -35,6 +35,8 @@ async function addSpaceMember(space, memberPublicKey) {
       upsert: true
     }
   );
+
+  return true;
 }
 
 async function removeSpaceMember(space, memberPublicKey) {
@@ -45,6 +47,8 @@ async function removeSpaceMember(space, memberPublicKey) {
       member: memberPublicKey,
     }
   );
+
+  return true;
 }
 
 module.exports = {
