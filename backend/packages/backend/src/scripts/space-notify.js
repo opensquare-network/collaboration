@@ -18,26 +18,67 @@ const EventType = {
   ProposalTerminated: "proposalTerminated",
 };
 
-async function createNotification(status, eventType) {
-  const proposalCol = await getProposalCollection();
-  const notificationCol = await getNotificationCollection();
-  const spaceMemberCol = await getSpaceMemberCollection();
+function getEventTypeFromProposalStatus(proposalStatus) {
+  let eventType = "";
 
+  if (proposalStatus === ProposalStatus.Active) {
+    eventType = EventType.ProposalStarted;
+  } else if (proposalStatus === "closeToEnd") {
+    eventType = EventType.ProposalCloseToEnd;
+  } else if (proposalStatus === ProposalStatus.Closed) {
+    eventType = EventType.ProposalEnd;
+  } else if (proposalStatus === ProposalStatus.Terminated) {
+    eventType = EventType.ProposalTerminated;
+  }
+
+  return eventType;
+}
+
+async function createNotificationForSpaceMembers(space, eventType, data) {
   // Find members those should be notified
+  const spaceMemberCol = await getSpaceMemberCollection();
   const members = await spaceMemberCol
-    .find({ space: proposal.space })
+    .find({ space })
     .toArray();
 
+  if (members.length === 0) {
+    return;
+  }
+
+  const notificationCol = await getNotificationCollection();
+  const bulk = notificationCol.initializeUnorderedBulkOp();
   for (const member of members) {
     // Create notification
-    await notificationCol.insertOne({
+    bulk.insert({
       owner: member.memberPublicKey,
       type: eventType,
+      read: false,
+      createdAt: Date.now(),
+      data,
     });
-
-    // Update proposal status
-    await proposalCol.updateOne({ _id: proposal._id }, { $set: { status } });
   }
+  await bulk.execute();
+}
+
+async function createNotification(proposal, proposalStatus) {
+  const eventType = getEventTypeFromProposalStatus(proposalStatus);
+  if (!eventType) {
+    return;
+  }
+
+  const data = {
+    proposalCid: proposal.cid,
+    title: proposal.title,
+    space: proposal.space,
+  };
+  await createNotificationForSpaceMembers(proposal.space, eventType, data);
+
+  // Update proposal status
+  const proposalCol = await getProposalCollection();
+  await proposalCol.updateOne(
+    { _id: proposal._id },
+    { $set: { status: proposalStatus } }
+  );
 }
 
 async function handleProposal(proposal) {
@@ -55,19 +96,11 @@ async function handleProposal(proposal) {
     // Check if close to end
     const now = Date.now();
     if (now > proposal.endDate - 24 * 3600 * 1000) {
-      return await createNotification("closeToEnd", EventType.ProposalCloseToEnd);
+      return await createNotification(proposal, "closeToEnd");
     }
-
-    return await createNotification(status, EventType.ProposalStarted);
   }
 
-  if (status === ProposalStatus.Closed) {
-    return await createNotification(status, EventType.ProposalEnd);
-  }
-
-  if (status === ProposalStatus.Terminated) {
-    return await createNotification(status, EventType.ProposalTerminated);
-  }
+  return await createNotification(status);
 }
 
 async function startNotify() {
