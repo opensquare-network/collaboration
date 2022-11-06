@@ -20,6 +20,8 @@ const chains = {
   shiden: "shiden",
   altair: "altair",
   parallel: "parallel",
+  basilisk: "basilisk",
+  hydradx: "hydradx",
 };
 
 const noProxyChains = [chains.kintsugi, chains.interlay, chains.crust];
