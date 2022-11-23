@@ -42,11 +42,7 @@ export default function Share({}) {
       encodeURIComponent(window.location.href) +
       "&text=" +
       encodeURIComponent(document.title);
-    window.open(
-      url,
-      "",
-      "menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600"
-    );
+    window.open(url, "_blank");
   }, []);
 
   const copyLink = useCallback(() => {
