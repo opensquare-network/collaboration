@@ -2,10 +2,10 @@ import { NextSeo } from "next-seo";
 import { getSpaceSeoImage } from "../../frontedUtils/consts/spaces";
 
 export default function Seo({ spaceId, title, desc, banner }) {
-  const config = getSpaceSeoImage(spaceId);
+  const imageCid = getSpaceSeoImage(spaceId);
   const images = [
     {
-      url: banner ?? `https://ipfs.fleek.co/ipfs/${config.seoImage}`,
+      url: banner ?? `https://ipfs.fleek.co/ipfs/${imageCid}`,
       width: 1200,
       height: 628,
     },
