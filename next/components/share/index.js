@@ -51,7 +51,7 @@ export default function Share({ uid }) {
     setTimeout(() => {
       setIsCopied(false);
     }, 1000);
-  }, []);
+  }, [uid]);
 
   return (
     <Wrapper>
