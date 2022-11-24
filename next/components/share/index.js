@@ -39,7 +39,7 @@ export default function Share({ uid }) {
   const tweet = useCallback(() => {
     const url =
       "https://twitter.com/share?url=" +
-      encodeURIComponent(window.location.href) +
+      encodeURIComponent(`${window.location.origin}/p/${uid}`) +
       "&text=" +
       encodeURIComponent(document.title);
     window.open(url, "_blank");
