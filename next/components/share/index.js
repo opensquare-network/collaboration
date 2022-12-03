@@ -43,7 +43,7 @@ export default function Share({ uid }) {
       "&text=" +
       encodeURIComponent(document.title);
     window.open(url, "_blank");
-  }, []);
+  }, [uid]);
 
   const copyLink = useCallback(() => {
     copy(`${window.location.origin}/p/${uid}`);
