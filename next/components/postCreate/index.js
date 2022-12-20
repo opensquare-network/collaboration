@@ -268,7 +268,11 @@ export default function PostCreate({ space }) {
           setIsSetBanner={setIsSetBanner}
           setBannerUrl={setBannerUrl}
         />
-        <Choices choices={choices} setChoices={setChoices} />
+        <Choices
+          maxOptionsCount={space?.maxOptionsCount || 10}
+          choices={choices}
+          setChoices={setChoices}
+        />
       </MainWrapper>
       <SiderWrapper>
         <More onPublish={onPublish} space={space} />

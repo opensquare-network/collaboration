@@ -59,6 +59,14 @@ async function createProposal(
     throw new HttpError(500, "Unknown space");
   }
 
+  const maxOptionsCount = spaceService.maxOptionsCount || 10;
+  if (choices.length > spaceService.maxOptionsCount) {
+    throw new HttpError(
+      400,
+      `Too many options, support up to ${maxOptionsCount} options`
+    );
+  }
+
   // Check if the snapshot heights is matching the space configuration
   const snapshotNetworks = Object.keys(snapshotHeights || {});
   if (
