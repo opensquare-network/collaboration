@@ -54,7 +54,7 @@ const spaces = [
   shidenConfig,
   // crabConfig,
   dotsamaConfig,
-  // lksmConfig,
+  lksmConfig,
   centrifugeConfig,
   altairConfig,
   parallelConfig,

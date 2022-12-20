@@ -27,6 +27,7 @@ const config = {
   proposeThreshold: "1000000000000",
   voteThreshold: "10000000000",
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
+  maxOptionsCount: 30,
   version: "3",
 };
 
