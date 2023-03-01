@@ -59,6 +59,8 @@ const chainBlockTime = {
   [chains.zeitgeist]: twelveSecond,
   [chains.shiden]: twelveSecond,
   [chains.parallel]: twelveSecond,
+  [chains.basilisk]: twelveSecond,
+  [chains.hydradx]: twelveSecond,
   [evmChains.moonriver]: twelveSecond,
   [evmChains.moonbeam]: twelveSecond,
   [evmChains.ethereum]: thirteenSecond,
@@ -81,4 +83,5 @@ module.exports = {
   evmChains,
   symbols,
   chainBlockTime,
+  twelveSecond,
 };
