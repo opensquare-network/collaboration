@@ -1,3 +1,4 @@
+const { twelveSecond } = require("../../constants");
 const { extractBlockTime } = require("./blockTime");
 const { chainBlockTime } = require("../../constants");
 
@@ -43,7 +44,7 @@ async function getExpected(chain, apis, lastHeightTime, targetTime) {
 
 async function getHeightByTime(chain, apis, targetTime, lastHeightTime) {
   const { height, time } = lastHeightTime;
-  const blockTime = chainBlockTime[chain];
+  const blockTime = chainBlockTime[chain] || twelveSecond;
   const gap = Math.abs(targetTime - time);
   if (gap <= blockNumberThreshold * blockTime) {
     return lastHeightTime;
