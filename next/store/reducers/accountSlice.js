@@ -187,15 +187,13 @@ export const fetchJoinedSpace = (address) => (dispatch) => {
     return;
   }
 
-  nextApi
-    .fetch(`account/${address}/joined-spaces`)
-    .then(({ result }) => {
-      if (!result) {
-        return;
-      }
+  nextApi.fetch(`account/${address}/spaces`).then(({ result }) => {
+    if (!result) {
+      return;
+    }
 
-      dispatch(setJoinedSpaces(result));
-    })
+    dispatch(setJoinedSpaces(result));
+  });
 };
 
 export default accountSlice.reducer;

@@ -8,6 +8,7 @@ const { HttpError } = require("../../exc");
 const { spaces: spaceServices } = require("../../spaces");
 const { createNotification } = require("../notification");
 const { getSpaceMembers } = require("../spaceMember");
+const { logger } = require("../../utils/logger");
 
 const ProposalStatus = Object.freeze({
   Terminated: "terminated",
@@ -97,7 +98,9 @@ async function createSpaceNotifications(space, notificationType, data) {
     try {
       await createNotification(receiver, notificationType, data);
     } catch (e) {
-      // ignore
+      logger.error(
+        `Failed to create notification for ${receiver}, notificationType: ${notificationType}, error: ${e.message}`
+      );
     }
   }
 }

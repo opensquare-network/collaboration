@@ -1,13 +1,13 @@
 import styled from "styled-components";
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchJoinedSpace, joinedSpacesSelector, loginAddressSelector } from "store/reducers/accountSlice";
-import InternalLink from "../internalLink";
 import {
-  shadow_100,
-  shadow_200,
-  makeSquare,
-} from "../../styles/globalCss";
+  fetchJoinedSpace,
+  joinedSpacesSelector,
+  loginAddressSelector,
+} from "store/reducers/accountSlice";
+import InternalLink from "../internalLink";
+import { shadow_100, shadow_200, makeSquare } from "../../styles/globalCss";
 import { p_18_semibold } from "../../styles/textStyles";
 import SpaceLogo from "@/components/spaceLogo";
 import nextApi from "services/nextApi";
@@ -95,29 +95,39 @@ export default function SpaceListItem({ name, space }) {
   const joinedSpaces = useSelector(joinedSpacesSelector);
 
   const isSpaceJoined = useCallback(
-    (spaceName) => !!joinedSpaces.find(item => item.space === spaceName),
+    (spaceName) => !!joinedSpaces.find((item) => item.space === spaceName),
     [joinedSpaces]
   );
 
-  const joinSpace = useCallback(async (spaceName) => {
-    if (!address) {
-      return;
-    }
-    const { result } = await nextApi.post(`account/${address}/joined-spaces`, { space: spaceName });
-    if (result) {
-      dispatch(fetchJoinedSpace(address));
-    }
-  }, [address]);
+  const joinSpace = useCallback(
+    async (spaceName) => {
+      if (!address) {
+        return;
+      }
+      const { result } = await nextApi.post(`account/${address}/spaces`, {
+        space: spaceName,
+      });
+      if (result) {
+        dispatch(fetchJoinedSpace(address));
+      }
+    },
+    [address]
+  );
 
-  const leaveSpace = useCallback(async (spaceName) => {
-    if (!address) {
-      return;
-    }
-    const { result } = await nextApi.delete(`account/${address}/joined-spaces/${spaceName}`);
-    if (result) {
-      dispatch(fetchJoinedSpace(address));
-    }
-  }, [address]);
+  const leaveSpace = useCallback(
+    async (spaceName) => {
+      if (!address) {
+        return;
+      }
+      const { result } = await nextApi.delete(
+        `account/${address}/spaces/${spaceName}`
+      );
+      if (result) {
+        dispatch(fetchJoinedSpace(address));
+      }
+    },
+    [address]
+  );
 
   return (
     <Wrapper>
@@ -131,12 +141,10 @@ export default function SpaceListItem({ name, space }) {
       <Divider />
       <ActiveWrapper>
         <ActiveCircle />
-        <InternalLink href={`/space/${name}?tab=active`}>
-          Active
-        </InternalLink>
+        <InternalLink href={`/space/${name}?tab=active`}>Active</InternalLink>
         <Count>
-          <ActiveCount>{space.activeProposalsCount ?? 0}</ActiveCount>
-          /{space.proposalsCount}
+          <ActiveCount>{space.activeProposalsCount ?? 0}</ActiveCount>/
+          {space.proposalsCount}
         </Count>
       </ActiveWrapper>
       <JoinButtonWrapper>

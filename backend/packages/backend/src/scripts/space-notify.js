@@ -18,12 +18,14 @@ const EventType = {
   ProposalTerminated: "proposalTerminated",
 };
 
+const closeToEnd = "closeToEnd";
+
 function getEventTypeFromProposalStatus(proposalStatus) {
   let eventType = "";
 
   if (proposalStatus === ProposalStatus.Active) {
     eventType = EventType.ProposalStarted;
-  } else if (proposalStatus === "closeToEnd") {
+  } else if (proposalStatus === closeToEnd) {
     eventType = EventType.ProposalCloseToEnd;
   } else if (proposalStatus === ProposalStatus.Closed) {
     eventType = EventType.ProposalEnd;
@@ -37,9 +39,7 @@ function getEventTypeFromProposalStatus(proposalStatus) {
 async function createNotificationForSpaceMembers(space, eventType, data) {
   // Find members those should be notified
   const spaceMemberCol = await getSpaceMemberCollection();
-  const members = await spaceMemberCol
-    .find({ space })
-    .toArray();
+  const members = await spaceMemberCol.find({ space }).toArray();
 
   if (members.length === 0) {
     return;
@@ -88,7 +88,7 @@ async function handleProposal(proposal) {
     return;
   }
 
-  if (proposal.status === "closeToEnd" && status === ProposalStatus.Active) {
+  if (proposal.status === closeToEnd && status === ProposalStatus.Active) {
     return;
   }
 
@@ -96,7 +96,7 @@ async function handleProposal(proposal) {
     // Check if close to end
     const now = Date.now();
     if (now > proposal.endDate - 24 * 3600 * 1000) {
-      return await createNotification(proposal, "closeToEnd");
+      return await createNotification(proposal, closeToEnd);
     }
   }
 
@@ -105,6 +105,8 @@ async function handleProposal(proposal) {
 
 async function startNotify() {
   const proposalCol = await getProposalCollection();
+
+  //TODO: handle proposals with a limited number
   const proposals = await proposalCol.find().toArray();
 
   for (const proposal of proposals) {
