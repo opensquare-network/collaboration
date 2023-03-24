@@ -1,5 +1,5 @@
 import React from "react";
-import { useWindowSize } from "@osn/common";
+import { useWindowSize } from "frontedUtils/hooks";
 import ContentLoader from "react-content-loader";
 import styled from "styled-components";
 

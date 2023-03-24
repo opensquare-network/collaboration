@@ -2,13 +2,7 @@
 
 import styled from "styled-components";
 import { p_14_medium } from "@osn/common-ui/es/styles/textStyles";
-import {
-  Time,
-  Card,
-  Flex,
-  FlexBetween,
-  Dot,
-} from "@osn/common-ui";
+import { Time, Card, Flex, FlexBetween, Dot } from "@osn/common-ui";
 import {
   text_dark_minor,
   primary_turquoise_500,
@@ -41,9 +35,10 @@ const Head = styled(Flex)`
   padding: 24px;
   gap: 24px;
 
-  background: #FFFFFF;
-  border: 1px solid #F0F3F8;
-  box-shadow: 0px 4px 31px rgba(26, 33, 44, 0.04), 0px 0.751293px 3.88168px rgba(26, 33, 44, 0.03);
+  background: #ffffff;
+  border: 1px solid #f0f3f8;
+  box-shadow: 0px 4px 31px rgba(26, 33, 44, 0.04),
+    0px 0.751293px 3.88168px rgba(26, 33, 44, 0.03);
 
   @media screen and (max-width: ${MOBILE_SIZE}px) {
     display: block;
@@ -165,10 +160,7 @@ export default function NotificationItem({ data, onMarkAsRead = () => {} }) {
     type,
     createdAt,
     read: _read,
-    data: {
-      space,
-      title,
-    } = {},
+    data: { space, title, proposalCid } = {},
   } = data;
 
   const configs = getSpaceConfigs(space);
@@ -195,7 +187,7 @@ export default function NotificationItem({ data, onMarkAsRead = () => {} }) {
           <Type>{EventTypeName[type]}</Type>
           <Dot />
           <Title>
-            <Link href={"/"} passHref>
+            <Link href={`/space/${space}/proposal/${proposalCid}`} passHref>
               <a>{title}</a>
             </Link>
           </Title>

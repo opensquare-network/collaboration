@@ -147,7 +147,12 @@ export default function SpaceListItem({ name, space }) {
           {space.proposalsCount}
         </Count>
       </ActiveWrapper>
-      <JoinButtonWrapper>
+      <JoinButtonWrapper
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+        }}
+      >
         {!isSpaceJoined(name) ? (
           <JoinButton joined={false} onClick={() => joinSpace(name)} />
         ) : (

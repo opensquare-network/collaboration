@@ -14,6 +14,7 @@ const ProposalStatus = Object.freeze({
   Terminated: "terminated",
   Pending: "pending",
   Active: "active",
+  CloseToEnd: "closeToEnd",
   Closed: "closed",
 });
 

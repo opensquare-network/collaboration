@@ -18,14 +18,17 @@ const EventType = {
   ProposalTerminated: "proposalTerminated",
 };
 
-const closeToEnd = "closeToEnd";
+async function updateProposalStatus(proposalId, status) {
+  const proposalCol = await getProposalCollection();
+  await proposalCol.updateOne({ _id: proposalId }, { $set: { status } });
+}
 
 function getEventTypeFromProposalStatus(proposalStatus) {
   let eventType = "";
 
   if (proposalStatus === ProposalStatus.Active) {
     eventType = EventType.ProposalStarted;
-  } else if (proposalStatus === closeToEnd) {
+  } else if (proposalStatus === ProposalStatus.CloseToEnd) {
     eventType = EventType.ProposalCloseToEnd;
   } else if (proposalStatus === ProposalStatus.Closed) {
     eventType = EventType.ProposalEnd;
@@ -50,7 +53,7 @@ async function createNotificationForSpaceMembers(space, eventType, data) {
   for (const member of members) {
     // Create notification
     bulk.insert({
-      owner: member.memberPublicKey,
+      owner: member.member,
       type: eventType,
       read: false,
       createdAt: Date.now(),
@@ -82,32 +85,46 @@ async function createNotification(proposal, proposalStatus) {
 }
 
 async function handleProposal(proposal) {
-  const status = getProposalStatus(proposal);
+  let status = getProposalStatus(proposal);
+  const currentStatus = proposal.status || ProposalStatus.Pending;
 
-  if (proposal.status === status && status !== ProposalStatus.Active) {
+  // If the current status is the same as the new status, do nothing
+  // Except for the active status, which can be changed to closeToEnd
+  if (currentStatus === status && status !== ProposalStatus.Active) {
     return;
   }
 
-  if (proposal.status === closeToEnd && status === ProposalStatus.Active) {
+  // If the current status is closeToEnd and the new status is active, do nothing
+  if (
+    currentStatus === ProposalStatus.CloseToEnd &&
+    status === ProposalStatus.Active
+  ) {
     return;
   }
 
   if (status === ProposalStatus.Active) {
-    // Check if close to end
+    // Check if the proposal is close to end
     const now = Date.now();
     if (now > proposal.endDate - 24 * 3600 * 1000) {
-      return await createNotification(proposal, closeToEnd);
+      status = ProposalStatus.CloseToEnd;
     }
   }
 
-  return await createNotification(status);
+  await updateProposalStatus(proposal._id, status);
+  await createNotification(proposal, status);
 }
 
 async function startNotify() {
   const proposalCol = await getProposalCollection();
 
   //TODO: handle proposals with a limited number
-  const proposals = await proposalCol.find().toArray();
+  const proposals = await proposalCol
+    .find({
+      status: {
+        $nin: [ProposalStatus.Closed, ProposalStatus.Terminated],
+      },
+    })
+    .toArray();
 
   for (const proposal of proposals) {
     try {
@@ -119,7 +136,7 @@ async function startNotify() {
 }
 
 async function main() {
-  console.log(`Last pin at:`, new Date());
+  console.log(`Last send notification at:`, new Date());
 
   try {
     await startNotify();

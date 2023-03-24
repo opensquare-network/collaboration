@@ -5,6 +5,7 @@ import { unreadSelector } from "store/reducers/notificationSlice";
 import { FlexCenter } from "@osn/common-ui";
 import { ReactComponent as NotificationSVG } from "./notification.svg";
 import { ReactComponent as UnreadNotificationSVG } from "./unread-notification.svg";
+import { loginAddressSelector } from "store/reducers/accountSlice";
 
 const Wrapper = styled(FlexCenter)`
   width: 38px;
@@ -19,15 +20,18 @@ const Wrapper = styled(FlexCenter)`
 `;
 
 export default function NotificationBell() {
+  const address = useSelector(loginAddressSelector);
   const unread = useSelector(unreadSelector);
+
+  if (!address) {
+    return null;
+  }
 
   return (
     <Link href="/notifications" passHref>
       <a>
         <Wrapper>
-          {unread
-            ? <UnreadNotificationSVG />
-            : <NotificationSVG />}
+          {unread ? <UnreadNotificationSVG /> : <NotificationSVG />}
         </Wrapper>
       </a>
     </Link>
