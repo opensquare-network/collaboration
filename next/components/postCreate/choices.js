@@ -37,9 +37,9 @@ const ItemList = styled.div`
   }
 `;
 
-export default function Choices({ choices, setChoices }) {
+export default function Choices({ maxOptionsCount, choices, setChoices }) {
   const onAdd = () => {
-    if (choices.length >= 10) return;
+    if (choices.length >= maxOptionsCount) return;
     setChoices([...choices, ""]);
   };
 

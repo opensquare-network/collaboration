@@ -33,29 +33,25 @@ const ShareItem = styled.span`
   }
 `;
 
-export default function Share({}) {
+export default function Share({ uid }) {
   const [isCopied, setIsCopied] = useState(false);
 
   const tweet = useCallback(() => {
     const url =
       "https://twitter.com/share?url=" +
-      encodeURIComponent(window.location.href) +
+      encodeURIComponent(`${window.location.origin}/p/${uid}`) +
       "&text=" +
       encodeURIComponent(document.title);
-    window.open(
-      url,
-      "",
-      "menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600"
-    );
-  }, []);
+    window.open(url, "_blank");
+  }, [uid]);
 
   const copyLink = useCallback(() => {
-    copy(window.location.href);
+    copy(`${window.location.origin}/p/${uid}`);
     setIsCopied(true);
     setTimeout(() => {
       setIsCopied(false);
     }, 1000);
-  }, []);
+  }, [uid]);
 
   return (
     <Wrapper>
@@ -63,7 +59,7 @@ export default function Share({}) {
         <Twitter className="twitter" />
       </ShareItem>
       <ShareItem onClick={copyLink}>
-        <Tooltip content={isCopied ? "Copied" : "Copy Link"} size="fit">
+        <Tooltip content={isCopied ? "Copied" : "Copy Short Link"} size="fit">
           <CopySvg className="copy" />
         </Tooltip>
       </ShareItem>

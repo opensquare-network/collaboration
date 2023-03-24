@@ -23,6 +23,8 @@ import altair from "./altair";
 import parallel from "./parallel";
 import dotsama from "./dotsama";
 import lksm from "./lksm";
+import basilisk from "./basilisk";
+import hydradx from "./hydradx";
 import { defaultSeoImage } from "./sns";
 
 const configsMap = {
@@ -51,6 +53,8 @@ const configsMap = {
   parallel,
   dotsama,
   lksm,
+  basilisk,
+  hydradx,
 };
 
 export default function getSpaceConfigs(spaceId) {

@@ -18,6 +18,8 @@ import interlay from "./interlay";
 import karura from "./karura";
 import khala from "./khala";
 import kintsugi from "./kintsugi";
+import basilisk from "./basilisk";
+import hydradx from "./hydradx";
 
 export const chainConfigsMap = {
   polkadot,
@@ -40,6 +42,8 @@ export const chainConfigsMap = {
   statemine,
   turing,
   zeitgeist,
+  basilisk,
+  hydradx,
 };
 
 export function getChainConfigs(chain) {

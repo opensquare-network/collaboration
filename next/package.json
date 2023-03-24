@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@osn/common": "^1.1.0",
-    "@osn/common-ui": "1.15.1",
+    "@osn/common-ui": "^1.18.0",
     "@osn/constants": "^1.1.2",
     "@osn/polkadot-react-identicon": "^1.0.8",
     "@osn/previewer": "^0.12.3",

@@ -1,6 +1,9 @@
 const BigNumber = require("bignumber.js");
 const { safeHtml } = require("../../utils/post");
-const { PostTitleLengthLimitation, NotificationType } = require("../../constants");
+const {
+  PostTitleLengthLimitation,
+  NotificationType,
+} = require("../../constants");
 const { nextPostUid } = require("../status.service");
 const { getProposalCollection } = require("../../mongo");
 const { HttpError } = require("../../exc");
@@ -57,6 +60,14 @@ async function createProposal(
   const spaceService = spaceServices[space];
   if (!spaceService) {
     throw new HttpError(500, "Unknown space");
+  }
+
+  const maxOptionsCount = spaceService.maxOptionsCount || 10;
+  if (choices.length > spaceService.maxOptionsCount) {
+    throw new HttpError(
+      400,
+      `Too many options, support up to ${maxOptionsCount} options`
+    );
   }
 
   // Check if the snapshot heights is matching the space configuration
@@ -159,15 +170,11 @@ async function createProposal(
     throw new HttpError(500, "Failed to create post");
   }
 
-  createSpaceNotifications(
+  createSpaceNotifications(space, NotificationType.NewProposal, {
+    proposalCid: cid,
     space,
-    NotificationType.NewProposal,
-    {
-      proposalCid: cid,
-      space,
-      title,
-    }
-  );
+    title,
+  });
 
   return {
     cid,

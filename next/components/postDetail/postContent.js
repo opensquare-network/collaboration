@@ -114,7 +114,7 @@ export default function PostContent({ data, space }) {
         </>
       )}
       <Divider />
-      <Share />
+      <Share uid={data.postUid} />
       <PostVote proposal={data} threshold={space.voteThreshold} />
     </Panel>
   );

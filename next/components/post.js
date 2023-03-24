@@ -123,7 +123,12 @@ export default function Post({ data, showSpace, space, spaces }) {
             />
           )}
           {!showRichInfo && (
-            <img width="20px" height="20px" src={icon} alt="" />
+            <img
+              width="20px"
+              height="20px"
+              src={`/imgs/icons/projects/${configs.fromIcon}`}
+              alt=""
+            />
           )}
           <PostTime post={data} />
           {showSpace && showRichInfo && (

@@ -3,7 +3,11 @@ import { useRef } from "react";
 import Link from "next/link";
 import { useOnClickOutside } from "frontedUtils/hooks";
 import Account from "./account";
-import { p_16_semibold, p_18_semibold } from "../styles/textStyles";
+import {
+  p_12_normal,
+  p_16_semibold,
+  p_18_semibold,
+} from "../styles/textStyles";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -16,6 +20,11 @@ import { ReactComponent as Discussions } from "../public/imgs/icons/discussions.
 import { Flex } from "@osn/common-ui";
 import Menu from "@/components/menu";
 import NotificationBell from "./notification/bell";
+import { ReactComponent as CaretRight } from "/public/imgs/icons/caret-right-s.svg";
+
+const CaretRightIcon = styled(CaretRight)`
+  margin-left: 16px;
+`;
 
 const ContentWrapper = styled.div`
   width: 100%;
@@ -35,10 +44,64 @@ const AppWrapper = styled.div`
   display: flex;
   align-items: center;
   ${p_18_semibold};
+  height: 36px;
+
+  cursor: pointer;
+
+  &:hover {
+    .hoverMenu {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .onHoverReverse {
+      transform: rotate(180deg);
+    }
+  }
 
   > img {
     width: 24px;
     margin-right: 8px;
+  }
+
+  span {
+    margin-right: 4px;
+  }
+`;
+
+const HoverMenu = styled.div`
+  padding: 16px;
+  position: absolute;
+  display: none;
+  gap: 24px;
+  &:hover {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  z-index: 1;
+  top: 60px;
+  width: 360px;
+  box-shadow: 0 4px 31px rgba(26, 33, 44, 0.06),
+    0px 0.751293px 8px rgba(26, 33, 44, 0.04);
+  background: white;
+`;
+
+const MenuItem = styled.a`
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  flex-wrap: wrap;
+  p,
+  span {
+    margin: 0;
+    width: 232px;
+  }
+  p {
+    margin-left: 16px;
+    font-size: 16px;
+  }
+  span {
+    ${p_12_normal};
+    color: #a1a8b3;
   }
 `;
 
@@ -129,8 +192,29 @@ export default function Header({ networks }) {
     >
       <ContentWrapper ref={ref}>
         <AppWrapper>
-          <img src="/imgs/icons/apps.svg" alt="" />
-          Voting
+          <span>Voting</span>
+          <img
+            className="onHoverReverse"
+            src="/imgs/icons/caret-down-s.svg"
+            alt=""
+          />
+          <HoverMenu className="hoverMenu">
+            <MenuItem href="/">
+              <img src="/imgs/icons/voting.svg" alt="" />
+              <p>Off-chain Voting</p>
+              <CaretRightIcon />
+              <span>
+                Multi-chain assets off-chain voting platform for Polkadot
+                ecosystem
+              </span>
+            </MenuItem>
+            <MenuItem href="https://bounties.opensquare.io/">
+              <img src="/imgs/icons/short-term-employment.svg" alt="" />
+              <p>Bounties</p>
+              <CaretRightIcon />
+              <span>Decentralized bounty collaboration platform</span>
+            </MenuItem>
+          </HoverMenu>
         </AppWrapper>
         <IconWrapper
           onClick={() => {

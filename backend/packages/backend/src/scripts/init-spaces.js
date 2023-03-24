@@ -28,6 +28,8 @@ const { kintsugiConfig } = require("./spaces/kintsugi");
 const { litentryConfig } = require("./spaces/litentry");
 const { lksmConfig } = require("./spaces/lksm");
 const { parallelConfig } = require("./spaces/parallel");
+const { basiliskConfig } = require("./spaces/basilisk");
+const { hydradxConfig } = require("./spaces/hydradx");
 
 const spaces = [
   polkadotConfig,
@@ -52,10 +54,12 @@ const spaces = [
   shidenConfig,
   // crabConfig,
   dotsamaConfig,
-  // lksmConfig,
+  lksmConfig,
   centrifugeConfig,
   altairConfig,
   parallelConfig,
+  basiliskConfig,
+  hydradxConfig,
 ];
 
 async function main() {

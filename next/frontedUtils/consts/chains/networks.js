@@ -23,4 +23,6 @@ export const networks = Object.freeze({
   shiden: "shiden",
   altair: "altair",
   parallel: "parallel",
+  basilisk: "basilisk",
+  hydradx: "hydradx",
 });
