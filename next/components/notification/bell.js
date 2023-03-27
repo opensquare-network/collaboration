@@ -17,6 +17,10 @@ const Wrapper = styled(FlexCenter)`
   }
 
   cursor: pointer;
+
+  @media screen and (max-width: 800px) {
+    display: none;
+  }
 `;
 
 export default function NotificationBell() {
@@ -28,12 +32,10 @@ export default function NotificationBell() {
   }
 
   return (
-    <Link href="/notifications" passHref>
-      <a>
-        <Wrapper>
-          {unread ? <UnreadNotificationSVG /> : <NotificationSVG />}
-        </Wrapper>
-      </a>
-    </Link>
+    <Wrapper>
+      <Link href="/notifications" passHref>
+        <a>{unread ? <UnreadNotificationSVG /> : <NotificationSVG />}</a>
+      </Link>
+    </Wrapper>
   );
 }

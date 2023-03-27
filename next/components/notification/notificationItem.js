@@ -2,7 +2,7 @@
 
 import styled from "styled-components";
 import { p_14_medium } from "@osn/common-ui/es/styles/textStyles";
-import { Time, Card, Flex, FlexBetween, Dot } from "@osn/common-ui";
+import { Time, Flex, FlexBetween, Dot } from "@osn/common-ui";
 import {
   text_dark_minor,
   primary_turquoise_500,
@@ -13,6 +13,7 @@ import Link from "next/link";
 import { MOBILE_SIZE } from "@osn/constants";
 import { useState } from "react";
 import getSpaceConfigs from "frontedUtils/consts/spaces";
+import { OnlyDesktop, OnlyMobile } from "@osn/common-ui";
 
 const NotificationItemWrapper = styled.div`
   &:hover {
@@ -99,6 +100,10 @@ const Title = styled.p`
 const TimeWrapper = styled(Flex)`
   flex: 1;
   justify-content: flex-end;
+
+  @media screen and (max-width: ${MOBILE_SIZE}px) {
+    justify-content: flex-start;
+  }
 `;
 
 const StatusWrapper = styled(Flex)`
@@ -106,10 +111,6 @@ const StatusWrapper = styled(Flex)`
   width: 18px;
   height: 18px;
   justify-content: flex-end;
-
-  @media screen and (max-width: ${MOBILE_SIZE}px) {
-    display: none;
-  }
 `;
 
 const MarkAsReadButton = styled.button`
@@ -172,20 +173,38 @@ export default function NotificationItem({ data, onMarkAsRead = () => {} }) {
     setRead(true);
   }
 
+  const status = (
+    <StatusWrapper>
+      {!read ? (
+        <MarkAsReadButton onClick={() => handleMarkAsRead(data)}>
+          <UnreadDot className="unread-dot" />
+          <CheckIcon className="check-icon" />
+        </MarkAsReadButton>
+      ) : (
+        <div />
+      )}
+    </StatusWrapper>
+  );
+
   return (
     <NotificationItemWrapper>
       <Head>
         <TitleWrapper>
-          <img
-            width="20px"
-            height="20px"
-            className="ml-4px"
-            src={`/imgs/icons/projects/${configs.fromIcon}`}
-            alt=""
-          />
-          <Dot />
-          <Type>{EventTypeName[type]}</Type>
-          <Dot />
+          <Flex>
+            <img
+              width="20px"
+              height="20px"
+              className="ml-4px"
+              src={`/imgs/icons/projects/${configs.fromIcon}`}
+              alt=""
+            />
+            <Dot />
+            <Type>{EventTypeName[type]}</Type>
+            <OnlyMobile>{status}</OnlyMobile>
+          </Flex>
+          <OnlyDesktop>
+            <Dot />
+          </OnlyDesktop>
           <Title>
             <Link href={`/space/${space}/proposal/${proposalCid}`} passHref>
               <a>{title}</a>
@@ -198,16 +217,7 @@ export default function NotificationItem({ data, onMarkAsRead = () => {} }) {
             <Time time={createdAt} />
           </TimeWrapper>
 
-          <StatusWrapper>
-            {!read ? (
-              <MarkAsReadButton onClick={() => handleMarkAsRead(data)}>
-                <UnreadDot className="unread-dot" />
-                <CheckIcon className="check-icon" />
-              </MarkAsReadButton>
-            ) : (
-              <div />
-            )}
-          </StatusWrapper>
+          <OnlyDesktop>{status}</OnlyDesktop>
         </InfoWrapper>
       </Head>
     </NotificationItemWrapper>
