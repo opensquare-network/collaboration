@@ -6,27 +6,31 @@ const { enhancedSqrtOfBalance } = require("../../utils");
 const { getProposalCollection } = require("../../mongo");
 const { HttpError } = require("../../exc");
 const { spaces: spaceServices } = require("../../spaces");
+const { createNotification } = require("../notification");
+const { getSpaceMembers } = require("../spaceMember");
+const { logger } = require("../../utils/logger");
 
-const status = Object.freeze({
-  terminated: "terminated",
-  pending: "pending",
-  active: "active",
-  closed: "closed",
+const ProposalStatus = Object.freeze({
+  Terminated: "terminated",
+  Pending: "pending",
+  Active: "active",
+  CloseToEnd: "closeToEnd",
+  Closed: "closed",
 });
 
 function getProposalStatus(proposal = {}) {
   const { terminated, startDate, endDate } = proposal;
   if (terminated) {
-    return status.terminated;
+    return ProposalStatus.Terminated;
   }
 
   const now = Date.now();
   if (now < startDate) {
-    return status.pending;
+    return ProposalStatus.Pending;
   } else if (now < endDate) {
-    return status.active;
+    return ProposalStatus.Active;
   } else {
-    return status.closed;
+    return ProposalStatus.Closed;
   }
 }
 
@@ -86,10 +90,28 @@ async function getProposalSpaceByCid(proposalCid) {
   return spaceService;
 }
 
+async function createSpaceNotifications(space, notificationType, data) {
+  const members = await getSpaceMembers(space);
+
+  for (const member of members) {
+    const receiver = member.memberPublicKey;
+
+    try {
+      await createNotification(receiver, notificationType, data);
+    } catch (e) {
+      logger.error(
+        `Failed to create notification for ${receiver}, notificationType: ${notificationType}, error: ${e.message}`
+      );
+    }
+  }
+}
+
 module.exports = {
+  ProposalStatus,
   getProposalStatus,
   pinData,
   calcWeights,
   getProposalSpace,
   getProposalSpaceByCid,
+  createSpaceNotifications,
 };

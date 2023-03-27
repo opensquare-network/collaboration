@@ -8,6 +8,8 @@ const logger = require("koa-logger");
 const helmet = require("koa-helmet");
 const cors = require("@koa/cors");
 const { reloadSpaces } = require("./spaces");
+const socketSetup = require("./socket");
+const spaceNotify = require("./scripts/space-notify");
 
 const app = new Koa();
 
@@ -45,3 +47,6 @@ httpServer.listen(PORT, (err) => {
   if (err) throw err;
   console.log(`> Ready on http://127.0.0.1:${PORT}`);
 });
+
+socketSetup(httpServer);
+spaceNotify();

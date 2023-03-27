@@ -12,9 +12,11 @@ const spaceFeatureRoutes = [
 
 const commonFeatureRouters = [
   require("./features/spaces/routes"),
+  require("./features/space-members/routes"),
   require("./features/home/routes"),
   require("./features/chain/routes"),
   require("./features/files/routes"),
+  require("./features/notifications/routes"),
   require("./features/proposals/commonRoutes"),
 ];
 

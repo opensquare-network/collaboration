@@ -1,5 +1,5 @@
 const { getLatestHeight } = require("./chain.service");
-const { getProposalCollection } = require("../mongo");
+const { getProposalCollection, getSpaceMemberCollection } = require("../mongo");
 const { spaces: spaceServices } = require("../spaces");
 
 async function getSpaces() {
@@ -81,7 +81,50 @@ async function getSpace(space) {
   };
 }
 
+async function getSpaceMembers(space) {
+  const spaceMemberCol = await getSpaceMemberCollection();
+  const members = await spaceMemberCol.find({ space }).toArray();
+
+  return members;
+}
+
+async function addSpaceMember(space, memberPublicKey) {
+  const spaceMemberCol = await getSpaceMemberCollection();
+  const now = new Date();
+
+  await spaceMemberCol.updateOne(
+    {
+      space,
+      member: memberPublicKey,
+    },
+    {
+      $setOnInsert: {
+        createdAt: now,
+      },
+      $set: {
+        updatedAt: now,
+      }
+    },
+    {
+      upsert: true
+    }
+  );
+}
+
+async function removeSpaceMember(space, memberPublicKey) {
+  const spaceMemberCol = await getSpaceMemberCollection();
+  await spaceMemberCol.deleteOne(
+    {
+      space,
+      member: memberPublicKey,
+    }
+  );
+}
+
 module.exports = {
   getSpace,
   getSpaces,
+  getSpaceMembers,
+  addSpaceMember,
+  removeSpaceMember,
 };

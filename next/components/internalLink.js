@@ -21,7 +21,7 @@ export default function InternalLink({ href, children }) {
       }}
     >
       <Link href={href} passHref>
-        {children}
+        <div>{children}</div>
       </Link>
     </Wrapper>
   ) : (

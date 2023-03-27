@@ -4,6 +4,7 @@ import { clearCookie, getCookie, setCookie } from "frontedUtils/cookie";
 import { isAddress } from "@polkadot/util-crypto";
 import { chainConfigsMap, evmChains } from "../../frontedUtils/consts/chains";
 import encodeAddressByChain from "../../frontedUtils/chain/addr";
+import nextApi from "services/nextApi";
 
 const accountSlice = createSlice({
   name: "account",
@@ -14,6 +15,7 @@ const accountSlice = createSlice({
     proxy: null, // the proxy address
     proxyBalance: null,
     availableNetworks: [],
+    joinedSpaces: [],
   },
   reducers: {
     setAccount: (state, { payload }) => {
@@ -43,6 +45,9 @@ const accountSlice = createSlice({
     setBalance(state, { payload }) {
       state.balance = payload;
     },
+    setJoinedSpaces(state, { payload }) {
+      state.joinedSpaces = payload;
+    },
   },
 });
 
@@ -53,6 +58,7 @@ export const {
   setBalance,
   setProxyBalance,
   setUseProxy,
+  setJoinedSpaces,
 } = accountSlice.actions;
 
 export const logout = () => async (dispatch) => {
@@ -69,6 +75,7 @@ export const availableNetworksSelector = (state) =>
 export const balanceSelector = (state) => state.account.balance;
 export const proxyBalanceSelector = (state) => state.account.proxyBalance;
 export const useProxySelector = (state) => state.account.useProxy;
+export const joinedSpacesSelector = (state) => state.account.joinedSpaces;
 const rawProxySelector = (state) => state.account.proxy;
 
 export const targetBalanceSelector = createSelector(
@@ -173,5 +180,20 @@ export const canUseProxySelector = createSelector(
     return configs ? configs.hasProxy : false;
   }
 );
+
+export const fetchJoinedSpace = (address) => (dispatch) => {
+  if (!address) {
+    dispatch(setJoinedSpaces([]));
+    return;
+  }
+
+  nextApi.fetch(`account/${address}/spaces`).then(({ result }) => {
+    if (!result) {
+      return;
+    }
+
+    dispatch(setJoinedSpaces(result));
+  });
+};
 
 export default accountSlice.reducer;

@@ -1,6 +1,9 @@
 const BigNumber = require("bignumber.js");
 const { safeHtml } = require("../../utils/post");
-const { PostTitleLengthLimitation } = require("../../constants");
+const {
+  PostTitleLengthLimitation,
+  NotificationType,
+} = require("../../constants");
 const { nextPostUid } = require("../status.service");
 const { getProposalCollection } = require("../../mongo");
 const { HttpError } = require("../../exc");
@@ -9,7 +12,7 @@ const { getLatestHeight } = require("../chain.service");
 const { spaces: spaceServices } = require("../../spaces");
 const { checkDelegation } = require("../../services/node.service");
 const { getBalanceFromNetwork } = require("../../services/node.service");
-const { pinData } = require("./common");
+const { pinData, createSpaceNotifications } = require("./common");
 
 async function createProposal(
   space,
@@ -166,6 +169,12 @@ async function createProposal(
   if (!result.insertedId) {
     throw new HttpError(500, "Failed to create post");
   }
+
+  createSpaceNotifications(space, NotificationType.NewProposal, {
+    proposalCid: cid,
+    space,
+    title,
+  });
 
   return {
     cid,

@@ -1,18 +1,15 @@
 import styled, { css } from "styled-components";
 import { useCallback, useEffect, useState } from "react";
-import { ReactComponent as Plus } from "public/imgs/icons/plus.svg";
 
 import InternalLink from "./internalLink";
-import {
-  no_scroll_bar,
-  shadow_100,
-  shadow_200,
-  makeSquare,
-} from "../styles/globalCss";
-import { h3_36_bold, p_18_semibold, p_16_semibold } from "../styles/textStyles";
-import SpaceLogo from "@/components/spaceLogo";
+import { no_scroll_bar } from "../styles/globalCss";
+import { h3_36_bold, p_16_semibold } from "../styles/textStyles";
 import { useWindowSize } from "../frontedUtils/hooks";
 import { setCookie } from "frontedUtils/cookie";
+import { loginAddressSelector } from "store/reducers/accountSlice";
+import SpaceListItem from "./spaceListItem";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchJoinedSpace } from "store/reducers/accountSlice";
 
 const Title = styled.div`
   ${h3_36_bold};
@@ -42,75 +39,6 @@ const ItemsWrapper = styled.div`
     `}
 `;
 
-const Item = styled.div`
-  flex: 0 0 auto;
-  border: 1px solid #f0f3f8;
-  ${shadow_100};
-  background: #ffffff;
-  padding: 24px;
-  cursor: pointer;
-  width: 163.33px;
-
-  :hover {
-    border-color: #e2e8f0;
-    ${shadow_200}
-  }
-`;
-
-const IconWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const Icon = styled.div`
-  ${makeSquare(64)};
-  margin-bottom: 16px;
-`;
-
-const Name = styled.div`
-  white-space: nowrap;
-  ${p_18_semibold};
-  color: #2e343d;
-  text-transform: capitalize;
-`;
-
-const Symbol = styled.div`
-  font-size: 14px;
-  line-height: 24px;
-  color: #a1a8b3;
-`;
-
-const Divider = styled.div`
-  min-width: 116px;
-  height: 1px;
-  background: #f0f3f8;
-  margin: 12px 0;
-`;
-
-const ActiveWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-  line-height: 24px;
-  color: #a1a8b3;
-`;
-
-const ActiveCircle = styled.div`
-  ${makeSquare(6)};
-  border-radius: 50%;
-  background: #56ca2f;
-  margin-right: 8px;
-`;
-
-const Count = styled.span`
-  margin-left: auto;
-`;
-
-const ActiveCount = styled(Count)`
-  color: #506176;
-`;
-
 const TitleWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -130,6 +58,16 @@ const ButtonWrapper = styled.div`
 `;
 
 export default function Space({ spaces, showAllSpace }) {
+  const dispatch = useDispatch();
+  const address = useSelector(loginAddressSelector);
+
+  useEffect(() => {
+    if (!address) {
+      return;
+    }
+    dispatch(fetchJoinedSpace(address));
+  }, [dispatch, address]);
+
   const [show, setShow] = useState(showAllSpace === "1");
   const [showCount, setShowCount] = useState(6);
 
@@ -168,26 +106,7 @@ export default function Space({ spaces, showAllSpace }) {
         {(show ? sortedSpaces : sortedSpaces.slice(0, showCount)).map(
           ([name, space], index) => (
             <InternalLink href={`/space/${name}`} key={index}>
-              <Item>
-                <IconWrapper>
-                  <Icon>
-                    <SpaceLogo spaceId={name} />
-                  </Icon>
-                  <Name>{space.name}</Name>
-                  <Symbol>{space.symbol ?? "-"}</Symbol>
-                </IconWrapper>
-                <Divider />
-                <ActiveWrapper>
-                  <ActiveCircle />
-                  <InternalLink href={`/space/${name}?tab=active`}>
-                    Active
-                  </InternalLink>
-                  <Count>
-                    <ActiveCount>{space.activeProposalsCount ?? 0}</ActiveCount>
-                    /{space.proposalsCount}
-                  </Count>
-                </ActiveWrapper>
-              </Item>
+              <SpaceListItem name={name} space={space} />
             </InternalLink>
           )
         )}
