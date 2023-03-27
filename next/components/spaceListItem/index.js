@@ -111,7 +111,7 @@ export default function SpaceListItem({ name, space }) {
         dispatch(fetchJoinedSpace(address));
       }
     },
-    [address]
+    [dispatch, address]
   );
 
   const leaveSpace = useCallback(
@@ -126,7 +126,7 @@ export default function SpaceListItem({ name, space }) {
         dispatch(fetchJoinedSpace(address));
       }
     },
-    [address]
+    [dispatch, address]
   );
 
   return (

@@ -2,9 +2,7 @@ import styled, { css } from "styled-components";
 import { useCallback, useEffect, useState } from "react";
 
 import InternalLink from "./internalLink";
-import {
-  no_scroll_bar,
-} from "../styles/globalCss";
+import { no_scroll_bar } from "../styles/globalCss";
 import { h3_36_bold, p_16_semibold } from "../styles/textStyles";
 import { useWindowSize } from "../frontedUtils/hooks";
 import { setCookie } from "frontedUtils/cookie";
@@ -67,8 +65,8 @@ export default function Space({ spaces, showAllSpace }) {
     if (!address) {
       return;
     }
-    dispatch(fetchJoinedSpace(address))
-  }, [address]);
+    dispatch(fetchJoinedSpace(address));
+  }, [dispatch, address]);
 
   const [show, setShow] = useState(showAllSpace === "1");
   const [showCount, setShowCount] = useState(6);
