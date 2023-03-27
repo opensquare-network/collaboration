@@ -85,8 +85,18 @@ async function handleProposal(proposal) {
 
   // If the current status is the same as the new status, do nothing
   // Except for the active status, which can be changed to closeToEnd
-  if (currentStatus === status && status !== ProposalStatus.Active) {
-    return;
+  if (currentStatus === status) {
+    if (status !== ProposalStatus.Active) {
+      return;
+    }
+
+    // Check if the proposal is close to end
+    const now = Date.now();
+    if (now > proposal.endDate - 24 * 3600 * 1000) {
+      status = ProposalStatus.CloseToEnd;
+    } else {
+      return;
+    }
   }
 
   // If the current status is closeToEnd and the new status is active, do nothing
@@ -95,16 +105,6 @@ async function handleProposal(proposal) {
     status === ProposalStatus.Active
   ) {
     return;
-  }
-
-  if (status === ProposalStatus.Active) {
-    // Check if the proposal is close to end
-    const now = Date.now();
-    if (now > proposal.endDate - 24 * 3600 * 1000) {
-      status = ProposalStatus.CloseToEnd;
-    } else {
-      return;
-    }
   }
 
   await updateProposalStatus(proposal._id, status);
