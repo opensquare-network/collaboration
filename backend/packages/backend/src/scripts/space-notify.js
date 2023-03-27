@@ -113,14 +113,13 @@ async function handleProposal(proposal) {
 
 async function startNotify() {
   const proposalCol = await getProposalCollection();
-
-  //TODO: handle proposals with a limited number
   const proposals = await proposalCol
     .find({
       status: {
         $nin: [ProposalStatus.Closed, ProposalStatus.Terminated],
       },
     })
+    .limit(100)
     .toArray();
 
   for (const proposal of proposals) {
