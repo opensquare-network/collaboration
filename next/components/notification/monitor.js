@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setUnread, fetchUnread } from "store/reducers/notificationSlice";
-import { accountSelector } from "store/reducers/accountSlice";
+import { loginAddressSelector } from "store/reducers/accountSlice";
 import { connect } from "services/websocket";
 import { toPublicKey } from "@osn/common";
 
 export default function NotificationMonitor() {
   const dispatch = useDispatch();
-  const account = useSelector(accountSelector);
+  const address = useSelector(loginAddressSelector);
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
@@ -16,11 +16,11 @@ export default function NotificationMonitor() {
 
   // Fetch unread notifications on websocket push
   useEffect(() => {
-    if (socket && account?.address && account?.network) {
-      const publicKey = toPublicKey(account.address);
+    if (socket && address) {
+      const publicKey = toPublicKey(address);
 
       const onNotification = () => {
-        dispatch(fetchUnread(account.network, account.address));
+        dispatch(fetchUnread(address));
       };
 
       const subscribe = () => {
@@ -39,16 +39,16 @@ export default function NotificationMonitor() {
         socket.off("notification", onNotification);
       };
     }
-  }, [dispatch, socket, account?.network, account?.address]);
+  }, [dispatch, socket, address]);
 
   // Fetch unread notifications on logged in or mounted
   useEffect(() => {
-    if (!account?.address || !account?.network) {
+    if (!address) {
       dispatch(setUnread(0));
       return;
     }
-    dispatch(fetchUnread(account.network, account.address));
-  }, [dispatch, account?.address, account?.network]);
+    dispatch(fetchUnread(address));
+  }, [dispatch, address]);
 
   return null;
 }

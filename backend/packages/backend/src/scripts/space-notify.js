@@ -10,6 +10,7 @@ const {
   getProposalStatus,
   ProposalStatus,
 } = require("../services/proposal.service/common");
+const { sendNotification } = require("../socket/notification");
 
 const EventType = {
   ProposalStarted: "proposalStarted",
@@ -49,18 +50,19 @@ async function createNotificationForSpaceMembers(space, eventType, data) {
   }
 
   const notificationCol = await getNotificationCollection();
-  const bulk = notificationCol.initializeUnorderedBulkOp();
   for (const member of members) {
     // Create notification
-    bulk.insert({
+    const notification = {
       owner: member.member,
       type: eventType,
       read: false,
       createdAt: Date.now(),
       data,
-    });
+    };
+    await notificationCol.insertOne(notification);
+
+    sendNotification(notification);
   }
-  await bulk.execute();
 }
 
 async function createNotification(proposal, proposalStatus) {
@@ -75,13 +77,6 @@ async function createNotification(proposal, proposalStatus) {
     space: proposal.space,
   };
   await createNotificationForSpaceMembers(proposal.space, eventType, data);
-
-  // Update proposal status
-  const proposalCol = await getProposalCollection();
-  await proposalCol.updateOne(
-    { _id: proposal._id },
-    { $set: { status: proposalStatus } }
-  );
 }
 
 async function handleProposal(proposal) {
@@ -107,6 +102,8 @@ async function handleProposal(proposal) {
     const now = Date.now();
     if (now > proposal.endDate - 24 * 3600 * 1000) {
       status = ProposalStatus.CloseToEnd;
+    } else {
+      return;
     }
   }
 
@@ -136,15 +133,13 @@ async function startNotify() {
 }
 
 async function main() {
-  console.log(`Last send notification at:`, new Date());
-
   try {
     await startNotify();
   } catch (e) {
     console.error(e.message);
   }
+
+  setTimeout(main, 5000);
 }
 
-main()
-  .catch(console.error)
-  .then(() => process.exit());
+module.exports = main;
