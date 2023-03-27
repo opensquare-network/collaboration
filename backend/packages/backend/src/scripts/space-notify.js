@@ -119,7 +119,6 @@ async function startNotify() {
         $nin: [ProposalStatus.Closed, ProposalStatus.Terminated],
       },
     })
-    .limit(100)
     .toArray();
 
   for (const proposal of proposals) {
