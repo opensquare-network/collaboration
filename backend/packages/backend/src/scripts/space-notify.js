@@ -113,6 +113,8 @@ async function handleProposal(proposal) {
 
 async function startNotify() {
   const proposalCol = await getProposalCollection();
+
+  //TODO: limit the number of proposals to be notified in once
   const proposals = await proposalCol
     .find({
       status: {
