@@ -69,7 +69,7 @@ export default function Space({ spaces, showAllSpace }) {
   }, [dispatch, address]);
 
   const [show, setShow] = useState(showAllSpace === "1");
-  const [showCount, setShowCount] = useState(6);
+  const [showCount, setShowCount] = useState(5);
 
   const sortedSpaces = Object.entries(spaces).sort(([, a], [, b]) => {
     return b.proposalsCount - a.proposalsCount;
@@ -79,7 +79,7 @@ export default function Space({ spaces, showAllSpace }) {
 
   useEffect(() => {
     if (windowSize.width > 800) {
-      setShowCount(6);
+      setShowCount(5);
     } else {
       setShowCount(2);
     }
