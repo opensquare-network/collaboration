@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { useCallback, useEffect, useState } from "react";
 
 import InternalLink from "./internalLink";
@@ -32,11 +32,7 @@ const ItemsWrapper = styled.div`
     padding: 0 20px;
   }
 
-  ${(p) =>
-    p.show &&
-    css`
-      flex-wrap: wrap;
-    `}
+  flex-wrap: wrap;
 `;
 
 const TitleWrapper = styled.div`
@@ -102,7 +98,7 @@ export default function Space({ spaces, showAllSpace }) {
           </SpaceButton>
         </ButtonWrapper>
       </TitleWrapper>
-      <ItemsWrapper show={show}>
+      <ItemsWrapper>
         {(show ? sortedSpaces : sortedSpaces.slice(0, showCount)).map(
           ([name, space], index) => (
             <InternalLink href={`/space/${name}`} key={index}>
