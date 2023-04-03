@@ -89,7 +89,7 @@ export default function Details({ space }) {
   return (
     <Wrapper>
       <LogoWrapper>
-        <SpaceLogo spaceId={space.id} />
+        <SpaceLogo space={space} />
         <LogoName>{space.name}</LogoName>
         <LogoSymbol>{symbols.join(" + ")}</LogoSymbol>
       </LogoWrapper>

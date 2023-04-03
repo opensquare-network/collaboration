@@ -15,6 +15,8 @@ const ztgConfig = {
   voteThreshold: "100000000",
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
   version: "3",
+  spaceIcon: "zeitgeist.svg",
+  seoImage: "bafybeie36tzyj37hqwaavdibymki5vekejtp3gfmorrxxrwkrmhopo5j6y",
 };
 
 module.exports = {

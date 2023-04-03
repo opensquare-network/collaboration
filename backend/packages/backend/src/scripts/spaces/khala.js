@@ -14,6 +14,8 @@ const khalaConfig = {
   voteThreshold: "10000000000",
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
   version: "3",
+  spaceIcon: "khala.svg",
+  seoImage: "bafybeihfumdgabiha5rc2tr5gpedo4zp2z6x4phzoqdjr45pmdmbyxghlm",
 };
 
 module.exports = {

@@ -15,6 +15,8 @@ const polkadotConfig = {
   voteThreshold: "100000000",
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
   version: "3",
+  spaceIcon: "polkadot.svg",
+  seoImage: "bafybeihaby2kn5w6663ftuihg4rlx7cdmwwus745gbxl7c26uyxkcm4mq4",
 };
 
 module.exports = {

@@ -21,6 +21,8 @@ const litentryConfig = {
   voteThreshold: "10000000000",
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
   version: "3",
+  spaceIcon: "litentry.svg",
+  seoImage: "bafybeidhd2cwbkha2fybrzir2xwj3au4nagycgm3vssdvmdlw744ny4734",
 };
 
 module.exports = {

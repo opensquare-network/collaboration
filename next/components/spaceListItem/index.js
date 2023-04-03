@@ -133,7 +133,7 @@ export default function SpaceListItem({ name, space }) {
     <Wrapper>
       <IconWrapper>
         <Icon>
-          <SpaceLogo spaceId={name} />
+          <SpaceLogo space={space} />
         </Icon>
         <Name>{space.name}</Name>
         <Symbol>{space.symbol ?? "-"}</Symbol>

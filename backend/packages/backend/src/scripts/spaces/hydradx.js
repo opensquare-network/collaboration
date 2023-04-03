@@ -15,6 +15,8 @@ const hydradxConfig = {
   voteThreshold: "10000000000",
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
   version: "3",
+  spaceIcon: "hydradx.svg",
+  seoImage: "bafybeibbo36wx4t7y5hpj6dutnkxwo7rigk7vwivcblonb2aws7keervme",
 };
 
 module.exports = {

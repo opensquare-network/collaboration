@@ -26,6 +26,8 @@ const phalaConfig = {
   voteThreshold: "10000000000",
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
   version: "3",
+  spaceIcon: "phala.svg",
+  seoImage: "bafybeifj4smmnnn5t25quydmujkphoxymyylfbaxoaymszeovsejqyep5y",
 };
 
 module.exports = {

@@ -14,6 +14,8 @@ const turingConfig = {
   voteThreshold: "10000000000",
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
   version: "3",
+  spaceIcon: "turing.svg",
+  seoImage: "bafybeihacd32q2yzqgtfiryts5ih2zlqki2b2jmmaoj4qosx63atvo4g3a",
 };
 
 module.exports = {

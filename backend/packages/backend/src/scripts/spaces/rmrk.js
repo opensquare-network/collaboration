@@ -33,6 +33,8 @@ const config = {
     strategies.biasedVoting,
   ],
   version: "3",
+  spaceIcon: "rmrk.svg",
+  seoImage: "bafybeibhjq4ls327o52xm76zgabalkltmdofzku57sfjw2afsao3ud2yjq",
 };
 
 const curationConfig = {
@@ -57,6 +59,9 @@ const curationConfig = {
     strategies.biasedVoting,
   ],
   version: "3",
+  spaceIcon: "rmrk-curation.png",
+  smallSpaceIcon: "project-rmrk-curation.svg",
+  seoImage: "bafybeic42ekrlmnjdwfi3kdshqfuvo76yhugu5nbkewebnigjxxe5hqjty",
 };
 
 module.exports = {

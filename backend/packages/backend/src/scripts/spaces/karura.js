@@ -28,6 +28,8 @@ const config = {
     strategies.biasedVoting,
   ],
   version: "3",
+  spaceIcon: "karura.svg",
+  seoImage: "bafybeidqwvg6pjgcxs52ujondwclidzgvowj3osy2vegzywfcz7pzqygxy",
 };
 
 module.exports = {

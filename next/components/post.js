@@ -14,7 +14,6 @@ import PostResult from "./postResult";
 import { findNetworkConfig } from "../services/util";
 import { Flex, FlexBetween } from "@osn/common-ui";
 import { p_14_medium } from "../styles/componentCss";
-import getSpaceConfigs from "../frontedUtils/consts/spaces";
 
 const Wrapper = styled.div`
   background: #ffffff;
@@ -96,8 +95,6 @@ export default function Post({ data, showSpace, space, spaces }) {
     }
   }, [windowSize.width, setShowRichInfo]);
 
-  const configs = getSpaceConfigs(data.space);
-
   const proposerNetworkConfig = findNetworkConfig(
     data.networksConfig,
     data.proposerNetwork
@@ -126,7 +123,7 @@ export default function Post({ data, showSpace, space, spaces }) {
             <img
               width="20px"
               height="20px"
-              src={`/imgs/icons/projects/${configs.fromIcon}`}
+              src={`/imgs/icons/projects/${space.spaceIcon}`}
               alt=""
             />
           )}
@@ -138,7 +135,7 @@ export default function Post({ data, showSpace, space, spaces }) {
                 width="20px"
                 height="20px"
                 className="ml-4px"
-                src={`/imgs/icons/projects/${configs.fromIcon}`}
+                src={`/imgs/icons/projects/${space.spaceIcon}`}
                 alt=""
               />
               <InternalLink href={`/space/${data.space}`}>

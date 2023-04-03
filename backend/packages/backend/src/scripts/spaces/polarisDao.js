@@ -22,6 +22,8 @@ const polarisDaoConfig = {
     strategies.biasedVoting,
   ],
   version: "3",
+  spaceIcon: "polarisdao.svg",
+  seoImage: "bafybeiha6qqajks5sava3rdkkxbgjaexijnr4vzvsvf6xfprjei745pc3y",
 };
 
 module.exports = {

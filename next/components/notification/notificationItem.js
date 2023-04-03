@@ -12,7 +12,6 @@ import { ReactComponent as CheckIcon } from "@osn/common-ui/es/imgs/icons/check.
 import Link from "next/link";
 import { MOBILE_SIZE } from "@osn/constants";
 import { useState } from "react";
-import getSpaceConfigs from "frontedUtils/consts/spaces";
 import { OnlyDesktop, OnlyMobile } from "@osn/common-ui";
 
 const NotificationItemWrapper = styled.div`
@@ -164,8 +163,6 @@ export default function NotificationItem({ data, onMarkAsRead = () => {} }) {
     data: { space, title, proposalCid } = {},
   } = data;
 
-  const configs = getSpaceConfigs(space);
-
   const [read, setRead] = useState(_read);
 
   function handleMarkAsRead(data) {
@@ -186,18 +183,19 @@ export default function NotificationItem({ data, onMarkAsRead = () => {} }) {
     </StatusWrapper>
   );
 
+  //TODO: fix fromIcon
   return (
     <NotificationItemWrapper>
       <Head>
         <TitleWrapper>
           <Flex>
-            <img
+            {/* <img
               width="20px"
               height="20px"
               className="ml-4px"
-              src={`/imgs/icons/projects/${configs.fromIcon}`}
+              src={`/imgs/icons/projects/${space.fromIcon}`}
               alt=""
-            />
+            /> */}
             <Dot />
             <Type>{EventTypeName[type]}</Type>
             <OnlyMobile>{status}</OnlyMobile>

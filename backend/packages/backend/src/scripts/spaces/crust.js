@@ -23,6 +23,8 @@ const config = {
   voteThreshold: "1000000000000",
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
   version: "3",
+  spaceIcon: "crust.svg",
+  seoImage: "bafybeiembasna4ccja4qnod6xyrg6a67bvx7djn3zz4tdiajbav6ge3tle",
 };
 
 module.exports = {

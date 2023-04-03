@@ -100,7 +100,7 @@ export default function ListInfo({ space }) {
   return (
     <Wrapper>
       <Flex>
-        <SpaceLogo spaceId={space.id} />
+        <SpaceLogo space={space} />
         <div>
           <LogoName>{space.name}</LogoName>
           <LogoSymbol>{space.symbol}</LogoSymbol>

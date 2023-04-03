@@ -15,6 +15,8 @@ const parallelConfig = {
   voteThreshold: "100000000000",
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
   version: "3",
+  spaceIcon: "parallel.svg",
+  seoImage: "bafybeidtyeyfjpcwue2lqhogcq3ltxrkt6hqs7odlan46pamzuqesir2j4",
 };
 
 module.exports = {

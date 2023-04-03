@@ -14,6 +14,7 @@ const config = {
   voteThreshold: "1000000000",
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
   version: "3",
+  spaceIcon: "chrwna.svg",
 };
 
 module.exports = {

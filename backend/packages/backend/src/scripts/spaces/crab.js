@@ -14,6 +14,7 @@ const crabConfig = {
   voteThreshold: "10000000000",
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
   version: "3",
+  spaceIcon: "crab.svg",
 };
 
 module.exports = {

@@ -29,6 +29,8 @@ const config = {
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
   maxOptionsCount: 30,
   version: "3",
+  spaceIcon: "lksm.svg",
+  seoImage: "QmSgPB9aA4ZLre2VizBn6ufM3EAVB8aJUZC28oFkT3pm8Q",
 };
 
 module.exports = {
