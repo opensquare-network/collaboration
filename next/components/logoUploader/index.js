@@ -37,7 +37,6 @@ const Layer = styled.div`
 
 export default function LogoUploader({ imageFile, setImageFile }) {
   const inputEl = useRef();
-  const [imageDataUrl, setImageDataUrl] = useState(imageFile);
 
   const handleSelectFile = () => {
     inputEl.current.vaule = "";
@@ -63,11 +62,9 @@ export default function LogoUploader({ imageFile, setImageFile }) {
           return;
         }
 
-        setImageFile(image);
-
         var fr = new FileReader();
         fr.onload = function () {
-          setImageDataUrl(fr.result);
+          setImageFile(fr.result);
         };
         fr.readAsDataURL(image);
       }
@@ -76,13 +73,13 @@ export default function LogoUploader({ imageFile, setImageFile }) {
 
   return (
     <Wrapper>
-      {imageDataUrl && (
+      {imageFile && (
         <Layer>
           <img
             style={{ objectFit: "cover" }}
             width="100%"
             height="100%"
-            src={imageDataUrl}
+            src={imageFile}
             alt=""
           />
         </Layer>

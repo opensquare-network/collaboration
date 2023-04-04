@@ -5,6 +5,7 @@ import Sider from "./sider";
 import { useSelector } from "react-redux";
 import { currentStepSelector } from "store/reducers/newSpaceSlice";
 import Step3 from "./step3";
+import { useState } from "react";
 
 const Wrapper = styled.div`
   display: flex;
@@ -46,6 +47,8 @@ const SiderWrapper = styled.div`
 
 export default function Content() {
   const currentStep = useSelector(currentStepSelector);
+  const [imageFile, setImageFile] = useState();
+  const [name, setName] = useState("");
 
   const steps = [
     { title: "Space profile" },
@@ -55,7 +58,15 @@ export default function Content() {
 
   let stepContent = null;
   if (currentStep === 0) {
-    stepContent = <Step1 steps={steps} />;
+    stepContent = (
+      <Step1
+        steps={steps}
+        imageFile={imageFile}
+        setImageFile={setImageFile}
+        name={name}
+        setName={setName}
+      />
+    );
   } else if (currentStep === 1) {
     stepContent = <Step2 steps={steps} />;
   } else if (currentStep === 2) {
@@ -66,7 +77,7 @@ export default function Content() {
     <Wrapper>
       <MainWrapper>{stepContent}</MainWrapper>
       <SiderWrapper>
-        <Sider />
+        <Sider imageFile={imageFile} name={name} />
       </SiderWrapper>
     </Wrapper>
   );
