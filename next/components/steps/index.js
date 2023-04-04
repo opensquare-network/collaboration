@@ -10,6 +10,7 @@ export default function Steps({ steps = [], currentStep = 0 }) {
     <Wrapper>
       {steps.map((step, index) => (
         <Step
+          key={index}
           step={step}
           index={index}
           currentStep={currentStep}
