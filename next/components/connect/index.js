@@ -47,6 +47,10 @@ export default function Connect({ networks }) {
   const isEvmChain = evmChains.includes(chain?.network);
 
   useEffect(() => {
+    if (!chain) {
+      return;
+    }
+
     if (isEvmChain) {
       getMetamaskElement(chain.network).then((element) => {
         setElement(element);
@@ -94,7 +98,7 @@ export default function Connect({ networks }) {
     isEvmChain,
     chain,
     address,
-    chain.network,
+    chain?.network,
     metaMaskNetworkChangeCount,
   ]);
 
