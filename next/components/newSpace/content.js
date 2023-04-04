@@ -1,6 +1,10 @@
 import styled from "styled-components";
-import Main from "./main";
+import Step1 from "./step1";
+import Step2 from "./step2";
 import Sider from "./sider";
+import { useSelector } from "react-redux";
+import { currentStepSelector } from "store/reducers/newSpaceSlice";
+import Step3 from "./step3";
 
 const Wrapper = styled.div`
   display: flex;
@@ -41,11 +45,26 @@ const SiderWrapper = styled.div`
 `;
 
 export default function Content() {
+  const currentStep = useSelector(currentStepSelector);
+
+  const steps = [
+    { title: "Space profile" },
+    { title: "Assets" },
+    { title: "Strategies" },
+  ];
+
+  let stepContent = null;
+  if (currentStep === 0) {
+    stepContent = <Step1 steps={steps} />;
+  } else if (currentStep === 1) {
+    stepContent = <Step2 steps={steps} />;
+  } else if (currentStep === 2) {
+    stepContent = <Step3 steps={steps} />;
+  }
+
   return (
     <Wrapper>
-      <MainWrapper>
-        <Main />
-      </MainWrapper>
+      <MainWrapper>{stepContent}</MainWrapper>
       <SiderWrapper>
         <Sider />
       </SiderWrapper>
