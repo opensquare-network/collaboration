@@ -129,7 +129,7 @@ async function createProposal(
 
   const bnCreatorBalance = new BigNumber(creatorBalance?.balanceOf);
   if (bnCreatorBalance.lt(spaceService.proposeThreshold)) {
-    throw new HttpError(403, `Balance is not enough to create the proposal`);
+    throw new HttpError(403, "Balance is not enough to create the proposal");
   }
 
   const { cid, pinHash } = await pinData(data, address, signature);

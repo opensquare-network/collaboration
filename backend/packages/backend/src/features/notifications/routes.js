@@ -3,7 +3,10 @@ const notificationController = require("./notification.controller");
 
 const router = new Router();
 
-router.get("/account/:address/notifications", notificationController.getNotifications);
+router.get(
+  "/account/:address/notifications",
+  notificationController.getNotifications
+);
 
 router.get(
   "/account/:address/notifications/unread",

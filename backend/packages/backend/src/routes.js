@@ -34,7 +34,7 @@ module.exports = (app) => {
 
   for (const r of spaceFeatureRoutes) {
     router.use(
-      `/:space`,
+      "/:space",
       checkSpaceExisten,
       r.routes(),
       r.allowedMethods({ throw: true })
