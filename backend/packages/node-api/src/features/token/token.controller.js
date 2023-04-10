@@ -26,7 +26,7 @@ async function getBalanceFromApis(apis, assetId, account, blockHashOrHeight) {
   const promises = [];
   for (const api of apis) {
     promises.push(
-      getBalanceFromOneApi(api, assetId, account, blockHashOrHeight)
+      getBalanceFromOneApi(api, assetId, account, blockHashOrHeight),
     );
   }
 
@@ -57,7 +57,7 @@ class TokenController {
         apis,
         account,
         blockHashOrHeight,
-        currencyId
+        currencyId,
       );
       return;
     }
@@ -72,7 +72,7 @@ class TokenController {
         apis,
         assetId,
         account,
-        blockHashOrHeight
+        blockHashOrHeight,
       );
     } catch (e) {
       console.error("Get token balance from node fail", e);

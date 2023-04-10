@@ -96,7 +96,7 @@ export default function SpaceListItem({ name, space }) {
 
   const isSpaceJoined = useCallback(
     (spaceName) => !!joinedSpaces.find((item) => item.space === spaceName),
-    [joinedSpaces]
+    [joinedSpaces],
   );
 
   const joinSpace = useCallback(
@@ -111,7 +111,7 @@ export default function SpaceListItem({ name, space }) {
         dispatch(fetchJoinedSpace(address));
       }
     },
-    [dispatch, address]
+    [dispatch, address],
   );
 
   const leaveSpace = useCallback(
@@ -120,13 +120,13 @@ export default function SpaceListItem({ name, space }) {
         return;
       }
       const { result } = await nextApi.delete(
-        `account/${address}/spaces/${spaceName}`
+        `account/${address}/spaces/${spaceName}`,
       );
       if (result) {
         dispatch(fetchJoinedSpace(address));
       }
     },
-    [dispatch, address]
+    [dispatch, address],
   );
 
   return (

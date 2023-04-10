@@ -54,7 +54,7 @@ async function getHeightByTime(chain, apis, targetTime, lastHeightTime) {
     chain,
     apis,
     lastHeightTime,
-    targetTime
+    targetTime,
   );
   if (expectedHeight === height) {
     return lastHeightTime;

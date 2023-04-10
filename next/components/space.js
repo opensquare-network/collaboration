@@ -104,7 +104,7 @@ export default function Space({ spaces, showAllSpace }) {
             <InternalLink href={`/space/${name}`} key={index}>
               <SpaceListItem name={name} space={space} />
             </InternalLink>
-          )
+          ),
         )}
       </ItemsWrapper>
     </div>

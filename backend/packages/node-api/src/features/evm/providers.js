@@ -61,7 +61,7 @@ function initProviders() {
       ...[
         `https://eth-mainnet.alchemyapi.io/v2/${process.env.ALCHEMY_KEY}`,
         `wss://eth-mainnet.alchemyapi.io/v2/${process.env.ALCHEMY_KEY}`,
-      ]
+      ],
     );
   }
   const ethProviders = ethUrls.map((url) => createProvider(url, ethNetwork));

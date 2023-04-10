@@ -38,7 +38,7 @@ async function main() {
 
   const port = parseInt(process.env.SERVER_PORT) || 3223;
   server.listen(port, () =>
-    console.log(`✅  The server is running at http://localhost:${port}/`)
+    console.log(`✅  The server is running at http://localhost:${port}/`),
   );
 }
 

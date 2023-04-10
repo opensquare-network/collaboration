@@ -4,7 +4,7 @@ const balanceController = require("./balance.controller");
 const router = new Router();
 router.get(
   "/balance/:account/:blockHashOrHeight?",
-  balanceController.getTotalBalance
+  balanceController.getTotalBalance,
 );
 
 module.exports = router;

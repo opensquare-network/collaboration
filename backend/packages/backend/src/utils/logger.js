@@ -7,10 +7,10 @@ const backendFileCategory = "backend";
 
 log4js.configure({
   appenders: {
-    [backendFileCategory]: { type: "file", filename: `log/backend.log` },
+    [backendFileCategory]: { type: "file", filename: "log/backend.log" },
     errorFile: {
       type: "file",
-      filename: `log/errors.log`,
+      filename: "log/errors.log",
     },
     errors: {
       type: "logLevelFilter",

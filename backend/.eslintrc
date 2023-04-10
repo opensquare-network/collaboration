@@ -1,0 +1,11 @@
+{
+  "extends": ["../.eslintrc"],
+  "ignorePatterns": ["*.test.js", "__mocks__"],
+  "env": {
+    "node": true,
+    "commonjs": true
+  },
+  "parserOptions": {
+    "ecmaVersion": "latest"
+  }
+}

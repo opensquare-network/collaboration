@@ -70,13 +70,13 @@ export default function ListTab({
 }) {
   const router = useRouter();
   const activeTabIndex = LIST_TAB_ITEMS.findIndex(
-    (item) => item.value === activeTab
+    (item) => item.value === activeTab,
   );
   const [tabIndex, setTabIndex] = useState(activeTabIndex);
 
   useEffect(() => {
     const currTabIndex = LIST_TAB_ITEMS.findIndex(
-      (item) => item.value === router.query.tab
+      (item) => item.value === router.query.tab,
     );
     setTabIndex(currTabIndex >= 0 ? currTabIndex : 0);
     onActiveTab(router.query.tab);
@@ -103,7 +103,7 @@ export default function ListTab({
                   },
                 },
                 undefined,
-                { shallow: true }
+                { shallow: true },
               );
               onActiveTab(item.value);
             }}

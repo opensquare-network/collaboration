@@ -41,7 +41,6 @@ import {
 import encodeAddressByChain from "../../frontedUtils/chain/addr";
 import nextApi from "../../services/nextApi";
 import { extensionCancelled } from "../../frontedUtils/consts/extension";
-import Uploader from "@/components/uploadBanner/uploader";
 
 const Wrapper = styled.div`
   display: flex;
@@ -115,8 +114,8 @@ export default function PostCreate({ space }) {
     dispatch(
       setAvailableNetworks(
         space?.networks?.map((item) => pick(item, ["network", "ss58Format"])) ||
-          []
-      )
+          [],
+      ),
     );
   }, [dispatch, space]);
 
@@ -133,8 +132,8 @@ export default function PostCreate({ space }) {
           Object.keys(space.latestFinalizedHeights).map((network) => ({
             network,
             height: space.latestFinalizedHeights[network],
-          }))
-        )
+          })),
+        ),
       );
     }
   }, [space, dispatch]);
@@ -159,7 +158,7 @@ export default function PostCreate({ space }) {
     dispatch(setBalanceLoading(true));
     dispatch(setLoadBalanceError(""));
     delayLoading(
-      `${space.id}/${account?.network}/account/${loginAddress}/balance?snapshot=${loginNetworkSnapshot}`
+      `${space.id}/${account?.network}/account/${loginAddress}/balance?snapshot=${loginNetworkSnapshot}`,
     )
       .then(([result]) => {
         if (!isNil(result?.result?.balance)) {
@@ -232,12 +231,12 @@ export default function PostCreate({ space }) {
 
     const toastId = newToastId();
     dispatch(
-      newPendingToast(toastId, "Saving and uploading proposal to IPFS...")
+      newPendingToast(toastId, "Saving and uploading proposal to IPFS..."),
     );
     try {
       const { result, error } = await nextApi.post(
         `${proposal.space}/proposals`,
-        signedData
+        signedData,
       );
       if (result) {
         dispatch(removeToast(toastId));

@@ -1,20 +1,20 @@
 async function getTotalBalance(api, blockHeight, address) {
-  console.log(`Use mock getTotalBalance`);
+  console.log("Use mock getTotalBalance");
   return "10000000000000";
 }
 
 async function getTokenBalance(api, assetId, blockHeight, address) {
-  console.log(`Use mock getTokenBalance`);
+  console.log("Use mock getTokenBalance");
   return "10000000000000";
 }
 
 async function getChainHeight(api) {
-  console.log(`Use mock getChainHeight`);
+  console.log("Use mock getChainHeight");
   return { height: 100000 };
 }
 
 async function checkDelegation(api, delegatee, delegator, blockHeight) {
-  console.log(`Use mock checkDelegation`);
+  console.log("Use mock checkDelegation");
   return { isProxy: true };
 }
 
@@ -24,7 +24,7 @@ function getBalanceFromNetwork({
   address,
   blockHeight,
 }) {
-  console.log(`Use mock getBalanceFromNetwork`);
+  console.log("Use mock getBalanceFromNetwork");
   return "10000000000000";
 }
 

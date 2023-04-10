@@ -5,7 +5,7 @@ const router = new Router();
 
 router.get(
   "/proxy/:delegator/:delegatee/:blockHashOrHeight?",
-  proxyController.getProxyRelationship
+  proxyController.getProxyRelationship,
 );
 
 module.exports = router;

@@ -24,7 +24,7 @@ async function getTotalBalance(network, blockHeight, address) {
   const { free, reserved } = await getSystemBalance(
     network,
     blockHeight,
-    address
+    address,
   );
   return new BigNumber(free || 0).plus(reserved || 0).toString();
 }

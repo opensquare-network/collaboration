@@ -41,6 +41,7 @@ export default function Voter({
   address,
   network,
   showNetwork = true,
+  // eslint-disable-next-line
   isSafari = false,
 }) {
   const popup = (
