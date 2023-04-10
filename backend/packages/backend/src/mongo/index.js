@@ -2,7 +2,7 @@ const { connectDb } = require("../utils/db");
 
 let db = null;
 
-async function createIndex(db) {}
+async function createIndex() {}
 
 async function initDb() {
   if (!db) {

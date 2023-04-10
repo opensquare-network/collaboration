@@ -84,7 +84,7 @@ export default function Connect({ networks }) {
         <ActionBar>
           <ConnectButton address={address} network={chain.network} />
         </ActionBar>
-      </>
+      </>,
     );
   }, [
     extensionAccessible,

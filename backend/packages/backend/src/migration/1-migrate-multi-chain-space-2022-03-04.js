@@ -41,7 +41,7 @@ async function migrateSpaces() {
           identity: true,
           assetId: true,
         },
-      }
+      },
     );
   }
 }
@@ -93,7 +93,7 @@ async function migrateProposals() {
         $unset: {
           snapshotHeight: true,
         },
-      }
+      },
     );
   }
 }
@@ -105,7 +105,7 @@ async function migrateVotes() {
   const votes = await voteCol.find({}).toArray();
   for (const vote of votes) {
     const proposal = proposals.find(
-      (p) => p._id.toString() === vote.proposal.toString()
+      (p) => p._id.toString() === vote.proposal.toString(),
     );
     if (!proposal) {
       console.log(`Proposal for ${vote.cid} not found`);
@@ -133,7 +133,7 @@ async function migrateVotes() {
           version: "2",
           voterNetwork: proposalNetwork,
         },
-      }
+      },
     );
   }
 }
@@ -145,7 +145,7 @@ async function migrateComments() {
   const comments = await commentCol.find({}).toArray();
   for (const comment of comments) {
     const proposal = proposals.find(
-      (p) => p._id.toString() === comment.proposal.toString()
+      (p) => p._id.toString() === comment.proposal.toString(),
     );
     if (!proposal) {
       console.log(`Proposal for ${comment.cid} not found`);
@@ -173,7 +173,7 @@ async function migrateComments() {
           version: "2",
           commenterNetwork: proposalNetwork,
         },
-      }
+      },
     );
   }
 }

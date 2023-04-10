@@ -25,7 +25,7 @@ async function startPin() {
 async function main() {
   try {
     await startPin();
-    console.log(`Last pin at:`, new Date());
+    console.log("Last pin at:", new Date());
     process.exit(0);
   } catch (e) {
     console.error(e);

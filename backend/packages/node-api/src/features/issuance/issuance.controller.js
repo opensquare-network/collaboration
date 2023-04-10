@@ -17,7 +17,7 @@ class IssuanceController {
     if (tokenConfig.isChain && tokenConfig.isNative) {
       const totalIssuance = await queryNativeTokenIssuance(
         tokenConfig.chain,
-        blockHashOrHeight
+        blockHashOrHeight,
       );
       ctx.body = { totalIssuance };
       return;
@@ -26,7 +26,7 @@ class IssuanceController {
     if (tokenConfig.isOrml) {
       const totalIssuance = await queryOrmlTokenIssuance(
         tokenConfig,
-        blockHashOrHeight
+        blockHashOrHeight,
       );
       ctx.body = { totalIssuance };
       return;
@@ -39,7 +39,7 @@ class IssuanceController {
     ) {
       const totalIssuance = await queryStatemineAssetIssuance(
         tokenConfig,
-        blockHashOrHeight
+        blockHashOrHeight,
       );
       ctx.body = { totalIssuance };
       return;

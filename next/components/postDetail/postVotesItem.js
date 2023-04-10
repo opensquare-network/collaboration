@@ -172,7 +172,7 @@ export default function PostVotes({
                 {data.choices.map((choice) => (
                   <span key={choice}>{`# ${getChoiceIndex(
                     choices,
-                    choice
+                    choice,
                   )}`}</span>
                 ))}
               </Choices>

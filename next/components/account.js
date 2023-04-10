@@ -154,16 +154,6 @@ const DarkButton = styled(ButtonPrimary)`
   }
 `;
 
-const Shade = styled.div`
-  @media screen and (min-width: 800px) {
-    display: none;
-  }
-  width: 100vw;
-  height: 100vh;
-  background: black;
-  opacity: 0.4;
-`;
-
 function Account({ networks }) {
   const dispatch = useDispatch();
   const windowSize = useWindowSize();

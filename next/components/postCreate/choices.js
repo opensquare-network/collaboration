@@ -48,7 +48,7 @@ export default function Choices({ maxOptionsCount, choices, setChoices }) {
       choices.map((item, id) => {
         if (index === id) return value;
         return item;
-      })
+      }),
     );
   };
 

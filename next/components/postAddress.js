@@ -203,7 +203,7 @@ export default function PostAddress({ spaceId, size, snapshot }) {
     dispatch(setProxyBalanceLoading(true));
     dispatch(setLoadBalanceError(""));
     delayLoading(
-      `${spaceId}/${network}/account/${proxyAddress}/balance?snapshot=${accountSnapshot}`
+      `${spaceId}/${network}/account/${proxyAddress}/balance?snapshot=${accountSnapshot}`,
     )
       .then(([result]) => {
         if (!isNil(result?.result?.balance)) {

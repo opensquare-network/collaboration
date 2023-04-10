@@ -7,7 +7,7 @@ async function terminate(
   terminatorNetwork,
   data,
   address,
-  signature
+  signature,
 ) {
   const proposalCol = await getProposalCollection();
   const proposal = await proposalCol.findOne({ cid: proposalCid });
@@ -40,7 +40,7 @@ async function terminate(
           terminatedAt: now,
         },
       },
-    }
+    },
   );
 
   return {

@@ -29,7 +29,7 @@ async function main() {
   while (true) {
     try {
       await startPin();
-      console.log(`Last pin at:`, new Date());
+      console.log("Last pin at:", new Date());
     } catch (e) {
       console.error(e);
     }

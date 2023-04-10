@@ -139,7 +139,7 @@ export default function Details({ space }) {
                   <DetailsNetwork>
                     <Tooltip
                       content={`1 ${symbol} = ${voteText(
-                        symbolMultiplier[symbol] ?? 1
+                        symbolMultiplier[symbol] ?? 1,
                       )}`}
                     >
                       {`${symbol}${

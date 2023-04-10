@@ -128,11 +128,11 @@ export default function Popup({ data, space, isTop }) {
   const vote = votes[data?.cid];
   const total = vote?.reduce(
     (pre, cur) => BigNumber(pre).plus(BigNumber(cur.balanceOf ?? 0)),
-    0
+    0,
   );
   const voteCount = vote?.reduce(
     (pre, cur) => pre + Number(cur.votesCount ?? 0),
-    0
+    0,
   );
 
   const results = (data?.choices || []).map((choice, index) => {

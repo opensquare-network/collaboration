@@ -18,16 +18,16 @@ router.get("/proposal/:proposalCid/comments", proposalController.getComments);
 router.get("/proposal/:proposalCid/votes", proposalController.getVotes);
 router.get(
   "/proposal/:proposalCid/votes/:address",
-  proposalController.getAddressVote
+  proposalController.getAddressVote,
 );
 router.get(
   "/proposal/:proposalCid/votes/network/:network/address/:address",
-  proposalController.getVoteByNetworkAddress
+  proposalController.getVoteByNetworkAddress,
 );
 router.get("/proposal/:proposalCid/stats", proposalController.getStats);
 router.get(
   "/proposal/:proposalCid/voterbalance/:network/:address",
-  proposalController.getVoterBalance
+  proposalController.getVoterBalance,
 );
 
 module.exports = router;

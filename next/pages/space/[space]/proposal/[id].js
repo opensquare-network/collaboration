@@ -36,9 +36,9 @@ export default function Index({
     dispatch(
       setAvailableNetworks(
         detail?.networksConfig?.networks?.map((item) =>
-          pick(item, ["network", "ss58Format"])
-        ) || []
-      )
+          pick(item, ["network", "ss58Format"]),
+        ) || [],
+      ),
     );
   }, [dispatch, detail]);
 
@@ -137,7 +137,7 @@ export async function getServerSideProps(context) {
     discussionPage === "last" ? "last" : parseInt(discussionPage) || 1;
 
   const { result: detail } = await ssrNextApi.fetch(
-    `${spaceId}/proposal/${id}`
+    `${spaceId}/proposal/${id}`,
   );
 
   if (!detail) {
@@ -168,7 +168,7 @@ export async function getServerSideProps(context) {
     const [network, address] = cookieValue.split("/");
     const encodedAddress = encodeAddressByChain(address, network);
     const result = await ssrNextApi.fetch(
-      `${spaceId}/proposal/${detail?.cid}/votes/network/${network}/address/${encodedAddress}`
+      `${spaceId}/proposal/${detail?.cid}/votes/network/${network}/address/${encodedAddress}`,
     );
     myVote = result.result ?? null;
   }

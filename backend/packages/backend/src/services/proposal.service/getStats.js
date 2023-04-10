@@ -16,7 +16,7 @@ async function getStats(proposalCid) {
   const voteCol = await getVoteCollection();
   const votes = await voteCol.find(q).toArray();
   const calculatedVotes = votes.map((v) =>
-    calcWeights(v, spaceService.decimals, spaceService.voteThreshold)
+    calcWeights(v, spaceService.decimals, spaceService.voteThreshold),
   );
   const stats = Object.fromEntries(
     proposal.choices.map((choice) => [
@@ -27,7 +27,7 @@ async function getStats(proposalCid) {
         quadraticBalanceOf: "0",
         votesCount: 0,
       },
-    ])
+    ]),
   );
   for (const vote of calculatedVotes) {
     for (const choice of vote.choices) {
@@ -36,7 +36,7 @@ async function getStats(proposalCid) {
         .plus(vote.weights.balanceOf)
         .toString();
       weights.quadraticBalanceOf = new BigNumber(
-        weights.quadraticBalanceOf || 0
+        weights.quadraticBalanceOf || 0,
       )
         .plus(vote.weights.quadraticBalanceOf)
         .toString();
@@ -53,7 +53,7 @@ async function getStats(proposalCid) {
       proposal.snapshotHeights[tokenParentChain[spaceService.symbol]];
     let totalIssuance = await getTotalIssuance(
       spaceService.symbol,
-      blockHeight
+      blockHeight,
     );
     calcBiasedVotingResult(proposal, stats, totalIssuance);
   }
@@ -69,13 +69,13 @@ function calcBiasedVotingResult(proposal, stats, totalIssuance) {
     ayeChoice.balanceOf || 0,
     nayChoice.balanceOf || 0,
     "SuperMajorityApprove",
-    totalIssuance
+    totalIssuance,
   );
   const superMajorityAgainst = calcPassing(
     ayeChoice.balanceOf || 0,
     nayChoice.balanceOf || 0,
     "SuperMajorityAgainst",
-    totalIssuance
+    totalIssuance,
   );
 
   ayeChoice.biasedVoting = {

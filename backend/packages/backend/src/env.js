@@ -7,7 +7,7 @@ const LOCAL_IPFS_NODE_URL =
 const IPFS_ENDPOINT =
   process.env.IPFS_ENDPOINT || "https://ipfs.infura.io/ipfs/";
 const USE_LOCAL_IFPS_NODE = ["true", "True", "TRUE", "1"].includes(
-  process.env.USE_LOCAL_IFPS_NODE
+  process.env.USE_LOCAL_IFPS_NODE,
 );
 
 module.exports = {

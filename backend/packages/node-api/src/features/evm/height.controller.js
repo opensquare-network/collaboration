@@ -38,7 +38,7 @@ async function getHeightByTime(chain, targetTime, lastHeightTime) {
   const { height: expectedHeight, time: expectedTime } = await getExpected(
     chain,
     lastHeightTime,
-    targetTime
+    targetTime,
   );
   if (expectedHeight === height) {
     return lastHeightTime;
@@ -55,7 +55,7 @@ async function getTargetHeight(ctx) {
   const targetTime = timestamp || String(new Date().getTime());
 
   if (!/^\d+$/.test(targetTime)) {
-    ctx.throw(400, `Invalid time`);
+    ctx.throw(400, "Invalid time");
     return;
   }
 
