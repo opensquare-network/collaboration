@@ -64,6 +64,7 @@ export default function Content() {
     lightness: 50,
   });
   const logoImage = imageFile || defaultLogo;
+  const [assets, setAssets] = useState([]);
 
   const steps = [
     { title: "Space profile" },
@@ -83,7 +84,7 @@ export default function Content() {
       />
     );
   } else if (currentStep === 1) {
-    stepContent = <Step2 steps={steps} />;
+    stepContent = <Step2 steps={steps} assets={assets} setAssets={setAssets} />;
   } else if (currentStep === 2) {
     stepContent = <Step3 steps={steps} />;
   }

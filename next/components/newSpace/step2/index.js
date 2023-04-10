@@ -8,13 +8,15 @@ import {
 } from "store/reducers/newSpaceSlice";
 import { MyPanel, MyDivider, Sections } from "../styled";
 import BackButton from "../backButton";
+import NewAssetButton from "./newAssetButton";
+import Asset from "./asset";
 
 const ButtonsWrapper = styled.div`
   display: flex;
   gap: 20px;
 `;
 
-export default function Step2({ steps }) {
+export default function Step2({ steps, assets, setAssets }) {
   const dispatch = useDispatch();
   const currentStep = useSelector(currentStepSelector);
 
@@ -22,7 +24,16 @@ export default function Step2({ steps }) {
     <MyPanel>
       <Steps steps={steps} currentStep={currentStep} />
       <MyDivider />
-      <Sections></Sections>
+      <Sections>
+        {assets?.map((asset) => (
+          <Asset />
+        ))}
+      </Sections>
+      <MyDivider />
+      <Sections>
+        <NewAssetButton onClick={() => setAssets((value) => [...value, {}])} />
+      </Sections>
+      <MyDivider />
       <ButtonsWrapper>
         <BackButton />
         <Button block onClick={() => dispatch(setCurrentStep(2))}>
