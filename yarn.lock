@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@osn/eslint-config@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@osn/eslint-config/-/eslint-config-1.0.1.tgz#db14a9f60003be15bd923aabe3b2ccaf6c49500b"
+  integrity sha512-MfiUbarV/bQvbzpQmeQj434qS3h7gjph357dGHk6ljARLGl/BtZOPwC1LuepT66cNU9sh97BzM/WwEVYcBeZlg==
+
 "@types/minimatch@^3.0.3":
   version "3.0.5"
   resolved "https://registry.npmmirror.com/@types/minimatch/-/minimatch-3.0.5.tgz#1001cc5e6a3704b83c236027e77f2f58ea010f40"
