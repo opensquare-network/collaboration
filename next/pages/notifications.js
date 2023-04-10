@@ -39,15 +39,17 @@ export default function Index({ allNetworks }) {
   const [page, setPage] = useState(1);
   const account = useSelector(accountSelector);
   const [tab, setTab] = useState("notifications");
-  const { isLoading, notifications, refresh } = useNotifications({ page, pageSize });
+  const { isLoading, notifications, refresh } = useNotifications({
+    page,
+    pageSize,
+  });
 
   useEffect(() => {
-    dispatch(
-      setAvailableNetworks(allNetworks || [])
-    );
+    dispatch(setAvailableNetworks(allNetworks || []));
   }, [dispatch, allNetworks]);
 
-  const desc = `A list of notifications showing events happening in spaces you've joined.`;
+  const desc =
+    "A list of notifications showing events happening in spaces you've joined.";
   return (
     <>
       <Seo desc={desc} />
@@ -91,7 +93,7 @@ export default function Index({ allNetworks }) {
                         dispatch(
                           clearUnread(account.address, {
                             items: [data._id],
-                          }),
+                          })
                         );
                       }}
                     />
@@ -113,10 +115,8 @@ export default function Index({ allNetworks }) {
 }
 
 export async function getServerSideProps(context) {
-  const [
-    { result: allNetworks },
-  ] = await Promise.all([
-    ssrNextApi.fetch(`networks`),
+  const [{ result: allNetworks }] = await Promise.all([
+    ssrNextApi.fetch("networks"),
   ]);
 
   return {
