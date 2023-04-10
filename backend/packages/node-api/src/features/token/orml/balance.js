@@ -28,7 +28,7 @@ async function queryOrmlTokenAccountsFromApis(
   apis,
   account,
   blockHashOrHeight,
-  currency
+  currency,
 ) {
   const promises = [];
 

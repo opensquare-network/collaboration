@@ -28,7 +28,7 @@ async function getKintBalanceFromOneApi(
   api,
   address,
   blockHashOrHeight,
-  chain
+  chain,
 ) {
   let blockApi = await getBlockApi(api, blockHashOrHeight);
 
@@ -51,7 +51,7 @@ async function getBalanceFromApis(apis, account, blockHashOrHeight, chain) {
   for (const api of apis) {
     if ([chains.kintsugi, chains.interlay].includes(chain)) {
       promises.push(
-        getKintBalanceFromOneApi(api, account, blockHashOrHeight, chain)
+        getKintBalanceFromOneApi(api, account, blockHashOrHeight, chain),
       );
     } else {
       promises.push(getBalanceFromOneApi(api, account, blockHashOrHeight));
@@ -76,7 +76,7 @@ class BalanceController {
         apis,
         account,
         blockHashOrHeight,
-        chain
+        chain,
       );
     } catch (e) {
       console.error("Get balance from node fail", e);
