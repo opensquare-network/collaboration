@@ -1,0 +1,41 @@
+name: backend ci
+
+on:
+  push:
+    branches: ["main", "release-*"]
+    paths:
+      - "!next/**"
+  pull_request:
+    branches: ["main", "release-*"]
+    paths:
+      - "!next/**"
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup node LTS
+        uses: actions/setup-node@v3
+        with:
+          node-version: lts/*
+
+      - name: install
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install # will run `yarn install` command
+          dir: backend
+
+      - name: server lint
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: workspace @collaboration/voting-server lint
+          dir: backend
+
+      - name: node api lint
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: workspace @collaboration/node-api lint
+          dir: backend
