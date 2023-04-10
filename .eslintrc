@@ -1,0 +1,10 @@
+{
+  "root": true,
+  "extends": ["eslint:recommended", "@osn"],
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true,
+    "commonjs": true
+  }
+}
