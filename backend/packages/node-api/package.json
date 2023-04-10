@@ -5,7 +5,7 @@
   "scripts": {},
   "dependencies": {
     "@koa/cors": "^3.1.0",
-    "@osn/polkadot-api-container": "1.1.4",
+    "@osn/polkadot-api-container": "1.1.7",
     "bignumber.js": "^9.0.1",
     "dotenv": "^10.0.0",
     "ethers": "^5.6.1",
