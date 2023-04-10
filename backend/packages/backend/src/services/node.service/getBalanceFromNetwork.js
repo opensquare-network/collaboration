@@ -139,7 +139,7 @@ async function getAssetBalanceFromNetwork({
 }) {
   if ("erc20" === type) {
     const { balance } = await getEvmAddressBalance(
-      network,
+      networkName,
       contract,
       address,
       blockHeight
