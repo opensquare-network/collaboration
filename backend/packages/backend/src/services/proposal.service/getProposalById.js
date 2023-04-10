@@ -46,7 +46,7 @@ async function getProposalById(proposalId) {
 
   const votes = await voteCol.find({ proposal: proposal._id }).toArray();
   const calculatedVotes = votes.map((v) =>
-    calcWeights(v, decimals, voteThreshold)
+    calcWeights(v, decimals, voteThreshold),
   );
   const votedWeights = {};
   for (const vote of calculatedVotes) {
@@ -54,7 +54,7 @@ async function getProposalById(proposalId) {
       .plus(vote.weights.balanceOf)
       .toString();
     votedWeights.quadraticBalanceOf = new BigNumber(
-      votedWeights.quadraticBalanceOf || 0
+      votedWeights.quadraticBalanceOf || 0,
     )
       .plus(vote.weights.quadraticBalanceOf)
       .toString();

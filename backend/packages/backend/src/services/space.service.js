@@ -71,8 +71,8 @@ async function getSpace(space) {
       (spaceService.networks || []).map(async (network) => [
         network.network,
         await getLatestHeight(network.network),
-      ])
-    )
+      ]),
+    ),
   );
 
   return {
@@ -107,7 +107,7 @@ async function addSpaceMember(space, memberPublicKey) {
     },
     {
       upsert: true,
-    }
+    },
   );
 }
 

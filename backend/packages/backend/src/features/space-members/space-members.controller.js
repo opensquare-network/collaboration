@@ -20,7 +20,7 @@ async function joinSpace(ctx) {
   const memberPublicKey = toPublicKey(address);
   const result = await spaceMemberService.addSpaceMember(
     space,
-    memberPublicKey
+    memberPublicKey,
   );
 
   ctx.body = { result };
@@ -32,7 +32,7 @@ async function leaveSpace(ctx) {
   const memberPublicKey = toPublicKey(address);
   const result = await spaceMemberService.removeSpaceMember(
     space,
-    memberPublicKey
+    memberPublicKey,
   );
 
   ctx.body = { result };

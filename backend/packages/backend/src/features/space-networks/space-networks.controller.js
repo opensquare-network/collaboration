@@ -26,7 +26,7 @@ async function getNetworkHeights(ctx) {
   const chainHeights = await Promise.all(promises);
   ctx.body = chainHeights.reduce(
     (result, item) => ({ ...result, ...item }),
-    {}
+    {},
   );
 }
 

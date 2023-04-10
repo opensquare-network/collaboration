@@ -13,8 +13,8 @@ const [ipfsClient] = getClients(
   new ClientOptions(
     INFURA_PROJECT_ID,
     INFURA_PROJECT_SECRET,
-    LOCAL_IPFS_NODE_URL
-  )
+    LOCAL_IPFS_NODE_URL,
+  ),
 );
 
 async function ipfsAddJson(data) {

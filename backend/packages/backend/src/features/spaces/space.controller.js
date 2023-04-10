@@ -22,7 +22,7 @@ async function getAllNetworks(ctx) {
   }
 
   ctx.body = Object.values(allNetworks).map((item) =>
-    pick(item, ["network", "ss58Format"])
+    pick(item, ["network", "ss58Format"]),
   );
 }
 

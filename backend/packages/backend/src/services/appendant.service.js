@@ -9,7 +9,7 @@ async function addAppendant(
   appenderNetwork,
   data,
   address,
-  signature
+  signature,
 ) {
   const proposalCol = await getProposalCollection();
   const proposal = await proposalCol.findOne({ cid: proposalCid });

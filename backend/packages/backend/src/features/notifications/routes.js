@@ -5,17 +5,17 @@ const router = new Router();
 
 router.get(
   "/account/:address/notifications",
-  notificationController.getNotifications
+  notificationController.getNotifications,
 );
 
 router.get(
   "/account/:address/notifications/unread",
-  notificationController.getUnreadNotificationsCount
+  notificationController.getUnreadNotificationsCount,
 );
 
 router.post(
   "/account/:address/notifications/clearunread",
-  notificationController.clearUnreadNotifications
+  notificationController.clearUnreadNotifications,
 );
 
 module.exports = router;

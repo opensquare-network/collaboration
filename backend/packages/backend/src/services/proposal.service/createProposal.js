@@ -29,7 +29,7 @@ async function createProposal(
   banner,
   data,
   address,
-  signature
+  signature,
 ) {
   if (title.length > PostTitleLengthLimitation) {
     throw new HttpError(400, {
@@ -46,7 +46,7 @@ async function createProposal(
   if (endDate < now.getTime()) {
     throw new HttpError(
       400,
-      "End date should not be earlier than current time"
+      "End date should not be earlier than current time",
     );
   }
 
@@ -66,7 +66,7 @@ async function createProposal(
   if (choices.length > spaceService.maxOptionsCount) {
     throw new HttpError(
       400,
-      `Too many options, support up to ${maxOptionsCount} options`
+      `Too many options, support up to ${maxOptionsCount} options`,
     );
   }
 
@@ -98,10 +98,10 @@ async function createProposal(
       if (lastHeight && snapshotHeights[chain] > lastHeight) {
         throw new HttpError(
           400,
-          `Snapshot height should not be higher than the current finalized height: ${chain}`
+          `Snapshot height should not be higher than the current finalized height: ${chain}`,
         );
       }
-    })
+    }),
   );
 
   const networksConfig = {

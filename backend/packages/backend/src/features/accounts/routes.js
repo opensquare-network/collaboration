@@ -5,7 +5,7 @@ const router = new Router();
 
 router.get(
   "/:network/account/:address/balance",
-  accountController.getSpaceAccountBalance
+  accountController.getSpaceAccountBalance,
 );
 
 module.exports = router;

@@ -37,7 +37,7 @@ module.exports = (app) => {
       "/:space",
       checkSpaceExisten,
       r.routes(),
-      r.allowedMethods({ throw: true })
+      r.allowedMethods({ throw: true }),
     );
   }
   app.use(router.routes());

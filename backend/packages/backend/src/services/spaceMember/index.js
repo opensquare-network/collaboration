@@ -35,7 +35,7 @@ async function addSpaceMember(space, memberPublicKey) {
     },
     {
       upsert: true,
-    }
+    },
   );
 
   return true;
