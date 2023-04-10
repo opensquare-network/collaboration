@@ -1,6 +1,6 @@
 {
   "extends": ["../.eslintrc"],
-  "ignorePatterns": ["*.test.js"],
+  "ignorePatterns": ["*.test.js", "__mocks__"],
   "env": {
     "node": true,
     "commonjs": true
