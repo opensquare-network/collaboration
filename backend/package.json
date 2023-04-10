@@ -15,5 +15,9 @@
   },
   "repository": "git@github.com:opensquare-network/collaboration.git",
   "author": "OpenSquare <https://www.opensquare.network/>",
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "eslint": "^8.38.0",
+    "eslint-config-next": "11.1.2"
+  }
 }
