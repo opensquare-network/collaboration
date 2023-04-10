@@ -27,7 +27,7 @@ async function upload(ctx) {
   if (file.size > 10 * Megabyte) {
     throw new HttpError(
       400,
-      t("The upload file has exceeded the size limitation"),
+      "The upload file has exceeded the size limitation",
     );
   }
 

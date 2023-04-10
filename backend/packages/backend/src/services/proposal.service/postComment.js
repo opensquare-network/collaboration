@@ -2,6 +2,7 @@ const { safeHtml } = require("../../utils/post");
 const { getProposalCollection, getCommentCollection } = require("../../mongo");
 const { HttpError } = require("../../exc");
 const { ContentType } = require("../../constants");
+const { pinData } = require("./common");
 
 async function postComment(
   proposalCid,

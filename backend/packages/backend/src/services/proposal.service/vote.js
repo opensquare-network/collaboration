@@ -28,8 +28,10 @@ async function vote(
     throw new HttpError(400, "Can vote single choice only");
   }
 
-  if (choices.some((choice) => !proposal.choices?.includes(choice))) {
-    throw new HttpError(400, `Invalid choice: ${choice}`);
+  for (const choice of choices) {
+    if (!proposal.choices?.includes(choice)) {
+      throw new HttpError(400, `Invalid choice: ${choice}`);
+    }
   }
 
   const now = new Date();

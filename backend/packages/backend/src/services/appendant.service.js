@@ -1,3 +1,4 @@
+const { HttpError } = require("../exc");
 const { getProposalCollection, getAppendantCollection } = require("../mongo");
 const { isSamePublicKey } = require("../utils");
 const { pinData } = require("./proposal.service/common");

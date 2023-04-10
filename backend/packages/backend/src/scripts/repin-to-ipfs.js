@@ -1,3 +1,4 @@
+/*eslint no-constant-condition: ["error", { "checkLoops": false }]*/
 const dotenv = require("dotenv");
 dotenv.config();
 
