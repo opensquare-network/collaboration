@@ -7,6 +7,96 @@ const { toDecimal128 } = require("../../utils");
 const { getBalanceFromNetwork } = require("../../services/node.service");
 const { ChoiceType } = require("../../constants");
 const { pinData } = require("./common");
+const { getBeenDelegated } = require("../node.service/getBeenDelegated");
+const { adaptBalance } = require("../../utils/balance");
+
+async function addDelegatedVotes({
+  proposal,
+  snapshotHeight,
+  voter,
+  voterNetwork,
+  choices,
+  remark,
+  data,
+  address,
+  signature,
+  cid,
+  pinHash,
+  now,
+}) {
+  if (voterNetwork !== "centrifuge") {
+    return;
+  }
+
+  const networksConfig = proposal.networksConfig;
+
+  const baseSymbol = networksConfig?.symbol;
+  const baseDecimals = networksConfig?.decimals;
+  const networkCfg = networksConfig?.networks?.find(
+    (n) => n.network === voterNetwork
+  );
+  const asset = networkCfg?.assets?.find((asset) => asset.symbol === "CFG");
+
+  const symbol = asset?.symbol ?? networkCfg?.symbol ?? baseSymbol;
+  const decimals = asset?.decimals ?? networkCfg?.decimals ?? baseDecimals;
+  const multiplier = asset?.multiplier ?? networkCfg?.multiplier ?? 1;
+
+  const beenDelegated = await getBeenDelegated(
+    voterNetwork,
+    snapshotHeight,
+    voter
+  );
+
+  for (const { delegator, balance } of beenDelegated) {
+    const detail = {
+      symbol,
+      decimals,
+      balance,
+      multiplier,
+    };
+
+    const balanceOf =
+      adaptBalance(balance, decimals, baseDecimals) * multiplier;
+
+    const voteCol = await getVoteCollection();
+    await voteCol.findOneAndUpdate(
+      {
+        proposal: proposal._id,
+        voter: delegator,
+        voterNetwork,
+      },
+      {
+        $set: {
+          choices,
+          remark,
+          data,
+          address,
+          signature,
+          updatedAt: now,
+          cid,
+          pinHash,
+          weights: {
+            balanceOf: toDecimal128(balanceOf),
+            details: [detail],
+          },
+          // Version 2: multiple network space support
+          // Version 3: multiple choices support
+          // Version 4: multi-assets network
+          version: "4",
+          isDelegate: true,
+          delegatee: voter,
+        },
+        $setOnInsert: {
+          createdAt: now,
+        },
+      },
+      {
+        upsert: true,
+        returnDocument: "after",
+      }
+    );
+  }
+}
 
 async function vote(
   proposalCid,
@@ -53,8 +143,8 @@ async function vote(
     throw new HttpError(400, "Voter network is not supported by this proposal");
   }
 
+  const snapshotHeight = proposal.snapshotHeights?.[voterNetwork];
   if (realVoter && realVoter !== address) {
-    const snapshotHeight = proposal.snapshotHeights?.[voterNetwork];
     await checkDelegation(voterNetwork, address, realVoter, snapshotHeight);
   }
 
@@ -64,7 +154,7 @@ async function vote(
     networksConfig: proposal.networksConfig,
     networkName: voterNetwork,
     address: voter,
-    blockHeight: proposal.snapshotHeights?.[voterNetwork],
+    blockHeight: snapshotHeight,
   });
 
   const balanceOf = networkBalance?.balanceOf;
@@ -129,6 +219,21 @@ async function vote(
       },
     }
   );
+
+  await addDelegatedVotes({
+    proposal,
+    snapshotHeight,
+    voter: /*realVoter*/ "4e4aLfkykCknU4p87nDcYyY5Kf9ZP31ijurvxEUgwa7F44qr",
+    voterNetwork,
+    choices,
+    remark,
+    data,
+    address,
+    signature,
+    cid,
+    pinHash,
+    now,
+  });
 
   return result.value?._id;
 }

@@ -1,5 +1,6 @@
 const { HttpError } = require("../../exc");
 const { adaptBalance } = require("../../utils/balance");
+const { getBeenDelegated } = require("./getBeenDelegated");
 const { getEvmAddressBalance } = require("./getEvmAddressBalance");
 const { getTokenBalance } = require("./getTokenBalance");
 const { getTotalBalance } = require("./getTotalBalance");
@@ -154,6 +155,16 @@ async function getAssetBalanceFromNetwork({
     balance = await getTokenBalance(networkName, symbol, blockHeight, address);
   } else {
     balance = await getTotalBalance(networkName, blockHeight, address);
+    if (networkName === "centrifuge") {
+      const beenDelegated = await getBeenDelegated(
+        networkName,
+        blockHeight,
+        address
+      );
+      for (const { balance: delegatedBalance } of beenDelegated) {
+        balance = new BigNumber(balance).minus(delegatedBalance);
+      }
+    }
   }
 
   return balance;
