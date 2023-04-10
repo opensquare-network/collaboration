@@ -149,7 +149,7 @@ export default function PostVote({ proposal, threshold = 0 }) {
       nextApi
         .fetch(
           `${proposal.space}/proposal/${proposal.cid}/voterbalance/${loginNetwork}/${loginAddress}`,
-          { snapshot }
+          { snapshot },
         )
         .then((response) => {
           setBalance(response?.result?.balanceOf);
@@ -184,7 +184,7 @@ export default function PostVote({ proposal, threshold = 0 }) {
     setIsLoading(true);
     try {
       const choices = choiceIndexes.map(
-        (choiceIndex) => proposal?.choices?.[choiceIndex]
+        (choiceIndex) => proposal?.choices?.[choiceIndex],
       );
 
       signedData = await viewfunc.signVote(
@@ -194,7 +194,7 @@ export default function PostVote({ proposal, threshold = 0 }) {
         remark,
         loginAddress,
         useProxy ? proxyAddress : undefined,
-        loginNetwork
+        loginNetwork,
       );
     } catch (error) {
       const errorMessage = error.message;
@@ -208,7 +208,7 @@ export default function PostVote({ proposal, threshold = 0 }) {
 
     const toastId = newToastId();
     dispatch(
-      newPendingToast(toastId, "Saving and uploading the vote to IPFS...")
+      newPendingToast(toastId, "Saving and uploading the vote to IPFS..."),
     );
     let result;
     try {
@@ -233,13 +233,13 @@ export default function PostVote({ proposal, threshold = 0 }) {
 
   const networkConfig = findNetworkConfig(
     proposal.networksConfig,
-    loginNetwork
+    loginNetwork,
   );
 
   const onClickChoice = (index) => {
     if (choiceIndexes.includes(index)) {
       setChoiceIndexes(
-        choiceIndexes.filter((choiceIndex) => choiceIndex !== index)
+        choiceIndexes.filter((choiceIndex) => choiceIndex !== index),
       );
     } else {
       if (proposal.choiceType === "single") {
@@ -295,9 +295,9 @@ export default function PostVote({ proposal, threshold = 0 }) {
                       bigNumber2Locale(
                         fromAssetUnit(
                           voteBalance,
-                          proposal?.networksConfig?.decimals
-                        )
-                      )
+                          proposal?.networksConfig?.decimals,
+                        ),
+                      ),
                     )} ${proposal.networksConfig?.symbol}`}
                   </Tooltip>
                 </div>

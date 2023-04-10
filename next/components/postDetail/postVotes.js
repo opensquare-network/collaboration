@@ -51,7 +51,7 @@ export default function PostVotes({
         .filter(
           (item) =>
             item.voter !== myVote?.voter ||
-            item.voterNetwork !== myVote?.voterNetwork
+            item.voterNetwork !== myVote?.voterNetwork,
         )
         .map((item, index) => (
           <PostVotesItem

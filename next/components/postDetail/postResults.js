@@ -146,7 +146,7 @@ export default function PostResult({ data, voteStatus, space }) {
 
   const results = data?.weightStrategy
     ?.filter((strategy) =>
-      ["balance-of", "quadratic-balance-of"].includes(strategy)
+      ["balance-of", "quadratic-balance-of"].includes(strategy),
     )
     .map?.((strategy, strategyIndex) => {
       const total =
@@ -164,7 +164,7 @@ export default function PostResult({ data, voteStatus, space }) {
           const voteBalance = new BigNumber(
             strategy === "quadratic-balance-of"
               ? voteStat.quadraticBalanceOf || 0
-              : voteStat.balanceOf || 0
+              : voteStat.balanceOf || 0,
           );
           const percentage = (
             voteStat.balanceOf > 0 ? voteBalance.dividedBy(total) * 100 : 0
@@ -243,7 +243,7 @@ export default function PostResult({ data, voteStatus, space }) {
               value={voteStatus.reduce(
                 (pre, cur) =>
                   new BigNumber(pre).plus(new BigNumber(cur.balanceOf ?? 0)),
-                0
+                0,
               )}
               space={space}
             ></BiasedVotingItem>

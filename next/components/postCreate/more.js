@@ -107,8 +107,8 @@ export default function More({ onPublish, space }) {
           space?.networks.map((network) => ({
             network: network.network,
             height: 0,
-          }))
-        )
+          })),
+        ),
       );
     }
   }, [dispatch, space?.networks]);
@@ -125,7 +125,7 @@ export default function More({ onPublish, space }) {
       key: i,
       value: i,
       content: <ChoiceWrapper>{item}</ChoiceWrapper>,
-    })
+    }),
   );
 
   return (
@@ -175,7 +175,7 @@ export default function More({ onPublish, space }) {
             <Snapshot className="snapshot" key={network.network}>
               <NetworkName>{network.network}</NetworkName>
               {snapshotHeights.find(
-                (snapshotHeight) => snapshotHeight.network === network.network
+                (snapshotHeight) => snapshotHeight.network === network.network,
               )?.height || <TextGrey>-</TextGrey>}
             </Snapshot>
           ))}

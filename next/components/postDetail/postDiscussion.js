@@ -134,7 +134,7 @@ export default function PostDiscussion({
         content,
         "markdown",
         encodeAddressByChain(account?.address, account?.network),
-        account?.network
+        account?.network,
       );
     } catch (e) {
       const errorMessage = e.message;
@@ -148,7 +148,7 @@ export default function PostDiscussion({
 
     const toastId = newToastId();
     dispatch(
-      newPendingToast(toastId, "Saving and uploading comment to IPFS...")
+      newPendingToast(toastId, "Saving and uploading comment to IPFS..."),
     );
     let result;
     try {
@@ -211,7 +211,7 @@ export default function PostDiscussion({
                 content={item.content}
                 plugins={[
                   renderMentionIdentityUserPlugin(
-                    <MentionIdentityUser explore />
+                    <MentionIdentityUser explore />,
                   ),
                 ]}
               />

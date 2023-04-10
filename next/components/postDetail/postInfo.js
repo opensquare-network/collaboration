@@ -89,7 +89,7 @@ export default function PostInfo({ data, space }) {
                   <Tooltip
                     key={networkName}
                     content={`${capitalize(
-                      networkName
+                      networkName,
                     )} ${height.toLocaleString()}`}
                     size="fit"
                   >

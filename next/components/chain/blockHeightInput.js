@@ -45,9 +45,9 @@ function BlockHeightInput({ network, height, loading }) {
               snapshotHeights.map((snapshotHeight) =>
                 snapshotHeight.network === network
                   ? { network, height: e.target.value }
-                  : snapshotHeight
-              )
-            )
+                  : snapshotHeight,
+              ),
+            ),
           );
         }}
         disabled={loading}

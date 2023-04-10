@@ -55,7 +55,7 @@ export function useTerminate({ loginAddress, loginNetwork, proposal = {} }) {
     let result;
     try {
       [result] = await delayPromise(
-        nextApi.post(`${proposal?.space}/terminate`, signedData)
+        nextApi.post(`${proposal?.space}/terminate`, signedData),
       );
     } finally {
       dispatch(removeToast(toastId));

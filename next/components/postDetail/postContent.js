@@ -64,7 +64,7 @@ export default function PostContent({ data, space }) {
   const isOwner = loginAddress === (data.proposor || data.address);
   const networkConfig = findNetworkConfig(
     data.networksConfig,
-    data.proposerNetwork
+    data.proposerNetwork,
   );
   const spaceSupportMultiChain = space?.networks?.length > 1;
   const proposalClosed = [

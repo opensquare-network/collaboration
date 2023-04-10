@@ -93,7 +93,7 @@ export default function Index({ allNetworks }) {
                         dispatch(
                           clearUnread(account.address, {
                             items: [data._id],
-                          })
+                          }),
                         );
                       }}
                     />
