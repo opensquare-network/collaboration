@@ -3,12 +3,8 @@ name: front ci
 on:
   push:
     branches: ["main", "release-*"]
-    paths:
-      - "!backend/**"
   pull_request:
     branches: ["main", "release-*"]
-    paths:
-      - "!backend/**"
 
 jobs:
   lint:

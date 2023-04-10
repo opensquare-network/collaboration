@@ -3,12 +3,8 @@ name: backend ci
 on:
   push:
     branches: ["main", "release-*"]
-    paths:
-      - "!next/**"
   pull_request:
     branches: ["main", "release-*"]
-    paths:
-      - "!next/**"
 
 jobs:
   lint:
