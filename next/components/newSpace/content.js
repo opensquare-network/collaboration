@@ -5,7 +5,8 @@ import Sider from "./sider";
 import { useSelector } from "react-redux";
 import { currentStepSelector } from "store/reducers/newSpaceSlice";
 import Step3 from "./step3";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { identicon } from "minidenticons";
 
 const Wrapper = styled.div`
   display: flex;
@@ -45,10 +46,24 @@ const SiderWrapper = styled.div`
   }
 `;
 
+const useDefaultLogo = ({ username, saturation, lightness }) => {
+  const svgText = useMemo(
+    () => identicon(username, saturation, lightness),
+    [username, saturation, lightness]
+  );
+  return `data:image/svg+xml;utf8,${encodeURIComponent(svgText)}`;
+};
+
 export default function Content() {
   const currentStep = useSelector(currentStepSelector);
   const [imageFile, setImageFile] = useState();
   const [name, setName] = useState("");
+  const defaultLogo = useDefaultLogo({
+    username: name,
+    saturation: 50,
+    lightness: 50,
+  });
+  const logoImage = imageFile || defaultLogo;
 
   const steps = [
     { title: "Space profile" },
@@ -61,7 +76,7 @@ export default function Content() {
     stepContent = (
       <Step1
         steps={steps}
-        imageFile={imageFile}
+        imageFile={logoImage}
         setImageFile={setImageFile}
         name={name}
         setName={setName}
@@ -77,7 +92,7 @@ export default function Content() {
     <Wrapper>
       <MainWrapper>{stepContent}</MainWrapper>
       <SiderWrapper>
-        <Sider imageFile={imageFile} name={name} />
+        <Sider imageFile={logoImage} name={name} />
       </SiderWrapper>
     </Wrapper>
   );
