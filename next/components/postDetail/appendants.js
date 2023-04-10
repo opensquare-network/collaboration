@@ -14,10 +14,8 @@ import {
 import {
   newErrorToast,
   newPendingToast,
-  newSuccessToast,
   newToastId,
   removeToast,
-  updatePendingToast,
 } from "store/reducers/toastSlice";
 import { loginAccountSelector } from "store/reducers/accountSlice";
 import {

@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 import Pagination from "components/pagination";
 import PostVotesItem from "./postVotesItem";
-import { findNetworkConfig } from "../../services/util";
 import HeaderWithNumber from "@/components/postDetail/numberHeader";
 import AccordionPanel from "@/components/accordionPanel/panel";
 import NoData from "@osn/common-ui/es/NoData";

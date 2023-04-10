@@ -28,7 +28,6 @@ import {
   renderMentionIdentityUserPlugin,
 } from "@osn/previewer";
 import { MentionIdentityUser, RichEditor } from "@osn/common-ui";
-import IdentityOrAddr from "../identityOrAddr";
 import { useSuggestions } from "./suggestions";
 
 const Item = styled.div`

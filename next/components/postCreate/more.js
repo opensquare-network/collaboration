@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
 import DatePicker from "components/datePicker";
 import { useDispatch, useSelector } from "react-redux";
@@ -44,16 +44,6 @@ const InnerWrapper = styled.div`
   > :not(:first-child) {
     margin-top: 16px;
   }
-`;
-
-const SystemWrapper = styled.div`
-  background: #fbfcfe;
-  padding: 12px 16px;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 24px;
-  color: #1e2134;
-  border: 1px solid #e2e8f0;
 `;
 
 const DateWrapper = styled.div`

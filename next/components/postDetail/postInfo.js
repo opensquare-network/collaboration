@@ -71,6 +71,7 @@ const SnapshotsWrapper = styled.div`
   }
 `;
 
+// eslint-disable-next-line
 export default function PostInfo({ data, space }) {
   return (
     <Wrapper>

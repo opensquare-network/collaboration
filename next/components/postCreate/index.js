@@ -41,7 +41,6 @@ import {
 import encodeAddressByChain from "../../frontedUtils/chain/addr";
 import nextApi from "../../services/nextApi";
 import { extensionCancelled } from "../../frontedUtils/consts/extension";
-import Uploader from "@/components/uploadBanner/uploader";
 
 const Wrapper = styled.div`
   display: flex;

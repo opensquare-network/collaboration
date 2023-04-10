@@ -114,7 +114,7 @@ export default function Index({ allNetworks }) {
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps() {
   const [{ result: allNetworks }] = await Promise.all([
     ssrNextApi.fetch("networks"),
   ]);

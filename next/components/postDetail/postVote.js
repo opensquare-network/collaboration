@@ -31,7 +31,6 @@ import Option from "@/components/option";
 import { text_secondary_red_500 } from "../../styles/colorStyles";
 import BigNumber from "bignumber.js";
 import Toggle from "@osn/common-ui/es/Toggle";
-import { findNetworkConfig } from "services/util";
 import isNil from "lodash.isnil";
 import { proposalStatus } from "../../frontedUtils/consts/proposal";
 import { extensionCancelled } from "../../frontedUtils/consts/extension";
@@ -230,11 +229,6 @@ export default function PostVote({ proposal, threshold = 0 }) {
       reset();
     }
   };
-
-  const networkConfig = findNetworkConfig(
-    proposal.networksConfig,
-    loginNetwork,
-  );
 
   const onClickChoice = (index) => {
     if (choiceIndexes.includes(index)) {

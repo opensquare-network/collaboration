@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { p_14_medium, p_16_semibold } from "styles/textStyles";
+import { p_14_medium } from "styles/textStyles";
 import BigNumber from "bignumber.js";
 import { Fragment } from "react";
 import ValueDisplay from "../valueDisplay";
