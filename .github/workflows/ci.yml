@@ -18,12 +18,13 @@ jobs:
         with:
           node-version: lts/*
 
-      - name: Yarn install
+      - name: next install
         uses: borales/actions-yarn@v4
         with:
           cmd: install # will run `yarn install` command
+          dir: next
 
-      - name: Run lint next
+      - name: next lint
         uses: borales/actions-yarn@v4
         with:
           cmd: lint
