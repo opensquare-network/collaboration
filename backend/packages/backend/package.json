@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "node src/index.js",
     "start": "NODE_ENV=production node src/index.js",
-    "lint": "next lint",
+    "lint": "eslint .",
     "test": "jest src --runInBand",
     "pin": "pm2 start ecosystem.config.js --only voting-pin-to-ipfs --env production"
   },
