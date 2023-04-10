@@ -1,5 +1,5 @@
 {
-  "extends": ["../.eslintrc", "next"],
+  "extends": ["../.eslintrc", "next", "@osn"],
   "env": {
     "browser": true,
     "node": true,

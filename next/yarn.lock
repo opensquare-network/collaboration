@@ -1839,6 +1839,11 @@
   resolved "https://registry.yarnpkg.com/@osn/constants/-/constants-1.1.2.tgz#6b8bf547b066800949fdb8232e3ff5913ea60659"
   integrity sha512-jHKIDY4FQK/m40O11nPUeZ9HIgXrfi4ZkfU4hDGkwtl3FbIQ9jynqj5H/6BQm/nAVFUYR/II+sd0PEnWMtwRaw==
 
+"@osn/eslint-config@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@osn/eslint-config/-/eslint-config-1.0.1.tgz#db14a9f60003be15bd923aabe3b2ccaf6c49500b"
+  integrity sha512-MfiUbarV/bQvbzpQmeQj434qS3h7gjph357dGHk6ljARLGl/BtZOPwC1LuepT66cNU9sh97BzM/WwEVYcBeZlg==
+
 "@osn/polkadot-react-identicon@^1.0.8":
   version "1.0.8"
   resolved "https://registry.yarnpkg.com/@osn/polkadot-react-identicon/-/polkadot-react-identicon-1.0.8.tgz#c4da14f5122057ff72cba1724467cb1455e4377c"

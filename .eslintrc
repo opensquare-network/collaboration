@@ -1,6 +1,6 @@
 {
   "root": true,
-  "extends": ["eslint:recommended", "@osn"],
+  "extends": ["eslint:recommended"],
   "env": {
     "browser": true,
     "node": true,

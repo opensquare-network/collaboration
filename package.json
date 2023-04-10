@@ -14,7 +14,6 @@
     }
   },
   "devDependencies": {
-    "@osn/eslint-config": "^1.0.1",
     "eslint": "^8.38.0",
     "husky": "^7.0.4",
     "lint-staged": "^12.3.4",

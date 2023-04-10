@@ -17,6 +17,7 @@
   "author": "OpenSquare <https://www.opensquare.network/>",
   "license": "Apache-2.0",
   "devDependencies": {
+    "@osn/eslint-config": "^1.0.1",
     "eslint": "^8.38.0",
     "eslint-config-next": "11.1.2"
   }
