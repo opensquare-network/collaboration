@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { ReactComponent as UploadSVG } from "./upload.svg";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 
 const Wrapper = styled.div`
   position: relative;
@@ -18,6 +18,10 @@ const Wrapper = styled.div`
   border: 1px solid #e2e8f0;
   border-radius: 50%;
   overflow: hidden;
+`;
+
+const BlendUploadSvg = styled(UploadSVG)`
+  mix-blend-mode: multiply;
 `;
 
 const Layer = styled.div`
@@ -85,7 +89,7 @@ export default function LogoUploader({ imageFile, setImageFile }) {
         </Layer>
       )}
       <Layer onClick={handleSelectFile}>
-        <UploadSVG />
+        <BlendUploadSvg />
       </Layer>
       <input
         style={{ display: "none" }}
