@@ -1,3 +1,4 @@
+/*eslint no-constant-condition: ["error", { "checkLoops": false }]*/
 const BigNumber = require("bignumber.js");
 
 function compareRationals(n1, d1, n2, d2) {

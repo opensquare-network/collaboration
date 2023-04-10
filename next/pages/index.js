@@ -6,15 +6,19 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setAvailableNetworks } from "store/reducers/accountSlice";
 
-export default function Index({ spaces, hottestProposals, showAllSpace, allNetworks }) {
+export default function Index({
+  spaces,
+  hottestProposals,
+  showAllSpace,
+  allNetworks,
+}) {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(
-      setAvailableNetworks(allNetworks || [])
-    );
+    dispatch(setAvailableNetworks(allNetworks || []));
   }, [dispatch, allNetworks]);
 
-  const desc = `One of the governance products powered by OpenSquare. It supports relay chains, para chains and assets on Statemine/Statemint, gas free and voting strategies customizable.`;
+  const desc =
+    "One of the governance products powered by OpenSquare. It supports relay chains, para chains and assets on Statemine/Statemint, gas free and voting strategies customizable.";
   return (
     <>
       <Seo desc={desc} />
@@ -37,7 +41,7 @@ export async function getServerSideProps(context) {
   ] = await Promise.all([
     ssrNextApi.fetch("spaces"),
     ssrNextApi.fetch("home/hottest"),
-    ssrNextApi.fetch(`networks`),
+    ssrNextApi.fetch("networks"),
   ]);
 
   const showAllSpace = context.req.cookies.showallspace;

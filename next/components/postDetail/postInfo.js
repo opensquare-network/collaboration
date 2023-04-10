@@ -71,6 +71,7 @@ const SnapshotsWrapper = styled.div`
   }
 `;
 
+// eslint-disable-next-line
 export default function PostInfo({ data, space }) {
   return (
     <Wrapper>
@@ -89,7 +90,7 @@ export default function PostInfo({ data, space }) {
                   <Tooltip
                     key={networkName}
                     content={`${capitalize(
-                      networkName
+                      networkName,
                     )} ${height.toLocaleString()}`}
                     size="fit"
                   >

@@ -22,7 +22,7 @@ export function useSuggestions(comments = []) {
             network: comment.commenterNetwork,
           };
         }),
-        (a, b) => a.address === b.address && a.network === b.network
+        (a, b) => a.address === b.address && a.network === b.network,
       ).map(async (item) => {
         const configs = chainConfigsMap[item.network];
         const identityChain = (configs && configs.identity) || item.network;
@@ -31,7 +31,7 @@ export function useSuggestions(comments = []) {
           ...item,
           identity,
         };
-      })
+      }),
     );
 
     return userIdentities.map((user) => {
@@ -52,7 +52,7 @@ export function useSuggestions(comments = []) {
 
   const loadSuggestions = (text) => {
     return suggestions.filter((i) =>
-      i.address.toLowerCase().includes(text.toLowerCase())
+      i.address.toLowerCase().includes(text.toLowerCase()),
     );
   };
 

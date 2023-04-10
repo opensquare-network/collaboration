@@ -62,7 +62,7 @@ const calcWeights = (vote, decimals, voteThreshold) => {
       quadraticBalanceOf: enhancedSqrtOfBalance(
         vote.weights.balanceOf?.toString(),
         decimals,
-        voteThreshold
+        voteThreshold,
       ),
       details: vote.weights.details,
     },
@@ -100,7 +100,7 @@ async function createSpaceNotifications(space, notificationType, data) {
       await createNotification(receiver, notificationType, data);
     } catch (e) {
       logger.error(
-        `Failed to create notification for ${receiver}, notificationType: ${notificationType}, error: ${e.message}`
+        `Failed to create notification for ${receiver}, notificationType: ${notificationType}, error: ${e.message}`,
       );
     }
   }

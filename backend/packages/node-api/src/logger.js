@@ -8,11 +8,11 @@ const blockFileCategory = "block";
 
 log4js.configure({
   appenders: {
-    [statusCategory]: { type: "file", filename: `log/status.log` },
-    [blockFileCategory]: { type: "file", filename: `log/block.log` },
+    [statusCategory]: { type: "file", filename: "log/status.log" },
+    [blockFileCategory]: { type: "file", filename: "log/block.log" },
     errorFile: {
       type: "file",
-      filename: `log/errors.log`,
+      filename: "log/errors.log",
     },
     errors: {
       type: "logLevelFilter",

@@ -106,7 +106,7 @@ async function vote(
   data,
   address,
   voterNetwork,
-  signature
+  signature,
 ) {
   const proposalCol = await getProposalCollection();
   const proposal = await proposalCol.findOne({ cid: proposalCid });
@@ -118,8 +118,10 @@ async function vote(
     throw new HttpError(400, "Can vote single choice only");
   }
 
-  if (choices.some((choice) => !proposal.choices?.includes(choice))) {
-    throw new HttpError(400, `Invalid choice: ${choice}`);
+  for (const choice of choices) {
+    if (!proposal.choices?.includes(choice)) {
+      throw new HttpError(400, `Invalid choice: ${choice}`);
+    }
   }
 
   const now = new Date();
@@ -166,7 +168,7 @@ async function vote(
       .toString();
     throw new HttpError(
       400,
-      `Require the minimum of ${symbolVoteThreshold} ${proposal.networksConfig.symbol} to vote`
+      `Require the minimum of ${symbolVoteThreshold} ${proposal.networksConfig.symbol} to vote`,
     );
   }
   const { cid, pinHash } = await pinData(data, address, signature);
@@ -204,7 +206,7 @@ async function vote(
     {
       upsert: true,
       returnDocument: "after",
-    }
+    },
   );
 
   if (!result.ok) {
@@ -217,7 +219,7 @@ async function vote(
       $set: {
         lastActivityAt: new Date(),
       },
-    }
+    },
   );
 
   await addDelegatedVotes({

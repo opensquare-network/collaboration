@@ -17,7 +17,7 @@ async function migrateVotes() {
           choices: [vote.choice],
           version: "3",
         },
-      }
+      },
     );
     console.log(`Migrated vote: ${vote.cid}`);
   }

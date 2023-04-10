@@ -1,0 +1,60 @@
+name: front ci
+
+on:
+  push:
+    branches: ["main", "release-*"]
+  pull_request:
+    branches: ["main", "release-*"]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup node LTS
+        uses: actions/setup-node@v3
+        with:
+          node-version: lts/*
+
+      - name: next install
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install # will run `yarn install` command
+          dir: next
+
+      - name: next lint
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: lint
+          dir: next
+
+  build:
+    runs-on: ubuntu-latest
+    needs: [lint]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup node LTS
+        uses: actions/setup-node@v3
+        with:
+          node-version: lts/*
+
+      - name: next install
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install # will run `yarn install` command
+          dir: next
+
+      - name: next build
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: build
+          dir: next
+        env:
+          NEXT_PUBLIC_API_END_POINT: http://127.0.0.1:8001/
+          NEXT_PUBLIC_BACKEND_API_END_POINT: http://127.0.0.1:8081/
+          REACT_APP_SOCKET_IO_URL: http://127.0.0.1:8081/
+          NEXT_PUBLIC_IDENTITY_SERVER_HOST: https://id.statescan.io

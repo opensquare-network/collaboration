@@ -100,7 +100,7 @@ export default function Post({ data, showSpace, space, spaces }) {
 
   const proposerNetworkConfig = findNetworkConfig(
     data.networksConfig,
-    data.proposerNetwork
+    data.proposerNetwork,
   );
   const spaceSupportMultiChain = proposerNetworkConfig?.networks?.length > 1;
 

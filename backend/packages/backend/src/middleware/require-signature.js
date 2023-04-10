@@ -16,7 +16,7 @@ async function verifySignature(msg, address, signature) {
     try {
       const verifiedAddress = ethers.utils.verifyMessage(
         msg,
-        hexAddPrefix(signature)
+        hexAddPrefix(signature),
       );
       return (verifiedAddress || "").toLowerCase() === address.toLowerCase();
     } catch (e) {

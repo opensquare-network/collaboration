@@ -4,7 +4,7 @@ async function queryOneApi(api, tokenConfig, blockHashOrHeight) {
   const blockApi = await getBlockApi(api, blockHashOrHeight);
 
   const issuance = await blockApi.query[tokenConfig.moduleName].totalIssuance(
-    tokenConfig.currencyId
+    tokenConfig.currencyId,
   );
   return issuance.toString();
 }

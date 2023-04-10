@@ -71,8 +71,8 @@ async function getSpace(space) {
       (spaceService.networks || []).map(async (network) => [
         network.network,
         await getLatestHeight(network.network),
-      ])
-    )
+      ]),
+    ),
   );
 
   return {
@@ -103,22 +103,20 @@ async function addSpaceMember(space, memberPublicKey) {
       },
       $set: {
         updatedAt: now,
-      }
+      },
     },
     {
-      upsert: true
-    }
+      upsert: true,
+    },
   );
 }
 
 async function removeSpaceMember(space, memberPublicKey) {
   const spaceMemberCol = await getSpaceMemberCollection();
-  await spaceMemberCol.deleteOne(
-    {
-      space,
-      member: memberPublicKey,
-    }
-  );
+  await spaceMemberCol.deleteOne({
+    space,
+    member: memberPublicKey,
+  });
 }
 
 module.exports = {

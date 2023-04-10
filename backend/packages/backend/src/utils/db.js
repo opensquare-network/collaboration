@@ -39,7 +39,7 @@ async function connectDb(dbName) {
 
   async function lookupOne(
     { from, foreignField, projection, map },
-    lookupProps
+    lookupProps,
   ) {
     if (lookupProps === undefined) {
       const { for: for_, localField, as } = arguments[0];
@@ -53,14 +53,16 @@ async function connectDb(dbName) {
       const items = await col
         .find(
           { [foreignField]: { $in: keys } },
-          projection ? { projection: { ...projection, [foreignField]: 1 } } : {}
+          projection
+            ? { projection: { ...projection, [foreignField]: 1 } }
+            : {},
         )
         .toArray();
       const itemsMap = new Map(
         items.map((item) => [
           item[foreignField].toString(),
           map ? map(item) : item,
-        ])
+        ]),
       );
       return itemsMap;
     });
@@ -82,7 +84,7 @@ async function connectDb(dbName) {
             item[as ?? localField] = null;
           }
         });
-      })
+      }),
     );
 
     return Array.from(itemsMap.values());
@@ -167,7 +169,7 @@ async function connectDb(dbName) {
       items.map((item) => [
         item._id.toString(),
         map ? item.values.map(map) : item.values,
-      ])
+      ]),
     );
 
     records.forEach((item) => {
@@ -193,7 +195,7 @@ async function connectDb(dbName) {
   }) {
     const records = Array.isArray(for_) ? for_ : [for_];
     const vals = records.map((item) =>
-      compoundLocalFields.map((localField) => item[localField])
+      compoundLocalFields.map((localField) => item[localField]),
     );
 
     const q = [
@@ -202,7 +204,7 @@ async function connectDb(dbName) {
         $project: {
           _id: 0,
           keys: vals.map((val) =>
-            Object.fromEntries(val.map((v, i) => ["field" + i, v]))
+            Object.fromEntries(val.map((v, i) => ["field" + i, v])),
           ),
         },
       },
@@ -214,7 +216,7 @@ async function connectDb(dbName) {
             compoundForeignFields.map((foreignField, i) => [
               "field" + i,
               "$keys.field" + i,
-            ])
+            ]),
           ),
           pipeline: [
             {
@@ -244,14 +246,14 @@ async function connectDb(dbName) {
       items.map((item) => [
         JSON.stringify(Object.values(item.keys)),
         map ? map(item.result) : item.result,
-      ])
+      ]),
     );
 
     records.forEach((item) => {
       const relatedItem = itemsMap.get(
         JSON.stringify(
-          compoundLocalFields.map((localField) => item[localField])
-        )
+          compoundLocalFields.map((localField) => item[localField]),
+        ),
       );
       if (relatedItem) {
         item[as] = relatedItem;

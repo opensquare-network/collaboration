@@ -31,7 +31,7 @@ function ConnectButton({ address, network, isMetamask = false }) {
           setAccount({
             address,
             network: network,
-          })
+          }),
         );
         dispatch(closeConnect());
         dispatch(setShowHeaderMenu(false));

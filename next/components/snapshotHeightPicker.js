@@ -62,8 +62,8 @@ function SnapshotHeightPicker({ space }) {
               networks.map((network) => ({
                 ...result[network.network],
                 network: network.network,
-              }))
-            )
+              })),
+            ),
           );
         }
         if (error) {
@@ -105,7 +105,7 @@ function SnapshotHeightPicker({ space }) {
               <BlockHeightInput
                 height={
                   snapshotHeights?.find(
-                    (snapshot) => snapshot.network === network.network
+                    (snapshot) => snapshot.network === network.network,
                   )?.height
                 }
                 key={network.network}

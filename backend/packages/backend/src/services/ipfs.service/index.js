@@ -5,7 +5,7 @@ async function pinJsonToIpfsWithTimeout(json, timeout) {
   const errorMsg = "Pin json to ipfs timeout";
   return await Promise.race([
     new Promise((_, reject) =>
-      setTimeout(() => reject(new Error(errorMsg)), timeout)
+      setTimeout(() => reject(new Error(errorMsg)), timeout),
     ),
     pinJsonToIpfs(json),
   ]);

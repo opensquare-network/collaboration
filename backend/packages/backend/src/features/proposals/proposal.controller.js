@@ -98,7 +98,7 @@ async function createProposal(ctx) {
     banner,
     data,
     address,
-    signature
+    signature,
   );
 }
 
@@ -116,7 +116,7 @@ async function getProposals(ctx) {
     q,
     { terminatedOrEndedAt: -1 },
     page,
-    pageSize
+    pageSize,
   );
 }
 
@@ -178,7 +178,7 @@ async function getClosedProposals(ctx) {
     q,
     { terminatedOrEndedAt: -1 },
     page,
-    pageSize
+    pageSize,
   );
 }
 
@@ -216,7 +216,7 @@ async function postComment(ctx) {
     commenterNetwork,
     data,
     address,
-    signature
+    signature,
   );
 }
 
@@ -265,7 +265,7 @@ async function vote(ctx) {
     data,
     address,
     voterNetwork,
-    signature
+    signature,
   );
 }
 
@@ -292,7 +292,7 @@ async function terminate(ctx) {
     terminatorNetwork,
     data,
     address,
-    signature
+    signature,
   );
 }
 
@@ -318,7 +318,7 @@ async function getVoteByNetworkAddress(ctx) {
   ctx.body = await proposalService.getAddressVote(
     proposalCid,
     address,
-    network
+    network,
   );
 }
 
@@ -343,7 +343,7 @@ async function getVoterBalance(ctx) {
     proposalCid,
     network,
     address,
-    snapshot
+    snapshot,
   );
 }
 

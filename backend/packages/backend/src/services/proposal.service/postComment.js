@@ -2,6 +2,7 @@ const { safeHtml } = require("../../utils/post");
 const { getProposalCollection, getCommentCollection } = require("../../mongo");
 const { HttpError } = require("../../exc");
 const { ContentType } = require("../../constants");
+const { pinData } = require("./common");
 
 async function postComment(
   proposalCid,
@@ -10,7 +11,7 @@ async function postComment(
   commenterNetwork,
   data,
   address,
-  signature
+  signature,
 ) {
   const proposalCol = await getProposalCollection();
   const proposal = await proposalCol.findOne({ cid: proposalCid });
@@ -22,7 +23,7 @@ async function postComment(
   if (!snapshotNetworks.includes(commenterNetwork)) {
     throw new HttpError(
       400,
-      "Commenter network is not supported by this proposal"
+      "Commenter network is not supported by this proposal",
     );
   }
 
@@ -61,7 +62,7 @@ async function postComment(
       $set: {
         lastActivityAt: new Date(),
       },
-    }
+    },
   );
 
   return newCommentId;

@@ -236,7 +236,7 @@ export default function Component({
             month: today.month(),
             date: today.date(),
           })
-          .toDate()
+          .toDate(),
       );
     } else {
       setDate(today);
@@ -292,7 +292,7 @@ export default function Component({
     setDate(
       moment(date)
         .set({ hour: Number(hour), minute: Number(minute) })
-        .toDate()
+        .toDate(),
     );
     onSelect();
   };

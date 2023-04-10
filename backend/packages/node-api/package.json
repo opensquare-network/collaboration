@@ -2,7 +2,9 @@
   "name": "@collaboration/node-api",
   "version": "1.1.0",
   "private": true,
-  "scripts": {},
+  "scripts": {
+    "lint": "eslint ."
+  },
   "dependencies": {
     "@koa/cors": "^3.1.0",
     "@osn/polkadot-api-container": "1.1.7",

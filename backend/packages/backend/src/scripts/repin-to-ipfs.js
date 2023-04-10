@@ -1,3 +1,4 @@
+/*eslint no-constant-condition: ["error", { "checkLoops": false }]*/
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -28,7 +29,7 @@ async function main() {
   while (true) {
     try {
       await startPin();
-      console.log(`Last pin at:`, new Date());
+      console.log("Last pin at:", new Date());
     } catch (e) {
       console.error(e);
     }
