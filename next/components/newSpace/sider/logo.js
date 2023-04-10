@@ -12,7 +12,6 @@ const Wrapper = styled.div`
 `;
 
 export default function Logo({ imageFile }) {
-  console.log({ imageFile });
   return (
     <Wrapper>
       {imageFile && (

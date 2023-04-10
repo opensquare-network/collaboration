@@ -8,6 +8,7 @@ import Steps from "../../steps";
 import Logo from "./logo";
 import Name from "./name";
 import { MyPanel, MyDivider, Sections } from "../styled";
+import { useEffect, useState } from "react";
 
 export default function Step1({
   steps,
@@ -18,8 +19,28 @@ export default function Step1({
 }) {
   const dispatch = useDispatch();
   const currentStep = useSelector(currentStepSelector);
+  const [errorMsg, setErrorMsg] = useState("");
+
+  useEffect(() => {
+    setErrorMsg("");
+  }, [name]);
 
   const handleNext = () => {
+    if (!name) {
+      setErrorMsg("Space name cannot be empty");
+      return;
+    }
+
+    if (name.length > 20) {
+      setErrorMsg("Space name cannot exceed 20 characters");
+      return;
+    }
+
+    if (!/^[a-zA-Z0-9\s]+$/.test(name)) {
+      setErrorMsg("Only letters, numbers, spaces are allowed");
+      return;
+    }
+
     dispatch(setCurrentStep(1));
   };
 
@@ -29,7 +50,7 @@ export default function Step1({
       <MyDivider />
       <Sections>
         <Logo imageFile={imageFile} setImageFile={setImageFile} />
-        <Name name={name} setName={setName} />
+        <Name name={name} setName={setName} errorMsg={errorMsg} />
       </Sections>
       <Button block onClick={() => handleNext()}>
         Next

@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Hint, SectionTitle } from "../styled";
 import { Input } from "@osn/common-ui";
+import { ErrorMessage } from "@/components/styled/errorMessage";
 
 const Wrapper = styled.div``;
 
@@ -10,7 +11,7 @@ const InputWrapper = styled.div`
   gap: 8px;
 `;
 
-export default function Name({ name, setName }) {
+export default function Name({ name, setName, errorMsg }) {
   return (
     <Wrapper>
       <SectionTitle>Name</SectionTitle>
@@ -24,6 +25,7 @@ export default function Name({ name, setName }) {
           <p>The space name cannot exceed 20 characters</p>
           <p>Special characters are not allowed</p>
         </Hint>
+        {errorMsg && <ErrorMessage>{errorMsg}</ErrorMessage>}
       </InputWrapper>
     </Wrapper>
   );
