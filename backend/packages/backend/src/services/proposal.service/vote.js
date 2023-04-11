@@ -48,6 +48,7 @@ async function addDelegatedVotes({
     voter,
   );
 
+  const voteCol = await getVoteCollection();
   for (const { delegator, balance } of beenDelegated) {
     const detail = {
       symbol,
@@ -59,7 +60,6 @@ async function addDelegatedVotes({
     const balanceOf =
       adaptBalance(balance, decimals, baseDecimals) * multiplier;
 
-    const voteCol = await getVoteCollection();
     await voteCol.updateOne(
       {
         proposal: proposal._id,
@@ -95,16 +95,16 @@ async function addDelegatedVotes({
         upsert: true,
       },
     );
-
-    // Clean old votes
-    await voteCol.deleteMany({
-      proposal: proposal._id,
-      isDelegate: true,
-      delegatee: voter,
-      voterNetwork,
-      updatedAt: { $ne: now },
-    });
   }
+
+  // Clean old votes
+  await voteCol.deleteMany({
+    proposal: proposal._id,
+    isDelegate: true,
+    delegatee: voter,
+    voterNetwork,
+    updatedAt: { $ne: now },
+  });
 }
 
 async function vote(
