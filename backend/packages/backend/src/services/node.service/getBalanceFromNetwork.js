@@ -1,11 +1,8 @@
-const BigNumber = require("bignumber.js");
 const { HttpError } = require("../../exc");
 const { adaptBalance } = require("../../utils/balance");
 const { getEvmAddressBalance } = require("./getEvmAddressBalance");
 const { getTokenBalance } = require("./getTokenBalance");
 const { getTotalBalance } = require("./getTotalBalance");
-const { getDelegated } = require("./getDelegated");
-const { networks } = require("../../consts/networks");
 
 async function getBalanceFromMultiAssetsNetwork({
   network,
