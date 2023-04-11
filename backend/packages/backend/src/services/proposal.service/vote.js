@@ -60,7 +60,7 @@ async function addDelegatedVotes({
       adaptBalance(balance, decimals, baseDecimals) * multiplier;
 
     const voteCol = await getVoteCollection();
-    await voteCol.findOneAndUpdate(
+    await voteCol.updateOne(
       {
         proposal: proposal._id,
         voter: delegator,
@@ -93,7 +93,6 @@ async function addDelegatedVotes({
       },
       {
         upsert: true,
-        returnDocument: "after",
       },
     );
   }
