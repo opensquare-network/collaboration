@@ -6,9 +6,7 @@ import {
   p_20_semibold,
 } from "../../styles/textStyles";
 import SpaceLogo from "@/components/spaceLogo";
-import { ChainIcon } from "@osn/common-ui";
 import Divider from "../styled/divider";
-import { capitalize } from "frontedUtils";
 import ValueDisplay from "../valueDisplay";
 import { Flex, FlexBetween } from "@osn/common-ui";
 import Tooltip from "../tooltip";
@@ -46,9 +44,18 @@ const DetailsTitle = styled.div`
   ${p_16_semibold};
 `;
 
-const DetailsItem = styled(FlexBetween)`
-  align-items: start;
-  margin-bottom: 16px;
+const DetailSections = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`;
+
+const DetailsItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  > :first-child {
+    margin-bottom: 4px;
+  }
   line-height: 24px;
 `;
 
@@ -57,9 +64,8 @@ const DetailsLabel = styled.span`
   color: #506176;
 `;
 
-const DetailsValue = styled(Flex)`
+const DetailsValue = styled(FlexBetween)`
   ${p_14_medium};
-  justify-content: flex-end;
 `;
 
 const DetailsNetwork = styled.span`
@@ -70,7 +76,6 @@ const voteText = (n) => `${n} ${n === 1 ? "vote" : "votes"}`;
 
 export default function Details({ space }) {
   const strategyCount = space.weightStrategy?.length || 0;
-  const networkCount = space.networks?.length || 0;
 
   const symbolMultiplier = {};
   const symbolSet = new Set();
@@ -101,11 +106,16 @@ export default function Details({ space }) {
 
       <Divider />
 
-      <div>
+      <DetailSections>
         <DetailsItem>
-          <DetailsLabel>Threshold</DetailsLabel>
+          <DetailsLabel>Configures</DetailsLabel>
           <DetailsValue>
+            <span>Threshold</span>
             <ValueDisplay value={space.proposeThreshold} space={space} />
+          </DetailsValue>
+          <DetailsValue>
+            <span>Delegation</span>
+            <span>Democracy</span>
           </DetailsValue>
         </DetailsItem>
 
@@ -118,44 +128,27 @@ export default function Details({ space }) {
           </div>
         </DetailsItem>
 
-        <DetailsItem>
-          <DetailsLabel>Networks({networkCount})</DetailsLabel>
-          <div>
-            {space.networks?.map((network, index) => (
-              <DetailsValue key={index}>
-                <DetailsNetwork>{capitalize(network.network)}</DetailsNetwork>{" "}
-                <ChainIcon chainName={network.network} size={20} />
-              </DetailsValue>
-            ))}
-          </div>
-        </DetailsItem>
-
         {space?.symbol === "VOTE" && (
           <DetailsItem>
             <DetailsLabel>Assets({symbols.length})</DetailsLabel>
-            <div>
-              {symbols?.map((symbol, index) => (
-                <DetailsValue key={index}>
-                  <DetailsNetwork>
-                    <Tooltip
-                      content={`1 ${symbol} = ${voteText(
-                        symbolMultiplier[symbol] ?? 1,
-                      )}`}
-                    >
-                      {`${symbol}${
-                        (symbolMultiplier[symbol] ?? 1) === 1
-                          ? ""
-                          : `(x${symbolMultiplier[symbol] ?? 1})`
-                      }`}
-                    </Tooltip>
-                  </DetailsNetwork>{" "}
+            {symbols?.map((symbol, index) => (
+              <DetailsValue key={index}>
+                <Flex style={{ gap: "8px" }}>
                   <SymbolIcon symbolName={symbol} size={20} />
-                </DetailsValue>
-              ))}
-            </div>
+                  <span>{symbol}</span>
+                </Flex>
+                <Tooltip
+                  content={`1 ${symbol} = ${voteText(
+                    symbolMultiplier[symbol] ?? 1,
+                  )}`}
+                >
+                  <div>{`${symbol}(x${symbolMultiplier[symbol] ?? 1})`}</div>
+                </Tooltip>
+              </DetailsValue>
+            ))}
           </DetailsItem>
         )}
-      </div>
+      </DetailSections>
     </Wrapper>
   );
 }

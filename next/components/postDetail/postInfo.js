@@ -73,6 +73,10 @@ const SnapshotsWrapper = styled.div`
 
 // eslint-disable-next-line
 export default function PostInfo({ data, space }) {
+  const isCentrifuge = space?.networks?.some((network) =>
+    ["centrifuge", "altair"].includes(network.network),
+  );
+
   return (
     <Wrapper>
       <div>
@@ -108,6 +112,12 @@ export default function PostInfo({ data, space }) {
               <ExternalLink
                 href={`${process.env.NEXT_PUBLIC_API_END_POINT}api/ipfs/files/${data?.pinHash}`}
               >{`#${data?.pinHash?.slice(0, 7)}`}</ExternalLink>
+            </InfoItem>
+          )}
+          {isCentrifuge && (
+            <InfoItem>
+              <span>Delegation</span>
+              <span>Democracy</span>
             </InfoItem>
           )}
         </div>
