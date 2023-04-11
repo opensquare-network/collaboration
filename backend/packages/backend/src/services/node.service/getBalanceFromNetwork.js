@@ -5,6 +5,7 @@ const { getEvmAddressBalance } = require("./getEvmAddressBalance");
 const { getTokenBalance } = require("./getTokenBalance");
 const { getTotalBalance } = require("./getTotalBalance");
 const { getDelegated } = require("./getDelegated");
+const { networks } = require("../../consts/networks");
 
 async function getBalanceFromMultiAssetsNetwork({
   network,
@@ -156,7 +157,7 @@ async function getAssetBalanceFromNetwork({
     balance = await getTokenBalance(networkName, symbol, blockHeight, address);
   } else {
     balance = await getTotalBalance(networkName, blockHeight, address);
-    if (networkName === "centrifuge") {
+    if ([networks.centrifuge, networks.altair].includes(networkName)) {
       const delegated = await getDelegated(networkName, blockHeight, address);
       for (const { balance: delegatedBalance } of delegated) {
         balance = new BigNumber(balance).minus(delegatedBalance);

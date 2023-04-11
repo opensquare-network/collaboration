@@ -9,6 +9,7 @@ const { ChoiceType } = require("../../constants");
 const { pinData } = require("./common");
 const { getBeenDelegated } = require("../node.service/getBeenDelegated");
 const { adaptBalance } = require("../../utils/balance");
+const { networks } = require("../../consts/networks");
 
 async function addDelegatedVotes({
   proposal,
@@ -24,7 +25,7 @@ async function addDelegatedVotes({
   pinHash,
   now,
 }) {
-  if (voterNetwork !== "centrifuge") {
+  if (![networks.centrifuge, networks.altair].includes(voterNetwork)) {
     return;
   }
 
