@@ -95,6 +95,15 @@ async function addDelegatedVotes({
         upsert: true,
       },
     );
+
+    // Clean old votes
+    await voteCol.deleteMany({
+      proposal: proposal._id,
+      isDelegate: true,
+      delegatee: voter,
+      voterNetwork,
+      updatedAt: { $ne: now },
+    });
   }
 }
 
