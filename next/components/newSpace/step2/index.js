@@ -25,8 +25,17 @@ export default function Step2({ steps, assets, setAssets }) {
       <Steps steps={steps} currentStep={currentStep} />
       <MyDivider />
       <Sections>
-        {assets?.map((asset) => (
-          <Asset />
+        {assets?.map((asset, index) => (
+          <Asset
+            key={index}
+            index={index}
+            asset={asset}
+            setAsset={(index, asset) => {
+              const newAssets = [...assets];
+              newAssets[index] = asset;
+              setAssets(newAssets);
+            }}
+          />
         ))}
       </Sections>
       <MyDivider />
