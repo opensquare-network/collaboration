@@ -7,7 +7,7 @@ async function getDelegated(network, blockHeight, address) {
   try {
     return await fetchApi(url);
   } catch (err) {
-    throw new HttpError(500, "Failed to get account's been delegated");
+    throw new HttpError(500, "Failed to get account's delegations");
   }
 }
 

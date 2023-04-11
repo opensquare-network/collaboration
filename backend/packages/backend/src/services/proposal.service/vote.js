@@ -49,6 +49,7 @@ async function addDelegatedVotes({
   );
 
   const voteCol = await getVoteCollection();
+
   for (const { delegator, balance } of beenDelegated) {
     const detail = {
       symbol,
