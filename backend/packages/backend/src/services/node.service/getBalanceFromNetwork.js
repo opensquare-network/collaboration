@@ -1,10 +1,10 @@
 const BigNumber = require("bignumber.js");
 const { HttpError } = require("../../exc");
 const { adaptBalance } = require("../../utils/balance");
-const { getBeenDelegated } = require("./getBeenDelegated");
 const { getEvmAddressBalance } = require("./getEvmAddressBalance");
 const { getTokenBalance } = require("./getTokenBalance");
 const { getTotalBalance } = require("./getTotalBalance");
+const { getDelegated } = require("./getDelegated");
 
 async function getBalanceFromMultiAssetsNetwork({
   network,
@@ -157,12 +157,8 @@ async function getAssetBalanceFromNetwork({
   } else {
     balance = await getTotalBalance(networkName, blockHeight, address);
     if (networkName === "centrifuge") {
-      const beenDelegated = await getBeenDelegated(
-        networkName,
-        blockHeight,
-        /*address*/ "4e4aLfkykCknU4p87nDcYyY5Kf9ZP31ijurvxEUgwa7F44qr",
-      );
-      for (const { balance: delegatedBalance } of beenDelegated) {
+      const delegated = await getDelegated(networkName, blockHeight, address);
+      for (const { balance: delegatedBalance } of delegated) {
         balance = new BigNumber(balance).minus(delegatedBalance);
       }
     }

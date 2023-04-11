@@ -33,7 +33,7 @@ async function addDelegatedVotes({
   const baseSymbol = networksConfig?.symbol;
   const baseDecimals = networksConfig?.decimals;
   const networkCfg = networksConfig?.networks?.find(
-    (n) => n.network === voterNetwork
+    (n) => n.network === voterNetwork,
   );
   const asset = networkCfg?.assets?.find((asset) => asset.symbol === "CFG");
 
@@ -44,7 +44,7 @@ async function addDelegatedVotes({
   const beenDelegated = await getBeenDelegated(
     voterNetwork,
     snapshotHeight,
-    voter
+    voter,
   );
 
   for (const { delegator, balance } of beenDelegated) {
@@ -93,7 +93,7 @@ async function addDelegatedVotes({
       {
         upsert: true,
         returnDocument: "after",
-      }
+      },
     );
   }
 }
@@ -225,7 +225,7 @@ async function vote(
   await addDelegatedVotes({
     proposal,
     snapshotHeight,
-    voter: /*realVoter*/ "4e4aLfkykCknU4p87nDcYyY5Kf9ZP31ijurvxEUgwa7F44qr",
+    voter: realVoter,
     voterNetwork,
     choices,
     remark,
