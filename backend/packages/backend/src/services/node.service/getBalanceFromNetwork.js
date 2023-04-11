@@ -157,12 +157,6 @@ async function getAssetBalanceFromNetwork({
     balance = await getTokenBalance(networkName, symbol, blockHeight, address);
   } else {
     balance = await getTotalBalance(networkName, blockHeight, address);
-    if ([networks.centrifuge, networks.altair].includes(networkName)) {
-      const delegated = await getDelegated(networkName, blockHeight, address);
-      for (const { balance: delegatedBalance } of delegated) {
-        balance = new BigNumber(balance).minus(delegatedBalance);
-      }
-    }
   }
 
   return balance;

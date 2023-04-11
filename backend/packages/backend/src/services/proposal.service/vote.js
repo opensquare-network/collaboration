@@ -1,4 +1,5 @@
 const BigNumber = require("bignumber.js");
+const isEmpty = require("lodash.isempty");
 const { getProposalCollection, getVoteCollection } = require("../../mongo");
 const { HttpError } = require("../../exc");
 const { spaces: spaceServices } = require("../../spaces");
@@ -10,6 +11,7 @@ const { pinData } = require("./common");
 const { getBeenDelegated } = require("../node.service/getBeenDelegated");
 const { adaptBalance } = require("../../utils/balance");
 const { networks } = require("../../consts/networks");
+const { getDelegated } = require("../node.service/getDelegated");
 
 async function addDelegatedVotes({
   proposal,
@@ -161,6 +163,14 @@ async function vote(
   }
 
   const voter = realVoter || address;
+
+  const delegation = await getDelegated(voterNetwork, snapshotHeight, voter);
+  if (!isEmpty(delegation)) {
+    throw new HttpError(
+      400,
+      "You can't vote because you have delegated your votes",
+    );
+  }
 
   const networkBalance = await getBalanceFromNetwork({
     networksConfig: proposal.networksConfig,
