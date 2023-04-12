@@ -10,7 +10,6 @@ import Divider from "../styled/divider";
 import ValueDisplay from "../valueDisplay";
 import { ChainIcon, Flex, FlexBetween } from "@osn/common-ui";
 import Tooltip from "../tooltip";
-import SymbolIcon from "@/components/symbolIcon";
 
 const Wrapper = styled.div``;
 
