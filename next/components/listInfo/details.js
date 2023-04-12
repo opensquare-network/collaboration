@@ -104,7 +104,7 @@ export default function Details({ space }) {
 
       <DetailSections>
         <DetailsItem>
-          <DetailsLabel>Configures</DetailsLabel>
+          <DetailsLabel>Config</DetailsLabel>
           <DetailsValue>
             <span>Threshold</span>
             <ValueDisplay value={space.proposeThreshold} space={space} />
