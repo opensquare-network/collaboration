@@ -10,6 +10,7 @@ import Divider from "../styled/divider";
 import ValueDisplay from "../valueDisplay";
 import { ChainIcon, Flex, FlexBetween } from "@osn/common-ui";
 import Tooltip from "../tooltip";
+import uniq from "lodash.uniq";
 
 const Wrapper = styled.div``;
 
@@ -94,7 +95,6 @@ export default function Details({ space }) {
       }
     }
   } else {
-    console.log(4);
     const symbol = space?.symbol;
     const network = space?.network;
     symbolSet.add(`${network}/${symbol}`);
@@ -111,7 +111,7 @@ export default function Details({ space }) {
         <SpaceLogo spaceId={space.id} />
         <LogoName>{space.name}</LogoName>
         <LogoSymbol>
-          {symbols.map(({ symbol }) => symbol).join(" + ")}
+          {uniq(symbols.map(({ symbol }) => symbol)).join(" + ")}
         </LogoSymbol>
       </LogoWrapper>
 
