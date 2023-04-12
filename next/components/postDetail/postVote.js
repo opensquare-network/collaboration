@@ -12,7 +12,6 @@ import {
   proxyBalanceSelector,
   proxyDelegationSelector,
   proxySelector,
-  setDelegation,
   setUseProxy,
   useProxySelector,
 } from "store/reducers/accountSlice";
