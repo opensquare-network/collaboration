@@ -13,20 +13,23 @@ const { adaptBalance } = require("../../utils/balance");
 const { networks } = require("../../consts/networks");
 const { getDelegated } = require("../node.service/getDelegated");
 
-async function addDelegatedVotes({
-  proposal,
-  snapshotHeight,
-  voter,
-  voterNetwork,
-  choices,
-  remark,
-  data,
-  address,
-  signature,
-  cid,
-  pinHash,
-  now,
-}) {
+async function addDelegatedVotes(
+  bulk,
+  {
+    proposal,
+    snapshotHeight,
+    voter,
+    voterNetwork,
+    choices,
+    remark,
+    data,
+    address,
+    signature,
+    cid,
+    pinHash,
+    now,
+  },
+) {
   if (
     ![networks.centrifuge, networks.altair, networks.rococo].includes(
       voterNetwork,
@@ -54,8 +57,6 @@ async function addDelegatedVotes({
     voter,
   );
 
-  const voteCol = await getVoteCollection();
-
   for (const { delegator, balance } of beenDelegated) {
     const detail = {
       symbol,
@@ -67,13 +68,14 @@ async function addDelegatedVotes({
     const balanceOf =
       adaptBalance(balance, decimals, baseDecimals) * multiplier;
 
-    await voteCol.updateOne(
-      {
+    bulk
+      .find({
         proposal: proposal._id,
         voter: delegator,
         voterNetwork,
-      },
-      {
+      })
+      .upsert()
+      .updateOne({
         $set: {
           choices,
           remark,
@@ -97,21 +99,19 @@ async function addDelegatedVotes({
         $setOnInsert: {
           createdAt: now,
         },
-      },
-      {
-        upsert: true,
-      },
-    );
+      });
   }
 
   // Clean old votes
-  await voteCol.deleteMany({
-    proposal: proposal._id,
-    isDelegate: true,
-    delegatee: voter,
-    voterNetwork,
-    updatedAt: { $ne: now },
-  });
+  bulk
+    .find({
+      proposal: proposal._id,
+      isDelegate: true,
+      delegatee: voter,
+      voterNetwork,
+      updatedAt: { $ne: now },
+    })
+    .delete();
 }
 
 async function vote(
@@ -198,13 +198,16 @@ async function vote(
   const { cid, pinHash } = await pinData(data, address, signature);
 
   const voteCol = await getVoteCollection();
-  const result = await voteCol.findOneAndUpdate(
-    {
+  const bulk = voteCol.initializeOrderedBulkOp();
+
+  bulk
+    .find({
       proposal: proposal._id,
       voter,
       voterNetwork,
-    },
-    {
+    })
+    .upsert()
+    .updateOne({
       $set: {
         choices,
         remark,
@@ -226,27 +229,9 @@ async function vote(
       $setOnInsert: {
         createdAt: now,
       },
-    },
-    {
-      upsert: true,
-      returnDocument: "after",
-    },
-  );
+    });
 
-  if (!result.ok) {
-    throw new HttpError(500, "Failed to create vote");
-  }
-
-  await proposalCol.updateOne(
-    { cid: proposalCid },
-    {
-      $set: {
-        lastActivityAt: new Date(),
-      },
-    },
-  );
-
-  await addDelegatedVotes({
+  await addDelegatedVotes(bulk, {
     proposal,
     snapshotHeight,
     voter,
@@ -261,7 +246,20 @@ async function vote(
     now,
   });
 
-  return result.value?._id;
+  await bulk.execute();
+
+  await proposalCol.updateOne(
+    { cid: proposalCid },
+    {
+      $set: {
+        lastActivityAt: new Date(),
+      },
+    },
+  );
+
+  return {
+    success: true,
+  };
 }
 
 module.exports = {
