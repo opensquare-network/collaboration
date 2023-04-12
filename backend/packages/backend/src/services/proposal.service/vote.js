@@ -249,7 +249,7 @@ async function vote(
   await addDelegatedVotes({
     proposal,
     snapshotHeight,
-    voter: realVoter,
+    voter,
     voterNetwork,
     choices,
     remark,
