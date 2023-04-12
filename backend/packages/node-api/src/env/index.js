@@ -24,6 +24,7 @@ const chainEndpointPrefixMap = {
   [chains.parallel]: "PARA",
   [chains.basilisk]: "BSX",
   [chains.hydradx]: "HDX",
+  [chains.rococo]: "ROC",
 };
 
 // [chain, endpoints]
