@@ -73,8 +73,8 @@ const SnapshotsWrapper = styled.div`
 
 // eslint-disable-next-line
 export default function PostInfo({ data, space }) {
-  const isCentrifuge = space?.networks?.some((network) =>
-    ["centrifuge", "altair"].includes(network.network),
+  const hasDelegation = space?.networks?.some((network) =>
+    ["centrifuge", "altair", "rococo"].includes(network.network),
   );
 
   return (
@@ -114,7 +114,7 @@ export default function PostInfo({ data, space }) {
               >{`#${data?.pinHash?.slice(0, 7)}`}</ExternalLink>
             </InfoItem>
           )}
-          {isCentrifuge && (
+          {hasDelegation && (
             <InfoItem>
               <span>Delegation</span>
               <span>Democracy</span>

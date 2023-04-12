@@ -20,6 +20,7 @@ import khala from "./khala";
 import kintsugi from "./kintsugi";
 import basilisk from "./basilisk";
 import hydradx from "./hydradx";
+import rococo from "./rococo";
 
 export const chainConfigsMap = {
   polkadot,
@@ -44,12 +45,13 @@ export const chainConfigsMap = {
   zeitgeist,
   basilisk,
   hydradx,
+  rococo,
 };
 
 export function getChainConfigs(chain) {
   const configs = chainConfigsMap[chain];
   if (!configs) {
-    throw new Error(`No chain cofigs for ${chain}`);
+    throw new Error(`No chain configs for ${chain}`);
   }
 
   return configs;

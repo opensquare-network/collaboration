@@ -28,7 +28,7 @@ async function getDelegateeFromApis(apis, delegator, blockHashOrHeight) {
 async function getDelegatee(ctx) {
   const { chain, delegator } = ctx.params;
   const { block: blockHashOrHeight } = ctx.query;
-  if (![chains.centrifuge, chains.altair].includes(chain)) {
+  if (![chains.centrifuge, chains.altair, chains.rococo].includes(chain)) {
     ctx.throw(400, `Not support chain ${chain}`);
   }
 

@@ -350,7 +350,9 @@ async function getVoterBalance(ctx) {
   );
 
   let delegation;
-  if ([networks.centrifuge, networks.altair].includes(network)) {
+  if (
+    [networks.centrifuge, networks.altair, networks.rococo].includes(network)
+  ) {
     const delegated = await getDelegated(network, snapshot, address);
     if (!isEmpty(delegated)) {
       delegation = delegated;

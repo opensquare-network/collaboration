@@ -49,7 +49,7 @@ async function getDelegatorsFromApis(apis, delegatee, blockHashOrHeight) {
 async function getDelegators(ctx) {
   const { chain, delegatee } = ctx.params;
   const { block: blockHashOrHeight } = ctx.query;
-  if (![chains.centrifuge, chains.altair].includes(chain)) {
+  if (![chains.centrifuge, chains.altair, chains.rococo].includes(chain)) {
     ctx.throw(400, `Not support chain ${chain}`);
   }
 

@@ -27,7 +27,11 @@ async function addDelegatedVotes({
   pinHash,
   now,
 }) {
-  if (![networks.centrifuge, networks.altair].includes(voterNetwork)) {
+  if (
+    ![networks.centrifuge, networks.altair, networks.rococo].includes(
+      voterNetwork,
+    )
+  ) {
     return;
   }
 

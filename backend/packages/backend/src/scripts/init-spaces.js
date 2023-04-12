@@ -30,6 +30,7 @@ const { lksmConfig } = require("./spaces/lksm");
 const { parallelConfig } = require("./spaces/parallel");
 const { basiliskConfig } = require("./spaces/basilisk");
 const { hydradxConfig } = require("./spaces/hydradx");
+const { rococoConfig } = require("./spaces/rococo");
 
 const spaces = [
   polkadotConfig,
@@ -60,6 +61,7 @@ const spaces = [
   parallelConfig,
   basiliskConfig,
   hydradxConfig,
+  rococoConfig,
 ];
 
 async function main() {

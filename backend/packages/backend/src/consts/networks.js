@@ -25,6 +25,7 @@ const networks = Object.freeze({
   basilisk: "basilisk",
   hydradx: "hydradx",
   ethereum: "ethereum",
+  rococo: "rococo",
 });
 
 const evmNetworks = [networks.moonbeam, networks.moonriver, networks.ethereum];

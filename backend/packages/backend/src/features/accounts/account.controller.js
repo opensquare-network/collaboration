@@ -39,7 +39,9 @@ async function getSpaceAccountBalance(ctx) {
 
   // For Centrifuge and Altair, we need to check if the address has been delegated
   let delegation;
-  if ([networks.centrifuge, networks.altair].includes(network)) {
+  if (
+    [networks.centrifuge, networks.altair, networks.rococo].includes(network)
+  ) {
     const delegated = await getDelegated(network, blockHeight, address);
     if (!isEmpty(delegated)) {
       delegation = delegated;

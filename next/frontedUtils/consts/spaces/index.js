@@ -25,6 +25,7 @@ import dotsama from "./dotsama";
 import lksm from "./lksm";
 import basilisk from "./basilisk";
 import hydradx from "./hydradx";
+import rococo from "./rococo";
 import { defaultSeoImage } from "./sns";
 
 const configsMap = {
@@ -55,6 +56,7 @@ const configsMap = {
   lksm,
   basilisk,
   hydradx,
+  rococo,
 };
 
 export default function getSpaceConfigs(spaceId) {
