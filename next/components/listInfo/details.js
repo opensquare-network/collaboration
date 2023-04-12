@@ -68,10 +68,6 @@ const DetailsValue = styled(FlexBetween)`
   ${p_14_medium};
 `;
 
-const DetailsNetwork = styled.span`
-  margin-right: 8px;
-`;
-
 const voteText = (n) => `${n} ${n === 1 ? "vote" : "votes"}`;
 
 export default function Details({ space }) {
