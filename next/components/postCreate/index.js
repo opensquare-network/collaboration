@@ -11,6 +11,7 @@ import {
   proxySelector,
   setAvailableNetworks,
   setBalance,
+  setDelegation,
   useProxySelector,
 } from "store/reducers/accountSlice";
 import {
@@ -144,6 +145,7 @@ export default function PostCreate({ space }) {
     // if the balance is above the threshold
     if (!loginAddress) {
       dispatch(setBalance(null));
+      dispatch(setDelegation(null));
       return;
     }
 
@@ -163,6 +165,7 @@ export default function PostCreate({ space }) {
       .then(([result]) => {
         if (!isNil(result?.result?.balance)) {
           dispatch(setBalance(result?.result?.balance ?? 0));
+          dispatch(setDelegation(result?.result?.delegation ?? null));
         } else {
           const message = result?.error?.message || FETCH_BALANCE_ERROR;
           dispatch(newErrorToast(message));

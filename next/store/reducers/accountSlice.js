@@ -11,9 +11,11 @@ const accountSlice = createSlice({
   initialState: {
     account: null,
     balance: null,
+    delegation: null,
     useProxy: false,
     proxy: null, // the proxy address
     proxyBalance: null,
+    proxyDelegation: null,
     availableNetworks: [],
     joinedSpaces: [],
   },
@@ -42,8 +44,14 @@ const accountSlice = createSlice({
     setProxyBalance(state, { payload }) {
       state.proxyBalance = payload;
     },
+    setProxyDelegation(state, { payload }) {
+      state.proxyDelegation = payload;
+    },
     setBalance(state, { payload }) {
       state.balance = payload;
+    },
+    setDelegation(state, { payload }) {
+      state.delegation = payload;
     },
     setJoinedSpaces(state, { payload }) {
       state.joinedSpaces = payload;
@@ -56,7 +64,9 @@ export const {
   setAvailableNetworks,
   setProxy,
   setBalance,
+  setDelegation,
   setProxyBalance,
+  setProxyDelegation,
   setUseProxy,
   setJoinedSpaces,
 } = accountSlice.actions;
@@ -73,7 +83,9 @@ export const availableNetworksSelector = (state) =>
   state.account.availableNetworks;
 
 export const balanceSelector = (state) => state.account.balance;
+export const delegationSelector = (state) => state.account.delegation;
 export const proxyBalanceSelector = (state) => state.account.proxyBalance;
+export const proxyDelegationSelector = (state) => state.account.proxyDelegation;
 export const useProxySelector = (state) => state.account.useProxy;
 export const joinedSpacesSelector = (state) => state.account.joinedSpaces;
 const rawProxySelector = (state) => state.account.proxy;
@@ -84,7 +96,7 @@ export const targetBalanceSelector = createSelector(
   rawProxySelector,
   (balance, proxyBalance, rawProxy) => {
     return rawProxy ? proxyBalance : balance;
-  }
+  },
 );
 
 export const clearProxy = () => (dispatch) => {
@@ -110,7 +122,7 @@ export const initAccount = () => (dispatch) => {
     setAccount({
       address,
       network,
-    })
+    }),
   );
 };
 
@@ -125,7 +137,7 @@ export const loginNetworkSelector = createSelector(
   accountSelector,
   (networks, account) => {
     return networks.find((item) => item.network === account?.network);
-  }
+  },
 );
 
 export const loginAccountSelector = createSelector(
@@ -142,7 +154,7 @@ export const loginAccountSelector = createSelector(
       ...account,
       address,
     };
-  }
+  },
 );
 
 export const loginAddressSelector = createSelector(
@@ -154,7 +166,7 @@ export const loginAddressSelector = createSelector(
     }
 
     return encodeAddressByChain(account.address, network.network);
-  }
+  },
 );
 
 export const proxySelector = createSelector(
@@ -166,7 +178,7 @@ export const proxySelector = createSelector(
     }
 
     return proxyAddress;
-  }
+  },
 );
 
 export const isEvmSelector = createSelector(loginNetworkSelector, (network) => {
@@ -178,7 +190,7 @@ export const canUseProxySelector = createSelector(
   ({ network } = {}) => {
     const configs = chainConfigsMap[network];
     return configs ? configs.hasProxy : false;
-  }
+  },
 );
 
 export const fetchJoinedSpace = (address) => (dispatch) => {

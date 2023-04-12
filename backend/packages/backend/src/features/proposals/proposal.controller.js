@@ -6,6 +6,9 @@ const {
 const { ContentType, ChoiceType } = require("../../constants");
 const { extractPage } = require("../../utils");
 const { isAddress } = require("@polkadot/util-crypto");
+const { getDelegated } = require("../../services/node.service/getDelegated");
+const isEmpty = require("lodash.isempty");
+const { networks } = require("../../consts/networks");
 
 async function createProposal(ctx) {
   const { data, address, signature } = ctx.request.body;
@@ -339,12 +342,25 @@ async function getVoterBalance(ctx) {
     throw new HttpError(400, "Invalid address");
   }
 
-  ctx.body = await proposalService.getVoterBalance(
+  const balance = await proposalService.getVoterBalance(
     proposalCid,
     network,
     address,
     snapshot,
   );
+
+  let delegation;
+  if ([networks.centrifuge, networks.altair].includes(network)) {
+    const delegated = await getDelegated(network, snapshot, address);
+    if (!isEmpty(delegated)) {
+      delegation = delegated;
+    }
+  }
+
+  ctx.body = {
+    ...balance,
+    delegation,
+  };
 }
 
 module.exports = {
