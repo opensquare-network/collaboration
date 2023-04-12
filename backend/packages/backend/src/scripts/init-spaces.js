@@ -61,8 +61,11 @@ const spaces = [
   parallelConfig,
   basiliskConfig,
   hydradxConfig,
-  rococoConfig,
 ];
+
+if (["1", "true", "TRUE"].includes(process.env.DEVELOPMENT)) {
+  spaces.push(rococoConfig);
+}
 
 async function main() {
   const spaceCol = await getSpaceCollection();
