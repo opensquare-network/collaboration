@@ -25,6 +25,7 @@
     "koa-logger": "^3.2.1",
     "koa-router": "^10.1.1",
     "lodash.flatten": "^4.4.0",
+    "lodash.isempty": "^4.4.0",
     "lodash.isnil": "^4.0.0",
     "log4js": "^6.9.1",
     "mongodb": "^4.1.3",

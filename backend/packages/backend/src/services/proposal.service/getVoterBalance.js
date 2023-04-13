@@ -14,6 +14,7 @@ async function getVoterBalance(proposalCid, network, address, snapshot) {
   const blockHeight = snapshot
     ? parseInt(snapshot)
     : await getLatestHeight(network);
+
   const totalBalance = await getBalanceFromNetwork({
     networksConfig,
     networkName: network,

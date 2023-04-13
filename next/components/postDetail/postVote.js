@@ -10,6 +10,7 @@ import {
   loginAddressSelector,
   loginNetworkSelector,
   proxyBalanceSelector,
+  proxyDelegationSelector,
   proxySelector,
   setUseProxy,
   useProxySelector,
@@ -37,6 +38,7 @@ import { extensionCancelled } from "../../frontedUtils/consts/extension";
 import { useTerminate } from "./terminate";
 import Tooltip from "../tooltip";
 import VoteBalanceDetail from "./VoteBalanceDetail";
+import DelegationInfo from "./delegationInfo";
 
 const Wrapper = styled.div`
   > :not(:first-child) {
@@ -102,17 +104,19 @@ const RedText = styled.span`
 `;
 
 export default function PostVote({ proposal, threshold = 0 }) {
+  const router = useRouter();
   const dispatch = useDispatch();
   const [choiceIndexes, setChoiceIndexes] = useState([]);
   const [remark, setRemark] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [balance, setBalance] = useState();
   const [balanceDetail, setBalanceDetail] = useState([]);
+  const [delegation, setDelegation] = useState();
   const viewfunc = useViewfunc();
-  const router = useRouter();
   const useProxy = useSelector(useProxySelector);
   const proxyAddress = useSelector(proxySelector);
   const proxyBalance = useSelector(proxyBalanceSelector);
+  const proxyDelegation = useSelector(proxyDelegationSelector);
 
   const loginAddress = useSelector(loginAddressSelector);
   const { network: loginNetwork } = useSelector(loginNetworkSelector) || {};
@@ -124,11 +128,14 @@ export default function PostVote({ proposal, threshold = 0 }) {
   });
 
   const voteBalance = useProxy ? proxyBalance : balance;
+  const voteDelegation = useProxy ? proxyDelegation : delegation;
+
   const belowThreshold = new BigNumber(voteBalance).isLessThan(threshold);
   const canVote =
     !belowThreshold &&
     choiceIndexes.length &&
-    proposalStatus.active === proposal?.status;
+    proposalStatus.active === proposal?.status &&
+    !voteDelegation;
 
   const supportProxy = useSelector(canUseProxySelector);
   const snapshot = proposal.snapshotHeights[loginNetwork];
@@ -153,6 +160,7 @@ export default function PostVote({ proposal, threshold = 0 }) {
         .then((response) => {
           setBalance(response?.result?.balanceOf);
           setBalanceDetail(response?.result?.details);
+          setDelegation(response?.result?.delegation);
         })
         .catch((e) => {
           const message = e?.message || "Failed to get balance.";
@@ -244,6 +252,80 @@ export default function PostVote({ proposal, threshold = 0 }) {
     }
   };
 
+  let voteButton = null;
+
+  if (!proposalClosed) {
+    let balanceInfo = null;
+
+    if (voteDelegation) {
+      balanceInfo = (
+        <DelegationInfo
+          delegatee={voteDelegation?.delegatee}
+          network={loginNetwork}
+        />
+      );
+    } else {
+      balanceInfo = (
+        <>
+          {!isNil(voteBalance) && (
+            <div>
+              <Tooltip content={<VoteBalanceDetail details={balanceDetail} />}>
+                {`Available ${toApproximatelyFixed(
+                  bigNumber2Locale(
+                    fromAssetUnit(
+                      voteBalance,
+                      proposal?.networksConfig?.decimals,
+                    ),
+                  ),
+                )} ${proposal.networksConfig?.symbol}`}
+              </Tooltip>
+            </div>
+          )}
+          {belowThreshold && <RedText>Insufficient</RedText>}
+        </>
+      );
+    }
+
+    voteButton = (
+      <InnerWrapper>
+        <ProxyHeader>
+          {balanceInfo}
+          {supportProxy && (
+            <ToggleWrapper>
+              <div>Proxy vote</div>
+              <Toggle
+                on={useProxy}
+                setOn={() => dispatch(setUseProxy(!useProxy))}
+              />
+            </ToggleWrapper>
+          )}
+        </ProxyHeader>
+        {useProxy && (
+          <PostAddress
+            spaceId={proposal.space}
+            proposalCid={proposal.cid}
+            snapshot={snapshot}
+          />
+        )}
+
+        <Flex>
+          <Button
+            primary
+            large
+            block
+            isLoading={isLoading}
+            onClick={onVote}
+            disabled={!canVote}
+          >
+            {useProxy ? "Proxy Vote" : "Vote"}
+          </Button>
+
+          {terminateButton}
+        </Flex>
+      </InnerWrapper>
+    );
+  }
+
   return (
     <Wrapper>
       <InnerWrapper>
@@ -276,58 +358,7 @@ export default function PostVote({ proposal, threshold = 0 }) {
           />
         </InnerWrapper>
       )}
-      {!proposalClosed && (
-        <InnerWrapper>
-          <ProxyHeader>
-            <div style={{ display: "flex" }}>
-              {!isNil(voteBalance) && (
-                <div>
-                  <Tooltip
-                    content={<VoteBalanceDetail details={balanceDetail} />}
-                  >
-                    {`Available ${toApproximatelyFixed(
-                      bigNumber2Locale(
-                        fromAssetUnit(
-                          voteBalance,
-                          proposal?.networksConfig?.decimals,
-                        ),
-                      ),
-                    )} ${proposal.networksConfig?.symbol}`}
-                  </Tooltip>
-                </div>
-              )}
-              {belowThreshold && <RedText>Insufficient</RedText>}
-            </div>
-            {supportProxy && (
-              <ToggleWrapper>
-                <div>Proxy vote</div>
-                <Toggle
-                  on={useProxy}
-                  setOn={() => dispatch(setUseProxy(!useProxy))}
-                />
-              </ToggleWrapper>
-            )}
-          </ProxyHeader>
-          {useProxy && (
-            <PostAddress spaceId={proposal.space} snapshot={snapshot} />
-          )}
-
-          <Flex>
-            <Button
-              primary
-              large
-              block
-              isLoading={isLoading}
-              onClick={onVote}
-              disabled={!canVote}
-            >
-              {useProxy ? "Proxy Vote" : "Vote"}
-            </Button>
-
-            {terminateButton}
-          </Flex>
-        </InnerWrapper>
-      )}
+      {voteButton}
     </Wrapper>
   );
 }

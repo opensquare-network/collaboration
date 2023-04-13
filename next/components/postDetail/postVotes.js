@@ -59,6 +59,7 @@ export default function PostVotes({
             space={proposal.networksConfig}
             key={index}
             isSafari={isSafari}
+            isDelegate={item.isDelegate}
           />
         ))}
       {!votes?.items?.length > 0 && (

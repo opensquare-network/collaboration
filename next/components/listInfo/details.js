@@ -6,13 +6,11 @@ import {
   p_20_semibold,
 } from "../../styles/textStyles";
 import SpaceLogo from "@/components/spaceLogo";
-import { ChainIcon } from "@osn/common-ui";
 import Divider from "../styled/divider";
-import { capitalize } from "frontedUtils";
 import ValueDisplay from "../valueDisplay";
-import { Flex, FlexBetween } from "@osn/common-ui";
+import { ChainIcon, Flex, FlexBetween } from "@osn/common-ui";
 import Tooltip from "../tooltip";
-import SymbolIcon from "@/components/symbolIcon";
+import uniq from "lodash.uniq";
 
 const Wrapper = styled.div``;
 
@@ -46,9 +44,18 @@ const DetailsTitle = styled.div`
   ${p_16_semibold};
 `;
 
-const DetailsItem = styled(FlexBetween)`
-  align-items: start;
-  margin-bottom: 16px;
+const DetailSections = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`;
+
+const DetailsItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  > :first-child {
+    margin-bottom: 4px;
+  }
   line-height: 24px;
 `;
 
@@ -57,41 +64,55 @@ const DetailsLabel = styled.span`
   color: #506176;
 `;
 
-const DetailsValue = styled(Flex)`
+const DetailsValue = styled(FlexBetween)`
   ${p_14_medium};
-  justify-content: flex-end;
-`;
-
-const DetailsNetwork = styled.span`
-  margin-right: 8px;
 `;
 
 const voteText = (n) => `${n} ${n === 1 ? "vote" : "votes"}`;
 
 export default function Details({ space }) {
   const strategyCount = space.weightStrategy?.length || 0;
-  const networkCount = space.networks?.length || 0;
 
   const symbolMultiplier = {};
   const symbolSet = new Set();
-  symbolSet.add(space?.symbol);
-  for (const network of space.networks || []) {
-    symbolSet.add(network?.symbol);
-    symbolMultiplier[network?.symbol] = network?.multiplier;
-    for (const asset of network.assets || []) {
-      symbolSet.add(asset?.symbol);
-      symbolMultiplier[asset?.symbol] = asset?.multiplier;
+
+  if (space.networks?.length > 0) {
+    for (const network of space.networks) {
+      if (network.assets?.length > 0) {
+        for (const asset of network.assets) {
+          const symbol = asset?.symbol ?? network?.symbol ?? space?.symbol;
+          const multiplier = asset?.multiplier ?? network?.multiplier;
+          const networkName = network?.network ?? space?.network;
+          symbolSet.add(`${networkName}/${symbol}`);
+          symbolMultiplier[`${networkName}/${symbol}`] = multiplier;
+        }
+      } else {
+        const symbol = network?.symbol ?? space?.symbol;
+        const multiplier = network?.multiplier;
+        const networkName = network?.network ?? space?.network;
+        symbolSet.add(`${networkName}/${symbol}`);
+        symbolMultiplier[`${networkName}/${symbol}`] = multiplier;
+      }
     }
+  } else {
+    const symbol = space?.symbol;
+    const network = space?.network;
+    symbolSet.add(`${network}/${symbol}`);
   }
-  symbolSet.delete("VOTE");
-  const symbols = [...symbolSet].filter((item) => !!item);
+
+  const symbols = [...symbolSet].map((item) => {
+    const [network, symbol] = item.split("/");
+    return { network, symbol };
+  });
 
   return (
     <Wrapper>
       <LogoWrapper>
         <SpaceLogo spaceId={space.id} />
         <LogoName>{space.name}</LogoName>
-        <LogoSymbol>{symbols.join(" + ")}</LogoSymbol>
+        <LogoSymbol>
+          {uniq(symbols.map(({ symbol }) => symbol)).join(" + ")}
+        </LogoSymbol>
       </LogoWrapper>
 
       <DetailsWrapper>
@@ -101,11 +122,16 @@ export default function Details({ space }) {
 
       <Divider />
 
-      <div>
+      <DetailSections>
         <DetailsItem>
-          <DetailsLabel>Threshold</DetailsLabel>
+          <DetailsLabel>Config</DetailsLabel>
           <DetailsValue>
+            <span>Threshold</span>
             <ValueDisplay value={space.proposeThreshold} space={space} />
+          </DetailsValue>
+          <DetailsValue>
+            <span>Delegation</span>
+            <span>Democracy</span>
           </DetailsValue>
         </DetailsItem>
 
@@ -119,43 +145,24 @@ export default function Details({ space }) {
         </DetailsItem>
 
         <DetailsItem>
-          <DetailsLabel>Networks({networkCount})</DetailsLabel>
-          <div>
-            {space.networks?.map((network, index) => (
-              <DetailsValue key={index}>
-                <DetailsNetwork>{capitalize(network.network)}</DetailsNetwork>{" "}
-                <ChainIcon chainName={network.network} size={20} />
-              </DetailsValue>
-            ))}
-          </div>
+          <DetailsLabel>Assets({symbols.length})</DetailsLabel>
+          {symbols?.map(({ network, symbol }, index) => (
+            <DetailsValue key={index}>
+              <Flex style={{ gap: "8px" }}>
+                <ChainIcon chainName={network} size={20} />
+                <span>{symbol}</span>
+              </Flex>
+              <Tooltip
+                content={`1 ${symbol} = ${voteText(
+                  symbolMultiplier[`${network}/${symbol}`] ?? 1,
+                )}`}
+              >
+                <div>{`x${symbolMultiplier[`${network}/${symbol}`] ?? 1}`}</div>
+              </Tooltip>
+            </DetailsValue>
+          ))}
         </DetailsItem>
-
-        {space?.symbol === "VOTE" && (
-          <DetailsItem>
-            <DetailsLabel>Assets({symbols.length})</DetailsLabel>
-            <div>
-              {symbols?.map((symbol, index) => (
-                <DetailsValue key={index}>
-                  <DetailsNetwork>
-                    <Tooltip
-                      content={`1 ${symbol} = ${voteText(
-                        symbolMultiplier[symbol] ?? 1,
-                      )}`}
-                    >
-                      {`${symbol}${
-                        (symbolMultiplier[symbol] ?? 1) === 1
-                          ? ""
-                          : `(x${symbolMultiplier[symbol] ?? 1})`
-                      }`}
-                    </Tooltip>
-                  </DetailsNetwork>{" "}
-                  <SymbolIcon symbolName={symbol} size={20} />
-                </DetailsValue>
-              ))}
-            </div>
-          </DetailsItem>
-        )}
-      </div>
+      </DetailSections>
     </Wrapper>
   );
 }

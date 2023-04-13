@@ -108,6 +108,23 @@ export default function ListInfo({ space }) {
       </Flex>
       <Flex>
         <AboutItem>
+          <AboutIcon src="/imgs/icons/network.svg" />
+          <div>
+            <AboutName onClick={handleShowModal}>
+              Network({networkCount})
+            </AboutName>
+            <ChainIconsWrapper>
+              <ChainIcons>
+                {space.networks?.slice(0, 3).map((network, index) => (
+                  <ChainIcon key={index} chainName={network.network} />
+                ))}
+              </ChainIcons>
+              {space.networks?.length > 3 && "..."}
+            </ChainIconsWrapper>
+          </div>
+        </AboutItem>
+        <AboutDivider />
+        <AboutItem>
           <AboutIcon src="/imgs/icons/threshold.svg" />
           <div>
             <AboutName onClick={handleShowModal}>Threshold</AboutName>
@@ -127,23 +144,6 @@ export default function ListInfo({ space }) {
               {space.weightStrategy?.[0]}
               {space.weightStrategy?.length > 1 && ", ..."}
             </StrategyAboutDetail>
-          </div>
-        </AboutItem>
-        <AboutDivider />
-        <AboutItem>
-          <AboutIcon src="/imgs/icons/network.svg" />
-          <div>
-            <AboutName onClick={handleShowModal}>
-              Network({networkCount})
-            </AboutName>
-            <ChainIconsWrapper>
-              <ChainIcons>
-                {space.networks?.slice(0, 3).map((network, index) => (
-                  <ChainIcon key={index} chainName={network.network} />
-                ))}
-              </ChainIcons>
-              {space.networks?.length > 3 && "..."}
-            </ChainIconsWrapper>
           </div>
         </AboutItem>
 
