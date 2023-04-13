@@ -150,7 +150,7 @@ export default function ListInfo({ space }) {
         <Modal
           open={modalOpen}
           setOpen={setModalOpen}
-          okText="Cancel"
+          okText="Close"
           okButtonProps={{ primary: false }}
           onOk={handleCloseModal}
         >
