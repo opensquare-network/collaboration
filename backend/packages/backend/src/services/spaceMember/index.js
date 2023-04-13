@@ -9,7 +9,9 @@ async function getSpaceMembers(space) {
 
 async function getMemberSpaces(memberPublicKey) {
   const spaceMemberCol = await getSpaceMemberCollection();
-  const memberSpaces = await spaceMemberCol.find({ member: memberPublicKey }).toArray();
+  const memberSpaces = await spaceMemberCol
+    .find({ member: memberPublicKey })
+    .toArray();
 
   return memberSpaces;
 }
@@ -29,11 +31,11 @@ async function addSpaceMember(space, memberPublicKey) {
       },
       $set: {
         updatedAt: now,
-      }
+      },
     },
     {
-      upsert: true
-    }
+      upsert: true,
+    },
   );
 
   return true;
@@ -41,12 +43,10 @@ async function addSpaceMember(space, memberPublicKey) {
 
 async function removeSpaceMember(space, memberPublicKey) {
   const spaceMemberCol = await getSpaceMemberCollection();
-  await spaceMemberCol.deleteOne(
-    {
-      space,
-      member: memberPublicKey,
-    }
-  );
+  await spaceMemberCol.deleteOne({
+    space,
+    member: memberPublicKey,
+  });
 
   return true;
 }

@@ -34,7 +34,7 @@ async function addAppendant(ctx) {
     appenderNetwork,
     data,
     address,
-    signature
+    signature,
   );
 }
 

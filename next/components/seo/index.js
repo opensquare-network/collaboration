@@ -11,7 +11,7 @@ export default function Seo({ space, title, desc, banner }) {
     },
   ];
 
-  const finalTitle = title ?? `OpenSquare off-chain voting`;
+  const finalTitle = title ?? "OpenSquare off-chain voting";
   return (
     <NextSeo
       title={finalTitle}

@@ -6,7 +6,7 @@ async function nextPostUid() {
   const result = await statusCol.findOneAndUpdate(
     { name: "postUid" },
     { $inc: { value: 1 } },
-    { returnDocument: "after", upsert: true }
+    { returnDocument: "after", upsert: true },
   );
 
   if (!result.value) {

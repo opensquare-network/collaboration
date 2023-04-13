@@ -71,7 +71,12 @@ const SnapshotsWrapper = styled.div`
   }
 `;
 
+// eslint-disable-next-line
 export default function PostInfo({ data, space }) {
+  const hasDelegation = space?.networks?.some((network) =>
+    ["centrifuge", "altair", "rococo"].includes(network.network),
+  );
+
   return (
     <Wrapper>
       <div>
@@ -89,7 +94,7 @@ export default function PostInfo({ data, space }) {
                   <Tooltip
                     key={networkName}
                     content={`${capitalize(
-                      networkName
+                      networkName,
                     )} ${height.toLocaleString()}`}
                     size="fit"
                   >
@@ -107,6 +112,12 @@ export default function PostInfo({ data, space }) {
               <ExternalLink
                 href={`${process.env.NEXT_PUBLIC_API_END_POINT}api/ipfs/files/${data?.pinHash}`}
               >{`#${data?.pinHash?.slice(0, 7)}`}</ExternalLink>
+            </InfoItem>
+          )}
+          {hasDelegation && (
+            <InfoItem>
+              <span>Delegation</span>
+              <span>Democracy</span>
             </InfoItem>
           )}
         </div>

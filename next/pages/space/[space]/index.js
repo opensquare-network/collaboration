@@ -46,8 +46,8 @@ export default function List({
     dispatch(
       setAvailableNetworks(
         space?.networks?.map((item) => pick(item, ["network", "ss58Format"])) ||
-          []
-      )
+          [],
+      ),
     );
   }, [dispatch, space]);
 

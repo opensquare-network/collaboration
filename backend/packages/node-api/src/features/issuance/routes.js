@@ -5,7 +5,7 @@ const router = new Router();
 
 router.get(
   "/token/:token/:blockHashOrHeight?",
-  issuanceController.getTotalIssuance
+  issuanceController.getTotalIssuance,
 );
 
 module.exports = router;

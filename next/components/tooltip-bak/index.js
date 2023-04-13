@@ -65,14 +65,7 @@ const TitleWrapper = styled.div`
   white-space: nowrap;
 `;
 
-const TooltipIcon = styled.img`
-  width: 24px;
-  height: 24px;
-`;
-
 export default function Tooltip({
-  label,
-  bg,
   content,
   children,
   isCopy,

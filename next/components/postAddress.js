@@ -17,6 +17,7 @@ import {
   proxySelector,
   setProxy,
   setProxyBalance,
+  setProxyDelegation,
 } from "../store/reducers/accountSlice";
 import delayLoading from "../services/delayLoading";
 import isNil from "lodash.isnil";
@@ -146,7 +147,7 @@ const IdentityWrapper = styled(Flex)`
   }
 `;
 
-export default function PostAddress({ spaceId, size, snapshot }) {
+export default function PostAddress({ spaceId, proposalCid, size, snapshot }) {
   const dispatch = useDispatch();
   const proxyAddress = useSelector(proxySelector);
   const [isLoading, setIsLoading] = useState(false);
@@ -169,6 +170,7 @@ export default function PostAddress({ spaceId, size, snapshot }) {
     if (!inputAddress) {
       dispatch(setProxy(null));
       dispatch(setProxyBalance(null));
+      dispatch(setProxyDelegation(null));
       return;
     }
 
@@ -202,18 +204,37 @@ export default function PostAddress({ spaceId, size, snapshot }) {
 
     dispatch(setProxyBalanceLoading(true));
     dispatch(setLoadBalanceError(""));
-    delayLoading(
-      `${spaceId}/${network}/account/${proxyAddress}/balance?snapshot=${accountSnapshot}`
-    )
-      .then(([result]) => {
-        if (!isNil(result?.result?.balance)) {
-          dispatch(setProxyBalance(result?.result?.balance ?? 0));
+
+    let promise;
+    if (proposalCid) {
+      promise = delayLoading(
+        `${spaceId}/proposal/${proposalCid}/voterbalance/${network}/${proxyAddress}?snapshot=${accountSnapshot}`,
+      ).then(([result]) => {
+        if (!isNil(result?.result?.balanceOf)) {
+          dispatch(setProxyBalance(result?.result?.balanceOf ?? 0));
+          dispatch(setProxyDelegation(result?.result?.delegation ?? null));
         } else {
           const message = result?.error?.message || FETCH_BALANCE_ERROR;
           dispatch(newErrorToast(message));
           dispatch(setLoadBalanceError(message));
         }
-      })
+      });
+    } else {
+      promise = delayLoading(
+        `${spaceId}/${network}/account/${proxyAddress}/balance?snapshot=${accountSnapshot}`,
+      ).then(([result]) => {
+        if (!isNil(result?.result?.balance)) {
+          dispatch(setProxyBalance(result?.result?.balance ?? 0));
+          dispatch(setProxyDelegation(result?.result?.delegation ?? null));
+        } else {
+          const message = result?.error?.message || FETCH_BALANCE_ERROR;
+          dispatch(newErrorToast(message));
+          dispatch(setLoadBalanceError(message));
+        }
+      });
+    }
+
+    promise
       .catch((e) => {
         const message = e?.message || FETCH_BALANCE_ERROR;
         dispatch(newErrorToast(message));
@@ -222,7 +243,7 @@ export default function PostAddress({ spaceId, size, snapshot }) {
       .finally(() => {
         dispatch(setProxyBalanceLoading(false));
       });
-  }, [proxyAddress, dispatch, network, accountSnapshot, spaceId]);
+  }, [proxyAddress, dispatch, network, accountSnapshot, spaceId, proposalCid]);
 
   return (
     <Wrapper size={size}>

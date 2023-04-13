@@ -30,6 +30,7 @@ const { lksmConfig } = require("./spaces/lksm");
 const { parallelConfig } = require("./spaces/parallel");
 const { basiliskConfig } = require("./spaces/basilisk");
 const { hydradxConfig } = require("./spaces/hydradx");
+const { rococoConfig } = require("./spaces/rococo");
 
 const spaces = [
   polkadotConfig,
@@ -61,6 +62,10 @@ const spaces = [
   basiliskConfig,
   hydradxConfig,
 ];
+
+if (["1", "true", "TRUE"].includes(process.env.DEVELOPMENT)) {
+  spaces.push(rococoConfig);
+}
 
 async function main() {
   const spaceCol = await getSpaceCollection();

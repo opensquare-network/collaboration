@@ -14,10 +14,8 @@ import {
 import {
   newErrorToast,
   newPendingToast,
-  newSuccessToast,
   newToastId,
   removeToast,
-  updatePendingToast,
 } from "store/reducers/toastSlice";
 import { loginAccountSelector } from "store/reducers/accountSlice";
 import {
@@ -116,7 +114,7 @@ export default function Appendants({ proposal, appendants, editable }) {
         content,
         contentType,
         account.address,
-        account.network
+        account.network,
       );
     } catch (error) {
       const errorMessage = error.message;
@@ -130,7 +128,7 @@ export default function Appendants({ proposal, appendants, editable }) {
 
     const toastId = newToastId();
     dispatch(
-      newPendingToast(toastId, "Saving and uploading the appendant to IPFS...")
+      newPendingToast(toastId, "Saving and uploading the appendant to IPFS..."),
     );
     let result;
     try {

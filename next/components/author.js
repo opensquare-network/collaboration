@@ -18,12 +18,12 @@ const Wrapper = styled.div`
 
 export default function Author({
   address,
-  space = {},
+  space,
   size = 20,
   showNetwork = false,
   noLink,
 }) {
-  const { network } = space;
+  const { network } = space || {};
 
   return (
     <Wrapper noLink={noLink}>

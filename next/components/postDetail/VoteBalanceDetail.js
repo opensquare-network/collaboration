@@ -11,7 +11,7 @@ export default function VoteBalanceDetail({ details }) {
       {details?.map((item, index) => (
         <Fragment key={index}>
           {`${toApproximatelyFixed(
-            bigNumber2Locale(fromAssetUnit(item.balance, item.decimals))
+            bigNumber2Locale(fromAssetUnit(item.balance, item.decimals)),
           )} ${item.symbol}${
             item.multiplier !== 1 ? ` x${item.multiplier}` : ""
           }`}

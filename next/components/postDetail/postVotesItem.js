@@ -78,14 +78,35 @@ const EqualWrapper = styled.div`
 const MyVoteTag = styled.div`
   display: flex;
   align-items: center;
-  background: linear-gradient(270deg, #04d2c5 2.06%, #6848ff 100%);
+  background: #f0f3f8;
+  color: #506176;
   border-radius: 9px;
   padding: 2px 10px;
-  color: #ffffff;
   font-weight: 600;
   font-size: 10px;
   line-height: 14px;
   white-space: nowrap;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  margin-left: 8px;
+`;
+
+const DelegationTag = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2px 8px;
+
+  border: 1px solid #d2d9e2;
+  border-radius: 9px;
+
+  font-style: normal;
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 14px;
+
+  color: #a1a8b3;
+
   margin-top: 3px;
   margin-bottom: 3px;
   margin-left: 8px;
@@ -123,11 +144,12 @@ function getChoiceIndex(choices, userChoice) {
   }
 }
 
-export default function PostVotes({
+export default function PostVotesItem({
   choices,
   data,
   space,
   isMyVote = false,
+  isDelegate = false,
   isSafari = false,
 }) {
   const spaceSupportMultiChain = space?.networks?.length > 1;
@@ -141,7 +163,8 @@ export default function PostVotes({
             showNetwork={spaceSupportMultiChain}
             isSafari={isSafari}
           />
-          {isMyVote && <MyVoteTag>My Vote</MyVoteTag>}
+          {isMyVote && <MyVoteTag>Mine</MyVoteTag>}
+          {isDelegate && <DelegationTag>Delegation</DelegationTag>}
         </VoterWrapper>
         <EqualWrapper className="center">
           <Vote>
@@ -172,7 +195,7 @@ export default function PostVotes({
                 {data.choices.map((choice) => (
                   <span key={choice}>{`# ${getChoiceIndex(
                     choices,
-                    choice
+                    choice,
                   )}`}</span>
                 ))}
               </Choices>

@@ -5,7 +5,7 @@ const router = new Router();
 
 router.get(
   "/token/:assetId/account/:account/:blockHashOrHeight?",
-  tokenController.getTotalBalance
+  tokenController.getTotalBalance,
 );
 
 module.exports = router;

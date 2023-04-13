@@ -11,7 +11,7 @@ async function getProxyFromOneApi(
   api,
   delegator,
   toCheckDelegate,
-  blockHashOrHeight
+  blockHashOrHeight,
 ) {
   let blockApi = await getBlockApi(api, blockHashOrHeight);
   const data = await blockApi.query.proxy.proxies(delegator);
@@ -33,7 +33,7 @@ async function getProxyFromApis(apis, delegator, delegatee, blockHashOrHeight) {
   const promises = [];
   for (const api of apis) {
     promises.push(
-      getProxyFromOneApi(api, delegator, delegatee, blockHashOrHeight)
+      getProxyFromOneApi(api, delegator, delegatee, blockHashOrHeight),
     );
   }
 
@@ -68,7 +68,7 @@ class ProxyController {
         apis,
         delegator,
         delegatee,
-        blockHashOrHeight
+        blockHashOrHeight,
       );
       ctx.body = { isProxy };
     } catch (e) {

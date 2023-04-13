@@ -36,14 +36,14 @@ async function getBalanceFromMultiAssetsNetwork({
         balance,
         multiplier,
       };
-    })
+    }),
   );
 
   const balanceOf = details.reduce(
     (prev, curr) =>
       prev +
       adaptBalance(curr.balance, curr.decimals, baseDecimals) * curr.multiplier,
-    0
+    0,
   );
   return {
     balanceOf,
@@ -103,7 +103,7 @@ async function getBalanceFromNetwork({
   const baseSymbol = networksConfig?.symbol;
   const baseDecimals = networksConfig?.decimals;
   const network = networksConfig?.networks?.find(
-    (n) => n.network === networkName
+    (n) => n.network === networkName,
   );
   if (!network) {
     throw new HttpError(400, "Network not found");
@@ -141,10 +141,10 @@ async function getAssetBalanceFromNetwork({
 }) {
   if ("erc20" === type) {
     const { balance } = await getEvmAddressBalance(
-      network,
+      networkName,
       contract,
       address,
-      blockHeight
+      blockHeight,
     );
     return balance;
   }

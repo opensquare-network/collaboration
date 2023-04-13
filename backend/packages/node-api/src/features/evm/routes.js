@@ -6,7 +6,7 @@ const router = new Router();
 
 router.get(
   "/contract/:contract/address/:address/height/:blockHeight",
-  erc20Controller.getBalance
+  erc20Controller.getBalance,
 );
 
 router.get("/height/:timestamp?", getTargetHeight);

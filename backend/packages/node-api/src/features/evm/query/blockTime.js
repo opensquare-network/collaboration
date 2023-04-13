@@ -9,8 +9,8 @@ async function getBlockTimeByHeight(network, expectedHeight) {
   const providers = getProviders(network);
   return Promise.any(
     providers.map((provider) =>
-      getBlockTimeByHeightFromProvider(provider, expectedHeight)
-    )
+      getBlockTimeByHeightFromProvider(provider, expectedHeight),
+    ),
   );
 }
 

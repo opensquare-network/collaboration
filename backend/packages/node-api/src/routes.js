@@ -6,6 +6,7 @@ const chainFeatureRouters = [
   require("./features/balance/routes"),
   require("./features/proxy/routes"),
   require("./features/chain/routes"),
+  require("./features/democracy/routes"),
 ];
 
 const tokenRoutes = require("./features/token/routes");
@@ -25,26 +26,26 @@ module.exports = (app) => {
     router.use(
       `/:chain(${Object.keys(chains).join("|")})`,
       r.routes(),
-      r.allowedMethods({ throw: true })
+      r.allowedMethods({ throw: true }),
     );
   }
 
   router.use(
     "/:chain(statemine|karura|bifrost)",
     tokenRoutes.routes(),
-    tokenRoutes.allowedMethods({ throw: true })
+    tokenRoutes.allowedMethods({ throw: true }),
   );
 
   router.use(
     `/evm/chain/:chain(${Object.keys(evmChains).join("|")})`,
     evmRoutes.routes(),
-    evmRoutes.allowedMethods({ throw: true })
+    evmRoutes.allowedMethods({ throw: true }),
   );
 
   router.use(
     "/issuance",
     issuanceRoutes.routes(),
-    issuanceRoutes.allowedMethods({ throw: true })
+    issuanceRoutes.allowedMethods({ throw: true }),
   );
 
   app.use(router.routes());

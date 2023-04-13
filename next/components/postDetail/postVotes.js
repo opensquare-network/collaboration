@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 import Pagination from "components/pagination";
 import PostVotesItem from "./postVotesItem";
-import { findNetworkConfig } from "../../services/util";
 import HeaderWithNumber from "@/components/postDetail/numberHeader";
 import AccordionPanel from "@/components/accordionPanel/panel";
 import NoData from "@osn/common-ui/es/NoData";
@@ -51,7 +50,7 @@ export default function PostVotes({
         .filter(
           (item) =>
             item.voter !== myVote?.voter ||
-            item.voterNetwork !== myVote?.voterNetwork
+            item.voterNetwork !== myVote?.voterNetwork,
         )
         .map((item, index) => (
           <PostVotesItem
@@ -60,6 +59,7 @@ export default function PostVotes({
             space={proposal.networksConfig}
             key={index}
             isSafari={isSafari}
+            isDelegate={item.isDelegate}
           />
         ))}
       {!votes?.items?.length > 0 && (
