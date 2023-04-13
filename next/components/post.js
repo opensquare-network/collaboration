@@ -123,7 +123,7 @@ export default function Post({ data, showSpace, space, spaces }) {
             <img
               width="20px"
               height="20px"
-              src={`/imgs/icons/projects/${space.spaceIcon}`}
+              src={`/imgs/icons/projects/${space?.spaceIcon}`}
               alt=""
             />
           )}
@@ -135,7 +135,7 @@ export default function Post({ data, showSpace, space, spaces }) {
                 width="20px"
                 height="20px"
                 className="ml-4px"
-                src={`/imgs/icons/projects/${space.spaceIcon}`}
+                src={`/imgs/icons/projects/${space?.spaceIcon}`}
                 alt=""
               />
               <InternalLink href={`/space/${data.space}`}>
