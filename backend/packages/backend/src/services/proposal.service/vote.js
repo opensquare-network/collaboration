@@ -10,7 +10,7 @@ const { ChoiceType } = require("../../constants");
 const { pinData } = require("./common");
 const { getBeenDelegated } = require("../node.service/getBeenDelegated");
 const { adaptBalance } = require("../../utils/balance");
-const { networks } = require("../../consts/networks");
+const { delegationNetworks } = require("../../consts/networks");
 const { getDelegated } = require("../node.service/getDelegated");
 
 async function addDelegatedVotes(
@@ -30,11 +30,7 @@ async function addDelegatedVotes(
     now,
   },
 ) {
-  if (
-    ![networks.centrifuge, networks.altair, networks.rococo].includes(
-      voterNetwork,
-    )
-  ) {
+  if (!delegationNetworks.includes(voterNetwork)) {
     return;
   }
 

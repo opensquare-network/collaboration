@@ -29,8 +29,14 @@ const networks = Object.freeze({
 });
 
 const evmNetworks = [networks.moonbeam, networks.moonriver, networks.ethereum];
+const delegationNetworks = [
+  networks.centrifuge,
+  networks.altair,
+  networks.rococo,
+];
 
 module.exports = {
   networks,
   evmNetworks,
+  delegationNetworks,
 };

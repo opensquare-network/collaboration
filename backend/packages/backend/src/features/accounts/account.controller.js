@@ -1,4 +1,4 @@
-const { evmNetworks, networks } = require("../../consts/networks");
+const { evmNetworks, delegationNetworks } = require("../../consts/networks");
 const { HttpError } = require("../../exc");
 const { getLatestHeight } = require("../../services/chain.service");
 const { spaces: spaceServices } = require("../../spaces");
@@ -39,9 +39,7 @@ async function getSpaceAccountBalance(ctx) {
 
   // For Centrifuge and Altair, we need to check if the address has been delegated
   let delegation;
-  if (
-    [networks.centrifuge, networks.altair, networks.rococo].includes(network)
-  ) {
+  if (delegationNetworks.includes(network)) {
     const delegated = await getDelegated(network, blockHeight, address);
     if (!isEmpty(delegated)) {
       delegation = delegated;

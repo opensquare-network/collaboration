@@ -8,7 +8,7 @@ const { extractPage } = require("../../utils");
 const { isAddress } = require("@polkadot/util-crypto");
 const { getDelegated } = require("../../services/node.service/getDelegated");
 const isEmpty = require("lodash.isempty");
-const { networks } = require("../../consts/networks");
+const { delegationNetworks } = require("../../consts/networks");
 
 async function createProposal(ctx) {
   const { data, address, signature } = ctx.request.body;
@@ -350,9 +350,7 @@ async function getVoterBalance(ctx) {
   );
 
   let delegation;
-  if (
-    [networks.centrifuge, networks.altair, networks.rococo].includes(network)
-  ) {
+  if (delegationNetworks.includes(network)) {
     const delegated = await getDelegated(network, snapshot, address);
     if (!isEmpty(delegated)) {
       delegation = delegated;
