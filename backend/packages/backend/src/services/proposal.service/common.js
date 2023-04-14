@@ -39,6 +39,7 @@ async function pinData(data, address, signature) {
     data,
     address,
     signature,
+    // version 2: replace `msg` with `data`
     version: "2",
   };
 

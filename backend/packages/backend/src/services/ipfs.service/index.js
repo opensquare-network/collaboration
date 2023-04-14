@@ -35,6 +35,7 @@ async function pinItemsToIpfs(col, items) {
         data: item.data,
         address: item.address,
         signature: item.signature,
+        // version 2: replace `msg` with `data`
         version: "2",
       };
       const pinHash = await pinJsonToIpfs(toBePin);
