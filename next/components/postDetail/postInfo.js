@@ -75,12 +75,16 @@ const SnapshotsWrapper = styled.div`
 
 // eslint-disable-next-line
 export default function PostInfo({ data, space }) {
+  const assets = getSpaceAssets(data.networksConfig);
   return (
     <Wrapper>
       <div>
-        <SideSectionTitle title="Assets" img="/imgs/icons/asset.svg" />
+        <SideSectionTitle
+          title={`Assets(${assets.length})`}
+          img="/imgs/icons/asset.svg"
+        />
         <Divider />
-        <AssetList assets={getSpaceAssets(data.networksConfig)} />
+        <AssetList assets={assets} />
       </div>
       <div>
         <SideSectionTitle title="Information" img="/imgs/icons/info.svg" />
