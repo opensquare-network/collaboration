@@ -7,8 +7,14 @@ import {
 import Steps from "../../steps";
 import Logo from "./logo";
 import Name from "./name";
-import { MyPanel, MyDivider, Sections } from "../styled";
+import { MyPanel, Sections } from "../styled";
 import { useEffect, useState } from "react";
+import styled from "styled-components";
+import MyDivider from "../myDivider";
+
+const NextButton = styled(Button)`
+  padding: 12px 0;
+`;
 
 export default function Step1({
   steps,
@@ -52,9 +58,9 @@ export default function Step1({
         <Logo imageFile={imageFile} setImageFile={setImageFile} />
         <Name name={name} setName={setName} errorMsg={errorMsg} />
       </Sections>
-      <Button block onClick={() => handleNext()}>
+      <NextButton block onClick={() => handleNext()}>
         Next
-      </Button>
+      </NextButton>
     </MyPanel>
   );
 }

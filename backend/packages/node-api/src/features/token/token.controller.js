@@ -48,6 +48,11 @@ class TokenController {
     }
 
     const apis = getApis(chain);
+    if (apis.every((api) => !api.isConnected)) {
+      ctx.throw(500, "No apis connected");
+      return;
+    }
+
     if (
       Object.keys(supportedChainSymbols).includes(chain) &&
       chainOrmlTokenId[chain][assetId]
@@ -59,11 +64,6 @@ class TokenController {
         blockHashOrHeight,
         currencyId,
       );
-      return;
-    }
-
-    if (apis.every((api) => !api.isConnected)) {
-      ctx.throw(500, "No apis connected");
       return;
     }
 

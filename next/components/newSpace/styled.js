@@ -1,4 +1,3 @@
-import { Divider } from "@osn/common-ui";
 import styled from "styled-components";
 import Panel from "../postDetail/panel";
 
@@ -31,10 +30,6 @@ export const MyPanel = styled(Panel)`
   > :not(:first-child) {
     margin-top: 32px;
   }
-`;
-
-export const MyDivider = styled(Divider)`
-  margin-bottom: 0 !important;
 `;
 
 export const Sections = styled.div`
