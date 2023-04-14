@@ -44,8 +44,8 @@ export default function AssetList({ assets }) {
   return (
     <Wrapper>
       {assets.map(({ network, symbol, multiplier = 1, delegation }, index) => (
-        <div>
-          <DetailsValue key={index}>
+        <div key={index}>
+          <DetailsValue>
             <AssetName>
               <AssetIconContainer>
                 <ChainIcon chainName={network} size={20} />
