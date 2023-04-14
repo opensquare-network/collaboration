@@ -1,4 +1,4 @@
-const { evmNetworks, networks } = require("../../consts/networks");
+const { evmNetworks } = require("../../consts/networks");
 const { HttpError } = require("../../exc");
 const { getLatestHeight } = require("../../services/chain.service");
 const { spaces: spaceServices } = require("../../spaces");
