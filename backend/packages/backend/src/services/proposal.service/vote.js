@@ -10,8 +10,8 @@ const { ChoiceType } = require("../../constants");
 const { pinData } = require("./common");
 const { getBeenDelegated } = require("../node.service/getBeenDelegated");
 const { adaptBalance } = require("../../utils/balance");
-const { networks } = require("../../consts/networks");
-const { getDelegated } = require("../node.service/getDelegated");
+const { getDemocracyDelegated } = require("../node.service/getDelegated");
+const { findDelegationStrategies } = require("../../utils/delegation");
 
 async function addDelegatedVotes(
   bulk,
@@ -30,15 +30,15 @@ async function addDelegatedVotes(
     now,
   },
 ) {
-  if (
-    ![networks.centrifuge, networks.altair, networks.rococo].includes(
-      voterNetwork,
-    )
-  ) {
+  const networksConfig = proposal.networksConfig;
+  const delegationStrategies = findDelegationStrategies(
+    networksConfig,
+    voterNetwork,
+  );
+
+  if (!delegationStrategies.includes("democracy")) {
     return;
   }
-
-  const networksConfig = proposal.networksConfig;
 
   const baseSymbol = networksConfig?.symbol;
   const baseDecimals = networksConfig?.decimals;
@@ -168,12 +168,22 @@ async function vote(
 
   const voter = realVoter || address;
 
-  const delegation = await getDelegated(voterNetwork, snapshotHeight, voter);
-  if (!isEmpty(delegation)) {
-    throw new HttpError(
-      400,
-      "You can't vote because you have delegated your votes",
+  const delegationStrategies = findDelegationStrategies(
+    proposal.networksConfig,
+    voterNetwork,
+  );
+  if (delegationStrategies.includes("democracy")) {
+    const delegation = await getDemocracyDelegated(
+      voterNetwork,
+      snapshotHeight,
+      voter,
     );
+    if (!isEmpty(delegation)) {
+      throw new HttpError(
+        400,
+        "You can't vote because you have delegated your votes",
+      );
+    }
   }
 
   const networkBalance = await getBalanceFromNetwork({

@@ -13,9 +13,11 @@ const { spaces: spaceServices } = require("../../spaces");
 const { checkDelegation } = require("../../services/node.service");
 const { getBalanceFromNetwork } = require("../../services/node.service");
 const { pinData, createSpaceNotifications } = require("./common");
+const isEqual = require("lodash.isequal");
 
-async function createProposal(
+async function createProposal({
   space,
+  networksConfig,
   title,
   content,
   contentType,
@@ -30,7 +32,7 @@ async function createProposal(
   data,
   address,
   signature,
-) {
+}) {
   if (title.length > PostTitleLengthLimitation) {
     throw new HttpError(400, {
       title: ["Title must be no more than %d characters"],
@@ -104,11 +106,19 @@ async function createProposal(
     }),
   );
 
-  const networksConfig = {
-    symbol: spaceService.symbol,
-    decimals: spaceService.decimals,
-    networks: spaceService.networks,
-  };
+  if (
+    !isEqual(networksConfig, {
+      symbol: spaceService.symbol,
+      decimals: spaceService.decimals,
+      networks: spaceService.networks,
+    })
+  ) {
+    throw new HttpError(400, {
+      networksConfig: [
+        "The proposal networks config is not matching the space config",
+      ],
+    });
+  }
 
   const weightStrategy = spaceService.weightStrategy;
 

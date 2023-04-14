@@ -7,6 +7,8 @@ import { ChainIcon } from "@osn/common-ui";
 import Tooltip from "@/components/tooltip";
 import Panel from "@/components/postDetail/panel";
 import SideSectionTitle from "@/components/sideBar/sideSectionTitle";
+import AssetList from "../assetList";
+import { getSpaceAssets } from "frontedUtils/getSpaceAssets";
 
 const Wrapper = styled(Panel)`
   > :not(:first-child) {
@@ -73,12 +75,13 @@ const SnapshotsWrapper = styled.div`
 
 // eslint-disable-next-line
 export default function PostInfo({ data, space }) {
-  const hasDelegation = space?.networks?.some((network) =>
-    ["centrifuge", "altair", "rococo"].includes(network.network),
-  );
-
   return (
     <Wrapper>
+      <div>
+        <SideSectionTitle title="Assets" img="/imgs/icons/asset.svg" />
+        <Divider />
+        <AssetList assets={getSpaceAssets(data.networksConfig)} />
+      </div>
       <div>
         <SideSectionTitle title="Information" img="/imgs/icons/info.svg" />
         <Divider />
@@ -112,12 +115,6 @@ export default function PostInfo({ data, space }) {
               <ExternalLink
                 href={`${process.env.NEXT_PUBLIC_API_END_POINT}api/ipfs/files/${data?.pinHash}`}
               >{`#${data?.pinHash?.slice(0, 7)}`}</ExternalLink>
-            </InfoItem>
-          )}
-          {hasDelegation && (
-            <InfoItem>
-              <span>Delegation</span>
-              <span>Democracy</span>
             </InfoItem>
           )}
         </div>

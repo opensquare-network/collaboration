@@ -46,7 +46,7 @@ export async function createProposal(proposal) {
       // Version 4: multi assets support
       version: "4",
     },
-    address
+    address,
   );
 
   return await nextApi.post(`${proposal.space}/proposals`, signedData);
@@ -60,9 +60,10 @@ export async function signProposal(proposal) {
       // Version 2: multi space network support
       // Version 3: banner supported
       // Version 4: multi assets support
-      version: "4",
+      // Version 5, add networks configuration
+      version: "5",
     },
-    address
+    address,
   );
 }
 
@@ -72,7 +73,7 @@ export async function addComment(
   content,
   contentType,
   address,
-  commenterNetwork
+  commenterNetwork,
 ) {
   const signedData = await signApiData(
     {
@@ -82,7 +83,7 @@ export async function addComment(
       commenterNetwork,
       version: "2",
     },
-    address
+    address,
   );
 
   return await nextApi.post(`${space}/comments`, signedData);
@@ -94,7 +95,7 @@ export async function signComment(
   content,
   contentType,
   address,
-  commenterNetwork
+  commenterNetwork,
 ) {
   return await signApiData(
     {
@@ -104,7 +105,7 @@ export async function signComment(
       commenterNetwork,
       version: "2",
     },
-    address
+    address,
   );
 }
 
@@ -115,7 +116,7 @@ export async function addVote(
   remark,
   address,
   realVoter,
-  voterNetwork
+  voterNetwork,
 ) {
   const signedData = await signApiData(
     {
@@ -126,7 +127,7 @@ export async function addVote(
       voterNetwork,
       version: "4",
     },
-    address
+    address,
   );
 
   return await nextApi.post(`${space}/votes`, signedData);
@@ -139,7 +140,7 @@ export async function signVote(
   remark,
   address,
   realVoter,
-  voterNetwork
+  voterNetwork,
 ) {
   return await signApiData(
     {
@@ -153,7 +154,7 @@ export async function signVote(
       // Version 4: multi assets support
       version: "4",
     },
-    address
+    address,
   );
 }
 
@@ -169,7 +170,7 @@ export async function signTerminate({
       terminatorNetwork,
       version: "2",
     },
-    address
+    address,
   );
 }
 
@@ -179,7 +180,7 @@ export async function signAppendant(
   content,
   contentType,
   address,
-  appenderNetwork
+  appenderNetwork,
 ) {
   return await signApiData(
     {
@@ -189,6 +190,6 @@ export async function signAppendant(
       appenderNetwork,
       version: "2",
     },
-    address
+    address,
   );
 }

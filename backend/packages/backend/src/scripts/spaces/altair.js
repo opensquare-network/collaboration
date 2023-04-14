@@ -9,6 +9,7 @@ const altairConfig = {
     {
       network: networks.altair,
       ss58Format: 136,
+      delegation: "democracy",
     },
   ],
   proposeThreshold: "1000000000000000000",

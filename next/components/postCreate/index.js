@@ -198,6 +198,11 @@ export default function PostCreate({ space }) {
     });
     const proposal = {
       space: space.id,
+      networksConfig: {
+        symbol: space.symbol,
+        decimals: space.decimals,
+        networks: space.networks,
+      },
       title,
       content,
       contentType: "markdown",

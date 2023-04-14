@@ -32,10 +32,10 @@ async function pinItemsToIpfs(col, items) {
   for (const item of items) {
     try {
       const toBePin = {
-        msg: JSON.stringify(item.data),
+        data: item.data,
         address: item.address,
         signature: item.signature,
-        version: "1",
+        version: "2",
       };
       const pinHash = await pinJsonToIpfs(toBePin);
 
