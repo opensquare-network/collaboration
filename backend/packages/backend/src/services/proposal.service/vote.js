@@ -12,6 +12,7 @@ const { getBeenDelegated } = require("../node.service/getBeenDelegated");
 const { adaptBalance } = require("../../utils/balance");
 const { getDemocracyDelegated } = require("../node.service/getDelegated");
 const { findDelegationStrategies } = require("../../utils/delegation");
+const { getNativeTokenMetadata } = require("../node.service/getTokenMetadata");
 
 async function addDelegatedVotes(
   bulk,
@@ -45,7 +46,12 @@ async function addDelegatedVotes(
   const networkCfg = networksConfig?.networks?.find(
     (n) => n.network === voterNetwork,
   );
-  const asset = networkCfg?.assets?.find((asset) => asset.symbol === "CFG");
+
+  const nativeTokenMeta = await getNativeTokenMetadata(voterNetwork);
+
+  const asset = networkCfg?.assets?.find(
+    (asset) => asset.symbol === nativeTokenMeta?.symbol,
+  );
 
   const symbol = asset?.symbol ?? networkCfg?.symbol ?? baseSymbol;
   const decimals = asset?.decimals ?? networkCfg?.decimals ?? baseDecimals;
