@@ -1,4 +1,5 @@
 const { networks, strategies } = require("./consts");
+
 const khalaConfig = {
   id: "khala",
   name: "Khala",
@@ -8,6 +9,12 @@ const khalaConfig = {
     {
       network: networks.khala,
       ss58Format: 30,
+      assets: [
+        {
+          symbol: "PHA",
+          decimals: 12,
+        },
+      ],
     },
   ],
   proposeThreshold: "10000000000000",

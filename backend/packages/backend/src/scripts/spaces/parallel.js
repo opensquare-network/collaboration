@@ -9,6 +9,12 @@ const parallelConfig = {
     {
       network: networks.parallel,
       ss58Format: 172,
+      assets: [
+        {
+          symbol: "PARA",
+          decimals: 12,
+        },
+      ],
     },
   ],
   proposeThreshold: "100000000000000",

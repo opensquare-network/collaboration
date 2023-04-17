@@ -27,7 +27,7 @@ async function postComment(
     );
   }
 
-  const { cid, pinHash } = await pinData(data, address, signature);
+  const { cid, pinHash } = await pinData({ data, address, signature });
 
   const commentCol = await getCommentCollection();
   const height = await commentCol.countDocuments({ proposal: proposal._id });

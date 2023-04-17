@@ -1,12 +1,15 @@
-const { evmNetworks, networks } = require("../../consts/networks");
+const { evmNetworks } = require("../../consts/networks");
 const { HttpError } = require("../../exc");
 const { getLatestHeight } = require("../../services/chain.service");
 const { spaces: spaceServices } = require("../../spaces");
 const { isAddress: isSubstrateAddress } = require("@polkadot/util-crypto");
 const { getBalanceFromNetwork } = require("../../services/node.service");
 const ethers = require("ethers");
-const { getDelegated } = require("../../services/node.service/getDelegated");
+const {
+  getDemocracyDelegated,
+} = require("../../services/node.service/getDelegated");
 const isEmpty = require("lodash.isempty");
+const { findDelegationStrategies } = require("../../utils/delegation");
 
 async function getSpaceAccountBalance(ctx) {
   const { space, network, address } = ctx.params;
@@ -37,12 +40,15 @@ async function getSpaceAccountBalance(ctx) {
     blockHeight,
   });
 
-  // For Centrifuge and Altair, we need to check if the address has been delegated
+  const delegationStrategies = findDelegationStrategies(spaceService, network);
+
   let delegation;
-  if (
-    [networks.centrifuge, networks.altair, networks.rococo].includes(network)
-  ) {
-    const delegated = await getDelegated(network, blockHeight, address);
+  if (delegationStrategies.includes("democracy")) {
+    const delegated = await getDemocracyDelegated(
+      network,
+      blockHeight,
+      address,
+    );
     if (!isEmpty(delegated)) {
       delegation = delegated;
     }

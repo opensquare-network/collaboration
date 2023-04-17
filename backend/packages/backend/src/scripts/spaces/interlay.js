@@ -9,6 +9,12 @@ const config = {
     {
       network: networks.interlay,
       ss58Format: 2032,
+      assets: [
+        {
+          symbol: "INTR",
+          decimals: 10,
+        },
+      ],
     },
   ],
   proposeThreshold: "10000000000",

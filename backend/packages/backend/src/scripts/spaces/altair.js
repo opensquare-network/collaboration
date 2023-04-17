@@ -9,6 +9,14 @@ const altairConfig = {
     {
       network: networks.altair,
       ss58Format: 136,
+      assets: [
+        {
+          symbol: "AIR",
+          decimals: 18,
+          delegation: "democracy",
+          isNative: true,
+        },
+      ],
     },
   ],
   proposeThreshold: "1000000000000000000",

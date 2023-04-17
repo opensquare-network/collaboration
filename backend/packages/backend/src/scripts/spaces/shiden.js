@@ -9,6 +9,12 @@ const shidenConfig = {
     {
       network: networks.shiden,
       ss58Format: 5,
+      assets: [
+        {
+          symbol: "SDN",
+          decimals: 18,
+        },
+      ],
     },
   ],
   proposeThreshold: "500000000000000000000",

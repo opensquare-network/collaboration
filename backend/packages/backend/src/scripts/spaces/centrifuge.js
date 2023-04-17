@@ -9,6 +9,14 @@ const centrifugeConfig = {
     {
       network: networks.centrifuge,
       ss58Format: 36,
+      assets: [
+        {
+          symbol: "CFG",
+          decimals: 18,
+          delegation: "democracy",
+          isNative: true,
+        },
+      ],
     },
   ],
   proposeThreshold: "1000000000000000000",

@@ -9,6 +9,12 @@ const hydradxConfig = {
     {
       network: networks.hydradx,
       ss58Format: 63,
+      assets: [
+        {
+          symbol: "HDX",
+          decimals: 12,
+        },
+      ],
     },
   ],
   proposeThreshold: "1000000000000",

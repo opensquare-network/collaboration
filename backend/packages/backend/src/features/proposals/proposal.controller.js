@@ -6,14 +6,18 @@ const {
 const { ContentType, ChoiceType } = require("../../constants");
 const { extractPage } = require("../../utils");
 const { isAddress } = require("@polkadot/util-crypto");
-const { getDelegated } = require("../../services/node.service/getDelegated");
+const {
+  getDemocracyDelegated,
+} = require("../../services/node.service/getDelegated");
 const isEmpty = require("lodash.isempty");
-const { networks } = require("../../consts/networks");
+const { findDelegationStrategies } = require("../../utils/delegation");
+const { getProposalCollection } = require("../../mongo");
 
 async function createProposal(ctx) {
   const { data, address, signature } = ctx.request.body;
   const {
     space,
+    networksConfig,
     title,
     content,
     contentType,
@@ -26,6 +30,16 @@ async function createProposal(ctx) {
     proposerNetwork,
     banner,
   } = data;
+
+  if (!space) {
+    throw new HttpError(400, { space: ["Space is missing"] });
+  }
+
+  if (isEmpty(networksConfig)) {
+    throw new HttpError(400, {
+      networksConfig: ["Networks config is missing"],
+    });
+  }
 
   if (!title) {
     throw new HttpError(400, { title: ["Title is missing"] });
@@ -86,8 +100,9 @@ async function createProposal(ctx) {
     throw new HttpError(400, { contentType: ["Unknown content type"] });
   }
 
-  ctx.body = await proposalService.createProposal(
+  ctx.body = await proposalService.createProposal({
     space,
+    networksConfig,
     title,
     content,
     contentType,
@@ -102,7 +117,7 @@ async function createProposal(ctx) {
     data,
     address,
     signature,
-  );
+  });
 }
 
 async function getProposals(ctx) {
@@ -349,11 +364,19 @@ async function getVoterBalance(ctx) {
     snapshot,
   );
 
+  const proposalCol = await getProposalCollection();
+  const proposal = await proposalCol.findOne({ cid: proposalCid });
+  if (!proposal) {
+    throw new HttpError(404, "Proposal does not exists");
+  }
+
+  const delegationStrategies = findDelegationStrategies(
+    proposal.networksConfig,
+    network,
+  );
   let delegation;
-  if (
-    [networks.centrifuge, networks.altair, networks.rococo].includes(network)
-  ) {
-    const delegated = await getDelegated(network, snapshot, address);
+  if (delegationStrategies.includes("democracy")) {
+    const delegated = await getDemocracyDelegated(network, snapshot, address);
     if (!isEmpty(delegated)) {
       delegation = delegated;
     }

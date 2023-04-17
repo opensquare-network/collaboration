@@ -1,4 +1,5 @@
 const { networks, strategies } = require("./consts");
+
 const turingConfig = {
   id: "turing",
   name: "Turing",
@@ -8,6 +9,12 @@ const turingConfig = {
     {
       network: networks.turing,
       ss58Format: 51,
+      assets: [
+        {
+          symbol: "TUR",
+          decimals: 10,
+        },
+      ],
     },
   ],
   proposeThreshold: "10000000000",
