@@ -127,17 +127,6 @@ async function addDelegatedVotes(
         },
       });
   }
-
-  // Clean old votes
-  bulk
-    .find({
-      proposal: proposal._id,
-      isDelegate: true,
-      delegatee: voter,
-      voterNetwork,
-      updatedAt: { $ne: now },
-    })
-    .delete();
 }
 
 async function vote(
@@ -295,6 +284,17 @@ async function vote(
     pinHash,
     now,
   });
+
+  // Clean old delegate votes
+  bulk
+    .find({
+      proposal: proposal._id,
+      isDelegate: true,
+      delegatee: voter,
+      voterNetwork,
+      updatedAt: { $ne: now },
+    })
+    .delete();
 
   await bulk.execute();
 
