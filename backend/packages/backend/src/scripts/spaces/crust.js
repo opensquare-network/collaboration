@@ -1,4 +1,3 @@
-const { ethErc20CommonConfig } = require("./consts");
 const { strategies } = require("../../consts/voting");
 const { networks } = require("../../consts/networks");
 
@@ -11,12 +10,23 @@ const config = {
     {
       network: networks.crust,
       ss58Format: 66,
-      decimals: 12,
+      assets: [
+        {
+          symbol: "CRU",
+          decimals: 12,
+        },
+      ],
     },
     {
-      ...ethErc20CommonConfig,
-      contract: "0x32a7C02e79c4ea1008dD6564b35F131428673c41",
-      decimals: 18,
+      network: networks.ethereum,
+      assets: [
+        {
+          type: "erc20",
+          contract: "0x32a7C02e79c4ea1008dD6564b35F131428673c41",
+          symbol: "CRU",
+          decimals: 18,
+        },
+      ],
     },
   ],
   proposeThreshold: "1000000000000",

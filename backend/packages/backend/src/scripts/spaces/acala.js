@@ -9,6 +9,12 @@ const config = {
     {
       network: networks.acala,
       ss58Format: 10,
+      assets: [
+        {
+          symbol: "ACA",
+          decimals: 10,
+        },
+      ],
     },
   ],
   proposeThreshold: "1000000000000",

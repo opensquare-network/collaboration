@@ -1,4 +1,4 @@
-const { networks, strategies, ethErc20CommonConfig } = require("./consts");
+const { networks, strategies } = require("./consts");
 
 const phalaConfig = {
   id: "phala",
@@ -9,17 +9,33 @@ const phalaConfig = {
     {
       network: networks.phala,
       ss58Format: 30,
-      decimals: 12,
+      assets: [
+        {
+          symbol: "PHA",
+          decimals: 12,
+        },
+      ],
     },
     {
       network: networks.khala,
       ss58Format: 30,
-      decimals: 12,
+      assets: [
+        {
+          symbol: "PHA",
+          decimals: 12,
+        },
+      ],
     },
     {
-      ...ethErc20CommonConfig,
-      contract: "0x6c5bA91642F10282b576d91922Ae6448C9d52f4E",
-      decimals: 18,
+      network: networks.ethereum,
+      assets: [
+        {
+          type: "erc20",
+          symbol: "PHA",
+          contract: "0x6c5bA91642F10282b576d91922Ae6448C9d52f4E",
+          decimals: 18,
+        },
+      ],
     },
   ],
   proposeThreshold: "10000000000000",

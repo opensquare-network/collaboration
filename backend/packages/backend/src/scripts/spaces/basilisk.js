@@ -9,6 +9,12 @@ const basiliskConfig = {
     {
       network: networks.basilisk,
       ss58Format: 10041,
+      assets: [
+        {
+          symbol: "BSX",
+          decimals: 12,
+        },
+      ],
     },
   ],
   proposeThreshold: "1000000000000",

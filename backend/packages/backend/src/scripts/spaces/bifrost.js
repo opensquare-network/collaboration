@@ -1,10 +1,4 @@
-const { karuraTokenConfig, movrErc20CommonConfig } = require("./consts");
 const { networks, strategies } = require("./consts");
-
-const bncMovrConfig = {
-  ...movrErc20CommonConfig,
-  contract: "0xfffffffff075423be54811ecb478e911f22dde7d",
-};
 
 const bifrostConfig = {
   id: "bifrost",
@@ -15,9 +9,35 @@ const bifrostConfig = {
     {
       network: networks.bifrost,
       ss58Format: 6,
+      assets: [
+        {
+          symbol: "BNC",
+          decimals: 12,
+        },
+      ],
     },
-    karuraTokenConfig,
-    bncMovrConfig,
+    {
+      network: networks.karura,
+      ss58Format: 8,
+      assets: [
+        {
+          type: "token",
+          symbol: "BNC",
+          decimals: 12,
+        },
+      ],
+    },
+    {
+      network: networks.moonriver,
+      assets: [
+        {
+          type: "erc20",
+          contract: "0xfffffffff075423be54811ecb478e911f22dde7d",
+          symbol: "BNC",
+          decimals: 12,
+        },
+      ],
+    },
   ],
   proposeThreshold: "1000000000000",
   voteThreshold: "10000000000",

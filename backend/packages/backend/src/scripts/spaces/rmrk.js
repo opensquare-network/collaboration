@@ -1,14 +1,52 @@
-const { movrErc20CommonConfig } = require("./consts");
-const {
-  karuraTokenConfig,
-  bifrostTokenConfig,
-  statemineCommonConfig,
-  strategies,
-} = require("./consts");
+const { networks } = require("./consts");
+const { statemineCommonConfig, strategies } = require("./consts");
+
+const statemineAssetConfig = {
+  ...statemineCommonConfig,
+  assets: [
+    {
+      type: "asset",
+      assetId: 8,
+      symbol: "RMRK",
+      decimals: 10,
+    },
+  ],
+};
+
+const karuraTokenConfig = {
+  network: networks.karura,
+  ss58Format: 8,
+  assets: [
+    {
+      type: "token",
+      symbol: "RMRK",
+      decimals: 10,
+    },
+  ],
+};
+
+const bifrostTokenConfig = {
+  network: networks.bifrost,
+  ss58Format: 6,
+  assets: [
+    {
+      type: "token",
+      symbol: "RMRK",
+      decimals: 10,
+    },
+  ],
+};
 
 const rmrkMovrConfig = {
-  ...movrErc20CommonConfig,
-  contract: "0xffffffFF893264794d9d57E1E0E21E0042aF5A0A",
+  network: networks.moonriver,
+  assets: [
+    {
+      type: "erc20",
+      contract: "0xffffffFF893264794d9d57E1E0E21E0042aF5A0A",
+      symbol: "RMRK",
+      decimals: 10,
+    },
+  ],
 };
 
 const config = {
@@ -17,10 +55,7 @@ const config = {
   symbol: "RMRK",
   decimals: 10,
   networks: [
-    {
-      ...statemineCommonConfig,
-      assetId: 8,
-    },
+    statemineAssetConfig,
     karuraTokenConfig,
     bifrostTokenConfig,
     rmrkMovrConfig,
@@ -41,10 +76,7 @@ const curationConfig = {
   symbol: "RMRK",
   decimals: 10,
   networks: [
-    {
-      ...statemineCommonConfig,
-      assetId: 8,
-    },
+    statemineAssetConfig,
     karuraTokenConfig,
     bifrostTokenConfig,
     rmrkMovrConfig,
