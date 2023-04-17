@@ -3,10 +3,16 @@ const uniq = require("lodash.uniq");
 function findDelegationStrategies(networksConfig, network) {
   if (!networksConfig) return [];
 
+  const networkConfig = networksConfig.networks?.find(
+    (n) => n.network === network,
+  );
+
+  if (!networkConfig) return [];
+
   return uniq(
-    networksConfig.networks
-      .filter((n) => n.network === network && n.delegation)
-      .map((n) => n.delegation),
+    networkConfig.assets
+      .filter((item) => item.isNative)
+      .map((item) => item.delegation),
   );
 }
 

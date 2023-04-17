@@ -15,9 +15,9 @@ async function getBalanceFromMultiAssetsNetwork({
   const details = await Promise.all(
     network.assets.map(async (asset) => {
       const { type, assetId, contract } = asset;
-      const decimals = asset.decimals ?? network.decimals ?? baseDecimals;
-      const symbol = asset.symbol ?? network.symbol ?? baseSymbol;
-      const multiplier = asset.multiplier ?? network.multiplier ?? 1;
+      const decimals = asset.decimals ?? baseDecimals;
+      const symbol = asset.symbol ?? baseSymbol;
+      const multiplier = asset.multiplier ?? 1;
 
       const balance = await getAssetBalanceFromNetwork({
         networkName,
@@ -52,46 +52,6 @@ async function getBalanceFromMultiAssetsNetwork({
   };
 }
 
-async function getBalanceFromSingleAssetNetwork({
-  network,
-  networkName,
-  address,
-  blockHeight,
-  baseSymbol,
-  baseDecimals,
-}) {
-  const { type, assetId, contract } = network;
-  const decimals = network.decimals ?? baseDecimals;
-  const symbol = network.symbol ?? baseSymbol;
-  const multiplier = network.multiplier ?? 1;
-
-  const balance = await getAssetBalanceFromNetwork({
-    networkName,
-    type,
-    assetId,
-    contract,
-    symbol,
-    blockHeight,
-    address,
-  });
-
-  const balanceOf = adaptBalance(balance, decimals, baseDecimals) * multiplier;
-
-  return {
-    balanceOf,
-    decimals: baseDecimals,
-    symbol: baseSymbol,
-    details: [
-      {
-        symbol,
-        decimals,
-        balance,
-        multiplier,
-      },
-    ],
-  };
-}
-
 async function getBalanceFromNetwork({
   networksConfig,
   networkName,
@@ -107,25 +67,14 @@ async function getBalanceFromNetwork({
     throw new HttpError(400, "Network not found");
   }
 
-  if (network.assets) {
-    return await getBalanceFromMultiAssetsNetwork({
-      network,
-      networkName,
-      address,
-      blockHeight,
-      baseSymbol,
-      baseDecimals,
-    });
-  } else {
-    return await getBalanceFromSingleAssetNetwork({
-      network,
-      networkName,
-      address,
-      blockHeight,
-      baseSymbol,
-      baseDecimals,
-    });
-  }
+  return await getBalanceFromMultiAssetsNetwork({
+    network,
+    networkName,
+    address,
+    blockHeight,
+    baseSymbol,
+    baseDecimals,
+  });
 }
 
 async function getAssetBalanceFromNetwork({

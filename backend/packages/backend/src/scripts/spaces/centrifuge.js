@@ -14,6 +14,7 @@ const centrifugeConfig = {
           symbol: "CFG",
           decimals: 18,
           delegation: "democracy",
+          isNative: true,
         },
       ],
     },

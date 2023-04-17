@@ -14,6 +14,7 @@ const rococoConfig = {
           symbol: "ROC",
           decimals: 12,
           delegation: "democracy",
+          isNative: true,
         },
       ],
     },

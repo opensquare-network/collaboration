@@ -12,7 +12,6 @@ const { getBeenDelegated } = require("../node.service/getBeenDelegated");
 const { adaptBalance } = require("../../utils/balance");
 const { getDemocracyDelegated } = require("../node.service/getDelegated");
 const { findDelegationStrategies } = require("../../utils/delegation");
-const { getNativeTokenMetadata } = require("../node.service/getTokenMetadata");
 
 async function addDelegatedVotes(
   bulk,
@@ -32,30 +31,21 @@ async function addDelegatedVotes(
   },
 ) {
   const networksConfig = proposal.networksConfig;
-  const delegationStrategies = findDelegationStrategies(
-    networksConfig,
-    voterNetwork,
-  );
-
-  if (!delegationStrategies.includes("democracy")) {
-    return;
-  }
-
   const baseSymbol = networksConfig?.symbol;
   const baseDecimals = networksConfig?.decimals;
   const networkCfg = networksConfig?.networks?.find(
     (n) => n.network === voterNetwork,
   );
 
-  const nativeTokenMeta = await getNativeTokenMetadata(voterNetwork);
+  const asset = networkCfg?.assets?.find((asset) => asset.isNative);
 
-  const asset = networkCfg?.assets?.find(
-    (asset) => asset.symbol === nativeTokenMeta?.symbol,
-  );
+  if (asset?.delegation !== "democracy") {
+    return;
+  }
 
-  const symbol = asset?.symbol ?? networkCfg?.symbol ?? baseSymbol;
-  const decimals = asset?.decimals ?? networkCfg?.decimals ?? baseDecimals;
-  const multiplier = asset?.multiplier ?? networkCfg?.multiplier ?? 1;
+  const symbol = asset?.symbol ?? baseSymbol;
+  const decimals = asset?.decimals ?? baseDecimals;
+  const multiplier = asset?.multiplier ?? 1;
 
   const beenDelegated = await getBeenDelegated(
     voterNetwork,

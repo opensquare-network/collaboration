@@ -14,6 +14,7 @@ const altairConfig = {
           symbol: "AIR",
           decimals: 18,
           delegation: "democracy",
+          isNative: true,
         },
       ],
     },
