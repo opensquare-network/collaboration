@@ -10,7 +10,7 @@ function findDelegationStrategies(networksConfig, network) {
   if (!networkConfig) return [];
 
   return uniq(
-    networkConfig.assets
+    (networkConfig.assets || [])
       .filter((item) => item.isNative)
       .map((item) => item.delegation),
   );
