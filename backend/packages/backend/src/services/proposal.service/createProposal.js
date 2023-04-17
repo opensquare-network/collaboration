@@ -142,7 +142,7 @@ async function createProposal({
     throw new HttpError(403, "Balance is not enough to create the proposal");
   }
 
-  const { cid, pinHash } = await pinData(data, address, signature);
+  const { cid, pinHash } = await pinData({ data, address, signature });
 
   const postUid = await nextPostUid();
 

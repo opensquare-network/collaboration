@@ -34,11 +34,9 @@ function getProposalStatus(proposal = {}) {
   }
 }
 
-async function pinData(data, address, signature) {
+async function pinData(rawData) {
   const toBePin = {
-    data,
-    address,
-    signature,
+    ...rawData,
     // version 2: replace `msg` with `data`
     version: "2",
   };

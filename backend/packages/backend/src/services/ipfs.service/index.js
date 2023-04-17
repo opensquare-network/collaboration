@@ -1,5 +1,6 @@
 const Hash = require("ipfs-only-hash");
 const { pinJsonToIpfs } = require("./pin");
+const pick = require("lodash.pick");
 
 async function pinJsonToIpfsWithTimeout(json, timeout) {
   const errorMsg = "Pin json to ipfs timeout";
@@ -32,9 +33,7 @@ async function pinItemsToIpfs(col, items) {
   for (const item of items) {
     try {
       const toBePin = {
-        data: item.data,
-        address: item.address,
-        signature: item.signature,
+        ...pick(item, ["data", "address", "signature", "delegators"]),
         // version 2: replace `msg` with `data`
         version: "2",
       };

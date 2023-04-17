@@ -1,5 +1,6 @@
 const BigNumber = require("bignumber.js");
 const isEmpty = require("lodash.isempty");
+const pick = require("lodash.pick");
 const { getProposalCollection, getVoteCollection } = require("../../mongo");
 const { HttpError } = require("../../exc");
 const { spaces: spaceServices } = require("../../spaces");
@@ -13,11 +14,41 @@ const { adaptBalance } = require("../../utils/balance");
 const { getDemocracyDelegated } = require("../node.service/getDelegated");
 const { findDelegationStrategies } = require("../../utils/delegation");
 
+async function getDelegatorBalances({
+  proposal,
+  snapshotHeight,
+  voter,
+  voterNetwork,
+}) {
+  const networksConfig = proposal.networksConfig;
+  const networkCfg = networksConfig?.networks?.find(
+    (n) => n.network === voterNetwork,
+  );
+
+  const asset = networkCfg?.assets?.find((asset) => asset.isNative);
+
+  if (asset?.delegation !== "democracy") {
+    return;
+  }
+
+  const beenDelegated = await getBeenDelegated(
+    voterNetwork,
+    snapshotHeight,
+    voter,
+  );
+
+  if (beenDelegated.length === 0) {
+    return;
+  }
+
+  return beenDelegated.map((item) => pick(item, ["delegator", "balance"]));
+}
+
 async function addDelegatedVotes(
   bulk,
   {
+    delegators,
     proposal,
-    snapshotHeight,
     voter,
     voterNetwork,
     choices,
@@ -30,6 +61,10 @@ async function addDelegatedVotes(
     now,
   },
 ) {
+  if (!delegators || delegators?.length === 0) {
+    return;
+  }
+
   const networksConfig = proposal.networksConfig;
   const baseSymbol = networksConfig?.symbol;
   const baseDecimals = networksConfig?.decimals;
@@ -47,13 +82,7 @@ async function addDelegatedVotes(
   const decimals = asset?.decimals ?? baseDecimals;
   const multiplier = asset?.multiplier ?? 1;
 
-  const beenDelegated = await getBeenDelegated(
-    voterNetwork,
-    snapshotHeight,
-    voter,
-  );
-
-  for (const { delegator, balance } of beenDelegated) {
+  for (const { delegator, balance } of delegators) {
     const detail = {
       symbol,
       decimals,
@@ -91,6 +120,7 @@ async function addDelegatedVotes(
           version: "4",
           isDelegate: true,
           delegatee: voter,
+          delegators,
         },
         $setOnInsert: {
           createdAt: now,
@@ -201,7 +231,20 @@ async function vote(
       `Require the minimum of ${symbolVoteThreshold} ${proposal.networksConfig.symbol} to vote`,
     );
   }
-  const { cid, pinHash } = await pinData(data, address, signature);
+
+  const delegators = await getDelegatorBalances({
+    proposal,
+    snapshotHeight,
+    voter,
+    voterNetwork,
+  });
+
+  const { cid, pinHash } = await pinData({
+    data,
+    address,
+    signature,
+    delegators,
+  });
 
   const voteCol = await getVoteCollection();
   const bulk = voteCol.initializeOrderedBulkOp();
@@ -231,6 +274,7 @@ async function vote(
         // Version 3: multiple choices support
         // Version 4: multi-assets network
         version: "4",
+        delegators,
       },
       $setOnInsert: {
         createdAt: now,
@@ -238,8 +282,8 @@ async function vote(
     });
 
   await addDelegatedVotes(bulk, {
+    delegators,
     proposal,
-    snapshotHeight,
     voter,
     voterNetwork,
     choices,
