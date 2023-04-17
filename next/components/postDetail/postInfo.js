@@ -79,14 +79,6 @@ export default function PostInfo({ data, space }) {
   return (
     <Wrapper>
       <div>
-        <SideSectionTitle
-          title={`Assets(${assets.length})`}
-          img="/imgs/icons/asset.svg"
-        />
-        <Divider />
-        <AssetList assets={assets} />
-      </div>
-      <div>
         <SideSectionTitle title="Information" img="/imgs/icons/info.svg" />
         <Divider />
         <div>
@@ -122,6 +114,14 @@ export default function PostInfo({ data, space }) {
             </InfoItem>
           )}
         </div>
+      </div>
+      <div>
+        <SideSectionTitle
+          title={`Assets(${assets.length})`}
+          img="/imgs/icons/asset.svg"
+        />
+        <Divider />
+        <AssetList assets={assets} />
       </div>
       <div>
         <SideSectionTitle title="Timestamp" img="/imgs/icons/timeline.svg" />
