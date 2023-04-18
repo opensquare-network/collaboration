@@ -1,12 +1,11 @@
 import AssetTypeSelector from "./assetTypeSelector";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FieldWrapper, Title, Wrapper } from "../styled";
 import { Input } from "@osn/common-ui";
 import AssetDetail from "../assetDetail";
 import AssetConfig from "../assetConfig";
 import { useIsMounted } from "@osn/common";
 import nextApi from "services/nextApi";
-import debounce from "lodash.debounce";
 
 export default function Erc20TokenConfig({ chain, nativeTokenInfo }) {
   const [assetType, setAssetType] = useState("native");
@@ -17,20 +16,21 @@ export default function Erc20TokenConfig({ chain, nativeTokenInfo }) {
   const [votingWeight, setVotingWeight] = useState(1);
   const isMounted = useIsMounted();
 
-  const fetchErc20TokenMetadata = useMemo(() => {
-    return debounce(async (contractAddress) => {
-      // const { result, error } = await nextApi.fetch(
-      //   `chain/${chain}/token/${contractAddress}`,
-      // );
-      // if (error) {
-      //   return;
-      // }
-      // if (isMounted.current) {
-      //   setSymbol(result?.symbol);
-      //   setDecimals(result?.decimals);
-      // }
-    }, 300);
-  }, [chain, isMounted]);
+  const fetchErc20TokenMetadata = useCallback(
+    async (contractAddress) => {
+      const { result, error } = await nextApi.fetch(
+        `evm/chain/${chain}/contract/${contractAddress}`,
+      );
+      if (error) {
+        return;
+      }
+      if (isMounted.current) {
+        setSymbol(result?.symbol);
+        setDecimals(result?.decimals);
+      }
+    },
+    [chain, isMounted],
+  );
 
   useEffect(() => {
     if (assetType === "native") {
@@ -58,8 +58,7 @@ export default function Erc20TokenConfig({ chain, nativeTokenInfo }) {
           <Title>Asset Contract</Title>
           <Input
             placeholder="Enter an contract address"
-            value={contractAddress}
-            onChange={(e) => setContractAddress(e.target.value)}
+            onBlur={(e) => setContractAddress(e.target.value)}
           />
         </FieldWrapper>
       )}
