@@ -32,7 +32,7 @@ export default function Step2({ steps, assets, setAssets }) {
             <Asset
               index={index}
               asset={asset}
-              setAsset={(index, asset) => {
+              setAsset={(asset) => {
                 const newAssets = [...assets];
                 newAssets[index] = asset;
                 setAssets(newAssets);

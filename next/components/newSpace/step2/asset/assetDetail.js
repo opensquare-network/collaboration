@@ -1,6 +1,7 @@
 import styled from "styled-components";
-import { Input } from "@osn/common-ui";
+import { Input, noop } from "@osn/common-ui";
 import { FieldWrapper, Title } from "./styled";
+import { useEffect } from "react";
 
 const Wrapper = styled.div`
   display: flex;
@@ -14,7 +15,20 @@ const Wrapper = styled.div`
   }
 `;
 
-export default function AssetDetail({ symbol, decimals }) {
+export default function AssetDetail({
+  symbol,
+  decimals,
+  asset,
+  setPartialAsset = noop,
+}) {
+  useEffect(() => {
+    if (symbol === asset?.symbol && decimals === asset?.decimals) {
+      return;
+    }
+
+    setPartialAsset({ symbol, decimals });
+  }, [asset, symbol, decimals]);
+
   if (!symbol || !decimals) {
     return null;
   }

@@ -1,19 +1,24 @@
 import AssetTypeSelector from "./assetTypeSelector";
 import { useCallback, useEffect, useState } from "react";
 import { FieldWrapper, Title, Wrapper } from "../styled";
-import { Input } from "@osn/common-ui";
+import { Input, noop } from "@osn/common-ui";
 import AssetDetail from "../assetDetail";
 import AssetConfig from "../assetConfig";
 import { useIsMounted } from "@osn/common";
 import nextApi from "services/nextApi";
 
-export default function Erc20TokenConfig({ chain, nativeTokenInfo }) {
+export default function Erc20TokenConfig({
+  chain,
+  nativeTokenInfo,
+  asset,
+  setPartialAsset = noop,
+}) {
   const [assetType, setAssetType] = useState("native");
   const [contractAddress, setContractAddress] = useState("");
   const [symbol, setSymbol] = useState("");
   const [decimals, setDecimals] = useState(0);
-  const [threshold, setThreshold] = useState(0);
-  const [votingWeight, setVotingWeight] = useState(1);
+  const [threshold, setThreshold] = useState("0");
+  const [votingWeight, setVotingWeight] = useState("1");
   const isMounted = useIsMounted();
 
   const fetchErc20TokenMetadata = useCallback(
@@ -63,13 +68,20 @@ export default function Erc20TokenConfig({ chain, nativeTokenInfo }) {
         </FieldWrapper>
       )}
 
-      <AssetDetail symbol={symbol} decimals={decimals} />
+      <AssetDetail
+        symbol={symbol}
+        decimals={decimals}
+        asset={asset}
+        setPartialAsset={setPartialAsset}
+      />
       <AssetConfig
         symbol={symbol}
         threshold={threshold}
         setThreshold={setThreshold}
         votingWeight={votingWeight}
         setVotingWeight={setVotingWeight}
+        asset={asset}
+        setPartialAsset={setPartialAsset}
       />
     </Wrapper>
   );

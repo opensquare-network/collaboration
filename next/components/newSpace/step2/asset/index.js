@@ -32,15 +32,25 @@ export default function Asset({ index, asset, setAsset = noop }) {
   const [nativeTokenInfo, setNativeTokenInfo] = useState();
   const isMounted = useIsMounted();
 
+  const setPartialAsset = useCallback(
+    (partialData) => {
+      setAsset({
+        ...asset,
+        ...partialData,
+      });
+    },
+    [asset],
+  );
+
   const onSelectChain = useCallback(
     (chain) => {
       if (chain.network === asset.chain) {
         // this is required to prevent infinite loop
         return;
       }
-      setAsset(index, { ...asset, chain: chain.network });
+      setPartialAsset({ chain: chain.network });
     },
-    [index, asset],
+    [setPartialAsset],
   );
 
   useEffect(() => {
@@ -68,7 +78,12 @@ export default function Asset({ index, asset, setAsset = noop }) {
   }, [asset?.chain, isMounted]);
 
   let assetConfig = (
-    <CommonAssetConfig chain={asset.chain} nativeTokenInfo={nativeTokenInfo} />
+    <CommonAssetConfig
+      chain={asset.chain}
+      nativeTokenInfo={nativeTokenInfo}
+      asset={asset}
+      setPartialAsset={setPartialAsset}
+    />
   );
 
   if ([Chains.statemine, Chains.statemint].includes(asset.chain)) {
@@ -87,7 +102,12 @@ export default function Asset({ index, asset, setAsset = noop }) {
   ) {
     //TODO: handle Chains.ethereum native token ?
     assetConfig = (
-      <Erc20TokenConfig chain={asset.chain} nativeTokenInfo={nativeTokenInfo} />
+      <Erc20TokenConfig
+        chain={asset.chain}
+        nativeTokenInfo={nativeTokenInfo}
+        asset={asset}
+        setPartialAsset={setPartialAsset}
+      />
     );
   }
 

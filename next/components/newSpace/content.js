@@ -49,7 +49,7 @@ const SiderWrapper = styled.div`
 const useDefaultLogo = ({ username, saturation, lightness }) => {
   const svgText = useMemo(
     () => identicon(username, saturation, lightness),
-    [username, saturation, lightness]
+    [username, saturation, lightness],
   );
   return `data:image/svg+xml;utf8,${encodeURIComponent(svgText)}`;
 };
@@ -65,6 +65,7 @@ export default function Content() {
   });
   const logoImage = imageFile || defaultLogo;
   const [assets, setAssets] = useState([]);
+  console.log(assets);
 
   const steps = [
     { title: "Space profile" },

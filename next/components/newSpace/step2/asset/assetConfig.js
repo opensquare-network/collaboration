@@ -1,6 +1,7 @@
 import styled from "styled-components";
-import { Input } from "@osn/common-ui";
+import { Input, noop } from "@osn/common-ui";
 import { FieldWrapper, Title } from "./styled";
+import { useEffect } from "react";
 
 const Wrapper = styled.div`
   display: flex;
@@ -17,7 +18,20 @@ export default function AssetConfig({
   setThreshold,
   votingWeight,
   setVotingWeight,
+  asset,
+  setPartialAsset = noop,
 }) {
+  useEffect(() => {
+    if (
+      threshold === asset?.threshold &&
+      votingWeight === asset?.votingWeight
+    ) {
+      return;
+    }
+
+    setPartialAsset({ threshold, votingWeight });
+  }, [asset, threshold, votingWeight]);
+
   return (
     <Wrapper>
       <FieldWrapper>
