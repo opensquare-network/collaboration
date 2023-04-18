@@ -37,7 +37,7 @@ const FlexColumn = styled.div`
 
 const Items = styled.div``;
 
-export default function Sider({ imageFile, name }) {
+export default function Sider({ imageFile, name, assets }) {
   return (
     <MyPanel>
       <SectionTitle>Summary</SectionTitle>
@@ -49,7 +49,7 @@ export default function Sider({ imageFile, name }) {
         </FlexColumn>
       </Sections>
       <Items>
-        <Assets />
+        <Assets assets={assets} />
         <Strategies />
       </Items>
     </MyPanel>

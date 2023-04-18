@@ -39,7 +39,7 @@ export default function Asset({ index, asset, setAsset = noop }) {
         ...partialData,
       });
     },
-    [asset],
+    [asset, setAsset],
   );
 
   const onSelectChain = useCallback(

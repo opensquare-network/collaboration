@@ -94,7 +94,7 @@ export default function Content() {
     <Wrapper>
       <MainWrapper>{stepContent}</MainWrapper>
       <SiderWrapper>
-        <Sider imageFile={logoImage} name={name} />
+        <Sider imageFile={logoImage} name={name} assets={assets} />
       </SiderWrapper>
     </Wrapper>
   );

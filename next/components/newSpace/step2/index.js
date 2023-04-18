@@ -11,7 +11,8 @@ import BackButton from "../backButton";
 import NewAssetButton from "./newAssetButton";
 import Asset from "./asset";
 import MyDivider from "../myDivider";
-import { Fragment } from "react";
+import { Fragment, useCallback } from "react";
+import { newErrorToast } from "store/reducers/toastSlice";
 
 const ButtonsWrapper = styled.div`
   display: flex;
@@ -21,6 +22,71 @@ const ButtonsWrapper = styled.div`
 export default function Step2({ steps, assets, setAssets }) {
   const dispatch = useDispatch();
   const currentStep = useSelector(currentStepSelector);
+
+  const nextStep = useCallback(() => {
+    // Verify assets
+    for (const asset of assets) {
+      if (!asset.chain) {
+        dispatch(newErrorToast("Asset chain is required"));
+        return;
+      }
+
+      if (!asset.symbol) {
+        dispatch(newErrorToast("Asset symbol is required"));
+        return;
+      }
+
+      if (!asset.decimals) {
+        dispatch(newErrorToast("Asset decimals is required"));
+        return;
+      }
+
+      if (!asset.threshold) {
+        dispatch(newErrorToast(`${asset.symbol} threshold is required`));
+        return;
+      }
+
+      if (!asset.votingWeight) {
+        dispatch(newErrorToast(`${asset.symbol} voting weight is required`));
+        return;
+      }
+
+      if (isNaN(asset.threshold)) {
+        dispatch(newErrorToast(`${asset.symbol} threshold must be a number`));
+        return;
+      }
+
+      if (asset.threshold < 0) {
+        dispatch(
+          newErrorToast(`${asset.symbol} threshold must be greater than 0`),
+        );
+        return;
+      }
+
+      if (isNaN(asset.votingWeight)) {
+        dispatch(
+          newErrorToast(`${asset.symbol} voting weight must be a number`),
+        );
+        return;
+      }
+
+      if (asset.votingWeight < 1) {
+        dispatch(
+          newErrorToast(`${asset.symbol} voting weight must be greater than 1`),
+        );
+        return;
+      }
+
+      if (asset.votingWeight % 1 !== 0) {
+        dispatch(
+          newErrorToast(`${asset.symbol} voting weight must be an integer`),
+        );
+        return;
+      }
+    }
+
+    dispatch(setCurrentStep(2));
+  }, [dispatch, assets]);
 
   return (
     <MyPanel>
@@ -48,7 +114,7 @@ export default function Step2({ steps, assets, setAssets }) {
       <MyDivider />
       <ButtonsWrapper>
         <BackButton />
-        <Button block onClick={() => dispatch(setCurrentStep(2))}>
+        <Button block onClick={nextStep}>
           Next
         </Button>
       </ButtonsWrapper>

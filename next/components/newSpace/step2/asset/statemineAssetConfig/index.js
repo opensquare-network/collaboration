@@ -41,8 +41,8 @@ export default function StatemineAssetConfig({
 
   useEffect(() => {
     if (assetType === "native") {
-      setSymbol(nativeTokenInfo.symbol);
-      setDecimals(nativeTokenInfo.decimals);
+      setSymbol(nativeTokenInfo?.symbol);
+      setDecimals(nativeTokenInfo?.decimals);
     } else if (!assetId) {
       setSymbol("");
       setDecimals(0);
