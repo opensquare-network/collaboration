@@ -5924,10 +5924,10 @@ min-indent@^1.0.0:
   resolved "https://registry.yarnpkg.com/min-indent/-/min-indent-1.0.1.tgz#a63f681673b30571fbe8bc25686ae746eefa9869"
   integrity sha512-I9jwMn07Sy/IwOj3zVkVik2JTvgpaykDZEigL6Rx6N9LbMywwUSMtxET+7lVoDLLd3O3IXwJwvuuns8UB/HeAg==
 
-minidenticons@^2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/minidenticons/-/minidenticons-2.0.2.tgz#a1e8c18cd33f1277fbe18b03a764de6c74f7fbf3"
-  integrity sha512-/dxtrg3MoFrozIM6PfUZbbGHjZDIrrWmf9Tl3JMxIAlFd/Bw3NxdD9TuW61EDqBaAkxNvVEzY6cSvFWB3M9RmQ==
+minidenticons@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/minidenticons/-/minidenticons-3.1.2.tgz#f96a6df7cfd320a94117ebcbe1c952390302b88d"
+  integrity sha512-UKMFgjagF6kZvGTV/SuMFLqvqvcnylBKLFRgpX3/1emp8zjLswZPaFbdslN81D+GsYNxwjxUkWRIo71cM3W0uA==
 
 minimalistic-assert@^1.0.0, minimalistic-assert@^1.0.1:
   version "1.0.1"

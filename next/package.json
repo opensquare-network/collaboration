@@ -35,7 +35,7 @@
     "micromark-extension-gfm": "^2.0.1",
     "micromark-extension-gfm-autolink-literal": "^1.0.3",
     "micromark-extension-gfm-strikethrough": "^1.0.4",
-    "minidenticons": "^2.0.2",
+    "minidenticons": "^3.1.2",
     "moment": "^2.29.4",
     "next": "12.1.0",
     "next-seo": "^4.28.1",

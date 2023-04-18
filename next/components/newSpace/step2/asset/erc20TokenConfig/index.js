@@ -34,8 +34,8 @@ export default function Erc20TokenConfig({ chain, nativeTokenInfo }) {
 
   useEffect(() => {
     if (assetType === "native") {
-      setSymbol(nativeTokenInfo.symbol);
-      setDecimals(nativeTokenInfo.decimals);
+      setSymbol(nativeTokenInfo?.symbol);
+      setDecimals(nativeTokenInfo?.decimals);
     } else if (!contractAddress) {
       setSymbol("");
       setDecimals(0);
