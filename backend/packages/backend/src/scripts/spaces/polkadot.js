@@ -9,6 +9,12 @@ const polkadotConfig = {
     {
       network: networks.polkadot,
       ss58Format: 0,
+      assets: [
+        {
+          symbol: "DOT",
+          decimals: 10,
+        },
+      ],
     },
   ],
   proposeThreshold: "10000000000",

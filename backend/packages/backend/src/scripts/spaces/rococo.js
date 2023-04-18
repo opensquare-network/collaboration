@@ -9,6 +9,14 @@ const rococoConfig = {
     {
       network: networks.rococo,
       ss58Format: 42,
+      assets: [
+        {
+          symbol: "ROC",
+          decimals: 12,
+          delegation: "democracy",
+          isNative: true,
+        },
+      ],
     },
   ],
   proposeThreshold: "1000000000000",

@@ -1,4 +1,4 @@
-const { karuraTokenConfig, networks, strategies } = require("./consts");
+const { networks, strategies } = require("./consts");
 
 const polarisDaoConfig = {
   id: "polarisdao",
@@ -7,12 +7,28 @@ const polarisDaoConfig = {
   decimals: 8,
   networks: [
     {
-      type: "asset",
       network: networks.statemine,
       ss58Format: 2,
-      assetId: 16,
+      assets: [
+        {
+          type: "asset",
+          assetId: 16,
+          symbol: "ARIS",
+          decimals: 8,
+        },
+      ],
     },
-    karuraTokenConfig,
+    {
+      network: networks.karura,
+      ss58Format: 8,
+      assets: [
+        {
+          type: "token",
+          symbol: "ARIS",
+          decimals: 8,
+        },
+      ],
+    },
   ],
   proposeThreshold: "4000000000000",
   voteThreshold: "1000000",

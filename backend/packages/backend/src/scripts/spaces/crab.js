@@ -8,6 +8,12 @@ const crabConfig = {
     {
       network: networks.crab,
       ss58Format: 42,
+      assets: [
+        {
+          symbol: "CRAB",
+          decimals: 9,
+        },
+      ],
     },
   ],
   proposeThreshold: "10000000000",

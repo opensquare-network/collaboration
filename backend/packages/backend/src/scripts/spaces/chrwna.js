@@ -1,4 +1,5 @@
 const { statemineCommonConfig, strategies } = require("./consts");
+
 const config = {
   id: "chrwna",
   name: "Chrawnna",
@@ -7,7 +8,14 @@ const config = {
   networks: [
     {
       ...statemineCommonConfig,
-      assetId: 567,
+      assets: [
+        {
+          type: "asset",
+          symbol: "CHRWNA",
+          decimals: 10,
+          assetId: 567,
+        },
+      ],
     },
   ],
   proposeThreshold: "50000000000",

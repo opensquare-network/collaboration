@@ -49,7 +49,7 @@ describe("Create Proposal Test", () => {
       address = "5EgqZkmeq5c2VVb5TYwMkXHWRQ9V5q6pucoeoiUcWE455Vcp",
       signature = "";
 
-    await createProposal(
+    await createProposal({
       space,
       title,
       content,
@@ -64,8 +64,8 @@ describe("Create Proposal Test", () => {
       banner,
       data,
       address,
-      signature
-    );
+      signature,
+    });
 
     const items = await proposalCol.find({}).toArray();
     expect(items).toMatchObject([

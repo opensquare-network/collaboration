@@ -1,5 +1,6 @@
 const BigNumber = require("bignumber.js");
 const isEmpty = require("lodash.isempty");
+const pick = require("lodash.pick");
 const { getProposalCollection, getVoteCollection } = require("../../mongo");
 const { HttpError } = require("../../exc");
 const { spaces: spaceServices } = require("../../spaces");
@@ -10,14 +11,44 @@ const { ChoiceType } = require("../../constants");
 const { pinData } = require("./common");
 const { getBeenDelegated } = require("../node.service/getBeenDelegated");
 const { adaptBalance } = require("../../utils/balance");
-const { networks } = require("../../consts/networks");
-const { getDelegated } = require("../node.service/getDelegated");
+const { getDemocracyDelegated } = require("../node.service/getDelegated");
+const { findDelegationStrategies } = require("../../utils/delegation");
+
+async function getDelegatorBalances({
+  proposal,
+  snapshotHeight,
+  voter,
+  voterNetwork,
+}) {
+  const networksConfig = proposal.networksConfig;
+  const networkCfg = networksConfig?.networks?.find(
+    (n) => n.network === voterNetwork,
+  );
+
+  const asset = networkCfg?.assets?.find((asset) => asset.isNative);
+
+  if (asset?.delegation !== "democracy") {
+    return;
+  }
+
+  const beenDelegated = await getBeenDelegated(
+    voterNetwork,
+    snapshotHeight,
+    voter,
+  );
+
+  if (beenDelegated.length === 0) {
+    return;
+  }
+
+  return beenDelegated.map((item) => pick(item, ["delegator", "balance"]));
+}
 
 async function addDelegatedVotes(
   bulk,
   {
+    delegators,
     proposal,
-    snapshotHeight,
     voter,
     voterNetwork,
     choices,
@@ -30,34 +61,28 @@ async function addDelegatedVotes(
     now,
   },
 ) {
-  if (
-    ![networks.centrifuge, networks.altair, networks.rococo].includes(
-      voterNetwork,
-    )
-  ) {
+  if (!delegators || delegators?.length === 0) {
     return;
   }
 
   const networksConfig = proposal.networksConfig;
-
   const baseSymbol = networksConfig?.symbol;
   const baseDecimals = networksConfig?.decimals;
   const networkCfg = networksConfig?.networks?.find(
     (n) => n.network === voterNetwork,
   );
-  const asset = networkCfg?.assets?.find((asset) => asset.symbol === "CFG");
 
-  const symbol = asset?.symbol ?? networkCfg?.symbol ?? baseSymbol;
-  const decimals = asset?.decimals ?? networkCfg?.decimals ?? baseDecimals;
-  const multiplier = asset?.multiplier ?? networkCfg?.multiplier ?? 1;
+  const asset = networkCfg?.assets?.find((asset) => asset.isNative);
 
-  const beenDelegated = await getBeenDelegated(
-    voterNetwork,
-    snapshotHeight,
-    voter,
-  );
+  if (asset?.delegation !== "democracy") {
+    return;
+  }
 
-  for (const { delegator, balance } of beenDelegated) {
+  const symbol = asset?.symbol ?? baseSymbol;
+  const decimals = asset?.decimals ?? baseDecimals;
+  const multiplier = asset?.multiplier ?? 1;
+
+  for (const { delegator, balance } of delegators) {
     const detail = {
       symbol,
       decimals,
@@ -95,23 +120,13 @@ async function addDelegatedVotes(
           version: "4",
           isDelegate: true,
           delegatee: voter,
+          delegators,
         },
         $setOnInsert: {
           createdAt: now,
         },
       });
   }
-
-  // Clean old votes
-  bulk
-    .find({
-      proposal: proposal._id,
-      isDelegate: true,
-      delegatee: voter,
-      voterNetwork,
-      updatedAt: { $ne: now },
-    })
-    .delete();
 }
 
 async function vote(
@@ -168,12 +183,22 @@ async function vote(
 
   const voter = realVoter || address;
 
-  const delegation = await getDelegated(voterNetwork, snapshotHeight, voter);
-  if (!isEmpty(delegation)) {
-    throw new HttpError(
-      400,
-      "You can't vote because you have delegated your votes",
+  const delegationStrategies = findDelegationStrategies(
+    proposal.networksConfig,
+    voterNetwork,
+  );
+  if (delegationStrategies.includes("democracy")) {
+    const delegation = await getDemocracyDelegated(
+      voterNetwork,
+      snapshotHeight,
+      voter,
     );
+    if (!isEmpty(delegation)) {
+      throw new HttpError(
+        400,
+        "You can't vote because you have delegated your votes",
+      );
+    }
   }
 
   const networkBalance = await getBalanceFromNetwork({
@@ -195,7 +220,20 @@ async function vote(
       `Require the minimum of ${symbolVoteThreshold} ${proposal.networksConfig.symbol} to vote`,
     );
   }
-  const { cid, pinHash } = await pinData(data, address, signature);
+
+  const delegators = await getDelegatorBalances({
+    proposal,
+    snapshotHeight,
+    voter,
+    voterNetwork,
+  });
+
+  const { cid, pinHash } = await pinData({
+    data,
+    address,
+    signature,
+    delegators,
+  });
 
   const voteCol = await getVoteCollection();
   const bulk = voteCol.initializeOrderedBulkOp();
@@ -225,6 +263,7 @@ async function vote(
         // Version 3: multiple choices support
         // Version 4: multi-assets network
         version: "4",
+        delegators,
       },
       $setOnInsert: {
         createdAt: now,
@@ -232,8 +271,8 @@ async function vote(
     });
 
   await addDelegatedVotes(bulk, {
+    delegators,
     proposal,
-    snapshotHeight,
     voter,
     voterNetwork,
     choices,
@@ -245,6 +284,17 @@ async function vote(
     pinHash,
     now,
   });
+
+  // Clean old delegate votes
+  bulk
+    .find({
+      proposal: proposal._id,
+      isDelegate: true,
+      delegatee: voter,
+      voterNetwork,
+      updatedAt: { $ne: now },
+    })
+    .delete();
 
   await bulk.execute();
 

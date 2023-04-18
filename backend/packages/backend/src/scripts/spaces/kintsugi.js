@@ -1,10 +1,4 @@
-const { movrErc20CommonConfig } = require("./consts");
-const { karuraTokenConfig, networks, strategies } = require("./consts");
-
-const kintMovrConfig = {
-  ...movrErc20CommonConfig,
-  contract: "0xfffFFFFF83F4f317d3cbF6EC6250AeC3697b3fF2",
-};
+const { networks, strategies } = require("./consts");
 
 const config = {
   id: "kintsugi",
@@ -15,9 +9,35 @@ const config = {
     {
       network: networks.kintsugi,
       ss58Format: 2092,
+      assets: [
+        {
+          symbol: "KINT",
+          decimals: 12,
+        },
+      ],
     },
-    karuraTokenConfig,
-    kintMovrConfig,
+    {
+      network: networks.karura,
+      ss58Format: 8,
+      assets: [
+        {
+          type: "token",
+          symbol: "KINT",
+          decimals: 12,
+        },
+      ],
+    },
+    {
+      network: networks.moonriver,
+      assets: [
+        {
+          type: "erc20",
+          contract: "0xfffFFFFF83F4f317d3cbF6EC6250AeC3697b3fF2",
+          symbol: "KINT",
+          decimals: 12,
+        },
+      ],
+    },
   ],
   proposeThreshold: "1000000000000",
   voteThreshold: "10000000000",

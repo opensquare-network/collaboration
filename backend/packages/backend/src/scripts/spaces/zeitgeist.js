@@ -9,6 +9,12 @@ const ztgConfig = {
     {
       network: networks.zeitgeist,
       ss58Format: 73,
+      assets: [
+        {
+          symbol: "ZTG",
+          decimals: 10,
+        },
+      ],
     },
   ],
   proposeThreshold: "10000000000",

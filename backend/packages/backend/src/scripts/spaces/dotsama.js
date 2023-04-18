@@ -10,22 +10,34 @@ const config = {
     {
       network: networks.polkadot,
       ss58Format: 0,
-      symbol: "DOT",
-      decimals: 10,
+      assets: [
+        {
+          symbol: "DOT",
+          decimals: 10,
+        },
+      ],
     },
     {
       network: networks.kusama,
       ss58Format: 2,
-      symbol: "KSM",
-      decimals: 12,
-      multiplier: 10,
+      assets: [
+        {
+          symbol: "KSM",
+          decimals: 12,
+          multiplier: 10,
+        },
+      ],
     },
     {
       network: networks.statemine,
       ss58Format: 2,
-      symbol: "KSM",
-      decimals: 12,
-      multiplier: 10,
+      assets: [
+        {
+          symbol: "KSM",
+          decimals: 12,
+          multiplier: 10,
+        },
+      ],
     },
   ],
   proposeThreshold: "1000000000000",

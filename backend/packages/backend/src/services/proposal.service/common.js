@@ -34,12 +34,11 @@ function getProposalStatus(proposal = {}) {
   }
 }
 
-async function pinData(data, address, signature) {
+async function pinData(rawData) {
   const toBePin = {
-    msg: JSON.stringify(data),
-    address,
-    signature,
-    version: "1",
+    ...rawData,
+    // version 2: replace `msg` with `data`
+    version: "2",
   };
 
   const { cid } = await getObjectBufAndCid(toBePin);

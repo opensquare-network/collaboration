@@ -8,9 +8,10 @@ import {
 import SpaceLogo from "@/components/spaceLogo";
 import Divider from "../styled/divider";
 import ValueDisplay from "../valueDisplay";
-import { ChainIcon, Flex, FlexBetween } from "@osn/common-ui";
-import Tooltip from "../tooltip";
+import { Flex, FlexBetween } from "@osn/common-ui";
 import uniq from "lodash.uniq";
+import { getSpaceAssets } from "frontedUtils/getSpaceAssets";
+import AssetList from "../assetList";
 
 const Wrapper = styled.div``;
 
@@ -68,42 +69,9 @@ const DetailsValue = styled(FlexBetween)`
   ${p_14_medium};
 `;
 
-const voteText = (n) => `${n} ${n === 1 ? "vote" : "votes"}`;
-
 export default function Details({ space }) {
   const strategyCount = space.weightStrategy?.length || 0;
-
-  const symbolMultiplier = {};
-  const symbolSet = new Set();
-
-  if (space.networks?.length > 0) {
-    for (const network of space.networks) {
-      if (network.assets?.length > 0) {
-        for (const asset of network.assets) {
-          const symbol = asset?.symbol ?? network?.symbol ?? space?.symbol;
-          const multiplier = asset?.multiplier ?? network?.multiplier;
-          const networkName = network?.network ?? space?.network;
-          symbolSet.add(`${networkName}/${symbol}`);
-          symbolMultiplier[`${networkName}/${symbol}`] = multiplier;
-        }
-      } else {
-        const symbol = network?.symbol ?? space?.symbol;
-        const multiplier = network?.multiplier;
-        const networkName = network?.network ?? space?.network;
-        symbolSet.add(`${networkName}/${symbol}`);
-        symbolMultiplier[`${networkName}/${symbol}`] = multiplier;
-      }
-    }
-  } else {
-    const symbol = space?.symbol;
-    const network = space?.network;
-    symbolSet.add(`${network}/${symbol}`);
-  }
-
-  const symbols = [...symbolSet].map((item) => {
-    const [network, symbol] = item.split("/");
-    return { network, symbol };
-  });
+  const assets = getSpaceAssets(space);
 
   return (
     <Wrapper>
@@ -111,7 +79,7 @@ export default function Details({ space }) {
         <SpaceLogo space={space} />
         <LogoName>{space.name}</LogoName>
         <LogoSymbol>
-          {uniq(symbols.map(({ symbol }) => symbol)).join(" + ")}
+          {uniq(assets.map(({ symbol }) => symbol)).join(" + ")}
         </LogoSymbol>
       </LogoWrapper>
 
@@ -129,10 +97,6 @@ export default function Details({ space }) {
             <span>Threshold</span>
             <ValueDisplay value={space.proposeThreshold} space={space} />
           </DetailsValue>
-          <DetailsValue>
-            <span>Delegation</span>
-            <span>Democracy</span>
-          </DetailsValue>
         </DetailsItem>
 
         <DetailsItem>
@@ -145,22 +109,8 @@ export default function Details({ space }) {
         </DetailsItem>
 
         <DetailsItem>
-          <DetailsLabel>Assets({symbols.length})</DetailsLabel>
-          {symbols?.map(({ network, symbol }, index) => (
-            <DetailsValue key={index}>
-              <Flex style={{ gap: "8px" }}>
-                <ChainIcon chainName={network} size={20} />
-                <span>{symbol}</span>
-              </Flex>
-              <Tooltip
-                content={`1 ${symbol} = ${voteText(
-                  symbolMultiplier[`${network}/${symbol}`] ?? 1,
-                )}`}
-              >
-                <div>{`x${symbolMultiplier[`${network}/${symbol}`] ?? 1}`}</div>
-              </Tooltip>
-            </DetailsValue>
-          ))}
+          <DetailsLabel>Assets({assets.length})</DetailsLabel>
+          <AssetList assets={assets} />
         </DetailsItem>
       </DetailSections>
     </Wrapper>

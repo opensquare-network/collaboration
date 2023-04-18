@@ -27,7 +27,7 @@ async function addAppendant(
     throw new HttpError(400, "Only the proposer can append");
   }
 
-  const { cid, pinHash } = await pinData(data, address, signature);
+  const { cid, pinHash } = await pinData({ data, address, signature });
 
   const appendantCol = await getAppendantCollection();
   await appendantCol.insertOne({

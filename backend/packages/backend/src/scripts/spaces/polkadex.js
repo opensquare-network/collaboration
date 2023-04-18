@@ -9,6 +9,12 @@ const config = {
     {
       network: "polkadex",
       ss58Format: 88,
+      assets: [
+        {
+          symbol: "PDEX",
+          decimals: 12,
+        },
+      ],
     },
   ],
   proposeThreshold: "1000000000000",

@@ -7,6 +7,8 @@ import { ChainIcon } from "@osn/common-ui";
 import Tooltip from "@/components/tooltip";
 import Panel from "@/components/postDetail/panel";
 import SideSectionTitle from "@/components/sideBar/sideSectionTitle";
+import AssetList from "../assetList";
+import { getSpaceAssets } from "frontedUtils/getSpaceAssets";
 
 const Wrapper = styled(Panel)`
   > :not(:first-child) {
@@ -73,10 +75,7 @@ const SnapshotsWrapper = styled.div`
 
 // eslint-disable-next-line
 export default function PostInfo({ data, space }) {
-  const hasDelegation = space?.networks?.some((network) =>
-    ["centrifuge", "altair", "rococo"].includes(network.network),
-  );
-
+  const assets = getSpaceAssets(data.networksConfig);
   return (
     <Wrapper>
       <div>
@@ -114,13 +113,15 @@ export default function PostInfo({ data, space }) {
               >{`#${data?.pinHash?.slice(0, 7)}`}</ExternalLink>
             </InfoItem>
           )}
-          {hasDelegation && (
-            <InfoItem>
-              <span>Delegation</span>
-              <span>Democracy</span>
-            </InfoItem>
-          )}
         </div>
+      </div>
+      <div>
+        <SideSectionTitle
+          title={`Assets(${assets.length})`}
+          img="/imgs/icons/asset.svg"
+        />
+        <Divider />
+        <AssetList assets={assets} />
       </div>
       <div>
         <SideSectionTitle title="Timestamp" img="/imgs/icons/timeline.svg" />
