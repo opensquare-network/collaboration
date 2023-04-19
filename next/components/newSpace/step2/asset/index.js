@@ -11,6 +11,7 @@ import CommonAssetConfig from "./commonAssetConfig";
 import { Chains } from "@osn/constants";
 import OrmlTokenConfig from "./ormlTokenConfig";
 import Erc20TokenConfig from "./erc20TokenConfig";
+import styled from "styled-components";
 
 const knownNativeTokens = {
   ethereum: {
@@ -27,7 +28,30 @@ const knownNativeTokens = {
   },
 };
 
-export default function Asset({ index, asset, setAsset = noop }) {
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const DeleteWrapper = styled.div`
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 24px;
+  color: #ee4444;
+`;
+
+export default function Asset({
+  count,
+  index,
+  asset,
+  setAsset = noop,
+  removeAsset = noop,
+}) {
   const availableNetworks = useSelector(availableNetworksSelector);
   const [nativeTokenInfo, setNativeTokenInfo] = useState();
   const isMounted = useIsMounted();
@@ -68,6 +92,7 @@ export default function Asset({ index, asset, setAsset = noop }) {
       .fetch(`chain/${asset?.chain}/token/native`)
       .then(({ result, error }) => {
         if (error) {
+          setNativeTokenInfo();
           return;
         }
 
@@ -113,7 +138,12 @@ export default function Asset({ index, asset, setAsset = noop }) {
 
   return (
     <Wrapper>
-      <Title>Asset #{index + 1}</Title>
+      <Header>
+        <Title>Asset #{index + 1}</Title>
+        {count > 1 && (
+          <DeleteWrapper onClick={removeAsset}>Delete</DeleteWrapper>
+        )}
+      </Header>
       <FieldWrapper>
         <Title>Chain</Title>
         <ChainSelector chains={availableNetworks} onSelect={onSelectChain} />

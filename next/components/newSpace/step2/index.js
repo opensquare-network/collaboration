@@ -94,13 +94,19 @@ export default function Step2({ steps, assets, setAssets }) {
       <MyDivider />
       <Sections>
         {assets?.map((asset, index) => (
-          <Fragment key={index}>
+          <Fragment key={asset.id}>
             <Asset
+              count={assets.length}
               index={index}
               asset={asset}
               setAsset={(asset) => {
                 const newAssets = [...assets];
                 newAssets[index] = asset;
+                setAssets(newAssets);
+              }}
+              removeAsset={() => {
+                const newAssets = [...assets];
+                newAssets.splice(index, 1);
                 setAssets(newAssets);
               }}
             />
@@ -109,7 +115,9 @@ export default function Step2({ steps, assets, setAssets }) {
         ))}
       </Sections>
       <Sections>
-        <NewAssetButton onClick={() => setAssets((value) => [...value, {}])} />
+        <NewAssetButton
+          onClick={() => setAssets((value) => [...value, { id: Date.now() }])}
+        />
       </Sections>
       <MyDivider />
       <ButtonsWrapper>
