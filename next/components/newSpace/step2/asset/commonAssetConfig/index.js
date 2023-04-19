@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Wrapper } from "../styled";
 import AssetDetail from "../assetDetail";
 import AssetConfig from "../assetConfig";
