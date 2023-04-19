@@ -13,6 +13,7 @@ import Asset from "./asset";
 import MyDivider from "../myDivider";
 import { Fragment, useCallback } from "react";
 import { newErrorToast } from "store/reducers/toastSlice";
+import uniq from "lodash.uniq";
 
 const ButtonsWrapper = styled.div`
   display: flex;
@@ -24,6 +25,11 @@ export default function Step2({ steps, assets, setAssets }) {
   const currentStep = useSelector(currentStepSelector);
 
   const nextStep = useCallback(() => {
+    if (!assets.length) {
+      dispatch(newErrorToast("At least one asset is required"));
+      return;
+    }
+
     // Verify assets
     for (const asset of assets) {
       if (!asset.chain) {
@@ -83,6 +89,14 @@ export default function Step2({ steps, assets, setAssets }) {
         );
         return;
       }
+    }
+
+    const uniqAssets = uniq(
+      assets.map((asset) => `${asset.chain}/${asset.symbol}`),
+    );
+    if (uniqAssets.length !== assets.length) {
+      dispatch(newErrorToast("Duplicate assets are not allowed"));
+      return;
     }
 
     dispatch(setCurrentStep(2));

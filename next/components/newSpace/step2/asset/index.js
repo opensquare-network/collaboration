@@ -70,13 +70,18 @@ export default function Asset({
 
   const onSelectChain = useCallback(
     (chain) => {
-      if (chain.network === asset.chain) {
+      if (!chain) {
+        return;
+      }
+
+      if (chain?.network === asset?.chain) {
         // this is required to prevent infinite loop
         return;
       }
-      setPartialAsset({ chain: chain.network });
+
+      setPartialAsset({ chain: chain?.network });
     },
-    [setPartialAsset],
+    [asset?.chain, setPartialAsset],
   );
 
   useEffect(() => {

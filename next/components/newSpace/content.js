@@ -65,6 +65,8 @@ export default function Content() {
   });
   const logoImage = imageFile || defaultLogo;
   const [assets, setAssets] = useState([]);
+  const [proposalThreshold, setProposalThreshold] = useState("0");
+  const [selectedOptions, setSelectedOptions] = useState([]);
 
   const steps = [
     { title: "Space profile" },
@@ -86,7 +88,16 @@ export default function Content() {
   } else if (currentStep === 1) {
     stepContent = <Step2 steps={steps} assets={assets} setAssets={setAssets} />;
   } else if (currentStep === 2) {
-    stepContent = <Step3 steps={steps} />;
+    stepContent = (
+      <Step3
+        symbol={assets.length > 1 ? "VOTE" : assets[0]?.symbol}
+        steps={steps}
+        proposalThreshold={proposalThreshold}
+        setProposalThreshold={setProposalThreshold}
+        selectedOptions={selectedOptions}
+        setSelectedOptions={setSelectedOptions}
+      />
+    );
   }
 
   return (

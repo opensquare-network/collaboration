@@ -3,14 +3,31 @@ import Steps from "../../steps";
 import { MyPanel, Sections } from "../styled";
 import { currentStepSelector } from "store/reducers/newSpaceSlice";
 import MyDivider from "../myDivider";
+import ProposalThreshold from "./proposalThreshold";
+import StrategiesSelector from "./strategiesSelector";
 
-export default function Step3({ steps }) {
+export default function Step3({
+  steps,
+  proposalThreshold,
+  setProposalThreshold,
+  selectedOptions,
+  setSelectedOptions,
+}) {
   const currentStep = useSelector(currentStepSelector);
   return (
     <MyPanel>
       <Steps steps={steps} currentStep={currentStep} />
       <MyDivider />
-      <Sections></Sections>
+      <Sections>
+        <ProposalThreshold
+          proposalThreshold={proposalThreshold}
+          setProposalThreshold={setProposalThreshold}
+        />
+        <StrategiesSelector
+          selectedOptions={selectedOptions}
+          setSelectedOptions={setSelectedOptions}
+        />
+      </Sections>
     </MyPanel>
   );
 }
