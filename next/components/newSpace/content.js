@@ -67,6 +67,10 @@ export default function Content() {
   const [assets, setAssets] = useState([]);
   const [proposalThreshold, setProposalThreshold] = useState("0");
   const [selectedOptions, setSelectedOptions] = useState([]);
+  const options = [
+    { value: "balance-of", text: "balance-of" },
+    { value: "quadratic-balance-of", text: "quadratic-balance-of" },
+  ];
 
   const steps = [
     { title: "Space profile" },
@@ -94,6 +98,7 @@ export default function Content() {
         steps={steps}
         proposalThreshold={proposalThreshold}
         setProposalThreshold={setProposalThreshold}
+        options={options}
         selectedOptions={selectedOptions}
         setSelectedOptions={setSelectedOptions}
       />
@@ -104,7 +109,13 @@ export default function Content() {
     <Wrapper>
       <MainWrapper>{stepContent}</MainWrapper>
       <SiderWrapper>
-        <Sider imageFile={logoImage} name={name} assets={assets} />
+        <Sider
+          imageFile={logoImage}
+          name={name}
+          assets={assets}
+          options={options}
+          selectedOptions={selectedOptions}
+        />
       </SiderWrapper>
     </Wrapper>
   );

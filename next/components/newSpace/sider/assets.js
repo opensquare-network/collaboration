@@ -3,7 +3,11 @@ import { Name, Value } from "./styled";
 import { ChainIcon } from "@osn/common-ui";
 import Tooltip from "@/components/tooltip";
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+`;
 
 const AssetItem = styled.div`
   display: flex;
@@ -32,28 +36,30 @@ const Threshold = styled.span`
 `;
 
 export default function Assets({ assets = [] }) {
+  let assetsList = "-";
+
+  if (assets.length > 0) {
+    assetsList = assets.map((asset, index) => (
+      <AssetItem key={index}>
+        <Description>
+          <ChainIcon chainName={asset?.chain} />
+          <span>{asset?.symbol}</span>
+        </Description>
+        <Tooltip content={`Threshold: ${asset?.threshold} ${asset?.symbol}`}>
+          <div>
+            <Threshold>
+              {asset?.threshold} {asset?.symbol}
+            </Threshold>
+          </div>
+        </Tooltip>
+      </AssetItem>
+    ));
+  }
+
   return (
     <Wrapper>
       <Name>Assets({assets.length || 0})</Name>
-      <Value>
-        {assets.map((asset, index) => (
-          <AssetItem key={index}>
-            <Description>
-              <ChainIcon chainName={asset?.chain} />
-              <span>{asset?.symbol}</span>
-            </Description>
-            <Tooltip
-              content={`Threshold: ${asset?.threshold} ${asset?.symbol}`}
-            >
-              <div>
-                <Threshold>
-                  {asset?.threshold} {asset?.symbol}
-                </Threshold>
-              </div>
-            </Tooltip>
-          </AssetItem>
-        ))}
-      </Value>
+      <Value>{assetsList}</Value>
     </Wrapper>
   );
 }

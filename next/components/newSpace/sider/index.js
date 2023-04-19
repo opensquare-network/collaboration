@@ -35,9 +35,19 @@ const FlexColumn = styled.div`
   flex-direction: column;
 `;
 
-const Items = styled.div``;
+const Items = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`;
 
-export default function Sider({ imageFile, name, assets }) {
+export default function Sider({
+  imageFile,
+  name,
+  assets,
+  options,
+  selectedOptions,
+}) {
   return (
     <MyPanel>
       <SectionTitle>Summary</SectionTitle>
@@ -50,7 +60,7 @@ export default function Sider({ imageFile, name, assets }) {
       </Sections>
       <Items>
         <Assets assets={assets} />
-        <Strategies />
+        <Strategies options={options} selectedOptions={selectedOptions} />
       </Items>
     </MyPanel>
   );

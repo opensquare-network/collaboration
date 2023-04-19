@@ -5,14 +5,10 @@ import styled from "styled-components";
 const Wrapper = styled.div``;
 
 export default function StrategiesSelector({
+  options,
   selectedOptions,
   setSelectedOptions,
 }) {
-  const options = [
-    { value: "balance-of", text: "balance-of" },
-    { value: "quadratic-balance-of", text: "quadratic-balance-of" },
-  ];
-
   return (
     <Wrapper>
       <MultiSelect

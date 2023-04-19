@@ -10,6 +10,7 @@ export default function Step3({
   steps,
   proposalThreshold,
   setProposalThreshold,
+  options,
   selectedOptions,
   setSelectedOptions,
 }) {
@@ -24,6 +25,7 @@ export default function Step3({
           setProposalThreshold={setProposalThreshold}
         />
         <StrategiesSelector
+          options={options}
           selectedOptions={selectedOptions}
           setSelectedOptions={setSelectedOptions}
         />
