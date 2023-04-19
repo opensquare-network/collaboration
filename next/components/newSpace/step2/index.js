@@ -116,7 +116,18 @@ export default function Step2({ steps, assets, setAssets }) {
       </Sections>
       <Sections>
         <NewAssetButton
-          onClick={() => setAssets((value) => [...value, { id: Date.now() }])}
+          onClick={() =>
+            setAssets((value) => [
+              ...value,
+              {
+                id: Date.now(),
+                symbol: "",
+                decimals: 10,
+                threshold: "0",
+                votingWeight: "1",
+              },
+            ])
+          }
         />
       </Sections>
       <MyDivider />

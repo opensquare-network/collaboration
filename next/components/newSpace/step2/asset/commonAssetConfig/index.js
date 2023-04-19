@@ -5,14 +5,12 @@ import AssetConfig from "../assetConfig";
 import { noop } from "@osn/common-ui";
 
 export default function CommonAssetConfig({
+  count,
   chain,
   nativeTokenInfo,
   asset,
   setPartialAsset = noop,
 }) {
-  const [threshold, setThreshold] = useState("0");
-  const [votingWeight, setVotingWeight] = useState("1");
-
   if (!nativeTokenInfo) {
     return null;
   }
@@ -26,13 +24,19 @@ export default function CommonAssetConfig({
         setPartialAsset={setPartialAsset}
       />
       <AssetConfig
+        count={count}
         symbol={nativeTokenInfo?.symbol}
-        threshold={threshold}
-        setThreshold={setThreshold}
-        votingWeight={votingWeight}
-        setVotingWeight={setVotingWeight}
+        threshold={asset?.threshold}
+        setThreshold={(threshold) => {
+          if (asset?.threshold === threshold) return;
+          setPartialAsset({ threshold });
+        }}
+        votingWeight={asset?.votingWeight}
+        setVotingWeight={(votingWeight) => {
+          if (asset?.votingWeight === votingWeight) return;
+          setPartialAsset({ votingWeight });
+        }}
         asset={asset}
-        setPartialAsset={setPartialAsset}
       />
     </Wrapper>
   );

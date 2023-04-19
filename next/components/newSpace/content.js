@@ -65,7 +65,6 @@ export default function Content() {
   });
   const logoImage = imageFile || defaultLogo;
   const [assets, setAssets] = useState([]);
-  console.log(assets);
 
   const steps = [
     { title: "Space profile" },

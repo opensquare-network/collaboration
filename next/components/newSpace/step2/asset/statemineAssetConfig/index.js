@@ -9,6 +9,7 @@ import nextApi from "services/nextApi";
 import debounce from "lodash.debounce";
 
 export default function StatemineAssetConfig({
+  count,
   chain,
   nativeTokenInfo,
   asset,
@@ -18,8 +19,6 @@ export default function StatemineAssetConfig({
   const [assetId, setAssetId] = useState("");
   const [symbol, setSymbol] = useState("");
   const [decimals, setDecimals] = useState(0);
-  const [threshold, setThreshold] = useState(0);
-  const [votingWeight, setVotingWeight] = useState(1);
   const isMounted = useIsMounted();
 
   const fetchAssetMetadata = useMemo(() => {
@@ -78,13 +77,19 @@ export default function StatemineAssetConfig({
         setPartialAsset={setPartialAsset}
       />
       <AssetConfig
-        symbol={symbol}
-        threshold={threshold}
-        setThreshold={setThreshold}
-        votingWeight={votingWeight}
-        setVotingWeight={setVotingWeight}
+        count={count}
+        symbol={nativeTokenInfo?.symbol}
+        threshold={asset?.threshold}
+        setThreshold={(threshold) => {
+          if (asset?.threshold === threshold) return;
+          setPartialAsset({ threshold });
+        }}
+        votingWeight={asset?.votingWeight}
+        setVotingWeight={(votingWeight) => {
+          if (asset?.votingWeight === votingWeight) return;
+          setPartialAsset({ votingWeight });
+        }}
         asset={asset}
-        setPartialAsset={setPartialAsset}
       />
     </Wrapper>
   );

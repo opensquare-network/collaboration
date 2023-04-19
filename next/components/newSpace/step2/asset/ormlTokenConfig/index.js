@@ -8,14 +8,13 @@ import { bifrostOrmlTokens, karuraOrmlTokens } from "../constants";
 import { noop } from "@osn/common-ui";
 
 export default function OrmlTokenConfig({
+  count,
   chain,
   nativeTokenInfo,
   asset,
   setPartialAsset = noop,
 }) {
   const [assetType, setAssetType] = useState("");
-  const [threshold, setThreshold] = useState("0");
-  const [votingWeight, setVotingWeight] = useState("1");
 
   const ormlTokens =
     chain === Chains.karura
@@ -44,13 +43,19 @@ export default function OrmlTokenConfig({
         setPartialAsset={setPartialAsset}
       />
       <AssetConfig
-        symbol={symbol}
-        threshold={threshold}
-        setThreshold={setThreshold}
-        votingWeight={votingWeight}
-        setVotingWeight={setVotingWeight}
+        count={count}
+        symbol={nativeTokenInfo?.symbol}
+        threshold={asset?.threshold}
+        setThreshold={(threshold) => {
+          if (asset?.threshold === threshold) return;
+          setPartialAsset({ threshold });
+        }}
+        votingWeight={asset?.votingWeight}
+        setVotingWeight={(votingWeight) => {
+          if (asset?.votingWeight === votingWeight) return;
+          setPartialAsset({ votingWeight });
+        }}
         asset={asset}
-        setPartialAsset={setPartialAsset}
       />
     </Wrapper>
   );

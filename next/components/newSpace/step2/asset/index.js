@@ -12,6 +12,7 @@ import { Chains } from "@osn/constants";
 import OrmlTokenConfig from "./ormlTokenConfig";
 import Erc20TokenConfig from "./erc20TokenConfig";
 import styled from "styled-components";
+import useStateChanged from "hooks/useStateChanged";
 
 const knownNativeTokens = {
   ethereum: {
@@ -55,6 +56,7 @@ export default function Asset({
   const availableNetworks = useSelector(availableNetworksSelector);
   const [nativeTokenInfo, setNativeTokenInfo] = useState();
   const isMounted = useIsMounted();
+  const assetsCountChanged = useStateChanged(count);
 
   const setPartialAsset = useCallback(
     (partialData) => {
@@ -76,6 +78,12 @@ export default function Asset({
     },
     [setPartialAsset],
   );
+
+  useEffect(() => {
+    if (assetsCountChanged && count === 1 && asset.votingWeight !== "1") {
+      setPartialAsset({ votingWeight: "1" });
+    }
+  }, [assetsCountChanged, count, asset, setPartialAsset]);
 
   useEffect(() => {
     if (!asset?.chain) {
@@ -104,6 +112,7 @@ export default function Asset({
 
   let assetConfig = (
     <CommonAssetConfig
+      count={count}
       chain={asset.chain}
       nativeTokenInfo={nativeTokenInfo}
       asset={asset}
@@ -114,13 +123,20 @@ export default function Asset({
   if ([Chains.statemine, Chains.statemint].includes(asset.chain)) {
     assetConfig = (
       <StatemineAssetConfig
+        count={count}
         chain={asset.chain}
+        asset={asset}
         nativeTokenInfo={nativeTokenInfo}
       />
     );
   } else if ([Chains.karura, Chains.bifrost].includes(asset.chain)) {
     assetConfig = (
-      <OrmlTokenConfig chain={asset.chain} nativeTokenInfo={nativeTokenInfo} />
+      <OrmlTokenConfig
+        count={count}
+        chain={asset.chain}
+        asset={asset}
+        nativeTokenInfo={nativeTokenInfo}
+      />
     );
   } else if (
     [Chains.moonriver, Chains.moonbeam, Chains.ethereum].includes(asset.chain)
@@ -128,6 +144,7 @@ export default function Asset({
     //TODO: handle Chains.ethereum native token ?
     assetConfig = (
       <Erc20TokenConfig
+        count={count}
         chain={asset.chain}
         nativeTokenInfo={nativeTokenInfo}
         asset={asset}
