@@ -72,8 +72,6 @@ export default function Content() {
     { value: "quadratic-balance-of", text: "quadratic-balance-of" },
   ];
 
-  console.log({ assets });
-
   const steps = [
     { title: "Space profile" },
     { title: "Assets" },
@@ -115,6 +113,7 @@ export default function Content() {
           imageFile={logoImage}
           name={name}
           assets={assets}
+          proposalThreshold={proposalThreshold}
           options={options}
           selectedOptions={selectedOptions}
         />

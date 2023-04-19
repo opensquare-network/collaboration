@@ -3,6 +3,11 @@ import Assets from "./assets";
 import Logo from "./logo";
 import styled from "styled-components";
 import Strategies from "./strategies";
+import { currentStepSelector } from "store/reducers/newSpaceSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { Button } from "@osn/common-ui";
+import { useCallback } from "react";
+import { newErrorToast } from "store/reducers/toastSlice";
 
 const Sections = styled.div`
   display: flex;
@@ -45,9 +50,38 @@ export default function Sider({
   imageFile,
   name,
   assets,
+  proposalThreshold,
   options,
   selectedOptions,
 }) {
+  const dispatch = useDispatch();
+  const currentStep = useSelector(currentStepSelector);
+
+  const verifyData = useCallback(() => {
+    if (isNaN(proposalThreshold)) {
+      dispatch(newErrorToast("Proposal threshold must be a number"));
+      return false;
+    }
+
+    if (proposalThreshold < 0) {
+      dispatch(newErrorToast("Proposal threshold must not be less then 0"));
+      return false;
+    }
+
+    if (!selectedOptions.length) {
+      dispatch(newErrorToast("At least one strategy is required"));
+      return false;
+    }
+
+    return true;
+  }, [dispatch, proposalThreshold, selectedOptions]);
+
+  const submit = useCallback(() => {
+    if (!verifyData()) {
+      return;
+    }
+  }, [verifyData]);
+
   return (
     <MyPanel>
       <SectionTitle>Summary</SectionTitle>
@@ -61,6 +95,11 @@ export default function Sider({
       <Items>
         <Assets assets={assets} />
         <Strategies options={options} selectedOptions={selectedOptions} />
+        {currentStep === 2 && (
+          <Button primary block onClick={submit}>
+            Submit
+          </Button>
+        )}
       </Items>
     </MyPanel>
   );

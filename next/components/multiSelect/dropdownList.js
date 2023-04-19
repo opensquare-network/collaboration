@@ -31,6 +31,7 @@ export default function DropdownList({
     <Wrapper ref={ref}>
       {(options || []).map((option) => (
         <DropdownOption
+          key={option.value}
           {...option}
           checked={(selectedOptions || []).includes(option.value)}
           onChecked={onChecked}
