@@ -27,7 +27,7 @@ export default function AssetDetail({
     }
 
     setPartialAsset({ symbol, decimals });
-  }, [asset, symbol, decimals]);
+  }, [asset, symbol, decimals, setPartialAsset]);
 
   if (!symbol || !decimals) {
     return null;

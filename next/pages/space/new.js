@@ -12,7 +12,7 @@ export default function Index({ allNetworks }) {
     dispatch(setAvailableNetworks(allNetworks || []));
   }, [dispatch, allNetworks]);
 
-  const desc = `Create new space`;
+  const desc = "Create new space";
   return (
     <>
       <Seo desc={desc} />
@@ -23,9 +23,9 @@ export default function Index({ allNetworks }) {
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps() {
   const [{ result: allNetworks }] = await Promise.all([
-    ssrNextApi.fetch(`networks`),
+    ssrNextApi.fetch("networks"),
   ]);
 
   return {

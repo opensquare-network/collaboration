@@ -14,11 +14,11 @@ const Wrapper = styled.div`
   }
 `;
 
-function AssetItem({ symbol, type }) {
+function AssetItem({ symbol }) {
+  //TODO: display asset type
   return (
     <FlexBetween>
       <span>{symbol}</span>
-      {/* <span>{type}</span> */}
     </FlexBetween>
   );
 }

@@ -5,7 +5,6 @@ import { noop } from "@osn/common-ui";
 
 export default function CommonAssetConfig({
   count,
-  chain,
   nativeTokenInfo,
   asset,
   setPartialAsset = noop,
