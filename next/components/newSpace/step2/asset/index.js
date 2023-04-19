@@ -132,6 +132,7 @@ export default function Asset({
         chain={asset.chain}
         asset={asset}
         nativeTokenInfo={nativeTokenInfo}
+        setPartialAsset={setPartialAsset}
       />
     );
   } else if ([Chains.karura, Chains.bifrost].includes(asset.chain)) {
@@ -141,6 +142,7 @@ export default function Asset({
         chain={asset.chain}
         asset={asset}
         nativeTokenInfo={nativeTokenInfo}
+        setPartialAsset={setPartialAsset}
       />
     );
   } else if (

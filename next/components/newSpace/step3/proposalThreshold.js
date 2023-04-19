@@ -2,7 +2,10 @@ import styled from "styled-components";
 import { SectionTitle } from "../styled";
 import { Input } from "@osn/common-ui";
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 
 const InputWrapper = styled.div`
   display: flex;

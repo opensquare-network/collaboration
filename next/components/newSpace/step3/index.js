@@ -4,7 +4,7 @@ import { MyPanel, Sections } from "../styled";
 import { currentStepSelector } from "store/reducers/newSpaceSlice";
 import MyDivider from "../myDivider";
 import ProposalThreshold from "./proposalThreshold";
-import StrategiesSelector from "./strategiesSelector";
+import Strategies from "./strategies";
 
 export default function Step3({
   steps,
@@ -24,7 +24,7 @@ export default function Step3({
           proposalThreshold={proposalThreshold}
           setProposalThreshold={setProposalThreshold}
         />
-        <StrategiesSelector
+        <Strategies
           options={options}
           selectedOptions={selectedOptions}
           setSelectedOptions={setSelectedOptions}

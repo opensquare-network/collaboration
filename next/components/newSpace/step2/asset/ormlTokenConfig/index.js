@@ -26,6 +26,8 @@ export default function OrmlTokenConfig({
     assetType === "native"
       ? nativeTokenInfo
       : ormlTokens.find((item) => item.symbol === assetType);
+
+  console.log({ assetType, token });
   const symbol = token?.symbol;
   const decimals = token?.decimals;
 

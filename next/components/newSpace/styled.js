@@ -35,5 +35,5 @@ export const MyPanel = styled(Panel)`
 export const Sections = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 32px;
 `;
