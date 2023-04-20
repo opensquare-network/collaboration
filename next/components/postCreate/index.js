@@ -202,6 +202,7 @@ export default function PostCreate({ space }) {
         symbol: space.symbol,
         decimals: space.decimals,
         networks: space.networks,
+        version: space.version,
       },
       title,
       content,

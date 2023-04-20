@@ -9,6 +9,7 @@ import { Button } from "@osn/common-ui";
 import { useCallback } from "react";
 import { newErrorToast, newSuccessToast } from "store/reducers/toastSlice";
 import nextApi from "services/nextApi";
+import { useRouter } from "next/router";
 
 const Sections = styled.div`
   display: flex;
@@ -59,6 +60,7 @@ export default function Sider({
 }) {
   const dispatch = useDispatch();
   const currentStep = useSelector(currentStepSelector);
+  const router = useRouter();
 
   const verifyData = useCallback(() => {
     if (isNaN(proposalThreshold)) {
@@ -100,10 +102,11 @@ export default function Sider({
       }
       if (result) {
         dispatch(newSuccessToast("Space created successfully"));
-        //TODO: navigate to space
+        router.push(`/space/${result.spaceId}`);
       }
     });
   }, [
+    router,
     dispatch,
     verifyData,
     imageFile,

@@ -1,3 +1,4 @@
+const slugify = require("slugify");
 const { getSpaceCollection } = require("../../mongo");
 const { ipfsAddBuffer } = require("../../services/ipfs.service/ipfs");
 
@@ -32,15 +33,17 @@ async function createSpace(ctx) {
       acc[chain] = { network: chain, ss58Format, assets: [] };
     }
 
-    acc[chain].assets.push({
-      type,
-      assetId,
-      contract,
+    const item = {
       symbol,
       decimals,
       threshold,
       votingWeight,
-    });
+    };
+    if (type !== undefined) item.type = type;
+    if (assetId !== undefined) item.assetId = assetId;
+    if (contract !== undefined) item.contract = contract;
+
+    acc[chain].assets.push(item);
     return acc;
   }, {});
 
@@ -51,8 +54,9 @@ async function createSpace(ctx) {
     logoCid = added.path;
   }
 
+  const id = slugify(name);
   const spaceConfig = {
-    id: name,
+    id,
     name,
     symbol,
     decimals,
@@ -71,7 +75,7 @@ async function createSpace(ctx) {
   );
 
   ctx.body = {
-    success: true,
+    spaceId: id,
   };
 }
 
