@@ -211,14 +211,30 @@ async function vote(
   const balanceOf = networkBalance?.balanceOf;
   const networkBalanceDetails = networkBalance?.details;
 
-  if (new BigNumber(balanceOf).lt(spaceService.voteThreshold)) {
-    const symbolVoteThreshold = new BigNumber(spaceService.voteThreshold)
-      .div(Math.pow(10, proposal.networksConfig.decimals))
-      .toString();
-    throw new HttpError(
-      400,
-      `Require the minimum of ${symbolVoteThreshold} ${proposal.networksConfig.symbol} to vote`,
+  // Verify if the voter has enough balance to vote
+  if (proposal.networksConfig?.version === "4") {
+    // For the version 4 of space config, we need to check if the voter has at least one of the asset pass the threshold
+    const networkConfig = proposal.networksConfig?.networks?.find(
+      (item) => item.network === voterNetwork,
     );
+    const passThreshold = networkConfig?.assets?.some((item) =>
+      networkBalanceDetails?.some((balance) =>
+        new BigNumber(item.threshold).lte(balance.balance),
+      ),
+    );
+    if (!passThreshold) {
+      throw new HttpError(400, "You don't have enough balance to vote");
+    }
+  } else {
+    if (new BigNumber(balanceOf).lt(spaceService.voteThreshold)) {
+      const symbolVoteThreshold = new BigNumber(spaceService.voteThreshold)
+        .div(Math.pow(10, proposal.networksConfig.decimals))
+        .toString();
+      throw new HttpError(
+        400,
+        `Require the minimum of ${symbolVoteThreshold} ${proposal.networksConfig.symbol} to vote`,
+      );
+    }
   }
 
   const delegators = await getDelegatorBalances({

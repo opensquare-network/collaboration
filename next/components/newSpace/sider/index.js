@@ -91,9 +91,17 @@ export default function Sider({
       symbol,
       decimals,
       logo: imageFile,
-      assets,
+      assets: assets?.map((item) => ({
+        ...item,
+        votingWeight: parseInt(item.votingWeight),
+        threshold: new BigNumber(item.threshold)
+          .times(Math.pow(10, item.decimals))
+          .toFixed(),
+      })),
       strategies: selectedStrategies,
-      proposalThreshold,
+      proposalThreshold: new BigNumber(proposalThreshold)
+        .times(Math.pow(10, decimals))
+        .toFixed(),
     };
 
     nextApi.post("spaces", spaceData).then(({ result, error }) => {
