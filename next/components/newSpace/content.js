@@ -66,7 +66,10 @@ export default function Content() {
   const logoImage = imageFile || defaultLogo;
   const [assets, setAssets] = useState([]);
   const [proposalThreshold, setProposalThreshold] = useState("0");
-  const [selectedOptions, setSelectedOptions] = useState([]);
+  const [selectedOptions, setSelectedOptions] = useState([
+    "balance-of",
+    "quadratic-balance-of",
+  ]);
   const options = [
     { value: "balance-of", text: "balance-of" },
     { value: "quadratic-balance-of", text: "quadratic-balance-of" },
@@ -77,6 +80,8 @@ export default function Content() {
     { title: "Assets" },
     { title: "Strategies" },
   ];
+
+  const symbol = assets.length > 1 ? "VOTE" : assets[0]?.symbol;
 
   let stepContent = null;
   if (currentStep === 0) {
@@ -94,7 +99,7 @@ export default function Content() {
   } else if (currentStep === 2) {
     stepContent = (
       <Step3
-        symbol={assets.length > 1 ? "VOTE" : assets[0]?.symbol}
+        symbol={symbol}
         steps={steps}
         proposalThreshold={proposalThreshold}
         setProposalThreshold={setProposalThreshold}
@@ -110,6 +115,7 @@ export default function Content() {
       <MainWrapper>{stepContent}</MainWrapper>
       <SiderWrapper>
         <Sider
+          symbol={symbol}
           imageFile={logoImage}
           name={name}
           assets={assets}

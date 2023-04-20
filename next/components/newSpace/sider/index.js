@@ -47,6 +47,7 @@ const Items = styled.div`
 `;
 
 export default function Sider({
+  symbol,
   imageFile,
   name,
   assets,
@@ -89,7 +90,7 @@ export default function Sider({
         <Logo imageFile={imageFile} />
         <FlexColumn>
           <SpaceName>{name || "Name"}</SpaceName>
-          <TokenSymbol>Token Symbol</TokenSymbol>
+          <TokenSymbol>{symbol || "Token Symbol"}</TokenSymbol>
         </FlexColumn>
       </Sections>
       <Items>

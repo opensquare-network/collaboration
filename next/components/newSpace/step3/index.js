@@ -7,6 +7,7 @@ import ProposalThreshold from "./proposalThreshold";
 import Strategies from "./strategies";
 
 export default function Step3({
+  symbol,
   steps,
   proposalThreshold,
   setProposalThreshold,
@@ -21,6 +22,7 @@ export default function Step3({
       <MyDivider />
       <Sections>
         <ProposalThreshold
+          symbol={symbol}
           proposalThreshold={proposalThreshold}
           setProposalThreshold={setProposalThreshold}
         />
