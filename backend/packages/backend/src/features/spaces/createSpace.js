@@ -1,6 +1,7 @@
 const slugify = require("slugify");
 const { getSpaceCollection } = require("../../mongo");
 const { ipfsAddBuffer } = require("../../services/ipfs.service/ipfs");
+const { reloadSpaces } = require("../../spaces");
 
 const dataUriToBuffer = (dataUri) =>
   import("data-uri-to-buffer").then(({ default: fn }) => fn(dataUri));
@@ -73,6 +74,9 @@ async function createSpace(ctx) {
     { $set: spaceConfig },
     { upsert: true },
   );
+
+  // Refresh space cache
+  await reloadSpaces();
 
   ctx.body = {
     spaceId: id,
