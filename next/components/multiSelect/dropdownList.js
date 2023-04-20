@@ -24,7 +24,7 @@ export default function DropdownList({
 }) {
   const ref = useRef();
   useOnClickOutside(ref, () => {
-    setTimeout(() => setShowDropdown(false), 100);
+    setTimeout(() => setShowDropdown(false), 200);
   });
 
   return (
