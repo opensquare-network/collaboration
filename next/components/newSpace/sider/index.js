@@ -1,3 +1,4 @@
+import BigNumber from "bignumber.js";
 import { MyPanel, SectionTitle } from "../styled";
 import Assets from "./assets";
 import Logo from "./logo";

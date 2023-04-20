@@ -36,7 +36,7 @@ export default function OrmlTokenConfig({
     } else if (asset?.type !== undefined && assetType === "native") {
       setPartialAsset({ type: undefined });
     }
-  }, [assetType, setPartialAsset]);
+  }, [assetType, asset?.type, setPartialAsset]);
 
   return (
     <Wrapper>

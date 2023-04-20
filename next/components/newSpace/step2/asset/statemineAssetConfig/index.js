@@ -73,7 +73,7 @@ export default function StatemineAssetConfig({
         assetId: undefined,
       });
     }
-  }, [assetId, setPartialAsset]);
+  }, [assetId, asset?.type, asset?.assetId, setPartialAsset]);
 
   return (
     <Wrapper>

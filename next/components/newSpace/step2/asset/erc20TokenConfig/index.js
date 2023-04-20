@@ -71,7 +71,7 @@ export default function Erc20TokenConfig({
         contract: undefined,
       });
     }
-  }, [contractAddress, setPartialAsset]);
+  }, [contractAddress, asset?.type, asset?.contract, setPartialAsset]);
 
   return (
     <Wrapper>
