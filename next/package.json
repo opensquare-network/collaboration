@@ -27,6 +27,7 @@
     "ethereum-blockies-base64": "^1.0.2",
     "ethers": "^5.6.1",
     "http-proxy": "^1.18.1",
+    "is-ipfs": "^8.0.1",
     "lodash.debounce": "^4.0.8",
     "lodash.isempty": "^4.4.0",
     "lodash.isnil": "^4.0.0",

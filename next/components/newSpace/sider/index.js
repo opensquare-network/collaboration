@@ -7,7 +7,8 @@ import { currentStepSelector } from "store/reducers/newSpaceSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@osn/common-ui";
 import { useCallback } from "react";
-import { newErrorToast } from "store/reducers/toastSlice";
+import { newErrorToast, newSuccessToast } from "store/reducers/toastSlice";
+import nextApi from "services/nextApi";
 
 const Sections = styled.div`
   display: flex;
@@ -48,12 +49,13 @@ const Items = styled.div`
 
 export default function Sider({
   symbol,
+  decimals,
   imageFile,
   name,
   assets,
   proposalThreshold,
-  options,
-  selectedOptions,
+  allStrategies,
+  selectedStrategies,
 }) {
   const dispatch = useDispatch();
   const currentStep = useSelector(currentStepSelector);
@@ -69,19 +71,49 @@ export default function Sider({
       return false;
     }
 
-    if (!selectedOptions.length) {
+    if (!selectedStrategies.length) {
       dispatch(newErrorToast("At least one strategy is required"));
       return false;
     }
 
     return true;
-  }, [dispatch, proposalThreshold, selectedOptions]);
+  }, [dispatch, proposalThreshold, selectedStrategies]);
 
   const submit = useCallback(() => {
     if (!verifyData()) {
       return;
     }
-  }, [verifyData]);
+
+    const spaceData = {
+      name,
+      symbol,
+      decimals,
+      logo: imageFile,
+      assets,
+      strategies: selectedStrategies,
+      proposalThreshold,
+    };
+
+    nextApi.post("spaces", spaceData).then(({ result, error }) => {
+      if (error) {
+        dispatch(newErrorToast(error.message));
+      }
+      if (result) {
+        dispatch(newSuccessToast("Space created successfully"));
+        //TODO: navigate to space
+      }
+    });
+  }, [
+    dispatch,
+    verifyData,
+    imageFile,
+    name,
+    symbol,
+    decimals,
+    assets,
+    proposalThreshold,
+    selectedStrategies,
+  ]);
 
   return (
     <MyPanel>
@@ -95,7 +127,10 @@ export default function Sider({
       </Sections>
       <Items>
         <Assets assets={assets} />
-        <Strategies options={options} selectedOptions={selectedOptions} />
+        <Strategies
+          options={allStrategies}
+          selectedOptions={selectedStrategies}
+        />
         {currentStep === 2 && (
           <Button primary block onClick={submit}>
             Submit

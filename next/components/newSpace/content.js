@@ -75,13 +75,23 @@ export default function Content() {
     { value: "quadratic-balance-of", text: "quadratic-balance-of" },
   ];
 
+  console.log({ assets });
+
   const steps = [
     { title: "Space profile" },
     { title: "Assets" },
     { title: "Strategies" },
   ];
 
-  const symbol = assets.length > 1 ? "VOTE" : assets[0]?.symbol;
+  let symbol = "Token Symbol";
+  let decimals = 12;
+  if (assets?.length === 1) {
+    symbol = assets[0].symbol;
+    decimals = assets[0].decimals;
+  } else if (assets?.length > 1) {
+    symbol = "VOTE";
+    decimals = Math.max(...assets.map((x) => x.decimals));
+  }
 
   let stepContent = null;
   if (currentStep === 0) {
@@ -116,12 +126,13 @@ export default function Content() {
       <SiderWrapper>
         <Sider
           symbol={symbol}
+          decimals={decimals}
           imageFile={logoImage}
           name={name}
           assets={assets}
           proposalThreshold={proposalThreshold}
-          options={options}
-          selectedOptions={selectedOptions}
+          allStrategies={options}
+          selectedStrategies={selectedOptions}
         />
       </SiderWrapper>
     </Wrapper>

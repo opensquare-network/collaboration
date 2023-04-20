@@ -2,12 +2,13 @@ const { getApis } = require("@osn/polkadot-api-container");
 
 async function getNativeTokenInfoFromOneApi(api) {
   const properties = await api.rpc.system.properties();
-  const { tokenSymbol, tokenDecimals } = properties;
-  if (tokenSymbol.isNil || tokenDecimals.isNil) {
+  const { tokenSymbol, tokenDecimals, ss58Format } = properties;
+  if (tokenSymbol.isNil || tokenDecimals.isNil || ss58Format.isNil) {
     throw new Error("Unexpected token info");
   }
 
   return {
+    ss58Format: ss58Format.toJSON(),
     symbol: tokenSymbol.value[0].toString(),
     decimals: tokenDecimals.value[0].toNumber(),
   };

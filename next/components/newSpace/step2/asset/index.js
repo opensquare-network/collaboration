@@ -22,10 +22,12 @@ const knownNativeTokens = {
   moonriver: {
     symbol: "MOVR",
     decimals: 12,
+    ss58Format: 1285,
   },
   moonbeam: {
     symbol: "GLMR",
     decimals: 12,
+    ss58Format: 1284,
   },
 };
 
@@ -79,7 +81,12 @@ export default function Asset({
         return;
       }
 
-      setPartialAsset({ chain: chain?.network });
+      setPartialAsset({
+        chain: chain?.network,
+        type: undefined,
+        assetId: undefined,
+        contract: undefined,
+      });
     },
     [asset?.chain, setPartialAsset],
   );
@@ -114,6 +121,13 @@ export default function Asset({
         }
       });
   }, [asset?.chain, isMounted]);
+
+  useEffect(() => {
+    if (nativeTokenInfo?.ss58Format === asset?.ss58Format) {
+      return;
+    }
+    setPartialAsset({ ss58Format: nativeTokenInfo?.ss58Format });
+  }, [nativeTokenInfo?.ss58Format, asset?.ss58Format, setPartialAsset]);
 
   let assetConfig = (
     <CommonAssetConfig

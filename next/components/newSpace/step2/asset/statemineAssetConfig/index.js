@@ -42,6 +42,7 @@ export default function StatemineAssetConfig({
     if (assetType === "native") {
       setSymbol(nativeTokenInfo?.symbol);
       setDecimals(nativeTokenInfo?.decimals);
+      setAssetId("");
     } else if (!assetId) {
       setSymbol("");
       setDecimals(0);
@@ -51,6 +52,28 @@ export default function StatemineAssetConfig({
       fetchAssetMetadata(assetId);
     }
   }, [fetchAssetMetadata, assetType, assetId, nativeTokenInfo]);
+
+  useEffect(() => {
+    if (assetId) {
+      if (asset?.type === "asset" && asset?.assetId === assetId) {
+        return;
+      }
+
+      setPartialAsset({
+        type: "asset",
+        assetId,
+      });
+    } else {
+      if (asset?.type === undefined && asset?.assetId === undefined) {
+        return;
+      }
+
+      setPartialAsset({
+        type: undefined,
+        assetId: undefined,
+      });
+    }
+  }, [assetId, setPartialAsset]);
 
   return (
     <Wrapper>

@@ -40,6 +40,7 @@ export default function Erc20TokenConfig({
     if (assetType === "native") {
       setSymbol(nativeTokenInfo?.symbol);
       setDecimals(nativeTokenInfo?.decimals);
+      setContractAddress("");
     } else if (!contractAddress) {
       setSymbol("");
       setDecimals(0);
@@ -49,6 +50,28 @@ export default function Erc20TokenConfig({
       fetchErc20TokenMetadata(contractAddress);
     }
   }, [fetchErc20TokenMetadata, assetType, contractAddress, nativeTokenInfo]);
+
+  useEffect(() => {
+    if (contractAddress) {
+      if (asset?.type === "erc20" && asset?.contract === contractAddress) {
+        return;
+      }
+
+      setPartialAsset({
+        type: "erc20",
+        contract: contractAddress,
+      });
+    } else {
+      if (asset?.type === undefined && asset?.contract === undefined) {
+        return;
+      }
+
+      setPartialAsset({
+        type: undefined,
+        contract: undefined,
+      });
+    }
+  }, [contractAddress, setPartialAsset]);
 
   return (
     <Wrapper>

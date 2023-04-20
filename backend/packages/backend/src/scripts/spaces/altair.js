@@ -22,7 +22,7 @@ const altairConfig = {
   proposeThreshold: "1000000000000000000",
   voteThreshold: "1000000000000000000",
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
-  version: "2",
+  version: "3",
   spaceIcon: "altair.svg",
   seoImage: "bafybeia35246c4f5ahk2whjywwno7enn4yub4ln5e3acehhtzkw2yhrlae",
 };

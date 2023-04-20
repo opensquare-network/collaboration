@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FieldWrapper, Title, Wrapper } from "../styled";
 import AssetDetail from "../assetDetail";
 import AssetConfig from "../assetConfig";
@@ -27,9 +27,16 @@ export default function OrmlTokenConfig({
       ? nativeTokenInfo
       : ormlTokens.find((item) => item.symbol === assetType);
 
-  console.log({ assetType, token });
   const symbol = token?.symbol;
   const decimals = token?.decimals;
+
+  useEffect(() => {
+    if (asset?.type !== "token" && assetType !== "native") {
+      setPartialAsset({ type: "token" });
+    } else if (asset?.type !== undefined && assetType === "native") {
+      setPartialAsset({ type: undefined });
+    }
+  }, [assetType, setPartialAsset]);
 
   return (
     <Wrapper>
