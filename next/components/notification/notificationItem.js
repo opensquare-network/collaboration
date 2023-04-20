@@ -1,5 +1,3 @@
-// copied from qa
-
 import styled from "styled-components";
 import { p_14_medium } from "@osn/common-ui/es/styles/textStyles";
 import { Time, Flex, FlexBetween, Dot } from "@osn/common-ui";
@@ -13,6 +11,7 @@ import Link from "next/link";
 import { MOBILE_SIZE } from "@osn/constants";
 import { useState } from "react";
 import { OnlyDesktop, OnlyMobile } from "@osn/common-ui";
+import { getSpaceIconUrl } from "frontedUtils/space";
 
 const NotificationItemWrapper = styled.div`
   &:hover {
@@ -183,19 +182,18 @@ export default function NotificationItem({ data, onMarkAsRead = () => {} }) {
     </StatusWrapper>
   );
 
-  //TODO: fix fromIcon
   return (
     <NotificationItemWrapper>
       <Head>
         <TitleWrapper>
           <Flex>
-            {/* <img
+            <img
               width="20px"
               height="20px"
               className="ml-4px"
-              src={`/imgs/icons/projects/${space.fromIcon}`}
+              src={getSpaceIconUrl(space)}
               alt=""
-            /> */}
+            />
             <Dot />
             <Type>{EventTypeName[type]}</Type>
             <OnlyMobile>{status}</OnlyMobile>
@@ -204,7 +202,7 @@ export default function NotificationItem({ data, onMarkAsRead = () => {} }) {
             <Dot />
           </OnlyDesktop>
           <Title>
-            <Link href={`/space/${space}/proposal/${proposalCid}`} passHref>
+            <Link href={`/space/${space?.id}/proposal/${proposalCid}`} passHref>
               <a>{title}</a>
             </Link>
           </Title>

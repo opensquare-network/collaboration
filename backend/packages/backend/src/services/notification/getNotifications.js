@@ -1,4 +1,7 @@
-const { getNotificationCollection } = require("../../mongo");
+const {
+  getNotificationCollection,
+  getSpaceCollection,
+} = require("../../mongo");
 const { toPublicKey } = require("../../utils");
 
 async function getNotifications(address, page, pageSize) {
@@ -13,6 +16,11 @@ async function getNotifications(address, page, pageSize) {
     .skip((page - 1) * pageSize)
     .limit(pageSize)
     .toArray();
+
+  const spaceCol = await getSpaceCollection();
+  for (const item of items) {
+    item.data.space = await spaceCol.findOne({ id: item.data.space });
+  }
 
   return {
     items,
