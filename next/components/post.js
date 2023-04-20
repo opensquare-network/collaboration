@@ -14,6 +14,7 @@ import PostResult from "./postResult";
 import { findNetworkConfig } from "../services/util";
 import { Flex, FlexBetween } from "@osn/common-ui";
 import { p_14_medium } from "../styles/componentCss";
+import { getSpaceIconUrl } from "frontedUtils/space";
 
 const Wrapper = styled.div`
   background: #ffffff;
@@ -101,13 +102,16 @@ export default function Post({ data, showSpace, space, spaces }) {
   );
   const spaceSupportMultiChain = proposerNetworkConfig?.networks?.length > 1;
 
+  const spaceInfo = space ?? getSpaceFromId(data.space);
+  const spaceIcon = getSpaceIconUrl(spaceInfo);
+
   return (
     <Wrapper>
       <TitleWrapper>
         <HardLink href={`/space/${data.space}/proposal/${data.cid}`}>
           <Title>{data.title}</Title>
         </HardLink>
-        <PostResult data={data} space={space ?? getSpaceFromId(data.space)} />
+        <PostResult data={data} space={spaceInfo} />
       </TitleWrapper>
       <Divider />
       <InfoWrapper>
@@ -120,12 +124,7 @@ export default function Post({ data, showSpace, space, spaces }) {
             />
           )}
           {!showRichInfo && (
-            <img
-              width="20px"
-              height="20px"
-              src={`/imgs/icons/projects/${space?.spaceIcon}`}
-              alt=""
-            />
+            <img width="20px" height="20px" src={spaceIcon} alt="" />
           )}
           <PostTime post={data} />
           {showSpace && showRichInfo && (
@@ -135,7 +134,7 @@ export default function Post({ data, showSpace, space, spaces }) {
                 width="20px"
                 height="20px"
                 className="ml-4px"
-                src={`/imgs/icons/projects/${space?.spaceIcon}`}
+                src={spaceIcon}
                 alt=""
               />
               <InternalLink href={`/space/${data.space}`}>

@@ -92,7 +92,6 @@ const curationConfig = {
   ],
   version: "3",
   spaceIcon: "rmrk-curation.png",
-  smallSpaceIcon: "project-rmrk-curation.svg",
   seoImage: "bafybeic42ekrlmnjdwfi3kdshqfuvo76yhugu5nbkewebnigjxxe5hqjty",
 };
 
