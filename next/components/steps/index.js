@@ -3,6 +3,7 @@ import Step from "./step";
 
 const Wrapper = styled.div`
   display: flex;
+  width: 100%;
 `;
 
 export default function Steps({ steps = [], currentStep = 0 }) {

@@ -19,7 +19,8 @@ export const Index = styled.div`
 `;
 
 export const NavigationLine = styled.div`
-  width: 90px;
+  flex-grow: 1;
+  min-width: 30px;
   height: 0px;
 
   border: 2px solid #04d2c5;

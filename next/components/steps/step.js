@@ -6,6 +6,7 @@ import { Flex } from "@osn/common-ui";
 
 const Wrapper = styled.div`
   display: flex;
+  flex-grow: 1;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -36,7 +37,7 @@ export default function Step({ step, index = 0, currentStep = 0, isLast }) {
 
   return (
     <Wrapper>
-      <Flex style={{ gap: "8px" }}>
+      <Flex style={{ gap: "8px", width: "100%" }}>
         <NavigationLine isHidden={isFirst} />
         {indexBox}
         <NavigationLine isHidden={isLast} />

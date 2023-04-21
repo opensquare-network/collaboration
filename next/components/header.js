@@ -162,6 +162,8 @@ const ExternalLink = styled.a`
   }
 `;
 
+const InternalLink = ExternalLink;
+
 const AccountAndBell = styled.div`
   display: flex;
   gap: 16px;
@@ -229,13 +231,12 @@ export default function Header({ networks }) {
         <HeaderItemWrapper>
           {isHomePage && (
             <ExternalLinkWrapper>
-              <ExternalLink
-                target="_blank"
-                href="https://github.com/opensquare-network/collaboration/discussions/813"
-              >
-                <Plus />
-                Add a Space
-              </ExternalLink>
+              <Link href="/space/new">
+                <InternalLink>
+                  <Plus />
+                  Add a Space
+                </InternalLink>
+              </Link>
               <ExternalLink
                 target="_blank"
                 href="https://github.com/opensquare-network/collaboration/discussions"
