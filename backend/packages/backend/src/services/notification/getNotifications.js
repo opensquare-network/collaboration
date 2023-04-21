@@ -19,7 +19,7 @@ async function getNotifications(address, page, pageSize) {
 
   const spaceCol = await getSpaceCollection();
   for (const item of items) {
-    item.data.space = await spaceCol.findOne({ id: item.data.space });
+    item.data.spaceInfo = await spaceCol.findOne({ id: item.data.space });
   }
 
   return {

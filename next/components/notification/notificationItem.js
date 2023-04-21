@@ -159,7 +159,7 @@ export default function NotificationItem({ data, onMarkAsRead = () => {} }) {
     type,
     createdAt,
     read: _read,
-    data: { space, title, proposalCid } = {},
+    data: { space, title, proposalCid, spaceInfo } = {},
   } = data;
 
   const [read, setRead] = useState(_read);
@@ -191,7 +191,7 @@ export default function NotificationItem({ data, onMarkAsRead = () => {} }) {
               width="20px"
               height="20px"
               className="ml-4px"
-              src={getSpaceIconUrl(space)}
+              src={getSpaceIconUrl(spaceInfo)}
               alt=""
             />
             <Dot />
@@ -202,7 +202,7 @@ export default function NotificationItem({ data, onMarkAsRead = () => {} }) {
             <Dot />
           </OnlyDesktop>
           <Title>
-            <Link href={`/space/${space?.id}/proposal/${proposalCid}`} passHref>
+            <Link href={`/space/${space}/proposal/${proposalCid}`} passHref>
               <a>{title}</a>
             </Link>
           </Title>
