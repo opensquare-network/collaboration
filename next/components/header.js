@@ -231,7 +231,7 @@ export default function Header({ networks }) {
         <HeaderItemWrapper>
           {isHomePage && (
             <ExternalLinkWrapper>
-              <Link href="/space/new">
+              <Link href="/space/new" passHref>
                 <InternalLink>
                   <Plus />
                   Add a Space
