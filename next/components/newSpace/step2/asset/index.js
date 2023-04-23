@@ -48,6 +48,10 @@ const DeleteWrapper = styled.div`
   color: #ee4444;
 `;
 
+const MyFieldWrapper = styled(FieldWrapper)`
+  z-index: 20;
+`;
+
 export default function Asset({
   count,
   index,
@@ -182,10 +186,10 @@ export default function Asset({
           <DeleteWrapper onClick={removeAsset}>Delete</DeleteWrapper>
         )}
       </Header>
-      <FieldWrapper>
+      <MyFieldWrapper>
         <Title>Chain</Title>
         <ChainSelector chains={availableNetworks} onSelect={onSelectChain} />
-      </FieldWrapper>
+      </MyFieldWrapper>
       {assetConfig}
     </Wrapper>
   );
