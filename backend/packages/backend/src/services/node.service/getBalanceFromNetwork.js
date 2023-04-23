@@ -81,7 +81,6 @@ async function getBalanceFromSingleAssetNetwork({
     address,
   });
 
-  //TODO: if the asset balance is below the threshold, it should be counted as 0
   const balanceOf = adaptBalance(balance, decimals, baseDecimals) * multiplier;
 
   return {

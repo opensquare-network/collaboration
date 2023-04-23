@@ -11,6 +11,7 @@ import { useCallback } from "react";
 import { newErrorToast, newSuccessToast } from "store/reducers/toastSlice";
 import nextApi from "services/nextApi";
 import { useRouter } from "next/router";
+import isEmpty from "lodash.isempty";
 
 const Sections = styled.div`
   display: flex;
@@ -62,6 +63,7 @@ export default function Sider({
   const dispatch = useDispatch();
   const currentStep = useSelector(currentStepSelector);
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   const verifyData = useCallback(() => {
     if (isNaN(proposalThreshold)) {
@@ -82,7 +84,7 @@ export default function Sider({
     return true;
   }, [dispatch, proposalThreshold, selectedStrategies]);
 
-  const submit = useCallback(() => {
+  const submit = useCallback(async () => {
     if (!verifyData()) {
       return;
     }
@@ -94,6 +96,7 @@ export default function Sider({
       logo: imageFile,
       assets: assets?.map((item) => ({
         ...item,
+        assetId: isEmpty(item.assetId) ? undefined : parseInt(item.assetId),
         votingWeight: parseInt(item.votingWeight),
         votingThreshold: new BigNumber(item.votingThreshold)
           .times(Math.pow(10, item.decimals))
@@ -105,7 +108,9 @@ export default function Sider({
         .toFixed(),
     };
 
-    nextApi.post("spaces", spaceData).then(({ result, error }) => {
+    setIsLoading(true);
+    try {
+      const { result, error } = await nextApi.post("spaces", spaceData);
       if (error) {
         dispatch(newErrorToast(error.message));
       }
@@ -113,7 +118,9 @@ export default function Sider({
         dispatch(newSuccessToast("Space created successfully"));
         router.push(`/space/${result.spaceId}`);
       }
-    });
+    } finally {
+      setIsLoading(false);
+    }
   }, [
     router,
     dispatch,
@@ -144,7 +151,7 @@ export default function Sider({
           selectedOptions={selectedStrategies}
         />
         {currentStep === 2 && (
-          <Button primary block onClick={submit}>
+          <Button primary block onClick={submit} isLoading={isLoading}>
             Submit
           </Button>
         )}
