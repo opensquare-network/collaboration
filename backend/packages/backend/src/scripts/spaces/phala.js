@@ -13,6 +13,7 @@ const phalaConfig = {
         {
           symbol: "PHA",
           decimals: 12,
+          votingThreshold: "10000000000",
         },
       ],
     },
@@ -23,6 +24,7 @@ const phalaConfig = {
         {
           symbol: "PHA",
           decimals: 12,
+          votingThreshold: "10000000000",
         },
       ],
     },
@@ -34,14 +36,14 @@ const phalaConfig = {
           symbol: "PHA",
           contract: "0x6c5bA91642F10282b576d91922Ae6448C9d52f4E",
           decimals: 18,
+          votingThreshold: "10000000000000000",
         },
       ],
     },
   ],
   proposeThreshold: "10000000000000",
-  voteThreshold: "10000000000",
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
-  version: "3",
+  version: "4",
   spaceIcon: "phala.svg",
   seoImage: "bafybeifj4smmnnn5t25quydmujkphoxymyylfbaxoaymszeovsejqyep5y",
 };

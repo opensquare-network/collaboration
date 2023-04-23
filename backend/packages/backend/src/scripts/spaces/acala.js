@@ -4,7 +4,7 @@ const config = {
   id: "acala",
   name: "Acala",
   symbol: "ACA",
-  decimals: 12,
+  decimals: 10,
   networks: [
     {
       network: networks.acala,
@@ -13,18 +13,18 @@ const config = {
         {
           symbol: "ACA",
           decimals: 10,
+          votingThreshold: "100000000",
         },
       ],
     },
   ],
-  proposeThreshold: "1000000000000",
-  voteThreshold: "10000000000",
+  proposeThreshold: "10000000000",
   weightStrategy: [
     strategies.balanceOf,
     strategies.quadraticBalanceOf,
     strategies.biasedVoting,
   ],
-  version: "3",
+  version: "4",
   spaceIcon: "shiden.svg",
   seoImage: "bafybeibf43ntawbzkd3ucwtogab64xfz4e6qoledxx27nifm4dkj6ckfie",
 };

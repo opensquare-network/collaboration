@@ -13,14 +13,14 @@ const polkadotConfig = {
         {
           symbol: "DOT",
           decimals: 10,
+          votingThreshold: "100000000",
         },
       ],
     },
   ],
   proposeThreshold: "10000000000",
-  voteThreshold: "100000000",
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
-  version: "3",
+  version: "4",
   spaceIcon: "polkadot.svg",
   seoImage: "bafybeihaby2kn5w6663ftuihg4rlx7cdmwwus745gbxl7c26uyxkcm4mq4",
 };

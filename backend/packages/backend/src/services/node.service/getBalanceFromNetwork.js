@@ -1,3 +1,4 @@
+const BigNumber = require("bignumber.js");
 const { HttpError } = require("../../exc");
 const { adaptBalance } = require("../../utils/balance");
 const { getEvmAddressBalance } = require("./getEvmAddressBalance");
@@ -14,7 +15,7 @@ async function getBalanceFromMultiAssetsNetwork({
 }) {
   const details = await Promise.all(
     network.assets.map(async (asset) => {
-      const { type, assetId, contract } = asset;
+      const { type, assetId, contract, votingThreshold } = asset;
       const decimals = asset.decimals ?? network.decimals ?? baseDecimals;
       const symbol = asset.symbol ?? network.symbol ?? baseSymbol;
       const multiplier = asset.multiplier ?? network.multiplier ?? 1;
@@ -29,22 +30,26 @@ async function getBalanceFromMultiAssetsNetwork({
         address,
       });
 
-      //TODO: if the asset balance is below the threshold, it should be counted as 0
       return {
         symbol,
         decimals,
         balance,
         multiplier,
+        votingThreshold,
       };
     }),
   );
 
-  const balanceOf = details.reduce(
-    (prev, curr) =>
+  const balanceOf = details.reduce((prev, curr) => {
+    if (new BigNumber(curr.balance).lt(curr.votingThreshold)) {
+      return prev;
+    }
+    return (
       prev +
-      adaptBalance(curr.balance, curr.decimals, baseDecimals) * curr.multiplier,
-    0,
-  );
+      adaptBalance(curr.balance, curr.decimals, baseDecimals) * curr.multiplier
+    );
+  }, 0);
+
   return {
     balanceOf,
     decimals: baseDecimals,

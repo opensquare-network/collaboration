@@ -45,10 +45,12 @@ export default function Assets({ assets = [] }) {
           <ChainIcon chainName={asset?.chain} />
           <span>{asset?.symbol}</span>
         </Description>
-        <Tooltip content={`Threshold: ${asset?.threshold} ${asset?.symbol}`}>
+        <Tooltip
+          content={`Threshold: ${asset?.votingThreshold} ${asset?.symbol}`}
+        >
           <div>
             <Threshold>
-              {asset?.threshold} {asset?.symbol}
+              {asset?.votingThreshold} {asset?.symbol}
             </Threshold>
           </div>
         </Tooltip>

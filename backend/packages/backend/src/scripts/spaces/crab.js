@@ -12,14 +12,14 @@ const crabConfig = {
         {
           symbol: "CRAB",
           decimals: 9,
+          votingThreshold: "10000000000",
         },
       ],
     },
   ],
   proposeThreshold: "10000000000",
-  voteThreshold: "10000000000",
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
-  version: "3",
+  version: "4",
   spaceIcon: "crab.svg",
 };
 

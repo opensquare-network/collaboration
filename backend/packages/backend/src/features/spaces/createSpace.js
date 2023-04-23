@@ -14,7 +14,7 @@ async function createSpace(ctx) {
     symbol,
     decimals,
     proposalThreshold,
-    strategies,
+    weightStrategy,
   } = ctx.request.body;
 
   const assetsByNetwork = assets.reduce((acc, asset) => {
@@ -23,7 +23,7 @@ async function createSpace(ctx) {
       decimals,
       ss58Format,
       symbol,
-      threshold,
+      votingThreshold,
       votingWeight,
       assetId,
       contract,
@@ -37,7 +37,7 @@ async function createSpace(ctx) {
     const item = {
       symbol,
       decimals,
-      threshold,
+      votingThreshold,
       votingWeight,
     };
     if (type !== undefined) item.type = type;
@@ -63,7 +63,7 @@ async function createSpace(ctx) {
     decimals,
     networks: Object.values(assetsByNetwork),
     proposeThreshold: proposalThreshold,
-    weightStrategy: strategies,
+    weightStrategy,
     version: "4",
     spaceIcon: logoCid,
   };

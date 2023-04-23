@@ -13,14 +13,14 @@ const parallelConfig = {
         {
           symbol: "PARA",
           decimals: 12,
+          votingThreshold: "100000000000",
         },
       ],
     },
   ],
   proposeThreshold: "100000000000000",
-  voteThreshold: "100000000000",
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
-  version: "3",
+  version: "4",
   spaceIcon: "parallel.svg",
   seoImage: "bafybeidtyeyfjpcwue2lqhogcq3ltxrkt6hqs7odlan46pamzuqesir2j4",
 };

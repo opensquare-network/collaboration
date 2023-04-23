@@ -31,7 +31,6 @@ async function getProposalById(proposalId) {
   if (!spaceService) {
     throw new HttpError(500, "Unkown space");
   }
-  const voteThreshold = spaceService.voteThreshold;
   const decimals = spaceService.decimals;
 
   const appendantCol = await getAppendantCollection();
@@ -45,9 +44,7 @@ async function getProposalById(proposalId) {
   const votesCount = await voteCol.countDocuments({ proposal: proposal._id });
 
   const votes = await voteCol.find({ proposal: proposal._id }).toArray();
-  const calculatedVotes = votes.map((v) =>
-    calcWeights(v, decimals, voteThreshold),
-  );
+  const calculatedVotes = votes.map((v) => calcWeights(v, decimals));
   const votedWeights = {};
   for (const vote of calculatedVotes) {
     votedWeights.balanceOf = new BigNumber(votedWeights.balanceOf || 0)

@@ -4,20 +4,25 @@ import {
   fromAssetUnit,
   toApproximatelyFixed,
 } from "frontedUtils";
+import BigNumber from "bignumber.js";
 
 export default function VoteBalanceDetail({ details }) {
   return (
     <div>
-      {details?.map((item, index) => (
-        <Fragment key={index}>
-          {`${toApproximatelyFixed(
-            bigNumber2Locale(fromAssetUnit(item.balance, item.decimals)),
-          )} ${item.symbol}${
-            item.multiplier !== 1 ? ` x${item.multiplier}` : ""
-          }`}
-          <br />
-        </Fragment>
-      ))}
+      {(details || [])
+        .filter((item) =>
+          new BigNumber(item.balance).gte(item.votingThreshold || 0),
+        )
+        .map((item, index) => (
+          <Fragment key={index}>
+            {`${toApproximatelyFixed(
+              bigNumber2Locale(fromAssetUnit(item.balance, item.decimals)),
+            )} ${item.symbol}${
+              item.multiplier !== 1 ? ` x${item.multiplier}` : ""
+            }`}
+            <br />
+          </Fragment>
+        ))}
     </div>
   );
 }

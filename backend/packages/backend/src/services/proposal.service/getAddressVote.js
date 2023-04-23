@@ -15,9 +15,7 @@ async function getAddressVote(proposalCid, address, network) {
 
   const voteCol = await getVoteCollection();
   const vote = await voteCol.findOne(q);
-  return vote
-    ? calcWeights(vote, spaceService.decimals, spaceService.voteThreshold)
-    : vote;
+  return vote ? calcWeights(vote, spaceService.decimals) : vote;
 }
 
 module.exports = {

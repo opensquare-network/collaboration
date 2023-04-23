@@ -88,18 +88,13 @@ function toSymbolUnit(value, decimals) {
   return new BigNumber(value).times(Math.pow(10, decimals)).toString();
 }
 
-function enhancedSqrtOfBalance(balance, decimals, voteThreshold) {
-  const val = new BigNumber(balance);
-  let num = val.div(Math.pow(10, decimals));
-  if (num.gte(1)) {
-    num = num.sqrt();
-  } else {
-    const symbolVoteThreshold = new BigNumber(voteThreshold)
-      .div(Math.pow(10, decimals))
-      .toString();
-    num = num.div(symbolVoteThreshold).sqrt().times(symbolVoteThreshold);
-  }
-  return num.times(Math.pow(10, decimals)).integerValue().toString();
+function enhancedSqrtOfBalance(balance, decimals) {
+  return new BigNumber(balance)
+    .div(Math.pow(10, decimals))
+    .sqrt()
+    .times(Math.pow(10, decimals))
+    .integerValue()
+    .toString();
 }
 
 function isSamePublicKey(address1, address2) {

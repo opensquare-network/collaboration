@@ -95,11 +95,11 @@ export default function Sider({
       assets: assets?.map((item) => ({
         ...item,
         votingWeight: parseInt(item.votingWeight),
-        threshold: new BigNumber(item.threshold)
+        votingThreshold: new BigNumber(item.votingThreshold)
           .times(Math.pow(10, item.decimals))
           .toFixed(),
       })),
-      strategies: selectedStrategies,
+      weightStrategy: selectedStrategies,
       proposalThreshold: new BigNumber(proposalThreshold)
         .times(Math.pow(10, decimals))
         .toFixed(),

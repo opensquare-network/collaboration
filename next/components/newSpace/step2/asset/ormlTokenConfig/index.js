@@ -54,10 +54,10 @@ export default function OrmlTokenConfig({
       <AssetConfig
         count={count}
         symbol={nativeTokenInfo?.symbol}
-        threshold={asset?.threshold}
-        setThreshold={(threshold) => {
-          if (asset?.threshold === threshold) return;
-          setPartialAsset({ threshold });
+        votingThreshold={asset?.votingThreshold}
+        setVotingThreshold={(votingThreshold) => {
+          if (asset?.votingThreshold === votingThreshold) return;
+          setPartialAsset({ votingThreshold });
         }}
         votingWeight={asset?.votingWeight}
         setVotingWeight={(votingWeight) => {

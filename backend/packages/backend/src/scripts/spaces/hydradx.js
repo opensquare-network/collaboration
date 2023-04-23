@@ -13,14 +13,14 @@ const hydradxConfig = {
         {
           symbol: "HDX",
           decimals: 12,
+          votingThreshold: "10000000000",
         },
       ],
     },
   ],
   proposeThreshold: "1000000000000",
-  voteThreshold: "10000000000",
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
-  version: "3",
+  version: "4",
   spaceIcon: "hydradx.svg",
   seoImage: "bafybeibbo36wx4t7y5hpj6dutnkxwo7rigk7vwivcblonb2aws7keervme",
 };

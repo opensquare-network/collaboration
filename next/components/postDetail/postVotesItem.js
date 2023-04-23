@@ -209,9 +209,9 @@ export default function PostVotesItem({
               space={space}
               showAEM={true}
               tooltipContent={
-                data.weights?.details && (
+                data.weights?.balanceOf ? (
                   <VoteBalanceDetail details={data.weights?.details} />
-                )
+                ) : null
               }
             />
             {data?.pinHash ? (

@@ -47,7 +47,7 @@ export default function Step2({ steps, assets, setAssets }) {
         return;
       }
 
-      if (!asset.threshold) {
+      if (!asset.votingThreshold) {
         dispatch(newErrorToast(`${asset.symbol} threshold is required`));
         return;
       }
@@ -57,12 +57,12 @@ export default function Step2({ steps, assets, setAssets }) {
         return;
       }
 
-      if (isNaN(asset.threshold)) {
+      if (isNaN(asset.votingThreshold)) {
         dispatch(newErrorToast(`${asset.symbol} threshold must be a number`));
         return;
       }
 
-      if (asset.threshold < 0) {
+      if (asset.votingThreshold < 0) {
         dispatch(
           newErrorToast(`${asset.symbol} threshold must be greater than 0`),
         );
@@ -137,7 +137,7 @@ export default function Step2({ steps, assets, setAssets }) {
                 id: Date.now(),
                 symbol: "",
                 decimals: 10,
-                threshold: "0",
+                votingThreshold: "0",
                 votingWeight: "1",
               },
             ])

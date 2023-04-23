@@ -13,14 +13,14 @@ const ztgConfig = {
         {
           symbol: "ZTG",
           decimals: 10,
+          votingThreshold: "100000000",
         },
       ],
     },
   ],
   proposeThreshold: "10000000000",
-  voteThreshold: "100000000",
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
-  version: "3",
+  version: "4",
   spaceIcon: "zeitgeist.svg",
   seoImage: "bafybeie36tzyj37hqwaavdibymki5vekejtp3gfmorrxxrwkrmhopo5j6y",
 };

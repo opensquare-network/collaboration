@@ -24,8 +24,8 @@ const MyFieldWrapper = styled(FieldWrapper)`
 export default function AssetConfig({
   count,
   symbol,
-  threshold,
-  setThreshold,
+  votingThreshold,
+  setVotingThreshold,
   votingWeight,
   setVotingWeight,
 }) {
@@ -35,8 +35,8 @@ export default function AssetConfig({
         <Title>Threshold</Title>
         <Input
           placeholder="0"
-          value={threshold}
-          onChange={(e) => setThreshold(e.target.value)}
+          value={votingThreshold}
+          onChange={(e) => setVotingThreshold(e.target.value)}
           suffix={<span style={{ whiteSpace: "nowrap" }}>{symbol}</span>}
         />
       </FieldWrapper>
