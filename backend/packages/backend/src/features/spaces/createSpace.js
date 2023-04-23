@@ -38,7 +38,7 @@ async function createSpace(ctx) {
       symbol,
       decimals,
       votingThreshold,
-      votingWeight,
+      multiplier: votingWeight,
     };
     if (type !== undefined) item.type = type;
     if (assetId !== undefined) item.assetId = assetId;

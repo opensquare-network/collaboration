@@ -98,7 +98,7 @@ export default function Erc20TokenConfig({
       />
       <AssetConfig
         count={count}
-        symbol={nativeTokenInfo?.symbol}
+        symbol={asset?.symbol}
         votingThreshold={asset?.votingThreshold}
         setVotingThreshold={(votingThreshold) => {
           if (asset?.votingThreshold === votingThreshold) return;
