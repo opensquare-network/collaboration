@@ -3,9 +3,10 @@ import { FieldWrapper, Title, Wrapper } from "../styled";
 import AssetDetail from "../assetDetail";
 import AssetConfig from "../assetConfig";
 import AssetSelector from "../assetSelector";
-import { Chains } from "@osn/constants";
-import { bifrostOrmlTokens, karuraOrmlTokens } from "../constants";
 import { noop } from "@osn/common-ui";
+import nextApi from "services/nextApi";
+
+const ormlTokensCache = {};
 
 export default function OrmlTokenConfig({
   count,
@@ -15,13 +16,22 @@ export default function OrmlTokenConfig({
   setPartialAsset = noop,
 }) {
   const [assetType, setAssetType] = useState("");
+  const [ormlTokens, setOrmlTokens] = useState([]);
 
-  const ormlTokens =
-    chain === Chains.karura
-      ? karuraOrmlTokens
-      : chain === Chains.bifrost
-      ? bifrostOrmlTokens
-      : [];
+  useEffect(() => {
+    if (ormlTokensCache[chain]) {
+      setOrmlTokens(ormlTokensCache[chain]);
+      return;
+    }
+
+    nextApi.fetch(`chain/${chain}/ormltokens`).then(({ result }) => {
+      if (result) {
+        ormlTokensCache[chain] = result;
+        setOrmlTokens(result);
+      }
+    });
+  }, [chain]);
+
   const token =
     assetType === "native"
       ? nativeTokenInfo
@@ -38,11 +48,24 @@ export default function OrmlTokenConfig({
     }
   }, [assetType, asset?.type, setPartialAsset]);
 
+  const assetTypes = [
+    { value: "native", symbol: nativeTokenInfo?.symbol, type: "Native" },
+    ...ormlTokens.map((item) => ({
+      value: item.symbol,
+      symbol: item.symbol,
+      type: "ORML Asset",
+    })),
+  ];
+
   return (
     <Wrapper>
       <FieldWrapper>
         <Title>Asset</Title>
-        <AssetSelector chain={chain} onSelect={setAssetType} />
+        <AssetSelector
+          assetTypes={assetTypes}
+          chain={chain}
+          onSelect={setAssetType}
+        />
       </FieldWrapper>
 
       <AssetDetail

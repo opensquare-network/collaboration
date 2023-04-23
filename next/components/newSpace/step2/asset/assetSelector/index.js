@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { FlexBetween } from "@osn/common-ui";
-import { Chains } from "@osn/constants";
 import DropdownSelector from "@osn/common-ui/es/DropdownSelector";
-import { bifrostOrmlTokens, karuraOrmlTokens } from "../constants";
 
 const Wrapper = styled.div`
   display: flex;
@@ -23,37 +21,18 @@ function AssetItem({ symbol }) {
   );
 }
 
-export default function AssetSelector({ chain, onSelect = () => {} }) {
+export default function AssetSelector({
+  chain,
+  assetTypes,
+  onSelect = () => {},
+}) {
   const [selectedIndex, setSelectedIndex] = useState("native");
 
-  let options = [];
-  if (chain === Chains.karura) {
-    options = [
-      {
-        key: "native",
-        value: "native",
-        content: <AssetItem symbol="KAR" type="Native" />,
-      },
-      ...karuraOrmlTokens.map((item) => ({
-        key: item.symbol,
-        value: item.symbol,
-        content: <AssetItem symbol={item.symbol} type="ORML Asset" />,
-      })),
-    ];
-  } else if (chain === Chains.bifrost) {
-    options = [
-      {
-        key: "native",
-        value: "native",
-        content: <AssetItem symbol="BNC" type="Native" />,
-      },
-      ...bifrostOrmlTokens.map((item) => ({
-        key: item.symbol,
-        value: item.symbol,
-        content: <AssetItem symbol={item.symbol} type="ORML Asset" />,
-      })),
-    ];
-  }
+  const options = (assetTypes || []).map((item) => ({
+    key: item.value,
+    value: item.value,
+    content: <AssetItem symbol={item.symbol} type={item.type} />,
+  }));
 
   useEffect(() => {
     onSelect(selectedIndex);

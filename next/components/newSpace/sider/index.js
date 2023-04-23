@@ -7,7 +7,7 @@ import Strategies from "./strategies";
 import { currentStepSelector } from "store/reducers/newSpaceSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@osn/common-ui";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { newErrorToast, newSuccessToast } from "store/reducers/toastSlice";
 import nextApi from "services/nextApi";
 import { useRouter } from "next/router";
