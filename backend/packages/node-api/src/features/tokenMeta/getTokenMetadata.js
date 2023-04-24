@@ -1,6 +1,5 @@
 const { getApis } = require("@osn/polkadot-api-container");
 const { chains } = require("../../constants");
-const { supportedChainSymbols } = require("../token/constants");
 const { hexToString } = require("@polkadot/util");
 
 async function getAssetMetadataFromOneApi(api, assetId) {
