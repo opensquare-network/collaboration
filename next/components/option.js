@@ -18,6 +18,7 @@ const Button = styled(OsnButton)`
 `;
 
 const Content = styled(Flex)`
+  flex-grow: 1;
   ${p_14_medium};
   position: relative;
   justify-content: center;
