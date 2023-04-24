@@ -23,9 +23,14 @@ export default function StatemineAssetConfig({
 
   const fetchAssetMetadata = useMemo(() => {
     return debounce(async (assetId) => {
-      const { result, error } = await nextApi.fetch(
-        `chain/${chain}/token/${assetId}`,
-      );
+      let url = null;
+      if (assetId === "native") {
+        url = `chain/${chain}/token/native`;
+      } else {
+        url = `chain/${chain}/token/id/${assetId}`;
+      }
+
+      const { result, error } = await nextApi.fetch(url);
 
       if (error) {
         return;

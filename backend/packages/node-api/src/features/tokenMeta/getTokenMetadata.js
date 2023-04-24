@@ -35,11 +35,8 @@ async function getTokenMetadata(ctx) {
   const { chain, assetId } = ctx.params;
 
   const isNotStatemine = chain !== chains.statemine;
-  const notTokensOnOtherChains =
-    !Object.keys(supportedChainSymbols).includes(chain) ||
-    !(supportedChainSymbols[chain] || []).includes(assetId);
 
-  if (isNotStatemine && notTokensOnOtherChains) {
+  if (isNotStatemine) {
     ctx.throw(404, "Invalid token");
     return;
   }

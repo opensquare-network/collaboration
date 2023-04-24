@@ -2,8 +2,8 @@ const { HttpError } = require("../../exc");
 const { NODE_API_ENDPOINT } = require("../../env");
 const { fetchApi } = require("../../utils/fech.api");
 
-async function getTokenMetadata(network, assetIdOrSymbol) {
-  let url = `${NODE_API_ENDPOINT}/${network}/token/id/${assetIdOrSymbol}/metadata`;
+async function getNativeTokenMetadata(network) {
+  let url = `${NODE_API_ENDPOINT}/${network}/token/native/metadata`;
   try {
     return await fetchApi(url);
   } catch (err) {
@@ -12,5 +12,5 @@ async function getTokenMetadata(network, assetIdOrSymbol) {
 }
 
 module.exports = {
-  getTokenMetadata,
+  getNativeTokenMetadata,
 };
