@@ -4,13 +4,13 @@ import Content from "./content";
 
 const Wrapper = styled.div``;
 
-export default function NewSpace() {
+export default function NewSpace({ chainsDef }) {
   return (
     <Wrapper>
       <Breadcrumb
         routes={[{ name: "Home", link: "/" }, { name: "New Space" }]}
       />
-      <Content />
+      <Content chainsDef={chainsDef} />
     </Wrapper>
   );
 }

@@ -1,35 +1,14 @@
 import ChainSelector from "@/components/chainSelector";
 import { noop } from "@osn/common-ui";
 import { useCallback, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { availableNetworksSelector } from "store/reducers/accountSlice";
 import StatemineAssetConfig from "./statemineAssetConfig";
 import { FieldWrapper, Title, Wrapper } from "./styled";
-import { useIsMounted } from "@osn/common";
-import nextApi from "services/nextApi";
 import CommonAssetConfig from "./commonAssetConfig";
 import { Chains } from "@osn/constants";
 import OrmlTokenConfig from "./ormlTokenConfig";
 import Erc20TokenConfig from "./erc20TokenConfig";
 import styled from "styled-components";
 import useStateChanged from "hooks/useStateChanged";
-
-const knownNativeTokens = {
-  ethereum: {
-    symbol: "ETH",
-    decimals: 18,
-  },
-  moonriver: {
-    symbol: "MOVR",
-    decimals: 12,
-    ss58Format: 1285,
-  },
-  moonbeam: {
-    symbol: "GLMR",
-    decimals: 12,
-    ss58Format: 1284,
-  },
-};
 
 const Header = styled.div`
   display: flex;
@@ -53,16 +32,16 @@ const MyFieldWrapper = styled(FieldWrapper)`
 `;
 
 export default function Asset({
+  chainsDef,
   count,
   index,
   asset,
   setAsset = noop,
   removeAsset = noop,
 }) {
-  const availableNetworks = useSelector(availableNetworksSelector);
-  const [nativeTokenInfo, setNativeTokenInfo] = useState();
-  const isMounted = useIsMounted();
   const assetsCountChanged = useStateChanged(count);
+
+  const chainInfo = chainsDef.find((item) => item.network === asset?.chain);
 
   const setPartialAsset = useCallback(
     (partialData) => {
@@ -102,75 +81,48 @@ export default function Asset({
   }, [assetsCountChanged, count, asset, setPartialAsset]);
 
   useEffect(() => {
-    if (!asset?.chain) {
+    if (chainInfo?.ss58Format === asset?.ss58Format) {
       return;
     }
-
-    const nativeTokenInfo = knownNativeTokens[asset?.chain];
-    if (nativeTokenInfo) {
-      setNativeTokenInfo(nativeTokenInfo);
-      return;
-    }
-
-    nextApi
-      .fetch(`chain/${asset?.chain}/token/native`)
-      .then(({ result, error }) => {
-        if (error) {
-          setNativeTokenInfo();
-          return;
-        }
-
-        if (isMounted.current) {
-          setNativeTokenInfo(result);
-        }
-      });
-  }, [asset?.chain, isMounted]);
-
-  useEffect(() => {
-    if (nativeTokenInfo?.ss58Format === asset?.ss58Format) {
-      return;
-    }
-    setPartialAsset({ ss58Format: nativeTokenInfo?.ss58Format });
-  }, [nativeTokenInfo?.ss58Format, asset?.ss58Format, setPartialAsset]);
+    setPartialAsset({ ss58Format: chainInfo?.ss58Format });
+  }, [chainInfo?.ss58Format, asset?.ss58Format, setPartialAsset]);
 
   let assetConfig = (
     <CommonAssetConfig
       count={count}
       chain={asset.chain}
-      nativeTokenInfo={nativeTokenInfo}
+      nativeTokenInfo={chainInfo}
       asset={asset}
       setPartialAsset={setPartialAsset}
     />
   );
 
-  if ([Chains.statemine, Chains.statemint].includes(asset.chain)) {
+  if (chainInfo?.supportAssetTypes?.includes("assets")) {
     assetConfig = (
       <StatemineAssetConfig
         count={count}
         chain={asset.chain}
         asset={asset}
-        nativeTokenInfo={nativeTokenInfo}
+        nativeTokenInfo={chainInfo}
         setPartialAsset={setPartialAsset}
       />
     );
-  } else if ([Chains.karura, Chains.bifrost].includes(asset.chain)) {
+  } else if (chainInfo?.supportAssetTypes?.includes("orml")) {
     assetConfig = (
       <OrmlTokenConfig
         count={count}
         chain={asset.chain}
         asset={asset}
-        nativeTokenInfo={nativeTokenInfo}
+        nativeTokenInfo={chainInfo}
         setPartialAsset={setPartialAsset}
       />
     );
-  } else if (
-    [Chains.moonriver, Chains.moonbeam, Chains.ethereum].includes(asset.chain)
-  ) {
+  } else if (chainInfo?.supportAssetTypes?.includes("evm_erc20")) {
     assetConfig = (
       <Erc20TokenConfig
         count={count}
         chain={asset.chain}
-        nativeTokenInfo={nativeTokenInfo}
+        nativeTokenInfo={chainInfo}
         asset={asset}
         setPartialAsset={setPartialAsset}
       />
@@ -187,7 +139,7 @@ export default function Asset({
       </Header>
       <MyFieldWrapper>
         <Title>Chain</Title>
-        <ChainSelector chains={availableNetworks} onSelect={onSelectChain} />
+        <ChainSelector chains={chainsDef} onSelect={onSelectChain} />
       </MyFieldWrapper>
       {assetConfig}
     </Wrapper>

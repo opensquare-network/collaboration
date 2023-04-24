@@ -58,7 +58,7 @@ const useDefaultLogo = ({ username, saturation, lightness }) => {
   return `data:image/svg+xml;utf8,${encodeURIComponent(svgText)}`;
 };
 
-export default function Content() {
+export default function Content({ chainsDef }) {
   const dispatch = useDispatch();
   const currentStep = useSelector(currentStepSelector);
   const [imageFile, setImageFile] = useState();
@@ -112,7 +112,14 @@ export default function Content() {
       />
     );
   } else if (currentStep === 1) {
-    stepContent = <Step2 steps={steps} assets={assets} setAssets={setAssets} />;
+    stepContent = (
+      <Step2
+        steps={steps}
+        chainsDef={chainsDef}
+        assets={assets}
+        setAssets={setAssets}
+      />
+    );
   } else if (currentStep === 2) {
     stepContent = (
       <Step3

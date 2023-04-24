@@ -20,7 +20,7 @@ const ButtonsWrapper = styled.div`
   gap: 20px;
 `;
 
-export default function Step2({ steps, assets, setAssets }) {
+export default function Step2({ steps, chainsDef, assets, setAssets }) {
   const dispatch = useDispatch();
   const currentStep = useSelector(currentStepSelector);
 
@@ -110,6 +110,7 @@ export default function Step2({ steps, assets, setAssets }) {
         {assets?.map((asset, index) => (
           <Fragment key={asset.id}>
             <Asset
+              chainsDef={chainsDef}
               count={assets.length}
               index={index}
               asset={asset}
