@@ -6,7 +6,7 @@ import { newSuccessToast } from "store/reducers/toastSlice";
 import { p_14_normal } from "../styles/textStyles";
 
 const Wrapper = styled.div`
-  display: inline-block;
+  display: inline-flex;
   position: relative;
   font-size: 14px;
   line-height: 16px;
@@ -20,7 +20,7 @@ const Wrapper = styled.div`
       stroke-opacity: 1;
     }
     > * {
-      display: block;
+      display: block !important;
     }
   }
   ${(p) =>
@@ -99,7 +99,7 @@ const TopTriangle = styled.div`
 
 const ChildrenWrapper = styled.div`
   position: relative;
-  display: inline-block;
+  display: inline-flex;
   :hover {
     > * {
       display: block !important;

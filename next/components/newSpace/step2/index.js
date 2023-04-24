@@ -137,7 +137,7 @@ export default function Step2({ steps, assets, setAssets }) {
                 id: Date.now(),
                 symbol: "",
                 decimals: 10,
-                votingThreshold: "0",
+                votingThreshold: "1",
                 votingWeight: "1",
               },
             ])

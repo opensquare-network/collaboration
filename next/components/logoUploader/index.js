@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { ReactComponent as UploadSVG } from "./upload.svg";
 import { useRef } from "react";
 
@@ -37,6 +37,15 @@ const Layer = styled.div`
 
   cursor: pointer;
   border-radius: 50%;
+
+  ${({ hide }) =>
+    hide &&
+    css`
+      opacity: 0;
+    `}
+  :hover {
+    opacity: 1;
+  }
 `;
 
 export default function LogoUploader({ imageFile, setImageFile }) {
@@ -88,7 +97,7 @@ export default function LogoUploader({ imageFile, setImageFile }) {
           />
         </Layer>
       )}
-      <Layer onClick={handleSelectFile}>
+      <Layer hide={!!imageFile} onClick={handleSelectFile}>
         <BlendUploadSvg />
       </Layer>
       <input

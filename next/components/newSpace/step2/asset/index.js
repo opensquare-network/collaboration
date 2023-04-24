@@ -166,7 +166,6 @@ export default function Asset({
   } else if (
     [Chains.moonriver, Chains.moonbeam, Chains.ethereum].includes(asset.chain)
   ) {
-    //TODO: handle Chains.ethereum native token ?
     assetConfig = (
       <Erc20TokenConfig
         count={count}

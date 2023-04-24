@@ -2,10 +2,13 @@ import styled from "styled-components";
 import Step1 from "./step1";
 import Step2 from "./step2";
 import Sider from "./sider";
-import { useSelector } from "react-redux";
-import { currentStepSelector } from "store/reducers/newSpaceSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  currentStepSelector,
+  setCurrentStep,
+} from "store/reducers/newSpaceSlice";
 import Step3 from "./step3";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { identicon } from "minidenticons";
 
 const Wrapper = styled.div`
@@ -51,10 +54,12 @@ const useDefaultLogo = ({ username, saturation, lightness }) => {
     () => identicon(username, saturation, lightness),
     [username, saturation, lightness],
   );
+  if (!username) return null;
   return `data:image/svg+xml;utf8,${encodeURIComponent(svgText)}`;
 };
 
 export default function Content() {
+  const dispatch = useDispatch();
   const currentStep = useSelector(currentStepSelector);
   const [imageFile, setImageFile] = useState();
   const [name, setName] = useState("");
@@ -65,7 +70,7 @@ export default function Content() {
   });
   const logoImage = imageFile || defaultLogo;
   const [assets, setAssets] = useState([]);
-  const [proposalThreshold, setProposalThreshold] = useState("0");
+  const [proposalThreshold, setProposalThreshold] = useState("1");
   const [selectedOptions, setSelectedOptions] = useState([
     "balance-of",
     "quadratic-balance-of",
@@ -74,6 +79,10 @@ export default function Content() {
     { value: "balance-of", text: "balance-of" },
     { value: "quadratic-balance-of", text: "quadratic-balance-of" },
   ];
+
+  useEffect(() => {
+    dispatch(setCurrentStep(0));
+  }, [dispatch]);
 
   const steps = [
     { title: "Space profile" },

@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { SectionTitle } from "../styled";
-import { Input } from "@osn/common-ui";
+import { Flex, Input } from "@osn/common-ui";
+import Tooltip from "@/components/tooltip";
 
 const Wrapper = styled.div`
   display: flex;
@@ -20,7 +21,10 @@ export default function ProposalThreshold({
 }) {
   return (
     <Wrapper>
-      <SectionTitle>Proposal Threshold</SectionTitle>
+      <Flex style={{ gap: "4px", alignItems: "flex-start" }}>
+        <SectionTitle>Proposal Threshold</SectionTitle>
+        <Tooltip content="Only account with balance >= threshold can propose" />
+      </Flex>
       <InputWrapper>
         <Input
           placeholder="Please enter the name of space..."

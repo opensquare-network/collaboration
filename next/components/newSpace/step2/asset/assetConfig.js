@@ -1,6 +1,7 @@
 import styled, { css } from "styled-components";
-import { Input } from "@osn/common-ui";
+import { Flex, Input } from "@osn/common-ui";
 import { FieldWrapper, Title } from "./styled";
+import Tooltip from "@/components/tooltip";
 
 const Wrapper = styled.div`
   display: flex;
@@ -12,7 +13,7 @@ const Wrapper = styled.div`
 `;
 
 const MyFieldWrapper = styled(FieldWrapper)`
-  > div {
+  > :nth-child(2) {
     ${({ disabled }) =>
       disabled &&
       css`
@@ -32,7 +33,10 @@ export default function AssetConfig({
   return (
     <Wrapper>
       <FieldWrapper>
-        <Title>Threshold</Title>
+        <Flex style={{ gap: "4px" }}>
+          <Title>Threshold</Title>
+          <Tooltip content="Only account with balance >= threshold can vote" />
+        </Flex>
         <Input
           placeholder="0"
           value={votingThreshold}
@@ -41,7 +45,18 @@ export default function AssetConfig({
         />
       </FieldWrapper>
       <MyFieldWrapper disabled={count == 1}>
-        <Title>Voting Weight</Title>
+        <Flex style={{ gap: "4px" }}>
+          <Title>Voting Weight</Title>
+          <Tooltip
+            content={
+              <span>
+                Voting weight refers to the level of influence
+                <br />
+                Votes = Token * Voting Weight
+              </span>
+            }
+          />
+        </Flex>
         <Input
           disabled={count === 1}
           placeholder="1"
