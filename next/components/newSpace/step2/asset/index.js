@@ -1,10 +1,9 @@
 import ChainSelector from "@/components/chainSelector";
 import { noop } from "@osn/common-ui";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import StatemineAssetConfig from "./statemineAssetConfig";
 import { FieldWrapper, Title, Wrapper } from "./styled";
 import CommonAssetConfig from "./commonAssetConfig";
-import { Chains } from "@osn/constants";
 import OrmlTokenConfig from "./ormlTokenConfig";
 import Erc20TokenConfig from "./erc20TokenConfig";
 import styled from "styled-components";
