@@ -8,6 +8,7 @@ import OrmlTokenConfig from "./ormlTokenConfig";
 import Erc20TokenConfig from "./erc20TokenConfig";
 import styled from "styled-components";
 import useStateChanged from "hooks/useStateChanged";
+import { AssetTypes } from "./constants";
 
 const Header = styled.div`
   display: flex;
@@ -96,7 +97,7 @@ export default function Asset({
     />
   );
 
-  if (chainInfo?.supportAssetTypes?.includes("assets")) {
+  if (chainInfo?.supportAssetTypes?.includes(AssetTypes.ASSETS)) {
     assetConfig = (
       <StatemineAssetConfig
         count={count}
@@ -106,7 +107,7 @@ export default function Asset({
         setPartialAsset={setPartialAsset}
       />
     );
-  } else if (chainInfo?.supportAssetTypes?.includes("orml")) {
+  } else if (chainInfo?.supportAssetTypes?.includes(AssetTypes.ORML)) {
     assetConfig = (
       <OrmlTokenConfig
         count={count}
@@ -116,7 +117,7 @@ export default function Asset({
         setPartialAsset={setPartialAsset}
       />
     );
-  } else if (chainInfo?.supportAssetTypes?.includes("evm_erc20")) {
+  } else if (chainInfo?.supportAssetTypes?.includes(AssetTypes.EVM_ERC20)) {
     assetConfig = (
       <Erc20TokenConfig
         count={count}
