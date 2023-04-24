@@ -32,14 +32,6 @@ export default function OrmlTokenConfig({
     });
   }, [chain]);
 
-  const token =
-    assetType === "native"
-      ? nativeTokenInfo
-      : ormlTokens.find((item) => item.symbol === assetType);
-
-  const symbol = token?.symbol;
-  const decimals = token?.decimals;
-
   useEffect(() => {
     if (asset?.type !== "token" && assetType !== "native") {
       setPartialAsset({ type: "token" });
@@ -56,6 +48,14 @@ export default function OrmlTokenConfig({
       type: "ORML Asset",
     })),
   ];
+
+  const token =
+    assetType === "native"
+      ? nativeTokenInfo
+      : ormlTokens.find((item) => item.symbol === assetType);
+
+  const symbol = token?.symbol;
+  const decimals = token?.decimals;
 
   return (
     <Wrapper>
