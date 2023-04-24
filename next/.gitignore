@@ -37,3 +37,6 @@ yarn-error.log*
 globalConfig.json
 
 *.deploy.sh
+
+/.yalc
+yalc.lock
