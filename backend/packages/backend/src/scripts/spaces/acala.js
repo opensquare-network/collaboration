@@ -4,7 +4,7 @@ const config = {
   id: "acala",
   name: "Acala",
   symbol: "ACA",
-  decimals: 10,
+  decimals: 12,
   networks: [
     {
       network: networks.acala,
@@ -12,7 +12,7 @@ const config = {
       assets: [
         {
           symbol: "ACA",
-          decimals: 10,
+          decimals: 12,
           votingThreshold: "100000000",
         },
       ],
