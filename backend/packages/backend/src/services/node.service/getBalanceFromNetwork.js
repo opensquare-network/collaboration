@@ -4,6 +4,7 @@ const { adaptBalance } = require("../../utils/balance");
 const { getEvmAddressBalance } = require("./getEvmAddressBalance");
 const { getTokenBalance } = require("./getTokenBalance");
 const { getTotalBalance } = require("./getTotalBalance");
+const { toDecimal128 } = require("../../utils");
 
 async function getBalanceFromMultiAssetsNetwork({
   network,
@@ -44,14 +45,13 @@ async function getBalanceFromMultiAssetsNetwork({
     if (new BigNumber(curr.balance).lt(curr.votingThreshold)) {
       return prev;
     }
-    return (
-      prev +
-      adaptBalance(curr.balance, curr.decimals, baseDecimals) * curr.multiplier
-    );
+    return adaptBalance(curr.balance, curr.decimals, baseDecimals)
+      .times(curr.multiplier)
+      .plus(prev);
   }, 0);
 
   return {
-    balanceOf,
+    balanceOf: toDecimal128(balanceOf),
     decimals: baseDecimals,
     symbol: baseSymbol,
     details,
@@ -81,10 +81,12 @@ async function getBalanceFromSingleAssetNetwork({
     address,
   });
 
-  const balanceOf = adaptBalance(balance, decimals, baseDecimals) * multiplier;
+  const balanceOf = adaptBalance(balance, decimals, baseDecimals).times(
+    multiplier,
+  );
 
   return {
-    balanceOf,
+    balanceOf: toDecimal128(balanceOf),
     decimals: baseDecimals,
     symbol: baseSymbol,
     details: [

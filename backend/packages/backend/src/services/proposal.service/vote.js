@@ -94,8 +94,9 @@ async function addDelegatedVotes(
       multiplier,
     };
 
-    const balanceOf =
-      adaptBalance(balance, decimals, baseDecimals) * multiplier;
+    const balanceOf = adaptBalance(balance, decimals, baseDecimals).times(
+      multiplier,
+    );
 
     bulk
       .find({

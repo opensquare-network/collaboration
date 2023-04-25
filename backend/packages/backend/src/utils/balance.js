@@ -11,7 +11,7 @@ function adaptBalance(networkBalance, networkDecimals, primaryDecimals) {
     isNaN(other) ||
     primary === other
   ) {
-    return networkBalance;
+    return new BigNumber(networkBalance);
   }
 
   const bigBalance = new BigNumber(networkBalance);
@@ -21,8 +21,7 @@ function adaptBalance(networkBalance, networkDecimals, primaryDecimals) {
 
   return bigBalance
     .times(Math.pow(10, primary - other))
-    .integerValue(BigNumber.ROUND_DOWN)
-    .toNumber();
+    .integerValue(BigNumber.ROUND_DOWN);
 }
 
 module.exports = {
