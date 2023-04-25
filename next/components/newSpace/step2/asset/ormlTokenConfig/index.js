@@ -24,6 +24,7 @@ export default function OrmlTokenConfig({
       return;
     }
 
+    setOrmlTokens([]);
     nextApi.fetch(`chain/${chain}/tokens/orml`).then(({ result }) => {
       if (result) {
         ormlTokensCache[chain] = result;
