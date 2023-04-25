@@ -58,7 +58,7 @@ const useDefaultLogo = ({ username, saturation, lightness }) => {
   return `data:image/svg+xml;utf8,${encodeURIComponent(svgText)}`;
 };
 
-export default function Content({ chainsDef }) {
+export default function Content({ chainsDef, tokensDef }) {
   const dispatch = useDispatch();
   const currentStep = useSelector(currentStepSelector);
   const [imageFile, setImageFile] = useState();
@@ -116,6 +116,7 @@ export default function Content({ chainsDef }) {
       <Step2
         steps={steps}
         chainsDef={chainsDef}
+        tokensDef={tokensDef}
         assets={assets}
         setAssets={setAssets}
       />

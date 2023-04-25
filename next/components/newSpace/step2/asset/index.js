@@ -33,6 +33,7 @@ const MyFieldWrapper = styled(FieldWrapper)`
 
 export default function Asset({
   chainsDef,
+  tokensDef,
   count,
   index,
   asset,
@@ -110,6 +111,7 @@ export default function Asset({
   } else if (chainInfo?.supportAssetTypes?.includes(AssetTypes.ORML)) {
     assetConfig = (
       <OrmlTokenConfig
+        tokensDef={tokensDef}
         count={count}
         chain={asset.chain}
         asset={asset}

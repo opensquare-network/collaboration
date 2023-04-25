@@ -4,11 +4,10 @@ import AssetDetail from "../assetDetail";
 import AssetConfig from "../assetConfig";
 import AssetSelector from "../assetSelector";
 import { noop } from "@osn/common-ui";
-import nextApi from "services/nextApi";
-
-const ormlTokensCache = {};
+import { AssetTypes } from "../constants";
 
 export default function OrmlTokenConfig({
+  tokensDef,
   count,
   chain,
   nativeTokenInfo,
@@ -16,22 +15,6 @@ export default function OrmlTokenConfig({
   setPartialAsset = noop,
 }) {
   const [assetType, setAssetType] = useState("");
-  const [ormlTokens, setOrmlTokens] = useState([]);
-
-  useEffect(() => {
-    if (ormlTokensCache[chain]) {
-      setOrmlTokens(ormlTokensCache[chain]);
-      return;
-    }
-
-    setOrmlTokens([]);
-    nextApi.fetch(`chain/${chain}/tokens/orml`).then(({ result }) => {
-      if (result) {
-        ormlTokensCache[chain] = result;
-        setOrmlTokens(result);
-      }
-    });
-  }, [chain]);
 
   useEffect(() => {
     if (asset?.type !== "token" && assetType !== "native") {
@@ -40,6 +23,10 @@ export default function OrmlTokenConfig({
       setPartialAsset({ type: undefined });
     }
   }, [assetType, asset?.type, setPartialAsset]);
+
+  const ormlTokens = tokensDef.filter(
+    (item) => item.chain === chain && item.type === AssetTypes.ORML,
+  );
 
   const assetTypes = [
     { value: "native", symbol: nativeTokenInfo?.symbol, type: "Native" },

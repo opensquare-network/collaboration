@@ -6,7 +6,7 @@ import { ssrNextApi } from "services/nextApi";
 import { setAvailableNetworks } from "store/reducers/accountSlice";
 import NewSpace from "@/components/newSpace";
 
-export default function Index({ allNetworks, chainsDef }) {
+export default function Index({ allNetworks, chainsDef, tokensDef }) {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(setAvailableNetworks(allNetworks || []));
@@ -17,22 +17,28 @@ export default function Index({ allNetworks, chainsDef }) {
     <>
       <Seo desc={desc} />
       <Layout bgHeight="183px" networks={allNetworks}>
-        <NewSpace chainsDef={chainsDef} />
+        <NewSpace chainsDef={chainsDef} tokensDef={tokensDef} />
       </Layout>
     </>
   );
 }
 
 export async function getServerSideProps() {
-  const [{ result: allNetworks }, { result: chainsDef }] = await Promise.all([
+  const [
+    { result: allNetworks },
+    { result: chainsDef },
+    { result: tokensDef },
+  ] = await Promise.all([
     ssrNextApi.fetch("networks"),
     ssrNextApi.fetch("chains/definition"),
+    ssrNextApi.fetch("tokens/definition"),
   ]);
 
   return {
     props: {
       allNetworks: allNetworks || [],
       chainsDef: chainsDef || [],
+      tokensDef: tokensDef || [],
     },
   };
 }
