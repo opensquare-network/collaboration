@@ -23,7 +23,12 @@ export default function ProposalThreshold({
     <Wrapper>
       <Flex style={{ gap: "4px", alignItems: "flex-start" }}>
         <SectionTitle>Proposal Threshold</SectionTitle>
-        <Tooltip content="Only account with balance >= threshold can propose" />
+        <Flex style={{ height: 24 }}>
+          <Tooltip
+            iconSize={16}
+            content="Only account with balance >= threshold can propose"
+          />
+        </Flex>
       </Flex>
       <InputWrapper>
         <Input

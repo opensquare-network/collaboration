@@ -35,7 +35,10 @@ export default function AssetConfig({
       <FieldWrapper>
         <Flex style={{ gap: "4px" }}>
           <Title>Threshold</Title>
-          <Tooltip content="Only account with balance >= threshold can vote" />
+          <Tooltip
+            iconSize={16}
+            content="Only account with balance >= threshold can vote"
+          />
         </Flex>
         <Input
           placeholder="0"
@@ -48,6 +51,7 @@ export default function AssetConfig({
         <Flex style={{ gap: "4px" }}>
           <Title>Voting Weight</Title>
           <Tooltip
+            iconSize={16}
             content={
               <span>
                 Voting weight refers to the level of influence

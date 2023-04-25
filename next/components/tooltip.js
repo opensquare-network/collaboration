@@ -130,8 +130,8 @@ const TitleWrapper = styled.div`
 `;
 
 const TooltipIcon = styled.img`
-  width: 24px;
-  height: 24px;
+  width: ${({ size }) => size || 24}px;
+  height: ${({ size }) => size || 24}px;
 `;
 
 export default function Tooltip({
@@ -143,6 +143,7 @@ export default function Tooltip({
   copyText,
   title,
   size,
+  iconSize,
   position,
   offset,
 }) {
@@ -178,7 +179,9 @@ export default function Tooltip({
       ) : (
         <Wrapper bg={bg}>
           {label && label}
-          {!label && <TooltipIcon src="/imgs/icons/tooltip-icon.svg" />}
+          {!label && (
+            <TooltipIcon size={iconSize} src="/imgs/icons/tooltip-icon.svg" />
+          )}
           {content && (
             <PopupWrapper
               onClick={onCopy}
