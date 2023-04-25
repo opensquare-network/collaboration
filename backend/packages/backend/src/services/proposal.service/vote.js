@@ -1,7 +1,11 @@
 const BigNumber = require("bignumber.js");
 const isEmpty = require("lodash.isempty");
 const pick = require("lodash.pick");
-const { getProposalCollection, getVoteCollection } = require("../../mongo");
+const {
+  getProposalCollection,
+  getVoteCollection,
+  getSpaceCollection,
+} = require("../../mongo");
 const { HttpError } = require("../../exc");
 const { spaces: spaceServices } = require("../../spaces");
 const { checkDelegation } = require("../../services/node.service");
@@ -90,8 +94,9 @@ async function addDelegatedVotes(
       multiplier,
     };
 
-    const balanceOf =
-      adaptBalance(balance, decimals, baseDecimals) * multiplier;
+    const balanceOf = adaptBalance(balance, decimals, baseDecimals).times(
+      multiplier,
+    );
 
     bulk
       .find({
@@ -211,14 +216,27 @@ async function vote(
   const balanceOf = networkBalance?.balanceOf;
   const networkBalanceDetails = networkBalance?.details;
 
-  if (new BigNumber(balanceOf).lt(spaceService.voteThreshold)) {
-    const symbolVoteThreshold = new BigNumber(spaceService.voteThreshold)
-      .div(Math.pow(10, proposal.networksConfig.decimals))
-      .toString();
-    throw new HttpError(
-      400,
-      `Require the minimum of ${symbolVoteThreshold} ${proposal.networksConfig.symbol} to vote`,
-    );
+  let networksConfig = null;
+
+  if (proposal.networksConfig?.version === "4") {
+    networksConfig = proposal.networksConfig;
+  } else {
+    const spaceCol = await getSpaceCollection();
+    const spaceConfig = await spaceCol.findOne({ id: proposal.space });
+    networksConfig = spaceConfig;
+  }
+
+  const networkConfig = networksConfig?.networks?.find(
+    (item) => item.network === voterNetwork,
+  );
+  const passThreshold = networkConfig?.assets?.some((item) =>
+    networkBalanceDetails?.some((balance) =>
+      new BigNumber(item.votingThreshold || 0).lte(balance.balance),
+    ),
+  );
+
+  if (!passThreshold) {
+    throw new HttpError(400, "You don't have enough balance to vote");
   }
 
   const delegators = await getDelegatorBalances({

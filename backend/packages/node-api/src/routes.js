@@ -10,6 +10,7 @@ const chainFeatureRouters = [
 ];
 
 const tokenRoutes = require("./features/token/routes");
+const tokenMetaRoutes = require("./features/tokenMeta/routes");
 const evmRoutes = require("./features/evm/routes");
 const issuanceRoutes = require("./features/issuance/routes");
 const { evmChains } = require("./constants");
@@ -29,6 +30,12 @@ module.exports = (app) => {
       r.allowedMethods({ throw: true }),
     );
   }
+
+  router.use(
+    "/:chain",
+    tokenMetaRoutes.routes(),
+    tokenMetaRoutes.allowedMethods({ throw: true }),
+  );
 
   router.use(
     "/:chain(statemine|karura|bifrost)",

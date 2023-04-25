@@ -16,7 +16,7 @@ async function getStats(proposalCid) {
   const voteCol = await getVoteCollection();
   const votes = await voteCol.find(q).toArray();
   const calculatedVotes = votes.map((v) =>
-    calcWeights(v, spaceService.decimals, spaceService.voteThreshold),
+    calcWeights(v, spaceService.decimals),
   );
   const stats = Object.fromEntries(
     proposal.choices.map((choice) => [

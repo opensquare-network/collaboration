@@ -13,6 +13,7 @@ const litentryConfig = {
         {
           symbol: "LIT",
           decimals: 12,
+          votingThreshold: "10000000000",
         },
       ],
     },
@@ -24,14 +25,16 @@ const litentryConfig = {
           contract: "0xb59490aB09A0f526Cc7305822aC65f2Ab12f9723",
           symbol: "LIT",
           decimals: 18,
+          votingThreshold: "10000000000000000",
         },
       ],
     },
   ],
   proposeThreshold: "1000000000000",
-  voteThreshold: "10000000000",
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
-  version: "3",
+  version: "4",
+  spaceIcon: "litentry.svg",
+  seoImage: "bafybeidhd2cwbkha2fybrzir2xwj3au4nagycgm3vssdvmdlw744ny4734",
 };
 
 module.exports = {

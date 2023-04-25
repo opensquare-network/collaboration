@@ -1,8 +1,10 @@
+const BigNumber = require("bignumber.js");
 const { HttpError } = require("../../exc");
 const { adaptBalance } = require("../../utils/balance");
 const { getEvmAddressBalance } = require("./getEvmAddressBalance");
 const { getTokenBalance } = require("./getTokenBalance");
 const { getTotalBalance } = require("./getTotalBalance");
+const { toDecimal128 } = require("../../utils");
 
 async function getBalanceFromMultiAssetsNetwork({
   network,
@@ -14,7 +16,7 @@ async function getBalanceFromMultiAssetsNetwork({
 }) {
   const details = await Promise.all(
     network.assets.map(async (asset) => {
-      const { type, assetId, contract } = asset;
+      const { type, assetId, contract, votingThreshold } = asset;
       const decimals = asset.decimals ?? network.decimals ?? baseDecimals;
       const symbol = asset.symbol ?? network.symbol ?? baseSymbol;
       const multiplier = asset.multiplier ?? network.multiplier ?? 1;
@@ -34,18 +36,22 @@ async function getBalanceFromMultiAssetsNetwork({
         decimals,
         balance,
         multiplier,
+        votingThreshold,
       };
     }),
   );
 
-  const balanceOf = details.reduce(
-    (prev, curr) =>
-      prev +
-      adaptBalance(curr.balance, curr.decimals, baseDecimals) * curr.multiplier,
-    0,
-  );
+  const balanceOf = details.reduce((prev, curr) => {
+    if (new BigNumber(curr.balance).lt(curr.votingThreshold)) {
+      return prev;
+    }
+    return adaptBalance(curr.balance, curr.decimals, baseDecimals)
+      .times(curr.multiplier)
+      .plus(prev);
+  }, 0);
+
   return {
-    balanceOf,
+    balanceOf: toDecimal128(balanceOf),
     decimals: baseDecimals,
     symbol: baseSymbol,
     details,
@@ -75,10 +81,12 @@ async function getBalanceFromSingleAssetNetwork({
     address,
   });
 
-  const balanceOf = adaptBalance(balance, decimals, baseDecimals) * multiplier;
+  const balanceOf = adaptBalance(balance, decimals, baseDecimals).times(
+    multiplier,
+  );
 
   return {
-    balanceOf,
+    balanceOf: toDecimal128(balanceOf),
     decimals: baseDecimals,
     symbol: baseSymbol,
     details: [

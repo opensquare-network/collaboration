@@ -1,8 +1,8 @@
+import { defaultSeoImage } from "frontedUtils/consts/spaces/sns";
 import { NextSeo } from "next-seo";
-import { getSpaceSeoImage } from "../../frontedUtils/consts/spaces";
 
-export default function Seo({ spaceId, title, desc, banner }) {
-  const imageCid = getSpaceSeoImage(spaceId);
+export default function Seo({ space, title, desc, banner }) {
+  const imageCid = space?.seoImage || defaultSeoImage;
   const images = [
     {
       url: banner ?? `https://ipfs.fleek.co/ipfs/${imageCid}`,

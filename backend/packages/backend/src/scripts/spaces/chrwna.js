@@ -14,14 +14,15 @@ const config = {
           symbol: "CHRWNA",
           decimals: 10,
           assetId: 567,
+          votingThreshold: "1000000000",
         },
       ],
     },
   ],
   proposeThreshold: "50000000000",
-  voteThreshold: "1000000000",
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
-  version: "3",
+  version: "4",
+  spaceIcon: "chrwna.svg",
 };
 
 module.exports = {

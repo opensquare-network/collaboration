@@ -384,6 +384,7 @@ async function getVoterBalance(ctx) {
 
   ctx.body = {
     ...balance,
+    balanceOf: balance.balanceOf?.toString(),
     delegation,
   };
 }

@@ -6,7 +6,7 @@ import { newSuccessToast } from "store/reducers/toastSlice";
 import { p_14_normal } from "../styles/textStyles";
 
 const Wrapper = styled.div`
-  display: inline-block;
+  display: inline-flex;
   position: relative;
   font-size: 14px;
   line-height: 16px;
@@ -20,7 +20,7 @@ const Wrapper = styled.div`
       stroke-opacity: 1;
     }
     > * {
-      display: block;
+      display: block !important;
     }
   }
   ${(p) =>
@@ -99,7 +99,7 @@ const TopTriangle = styled.div`
 
 const ChildrenWrapper = styled.div`
   position: relative;
-  display: inline-block;
+  display: inline-flex;
   :hover {
     > * {
       display: block !important;
@@ -130,8 +130,8 @@ const TitleWrapper = styled.div`
 `;
 
 const TooltipIcon = styled.img`
-  width: 24px;
-  height: 24px;
+  width: ${({ size }) => size || 24}px;
+  height: ${({ size }) => size || 24}px;
 `;
 
 export default function Tooltip({
@@ -143,6 +143,7 @@ export default function Tooltip({
   copyText,
   title,
   size,
+  iconSize,
   position,
   offset,
 }) {
@@ -178,7 +179,9 @@ export default function Tooltip({
       ) : (
         <Wrapper bg={bg}>
           {label && label}
-          {!label && <TooltipIcon src="/imgs/icons/tooltip-icon.svg" />}
+          {!label && (
+            <TooltipIcon size={iconSize} src="/imgs/icons/tooltip-icon.svg" />
+          )}
           {content && (
             <PopupWrapper
               onClick={onCopy}

@@ -13,6 +13,7 @@ const config = {
         {
           symbol: "KSM",
           decimals: 12,
+          votingThreshold: "10000000000",
         },
       ],
     },
@@ -23,6 +24,7 @@ const config = {
         {
           symbol: "KSM",
           decimals: 12,
+          votingThreshold: "10000000000",
         },
       ],
     },
@@ -34,6 +36,7 @@ const config = {
           type: "token",
           symbol: "KSM",
           decimals: 12,
+          votingThreshold: "10000000000",
         },
       ],
     },
@@ -45,6 +48,7 @@ const config = {
           type: "token",
           symbol: "KSM",
           decimals: 12,
+          votingThreshold: "10000000000",
         },
       ],
     },
@@ -56,14 +60,16 @@ const config = {
           contract: "0xFfFFfFff1FcaCBd218EDc0EbA20Fc2308C778080",
           symbol: "KSM",
           decimals: 12,
+          votingThreshold: "10000000000",
         },
       ],
     },
   ],
   proposeThreshold: "10000000000",
-  voteThreshold: "10000000000",
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
-  version: "3",
+  version: "4",
+  spaceIcon: "kusama.svg",
+  seoImage: "bafybeidiohh5piq2dt5y2u3oqg4dtw3l3ok7yp5a5pmr73zs7mzsf6lbcm",
 };
 
 module.exports = {

@@ -14,7 +14,7 @@ import PostResult from "./postResult";
 import { findNetworkConfig } from "../services/util";
 import { Flex, FlexBetween } from "@osn/common-ui";
 import { p_14_medium } from "../styles/componentCss";
-import getSpaceConfigs from "../frontedUtils/consts/spaces";
+import { getSpaceIconUrl } from "frontedUtils/space";
 
 const Wrapper = styled.div`
   background: #ffffff;
@@ -96,13 +96,14 @@ export default function Post({ data, showSpace, space, spaces }) {
     }
   }, [windowSize.width, setShowRichInfo]);
 
-  const configs = getSpaceConfigs(data.space);
-
   const proposerNetworkConfig = findNetworkConfig(
     data.networksConfig,
     data.proposerNetwork,
   );
   const spaceSupportMultiChain = proposerNetworkConfig?.networks?.length > 1;
+
+  const spaceInfo = space ?? getSpaceFromId(data.space);
+  const spaceIcon = getSpaceIconUrl(spaceInfo);
 
   return (
     <Wrapper>
@@ -110,7 +111,7 @@ export default function Post({ data, showSpace, space, spaces }) {
         <HardLink href={`/space/${data.space}/proposal/${data.cid}`}>
           <Title>{data.title}</Title>
         </HardLink>
-        <PostResult data={data} space={space ?? getSpaceFromId(data.space)} />
+        <PostResult data={data} space={spaceInfo} />
       </TitleWrapper>
       <Divider />
       <InfoWrapper>
@@ -123,12 +124,7 @@ export default function Post({ data, showSpace, space, spaces }) {
             />
           )}
           {!showRichInfo && (
-            <img
-              width="20px"
-              height="20px"
-              src={`/imgs/icons/projects/${configs.fromIcon}`}
-              alt=""
-            />
+            <img width="20px" height="20px" src={spaceIcon} alt="" />
           )}
           <PostTime post={data} />
           {showSpace && showRichInfo && (
@@ -138,7 +134,7 @@ export default function Post({ data, showSpace, space, spaces }) {
                 width="20px"
                 height="20px"
                 className="ml-4px"
-                src={`/imgs/icons/projects/${configs.fromIcon}`}
+                src={spaceIcon}
                 alt=""
               />
               <InternalLink href={`/space/${data.space}`}>

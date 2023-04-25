@@ -53,7 +53,7 @@ async function pinData(rawData) {
   return { cid, pinHash };
 }
 
-const calcWeights = (vote, decimals, voteThreshold) => {
+const calcWeights = (vote, decimals) => {
   return {
     ...vote,
     weights: {
@@ -61,7 +61,6 @@ const calcWeights = (vote, decimals, voteThreshold) => {
       quadraticBalanceOf: enhancedSqrtOfBalance(
         vote.weights.balanceOf?.toString(),
         decimals,
-        voteThreshold,
       ),
       details: vote.weights.details,
     },

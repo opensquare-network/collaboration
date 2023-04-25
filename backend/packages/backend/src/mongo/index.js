@@ -34,4 +34,6 @@ module.exports = {
   getSpaceCollection: () => getCollection("space"),
   getNotificationCollection: () => getCollection("notification"),
   getSpaceMemberCollection: () => getCollection("spaceMember"),
+  getChainCollection: () => getCollection("chain"),
+  getChainTokenCollection: () => getCollection("chainToken"),
 };

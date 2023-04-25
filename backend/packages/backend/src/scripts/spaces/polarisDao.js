@@ -15,6 +15,7 @@ const polarisDaoConfig = {
           assetId: 16,
           symbol: "ARIS",
           decimals: 8,
+          votingThreshold: "1000000",
         },
       ],
     },
@@ -26,18 +27,20 @@ const polarisDaoConfig = {
           type: "token",
           symbol: "ARIS",
           decimals: 8,
+          votingThreshold: "1000000",
         },
       ],
     },
   ],
   proposeThreshold: "4000000000000",
-  voteThreshold: "1000000",
   weightStrategy: [
     strategies.balanceOf,
     strategies.quadraticBalanceOf,
     strategies.biasedVoting,
   ],
-  version: "3",
+  version: "4",
+  spaceIcon: "polarisdao.svg",
+  seoImage: "bafybeiha6qqajks5sava3rdkkxbgjaexijnr4vzvsvf6xfprjei745pc3y",
 };
 
 module.exports = {

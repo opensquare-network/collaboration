@@ -24,9 +24,7 @@ async function getVotes(proposalCid, page, pageSize) {
   const spaceService = await getProposalSpace(proposal);
 
   return {
-    items: votes.map((v) =>
-      calcWeights(v, spaceService.decimals, spaceService.voteThreshold),
-    ),
+    items: votes.map((v) => calcWeights(v, spaceService.decimals)),
     total,
     page,
     pageSize,

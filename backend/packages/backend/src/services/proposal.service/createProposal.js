@@ -111,6 +111,7 @@ async function createProposal({
       symbol: spaceService.symbol,
       decimals: spaceService.decimals,
       networks: spaceService.networks,
+      version: spaceService.version,
     })
   ) {
     throw new HttpError(400, {

@@ -13,14 +13,16 @@ const basiliskConfig = {
         {
           symbol: "BSX",
           decimals: 12,
+          votingThreshold: "10000000000",
         },
       ],
     },
   ],
   proposeThreshold: "1000000000000",
-  voteThreshold: "10000000000",
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
-  version: "3",
+  version: "4",
+  spaceIcon: "basilisk.svg",
+  seoImage: "bafybeihuz5wbvovfq7a4xzii4ynytvwq6cwhbzaprqye6bsc26hnlia6tu",
 };
 
 module.exports = {

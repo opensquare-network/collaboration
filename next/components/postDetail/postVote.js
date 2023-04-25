@@ -103,7 +103,7 @@ const RedText = styled.span`
   ${text_secondary_red_500};
 `;
 
-export default function PostVote({ proposal, threshold = 0 }) {
+export default function PostVote({ proposal }) {
   const router = useRouter();
   const dispatch = useDispatch();
   const [choiceIndexes, setChoiceIndexes] = useState([]);
@@ -130,7 +130,7 @@ export default function PostVote({ proposal, threshold = 0 }) {
   const voteBalance = useProxy ? proxyBalance : balance;
   const voteDelegation = useProxy ? proxyDelegation : delegation;
 
-  const belowThreshold = new BigNumber(voteBalance).isLessThan(threshold);
+  const belowThreshold = new BigNumber(voteBalance).eq(0);
   const canVote =
     !belowThreshold &&
     choiceIndexes.length &&
@@ -269,7 +269,13 @@ export default function PostVote({ proposal, threshold = 0 }) {
         <>
           {!isNil(voteBalance) && (
             <div>
-              <Tooltip content={<VoteBalanceDetail details={balanceDetail} />}>
+              <Tooltip
+                content={
+                  voteBalance ? (
+                    <VoteBalanceDetail details={balanceDetail} />
+                  ) : null
+                }
+              >
                 {`Available ${toApproximatelyFixed(
                   bigNumber2Locale(
                     fromAssetUnit(

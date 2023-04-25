@@ -10,6 +10,12 @@ const { createChainApis } = require("./apis");
 const { logApiStatus } = require("@osn/polkadot-api-container");
 const { statusLogger } = require("./logger");
 
+const process = require("node:process");
+
+process.on("uncaughtException", (err) => {
+  console.error(err);
+});
+
 const app = new Koa();
 
 app.use(cors());

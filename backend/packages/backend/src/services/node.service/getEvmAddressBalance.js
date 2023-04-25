@@ -2,7 +2,7 @@ const { NODE_API_ENDPOINT } = require("../../env");
 const { isTestAccount } = require("../../utils");
 const { fetchApi } = require("../../utils/fech.api");
 
-async function getEvmAddressBalance({ network }, contract, address, height) {
+async function getEvmAddressBalance(network, contract, address, height) {
   if (isTestAccount(address)) {
     return {
       balance: process.env.TEST_ACCOUNT_BALANCE || "10000000000000",

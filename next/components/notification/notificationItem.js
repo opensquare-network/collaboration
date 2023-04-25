@@ -1,5 +1,3 @@
-// copied from qa
-
 import styled from "styled-components";
 import { p_14_medium } from "@osn/common-ui/es/styles/textStyles";
 import { Time, Flex, FlexBetween, Dot } from "@osn/common-ui";
@@ -12,8 +10,8 @@ import { ReactComponent as CheckIcon } from "@osn/common-ui/es/imgs/icons/check.
 import Link from "next/link";
 import { MOBILE_SIZE } from "@osn/constants";
 import { useState } from "react";
-import getSpaceConfigs from "frontedUtils/consts/spaces";
 import { OnlyDesktop, OnlyMobile } from "@osn/common-ui";
+import { getSpaceIconUrl } from "frontedUtils/space";
 
 const NotificationItemWrapper = styled.div`
   &:hover {
@@ -161,10 +159,8 @@ export default function NotificationItem({ data, onMarkAsRead = () => {} }) {
     type,
     createdAt,
     read: _read,
-    data: { space, title, proposalCid } = {},
+    data: { space, title, proposalCid, spaceInfo } = {},
   } = data;
-
-  const configs = getSpaceConfigs(space);
 
   const [read, setRead] = useState(_read);
 
@@ -195,7 +191,7 @@ export default function NotificationItem({ data, onMarkAsRead = () => {} }) {
               width="20px"
               height="20px"
               className="ml-4px"
-              src={`/imgs/icons/projects/${configs.fromIcon}`}
+              src={getSpaceIconUrl(spaceInfo)}
               alt=""
             />
             <Dot />

@@ -11,7 +11,6 @@ import {
   setAvailableNetworks,
 } from "store/reducers/accountSlice";
 import pick from "lodash.pick";
-import { getSpaceSeoImage } from "../../../../frontedUtils/consts/spaces";
 import Seo from "@/components/seo";
 import { useIsMounted } from "../../../../frontedUtils/hooks";
 import encodeAddressByChain from "../../../../frontedUtils/chain/addr";
@@ -85,15 +84,10 @@ export default function Index({
 
   const desc = getMetaDesc(detail, "Proposal");
 
-  const seoLogoHash = getSpaceSeoImage(space?.id);
-  if (!seoLogoHash) {
-    throw new Error(`No seo logo hash found for space ${space?.id}`);
-  }
-
   return (
     <>
       <Seo
-        spaceId={space?.id}
+        space={space}
         title={detail?.title}
         desc={desc}
         banner={

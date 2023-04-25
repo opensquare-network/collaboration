@@ -13,14 +13,16 @@ const shidenConfig = {
         {
           symbol: "SDN",
           decimals: 18,
+          votingThreshold: "1000000000000000000",
         },
       ],
     },
   ],
   proposeThreshold: "500000000000000000000",
-  voteThreshold: "1000000000000000000",
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
-  version: "3",
+  version: "4",
+  spaceIcon: "shiden.svg",
+  seoImage: "bafybeibf43ntawbzkd3ucwtogab64xfz4e6qoledxx27nifm4dkj6ckfie",
 };
 
 module.exports = {

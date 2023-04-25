@@ -9,6 +9,7 @@ const statemineAssetConfig = {
       assetId: 8,
       symbol: "RMRK",
       decimals: 10,
+      votingThreshold: "10000000000",
     },
   ],
 };
@@ -21,6 +22,7 @@ const karuraTokenConfig = {
       type: "token",
       symbol: "RMRK",
       decimals: 10,
+      votingThreshold: "10000000000",
     },
   ],
 };
@@ -33,6 +35,7 @@ const bifrostTokenConfig = {
       type: "token",
       symbol: "RMRK",
       decimals: 10,
+      votingThreshold: "10000000000",
     },
   ],
 };
@@ -45,6 +48,7 @@ const rmrkMovrConfig = {
       contract: "0xffffffFF893264794d9d57E1E0E21E0042aF5A0A",
       symbol: "RMRK",
       decimals: 10,
+      votingThreshold: "10000000000",
     },
   ],
 };
@@ -61,13 +65,14 @@ const config = {
     rmrkMovrConfig,
   ],
   proposeThreshold: "500000000000000",
-  voteThreshold: "10000000000",
   weightStrategy: [
     strategies.balanceOf,
     strategies.quadraticBalanceOf,
     strategies.biasedVoting,
   ],
-  version: "3",
+  version: "4",
+  spaceIcon: "rmrk.svg",
+  seoImage: "bafybeibhjq4ls327o52xm76zgabalkltmdofzku57sfjw2afsao3ud2yjq",
 };
 
 const curationConfig = {
@@ -82,13 +87,14 @@ const curationConfig = {
     rmrkMovrConfig,
   ],
   proposeThreshold: "4310000000000",
-  voteThreshold: "10000000000",
   weightStrategy: [
     strategies.balanceOf,
     strategies.quadraticBalanceOf,
     strategies.biasedVoting,
   ],
-  version: "3",
+  version: "4",
+  spaceIcon: "rmrk-curation.png",
+  seoImage: "bafybeic42ekrlmnjdwfi3kdshqfuvo76yhugu5nbkewebnigjxxe5hqjty",
 };
 
 module.exports = {

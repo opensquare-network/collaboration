@@ -13,6 +13,7 @@ const config = {
         {
           symbol: "KAR",
           decimals: 12,
+          votingThreshold: "10000000000",
         },
       ],
     },
@@ -24,6 +25,7 @@ const config = {
           contract: "0xFfFFFFfF08220AD2E6e157f26eD8bD22A336A0A5",
           symbol: "KAR",
           decimals: 12,
+          votingThreshold: "10000000000",
         },
       ],
     },
@@ -35,18 +37,20 @@ const config = {
           type: "token",
           symbol: "KAR",
           decimals: 12,
+          votingThreshold: "10000000000",
         },
       ],
     },
   ],
   proposeThreshold: "1000000000000",
-  voteThreshold: "10000000000",
   weightStrategy: [
     strategies.balanceOf,
     strategies.quadraticBalanceOf,
     strategies.biasedVoting,
   ],
-  version: "3",
+  version: "4",
+  spaceIcon: "karura.svg",
+  seoImage: "bafybeidqwvg6pjgcxs52ujondwclidzgvowj3osy2vegzywfcz7pzqygxy",
 };
 
 module.exports = {
