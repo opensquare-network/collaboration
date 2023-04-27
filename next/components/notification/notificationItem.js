@@ -154,6 +154,7 @@ const EventTypeName = {
   proposalStarted: "Proposal Started",
   proposalCloseToEnd: "Proposal Close to End",
   proposalEnd: "Proposal End",
+  proposalTerminated: "Proposal Terminated",
 };
 
 export default function NotificationItem({ data, onMarkAsRead = () => {} }) {
