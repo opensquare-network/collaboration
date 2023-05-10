@@ -21,7 +21,7 @@ const centrifugeConfig = {
   ],
   proposeThreshold: "1000000000000000000",
   voteThreshold: "1000000000000000000",
-  weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
+  weightStrategy: [strategies.balanceOf],
   version: "3",
 };
 
