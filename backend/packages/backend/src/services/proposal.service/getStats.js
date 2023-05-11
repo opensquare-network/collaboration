@@ -29,7 +29,20 @@ async function getStats(proposalCid) {
       },
     ]),
   );
+
+  const total = {
+    balanceOf: new BigNumber(0),
+    quadraticBalanceOf: new BigNumber(0),
+    voteCount: 0,
+  };
+
   for (const vote of calculatedVotes) {
+    total.balanceOf = total.balanceOf.plus(vote.weights.balanceOf);
+    total.quadraticBalanceOf = total.quadraticBalanceOf.plus(
+      vote.weights.quadraticBalanceOf,
+    );
+    total.voteCount += 1;
+
     for (const choice of vote.choices) {
       const weights = (stats[choice] = stats[choice] || { choice });
       weights.balanceOf = new BigNumber(weights.balanceOf || 0)
@@ -58,7 +71,10 @@ async function getStats(proposalCid) {
     calcBiasedVotingResult(proposal, stats, totalIssuance);
   }
 
-  return Object.values(stats);
+  return {
+    choices: Object.values(stats),
+    total,
+  };
 }
 
 function calcBiasedVotingResult(proposal, stats, totalIssuance) {
