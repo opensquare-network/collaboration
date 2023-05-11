@@ -178,7 +178,7 @@ export async function getServerSideProps(context) {
       detail: detail ?? null,
       space: space ?? null,
       votes: votes ?? EmptyQuery,
-      voteStatus: voteStatus ?? [],
+      voteStatus: voteStatus ?? null,
       comments: comments ?? EmptyQuery,
       defaultPage: { page: nPage, discussionPage: discusPage },
       myVote: myVote ?? null,

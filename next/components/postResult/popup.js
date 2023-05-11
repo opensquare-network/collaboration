@@ -125,22 +125,16 @@ export default function Popup({ data, space, isTop }) {
   const votes = useSelector(votesSelector);
   const dispatch = useDispatch();
 
-  const vote = votes[data?.cid];
-  const total = vote?.reduce(
-    (pre, cur) => BigNumber(pre).plus(BigNumber(cur.balanceOf ?? 0)),
-    0,
-  );
-  const voteCount = vote?.reduce(
-    (pre, cur) => pre + Number(cur.votesCount ?? 0),
-    0,
-  );
+  const stats = votes[data?.cid];
+  const total = stats?.total?.balanceOf ?? 0;
+  const voteCount = stats?.total?.voteCount ?? 0;
 
   const results = (data?.choices || []).map((choice, index) => {
-    const balance = vote
-      ? vote.find((item) => item.choice === choice)?.balanceOf
+    const balance = stats
+      ? stats?.choices?.find((item) => item.choice === choice)?.balanceOf
       : 0;
     const percent =
-      vote && Number(balance) > 0
+      stats && Number(balance) > 0
         ? (BigNumber(balance).dividedBy(total) * 100).toFixed(2)
         : "0.00";
     return (
@@ -152,7 +146,7 @@ export default function Popup({ data, space, isTop }) {
           </OptionWrapper>
           <FlexAround>
             <div>{percent}%</div>
-            {vote ? (
+            {stats ? (
               <div>
                 <ValueDisplay value={balance} space={space} />
               </div>
@@ -184,7 +178,7 @@ export default function Popup({ data, space, isTop }) {
       <div>
         <VoteItem>
           <div>Voted</div>
-          {vote ? (
+          {stats ? (
             <ValueDisplay value={total?.toString()} space={space} />
           ) : (
             <LoadingSvg />
@@ -192,7 +186,7 @@ export default function Popup({ data, space, isTop }) {
         </VoteItem>
         <VoteItem>
           <div>Voters</div>
-          {vote ? <div>{voteCount}</div> : <LoadingSvg />}
+          {stats ? <div>{voteCount}</div> : <LoadingSvg />}
         </VoteItem>
       </div>
       <Divider />

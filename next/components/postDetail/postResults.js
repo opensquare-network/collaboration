@@ -143,6 +143,7 @@ const StatusItem = styled.div`
 export default function PostResult({ data, voteStatus, space }) {
   const votedAmount = data?.votedWeights?.balanceOf || 0;
   const isEnded = new Date().getTime() > data?.endDate;
+  const voteStatusItems = voteStatus?.choices || [];
 
   const results = data?.weightStrategy
     ?.filter((strategy) =>
@@ -156,7 +157,7 @@ export default function PostResult({ data, voteStatus, space }) {
 
       const optionList = [];
       data?.choices?.forEach((choice, index) => {
-        for (let voteStat of voteStatus) {
+        for (let voteStat of voteStatusItems) {
           if (voteStat.choice !== choice) {
             continue;
           }
@@ -210,7 +211,7 @@ export default function PostResult({ data, voteStatus, space }) {
     });
 
   const biasedVoting = (() => {
-    if (!voteStatus?.[0]?.biasedVoting) {
+    if (!voteStatusItems?.[0]?.biasedVoting) {
       return null;
     }
 
@@ -228,7 +229,7 @@ export default function PostResult({ data, voteStatus, space }) {
         </ResultHead>
         <Divider />
         <BiasedVotingWrapper>
-          {(voteStatus || []).map((item, index) => (
+          {voteStatusItems.map((item, index) => (
             <div key={index}>
               <BiasedVotingItem
                 label={item.choice}
@@ -240,7 +241,7 @@ export default function PostResult({ data, voteStatus, space }) {
           <div>
             <BiasedVotingItem
               label="Turnout"
-              value={voteStatus.reduce(
+              value={voteStatusItems.reduce(
                 (pre, cur) =>
                   new BigNumber(pre).plus(new BigNumber(cur.balanceOf ?? 0)),
                 0,
@@ -251,7 +252,7 @@ export default function PostResult({ data, voteStatus, space }) {
           <div>
             <BiasedVotingItem
               label="Electorate"
-              value={voteStatus?.[0]?.biasedVoting?.electorate || 0}
+              value={voteStatusItems?.[0]?.biasedVoting?.electorate || 0}
               space={space}
             ></BiasedVotingItem>
           </div>
@@ -263,10 +264,10 @@ export default function PostResult({ data, voteStatus, space }) {
         </StatusResultHead>
         <StatusWrapper>
           <StatusItem
-            positive={voteStatus?.[0]?.biasedVoting?.superMajorityApprove}
+            positive={voteStatusItems?.[0]?.biasedVoting?.superMajorityApprove}
           >
             #1{" "}
-            {voteStatus?.[0]?.biasedVoting?.superMajorityApprove
+            {voteStatusItems?.[0]?.biasedVoting?.superMajorityApprove
               ? isEnded
                 ? "Passed"
                 : "Passing"
@@ -282,10 +283,10 @@ export default function PostResult({ data, voteStatus, space }) {
         </StatusResultHead>
         <StatusWrapper>
           <StatusItem
-            positive={voteStatus?.[0]?.biasedVoting?.superMajorityAgainst}
+            positive={voteStatusItems?.[0]?.biasedVoting?.superMajorityAgainst}
           >
             #1{" "}
-            {voteStatus?.[0]?.biasedVoting?.superMajorityAgainst
+            {voteStatusItems?.[0]?.biasedVoting?.superMajorityAgainst
               ? isEnded
                 ? "Passed"
                 : "Passing"
