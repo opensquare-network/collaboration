@@ -195,8 +195,7 @@ const chainsDef = {
 async function main() {
   const chainCOl = await getChainCollection();
   const bulk = chainCOl.initializeUnorderedBulkOp();
-  for (const chain in chainsDef) {
-    const chainDef = chainsDef[chain];
+  for (const chainDef of Object.values(chainsDef)) {
     bulk
       .find({ network: chainDef.network })
       .upsert()

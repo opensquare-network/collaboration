@@ -31,8 +31,7 @@ const chainTokens = {
 async function main() {
   const chainTokenCol = await getChainTokenCollection();
   const bulk = chainTokenCol.initializeUnorderedBulkOp();
-  for (const chain in chainTokens) {
-    const tokens = chainTokens[chain];
+  for (const [chain, tokens] of Object.entries(chainTokens)) {
     for (const { symbol, decimals, type } of tokens) {
       bulk
         .find({ chain, symbol })
