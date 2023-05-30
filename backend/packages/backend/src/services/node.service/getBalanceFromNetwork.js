@@ -4,7 +4,7 @@ const { adaptBalance } = require("../../utils/balance");
 const { getEvmAddressBalance } = require("./getEvmAddressBalance");
 const { getTokenBalance } = require("./getTokenBalance");
 const { getTotalBalance } = require("./getTotalBalance");
-const { toDecimal128 } = require("../../utils");
+const { getStellaSwapAddressBalance } = require("./getStellaSwapBalance");
 
 async function getBalanceFromMultiAssetsNetwork({
   network,
@@ -51,7 +51,7 @@ async function getBalanceFromMultiAssetsNetwork({
   }, 0);
 
   return {
-    balanceOf: toDecimal128(balanceOf),
+    balanceOf: balanceOf.toString(),
     decimals: baseDecimals,
     symbol: baseSymbol,
     details,
@@ -86,7 +86,7 @@ async function getBalanceFromSingleAssetNetwork({
   );
 
   return {
-    balanceOf: toDecimal128(balanceOf),
+    balanceOf: balanceOf.toString(),
     decimals: baseDecimals,
     symbol: baseSymbol,
     details: [
@@ -147,6 +147,16 @@ async function getAssetBalanceFromNetwork({
 }) {
   if ("erc20" === type) {
     const { balance } = await getEvmAddressBalance(
+      networkName,
+      contract,
+      address,
+      blockHeight,
+    );
+    return balance;
+  }
+
+  if ("stellaswap" === type) {
+    const { balance } = await getStellaSwapAddressBalance(
       networkName,
       contract,
       address,

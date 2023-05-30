@@ -31,6 +31,7 @@ const { parallelConfig } = require("./spaces/parallel");
 const { basiliskConfig } = require("./spaces/basilisk");
 const { hydradxConfig } = require("./spaces/hydradx");
 const { rococoConfig } = require("./spaces/rococo");
+const { stellaSwapConfig } = require("./spaces/stellaswap");
 
 const spaces = [
   polkadotConfig,
@@ -61,6 +62,7 @@ const spaces = [
   parallelConfig,
   basiliskConfig,
   hydradxConfig,
+  stellaSwapConfig,
 ];
 
 if (["1", "true", "TRUE"].includes(process.env.DEVELOPMENT)) {

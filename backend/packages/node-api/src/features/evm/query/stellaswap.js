@@ -1,15 +1,19 @@
 const { getProviders } = require("../providers");
 const { ethers } = require("ethers");
-const { erc20Abi } = require("./erc20Abi");
+const { stellaswapAbi } = require("./stellaswapAbi");
+
+async function getUserInfoAmount(stellaswap, address, blockTag) {
+  const userInfo = await stellaswap.userInfo(3, address, { blockTag });
+  return userInfo.amount;
+}
 
 function queryBalanceFromOneProvider(contract, provider, address, blockTag) {
-  const erc20 = new ethers.Contract(contract, erc20Abi, provider);
+  const stellaswap = new ethers.Contract(contract, stellaswapAbi, provider);
 
   let promises = [];
   for (let i = 0; i < 2; i++) {
-    promises.push(erc20.balanceOf(address, { blockTag }));
+    promises.push(getUserInfoAmount(stellaswap, address, blockTag));
   }
-
   return promises;
 }
 

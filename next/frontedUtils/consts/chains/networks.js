@@ -9,6 +9,7 @@ export const networks = Object.freeze({
   kintsugi: "kintsugi",
   polkadex: "polkadex",
   interlay: "interlay",
+  moonbeam: "moonbeam",
   moonriver: "moonriver",
   acala: "acala",
   turing: "turing",

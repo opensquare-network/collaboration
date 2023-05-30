@@ -56,6 +56,8 @@ export default function IdentityOrAddr({
   let link = `https://${network}.${explorer}.io/account/${address}`;
   if (evm.moonriver === network) {
     link = `https://moonriver.moonscan.io/address/${address}`;
+  } else if (evm.moonbeam === network) {
+    link = `https://moonscan.io/address/${address}`;
   }
 
   const isEvm = evmChains.includes(network);
