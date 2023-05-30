@@ -2,7 +2,10 @@ const { connectDb } = require("../utils/db");
 
 let db = null;
 
-async function createIndex() {}
+async function createIndex(db) {
+  const spaceCol = db.getCollection("space");
+  await spaceCol.createIndex({ id: 1 }, { unique: true });
+}
 
 async function initDb() {
   if (!db) {

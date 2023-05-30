@@ -42,8 +42,8 @@ export default function Step1({
       return;
     }
 
-    if (!/^[a-zA-Z0-9\s]+$/.test(name)) {
-      setErrorMsg("Only letters, numbers, spaces are allowed");
+    if (!/^[a-zA-Z0-9_\s]+$/.test(name)) {
+      setErrorMsg("Only letters, numbers, underline, spaces are allowed");
       return;
     }
 
