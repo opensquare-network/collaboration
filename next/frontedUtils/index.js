@@ -215,3 +215,7 @@ export const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 export function getExplorer(network) {
   return network === "statemine" ? "statescan" : "subscan";
 }
+
+export function isZero(value) {
+  return new BigNumber(value).isZero();
+}

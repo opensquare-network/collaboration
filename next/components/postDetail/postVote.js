@@ -24,6 +24,7 @@ import {
 import {
   bigNumber2Locale,
   fromAssetUnit,
+  isZero,
   toApproximatelyFixed,
 } from "frontedUtils";
 import nextApi from "services/nextApi";
@@ -271,7 +272,7 @@ export default function PostVote({ proposal }) {
             <div>
               <Tooltip
                 content={
-                  voteBalance ? (
+                  !isZero(voteBalance) ? (
                     <VoteBalanceDetail details={balanceDetail} />
                   ) : null
                 }
