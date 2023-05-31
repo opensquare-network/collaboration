@@ -7,7 +7,7 @@ const stellaswapController = require("./stellaswap.controller");
 const router = new Router();
 
 router.get(
-  "/stellaswap/contract/:contract/address/:address/height/:blockHeight",
+  "/stellaswap_staking/address/:address/height/:blockHeight",
   stellaswapController.getBalance,
 );
 

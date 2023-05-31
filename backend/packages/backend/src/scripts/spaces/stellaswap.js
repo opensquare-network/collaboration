@@ -17,9 +17,9 @@ const stellaSwapConfig = {
           votingThreshold: "0",
         },
         {
-          type: "stellaswap",
-          contract: "0xF3a5454496E26ac57da879bf3285Fa85DEBF0388",
-          symbol: "xStella (Pool)",
+          type: "stellaswap_staking",
+          symbol: "xStella",
+          assetName: "xStella (Pool)",
           decimals: 18,
           votingThreshold: "0",
         },

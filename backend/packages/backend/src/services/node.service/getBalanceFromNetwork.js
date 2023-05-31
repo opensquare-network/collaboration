@@ -4,7 +4,7 @@ const { adaptBalance } = require("../../utils/balance");
 const { getEvmAddressBalance } = require("./getEvmAddressBalance");
 const { getTokenBalance } = require("./getTokenBalance");
 const { getTotalBalance } = require("./getTotalBalance");
-const { getStellaSwapAddressBalance } = require("./getStellaSwapBalance");
+const { getStellaSwapAddressStaking } = require("./getStellaSwapBalance");
 
 async function getBalanceFromMultiAssetsNetwork({
   network,
@@ -31,13 +31,19 @@ async function getBalanceFromMultiAssetsNetwork({
         address,
       });
 
-      return {
+      const item = {
         symbol,
         decimals,
         balance,
         multiplier,
         votingThreshold,
       };
+
+      if (asset.assetName) {
+        item.assetName = asset.assetName;
+      }
+
+      return item;
     }),
   );
 
@@ -155,10 +161,9 @@ async function getAssetBalanceFromNetwork({
     return balance;
   }
 
-  if ("stellaswap" === type) {
-    const { balance } = await getStellaSwapAddressBalance(
+  if ("stellaswap_staking" === type) {
+    const { balance } = await getStellaSwapAddressStaking(
       networkName,
-      contract,
       address,
       blockHeight,
     );
