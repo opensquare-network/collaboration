@@ -23,13 +23,14 @@ const accountSlice = createSlice({
     setAccount: (state, { payload }) => {
       if (payload) {
         state.account = payload;
+        if (typeof window !== "undefined") {
+          setCookie("addressV3", `${payload.network}/${payload.address}`, 7);
+        }
       } else {
         state.account = null;
-      }
-
-      const isEvmChain = evmChains.includes(payload?.network);
-      if (typeof window !== "undefined" && payload && !isEvmChain) {
-        setCookie("addressV3", `${payload.network}/${payload.address}`, 7);
+        if (typeof window !== "undefined") {
+          clearCookie("addressV3");
+        }
       }
     },
     setAvailableNetworks: (state, { payload }) => {
@@ -72,10 +73,6 @@ export const {
 } = accountSlice.actions;
 
 export const logout = () => async (dispatch) => {
-  if (typeof window !== "undefined") {
-    clearCookie();
-  }
-
   dispatch(setAccount(""));
 };
 
@@ -103,7 +100,7 @@ export const clearProxy = () => (dispatch) => {
   dispatch(setProxy(null));
 };
 
-export const initAccount = () => (dispatch) => {
+export const initAccount = () => async (dispatch) => {
   if (typeof window === "undefined") {
     return;
   }
@@ -114,7 +111,36 @@ export const initAccount = () => (dispatch) => {
   }
 
   const [network, address] = data.split("/");
-  if (!isAddress(address) || !Object.keys(chainConfigsMap).includes(network)) {
+  if (
+    !isAddress(address) ||
+    !(network in chainConfigsMap || evmChains.includes(network))
+  ) {
+    return;
+  }
+
+  if (
+    evmChains.includes(network) &&
+    window.ethereum &&
+    window.ethereum.isMetaMask
+  ) {
+    try {
+      const accounts = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+      console.log(accounts, address);
+      if (accounts.includes(address)) {
+        dispatch(
+          setAccount({
+            address,
+            network,
+          }),
+        );
+      } else {
+        dispatch(setAccount(""));
+      }
+    } catch (e) {
+      dispatch(setAccount(""));
+    }
     return;
   }
 

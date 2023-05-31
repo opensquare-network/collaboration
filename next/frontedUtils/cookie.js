@@ -20,6 +20,6 @@ export function getCookie(cname) {
   return "";
 }
 
-export function clearCookie() {
-  setCookie("addressV3", "", -1);
+export function clearCookie(cname) {
+  setCookie(cname, "", -1);
 }
