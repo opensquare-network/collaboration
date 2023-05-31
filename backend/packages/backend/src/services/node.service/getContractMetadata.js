@@ -3,7 +3,7 @@ const { NODE_API_ENDPOINT } = require("../../env");
 const { fetchApi } = require("../../utils/fech.api");
 
 async function getContractMetadata(chain, contractAddress) {
-  let url = `${NODE_API_ENDPOINT}/evm/chain/${chain}/contract/${contractAddress}/metadata`;
+  let url = `${NODE_API_ENDPOINT}/evm/chain/${chain}/erc20/contract/${contractAddress}/metadata`;
   try {
     return await fetchApi(url);
   } catch (err) {

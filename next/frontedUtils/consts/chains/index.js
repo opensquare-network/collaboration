@@ -58,11 +58,13 @@ export function getChainConfigs(chain) {
 }
 
 export const evm = {
+  moonbeam: "moonbeam",
   moonriver: "moonriver",
   ethereum: "ethereum",
 };
-export const evmChains = [evm.moonriver, evm.ethereum];
+export const evmChains = [evm.moonbeam, evm.moonriver, evm.ethereum];
 export const evmChainId = Object.freeze({
+  [evm.moonbeam]: 1284,
   [evm.moonriver]: 1285,
   [evm.ethereum]: 1,
 });

@@ -7,6 +7,7 @@ import ValueDisplay from "@/components/valueDisplay";
 import Voter from "@/components/role/voter";
 import Tooltip from "@/components/tooltip";
 import VoteBalanceDetail from "./VoteBalanceDetail";
+import { isZero } from "frontedUtils";
 
 const Item = styled.div`
   padding: 20px 0;
@@ -209,7 +210,7 @@ export default function PostVotesItem({
               space={space}
               showAEM={true}
               tooltipContent={
-                data.weights?.balanceOf ? (
+                !isZero(data.weights?.balanceOf) ? (
                   <VoteBalanceDetail details={data.weights?.details} />
                 ) : null
               }

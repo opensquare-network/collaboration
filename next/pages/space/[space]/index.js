@@ -73,7 +73,16 @@ export default function List({
       <Layout bgHeight="264px" networks={space.networks}>
         <HeaderWrapper>
           <Breadcrumb
-            routes={[{ name: "Home", link: "/" }, { name: space.name }]}
+            routes={[
+              { name: "Home", link: "/" },
+              {
+                name: (
+                  <span style={{ textTransform: "capitalize" }}>
+                    {space.name}
+                  </span>
+                ),
+              },
+            ]}
           />
           <ListInfo spaceId={spaceId} space={space} />
           <ListTab

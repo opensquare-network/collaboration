@@ -230,12 +230,12 @@ export default function PostCreate({ space }) {
       signedData = await viewFunc.signProposal(proposal);
     } catch (e) {
       const errorMessage = e.message;
-      if (extensionCancelled === errorMessage) {
-        dispatch(setCreateProposalLoading(false));
-      } else {
+      if (extensionCancelled !== errorMessage) {
         dispatch(newErrorToast(errorMessage));
       }
       return;
+    } finally {
+      dispatch(setCreateProposalLoading(false));
     }
 
     const toastId = newToastId();

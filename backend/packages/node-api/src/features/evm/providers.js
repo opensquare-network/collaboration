@@ -11,10 +11,8 @@ const movrUrls = [
 ];
 
 const glmrUrls = [
-  "https://rpc.api.moonbase.moonbeam.network",
-  "https://moonbeam-alpha.api.onfinality.io/public",
-  "wss://wss.api.moonbase.moonbeam.network",
-  "wss://moonbeam-alpha.api.onfinality.io/public-ws",
+  "https://rpc.api.moonbeam.network",
+  "wss://wss.api.moonbeam.network",
 ];
 
 const ethUrls = [

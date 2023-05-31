@@ -1,6 +1,6 @@
 const { getProviders } = require("../providers");
 const { ethers } = require("ethers");
-const { erc20Abi } = require("../abi");
+const { erc20Abi } = require("./erc20Abi");
 
 async function queryMetadataFromOneProvider(contract, provider) {
   const erc20 = new ethers.Contract(contract, erc20Abi, provider);

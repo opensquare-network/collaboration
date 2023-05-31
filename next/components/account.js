@@ -21,6 +21,7 @@ import {
 } from "../store/reducers/showConnectSlice";
 import { ChainIcon } from "@osn/common-ui";
 import IdentityOrAddr from "@/components/identityOrAddr";
+import { useMetaMaskEventHandlers } from "services/metamask";
 
 const ConnectModal = dynamic(() => import("./connect"), {
   ssr: false,
@@ -162,6 +163,8 @@ function Account({ networks }) {
   const [pageMounted, setPageMounted] = useState(false);
   const address = useSelector(loginAddressSelector);
   const spaceSupportMultiChain = networks?.length > 1;
+
+  useMetaMaskEventHandlers();
 
   const showMenu = useSelector(showHeaderMenuSelector);
 

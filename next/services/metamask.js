@@ -5,28 +5,53 @@ import {
   logout,
 } from "../store/reducers/accountSlice";
 import { sameIgnoreCase } from "../frontedUtils/strs/same";
+import { useCallback, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-const { store } = require("../store");
+export function useMetaMaskEventHandlers() {
+  const dispatch = useDispatch();
 
-export function registerMetaMaskEventHandlers() {
-  if (!window.ethereum || !window.ethereum.isMetaMask) {
+  if (
+    typeof window !== "undefined" &&
+    (!window.ethereum || !window.ethereum.isMetaMask)
+  ) {
     return;
   }
 
-  const state = store.getState();
-  const isEvm = isEvmSelector(state);
-  const { network: loginNetwork, address } = loginAccountSelector(state) || {};
+  const isEvm = useSelector(isEvmSelector);
+  const { network: loginNetwork, address } =
+    useSelector(loginAccountSelector) || {};
 
-  window.ethereum.on("chainChanged", (chainId) => {
-    if (isEvm && evmChainId[loginNetwork] !== parseInt(chainId)) {
-      store.dispatch(logout());
-    }
-  });
+  const onChainChanged = useCallback(
+    (chainId) => {
+      if (isEvm && evmChainId[loginNetwork] !== parseInt(chainId)) {
+        dispatch(logout());
+      }
+    },
+    [dispatch, isEvm, loginNetwork],
+  );
 
-  window.ethereum.on("accountsChanged", (accounts = []) => {
-    const firstAccount = accounts[0];
-    if (isEvm && !sameIgnoreCase(address, firstAccount)) {
-      store.dispatch(logout());
+  const onAccountsChanged = useCallback(
+    (accounts = []) => {
+      const firstAccount = accounts[0];
+      if (isEvm && !sameIgnoreCase(address, firstAccount)) {
+        dispatch(logout());
+      }
+    },
+    [dispatch, isEvm, address],
+  );
+
+  useEffect(() => {
+    if (!isEvm) {
+      return;
     }
-  });
+
+    window.ethereum.on("chainChanged", onChainChanged);
+    window.ethereum.on("accountsChanged", onAccountsChanged);
+
+    return () => {
+      window.ethereum.removeListener("chainChanged", onChainChanged);
+      window.ethereum.removeListener("accountsChanged", onAccountsChanged);
+    };
+  }, [isEvm, onAccountsChanged, onChainChanged]);
 }

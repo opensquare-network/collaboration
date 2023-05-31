@@ -7,6 +7,9 @@ const router = new Router();
 
 router.get("/chain/:chain/token/native", getNativeTokenMetadata);
 router.get("/chain/:chain/token/id/:assetId", getTokenMetadata);
-router.get("/evm/chain/:chain/contract/:contractAddress", getContractMetadata);
+router.get(
+  "/evm/chain/:chain/erc20/contract/:contractAddress",
+  getContractMetadata,
+);
 
 module.exports = router;

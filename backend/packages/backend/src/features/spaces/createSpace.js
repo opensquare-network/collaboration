@@ -81,6 +81,17 @@ function checkSpaceParams({
     throw new HttpError(400, "Name is required");
   }
 
+  if (name.length > 20) {
+    throw new HttpError(400, "Space name too long");
+  }
+
+  if (!/^[a-zA-Z0-9_\s]+$/.test(name)) {
+    throw new HttpError(
+      400,
+      "Invalid character in space name, must be combination of numbers, alphas, underline or spaces.",
+    );
+  }
+
   if (!logo) {
     throw new HttpError(400, "Logo is required");
   }
@@ -175,7 +186,7 @@ async function createSpace(ctx) {
     logoCid = added.path;
   }
 
-  const id = slugify(name);
+  const id = slugify(name).toLowerCase();
   const spaceConfig = {
     id,
     name,
