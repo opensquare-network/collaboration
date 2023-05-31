@@ -127,7 +127,6 @@ export const initAccount = () => async (dispatch) => {
       const accounts = await window.ethereum.request({
         method: "eth_requestAccounts",
       });
-      console.log(accounts, address);
       if (accounts.includes(address)) {
         dispatch(
           setAccount({
