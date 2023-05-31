@@ -23,8 +23,8 @@ for target chains in case of a single endpoint failure. It is in charge of inter
 - [chain]/proxy/[delegator]/[delegatee]/[blockHashOrHeight?]: get the proxy info between 2 addresses.
 - [chain]/chain/height: get current chain height.
 - [chain(statemine|karura|bifrost)]/token/[assetId]/account/[account]/[blockHashOrHeight?]: get the token/asset balance by asset id.
-- /evm/chain/[chain]/contract/[contract]/address/[address]/height/[blockHeight]: get ERC20 token balance from evm chains.
-- /evm/chain/[chain]/erc20/contract/height/[timestamp?]: get evm chains height by time.
+- /evm/chain/[chain]/erc20/contract/[contract]/address/[address]/height/[blockHeight]: get ERC20 token balance from evm chains.
+- /evm/chain/[chain]/contract/height/[timestamp?]: get evm chains height by time.
 - /issuance/token/[token]/[blockHashOrHeight?]: get predefined token total issuance at specified block height/hash.
 
 ## backend
