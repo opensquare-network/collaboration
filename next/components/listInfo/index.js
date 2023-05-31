@@ -53,7 +53,6 @@ const AboutName = styled.div`
 const AboutDetail = styled.div`
   ${p_14_normal};
   color: #a1a8b3;
-  text-transform: capitalize;
 `;
 
 const StrategyAboutDetail = styled.span`
