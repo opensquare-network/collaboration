@@ -147,6 +147,7 @@ const StatusItem = styled.div`
 export default function PostResult({ data, voteStatus, space }) {
   const votedAmount = data?.votedWeights?.balanceOf || 0;
   const isEnded = new Date().getTime() > data?.endDate;
+  const symbol = space?.symbol;
 
   const results = data?.weightStrategy
     ?.filter((strategy) =>
@@ -204,7 +205,7 @@ export default function PostResult({ data, voteStatus, space }) {
                       content={`${toPrecision(
                         vote.voteBalance,
                         space?.decimals,
-                      )} (${vote.percentage}%)`}
+                      )} ${symbol} (${vote.percentage}%)`}
                     >
                       <div>
                         <ValueDisplay value={vote.voteBalance} space={space} />
