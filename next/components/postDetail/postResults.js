@@ -8,6 +8,8 @@ import ExternalLink from "@osn/common-ui/es/ExternalLink";
 import Panel from "@/components/postDetail/panel";
 import SideSectionTitle from "@/components/sideBar/sideSectionTitle";
 import BiasedVotingItem from "./biasedVotingItem";
+import Tooltip from "../tooltip";
+import { toPrecision } from "@osn/common";
 
 const Divider = styled.div`
   height: 1px;
@@ -52,9 +54,11 @@ const ProgressBar = styled.div`
 `;
 
 const OptionIndex = styled.div`
-  width: 40px;
+  width: 118px;
   ${p_14_medium};
   color: #a1a8b3;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const ResultHead = styled.div`
@@ -109,7 +113,7 @@ const Subtitle = styled.div`
 const FlexAround = styled.div`
   display: flex;
   flex-grow: 1;
-  justify-content: space-between;
+  justify-content: right;
 `;
 
 const BiasedVotingWrapper = styled.div`
@@ -169,7 +173,12 @@ export default function PostResult({ data, voteStatus, space }) {
           const percentage = (
             voteStat.balanceOf > 0 ? voteBalance.dividedBy(total) * 100 : 0
           ).toFixed(2);
-          optionList.push({ index: index + 1, voteBalance, percentage });
+          optionList.push({
+            index: index + 1,
+            choice,
+            voteBalance,
+            percentage,
+          });
           return;
         }
         optionList.push({
@@ -189,14 +198,18 @@ export default function PostResult({ data, voteStatus, space }) {
             return (
               <div key={index}>
                 <ProgressItem>
-                  <OptionIndex>#{vote.index}</OptionIndex>
+                  <OptionIndex>{vote.choice}</OptionIndex>
                   <FlexAround>
-                    <div>{vote.percentage}%</div>
-                    {
+                    <Tooltip
+                      content={`${toPrecision(
+                        vote.voteBalance,
+                        space?.decimals,
+                      )} (${vote.percentage}%)`}
+                    >
                       <div>
                         <ValueDisplay value={vote.voteBalance} space={space} />
                       </div>
-                    }
+                    </Tooltip>
                   </FlexAround>
                 </ProgressItem>
                 <ProgressBackground>
