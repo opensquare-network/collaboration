@@ -97,6 +97,12 @@ export default function Details({ space }) {
             <span>Threshold</span>
             <ValueDisplay value={space.proposeThreshold} space={space} />
           </DetailsValue>
+          {space.quorum && (
+            <DetailsValue>
+              <span>Quorum</span>
+              <ValueDisplay value={space.quorum} space={space} />
+            </DetailsValue>
+          )}
         </DetailsItem>
 
         <DetailsItem>
