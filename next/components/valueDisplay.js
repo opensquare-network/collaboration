@@ -17,6 +17,9 @@ export default function ValueDisplay({
   space,
   showAEM = false,
   tooltipContent,
+  noTooltip = false,
+  noSymbol = false,
+  className,
 }) {
   const lostPrecision =
     getEffectiveNumbers(value) !==
@@ -27,18 +30,23 @@ export default function ValueDisplay({
     return (
       <Tooltip
         size="fit"
-        content={tooltipContent || `${precision} ${space?.symbol}`}
+        content={
+          noTooltip ? "" : tooltipContent || `${precision} ${space?.symbol}`
+        }
       >
-        <div>
+        <div className={className}>
           {showAEM && lostPrecision && "≈"}{" "}
-          {`${abbreviateBigNumber(precision)} ${space?.symbol}`}
+          {`${abbreviateBigNumber(precision)}${
+            noSymbol ? "" : ` ${space?.symbol}`
+          }`}
         </div>
       </Tooltip>
     );
   }
   return (
-    <span>
-      {precision} {space?.symbol}
+    <span className={className}>
+      {precision}
+      {noSymbol ? "" : ` ${space?.symbol}`}
     </span>
   );
 }

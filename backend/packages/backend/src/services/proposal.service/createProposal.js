@@ -14,6 +14,7 @@ const { checkDelegation } = require("../../services/node.service");
 const { getBalanceFromNetwork } = require("../../services/node.service");
 const { pinData, createSpaceNotifications } = require("./common");
 const isEqual = require("lodash.isequal");
+const pick = require("lodash.pick");
 
 async function createProposal({
   space,
@@ -108,10 +109,9 @@ async function createProposal({
 
   if (
     !isEqual(networksConfig, {
-      symbol: spaceService.symbol,
-      decimals: spaceService.decimals,
-      networks: spaceService.networks,
-      version: spaceService.version,
+      ...pick(spaceService, ["symbol", "decimals", "networks"]),
+      strategies: spaceService.weightStrategy,
+      ...pick(spaceService, ["quorum", "version"]),
     })
   ) {
     throw new HttpError(400, {

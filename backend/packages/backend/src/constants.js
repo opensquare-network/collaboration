@@ -12,6 +12,7 @@ const PostTitleLengthLimitation = 160;
 
 const WeightStrategy = Object.freeze({
   BalanceOf: "balance-of",
+  QuorumBalanceOf: "quorum-balance-of",
   QuadraticBalanceOf: "quadratic-balance-of",
 });
 
