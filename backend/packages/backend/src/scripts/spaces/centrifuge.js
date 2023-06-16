@@ -22,7 +22,7 @@ const centrifugeConfig = {
   ],
   proposeThreshold: "1000000000000000000",
   weightStrategy: [strategies.quorumBalanceOf],
-  quorum: "1000000000000000000",
+  quorum: "4000000000000000000000000",
   version: "4",
   spaceIcon: "centrifuge.svg",
   seoImage: "bafybeidulohutktuxt35n7fjdtshbtzhcdc2idmcynnnaha7t6mdtbzdee",
