@@ -7,22 +7,23 @@ const config = {
   symbol: "VOTE",
   decimals: 18,
   networks: [
-    // {
-    //   network: networks.stafi,
-    //   ss58Format: 20,
-    //   assets: [
-    //     {
-    //       symbol: "FIS",
-    //       decimals: 12,
-    //       votingThreshold: "100000000000",
-    //     },
-    //     {
-    //       symbol: "rFIS",
-    //       decimals: 12,
-    //       votingThreshold: "100000000000",
-    //     },
-    //   ],
-    // },
+    {
+      network: networks.stafi,
+      ss58Format: 20,
+      assets: [
+        {
+          symbol: "FIS",
+          decimals: 12,
+          votingThreshold: "100000000000",
+        },
+        {
+          type: "token",
+          symbol: "rFIS",
+          decimals: 12,
+          votingThreshold: "100000000000",
+        },
+      ],
+    },
     {
       network: networks.ethereum,
       assets: [

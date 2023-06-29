@@ -27,4 +27,5 @@ export const networks = Object.freeze({
   basilisk: "basilisk",
   hydradx: "hydradx",
   rococo: "rococo",
+  stafi: "stafi",
 });
