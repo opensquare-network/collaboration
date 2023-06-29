@@ -25,6 +25,7 @@ const chainEndpointPrefixMap = {
   [chains.basilisk]: "BSX",
   [chains.hydradx]: "HDX",
   [chains.rococo]: "ROC",
+  [chains.stafi]: "STAFI",
 };
 
 // [chain, endpoints]
