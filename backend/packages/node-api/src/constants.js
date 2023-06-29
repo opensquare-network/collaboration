@@ -23,6 +23,7 @@ const chains = {
   basilisk: "basilisk",
   hydradx: "hydradx",
   rococo: "rococo",
+  stafi: "stafi",
 };
 
 const noProxyChains = [chains.kintsugi, chains.interlay, chains.crust];

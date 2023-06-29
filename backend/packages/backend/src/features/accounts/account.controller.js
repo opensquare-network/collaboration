@@ -56,6 +56,7 @@ async function getSpaceAccountBalance(ctx) {
 
   ctx.body = {
     balance: totalBalance?.balanceOf,
+    details: totalBalance?.details,
     delegation,
   };
 }

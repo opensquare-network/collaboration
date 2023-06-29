@@ -21,6 +21,7 @@ import kintsugi from "./kintsugi";
 import basilisk from "./basilisk";
 import hydradx from "./hydradx";
 import rococo from "./rococo";
+import stafi from "./stafi";
 
 export const chainConfigsMap = {
   polkadot,
@@ -40,6 +41,7 @@ export const chainConfigsMap = {
   phala,
   polkadex,
   shiden,
+  stafi,
   statemine,
   turing,
   zeitgeist,
