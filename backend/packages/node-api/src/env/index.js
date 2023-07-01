@@ -26,6 +26,8 @@ const chainEndpointPrefixMap = {
   [chains.hydradx]: "HDX",
   [chains.rococo]: "ROC",
   [chains.stafi]: "STAFI",
+  [chains.moonbeam]: "GLMR",
+  [chains.moonriver]: "MOVR",
 };
 
 // [chain, endpoints]

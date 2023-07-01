@@ -25,8 +25,8 @@ const config = {
     strategies.biasedVoting,
   ],
   version: "4",
-  spaceIcon: "shiden.svg",
-  seoImage: "bafybeibf43ntawbzkd3ucwtogab64xfz4e6qoledxx27nifm4dkj6ckfie",
+  spaceIcon: "acala.svg",
+  seoImage: "bafybeid6yjg7n2vh3kc34tv6wpqzr53bnbuij6nvxz5bkgvbi2jb5cy2mq",
 };
 
 module.exports = {
