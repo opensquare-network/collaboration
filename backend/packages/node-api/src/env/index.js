@@ -25,6 +25,8 @@ const chainEndpointPrefixMap = {
   [chains.basilisk]: "BSX",
   [chains.hydradx]: "HDX",
   [chains.rococo]: "ROC",
+  [chains.moonbeam]: "GLMR",
+  [chains.moonriver]: "MOVR",
 };
 
 // [chain, endpoints]
