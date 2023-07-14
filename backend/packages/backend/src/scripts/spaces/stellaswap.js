@@ -33,18 +33,18 @@ const stellaSwapConfig = {
   seoImage: "QmSAgQzyZcMVVxgiGehSRQ2S5Amvpu4NG4sLeszJSyPyzA",
   proposalTemplate: {
     title: "Incentives vote for pool <token1>-<token2>",
-    body: "## Instructions\n\
-- provide the pulsar (only pulsar pools are eligible) pool contract address and an explanation to the community of why they should support allocating tokens to your pool. Delete these instructions before Submitting your request.\n\
-- Set the Period from Now to 1 week in the future. This is the amount of time the proposal will be open\n\
-- Set the Snapshot to Now. This is the point in time where everyone's xStella holdings will be calculated\n\
-- Set the Choices to Yes and No. Leave System on Single Choice Voting.\n\
-If these instructions are not followed, Stellaswap will not recognize the result of this vote\n\
-\n\
-## Pool Address\n\
-<pool address>\n\
-\n\
-## Pitch\n\
-<Explain why this is a good pool to incentivize>",
+    body: `## Instructions
+- provide the pulsar (only pulsar pools are eligible) pool contract address and an explanation to the community of why they should support allocating tokens to your pool. Delete these instructions before Submitting your request.
+- Set the Period from Now to 1 week in the future. This is the amount of time the proposal will be open
+- Set the Snapshot to Now. This is the point in time where everyone's xStella holdings will be calculated
+- Set the Choices to Yes and No. Leave System on Single Choice Voting.
+If these instructions are not followed, Stellaswap will not recognize the result of this vote
+
+## Pool Address
+<pool address>
+
+## Pitch
+<Explain why this is a good pool to incentivize>`,
   },
 };
 
