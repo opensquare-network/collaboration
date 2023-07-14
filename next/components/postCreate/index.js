@@ -87,8 +87,10 @@ export default function PostCreate({ space }) {
   const choiceTypeIndex = useSelector(choiceTypeIndexSelector);
   const router = useRouter();
 
-  const [title, setTitle] = useState(router.query.title || "");
-  const [content, setContent] = useState("");
+  const [title, setTitle] = useState(
+    router.query.title || space?.proposalTemplate?.title || "",
+  );
+  const [content, setContent] = useState(space?.proposalTemplate?.body || "");
   const [isSetBanner, setIsSetBanner] = useState(false);
   const [bannerUrl, setBannerUrl] = useState("");
 
