@@ -63,10 +63,14 @@ export const evm = {
   moonbeam: "moonbeam",
   moonriver: "moonriver",
   ethereum: "ethereum",
+  acala: "acala",
 };
-export const evmChains = [evm.moonbeam, evm.moonriver, evm.ethereum];
+
+export const evmChains = [evm.moonbeam, evm.moonriver, evm.ethereum, evm.acala];
+
 export const evmChainId = Object.freeze({
   [evm.moonbeam]: 1284,
   [evm.moonriver]: 1285,
   [evm.ethereum]: 1,
+  [evm.acala]: 787,
 });
