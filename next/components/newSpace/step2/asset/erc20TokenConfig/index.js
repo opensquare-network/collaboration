@@ -23,7 +23,7 @@ export default function Erc20TokenConfig({
   const fetchErc20TokenMetadata = useCallback(
     async (contractAddress) => {
       const { result, error } = await nextApi.fetch(
-        `evm/chain/${chain}/contract/${contractAddress}`,
+        `evm/chain/${chain}/erc20/contract/${contractAddress}`,
       );
       if (error) {
         return;
