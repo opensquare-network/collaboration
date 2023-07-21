@@ -1,3 +1,5 @@
+const { chainsDef } = require("./chainsDef");
+
 const ContentType = Object.freeze({
   Markdown: "markdown",
   Html: "html",
@@ -29,4 +31,5 @@ module.exports = {
   PostTitleLengthLimitation,
   WeightStrategy,
   NotificationType,
+  chainsDef,
 };
