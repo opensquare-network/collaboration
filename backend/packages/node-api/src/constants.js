@@ -39,6 +39,7 @@ const evmChains = Object.freeze({
   moonriver: "moonriver",
   moonbeam: "moonbeam",
   ethereum: "ethereum",
+  acala: "acala",
 });
 
 const chainBlockTime = {

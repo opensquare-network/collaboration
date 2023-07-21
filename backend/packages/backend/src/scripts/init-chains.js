@@ -105,6 +105,7 @@ const chainsDef = {
     ss58Format: 10,
     symbol: "ACA",
     decimals: 12,
+    supportAssetTypes: [AssetTypes.EVM_ERC20],
   },
   crust: {
     name: "Crust",

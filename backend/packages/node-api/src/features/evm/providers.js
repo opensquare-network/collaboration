@@ -15,6 +15,11 @@ const glmrUrls = [
   "wss://wss.api.moonbeam.network",
 ];
 
+const acaEvmUrls = [
+  "https://eth-rpc-acala.aca-api.network",
+  "wss://eth-rpc-acala.aca-api.network",
+];
+
 const ethUrls = [
   `wss://mainnet.infura.io/ws/v3/${process.env.INFURA_KEY}`,
   `https://mainnet.infura.io/v3/${process.env.INFURA_KEY}`,
@@ -34,14 +39,23 @@ function createProvider(url = "", network) {
 
 const movrChainId = 1285;
 const glmrChainId = 1284;
+const acaEvmChainId = 787;
+
 const movrNetwork = {
   chainId: movrChainId,
   name: evmChains.moonriver,
 };
+
 const glmrNetwork = {
   chainId: glmrChainId,
   name: evmChains.moonbeam,
 };
+
+const acaEvmNetwork = {
+  chainId: acaEvmChainId,
+  name: evmChains.acala,
+};
+
 const ethNetwork = {
   chainId: 1,
   name: "homestead",
@@ -50,6 +64,9 @@ const ethNetwork = {
 function initProviders() {
   const movrProviders = movrUrls.map((url) => createProvider(url, movrNetwork));
   const glmrProviders = glmrUrls.map((url) => createProvider(url, glmrNetwork));
+  const acaEvmProviders = acaEvmUrls.map((url) =>
+    createProvider(url, acaEvmNetwork),
+  );
 
   if (!process.env.INFURA_KEY) {
     throw new Error("INFURA_KEY environment variable not set");
@@ -68,6 +85,7 @@ function initProviders() {
     [evmChains.moonriver]: movrProviders,
     [evmChains.moonbeam]: glmrProviders,
     [evmChains.ethereum]: ethProviders,
+    [evmChains.acala]: acaEvmProviders,
   };
 }
 

@@ -73,12 +73,10 @@ export default function Content({ chainsDef, tokensDef }) {
   const [proposalThreshold, setProposalThreshold] = useState("1");
   const [selectedOptions, setSelectedOptions] = useState([
     "balance-of",
-    "balance-of-quorum",
     "quadratic-balance-of",
   ]);
   const options = [
     { value: "balance-of", text: "balance-of" },
-    { value: "balance-of-quorum", text: "balance-of-quorum" },
     { value: "quadratic-balance-of", text: "quadratic-balance-of" },
   ];
 
