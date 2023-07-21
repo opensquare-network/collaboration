@@ -5,6 +5,7 @@ const { ipfsAddBuffer } = require("../../services/ipfs.service/ipfs");
 const { reloadSpaces } = require("../../spaces");
 const { strategies } = require("../../consts/voting");
 const isNil = require("lodash.isnil");
+const { chainsDef } = require("../../constants");
 
 const dataUriToBuffer = (dataUri) =>
   import("data-uri-to-buffer").then(({ default: fn }) => fn(dataUri));
@@ -24,13 +25,17 @@ function checkAssetParams({
     throw new HttpError(400, "Asset chain is required");
   }
 
-  if (chain !== "ethereum") {
+  if (!chainsDef[chain]) {
+    throw new HttpError(400, "Asset chain not supported");
+  }
+
+  if ("ss58Format" in chainsDef[chain]) {
     if (isNil(ss58Format)) {
       throw new HttpError(400, "Asset ss58 format is required");
     }
 
-    if (ss58Format < 0) {
-      throw new HttpError(400, "Asset ss58Format can't be negative");
+    if (ss58Format !== chainsDef[chain].ss58Format) {
+      throw new HttpError(400, "Asset ss58Format not match");
     }
   }
 
