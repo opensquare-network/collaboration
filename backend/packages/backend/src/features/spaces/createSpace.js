@@ -4,6 +4,7 @@ const { getSpaceCollection } = require("../../mongo");
 const { ipfsAddBuffer } = require("../../services/ipfs.service/ipfs");
 const { reloadSpaces } = require("../../spaces");
 const { strategies } = require("../../consts/voting");
+const isNil = require("lodash.isnil");
 
 const dataUriToBuffer = (dataUri) =>
   import("data-uri-to-buffer").then(({ default: fn }) => fn(dataUri));
@@ -23,19 +24,21 @@ function checkAssetParams({
     throw new HttpError(400, "Asset chain is required");
   }
 
-  if (ss58Format === undefined) {
-    throw new HttpError(400, "Asset ss58 format is required");
-  }
+  if (chain !== "ethereum") {
+    if (isNil(ss58Format)) {
+      throw new HttpError(400, "Asset ss58 format is required");
+    }
 
-  if (ss58Format < 0) {
-    throw new HttpError(400, "Asset ss58Format can't be negative");
+    if (ss58Format < 0) {
+      throw new HttpError(400, "Asset ss58Format can't be negative");
+    }
   }
 
   if (!symbol) {
     throw new HttpError(400, "Asset symbol is required");
   }
 
-  if (decimals === undefined) {
+  if (isNil(decimals)) {
     throw new HttpError(400, "Asset decimals is required");
   }
 
@@ -43,7 +46,7 @@ function checkAssetParams({
     throw new HttpError(400, "Asset decimals must be greater than 0");
   }
 
-  if (votingThreshold === undefined) {
+  if (isNil(votingThreshold)) {
     throw new HttpError(400, "Asset voting threshold is required");
   }
 
@@ -51,7 +54,7 @@ function checkAssetParams({
     throw new HttpError(400, "Asset voting threshold can't be negative");
   }
 
-  if (votingWeight === undefined) {
+  if (isNil(votingWeight)) {
     throw new HttpError(400, "Asset voting weight is required");
   }
 
@@ -63,7 +66,7 @@ function checkAssetParams({
     throw new HttpError(400, "Asset contract is required");
   }
 
-  if (type === "asset" && assetId === undefined) {
+  if (type === "asset" && isNil(assetId)) {
     throw new HttpError(400, "Asset id is required");
   }
 }
@@ -100,7 +103,7 @@ function checkSpaceParams({
     throw new HttpError(400, "Space symbol is required");
   }
 
-  if (decimals === undefined) {
+  if (isNil(decimals)) {
     throw new HttpError(400, "Space decimals is required");
   }
 
@@ -108,7 +111,7 @@ function checkSpaceParams({
     throw new HttpError(400, "Decimals must be greater than 0");
   }
 
-  if (proposalThreshold === undefined) {
+  if (isNil(proposalThreshold)) {
     throw new HttpError(400, "Proposal threshold is required");
   }
 
