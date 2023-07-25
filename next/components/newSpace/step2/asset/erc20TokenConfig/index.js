@@ -1,11 +1,12 @@
 import AssetTypeSelector from "./assetTypeSelector";
 import { useCallback, useEffect, useState } from "react";
 import { FieldWrapper, Title, Wrapper } from "../styled";
-import { Input, noop } from "@osn/common-ui";
+import { noop } from "@osn/common-ui";
 import AssetDetail from "../assetDetail";
 import AssetConfig from "../assetConfig";
 import { useIsMounted } from "@osn/common";
 import nextApi from "services/nextApi";
+import LoadingInput from "@/components/loadingInput";
 
 export default function Erc20TokenConfig({
   count,
@@ -19,18 +20,24 @@ export default function Erc20TokenConfig({
   const [symbol, setSymbol] = useState("");
   const [decimals, setDecimals] = useState(0);
   const isMounted = useIsMounted();
+  const [isLoadingMetadata, setIsLoadingMetadata] = useState(false);
 
   const fetchErc20TokenMetadata = useCallback(
     async (contractAddress) => {
-      const { result, error } = await nextApi.fetch(
-        `evm/chain/${chain}/erc20/contract/${contractAddress}`,
-      );
-      if (error) {
-        return;
-      }
-      if (isMounted.current) {
-        setSymbol(result?.symbol);
-        setDecimals(result?.decimals);
+      setIsLoadingMetadata(true);
+      try {
+        const { result, error } = await nextApi.fetch(
+          `evm/chain/${chain}/erc20/contract/${contractAddress}`,
+        );
+        if (error) {
+          return;
+        }
+        if (isMounted.current) {
+          setSymbol(result?.symbol);
+          setDecimals(result?.decimals);
+        }
+      } finally {
+        setIsLoadingMetadata(false);
       }
     },
     [chain, isMounted],
@@ -83,9 +90,10 @@ export default function Erc20TokenConfig({
       {assetType === "contract" && (
         <FieldWrapper>
           <Title>Asset Contract</Title>
-          <Input
+          <LoadingInput
             placeholder="Enter an contract address"
             onBlur={(e) => setContractAddress(e.target.value)}
+            isLoading={isLoadingMetadata}
           />
         </FieldWrapper>
       )}
