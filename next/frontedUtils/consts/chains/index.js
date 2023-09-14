@@ -13,7 +13,6 @@ import altair from "./altair";
 import bifrost from "./bifrost";
 import centrifuge from "./centrifuge";
 import crust from "./crust";
-import darwinia from "./darwinia";
 import interlay from "./interlay";
 import karura from "./karura";
 import khala from "./khala";
@@ -31,7 +30,6 @@ export const chainConfigsMap = {
   bifrost,
   centrifuge,
   crust,
-  darwinia,
   interlay,
   karura,
   khala,
