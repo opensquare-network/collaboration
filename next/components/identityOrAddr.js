@@ -69,7 +69,7 @@ export default function IdentityOrAddr({
     }
 
     const chainConfig = getChainConfigs(network);
-    const identityNetwork = chainConfig?.identity?.[0] || network;
+    const identityNetwork = chainConfig?.identity || network;
     const identityAddr = encodeAddressByChain(address, identityNetwork);
 
     fetchIdentity(identityNetwork, identityAddr)
