@@ -2,10 +2,11 @@ import styled, { css } from "styled-components";
 import IdentityIcon from "@osn/common-ui/es/User/IdentityIcon";
 import { addressEllipsis, getExplorer } from "../frontedUtils";
 import { useIsMounted } from "frontedUtils/hooks";
-import { evm, evmChains } from "../frontedUtils/consts/chains";
+import { evm, evmChains, getChainConfigs } from "../frontedUtils/consts/chains";
 import { fetchIdentity } from "services/identity";
 import { useEffect, useState } from "react";
 import { ExternalLink } from "@osn/common-ui";
+import encodeAddressByChain from "frontedUtils/chain/addr";
 
 const IdentityWrapper = styled.span`
   display: inline-flex;
@@ -67,7 +68,11 @@ export default function IdentityOrAddr({
       return;
     }
 
-    fetchIdentity(network, address)
+    const chainConfig = getChainConfigs(network);
+    const identityNetwork = chainConfig?.identity || network;
+    const identityAddr = encodeAddressByChain(address, identityNetwork);
+
+    fetchIdentity(identityNetwork, identityAddr)
       .then((identity) => {
         if (isMounted.current) {
           setIdentity(identity);
