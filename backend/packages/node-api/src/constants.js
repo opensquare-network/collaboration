@@ -26,6 +26,7 @@ const chains = {
   stafi: "stafi",
   moonbeam: "moonbeam",
   moonriver: "moonriver",
+  creditcoin: "creditcoin",
 };
 
 const noProxyChains = [chains.kintsugi, chains.interlay, chains.crust];
