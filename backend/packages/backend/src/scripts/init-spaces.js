@@ -33,6 +33,7 @@ const { hydradxConfig } = require("./spaces/hydradx");
 const { rococoConfig } = require("./spaces/rococo");
 const { stellaSwapConfig } = require("./spaces/stellaswap");
 const { stafiConfig } = require("./spaces/stafi");
+const { creditcoinConfig } = require("./spaces/creditcoin");
 
 const spaces = [
   polkadotConfig,
@@ -65,6 +66,7 @@ const spaces = [
   hydradxConfig,
   stellaSwapConfig,
   stafiConfig,
+  creditcoinConfig,
 ];
 
 if (["1", "true", "TRUE"].includes(process.env.DEVELOPMENT)) {

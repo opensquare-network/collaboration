@@ -21,6 +21,7 @@ import basilisk from "./basilisk";
 import hydradx from "./hydradx";
 import rococo from "./rococo";
 import stafi from "./stafi";
+import creditcoin from "./creditcoin";
 
 export const chainConfigsMap = {
   polkadot,
@@ -46,6 +47,7 @@ export const chainConfigsMap = {
   basilisk,
   hydradx,
   rococo,
+  creditcoin,
 };
 
 export function getChainConfigs(chain) {

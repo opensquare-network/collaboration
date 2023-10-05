@@ -27,6 +27,7 @@ const networks = Object.freeze({
   ethereum: "ethereum",
   rococo: "rococo",
   stafi: "stafi",
+  creditcoin: "creditcoin",
 });
 
 const evmNetworks = [networks.moonbeam, networks.moonriver, networks.ethereum];

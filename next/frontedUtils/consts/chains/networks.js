@@ -28,4 +28,5 @@ export const networks = Object.freeze({
   hydradx: "hydradx",
   rococo: "rococo",
   stafi: "stafi",
+  creditcoin: "creditcoin",
 });
