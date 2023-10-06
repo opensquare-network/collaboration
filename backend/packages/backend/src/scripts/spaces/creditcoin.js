@@ -23,7 +23,7 @@ const config = {
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
   version: "4",
   spaceIcon: "creditcoin.png",
-  seoImage: "bafybeihijmhds4sz6dn4m3mcx4idayzmxotm5nddzrcx2ul4elqcgx7ate",
+  seoImage: "bafybeiex6ep6hsqtourew54oqng7ifrskqjnara32ohirl5o5hg2epfzgy",
 };
 
 module.exports = {
