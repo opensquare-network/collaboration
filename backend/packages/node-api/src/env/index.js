@@ -28,6 +28,7 @@ const chainEndpointPrefixMap = {
   [chains.stafi]: "STAFI",
   [chains.moonbeam]: "GLMR",
   [chains.moonriver]: "MOVR",
+  [chains.creditcoin]: "CTC",
 };
 
 // [chain, endpoints]

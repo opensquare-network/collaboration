@@ -1811,10 +1811,10 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@osn/common-ui@^1.18.8":
-  version "1.18.8"
-  resolved "https://registry.yarnpkg.com/@osn/common-ui/-/common-ui-1.18.8.tgz#e040b9a217bfe1e0f04487501827ec8b9bb5347a"
-  integrity sha512-tymTRsQ2oxoDOzUsYy8jNSnlC4X2vd9ELI6NvIwFoiz3o5685+bAEPTwMQ/ZPafWISwQ5F8m0/8tPF5K9TeqSg==
+"@osn/common-ui@^1.18.10":
+  version "1.18.10"
+  resolved "https://registry.npmjs.org/@osn/common-ui/-/common-ui-1.18.10.tgz#09f80e038c40e127ddd71f57c6d460f6bde3c6b8"
+  integrity sha512-xCB1cNw2ldXqYVHZIO75g9V961LaYMGXJAKiJ9/KxWa9t8pVEb7Er+QPOZMzoHAoylWyyst460bJRdqkkf8+9Q==
   dependencies:
     "@osn/polkadot-react-identicon" "^1.0.10"
     "@popperjs/core" "^2.11.6"

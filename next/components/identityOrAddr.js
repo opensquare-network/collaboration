@@ -59,6 +59,8 @@ export default function IdentityOrAddr({
     link = `https://moonriver.moonscan.io/address/${address}`;
   } else if (evm.moonbeam === network) {
     link = `https://moonscan.io/address/${address}`;
+  } else if ("creditcoin" === network) {
+    link = `https://explorer.creditcoin.org/Account/RecentExtrinsics/${address}`;
   }
 
   const isEvm = evmChains.includes(network);
