@@ -25,10 +25,13 @@ export default function QuorumQuadraticBalanceOfResult({
     (vote) => vote.choice === firstChoice,
   );
   const firstChoiceVoteBalance = firstChoiceVoteResult?.quadraticBalanceOf || 0;
-  const gteFirstChoiceVoteBalanceCount = (voteStatus || []).filter((item) =>
-    new BigNumber(item.quadraticBalanceOf).gte(firstChoiceVoteBalance),
-  ).length;
-  const isFirstChoiceWin = gteFirstChoiceVoteBalanceCount === 1;
+  const gteFirstChoiceVoteBalanceCount = (voteStatus || []).filter((item) => {
+    if (item.choice === firstChoice) {
+      return false;
+    }
+    return new BigNumber(item.quadraticBalanceOf).gte(firstChoiceVoteBalance);
+  }).length;
+  const isFirstChoiceWin = gteFirstChoiceVoteBalanceCount < 1;
   const isQuorumReached = new BigNumber(votedBalance).gte(space?.quorum);
   const isPass = isQuorumReached && isFirstChoiceWin;
 

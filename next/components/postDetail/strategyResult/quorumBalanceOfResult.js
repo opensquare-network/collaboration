@@ -21,10 +21,13 @@ export default function QuorumBalanceOfResult({ proposal, space, voteStatus }) {
     (vote) => vote.choice === firstChoice,
   );
   const firstChoiceVoteBalance = firstChoiceVoteResult?.balanceOf || 0;
-  const gteFirstChoiceVoteBalanceCount = (voteStatus || []).filter((item) =>
-    new BigNumber(item.balanceOf).gte(firstChoiceVoteBalance),
-  ).length;
-  const isFirstChoiceWin = gteFirstChoiceVoteBalanceCount === 1;
+  const gteFirstChoiceVoteBalanceCount = (voteStatus || []).filter((item) => {
+    if (item.choice === firstChoice) {
+      return false;
+    }
+    return new BigNumber(item.balanceOf).gte(firstChoiceVoteBalance);
+  }).length;
+  const isFirstChoiceWin = gteFirstChoiceVoteBalanceCount < 1;
   const isQuorumReached = new BigNumber(votedBalance).gte(space?.quorum);
   const isPass = isQuorumReached && isFirstChoiceWin;
 
