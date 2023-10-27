@@ -45,6 +45,17 @@ export default function PostResult({ data, voteStatus, space }) {
       );
     }
 
+    if (strategy === "quorum-quadratic-balance-of") {
+      return (
+        <QuorumQuadraticBalanceOfResult
+          key={strategy}
+          proposal={data}
+          space={space}
+          voteStatus={voteStatus}
+        />
+      );
+    }
+
     return null;
   });
 
