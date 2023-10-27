@@ -14,22 +14,19 @@ import BigNumber from "bignumber.js";
 
 export default function QuorumBalanceOfResult({ proposal, space, voteStatus }) {
   const isEnded = new Date().getTime() > proposal?.endDate;
-  const votedAmount = proposal?.votedWeights?.balanceOf || 0;
+  const votedBalance = proposal?.votedWeights?.balanceOf || 0;
 
   const firstChoice = proposal?.choices?.[0];
   const firstChoiceVoteResult = voteStatus?.find(
     (vote) => vote.choice === firstChoice,
   );
   const firstChoiceVoteBalance = firstChoiceVoteResult?.balanceOf || 0;
-  const count = voteStatus?.reduce(
-    (prev, curr) =>
-      prev +
-      (new BigNumber(curr.balanceOf).gte(firstChoiceVoteBalance) ? 1 : 0),
-    0,
-  );
-  const isFirstChoiceWin = count === 1;
-  const quorumReached = new BigNumber(votedAmount).gte(space?.quorum);
-  const isPass = quorumReached && isFirstChoiceWin;
+  const gteFirstChoiceVoteBalanceCount = (voteStatus || []).filter((item) =>
+    new BigNumber(item.balanceOf).gte(firstChoiceVoteBalance),
+  ).length;
+  const isFirstChoiceWin = gteFirstChoiceVoteBalanceCount === 1;
+  const isQuorumReached = new BigNumber(votedBalance).gte(space?.quorum);
+  const isPass = isQuorumReached && isFirstChoiceWin;
 
   return (
     <>
@@ -46,7 +43,7 @@ export default function QuorumBalanceOfResult({ proposal, space, voteStatus }) {
         <ProgressItem>
           <OptionIndex>Quorum</OptionIndex>
           <FlexAround>
-            <ValueDisplay value={votedAmount} space={space} noSymbol />
+            <ValueDisplay value={votedBalance} space={space} noSymbol />
             <span>&nbsp;/&nbsp;</span>
             <ValueDisplay
               value={space?.quorum || 0}
