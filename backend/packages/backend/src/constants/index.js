@@ -12,12 +12,6 @@ const ChoiceType = Object.freeze({
 
 const PostTitleLengthLimitation = 160;
 
-const WeightStrategy = Object.freeze({
-  BalanceOf: "balance-of",
-  QuorumBalanceOf: "quorum-balance-of",
-  QuadraticBalanceOf: "quadratic-balance-of",
-});
-
 const NotificationType = Object.freeze({
   NewProposal: "newProposal",
   ProposalStarted: "proposalStarted",
@@ -29,7 +23,6 @@ module.exports = {
   ContentType,
   ChoiceType,
   PostTitleLengthLimitation,
-  WeightStrategy,
   NotificationType,
   chainsDef,
 };
