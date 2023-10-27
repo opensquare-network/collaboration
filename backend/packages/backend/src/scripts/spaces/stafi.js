@@ -49,7 +49,7 @@ const config = {
     },
   ],
   proposeThreshold: "100000000000000000000000",
-  weightStrategy: [strategies.quadraticBalanceOf],
+  weightStrategy: [strategies.quorumBalanceOf],
   quorum: "400000000000000000000000",
   version: "4",
   spaceIcon: "stafi.png",
