@@ -23,7 +23,6 @@ module.exports = {
   ContentType,
   ChoiceType,
   PostTitleLengthLimitation,
-  WeightStrategy,
   NotificationType,
   chainsDef,
 };
