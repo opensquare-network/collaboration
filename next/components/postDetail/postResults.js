@@ -7,6 +7,7 @@ import BiasedVotingResult from "./strategyResult/biasedVotingResult";
 import Divider from "../styled/divider";
 import { VoteItem } from "./strategyResult/common/styled";
 import QuorumBalanceOfResult from "./strategyResult/quorumBalanceOfResult";
+import QuorumQuadraticBalanceOfResult from "./strategyResult/quorumQuadraticBalanceOfResult";
 
 export default function PostResult({ data, voteStatus, space }) {
   const votedAmount = data?.votedWeights?.balanceOf || 0;
