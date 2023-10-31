@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Loading from "public/imgs/icons/loading.svg";
+import { ReactComponent as Loading } from "public/imgs/icons/loading.svg";
 import { Input } from "@osn/common-ui";
 
 const Wrapper = styled.div`

@@ -15,12 +15,12 @@ import {
   showHeaderMenuSelector,
 } from "../store/reducers/showConnectSlice";
 import { Header as OsnHeader } from "@osn/common-ui";
-import Plus from "../public/imgs/icons/plus.svg";
-import Discussions from "../public/imgs/icons/discussions.svg";
+import { ReactComponent as Plus } from "../public/imgs/icons/plus.svg";
+import { ReactComponent as Discussions } from "../public/imgs/icons/discussions.svg";
 import { Flex } from "@osn/common-ui";
 import Menu from "@/components/menu";
 import NotificationBell from "./notification/bell";
-import CaretRight from "../public/imgs/icons/caret-right-s.svg";
+import { ReactComponent as CaretRight } from "/public/imgs/icons/caret-right-s.svg";
 
 const CaretRightIcon = styled(CaretRight)`
   margin-left: 16px;

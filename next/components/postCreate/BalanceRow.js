@@ -1,4 +1,4 @@
-import Loading from "../../public/imgs/icons/loading.svg";
+import { ReactComponent as Loading } from "../../public/imgs/icons/loading.svg";
 import Row from "@/components/row";
 import Tooltip from "@/components/tooltip";
 import { bigNumber2LocaleWithAbbr, toPrecision } from "../../frontedUtils";

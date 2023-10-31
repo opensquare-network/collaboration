@@ -1,5 +1,5 @@
 import BigNumber from "bignumber.js";
-import LinkSvg from "public/imgs/icons/link.svg";
+import { ReactComponent as LinkSvg } from "public/imgs/icons/link.svg";
 import ExternalLink from "@osn/common-ui/es/ExternalLink";
 import BiasedVotingItem from "../biasedVotingItem";
 import {

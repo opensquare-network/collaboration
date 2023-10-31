@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import AddAvg from "./add.svg";
+import { ReactComponent as AddAvg } from "./add.svg";
 import { noop } from "@osn/common-ui";
 
 const Wrapper = styled.div`

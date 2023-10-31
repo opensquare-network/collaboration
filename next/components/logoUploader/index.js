@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import UploadSVG from "./upload.svg";
+import { ReactComponent as UploadSVG } from "./upload.svg";
 import { useRef } from "react";
 
 const Wrapper = styled.div`

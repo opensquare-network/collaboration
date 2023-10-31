@@ -11,7 +11,7 @@ import { clearUnread } from "store/reducers/notificationSlice";
 import { accountSelector } from "store/reducers/accountSlice";
 import NotificationItem from "../components/notification/notificationItem";
 import NotificationTabs from "../components/notification/notificationTabs";
-import CheckUnderline from "@osn/common-ui/es/imgs/icons/check-underline.svg";
+import { ReactComponent as CheckUnderline } from "@osn/common-ui/es/imgs/icons/check-underline.svg";
 import { text_dark_minor } from "@osn/common-ui/es/styles/colors";
 import { p_14_medium } from "@osn/common-ui/es/styles/textStyles";
 import { useNotifications } from "hooks/notification/useNotifications";

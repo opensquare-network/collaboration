@@ -4,7 +4,7 @@ import { memo } from "react";
 import { Flex, FlexBetween } from "@osn/common-ui";
 import SubTitle from "@osn/common-ui/es/styled/SubTitle";
 import Tooltip from "@/components/tooltip";
-import QuestionMark from "../../public/imgs/icons/question-mark.svg";
+import { ReactComponent as QuestionMark } from "../../public/imgs/icons/question-mark.svg";
 
 const TitleWrapper = styled(FlexBetween)`
   ${p_16_semibold};

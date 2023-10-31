@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import CheckedSVG from "./checked.svg";
-import UncheckedSVG from "./unchecked.svg";
+import { ReactComponent as CheckedSVG } from "./checked.svg";
+import { ReactComponent as UncheckedSVG } from "./unchecked.svg";
 import { noop } from "@osn/common-ui";
 
 const Wrapper = styled.div`

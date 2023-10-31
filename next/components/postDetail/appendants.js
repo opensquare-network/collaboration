@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import AddIcon from "/public/imgs/icons/add-appendant.svg";
+import { ReactComponent as AddIcon } from "/public/imgs/icons/add-appendant.svg";
 import { useRouter } from "next/router";
 import {
   DividerWrapper,

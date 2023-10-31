@@ -3,8 +3,8 @@ import Link from "next/link";
 import { useSelector } from "react-redux";
 import { unreadSelector } from "store/reducers/notificationSlice";
 import { FlexCenter } from "@osn/common-ui";
-import NotificationSVG from "./notification.svg";
-import UnreadNotificationSVG from "./unread-notification.svg";
+import { ReactComponent as NotificationSVG } from "./notification.svg";
+import { ReactComponent as UnreadNotificationSVG } from "./unread-notification.svg";
 import { loginAddressSelector } from "store/reducers/accountSlice";
 
 const Wrapper = styled(FlexCenter)`

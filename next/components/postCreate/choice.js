@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 import { useRef, useState } from "react";
 
-import Substract from "public/imgs/icons/substract.svg";
+import { ReactComponent as Substract } from "public/imgs/icons/substract.svg";
 import { p_14_medium } from "../../styles/textStyles";
 import { FlexBetween } from "@osn/common-ui";
 

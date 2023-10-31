@@ -1,19 +1,20 @@
 import styled from "styled-components";
 import Tooltip from "../tooltip";
-import JoinedSVG from "./joined.svg";
-import NotJoinedSVG from "./not-joined.svg";
+import { ReactComponent as JoinedSVG } from "./joined.svg";
+import { ReactComponent as NotJoinedSVG } from "./not-joined.svg";
 
 const NotJoinedMark = styled(NotJoinedSVG)`
   &:hover {
     path {
-      fill: #b7c0cc;
+      fill: #B7C0CC;
     }
   }
 `;
 
 const JoinedMark = styled(JoinedSVG)``;
 
-export default function JoinButton({ joined, onClick = () => {} }) {
+
+export default function JoinButton({ joined, onClick = ()=>{} }) {
   if (!joined) {
     return (
       <Tooltip content={"Join space"}>
