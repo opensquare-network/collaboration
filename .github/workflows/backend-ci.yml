@@ -27,7 +27,7 @@ jobs:
           node-version: lts/*
           cache: yarn
           cache-dependency-path: |
-            next/yarn.lock
+            backend/yarn.lock
 
       - name: install
         uses: borales/actions-yarn@v4
