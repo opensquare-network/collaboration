@@ -2,9 +2,17 @@ name: backend ci
 
 on:
   push:
-    branches: ["main", "release-*"]
+    branches:
+      - main
+      - "release-*"
+    paths:
+      - "backend/**"
   pull_request:
-    branches: ["main", "release-*"]
+    branches:
+      - main
+      - "release-*"
+    paths:
+      - "backend/**"
 
 jobs:
   lint:
@@ -17,6 +25,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: lts/*
+          cache: yarn
+          cache-dependency-path: |
+            next/yarn.lock
 
       - name: install
         uses: borales/actions-yarn@v4
