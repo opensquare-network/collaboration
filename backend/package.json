@@ -20,5 +20,6 @@
     "@osn/eslint-config": "^1.0.1",
     "eslint": "^8.38.0",
     "eslint-config-next": "11.1.2"
-  }
+  },
+  "packageManager": "yarn@1.22.19"
 }
