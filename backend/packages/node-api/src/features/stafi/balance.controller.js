@@ -5,9 +5,9 @@ async function getBalanceFromOneApi(api, symbol, address, blockHashOrHeight) {
 
   const accountData = await blockApi.query.rBalances.account(symbol, address);
 
-  const data = accountData.toJSON();
+  const data = accountData?.toJSON();
   return {
-    free: data.free.toString(),
+    free: data?.free?.toString() || "0",
   };
 }
 
