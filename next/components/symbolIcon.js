@@ -1,8 +1,8 @@
 import React from "react";
-import { ReactComponent as LKSM } from "../public/imgs/icons/symbol/lksm.svg";
-import { ReactComponent as taiKSM } from "../public/imgs/icons/symbol/taiKSM.svg";
-import { ReactComponent as KSM } from "../public/imgs/icons/chain/kusama.svg";
-import { ReactComponent as DOT } from "../public/imgs/icons/chain/polkadot.svg";
+import LKSM from "../public/imgs/icons/symbol/lksm.svg";
+import taiKSM from "../public/imgs/icons/symbol/taiKSM.svg";
+import KSM from "../public/imgs/icons/chain/kusama.svg";
+import DOT from "../public/imgs/icons/chain/polkadot.svg";
 import styled from "styled-components";
 
 const Wrapper = styled.div`

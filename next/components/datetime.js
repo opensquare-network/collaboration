@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { ReactComponent as TimeIcon } from "public/imgs/icons/timeline.svg";
+import TimeIcon from "public/imgs/icons/timeline.svg";
 import { p_14_normal } from "../styles/textStyles";
 
 const Wrapper = styled.div`

@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import styled from "styled-components";
-import { ReactComponent as CaretDown } from "./caret-down.svg";
+import CaretDown from "./caret-down.svg";
 
 const Wrapper = styled.span`
   cursor: pointer;

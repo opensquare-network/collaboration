@@ -3,7 +3,7 @@ import {
   currentStepSelector,
   setCurrentStep,
 } from "store/reducers/newSpaceSlice";
-import { ReactComponent as BackSVG } from "./back.svg";
+import BackSVG from "./back.svg";
 import styled from "styled-components";
 import { Button } from "@osn/common-ui";
 

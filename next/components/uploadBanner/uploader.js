@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Flex } from "@osn/common-ui";
 import nextApi from "services/nextApi";
 import { LoadingIcon } from "@osn/common-ui";
-import { ReactComponent as Upload } from "../../public/imgs/icons/upload.svg";
+import Upload from "../../public/imgs/icons/upload.svg";
 
 const UploadIcon = styled(Upload)`
   flex-basis: 100%;

@@ -4,8 +4,8 @@ import { shadow_200 } from "../styles/globalCss";
 import { useSelector } from "react-redux";
 import { showHeaderMenuSelector } from "../store/reducers/showConnectSlice";
 import { p_14_medium } from "../styles/textStyles";
-import { ReactComponent as Plus } from "../public/imgs/icons/grey-plus.svg";
-import { ReactComponent as Discussions } from "../public/imgs/icons/grey-discussions.svg";
+import Plus from "../public/imgs/icons/grey-plus.svg";
+import Discussions from "../public/imgs/icons/grey-discussions.svg";
 
 const MenuWrapper = styled.div`
   cursor: auto;

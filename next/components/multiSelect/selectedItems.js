@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { ReactComponent as DropSVG } from "./drop.svg";
+import DropSVG from "./drop.svg";
 import { noop } from "@osn/common-ui";
 
 const Wrapper = styled.div`

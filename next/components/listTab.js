@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 import { useEffect, useState } from "react";
-import { ReactComponent as QuestionMark } from "../public/imgs/icons/question-mark.svg";
+import QuestionMark from "../public/imgs/icons/question-mark.svg";
 import { LIST_TAB_ITEMS } from "frontedUtils/constants";
 import { p_16_semibold } from "../styles/textStyles";
 import { useRouter } from "next/router";

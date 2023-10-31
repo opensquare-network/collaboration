@@ -9,7 +9,7 @@ import {
 } from "store/reducers/accountSlice";
 import Avatar from "./avatar";
 import { p_14_medium } from "../styles/textStyles";
-import { ReactComponent as UserIcon } from "../public/imgs/icons/user.svg";
+import UserIcon from "../public/imgs/icons/user.svg";
 import { shadow_200 } from "../styles/globalCss";
 import { useWindowSize } from "../frontedUtils/hooks";
 import ButtonPrimary from "@osn/common-ui/es/styled/Button";

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useRef, useState } from "react";
 
-import { ReactComponent as StatusSvg } from "public/imgs/icons/status.svg";
+import StatusSvg from "public/imgs/icons/status.svg";
 import { useOffset } from "frontedUtils/hooks";
 import Popup from "./popup";
 

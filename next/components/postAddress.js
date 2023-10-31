@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchIdentity } from "services/identity";
 import Avatar from "./avatar";
 import IdentityIcon from "@osn/common-ui/es/User/IdentityIcon";
-import { ReactComponent as Loading } from "public/imgs/icons/loading.svg";
+import Loading from "public/imgs/icons/loading.svg";
 import { useWindowSize } from "frontedUtils/hooks";
 import { addressEllipsis } from "frontedUtils";
 import { isAddress } from "@polkadot/util-crypto";

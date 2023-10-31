@@ -6,7 +6,7 @@ import {
   primary_turquoise_500,
   text_dark_accessory,
 } from "@osn/common-ui/es/styles/colors";
-import { ReactComponent as CheckIcon } from "@osn/common-ui/es/imgs/icons/check.svg";
+import CheckIcon from "@osn/common-ui/es/imgs/icons/check.svg";
 import Link from "next/link";
 import { MOBILE_SIZE } from "@osn/constants";
 import { useState } from "react";
