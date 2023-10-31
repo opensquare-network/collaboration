@@ -188,7 +188,7 @@ export default function Header({ networks }) {
     <OsnHeader
       logoRender={(logo) => (
         <Link href="/" passHref>
-          <a>{logo}</a>
+          {logo}
         </Link>
       )}
     >
@@ -231,7 +231,7 @@ export default function Header({ networks }) {
         <HeaderItemWrapper>
           {isHomePage && (
             <ExternalLinkWrapper>
-              <Link href="/space/new" passHref>
+              <Link href="/space/new" passHref legacyBehavior>
                 <InternalLink>
                   <Plus />
                   Add a Space

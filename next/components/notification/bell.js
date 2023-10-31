@@ -34,7 +34,7 @@ export default function NotificationBell() {
   return (
     <Wrapper>
       <Link href="/notifications" passHref>
-        <a>{unread ? <UnreadNotificationSVG /> : <NotificationSVG />}</a>
+        {unread ? <UnreadNotificationSVG /> : <NotificationSVG />}
       </Link>
     </Wrapper>
   );

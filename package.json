@@ -27,5 +27,5 @@
     "prepare": "husky install && husky set .husky/pre-commit \"npx lint-staged\"",
     "test": "yarn workspace @collaboration/voting test"
   },
-  "packageManager": "yarn@1.22.19"
+  "packageManager": "yarn@3.6.4"
 }

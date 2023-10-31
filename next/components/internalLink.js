@@ -20,7 +20,7 @@ export default function InternalLink({ href, children }) {
         e.stopPropagation();
       }}
     >
-      <Link href={href} passHref>
+      <Link href={href} passHref legacyBehavior>
         <div>{children}</div>
       </Link>
     </Wrapper>

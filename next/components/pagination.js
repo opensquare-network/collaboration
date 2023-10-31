@@ -32,6 +32,7 @@ export default function Pagination({
           ...otherQueries,
         })}`}
         passHref
+        legacyBehavior
       >
         {originalElement}
       </Link>

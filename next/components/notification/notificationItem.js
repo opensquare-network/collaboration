@@ -204,7 +204,7 @@ export default function NotificationItem({ data, onMarkAsRead = () => {} }) {
           </OnlyDesktop>
           <Title>
             <Link href={`/space/${space}/proposal/${proposalCid}`} passHref>
-              <a>{title}</a>
+              {title}
             </Link>
           </Title>
         </TitleWrapper>
