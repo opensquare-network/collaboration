@@ -10,7 +10,7 @@
     "pin": "pm2 start ecosystem.config.js --only voting-pin-to-ipfs --env production"
   },
   "dependencies": {
-    "@koa/cors": "^3.1.0",
+    "@koa/cors": "^5.0.0",
     "@koa/multer": "^3.0.0",
     "@osn/ipfs": "^0.0.4",
     "@polkadot/util": "11.1.3",
