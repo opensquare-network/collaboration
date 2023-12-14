@@ -187,7 +187,7 @@ function Uploader({ setBannerUrl }) {
         )}
       </UploadArea>
       <Tips>
-        <li>We recommand a 16:9 image.</li>
+        <li>We recommend a 16:9 image.</li>
         <li>The banner will be a shared preview on social media.</li>
       </Tips>
 
