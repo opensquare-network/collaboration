@@ -46,6 +46,7 @@ If these instructions are not followed, Stellaswap will not recognize the result
 ## Pitch
 <Explain why this is a good pool to incentivize>`,
   },
+  admin: "0x3466ACC8D2d7064367B837cF6eEFac9659d3Ad2A",
 };
 
 module.exports = {

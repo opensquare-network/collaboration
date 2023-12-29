@@ -65,6 +65,13 @@ async function createProposal({
     throw new HttpError(500, "Unknown space");
   }
 
+  if (spaceService.admin && spaceService.admin !== address) {
+    throw new HttpError(
+      401,
+      `Only admin(${spaceService.admin}) can create proposal`,
+    );
+  }
+
   const maxOptionsCount = spaceService.maxOptionsCount || 10;
   if (choices.length > spaceService.maxOptionsCount) {
     throw new HttpError(
