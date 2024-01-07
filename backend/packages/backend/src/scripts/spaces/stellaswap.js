@@ -28,6 +28,7 @@ const stellaSwapConfig = {
   ],
   proposeThreshold: "15000000000000000000000",
   weightStrategy: [strategies.balanceOf],
+  maxOptionsCount: 30,
   version: "4",
   spaceIcon: "stellaswap.svg",
   seoImage: "QmSAgQzyZcMVVxgiGehSRQ2S5Amvpu4NG4sLeszJSyPyzA",
