@@ -1,10 +1,6 @@
 {
-  "extends": ["../.eslintrc", "next", "@osn"],
-  "env": {
-    "browser": true,
-    "node": true,
-    "es6": true
-  },
+  "root": true,
+  "extends": ["next/babel", "next/core-web-vitals", "@osn", "../.eslintrc.js"],
   "rules": {
     "@next/next/no-img-element": "off"
   }
