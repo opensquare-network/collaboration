@@ -1,3 +1,5 @@
+const path = require("node:path");
+
 /** @type {import('next').NextConfig} */
 module.exports = {
   transpilePackages: ["@osn/common-ui", "@osn/common", "@osn/rich-text-editor"],
@@ -31,6 +33,16 @@ module.exports = {
         },
       ],
     });
+
+    config.resolve.alias["react"] = path.resolve(
+      __dirname,
+      "node_modules/react",
+    );
+    config.resolve.alias["styled-components"] = path.resolve(
+      __dirname,
+      "node_modules/styled-components",
+    );
+
     return config;
   },
 };
