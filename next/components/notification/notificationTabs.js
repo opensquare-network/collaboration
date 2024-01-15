@@ -6,7 +6,7 @@ import { MOBILE_SIZE } from "@osn/constants";
 import { netural_grey_200 } from "@osn/common-ui/es/styles/colors";
 
 const TabsWrapper = styled.div`
-  background-color: #fff;
+  background-color: var(--fillBgPrimary);
   padding-top: 40px;
   border-bottom: 1px solid ${netural_grey_200};
   @media screen and (max-width: ${MOBILE_SIZE}px) {

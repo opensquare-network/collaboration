@@ -18,7 +18,7 @@ const PopupWrapper = styled.div`
 
 const Pop = styled.div`
   position: relative;
-  background: #ffffff;
+  background: var(--fillBgPrimary);
   max-width: 320px;
   min-width: ${(p) => (p.noMinWidth ? "none" : "120px")};
   padding: 16px;
@@ -35,7 +35,7 @@ const Triangle = styled.div`
   height: 0;
   border-left: 6px solid transparent;
   border-right: 6px solid transparent;
-  border-top: 6px solid #ffffff;
+  border-top: 6px solid var(--fillBgPrimary);
   left: 50%;
   top: 100%;
   transform: translateX(-50%);

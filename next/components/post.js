@@ -17,7 +17,7 @@ import { p_14_medium } from "../styles/componentCss";
 import { getSpaceIconUrl } from "frontedUtils/space";
 
 const Wrapper = styled.div`
-  background: #ffffff;
+  background: var(--fillBgPrimary);
   border: 1px solid var(--strokeBorderDefault);
   ${shadow_100}
   ${p_24};

@@ -7,7 +7,7 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 12px 16px;
-  background: #ffffff;
+  background: var(--fillBgPrimary);
   border: 1px solid #b7c0cc;
   gap: 8px;
 `;

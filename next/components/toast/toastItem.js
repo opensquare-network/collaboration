@@ -11,7 +11,7 @@ import { useIsMounted } from "frontedUtils/hooks";
 const Wrapper = styled.div`
   padding: 20px;
   width: 400px;
-  background: #ffffff;
+  background: var(--fillBgPrimary);
   filter: drop-shadow(0px 4px 31px rgba(26, 33, 44, 0.06))
     drop-shadow(0px 0.751293px 8px rgba(26, 33, 44, 0.04));
   color: rgba(17, 17, 17, 0.65);

@@ -72,7 +72,7 @@ const Wrapper = styled.div`
   flex: 0 0 auto;
   border: 1px solid var(--strokeBorderDefault);
   ${shadow_100};
-  background: #ffffff;
+  background: var(--fillBgPrimary);
   padding: 24px;
   cursor: pointer;
   width: 200px;

@@ -15,7 +15,7 @@ const Background = styled.div`
   top: 0;
   width: 100%;
   height: ${(p) => p.bgHeight};
-  background: #ffffff;
+  background: var(--fillBgPrimary);
   border-bottom: 1px solid var(--strokeBorderDefault);
 `;
 
