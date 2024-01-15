@@ -8,6 +8,7 @@ import { store } from "../store";
 import "semantic-ui-css/semantic.min.css";
 import "../styles/globals.css";
 import "react-mde/lib/styles/css/react-mde-all.css";
+import "@osn/common-ui/styles/index.css";
 
 NProgress.configure({
   minimum: 0.3,

@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @import url("../fonts/montserrat.css");
 /* font-inter-regular - latin */
 @font-face {
