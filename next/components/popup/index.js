@@ -24,7 +24,7 @@ const Pop = styled.div`
   padding: 16px;
   font-size: 12px;
   line-height: 16px;
-  color: #ffffff;
+  color: var(--textPrimary);
   word-wrap: break-word;
   text-align: left;
 `;
@@ -57,7 +57,7 @@ const TitleWrapper = styled.div`
   font-weight: bold;
   font-size: 12px;
   line-height: 16px;
-  color: #ffffff;
+  color: var(--textPrimary);
   white-space: nowrap;
 `;
 
