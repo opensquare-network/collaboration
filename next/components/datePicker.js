@@ -100,7 +100,7 @@ const DateWrapper = styled.div`
     border-radius: 0;
     margin: 0 !important;
     :hover {
-      background: #f0f3f8;
+      background-color: var(--fillBgTertiary);
     }
   }
 
@@ -110,7 +110,7 @@ const DateWrapper = styled.div`
   }
 
   .react-datepicker__day--selected {
-    background: #f0f3f8;
+    background-color: var(--fillBgTertiary);
   }
 
   .react-datepicker__day--outside-month {
@@ -148,7 +148,7 @@ const DateHeader = styled(Flex)`
 
 const Divider = styled.div`
   height: 1px;
-  background: #f0f3f8;
+  background-color: var(--fillBgTertiary);
   margin: 16px 0;
 `;
 

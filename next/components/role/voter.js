@@ -34,7 +34,7 @@ const Divider = styled.div`
   margin-bottom: 12px;
   height: 1px;
   width: 100%;
-  background-color: #f0f3f8;
+  background-color: var(--fillBgTertiary);
 `;
 
 export default function Voter({

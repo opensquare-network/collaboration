@@ -79,7 +79,7 @@ const EqualWrapper = styled.div`
 const MyVoteTag = styled.div`
   display: flex;
   align-items: center;
-  background: #f0f3f8;
+  background-color: var(--fillBgTertiary);
   color: #506176;
   border-radius: 9px;
   padding: 2px 10px;

@@ -17,7 +17,7 @@ const MyFieldWrapper = styled(FieldWrapper)`
     ${({ disabled }) =>
       disabled &&
       css`
-        background: #f0f3f8;
+        background-color: var(--fillBgTertiary);
       `}
   }
 `;

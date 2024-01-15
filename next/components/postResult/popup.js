@@ -60,7 +60,7 @@ const TitleWrapper = styled.div`
 
 const Divider = styled.div`
   height: 1px;
-  background: #f0f3f8;
+  background-color: var(--fillBgTertiary);
   margin: 16px 0;
 `;
 
@@ -83,7 +83,7 @@ const ProgressItem = styled.div`
 const ProgressBackground = styled.div`
   height: 6px;
   border-radius: 3px;
-  background: #f0f3f8;
+  background-color: var(--fillBgTertiary);
   position: relative;
   overflow: hidden;
 `;

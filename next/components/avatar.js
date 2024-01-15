@@ -10,7 +10,7 @@ const Wrapper = styled.span`
   width: ${(props) => props.size}px;
   height: ${(props) => props.size}px;
   border-radius: ${(props) => props.size / 2}px;
-  background: #f0f3f8; ;
+  background-color: var(--fillBgTertiary); ;
 `;
 
 const ImgWrapper = styled.img`

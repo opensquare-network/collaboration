@@ -58,7 +58,7 @@ const DateWrapper = styled.div`
 
 const Divider = styled.div`
   height: 1px;
-  background: #f0f3f8;
+  background-color: var(--fillBgTertiary);
 `;
 
 const Snapshot = styled(FlexBetween)`

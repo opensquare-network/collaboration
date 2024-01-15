@@ -9,7 +9,7 @@ const Wrapper = styled.div`
   width: 100%;
 
   :hover {
-    background: #f0f3f8;
+    background-color: var(--fillBgTertiary);
   }
 `;
 

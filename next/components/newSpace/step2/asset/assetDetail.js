@@ -10,7 +10,7 @@ const Wrapper = styled.div`
   > * {
     flex-grow: 1;
     > div {
-      background: #f0f3f8;
+      background-color: var(--fillBgTertiary);
     }
   }
 `;

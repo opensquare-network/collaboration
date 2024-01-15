@@ -3,7 +3,7 @@ import { p_14_medium } from "styles/textStyles";
 
 export const Divider = styled.div`
   height: 1px;
-  background: #f0f3f8;
+  background-color: var(--fillBgTertiary);
   margin: 12px 0;
 `;
 
@@ -29,7 +29,7 @@ export const ProgressItem = styled.div`
 export const ProgressBackground = styled.div`
   height: 6px;
   border-radius: 3px;
-  background: #f0f3f8;
+  background-color: var(--fillBgTertiary);
   position: relative;
   overflow: hidden;
 `;

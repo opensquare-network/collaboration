@@ -45,7 +45,7 @@ const LeftWrapper = styled.div`
 
 const Divider = styled.div`
   height: 1px;
-  background: #f0f3f8;
+  background-color: var(--fillBgTertiary);
   margin: 20px 0;
   ${(p) =>
     p.margin &&

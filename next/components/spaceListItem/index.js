@@ -40,7 +40,7 @@ const Symbol = styled.div`
 const Divider = styled.div`
   min-width: 116px;
   height: 1px;
-  background: #f0f3f8;
+  background-color: var(--fillBgTertiary);
   margin: 12px 0;
 `;
 
