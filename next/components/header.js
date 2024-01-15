@@ -21,13 +21,15 @@ import { Flex } from "@osn/common-ui";
 import Menu from "@/components/menu";
 import NotificationBell from "./notification/bell";
 import { ReactComponent as CaretRight } from "/public/imgs/icons/caret-right-s.svg";
+import { SystemApps } from "@osn/icons/opensquare";
+import LogoProductVotingLight from "@osn/icons/src/opensquare/logoProductVotingLight.png";
+import LogoProductVotingDark from "@osn/icons/src/opensquare/logoProductVotingDark.png";
 
 const CaretRightIcon = styled(CaretRight)`
   margin-left: 16px;
 `;
 
 const ContentWrapper = styled.div`
-  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -44,7 +46,7 @@ const AppWrapper = styled.div`
   display: flex;
   align-items: center;
   ${p_18_semibold};
-  height: 36px;
+  /* height: 36px; */
 
   cursor: pointer;
 
@@ -53,14 +55,6 @@ const AppWrapper = styled.div`
       display: flex;
       flex-wrap: wrap;
     }
-    .onHoverReverse {
-      transform: rotate(180deg);
-    }
-  }
-
-  > img {
-    width: 24px;
-    margin-right: 8px;
   }
 
   span {
@@ -186,20 +180,15 @@ export default function Header({ networks }) {
 
   return (
     <OsnHeader
-      logoRender={(logo) => (
-        <Link href="/" passHref>
-          {logo}
-        </Link>
-      )}
-    >
-      <ContentWrapper ref={ref}>
+      prefix={
         <AppWrapper>
-          <span>Voting</span>
+          <SystemApps className="[&_path]:fill-textSecondary mr-4" />
+          <img src={LogoProductVotingLight.src} className="dark:hidden h-10" />
           <img
-            className="onHoverReverse"
-            src="/imgs/icons/caret-down-s.svg"
-            alt=""
+            src={LogoProductVotingDark.src}
+            className="hidden dark:block h-10"
           />
+
           <HoverMenu className="hoverMenu">
             <MenuItem href="/">
               <img src="/imgs/icons/voting.svg" alt="" />
@@ -218,6 +207,14 @@ export default function Header({ networks }) {
             </MenuItem>
           </HoverMenu>
         </AppWrapper>
+      }
+      logoRender={(logo) => (
+        <Link href="/" passHref>
+          {logo}
+        </Link>
+      )}
+    >
+      <ContentWrapper ref={ref}>
         <IconWrapper
           onClick={() => {
             dispatch(setShowHeaderMenu(!showMenu));
