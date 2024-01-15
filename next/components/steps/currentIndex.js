@@ -3,7 +3,7 @@ import { Index } from "./styled";
 
 const Wrapper = styled(Index)`
   background: #04d2c5;
-  color: #ffffff;
+  color: var(--textPrimary);
   border-color: #04d2c5;
 `;
 
