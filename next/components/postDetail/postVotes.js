@@ -15,7 +15,7 @@ const PaginationWrapper = styled.div`
 
 const NoVoteWrapper = styled.div`
   height: 104px;
-  border-bottom: 1px solid #f0f3f8;
+  border-bottom: 1px solid var(--strokeBorderDefault);
 
   > div {
     border: none;

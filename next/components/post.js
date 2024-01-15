@@ -18,7 +18,7 @@ import { getSpaceIconUrl } from "frontedUtils/space";
 
 const Wrapper = styled.div`
   background: #ffffff;
-  border: 1px solid #f0f3f8;
+  border: 1px solid var(--strokeBorderDefault);
   ${shadow_100}
   ${p_24};
 

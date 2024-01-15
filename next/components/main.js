@@ -16,7 +16,7 @@ const Background = styled.div`
   width: 100%;
   height: ${(p) => p.bgHeight};
   background: #ffffff;
-  border-bottom: 1px solid #f0f3f8;
+  border-bottom: 1px solid var(--strokeBorderDefault);
 `;
 
 const ChildrenWrapper = styled.div`

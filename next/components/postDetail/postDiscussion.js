@@ -53,7 +53,7 @@ const DividerWrapper = styled.div`
 const ContentWrapper = styled.div`
   margin: 8px 0 0 28px;
   padding-bottom: 20px;
-  border-bottom: 1px solid #f0f3f8;
+  border-bottom: 1px solid var(--strokeBorderDefault);
 `;
 
 const Content = styled.div`
@@ -89,7 +89,7 @@ const Square = styled.div`
 
 const NoCommentWrapper = styled.div`
   height: 104px;
-  border-bottom: 1px solid #f0f3f8;
+  border-bottom: 1px solid var(--strokeBorderDefault);
 
   > div {
     border: none;

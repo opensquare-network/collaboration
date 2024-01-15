@@ -11,7 +11,7 @@ import { isZero } from "frontedUtils";
 
 const Item = styled.div`
   padding: 20px 0;
-  border-bottom: 1px solid #f0f3f8;
+  border-bottom: 1px solid var(--strokeBorderDefault);
 `;
 
 const InfoWrapper = styled.div`

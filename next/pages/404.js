@@ -18,7 +18,7 @@ const Section = styled.div`
   @media screen and (max-width: 800px) {
     border-top: none;
   }
-  border-bottom: 1px solid #f0f3f8;
+  border-bottom: 1px solid var(--strokeBorderDefault);
 `;
 
 const H1 = styled.h1`

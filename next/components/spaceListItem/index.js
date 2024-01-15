@@ -70,7 +70,7 @@ const ActiveCount = styled(Count)`
 const Wrapper = styled.div`
   position: relative;
   flex: 0 0 auto;
-  border: 1px solid #f0f3f8;
+  border: 1px solid var(--strokeBorderDefault);
   ${shadow_100};
   background: #ffffff;
   padding: 24px;
