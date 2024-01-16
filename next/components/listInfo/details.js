@@ -33,7 +33,7 @@ const LogoName = styled.div`
 
 const LogoSymbol = styled.div`
   ${p_14_normal};
-  color: #a1a8b3;
+  color: var(--textTertiary);
 `;
 
 const DetailsWrapper = styled.div`

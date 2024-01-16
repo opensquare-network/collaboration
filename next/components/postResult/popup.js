@@ -92,7 +92,7 @@ const ProgressBar = styled.div`
 
 const OptionIndex = styled.div`
   ${p_14_medium};
-  color: #a1a8b3;
+  color: var(--textTertiary);
 `;
 
 const OptionChoice = styled.div`

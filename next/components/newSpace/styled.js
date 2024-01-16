@@ -15,7 +15,7 @@ export const Hint = styled.div`
   font-weight: 400;
   font-size: 14px;
   line-height: 24px;
-  color: #a1a8b3;
+  color: var(--textTertiary);
 
   > * {
     &::before {

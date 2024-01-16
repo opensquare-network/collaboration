@@ -35,7 +35,7 @@ const LeftWrapper = styled.div`
   display: flex;
   align-items: center;
   line-height: 24px;
-  color: #a1a8b3;
+  color: var(--textTertiary);
   flex-wrap: wrap;
   > :not(:first-child)::before {
     content: "·";

@@ -72,7 +72,7 @@ const NetworkName = styled.div`
 `;
 
 const TextGrey = styled.span`
-  color: #a1a8b3;
+  color: var(--textTertiary);
 `;
 
 const ChoiceWrapper = styled.div`

@@ -34,7 +34,7 @@ const AssetIconContainer = styled.div`
 
 const DelegationText = styled.span`
   ${p_12_normal}
-  color: #A1A8B3;
+  color: var(--textTertiary);
   text-transform: capitalize;
 `;
 

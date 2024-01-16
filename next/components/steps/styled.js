@@ -15,7 +15,7 @@ export const Index = styled.div`
   font-size: 16px;
   line-height: 24px;
 
-  color: #a1a8b3;
+  color: var(--textTertiary);
 `;
 
 export const NavigationLine = styled.div`

@@ -106,7 +106,7 @@ const DelegationTag = styled.div`
   font-size: 10px;
   line-height: 14px;
 
-  color: #a1a8b3;
+  color: var(--textTertiary);
 
   margin-top: 3px;
   margin-bottom: 3px;

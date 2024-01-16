@@ -46,7 +46,7 @@ export const ProgressBar = styled.div`
 export const OptionIndex = styled.div`
   max-width: 118px;
   ${p_14_medium};
-  color: #a1a8b3;
+  color: var(--textTertiary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -92,7 +92,7 @@ export const Subtitle = styled.div`
   justify-self: flex-start;
   margin-left: 8px;
   svg {
-    fill: #a1a8b3;
+    fill: var(--textTertiary);
   }
   :hover {
     svg {

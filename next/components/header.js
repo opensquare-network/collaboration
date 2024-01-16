@@ -95,7 +95,7 @@ const MenuItem = styled.a`
   }
   span {
     ${p_12_normal};
-    color: #a1a8b3;
+    color: var(--textTertiary);
   }
 `;
 

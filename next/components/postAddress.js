@@ -82,7 +82,7 @@ const Input = styled.input`
   padding: 23px 47px 23px 71px;
   ${p_14_normal};
   ::placeholder {
-    color: #a1a8b3;
+    color: var(--textTertiary);
   }
   :focus {
     border-color: #b7c0cc;

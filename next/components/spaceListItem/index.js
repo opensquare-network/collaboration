@@ -34,7 +34,7 @@ const Name = styled.div`
 const Symbol = styled.div`
   font-size: 14px;
   line-height: 24px;
-  color: #a1a8b3;
+  color: var(--textTertiary);
 `;
 
 const Divider = styled.div`
@@ -49,7 +49,7 @@ const ActiveWrapper = styled.div`
   align-items: center;
   font-size: 14px;
   line-height: 24px;
-  color: #a1a8b3;
+  color: var(--textTertiary);
 `;
 
 const ActiveCircle = styled.div`

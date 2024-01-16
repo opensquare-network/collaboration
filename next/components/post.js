@@ -52,7 +52,7 @@ const InfoWrapper = styled(FlexBetween)`
 
 const LeftWrapper = styled(Flex)`
   line-height: 24px;
-  color: #a1a8b3;
+  color: var(--textTertiary);
   flex-wrap: wrap;
 
   > :not(:first-child)::before {
