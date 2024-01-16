@@ -56,7 +56,7 @@ const Divider = styled.div`
 
 const Content = styled.div`
   ${p_14_normal};
-  color: #1e2134;
+  color: var(--textPrimary);
 `;
 
 export default function PostContent({ data, space }) {

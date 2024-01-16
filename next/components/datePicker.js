@@ -93,7 +93,7 @@ const DateWrapper = styled.div`
     height: 40px;
     font-family: Inter, sans-serif;
     ${p_14_normal};
-    color: #1e2134;
+    color: var(--textPrimary);
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -135,7 +135,7 @@ const DateHeader = styled(Flex)`
     font-family: Inter, sans-serif;
     ${p_16_semibold};
     text-align: center;
-    color: #1e2134;
+    color: var(--textPrimary);
     flex: 1 1 auto;
   }
   > svg {
@@ -175,7 +175,7 @@ const TimeHeaderWrapper = styled(FlexBetween)`
   white-space: nowrap;
   > :first-child {
     font-weight: 600;
-    color: #1e2134;
+    color: var(--textPrimary);
   }
   > :last-child {
     color: #9da9bb;

@@ -71,7 +71,7 @@ const SpaceName = styled.a`
   text-transform: capitalize;
   margin-left: 6px;
   ${p_14_medium};
-  color: #1e2134 !important;
+  color: var(--textPrimary) !important;
 
   :hover {
     text-decoration-line: underline;

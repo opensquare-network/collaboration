@@ -7,7 +7,7 @@ import IdentityOrAddr from "@/components/identityOrAddr";
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
-  color: #2e343d;
+  color: var(--textPrimary);
   > :not(:first-child) {
     margin-left: 4px;
   }

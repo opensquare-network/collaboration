@@ -27,7 +27,7 @@ const Icon = styled.div`
 const Name = styled.div`
   white-space: nowrap;
   ${p_18_semibold};
-  color: #2e343d;
+  color: var(--textPrimary);
   text-transform: capitalize;
 `;
 

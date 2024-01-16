@@ -5,7 +5,7 @@ import { IdentityUser } from "@osn/common-ui";
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
-  color: #2e343d;
+  color: var(--textPrimary);
 
   > :not(:first-child) {
     margin-left: 4px;
@@ -21,7 +21,7 @@ const PopupCard = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 288px;
-  color: #1e2134;
+  color: var(--textPrimary);
   > div:first-child {
     display: flex;
     align-items: center;

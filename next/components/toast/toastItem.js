@@ -13,7 +13,7 @@ const Wrapper = styled.div`
   padding: 20px;
   width: 400px;
   background: var(--fillBgPrimary);
-  color: rgba(17, 17, 17, 0.65);
+  color: var(--textSecondary);
   display: flex;
   align-items: flex-start;
   border-left: 4px solid var(--strokeActionDefault);
@@ -60,9 +60,9 @@ const RightWrapper = styled.div`
     }
     fill: #9da9bb;
     :hover {
-      fill: #2e343d;
+      fill: var(--textPrimary);
       path {
-        fill: #2e343d;
+        fill: var(--textPrimary);
       }
     }
   }

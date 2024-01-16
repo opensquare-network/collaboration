@@ -31,13 +31,13 @@ export const CloseBar = styled.div`
 
 export const StyledTitle = styled.header`
   ${p_20_semibold};
-  color: #1e2134;
+  color: var(--textPrimary);
   margin-bottom: 8px;
 `;
 
 export const StyledText = styled.p`
   ${p_16_semibold};
-  color: #1e2134;
+  color: var(--textPrimary);
 `;
 
 export const StyledDescription = styled.p`

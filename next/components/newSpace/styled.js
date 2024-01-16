@@ -6,7 +6,7 @@ export const SectionTitle = styled.span`
   font-weight: 600;
   font-size: 16px;
   line-height: 24px;
-  color: #1e2134;
+  color: var(--textPrimary);
   margin-bottom: 16px;
 `;
 

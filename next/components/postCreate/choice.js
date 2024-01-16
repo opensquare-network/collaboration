@@ -26,7 +26,7 @@ const Input = styled.input`
   min-width: 0;
   text-align: center;
   ${p_14_medium};
-  color: #1e2134;
+  color: var(--textPrimary);
 `;
 
 const SubstractButtonWrapper = styled.div`
@@ -39,7 +39,7 @@ const SubstractButton = styled(Substract)`
   cursor: pointer;
   fill: #9da9bb;
   :hover {
-    fill: #2e343d;
+    fill: var(--textPrimary);
   }
 `;
 

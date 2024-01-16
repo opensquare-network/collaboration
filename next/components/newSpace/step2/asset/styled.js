@@ -13,7 +13,7 @@ export const Title = styled.span`
   font-size: 16px;
   line-height: 24px;
 
-  color: #1e2134;
+  color: var(--textPrimary);
 `;
 
 export const Wrapper = styled.div`

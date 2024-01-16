@@ -13,7 +13,7 @@ const styledInput = styled.input`
   }
   ${p_14_normal};
   display: block;
-  color: #1e2134;
+  color: var(--textPrimary);
   ::placeholder {
     color: #9da9bb;
   }

@@ -44,7 +44,7 @@ const ItemWrapper = styled.a`
   color: #506176;
 
   :hover {
-    color: #1e2134;
+    color: var(--textPrimary);
   }
 `;
 

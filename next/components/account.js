@@ -142,7 +142,7 @@ const LogoutWrapper = styled.div`
   color: #506176;
 
   :hover {
-    color: #1e2134;
+    color: var(--textPrimary);
   }
 `;
 
