@@ -13,7 +13,7 @@ const Wrapper = styled(FlexCenter)`
   border: 1px solid var(--strokeActionDefault);
 
   &:hover {
-    border-color: #b7c0cc;
+    border-color: var(--strokeActionActive);
   }
 
   cursor: pointer;

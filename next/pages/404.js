@@ -55,7 +55,7 @@ const Content = styled.div`
     display: inline-block;
     padding-left: 16px;
     padding-right: 16px;
-    border: 1px solid #b7c0cc;
+    border: 1px solid var(--strokeActionActive);
     line-height: 40px;
   }
 `;

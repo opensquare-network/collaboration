@@ -9,7 +9,7 @@ const styledInput = styled.input`
   :hover,
   :focus,
   :active {
-    border-color: #b7c0cc;
+    border-color: var(--strokeActionActive);
   }
   ${p_14_normal};
   display: block;

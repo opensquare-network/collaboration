@@ -8,7 +8,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
   padding: 12px 16px;
   background: var(--fillBgPrimary);
-  border: 1px solid #b7c0cc;
+  border: 1px solid var(--strokeActionActive);
   gap: 8px;
 `;
 

@@ -6,7 +6,7 @@ import { ReactComponent as NotJoinedSVG } from "./not-joined.svg";
 const NotJoinedMark = styled(NotJoinedSVG)`
   &:hover {
     path {
-      fill: #b7c0cc;
+      fill: var(--strokeActionActive);
     }
   }
 `;

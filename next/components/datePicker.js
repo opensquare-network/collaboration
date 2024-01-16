@@ -27,7 +27,7 @@ const DateButton = styled.div`
   padding: 12px 16px;
   border: 1px solid var(--strokeActionDefault);
   :hover {
-    border-color: #b7c0cc;
+    border-color: var(--strokeActionActive);
   }
   display: flex;
   cursor: pointer;
@@ -47,7 +47,7 @@ const DateButton = styled.div`
   ${(p) =>
     p.active &&
     css`
-      border-color: #b7c0cc;
+      border-color: var(--strokeActionActive);
     `}
 `;
 

@@ -80,13 +80,13 @@ const AccountWrapperPC = styled(AccountWrapper)`
   border: 1px solid var(--strokeActionDefault);
 
   :hover {
-    border: 1px solid #b7c0cc;
+    border: 1px solid var(--strokeActionActive);
   }
 
   ${(p) =>
     p.show &&
     css`
-      border: 1px solid #b7c0cc;
+      border: 1px solid var(--strokeActionActive);
     `}
   padding: 7px 15px;
   @media screen and (max-width: 800px) {

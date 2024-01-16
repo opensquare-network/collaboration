@@ -10,12 +10,12 @@ const Wrapper = styled(FlexBetween)`
   border: 1px solid var(--strokeActionDefault);
   ${p_14_medium};
   :hover {
-    border-color: #b7c0cc;
+    border-color: var(--strokeActionActive);
   }
   ${(p) =>
     p.focus &&
     css`
-      border-color: #b7c0cc;
+      border-color: var(--strokeActionActive);
     `}
 `;
 

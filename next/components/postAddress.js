@@ -85,7 +85,7 @@ const Input = styled.input`
     color: var(--textTertiary);
   }
   :focus {
-    border-color: #b7c0cc;
+    border-color: var(--strokeActionActive);
   }
   ${(p) =>
     p.isLoading &&

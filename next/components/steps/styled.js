@@ -8,7 +8,7 @@ export const Index = styled.div`
   width: 32px;
   height: 32px;
 
-  border: 2px solid #b7c0cc;
+  border: 2px solid var(--strokeActionActive);
 
   font-style: normal;
   font-weight: 600;
