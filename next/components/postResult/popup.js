@@ -168,7 +168,7 @@ export default function Popup({ data, space, isTop }) {
   }, [votes, data, dispatch]);
 
   return (
-    <ResultWrapper isTop={isTop} className="shadow-shadowCardDefault">
+    <ResultWrapper isTop={isTop} className="shadow-shadowPopup">
       <TitleWrapper>
         Results
         <img src="/imgs/icons/strategy.svg" alt="" />
