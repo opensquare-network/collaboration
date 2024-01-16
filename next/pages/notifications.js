@@ -15,7 +15,7 @@ import { ReactComponent as CheckUnderline } from "@osn/common-ui/es/imgs/icons/c
 import { text_dark_minor } from "@osn/common-ui/es/styles/colors";
 import { p_14_medium } from "@osn/common-ui/es/styles/textStyles";
 import { useNotifications } from "hooks/notification/useNotifications";
-import ListLoader from "@/components/notification/listLoader";
+import { ListLoader } from "@osn/common-ui";
 
 const Wrapper = styled.div`
   position: relative;
