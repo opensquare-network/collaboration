@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Tooltip from "../tooltip";
+import { Tooltip } from "@osn/common-ui";
 import ValueDisplay from "../valueDisplay";
 
 const Wrapper = styled.div`

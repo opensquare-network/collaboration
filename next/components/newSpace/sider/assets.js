@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Name, Value } from "./styled";
 import { ChainIcon } from "@osn/common-ui";
-import Tooltip from "@/components/tooltip";
+import { Tooltip } from "@osn/common-ui";
 
 const Wrapper = styled.div`
   display: flex;

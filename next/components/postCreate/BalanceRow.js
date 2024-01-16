@@ -1,6 +1,6 @@
 import { ReactComponent as Loading } from "../../public/imgs/icons/loading.svg";
 import Row from "@/components/row";
-import Tooltip from "@/components/tooltip";
+import { Tooltip } from "@osn/common-ui";
 import { bigNumber2LocaleWithAbbr, toPrecision } from "../../frontedUtils";
 import { memo } from "react";
 import BigNumber from "bignumber.js";

@@ -3,7 +3,7 @@ import copy from "copy-to-clipboard";
 import styled from "styled-components";
 import { ReactComponent as Twitter } from "./twitter.svg";
 import { ReactComponent as CopySvg } from "./copy.svg";
-import Tooltip from "@/components/tooltip";
+import { Tooltip } from "@osn/common-ui";
 
 const Wrapper = styled.div`
   display: flex;
