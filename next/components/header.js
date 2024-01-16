@@ -74,9 +74,7 @@ const HoverMenu = styled.div`
   z-index: 1;
   top: 60px;
   width: 360px;
-  box-shadow: 0 4px 31px rgba(26, 33, 44, 0.06),
-    0px 0.751293px 8px rgba(26, 33, 44, 0.04);
-  background: white;
+  background-color: var(--fillBgPrimary);
 `;
 
 const MenuItem = styled.a`
@@ -114,7 +112,6 @@ const HeaderItemWrapper = styled.div`
     left: 0;
     right: 0;
   }
-  background-color: white;
 `;
 
 const SecondaryHeaderItemWrapper = styled(HeaderItemWrapper)`
@@ -189,7 +186,7 @@ export default function Header({ networks }) {
             className="hidden dark:block h-10"
           />
 
-          <HoverMenu className="hoverMenu">
+          <HoverMenu className="hoverMenu shadow-shadowPopup">
             <MenuItem href="/">
               <img src="/imgs/icons/voting.svg" alt="" />
               <p>Off-chain Voting</p>
