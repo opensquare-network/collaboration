@@ -140,7 +140,7 @@ const ExternalLinkWrapper = styled(Flex)`
 
 const ExternalLink = styled.a`
   ${p_16_semibold};
-  color: #506176;
+  color: var(--textSecondary);
   display: none;
   @media screen and (min-width: 800px) {
     display: flex;
@@ -152,7 +152,7 @@ const ExternalLink = styled.a`
   }
 
   &:hover {
-    color: #506176;
+    color: var(--textSecondary);
   }
 `;
 

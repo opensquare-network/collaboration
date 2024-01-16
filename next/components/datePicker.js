@@ -42,7 +42,7 @@ const DateButton = styled.div`
   }
   > svg {
     flex: 0 0 24px;
-    fill: #506176;
+    fill: var(--textSecondary);
   }
   ${(p) =>
     p.active &&
@@ -71,7 +71,7 @@ const DateWrapper = styled.div`
     font-family: Inter, sans-serif;
     ${p_14_medium};
     text-align: center;
-    color: #506176;
+    color: var(--textSecondary);
     margin: 0 !important;
   }
 
@@ -141,7 +141,7 @@ const DateHeader = styled(Flex)`
   > svg {
     cursor: pointer;
     path {
-      fill: #506176;
+      fill: var(--textSecondary);
     }
   }
 `;

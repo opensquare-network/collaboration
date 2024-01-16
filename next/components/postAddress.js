@@ -131,7 +131,7 @@ const DetailWrapper = styled.div`
   > :last-child {
     font-size: 14px;
     line-height: 24px;
-    color: #506176;
+    color: var(--textSecondary);
   }
   ${(p) =>
     p.size === "small" &&

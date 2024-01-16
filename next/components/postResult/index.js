@@ -22,7 +22,7 @@ const IconWrapper = styled.div`
   }
   :hover {
     svg {
-      fill: #506176;
+      fill: var(--textSecondary);
     }
   }
 `;

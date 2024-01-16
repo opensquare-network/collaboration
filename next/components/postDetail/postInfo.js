@@ -31,7 +31,7 @@ const InfoItem = styled.div`
   line-height: 24px;
 
   > :first-child {
-    color: #506176;
+    color: var(--textSecondary);
     margin-right: 8px;
   }
 
@@ -53,7 +53,7 @@ const TimestampItem = styled.div`
   line-height: 24px;
 
   > :first-child {
-    color: #506176;
+    color: var(--textSecondary);
   }
 
   span {

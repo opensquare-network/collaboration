@@ -10,7 +10,7 @@ const Wrapper = styled.div`
 `;
 
 const LabelWrapper = styled.div`
-  color: #506176;
+  color: var(--textSecondary);
   position: relative;
   display: flex;
   max-width: 55%;

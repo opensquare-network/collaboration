@@ -14,7 +14,7 @@ export const VoteItem = styled.div`
   ${p_14_medium};
 
   > :first-child {
-    color: #506176;
+    color: var(--textSecondary);
   }
 `;
 
@@ -78,7 +78,7 @@ export const StatusResultName = styled.span`
   font-weight: 500;
   font-size: 14px;
   line-height: 24px;
-  color: #506176;
+  color: var(--textSecondary);
 `;
 
 export const SubtitleWrapper = styled.div`
@@ -96,7 +96,7 @@ export const Subtitle = styled.div`
   }
   :hover {
     svg {
-      fill: #506176;
+      fill: var(--textSecondary);
     }
   }
 `;

@@ -45,7 +45,7 @@ const TitleWrapper = styled.div`
 const SpaceButton = styled.div`
   cursor: pointer;
   ${p_16_semibold};
-  color: #506176;
+  color: var(--textSecondary);
 `;
 
 const ButtonWrapper = styled.div`

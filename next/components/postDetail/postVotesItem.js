@@ -80,7 +80,7 @@ const MyVoteTag = styled.div`
   display: flex;
   align-items: center;
   background-color: var(--fillBgTertiary);
-  color: #506176;
+  color: var(--textSecondary);
   border-radius: 9px;
   padding: 2px 10px;
   font-weight: 600;

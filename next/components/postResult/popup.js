@@ -64,7 +64,7 @@ const VoteItem = styled.div`
   ${p_14_medium};
 
   > :first-child {
-    color: #506176;
+    color: var(--textSecondary);
   }
 `;
 

@@ -37,7 +37,7 @@ const Content = styled.div`
   padding-top: 80px;
   height: 488px;
   ${p_16_normal};
-  color: #506176;
+  color: var(--textSecondary);
   background-image: url("/imgs/backgrounds/bg-404.png");
   background-position-x: 50%;
   background-repeat: no-repeat;

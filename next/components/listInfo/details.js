@@ -62,7 +62,7 @@ const DetailsItem = styled.div`
 
 const DetailsLabel = styled.span`
   ${p_14_medium};
-  color: #506176;
+  color: var(--textSecondary);
 `;
 
 const DetailsValue = styled(FlexBetween)`

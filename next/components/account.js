@@ -139,7 +139,7 @@ const LogoutWrapper = styled.div`
   align-items: center;
   justify-content: space-between;
   ${p_14_medium};
-  color: #506176;
+  color: var(--textSecondary);
 
   :hover {
     color: var(--textPrimary);

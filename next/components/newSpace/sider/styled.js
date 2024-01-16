@@ -5,7 +5,7 @@ export const Name = styled.span`
   font-weight: 500;
   font-size: 14px;
   line-height: 24px;
-  color: #506176;
+  color: var(--textSecondary);
 `;
 
 export const Value = styled.div`

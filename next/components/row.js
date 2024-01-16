@@ -4,7 +4,7 @@ import { Flex, FlexBetween } from "@osn/common-ui";
 
 const Header = styled.div`
   ${p_14_medium};
-  color: #506176;
+  color: var(--textSecondary);
   flex-shrink: 1;
   white-space: nowrap;
 `;

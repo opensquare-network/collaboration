@@ -67,7 +67,7 @@ const Snapshot = styled(FlexBetween)`
 
 const NetworkName = styled.div`
   ${p_14_medium};
-  color: #506176;
+  color: var(--textSecondary);
   text-transform: capitalize;
 `;
 

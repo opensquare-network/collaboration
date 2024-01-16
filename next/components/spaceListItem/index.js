@@ -64,7 +64,7 @@ const Count = styled.span`
 `;
 
 const ActiveCount = styled(Count)`
-  color: #506176;
+  color: var(--textSecondary);
 `;
 
 const Wrapper = styled.div`

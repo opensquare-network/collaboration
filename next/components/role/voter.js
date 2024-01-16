@@ -13,7 +13,7 @@ const Wrapper = styled.div`
 `;
 
 const TextMinor = styled.span`
-  color: #506176;
+  color: var(--textSecondary);
   word-break: break-all;
 `;
 
