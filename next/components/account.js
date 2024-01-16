@@ -10,7 +10,6 @@ import {
 import Avatar from "./avatar";
 import { p_14_medium } from "../styles/textStyles";
 import { ReactComponent as UserIcon } from "../public/imgs/icons/user.svg";
-import { shadow_200 } from "../styles/globalCss";
 import { useWindowSize } from "../frontedUtils/hooks";
 import ButtonPrimary from "@osn/common-ui/es/styled/Button";
 import {
@@ -103,7 +102,7 @@ const MenuWrapper = styled.div`
   top: 100%;
   background: var(--fillBgPrimary);
   border: 1px solid var(--strokeBorderDefault);
-  ${shadow_200};
+  box-shadow: var(--shadowCardHover);
   padding: 16px;
   padding-bottom: 8px;
   z-index: 1;

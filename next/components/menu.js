@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { shadow_200 } from "../styles/globalCss";
 import { useSelector } from "react-redux";
 import { showHeaderMenuSelector } from "../store/reducers/showConnectSlice";
 import { p_14_medium } from "../styles/textStyles";
@@ -15,7 +14,7 @@ const MenuWrapper = styled.div`
   top: 100%;
   background: var(--fillBgPrimary);
   border: 1px solid var(--strokeBorderDefault);
-  ${shadow_200};
+  box-shadow: var(--shadowCardHover);
   padding: 20px;
   padding-bottom: 8px;
   z-index: 1;

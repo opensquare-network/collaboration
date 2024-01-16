@@ -7,7 +7,7 @@ import {
   loginAddressSelector,
 } from "store/reducers/accountSlice";
 import InternalLink from "../internalLink";
-import { shadow_100, shadow_200, makeSquare } from "../../styles/globalCss";
+import { makeSquare } from "../../styles/globalCss";
 import { p_18_semibold } from "../../styles/textStyles";
 import SpaceLogo from "@/components/spaceLogo";
 import nextApi from "services/nextApi";
@@ -71,15 +71,15 @@ const Wrapper = styled.div`
   position: relative;
   flex: 0 0 auto;
   border: 1px solid var(--strokeBorderDefault);
-  ${shadow_100};
+  box-shadow: var(--shadowCardDefault);
   background: var(--fillBgPrimary);
   padding: 24px;
   cursor: pointer;
   width: 200px;
 
   :hover {
-    border-color: #e2e8f0;
-    ${shadow_200}
+    border-color: var(--strokeActionDefault);
+    box-shadow: var(--shadowCardHover);
   }
 `;
 

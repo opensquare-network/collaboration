@@ -4,7 +4,6 @@ import Author from "./author";
 import InternalLink from "components/internalLink";
 import HardLink from "components/hardLink";
 import { p_16_semibold } from "styles/textStyles";
-import { shadow_100, shadow_200 } from "styles/globalCss";
 import StatusTag from "./statusTag";
 import PostTime from "./postTime";
 import { p_24 } from "../styles/paddings";
@@ -19,13 +18,13 @@ import { getSpaceIconUrl } from "frontedUtils/space";
 const Wrapper = styled.div`
   background: var(--fillBgPrimary);
   border: 1px solid var(--strokeBorderDefault);
-  ${shadow_100}
+  box-shadow: var(--shadowCardDefault);
   ${p_24};
 
   :hover {
     border-color: var(--strokeActionDefault);
 
-    ${shadow_200}
+    box-shadow: var(--shadowCardHover);
     .icon > svg {
       display: block;
     }
