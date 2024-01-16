@@ -15,7 +15,7 @@ const Wrapper = styled.div`
 
   background: #fbfcfe;
 
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--strokeActionDefault);
   border-radius: 50%;
   overflow: hidden;
 `;

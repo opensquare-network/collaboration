@@ -25,7 +25,7 @@ const DateTimeWrapper = styled.div``;
 
 const DateButton = styled.div`
   padding: 12px 16px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--strokeActionDefault);
   :hover {
     border-color: #b7c0cc;
   }
@@ -106,7 +106,7 @@ const DateWrapper = styled.div`
 
   .react-datepicker__day--today {
     font-weight: 600;
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--strokeActionDefault);
   }
 
   .react-datepicker__day--selected {
@@ -188,7 +188,7 @@ const TimeInputWrapper = styled(FlexBetween)`
   padding: 12px 4px;
   width: 280px;
   height: 48px;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid var(--strokeActionDefault);
   ${p_14_normal};
   background: #fbfcfe;
 `;

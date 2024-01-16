@@ -7,7 +7,7 @@ import { FlexBetween } from "@osn/common-ui";
 
 const Wrapper = styled(FlexBetween)`
   padding: 12px 24px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--strokeActionDefault);
   ${p_14_medium};
   :hover {
     border-color: #b7c0cc;

@@ -10,7 +10,7 @@ import { loginAddressSelector } from "store/reducers/accountSlice";
 const Wrapper = styled(FlexCenter)`
   width: 38px;
   height: 38px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--strokeActionDefault);
 
   &:hover {
     border-color: #b7c0cc;

@@ -78,7 +78,7 @@ const InputWrapper = styled.div`
 const Input = styled.input`
   all: unset;
   background-color: var(--fillBgPrimary);
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--strokeActionDefault);
   padding: 23px 47px 23px 71px;
   ${p_14_normal};
   ::placeholder {
@@ -105,7 +105,7 @@ const Input = styled.input`
 
 const ItemWrapper = styled(Flex)`
   padding: 11px 15px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--strokeActionDefault);
   background: var(--fillBgPrimary);
   cursor: pointer;
   overflow: hidden;

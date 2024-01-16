@@ -5,7 +5,7 @@ const styledInput = styled.input`
   all: unset;
   padding: 12px 16px;
   background: #fbfcfe;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid var(--strokeActionDefault);
   :hover,
   :focus,
   :active {

@@ -23,7 +23,7 @@ const Wrapper = styled.div`
   ${p_24};
 
   :hover {
-    border-color: #e2e8f0;
+    border-color: var(--strokeActionDefault);
 
     ${shadow_200}
     .icon > svg {

@@ -8,7 +8,7 @@ const Wrapper = styled.div`
   align-items: center;
   padding: 12px 16px;
   background: #fbfcfe;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--strokeActionDefault);
   ${p_14_normal};
 `;
 

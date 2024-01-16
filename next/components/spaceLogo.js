@@ -4,7 +4,7 @@ import { getSpaceIconUrl } from "frontedUtils/space";
 
 const LogoImg = styled.img`
   ${makeSquare(64)};
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--strokeActionDefault);
   border-radius: 32px;
   margin-right: 24px;
 `;
