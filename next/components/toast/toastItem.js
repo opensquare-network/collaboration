@@ -7,17 +7,16 @@ import { ReactComponent as Close } from "public/imgs/icons/close.svg";
 import { ReactComponent as Sticky } from "public/imgs/icons/sticky.svg";
 import { TOAST_TYPES } from "frontedUtils/constants";
 import { useIsMounted } from "frontedUtils/hooks";
+import { cn } from "@osn/common-ui";
 
 const Wrapper = styled.div`
   padding: 20px;
   width: 400px;
   background: var(--fillBgPrimary);
-  filter: drop-shadow(0px 4px 31px rgba(26, 33, 44, 0.06))
-    drop-shadow(0px 0.751293px 8px rgba(26, 33, 44, 0.04));
   color: rgba(17, 17, 17, 0.65);
   display: flex;
   align-items: flex-start;
-  border-left: 4px solid #ffffff;
+  border-left: 4px solid var(--strokeActionDefault);
   ${(p) =>
     p.color &&
     css`
@@ -108,7 +107,7 @@ const ToastItem = ({ type, message, id, sticky }) => {
 
   if (!message) return null;
   return (
-    <Wrapper color={color} className={tranClass}>
+    <Wrapper color={color} className={cn("shadow-shadowPopup", tranClass)}>
       <LeftWrapper>
         <Title>{type}</Title>
         <Content>{message}</Content>
