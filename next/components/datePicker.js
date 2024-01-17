@@ -8,14 +8,13 @@ import { useOnClickOutside } from "frontedUtils/hooks";
 import { ReactComponent as CaretRight } from "/public/imgs/icons/caret-right.svg";
 import { ReactComponent as ArrowLeft } from "/public/imgs/icons/arrow-left.svg";
 import { ReactComponent as ArrowRight } from "/public/imgs/icons/arrow-right.svg";
-import Button from "@osn/common-ui/es/styled/Button";
 import {
   p_14_medium,
   p_14_normal,
   p_16_normal,
   p_16_semibold,
 } from "../styles/textStyles";
-import { Flex, FlexBetween } from "@osn/common-ui";
+import { Flex, FlexBetween, Button } from "@osn/common-ui";
 
 const Wrapper = styled.div`
   position: relative;
@@ -81,6 +80,7 @@ const DateWrapper = styled.div`
   .react-datepicker {
     border-radius: 0;
     border: none;
+    background: transparent;
   }
 
   .react-datepicker__month {
