@@ -24,7 +24,7 @@ const DeleteWrapper = styled.div`
   font-weight: 500;
   font-size: 14px;
   line-height: 24px;
-  color: #ee4444;
+  color: var(--textFeedbackError);
 `;
 
 const MyFieldWrapper = styled(FieldWrapper)`

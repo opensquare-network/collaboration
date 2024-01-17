@@ -73,7 +73,7 @@ const getToastColor = (type) => {
     case TOAST_TYPES.SUCCESS:
       return "#4CAF50";
     case TOAST_TYPES.ERROR:
-      return "#EE4444";
+      return "var(--textFeedbackError)";
     case TOAST_TYPES.INFO:
     case TOAST_TYPES.PENDING:
       return "var(--fillBgBrandPrimary)";

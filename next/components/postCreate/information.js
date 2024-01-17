@@ -22,7 +22,7 @@ import BalanceRow from "@/components/postCreate/BalanceRow";
 
 const Hint = styled.div`
   margin-top: 4px !important;
-  color: #ee4444;
+  color: var(--textFeedbackError);
 `;
 
 const ProxyVoteWrapper = styled.div`

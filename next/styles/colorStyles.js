@@ -5,5 +5,5 @@ export const text_dark_major = css`
 `;
 
 export const text_secondary_red_500 = css`
-  color: #ee4444;
+  color: var(--textFeedbackError);
 `;
