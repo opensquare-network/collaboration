@@ -3,7 +3,7 @@ import { ReactComponent as CheckedSVG } from "./checked.svg";
 import { Index } from "./styled";
 
 const Wrapper = styled(Index)`
-  border-color: #04d2c5;
+  border-color: var(--strokeBgBrandSecondary);
 `;
 
 export default function CheckedIndex() {

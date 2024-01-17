@@ -4,7 +4,7 @@ import { Index } from "./styled";
 const Wrapper = styled(Index)`
   background: #04d2c5;
   color: var(--textPrimary);
-  border-color: #04d2c5;
+  border-color: var(--strokeBgBrandSecondary);
 `;
 
 export default function CurrentIndex({ children }) {

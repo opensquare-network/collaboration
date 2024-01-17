@@ -44,7 +44,7 @@ const Item = styled.div`
   ${(p) =>
     p.active &&
     css`
-      border-bottom: 3px solid #04d2c5;
+      border-bottom: 3px solid var(--strokeBgBrandSecondary);
       padding-bottom: 17px;
     `}
 `;

@@ -23,11 +23,11 @@ export const NavigationLine = styled.div`
   min-width: 30px;
   height: 0px;
 
-  border: 2px solid #04d2c5;
+  border: 2px solid var(--strokeBgBrandSecondary);
 
   ${({ isHidden }) =>
     isHidden &&
     css`
-      border-color: rgba(0, 0, 0, 0);
+      border-color: transparent;
     `}
 `;
