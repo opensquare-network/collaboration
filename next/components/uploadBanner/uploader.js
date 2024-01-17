@@ -1,14 +1,9 @@
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
-import { Flex } from "@osn/common-ui";
+import { Flex, cn } from "@osn/common-ui";
 import nextApi from "services/nextApi";
 import { LoadingIcon } from "@osn/common-ui";
-import { ReactComponent as Upload } from "../../public/imgs/icons/upload.svg";
-
-const UploadIcon = styled(Upload)`
-  flex-basis: 100%;
-  cursor: pointer;
-`;
+import { SystemUpload } from "@osn/icons/opensquare";
 
 const Wrapper = styled.div`
   position: relative;
@@ -16,14 +11,6 @@ const Wrapper = styled.div`
   .hidden {
     display: none;
   }
-`;
-
-const UploadArea = styled(Flex)`
-  padding-top: 16px;
-  padding-bottom: 16px;
-  justify-content: center;
-  border: 1px dashed;
-  border-color: ${(props) => props.theme.neutralGrey300};
 `;
 
 const Tips = styled.ul`
@@ -67,12 +54,6 @@ const Delete = styled(Button)`
   flex-basis: 100%;
   margin-left: calc(50% - 20px);
 `;
-const UploadTip = styled.p`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-`;
 const BannerPreview = styled(Flex)`
   flex-wrap: wrap;
   justify-content: center;
@@ -91,6 +72,10 @@ function Uploader({ setBannerUrl }) {
   const [uploading, setUploading] = useState(false);
 
   const handleSelectFile = () => {
+    if (uploading) {
+      return;
+    }
+
     inputEl.current?.click();
   };
 
@@ -159,14 +144,18 @@ function Uploader({ setBannerUrl }) {
 
   return (
     <Wrapper>
-      <UploadArea
+      <div
         onDragOver={onDragOver}
         onDragLeave={onDragLeave}
         onDrop={onDrop}
-        active={dragging}
+        className={cn(
+          "border border-dashed border-strokeActionDefault",
+          "py-4",
+          dragging && "border-strokeActionActive",
+        )}
       >
         {uploading ? (
-          <LoadingIcon />
+          <LoadingIcon className="[&_path]:fill-textTertiary" />
         ) : (
           <>
             {currentBanner ? (
@@ -175,17 +164,23 @@ function Uploader({ setBannerUrl }) {
                 <Delete onClick={handleRemoveBanner}>Delete</Delete>
               </BannerPreview>
             ) : (
-              <UploadTip>
-                <UploadIcon onClick={handleSelectFile} />
+              <div className="flex flex-col items-center">
+                <div className="h-28 flex items-center">
+                  <SystemUpload
+                    role="button"
+                    className="[&_path]:fill-textTertiary"
+                    onClick={handleSelectFile}
+                  />
+                </div>
                 <Hint>
                   <span>Drop image or</span>
                   <SelectFile onClick={handleSelectFile}>Upload</SelectFile>
                 </Hint>
-              </UploadTip>
+              </div>
             )}
           </>
         )}
-      </UploadArea>
+      </div>
       <Tips>
         <li>We recommend a 16:9 image.</li>
         <li>The banner will be a shared preview on social media.</li>
