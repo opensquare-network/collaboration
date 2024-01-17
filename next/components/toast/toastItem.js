@@ -71,7 +71,7 @@ const RightWrapper = styled.div`
 const getToastColor = (type) => {
   switch (type) {
     case TOAST_TYPES.SUCCESS:
-      return "#4CAF50";
+      return "var(--textFeedbackSuccess)";
     case TOAST_TYPES.ERROR:
       return "var(--textFeedbackError)";
     case TOAST_TYPES.INFO:

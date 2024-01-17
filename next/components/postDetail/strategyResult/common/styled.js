@@ -135,6 +135,7 @@ export const StatusItem = styled.div`
   font-size: 14px;
   line-height: 100%;
   text-align: center;
-  color: ${(p) => (p.positive ? "#4CAF50" : "var(--textFeedbackError)")};
+  color: ${(p) =>
+    p.positive ? "var(--textFeedbackSuccess)" : "var(--textFeedbackError)"};
   background: ${(p) => (p.positive ? "#EDF7ED" : "var(--accentRed25a)")};
 `;

@@ -27,7 +27,7 @@ const ShareItem = styled.span`
         fill: #edf7ed;
       }
       path {
-        fill: #4caf50;
+        fill: var(--textFeedbackSuccess);
       }
     }
   }
