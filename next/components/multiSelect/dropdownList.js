@@ -12,8 +12,7 @@ const Wrapper = styled.div`
 
   background: var(--fillBgPrimary);
 
-  box-shadow: 0px 4px 31px rgba(26, 33, 44, 0.06),
-    0px 0.751293px 8px rgba(26, 33, 44, 0.04);
+  box-shadow: var(--shadowCardDefault);
 `;
 
 export default function DropdownList({
