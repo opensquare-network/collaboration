@@ -16,10 +16,10 @@ const ShareItem = styled.span`
   &:hover {
     .twitter {
       rect {
-        fill: #e6f4fe;
+        fill: var(--accentBlue25a);
       }
       path {
-        fill: #33a2f2;
+        fill: var(--accentBlue500a);
       }
     }
     .copy {
