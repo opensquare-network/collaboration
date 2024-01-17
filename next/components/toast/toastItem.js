@@ -56,9 +56,9 @@ const RightWrapper = styled.div`
   cursor: pointer;
   > svg {
     path {
-      fill: #9da9bb;
+      fill: var(--textTertiary);
     }
-    fill: #9da9bb;
+    fill: var(--textTertiary);
     :hover {
       fill: var(--textPrimary);
       path {
@@ -78,7 +78,7 @@ const getToastColor = (type) => {
     case TOAST_TYPES.PENDING:
       return "#6848FF";
     default:
-      return "#9DA9BB";
+      return "var(--textTertiary)";
   }
 };
 

@@ -15,7 +15,7 @@ const styledInput = styled.input`
   display: block;
   color: var(--textPrimary);
   ::placeholder {
-    color: #9da9bb;
+    color: var(--textTertiary);
   }
   ::-webkit-outer-spin-button,
   ::-webkit-inner-spin-button {

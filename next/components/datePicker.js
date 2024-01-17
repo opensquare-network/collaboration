@@ -35,7 +35,7 @@ const DateButton = styled.div`
   font-size: 14px;
   line-height: 24px;
   .placeholder {
-    color: #9da9bb;
+    color: var(--textTertiary);
   }
   > div {
     flex-grow: 1;
@@ -114,7 +114,7 @@ const DateWrapper = styled.div`
   }
 
   .react-datepicker__day--outside-month {
-    color: #9da9bb;
+    color: var(--textTertiary);
   }
 
   .react-datepicker__day--keyboard-selected {
@@ -122,7 +122,7 @@ const DateWrapper = styled.div`
   }
 
   .react-datepicker__day--disabled {
-    color: #9da9bb;
+    color: var(--textTertiary);
     cursor: not-allowed;
     &:hover {
       background: none;
@@ -178,7 +178,7 @@ const TimeHeaderWrapper = styled(FlexBetween)`
     color: var(--textPrimary);
   }
   > :last-child {
-    color: #9da9bb;
+    color: var(--textTertiary);
     font-size: 14px;
   }
 `;

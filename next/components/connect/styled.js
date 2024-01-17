@@ -23,7 +23,7 @@ export const CloseBar = styled.div`
   flex-direction: row-reverse;
 
   > svg path {
-    fill: #9da9bb;
+    fill: var(--textTertiary);
   }
 
   cursor: pointer;

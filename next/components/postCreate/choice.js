@@ -37,7 +37,7 @@ const SubstractButtonWrapper = styled.div`
 const SubstractButton = styled(Substract)`
   flex: 0 0 auto;
   cursor: pointer;
-  fill: #9da9bb;
+  fill: var(--textTertiary);
   :hover {
     fill: var(--textPrimary);
   }

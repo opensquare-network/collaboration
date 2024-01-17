@@ -14,7 +14,7 @@ const Text = styled.p`
 
 const TextMinor = styled(Text)`
   ${p_14_normal};
-  color: #9da9bb;
+  color: var(--textTertiary);
 `;
 
 const ItemWrapper = styled.div`

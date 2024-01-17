@@ -13,7 +13,7 @@ export const text_primary = css`
 `;
 
 export const text_accessory = css`
-  color: #9da9bb;
+  color: var(--textTertiary);
 `;
 
 export const no_scroll_bar = css`
