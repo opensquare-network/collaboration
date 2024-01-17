@@ -37,7 +37,7 @@ const ContentWrapper = styled.div`
 
 const Content = styled.div`
   line-height: 24px;
-  color: rgba(80, 97, 118, 1);
+  color: var(--textSecondary);
 `;
 
 const BalanceWrapper = styled.div`

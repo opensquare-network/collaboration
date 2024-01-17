@@ -107,7 +107,7 @@ export const FlexAround = styled.div`
   justify-content: right;
 
   .quorum-value {
-    color: rgba(161, 168, 179, 1);
+    color: var(--textTertiary);
   }
 `;
 
