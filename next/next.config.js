@@ -34,14 +34,16 @@ module.exports = {
       ],
     });
 
-    config.resolve.alias["react"] = path.resolve(
-      __dirname,
-      "node_modules/react",
-    );
-    config.resolve.alias["styled-components"] = path.resolve(
-      __dirname,
-      "node_modules/styled-components",
-    );
+    alias("react");
+    alias("styled-components");
+
+    function alias(module) {
+      config.resolve.alias[module] = path.resolve(
+        __dirname,
+        "node_modules",
+        module,
+      );
+    }
 
     return config;
   },
