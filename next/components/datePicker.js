@@ -190,7 +190,7 @@ const TimeInputWrapper = styled(FlexBetween)`
   height: 48px;
   border-bottom: 1px solid var(--strokeActionDefault);
   ${p_14_normal};
-  background: #fbfcfe;
+  background: var(--fillBgSecondary);
 `;
 
 const TimeInput = styled.input`

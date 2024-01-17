@@ -6,7 +6,7 @@ const Wrapper = styled.div`
 
   border: 1px solid var(--strokeActionDefault);
   border-radius: 50%;
-  background: #fbfcfe;
+  background: var(--fillBgSecondary);
 
   overflow: hidden;
 `;

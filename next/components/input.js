@@ -4,7 +4,7 @@ import { p_14_normal } from "../styles/textStyles";
 const styledInput = styled.input`
   all: unset;
   padding: 12px 16px;
-  background: #fbfcfe;
+  background: var(--fillBgSecondary);
   border-bottom: 1px solid var(--strokeActionDefault);
   :hover,
   :focus,

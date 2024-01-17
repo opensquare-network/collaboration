@@ -34,7 +34,7 @@ const FETCH_BALANCE_ERROR =
 
 const Wrapper = styled.div`
   padding: 20px;
-  background: #fbfcfe;
+  background: var(--fillBgSecondary);
   ${(p) =>
     p.size === "small" &&
     css`
