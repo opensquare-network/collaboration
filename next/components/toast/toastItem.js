@@ -76,7 +76,7 @@ const getToastColor = (type) => {
       return "#EE4444";
     case TOAST_TYPES.INFO:
     case TOAST_TYPES.PENDING:
-      return "#6848FF";
+      return "var(--fillBgBrandPrimary)";
     default:
       return "var(--textTertiary)";
   }

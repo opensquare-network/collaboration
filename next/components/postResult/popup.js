@@ -86,7 +86,7 @@ const ProgressBar = styled.div`
   height: 6px;
   left: 0;
   top: 0;
-  background: #6848ff;
+  background: var(--fillBgBrandPrimary);
   width: ${(p) => p.percent};
 `;
 
