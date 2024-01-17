@@ -1,5 +1,5 @@
 const theme = {
-  primaryTurquoise500: "#04D2C5",
+  primaryTurquoise500: "var(--brandTurquoise500a)",
   darkMinor: "var(--textSecondary)",
   neutralGrey300: "var(--strokeActionDefault)",
 };
