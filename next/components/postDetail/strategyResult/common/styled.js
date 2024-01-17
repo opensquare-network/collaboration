@@ -137,5 +137,6 @@ export const StatusItem = styled.div`
   text-align: center;
   color: ${(p) =>
     p.positive ? "var(--textFeedbackSuccess)" : "var(--textFeedbackError)"};
-  background: ${(p) => (p.positive ? "#EDF7ED" : "var(--accentRed25a)")};
+  background: ${(p) =>
+    p.positive ? "var(--accentGreen25a)" : "var(--accentRed25a)"};
 `;

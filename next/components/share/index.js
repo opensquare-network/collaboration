@@ -24,7 +24,7 @@ const ShareItem = styled.span`
     }
     .copy {
       rect {
-        fill: #edf7ed;
+        fill: var(--accentGreen25a);
       }
       path {
         fill: var(--textFeedbackSuccess);
