@@ -13,7 +13,7 @@ const Text = styled.span`
   font-weight: 600;
   font-size: 16px;
   line-height: 24px;
-  color: #04d2c5;
+  var(--textBrandSecondary);
 `;
 
 export default function NewAssetButton({ onClick = noop }) {
