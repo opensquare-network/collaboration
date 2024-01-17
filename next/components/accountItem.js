@@ -19,7 +19,6 @@ const TextMinor = styled(Text)`
 
 const ItemWrapper = styled.div`
   height: 64px;
-  padding: 8px 16px;
   display: flex;
   align-items: center;
   & > div:first-child {
