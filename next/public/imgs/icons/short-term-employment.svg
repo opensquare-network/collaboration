@@ -16,12 +16,12 @@
             <stop offset="1" stop-color="#6848FF" stop-opacity="0.2"/>
         </linearGradient>
         <linearGradient id="paint1_linear_8474_33746" x1="8.99999" y1="0.666748" x2="8.99999" y2="22.5239" gradientUnits="userSpaceOnUse">
-            <stop stop-color="#04D2C5"/>
-            <stop offset="1" stop-color="#04D2C5" stop-opacity="0.2"/>
+            <stop stop-color="var(--fillBgBrandSecondary, #04d2c5)"/>
+            <stop offset="1" stop-color="var(--fillBgBrandSecondary, #04d2c5)" stop-opacity="0.2"/>
         </linearGradient>
         <linearGradient id="paint2_linear_8474_33746" x1="3.33332" y1="18" x2="3.33332" y2="23.1429" gradientUnits="userSpaceOnUse">
-            <stop stop-color="#04D2C5"/>
-            <stop offset="1" stop-color="#04D2C5" stop-opacity="0.2"/>
+            <stop stop-color="var(--fillBgBrandSecondary, #04d2c5)"/>
+            <stop offset="1" stop-color="var(--fillBgBrandSecondary, #04d2c5)" stop-opacity="0.2"/>
         </linearGradient>
     </defs>
 </svg>
