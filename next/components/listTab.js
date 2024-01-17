@@ -52,7 +52,7 @@ const Item = styled.div`
 const NewPostLink = styled(Flex)`
   cursor: pointer;
   ${p_16_semibold};
-  var(--textBrandSecondary);
+  color: var(--textBrandSecondary);
   margin-left: 40px;
   > img {
     width: 24px;
