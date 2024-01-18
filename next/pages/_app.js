@@ -53,9 +53,10 @@ function MyApp({ Component, pageProps }) {
         }
         html,
         body {
-          font-family: ${inter.style.fontFamily} -apple-system, "Helvetica Neue",
-            Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC",
-            "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+          font-family: ${inter.style.fontFamily}, -apple-system,
+            "Helvetica Neue", Helvetica, Arial, "PingFang SC",
+            "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei",
+            "WenQuanYi Micro Hei", sans-serif;
         }
       `}</style>
 
