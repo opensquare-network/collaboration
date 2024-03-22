@@ -198,7 +198,7 @@ function Account({ networks }) {
   );
 
   const Menu = (
-    <MenuWrapper onClick={(e) => e.stopPropagation()}>
+    <MenuWrapper className="modals" onClick={(e) => e.stopPropagation()}>
       {/*The dark connect button For Mobile only*/}
       {!account && windowSize.width <= 800 && ConnectWalletButton}
       {/*The dark connect button For Mobile only*/}
