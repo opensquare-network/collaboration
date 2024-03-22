@@ -12,6 +12,7 @@ import "@osn/common-ui/styles/index.css";
 import "@osn/previewer/styles.css";
 import { cn } from "@osn/common-ui";
 import { Inter, Montserrat } from "next/font/google";
+import { ConfigProvider } from "@osn/common-ui";
 
 NProgress.configure({
   minimum: 0.3,
@@ -61,18 +62,20 @@ function MyApp({ Component, pageProps }) {
       `}</style>
 
       <Provider store={store}>
-        <Head>
-          <title>OpenSquare Network Off-chain Voting</title>
-          <meta
-            name="viewport"
-            content="width=device-width, user-scalable=no"
-          />
-        </Head>
-        <main
-          className={cn(inter.className, inter.variable, montserrat.variable)}
-        >
-          <Component {...pageProps} />
-        </main>
+        <ConfigProvider themeMode="system">
+          <Head>
+            <title>OpenSquare Network Off-chain Voting</title>
+            <meta
+              name="viewport"
+              content="width=device-width, user-scalable=no"
+            />
+          </Head>
+          <main
+            className={cn(inter.className, inter.variable, montserrat.variable)}
+          >
+            <Component {...pageProps} />
+          </main>
+        </ConfigProvider>
       </Provider>
     </>
   );
