@@ -26,7 +26,6 @@ const MenuWrapper = styled.div`
     position: initial;
     padding-top: 0;
     padding-bottom: 0;
-    border-bottom: 20px solid white;
   }
 `;
 

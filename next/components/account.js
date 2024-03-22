@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { memo, useEffect, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -10,7 +10,6 @@ import {
 import Avatar from "./avatar";
 import { p_14_medium } from "../styles/textStyles";
 import { ReactComponent as UserIcon } from "../public/imgs/icons/user.svg";
-import { useWindowSize } from "../frontedUtils/hooks";
 import ButtonPrimary from "@osn/common-ui/es/styled/Button";
 import {
   popUpConnect,
@@ -21,6 +20,7 @@ import {
 import { ChainIcon } from "@osn/common-ui";
 import IdentityOrAddr from "@/components/identityOrAddr";
 import { useMetaMaskEventHandlers } from "services/metamask";
+import { useOnClickOutside } from "frontedUtils/hooks";
 
 const ConnectModal = dynamic(() => import("./connect"), {
   ssr: false,
@@ -89,9 +89,6 @@ const AccountWrapperPC = styled(AccountWrapper)`
       border: 1px solid var(--strokeActionActive);
     `}
   padding: 7px 15px;
-  @media screen and (max-width: 800px) {
-    display: none;
-  }
 `;
 
 const MenuWrapper = styled.div`
@@ -114,7 +111,6 @@ const MenuWrapper = styled.div`
     position: initial;
     padding-top: 0;
     padding-bottom: 0;
-    border-bottom: 20px solid white;
   }
 
   .connect {
@@ -145,23 +141,18 @@ const LogoutWrapper = styled.div`
   }
 `;
 
-const DarkButton = styled(ButtonPrimary)`
-  @media screen and (max-width: 800px) {
-    padding: 8px 16px;
-    margin: auto;
-    width: 100%;
-    text-align: center;
-  }
-`;
-
 function Account({ networks }) {
   const dispatch = useDispatch();
-  const windowSize = useWindowSize();
   const account = useSelector(loginAccountSelector);
   const showConnect = useSelector(showConnectSelector);
   const [pageMounted, setPageMounted] = useState(false);
   const address = useSelector(loginAddressSelector);
   const spaceSupportMultiChain = networks?.length > 1;
+
+  const menuRef = useRef();
+  useOnClickOutside(menuRef, () => {
+    dispatch(setShowHeaderMenu(false));
+  });
 
   useMetaMaskEventHandlers();
 
@@ -183,24 +174,22 @@ function Account({ networks }) {
     dispatch(setShowHeaderMenu(false));
   };
 
-  const ConnectWalletButton = (
-    <div className="connect">
-      {!account && (
-        <DarkButton
-          primary
-          onClick={() => dispatch(popUpConnect())}
-          className="button"
-        >
-          Connect Wallet
-        </DarkButton>
-      )}
-    </div>
+  const ConnectWalletButton = !account && (
+    <ButtonPrimary
+      primary
+      onClick={() => {
+        dispatch(popUpConnect());
+      }}
+      className="w-full"
+    >
+      Connect Wallet
+    </ButtonPrimary>
   );
 
   const Menu = (
-    <MenuWrapper className="modals" onClick={(e) => e.stopPropagation()}>
+    <MenuWrapper ref={menuRef} onClick={(e) => e.stopPropagation()}>
       {/*The dark connect button For Mobile only*/}
-      {!account && windowSize.width <= 800 && ConnectWalletButton}
+      {!account && ConnectWalletButton}
       {/*The dark connect button For Mobile only*/}
       {address && (
         <>
@@ -236,11 +225,6 @@ function Account({ networks }) {
     </MenuWrapper>
   );
 
-  // show ConnectModal on first priority if  showConnect = true
-  if (showConnect) {
-    return <ConnectModal networks={networks} />;
-  }
-
   // if already connected, show address on right top corner
   if (address && pageMounted) {
     return (
@@ -269,13 +253,13 @@ function Account({ networks }) {
   }
 
   // if no address connected, show ConnectButton on right top corner(PC only)
-  if (windowSize.width > 800 && !account) {
-    return ConnectWalletButton;
-  }
-
-  // show dropdown menu (Mobile only)
-  if (showMenu) {
-    return <Wrapper>{Menu}</Wrapper>;
+  if (!account) {
+    return (
+      <div className="flex w-full">
+        {ConnectWalletButton}
+        {showConnect && <ConnectModal networks={networks} />}
+      </div>
+    );
   }
 
   return null;

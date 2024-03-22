@@ -15,9 +15,12 @@ export default function NotificationBell() {
   }
 
   return (
-    <Link href="/notifications">
-      <Button className="px-2">
-        {unread ? <UnreadNotificationSVG /> : <NotificationSVG />}
+    <Link href="/notifications" className="max-sm:w-full">
+      <Button className="px-2 w-full max-sm:px-4">
+        <span className="w-full inline-flex items-center">
+          {unread ? <UnreadNotificationSVG /> : <NotificationSVG />}
+          <span className="sm:hidden ml-2">Notification</span>
+        </span>
       </Button>
     </Link>
   );
