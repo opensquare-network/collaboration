@@ -1,12 +1,8 @@
 import styled from "styled-components";
-import { useRef } from "react";
 import Link from "next/link";
-import { useOnClickOutside } from "frontedUtils/hooks";
 import Account from "./account";
 import { p_12_normal, p_18_semibold } from "../styles/textStyles";
 import { useRouter } from "next/router";
-import { useDispatch } from "react-redux";
-import { setShowHeaderMenu } from "../store/reducers/showConnectSlice";
 import { Header as OsnHeader } from "@osn/common-ui";
 import NotificationBell from "./notification/bell";
 import { ReactComponent as CaretRight } from "/public/imgs/icons/caret-right-s.svg";
