@@ -1446,7 +1446,7 @@ __metadata:
     "@osn/common-ui": ^1.18.10
     "@osn/constants": ^1.1.2
     "@osn/eslint-config": ^1.0.1
-    "@osn/icons": ^1.80.0
+    "@osn/icons": ^1.82.0
     "@osn/polkadot-react-identicon": ^1.0.10
     "@osn/previewer": ^1.2.2
     "@osn/rich-text-editor": ^0.6.6
@@ -2543,7 +2543,7 @@ __metadata:
   resolution: "@osn/common-ui@portal:/Users/2nthony/ghq/github.com/opensquare-network/ui::locator=%40collaboration%2Fvoting%40workspace%3A."
   dependencies:
     "@floating-ui/react": ^0.26.6
-    "@osn/icons": ^1.80.0
+    "@osn/icons": ^1.82.0
     "@osn/polkadot-react-identicon": ^1.0.10
     "@radix-ui/react-tooltip": ^1.0.7
     d3-selection: ^3.0.0
@@ -2606,10 +2606,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@osn/icons@npm:^1.80.0":
-  version: 1.80.0
-  resolution: "@osn/icons@npm:1.80.0"
-  checksum: f59a0971fd5975dd9ef17615e977b1648b75ed7cfc207149bb3ed2d2d1531dddb92d4ed822a952f1965719c4d0b176cdde9f14e0b5a5ca24e320a2aef4046d81
+"@osn/icons@npm:^1.82.0":
+  version: 1.82.0
+  resolution: "@osn/icons@npm:1.82.0"
+  checksum: 1f9fa210c8ede86c553830ad277503fa6f10520518c1351e267581de2b6e867d10a5221255fb816a612ba4a0758b53feb2216ae997dd1a837690f54dd5f8a12e
   languageName: node
   linkType: hard
 
