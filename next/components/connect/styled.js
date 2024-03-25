@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Modal } from "semantic-ui-react";
+import { Modal } from "@osn/common-ui";
 import {
   p_14_normal,
   p_16_semibold,
