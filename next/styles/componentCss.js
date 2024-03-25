@@ -1,7 +1,7 @@
 import { css } from "styled-components";
 
 export const p_14_medium = css`
-  font-family: Inter, sans-serif;
+  font-family: var(--font-inter), sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 14px;

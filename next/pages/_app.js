@@ -52,13 +52,6 @@ function MyApp({ Component, pageProps }) {
           --font-inter: ${inter.style.fontFamily};
           --font-montserrat: ${montserrat.style.fontFamily};
         }
-        html,
-        body {
-          font-family: ${inter.style.fontFamily}, -apple-system,
-            "Helvetica Neue", Helvetica, Arial, "PingFang SC",
-            "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei",
-            "WenQuanYi Micro Hei", sans-serif;
-        }
       `}</style>
 
       <Provider store={store}>

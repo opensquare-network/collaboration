@@ -10,6 +10,14 @@ body {
   background-color: var(--fillBgSecondary);
   font-size: 14px;
   -webkit-font-smoothing: antialiased;
+  font-family: var(--font-inter), -apple-system, "Helvetica Neue", Helvetica,
+    Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei",
+    "WenQuanYi Micro Hei", sans-serif;
+}
+
+html *,
+body * {
+  font-family: unset;
 }
 
 a {

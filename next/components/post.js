@@ -32,7 +32,7 @@ const Wrapper = styled.div`
 `;
 
 const Title = styled.h3`
-  font-family: Inter, serif;
+  font-family: var(--font-inter), serif;
   font-style: normal;
   display: inline-block;
   ${p_16_semibold};

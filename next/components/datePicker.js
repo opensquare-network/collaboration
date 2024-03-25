@@ -66,7 +66,7 @@ const DateWrapper = styled.div`
 
   .react-datepicker__day-name {
     width: 40px;
-    font-family: Inter, sans-serif;
+    font-family: var(--font-inter), sans-serif;
     ${p_14_medium};
     text-align: center;
     color: var(--textSecondary);
@@ -90,7 +90,7 @@ const DateWrapper = styled.div`
   .react-datepicker__day {
     width: 40px;
     height: 40px;
-    font-family: Inter, sans-serif;
+    font-family: var(--font-inter), sans-serif;
     ${p_14_normal};
     color: var(--textPrimary);
     display: inline-flex;
@@ -131,7 +131,7 @@ const DateWrapper = styled.div`
 
 const DateHeader = styled(Flex)`
   > div {
-    font-family: Inter, sans-serif;
+    font-family: var(--font-inter), sans-serif;
     ${p_16_semibold};
     text-align: center;
     color: var(--textPrimary);

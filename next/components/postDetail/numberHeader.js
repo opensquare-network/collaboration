@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { memo } from "react";
 
 const Wrapper = styled.h3`
-  font-family: Inter;
   font-style: normal;
   font-weight: 600;
   font-size: 16px;

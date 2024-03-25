@@ -7,7 +7,7 @@ export const FieldWrapper = styled.div`
 `;
 
 export const Title = styled.span`
-  font-family: "Inter";
+  font-family: var(--font-inter);
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
