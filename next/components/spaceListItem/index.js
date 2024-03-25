@@ -55,7 +55,7 @@ const ActiveWrapper = styled.div`
 const ActiveCircle = styled.div`
   ${makeSquare(6)};
   border-radius: 50%;
-  background: #56ca2f;
+  background-color: var(--accentGreen500a);
   margin-right: 8px;
 `;
 

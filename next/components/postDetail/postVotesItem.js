@@ -83,7 +83,7 @@ const DelegationTag = styled.div`
   align-items: center;
   padding: 2px 8px;
 
-  border: 1px solid #d2d9e2;
+  border: 1px solid var(--strokeActionDefault);
   border-radius: 9px;
 
   font-style: normal;

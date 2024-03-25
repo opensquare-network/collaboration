@@ -43,7 +43,6 @@ const DividerWrapper = styled.div`
       content: "·";
       font-size: 14px;
       line-height: 24px;
-      color: #e3e7ed;
       margin: 0 8px;
     }
   }
