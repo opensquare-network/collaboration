@@ -24,7 +24,7 @@ const Pop = styled.div`
   padding: 16px;
   font-size: 12px;
   line-height: 16px;
-  color: var(--textPrimary);
+  color: var(--textPrimaryContrast);
   word-wrap: break-word;
   text-align: left;
 `;
