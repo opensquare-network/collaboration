@@ -1,8 +1,7 @@
 import { Fragment } from "react";
-import styled, { css } from "styled-components";
-import ExternalLink from "@osn/common-ui/es/ExternalLink";
+import styled from "styled-components";
 import Ellipsis from "@/components/ellipsis";
-import { Flex } from "@osn/common-ui";
+import { Flex, IpfsSquare } from "@osn/common-ui";
 import ValueDisplay from "@/components/valueDisplay";
 import Voter from "@/components/role/voter";
 import { Tooltip } from "@osn/common-ui";
@@ -47,20 +46,6 @@ const BalanceWrapper = styled.div`
   > :not(:first-child) {
     margin-left: 8px;
   }
-`;
-
-const Square = styled.div`
-  width: 20px;
-  height: 20px;
-  background: url("/imgs/icons/ipfs.svg");
-  ${(p) =>
-    !p.noHover &&
-    css`
-      cursor: pointer;
-      :hover {
-        background: url("/imgs/icons/ipfs-active.svg");
-      }
-    `}
 `;
 
 const EqualWrapper = styled.div`
@@ -215,15 +200,12 @@ export default function PostVotesItem({
                 ) : null
               }
             />
-            {data?.pinHash ? (
-              <ExternalLink
-                href={`${process.env.NEXT_PUBLIC_API_END_POINT}api/ipfs/files/${data.pinHash}`}
-              >
-                <Square />
-              </ExternalLink>
-            ) : (
-              <Square noHover={true} />
-            )}
+            <IpfsSquare
+              href={
+                data?.pinHash &&
+                `${process.env.NEXT_PUBLIC_API_END_POINT}api/ipfs/files/${data.pinHash}`
+              }
+            />
           </BalanceWrapper>
         </EqualWrapper>
       </InfoWrapper>

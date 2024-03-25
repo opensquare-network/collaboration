@@ -15,7 +15,6 @@ import {
   removeToast,
 } from "store/reducers/toastSlice";
 import { timeDuration } from "frontedUtils";
-import ExternalLink from "@osn/common-ui/es/ExternalLink";
 import { findNetworkConfig } from "services/util";
 import HeaderWithNumber from "@/components/postDetail/numberHeader";
 import encodeAddressByChain from "../../frontedUtils/chain/addr";
@@ -27,7 +26,7 @@ import {
   MarkdownPreviewer,
   renderMentionIdentityUserPlugin,
 } from "@osn/previewer";
-import { MentionIdentityUser, RichEditor } from "@osn/common-ui";
+import { IpfsSquare, MentionIdentityUser, RichEditor } from "@osn/common-ui";
 import { useSuggestions } from "./suggestions";
 
 const Item = styled.div`
@@ -194,15 +193,12 @@ export default function PostDiscussion({
               />
               <div>{timeDuration(item.createdAt)}</div>
             </DividerWrapper>
-            {item?.pinHash ? (
-              <ExternalLink
-                href={`${process.env.NEXT_PUBLIC_API_END_POINT}api/ipfs/files/${item.pinHash}`}
-              >
-                <Square />
-              </ExternalLink>
-            ) : (
-              <Square noHover={true} />
-            )}
+            <IpfsSquare
+              href={
+                item?.pinHash &&
+                `${process.env.NEXT_PUBLIC_API_END_POINT}api/ipfs/files/${item.pinHash}`
+              }
+            />
           </InfoWrapper>
           <ContentWrapper>
             <Content>
