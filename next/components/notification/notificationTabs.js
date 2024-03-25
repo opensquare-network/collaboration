@@ -1,7 +1,7 @@
 // copied from qa
 
 import styled from "styled-components";
-import { Tabs, Container } from "@osn/common-ui";
+import { Tabs } from "@osn/common-ui";
 import { MOBILE_SIZE } from "@osn/constants";
 import { netural_grey_200 } from "@osn/common-ui/es/styles/colors";
 
@@ -20,9 +20,7 @@ const TabsWrapper = styled.div`
 export default function NotificationTabs({ items, extra, value, setValue }) {
   return (
     <TabsWrapper>
-      <Container>
-        <Tabs items={items} value={value} setValue={setValue} extra={extra} />
-      </Container>
+      <Tabs items={items} value={value} setValue={setValue} extra={extra} />
     </TabsWrapper>
   );
 }
