@@ -61,11 +61,11 @@ const TitleWrapper = styled.div`
 
 export default function Popup({ content, children, title, noMinWidth }) {
   return (
-    <ChildrenWrapper className="shadow-shadowPopup">
+    <ChildrenWrapper>
       {children}
       {content && (
         <PopupWrapper>
-          <Pop noMinWidth={noMinWidth}>
+          <Pop noMinWidth={noMinWidth} className="shadow-shadowPopup">
             {title && <TitleWrapper>{title}</TitleWrapper>}
             {content}
             <Triangle />
