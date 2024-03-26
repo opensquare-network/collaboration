@@ -1,3 +1,4 @@
+import { CACHE_KEY } from "@osn/common-ui";
 import Document, { Html, Head, Main, NextScript } from "next/document";
 import { ServerStyleSheet } from "styled-components";
 
@@ -56,7 +57,7 @@ export default class MyDocument extends Document {
               __html: `
                 (function() {
                   var cookie = document.cookie;
-                  var theme_mode = cookie.match(/theme-mode=([^;]+)/);
+                  var theme_mode = cookie.match(/${CACHE_KEY.themeMode}=([^;]+)/);
                   if (theme_mode) {
                     theme_mode = theme_mode[1];
                     if (!theme_mode || theme_mode === "system") {

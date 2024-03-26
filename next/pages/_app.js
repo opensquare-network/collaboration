@@ -12,7 +12,7 @@ import "@osn/common-ui/styles/index.css";
 import "@osn/previewer/styles.css";
 import { cn } from "@osn/common-ui";
 import { Inter, Montserrat } from "next/font/google";
-import { ConfigProvider } from "@osn/common-ui";
+import { ConfigProvider, CACHE_KEY } from "@osn/common-ui";
 
 NProgress.configure({
   minimum: 0.3,
@@ -78,7 +78,7 @@ function MyApp({ Component, pageProps, themeMode }) {
 MyApp.getInitialProps = async (context) => {
   const ctx = await App.getInitialProps(context);
 
-  const themeMode = context.ctx.req?.cookies?.["theme-mode"];
+  const themeMode = context.ctx.req?.cookies?.[CACHE_KEY.themeMode];
 
   return {
     ...ctx,
