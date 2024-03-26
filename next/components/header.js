@@ -70,23 +70,6 @@ const MenuItem = styled.a`
   }
 `;
 
-const HeaderItemWrapper = styled.div`
-  display: flex;
-  gap: 32px;
-
-  @media screen and (max-width: 800px) {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100vw;
-    z-index: 1;
-    position: absolute;
-    top: 68px;
-    left: 0;
-    right: 0;
-  }
-`;
-
 export default function Header({ networks }) {
   const router = useRouter();
   const isHomePage = router.pathname === "/";

@@ -71,20 +71,6 @@ const InfoWrapper = styled.div`
   justify-content: space-between;
 `;
 
-const Square = styled.div`
-  width: 20px;
-  height: 20px;
-  background: url("/imgs/icons/ipfs.svg");
-  ${(p) =>
-    !p.noHover &&
-    css`
-      cursor: pointer;
-      :hover {
-        background: url("/imgs/icons/ipfs-active.svg");
-      }
-    `}
-`;
-
 const NoCommentWrapper = styled.div`
   height: 104px;
   border-bottom: 1px solid var(--strokeBorderDefault);
