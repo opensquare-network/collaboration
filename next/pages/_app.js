@@ -1,3 +1,4 @@
+import App from "next/app";
 import Head from "next/head";
 import { Provider } from "react-redux";
 import NProgress from "nprogress";
@@ -43,7 +44,7 @@ const montserrat = Montserrat({
   variable: "--font-montserrat",
 });
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps, themeMode }) {
   return (
     <>
       <style jsx global>{`
@@ -54,7 +55,7 @@ function MyApp({ Component, pageProps }) {
       `}</style>
 
       <Provider store={store}>
-        <ConfigProvider themeMode="system">
+        <ConfigProvider themeMode={themeMode}>
           <Head>
             <title>OpenSquare Network Off-chain Voting</title>
             <meta
@@ -72,5 +73,17 @@ function MyApp({ Component, pageProps }) {
     </>
   );
 }
+
+// https://nextjs.org/docs/pages/building-your-application/routing/custom-app#getinitialprops-with-app
+MyApp.getInitialProps = async (context) => {
+  const ctx = await App.getInitialProps(context);
+
+  const themeMode = context.ctx.req?.cookies?.["theme-mode"];
+
+  return {
+    ...ctx,
+    themeMode,
+  };
+};
 
 export default MyApp;
