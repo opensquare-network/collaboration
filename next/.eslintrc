@@ -1,7 +1,11 @@
 {
-  "root": true,
-  "extends": ["next/babel", "next/core-web-vitals", "@osn", "../.eslintrc.js"],
+  "extends": [
+    "next/core-web-vitals",
+    "@osn",
+    "../.eslintrc.js"
+  ],
   "rules": {
-    "@next/next/no-img-element": "off"
+    "@next/next/no-img-element": "off",
+    "jsx-a11y/alt-text": "off"
   }
 }
