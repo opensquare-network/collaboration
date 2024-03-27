@@ -1498,6 +1498,7 @@ __metadata:
     semantic-ui-react: ^2.0.3
     socket.io-client: ^4.6.1
     styled-components: ^5.3.1
+    tailwind-styled-components: ^2.2.0
     tailwindcss: ^3.4.1
   languageName: unknown
   linkType: soft
@@ -11408,6 +11409,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tailwind-merge@npm:^1.3.0":
+  version: 1.14.0
+  resolution: "tailwind-merge@npm:1.14.0"
+  checksum: 8cf5d37f51b3b32e4bdd5544feaed34357bfba2f64f14834cc4a21ac29b0ae22d7255386467a0f1dadb3e38499389efbbabeddcd0b16571af5a0d346a4921877
+  languageName: node
+  linkType: hard
+
 "tailwind-merge@npm:^2.2.0":
   version: 2.2.2
   resolution: "tailwind-merge@npm:2.2.2"
@@ -11423,6 +11431,18 @@ __metadata:
   peerDependencies:
     tailwindcss: 3.x
   checksum: a3aca614824ae655ff9b8fa6341e54cd543d68bf107c41cb45cbdcb80e4dff4169250bd13c50beb4f8690ca90392da6452ee4ade0e0e8203ef38aacac176173d
+  languageName: node
+  linkType: hard
+
+"tailwind-styled-components@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "tailwind-styled-components@npm:2.2.0"
+  dependencies:
+    tailwind-merge: ^1.3.0
+  peerDependencies:
+    react: ">= 16.8.0"
+    react-dom: ">= 16.8.0"
+  checksum: 482eb7651a04eb078f96e172b5c4c011be4eb887fa97355b5ac8bdce2de11c6f3ca8723d5023aa236f0e9d813bf3c4cd1e1d3c8ab68d511b22f92ea5a88ed695
   languageName: node
   linkType: hard
 

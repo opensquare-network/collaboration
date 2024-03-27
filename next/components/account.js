@@ -20,7 +20,8 @@ import {
 import { ChainIcon } from "@osn/common-ui";
 import IdentityOrAddr from "@/components/identityOrAddr";
 import { useMetaMaskEventHandlers } from "services/metamask";
-import { useOnClickOutside } from "frontedUtils/hooks";
+import { useOnClickOutside, useWindowSize } from "frontedUtils/hooks";
+import tw from "tailwind-styled-components";
 
 const ConnectModal = dynamic(() => import("./connect"), {
   ssr: false,
@@ -91,42 +92,22 @@ const AccountWrapperPC = styled(AccountWrapper)`
   padding: 7px 15px;
 `;
 
-const MenuWrapper = styled.div`
-  cursor: auto;
-  min-width: 240px;
-  position: absolute;
-  right: 0;
-  top: 100%;
-  background: var(--fillBgPrimary);
-  border: 1px solid var(--strokeBorderDefault);
-  box-shadow: var(--shadowCardHover);
-  padding: 16px;
-  padding-bottom: 8px;
-  z-index: 1;
-  @media screen and (max-width: 800px) {
-    margin-top: 19px;
-    border: none;
-    box-shadow: none;
-    width: 100%;
-    position: initial;
-    padding-top: 0;
-    padding-bottom: 0;
-  }
+const MenuWrapper = tw.div`
+  cursor-auto
+  min-w-60
+  absolute right-0 top-full
+  bg-fillBgPrimary
+  border border-strokeBorderDefault
+  shadow-shadowCardHover
+  p-4 pb-2
+  z-[1]
 
-  .connect {
-    margin: auto;
-  }
+  max-sm:w-full
 `;
 
 const MenuItem = styled.div`
   margin-bottom: 8px;
   cursor: pointer;
-`;
-
-const MenuDivider = styled.div`
-  height: 1px;
-  background-color: var(--fillBgTertiary);
-  margin: 12px 0;
 `;
 
 const LogoutWrapper = styled.div`
@@ -143,6 +124,7 @@ const LogoutWrapper = styled.div`
 
 function Account({ networks }) {
   const dispatch = useDispatch();
+  const windowSize = useWindowSize();
   const account = useSelector(loginAccountSelector);
   const showConnect = useSelector(showConnectSelector);
   const [pageMounted, setPageMounted] = useState(false);
@@ -157,6 +139,9 @@ function Account({ networks }) {
   useMetaMaskEventHandlers();
 
   const showMenu = useSelector(showHeaderMenuSelector);
+  useEffect(() => {
+    dispatch(setShowHeaderMenu(false));
+  }, [windowSize]);
 
   useEffect(() => setPageMounted(true), []);
 
@@ -192,7 +177,7 @@ function Account({ networks }) {
 
       {address && (
         <>
-          <AccountWrapper>
+          <AccountWrapper className="max-sm:!hidden">
             <div>
               <Avatar address={address} size={20} />
               {spaceSupportMultiChain && (
@@ -206,7 +191,9 @@ function Account({ networks }) {
             </div>
             <UserIcon />
           </AccountWrapper>
-          <MenuDivider />
+
+          <hr className="my-3 max-sm:hidden" />
+
           <MenuItem>
             <LogoutWrapper onClick={onSwitch}>
               Switch Address

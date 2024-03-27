@@ -52,7 +52,8 @@
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.0.3",
     "socket.io-client": "^4.6.1",
-    "styled-components": "^5.3.1"
+    "styled-components": "^5.3.1",
+    "tailwind-styled-components": "^2.2.0"
   },
   "devDependencies": {
     "@osn/eslint-config": "^1.0.2",
