@@ -188,9 +188,8 @@ function Account({ networks }) {
 
   const Menu = (
     <MenuWrapper ref={menuRef} onClick={(e) => e.stopPropagation()}>
-      {/*The dark connect button For Mobile only*/}
       {!account && ConnectWalletButton}
-      {/*The dark connect button For Mobile only*/}
+
       {address && (
         <>
           <AccountWrapper>
@@ -248,6 +247,7 @@ function Account({ networks }) {
           </div>
         </AccountWrapperPC>
         {showMenu && Menu}
+        {showConnect && <ConnectModal networks={networks} />}
       </Wrapper>
     );
   }
