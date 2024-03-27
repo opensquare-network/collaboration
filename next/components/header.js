@@ -106,7 +106,7 @@ export default function Header({ networks }) {
         </AppWrapper>
       }
       logoRender={(logo) => (
-        <Link href="/" passHref>
+        <Link href="/" passHref legacyBehavior>
           {logo}
         </Link>
       )}
