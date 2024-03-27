@@ -76,7 +76,6 @@ export default function Header({ networks }) {
 
   return (
     <OsnHeader
-      className="z-50"
       prefix={
         <AppWrapper>
           <SystemApps className="text-textSecondary mr-4" />
