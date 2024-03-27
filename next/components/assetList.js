@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { p_14_medium, p_12_normal } from "../styles/textStyles";
 import { ChainIcon, FlexBetween } from "@osn/common-ui";
-import Tooltip from "./tooltip";
+import { Tooltip } from "@osn/common-ui";
 
 const Wrapper = styled.div`
   display: flex;
@@ -34,7 +34,7 @@ const AssetIconContainer = styled.div`
 
 const DelegationText = styled.span`
   ${p_12_normal}
-  color: #A1A8B3;
+  color: var(--textTertiary);
   text-transform: capitalize;
 `;
 

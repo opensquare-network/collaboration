@@ -5,7 +5,7 @@ import { IdentityUser } from "@osn/common-ui";
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
-  color: #2e343d;
+  color: var(--textPrimary);
 
   > :not(:first-child) {
     margin-left: 4px;
@@ -13,7 +13,7 @@ const Wrapper = styled.div`
 `;
 
 const TextMinor = styled.span`
-  color: #506176;
+  color: var(--textSecondary);
   word-break: break-all;
 `;
 
@@ -21,7 +21,7 @@ const PopupCard = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 288px;
-  color: #1e2134;
+  color: var(--textPrimary);
   > div:first-child {
     display: flex;
     align-items: center;
@@ -34,7 +34,7 @@ const Divider = styled.div`
   margin-bottom: 12px;
   height: 1px;
   width: 100%;
-  background-color: #f0f3f8;
+  background-color: var(--fillBgTertiary);
 `;
 
 export default function Voter({

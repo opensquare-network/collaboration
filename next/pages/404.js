@@ -7,18 +7,17 @@ import InternalLink from "@/components/internalLink";
 
 const Wrapper = styled.div`
   min-height: 100vh;
-  width: 100vw;
   overflow: hidden;
   display: flex;
   flex-direction: column;
 `;
 
 const Section = styled.div`
-  background: #fff;
+  background: var(--fillBgPrimary);
   @media screen and (max-width: 800px) {
     border-top: none;
   }
-  border-bottom: 1px solid #f0f3f8;
+  border-bottom: 1px solid var(--strokeBorderDefault);
 `;
 
 const H1 = styled.h1`
@@ -26,6 +25,7 @@ const H1 = styled.h1`
   ${h3_36_bold};
   @media screen and (max-width: 800px) {
     ${h4_24_bold};
+    padding-top: 30px;
     padding-bottom: 30px;
     padding-left: 40px;
   }
@@ -37,7 +37,7 @@ const Content = styled.div`
   padding-top: 80px;
   height: 488px;
   ${p_16_normal};
-  color: #506176;
+  color: var(--textSecondary);
   background-image: url("/imgs/backgrounds/bg-404.png");
   background-position-x: 50%;
   background-repeat: no-repeat;
@@ -55,7 +55,7 @@ const Content = styled.div`
     display: inline-block;
     padding-left: 16px;
     padding-right: 16px;
-    border: 1px solid #b7c0cc;
+    border: 1px solid var(--strokeActionActive);
     line-height: 40px;
   }
 `;
@@ -73,7 +73,10 @@ export default function FourOFour() {
             Sorry. the content you’re looking for doesn’t exist. Either it was
             removed, or you mistyped the link.
           </p>
-          <InternalLink href="/">Back to Square</InternalLink>
+
+          <div className="mt-4">
+            <InternalLink href="/">Back to Square</InternalLink>
+          </div>
         </div>
       </Content>
       <Footer github="https://github.com/opensquare-network/collaboration/" />

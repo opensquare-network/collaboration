@@ -10,7 +10,7 @@ const Wrapper = styled.span`
       transform: rotate(${(props) => (props.fold ? 180 : 0)}deg);
     }
     path {
-      fill: #506176;
+      fill: var(--textSecondary);
     }
   }
 `;

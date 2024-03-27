@@ -8,18 +8,17 @@ import encodeAddressByChain from "../frontedUtils/chain/addr";
 
 const Text = styled.p`
   ${p_16_semibold};
-  color: #1e2134;
+  color: var(--textPrimary);
   margin: 0;
 `;
 
 const TextMinor = styled(Text)`
   ${p_14_normal};
-  color: #9da9bb;
+  color: var(--textTertiary);
 `;
 
 const ItemWrapper = styled.div`
   height: 64px;
-  padding: 8px 16px;
   display: flex;
   align-items: center;
   & > div:first-child {

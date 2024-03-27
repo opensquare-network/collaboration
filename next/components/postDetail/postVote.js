@@ -37,7 +37,7 @@ import isNil from "lodash.isnil";
 import { proposalStatus } from "../../frontedUtils/consts/proposal";
 import { extensionCancelled } from "../../frontedUtils/consts/extension";
 import { useTerminate } from "./terminate";
-import Tooltip from "../tooltip";
+import { Tooltip } from "@osn/common-ui";
 import VoteBalanceDetail from "./VoteBalanceDetail";
 import DelegationInfo from "./delegationInfo";
 
@@ -70,7 +70,7 @@ const Title = styled.div`
     font-size: 12px;
     line-height: 16px;
     text-align: right;
-    color: #a1a8b3;
+    color: var(--textTertiary);
     text-transform: capitalize;
   }
 `;

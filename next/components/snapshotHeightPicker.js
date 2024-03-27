@@ -25,9 +25,8 @@ const DialogWrapper = styled.div`
   right: 0;
   padding: 24px;
   width: 328px;
-  background: #ffffff;
-  box-shadow: 0 4px 31px rgba(26, 33, 44, 0.06),
-    0 0.751293px 8px rgba(26, 33, 44, 0.04);
+  background: var(--fillBgPrimary);
+  box-shadow: var(--shadowCardDefault);
   input {
     margin-bottom: 8px;
   }

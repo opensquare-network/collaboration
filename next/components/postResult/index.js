@@ -18,11 +18,11 @@ const IconWrapper = styled.div`
     display: none;
   }
   svg {
-    fill: #a1a8b3;
+    fill: var(--textTertiary);
   }
   :hover {
     svg {
-      fill: #506176;
+      fill: var(--textSecondary);
     }
   }
 `;

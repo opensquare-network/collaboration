@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { memo, useEffect, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -10,8 +10,6 @@ import {
 import Avatar from "./avatar";
 import { p_14_medium } from "../styles/textStyles";
 import { ReactComponent as UserIcon } from "../public/imgs/icons/user.svg";
-import { shadow_200 } from "../styles/globalCss";
-import { useWindowSize } from "../frontedUtils/hooks";
 import ButtonPrimary from "@osn/common-ui/es/styled/Button";
 import {
   popUpConnect,
@@ -22,6 +20,7 @@ import {
 import { ChainIcon } from "@osn/common-ui";
 import IdentityOrAddr from "@/components/identityOrAddr";
 import { useMetaMaskEventHandlers } from "services/metamask";
+import { useOnClickOutside } from "frontedUtils/hooks";
 
 const ConnectModal = dynamic(() => import("./connect"), {
   ssr: false,
@@ -78,21 +77,18 @@ const AccountWrapper = styled.div`
 `;
 
 const AccountWrapperPC = styled(AccountWrapper)`
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--strokeActionDefault);
 
   :hover {
-    border: 1px solid #b7c0cc;
+    border: 1px solid var(--strokeActionActive);
   }
 
   ${(p) =>
     p.show &&
     css`
-      border: 1px solid #b7c0cc;
+      border: 1px solid var(--strokeActionActive);
     `}
   padding: 7px 15px;
-  @media screen and (max-width: 800px) {
-    display: none;
-  }
 `;
 
 const MenuWrapper = styled.div`
@@ -101,9 +97,9 @@ const MenuWrapper = styled.div`
   position: absolute;
   right: 0;
   top: 100%;
-  background: #ffffff;
-  border: 1px solid #f0f3f8;
-  ${shadow_200};
+  background: var(--fillBgPrimary);
+  border: 1px solid var(--strokeBorderDefault);
+  box-shadow: var(--shadowCardHover);
   padding: 16px;
   padding-bottom: 8px;
   z-index: 1;
@@ -115,7 +111,6 @@ const MenuWrapper = styled.div`
     position: initial;
     padding-top: 0;
     padding-bottom: 0;
-    border-bottom: 20px solid white;
   }
 
   .connect {
@@ -130,7 +125,7 @@ const MenuItem = styled.div`
 
 const MenuDivider = styled.div`
   height: 1px;
-  background: #f0f3f8;
+  background-color: var(--fillBgTertiary);
   margin: 12px 0;
 `;
 
@@ -139,30 +134,25 @@ const LogoutWrapper = styled.div`
   align-items: center;
   justify-content: space-between;
   ${p_14_medium};
-  color: #506176;
+  color: var(--textSecondary);
 
   :hover {
-    color: #1e2134;
-  }
-`;
-
-const DarkButton = styled(ButtonPrimary)`
-  @media screen and (max-width: 800px) {
-    padding: 8px 16px;
-    margin: auto;
-    width: 100%;
-    text-align: center;
+    color: var(--textPrimary);
   }
 `;
 
 function Account({ networks }) {
   const dispatch = useDispatch();
-  const windowSize = useWindowSize();
   const account = useSelector(loginAccountSelector);
   const showConnect = useSelector(showConnectSelector);
   const [pageMounted, setPageMounted] = useState(false);
   const address = useSelector(loginAddressSelector);
   const spaceSupportMultiChain = networks?.length > 1;
+
+  const menuRef = useRef();
+  useOnClickOutside(menuRef, () => {
+    dispatch(setShowHeaderMenu(false));
+  });
 
   useMetaMaskEventHandlers();
 
@@ -184,24 +174,22 @@ function Account({ networks }) {
     dispatch(setShowHeaderMenu(false));
   };
 
-  const ConnectWalletButton = (
-    <div className="connect">
-      {!account && (
-        <DarkButton
-          primary
-          onClick={() => dispatch(popUpConnect())}
-          className="button"
-        >
-          Connect Wallet
-        </DarkButton>
-      )}
-    </div>
+  const ConnectWalletButton = !account && (
+    <ButtonPrimary
+      primary
+      onClick={() => {
+        dispatch(popUpConnect());
+      }}
+      className="w-full"
+    >
+      Connect Wallet
+    </ButtonPrimary>
   );
 
   const Menu = (
-    <MenuWrapper onClick={(e) => e.stopPropagation()}>
+    <MenuWrapper ref={menuRef} onClick={(e) => e.stopPropagation()}>
       {/*The dark connect button For Mobile only*/}
-      {!account && windowSize.width <= 800 && ConnectWalletButton}
+      {!account && ConnectWalletButton}
       {/*The dark connect button For Mobile only*/}
       {address && (
         <>
@@ -237,11 +225,6 @@ function Account({ networks }) {
     </MenuWrapper>
   );
 
-  // show ConnectModal on first priority if  showConnect = true
-  if (showConnect) {
-    return <ConnectModal networks={networks} />;
-  }
-
   // if already connected, show address on right top corner
   if (address && pageMounted) {
     return (
@@ -270,13 +253,13 @@ function Account({ networks }) {
   }
 
   // if no address connected, show ConnectButton on right top corner(PC only)
-  if (windowSize.width > 800 && !account) {
-    return ConnectWalletButton;
-  }
-
-  // show dropdown menu (Mobile only)
-  if (showMenu) {
-    return <Wrapper>{Menu}</Wrapper>;
+  if (!account) {
+    return (
+      <div className="flex w-full">
+        {ConnectWalletButton}
+        {showConnect && <ConnectModal networks={networks} />}
+      </div>
+    );
   }
 
   return null;

@@ -11,9 +11,7 @@ import BigNumber from "bignumber.js";
 const ResultWrapper = styled.div`
   z-index: 999;
   position: absolute;
-  background: #ffffff;
-  filter: drop-shadow(0px 4px 31px rgba(26, 33, 44, 0.06))
-    drop-shadow(0px 0.751293px 8px rgba(26, 33, 44, 0.04));
+  background: var(--fillBgPrimary);
   padding: 24px;
   width: 300px;
   right: -24px;
@@ -35,19 +33,14 @@ const Triangle = styled.div`
   height: 0;
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
-  border-top: 8px solid #ffffff;
+  border-top: 8px solid var(--fillBgPrimary);
   right: 24px;
   top: 100%;
 `;
 
-const TriangleTop = styled.div`
-  position: absolute;
-  width: 0;
-  height: 0;
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-  border-bottom: 8px solid #ffffff;
-  right: 24px;
+const TriangleTop = styled(Triangle)`
+  border-top: 0;
+  border-bottom: 8px solid var(--fillBgPrimary);
   top: -8px;
 `;
 
@@ -60,7 +53,7 @@ const TitleWrapper = styled.div`
 
 const Divider = styled.div`
   height: 1px;
-  background: #f0f3f8;
+  background-color: var(--fillBgTertiary);
   margin: 16px 0;
 `;
 
@@ -71,7 +64,7 @@ const VoteItem = styled.div`
   ${p_14_medium};
 
   > :first-child {
-    color: #506176;
+    color: var(--textSecondary);
   }
 `;
 
@@ -83,7 +76,7 @@ const ProgressItem = styled.div`
 const ProgressBackground = styled.div`
   height: 6px;
   border-radius: 3px;
-  background: #f0f3f8;
+  background-color: var(--fillBgTertiary);
   position: relative;
   overflow: hidden;
 `;
@@ -93,13 +86,13 @@ const ProgressBar = styled.div`
   height: 6px;
   left: 0;
   top: 0;
-  background: #6848ff;
+  background: var(--fillBgBrandPrimary);
   width: ${(p) => p.percent};
 `;
 
 const OptionIndex = styled.div`
   ${p_14_medium};
-  color: #a1a8b3;
+  color: var(--textTertiary);
 `;
 
 const OptionChoice = styled.div`
@@ -175,7 +168,7 @@ export default function Popup({ data, space, isTop }) {
   }, [votes, data, dispatch]);
 
   return (
-    <ResultWrapper isTop={isTop}>
+    <ResultWrapper isTop={isTop} className="shadow-shadowPopup">
       <TitleWrapper>
         Results
         <img src="/imgs/icons/strategy.svg" alt="" />

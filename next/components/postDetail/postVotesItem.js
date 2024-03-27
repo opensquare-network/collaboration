@@ -1,17 +1,16 @@
 import { Fragment } from "react";
-import styled, { css } from "styled-components";
-import ExternalLink from "@osn/common-ui/es/ExternalLink";
+import styled from "styled-components";
 import Ellipsis from "@/components/ellipsis";
-import { Flex } from "@osn/common-ui";
+import { Flex, IpfsSquare } from "@osn/common-ui";
 import ValueDisplay from "@/components/valueDisplay";
 import Voter from "@/components/role/voter";
-import Tooltip from "@/components/tooltip";
+import { Tooltip } from "@osn/common-ui";
 import VoteBalanceDetail from "./VoteBalanceDetail";
 import { isZero } from "frontedUtils";
 
 const Item = styled.div`
   padding: 20px 0;
-  border-bottom: 1px solid #f0f3f8;
+  border-bottom: 1px solid var(--strokeBorderDefault);
 `;
 
 const InfoWrapper = styled.div`
@@ -37,7 +36,7 @@ const ContentWrapper = styled.div`
 
 const Content = styled.div`
   line-height: 24px;
-  color: rgba(80, 97, 118, 1);
+  color: var(--textSecondary);
 `;
 
 const BalanceWrapper = styled.div`
@@ -47,20 +46,6 @@ const BalanceWrapper = styled.div`
   > :not(:first-child) {
     margin-left: 8px;
   }
-`;
-
-const Square = styled.div`
-  width: 20px;
-  height: 20px;
-  background: url("/imgs/icons/ipfs.svg");
-  ${(p) =>
-    !p.noHover &&
-    css`
-      cursor: pointer;
-      :hover {
-        background: url("/imgs/icons/ipfs-active.svg");
-      }
-    `}
 `;
 
 const EqualWrapper = styled.div`
@@ -79,8 +64,8 @@ const EqualWrapper = styled.div`
 const MyVoteTag = styled.div`
   display: flex;
   align-items: center;
-  background: #f0f3f8;
-  color: #506176;
+  background-color: var(--fillBgTertiary);
+  color: var(--textSecondary);
   border-radius: 9px;
   padding: 2px 10px;
   font-weight: 600;
@@ -98,7 +83,7 @@ const DelegationTag = styled.div`
   align-items: center;
   padding: 2px 8px;
 
-  border: 1px solid #d2d9e2;
+  border: 1px solid var(--strokeActionDefault);
   border-radius: 9px;
 
   font-style: normal;
@@ -106,7 +91,7 @@ const DelegationTag = styled.div`
   font-size: 10px;
   line-height: 14px;
 
-  color: #a1a8b3;
+  color: var(--textTertiary);
 
   margin-top: 3px;
   margin-bottom: 3px;
@@ -215,15 +200,12 @@ export default function PostVotesItem({
                 ) : null
               }
             />
-            {data?.pinHash ? (
-              <ExternalLink
-                href={`${process.env.NEXT_PUBLIC_API_END_POINT}api/ipfs/files/${data.pinHash}`}
-              >
-                <Square />
-              </ExternalLink>
-            ) : (
-              <Square noHover={true} />
-            )}
+            <IpfsSquare
+              href={
+                data?.pinHash &&
+                `${process.env.NEXT_PUBLIC_API_END_POINT}api/ipfs/files/${data.pinHash}`
+              }
+            />
           </BalanceWrapper>
         </EqualWrapper>
       </InfoWrapper>

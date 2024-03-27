@@ -5,5 +5,5 @@ export const ErrorMessage = styled.div`
   font-weight: 400;
   font-size: 14px;
   line-height: 24px;
-  color: #ee4444;
+  color: var(--textFeedbackError);
 `;

@@ -1,7 +1,7 @@
 import { css } from "styled-components";
 
 export const h1_60_bold = css`
-  font-family: Montserrat, serif;
+  font-family: var(--font-montserrat), serif;
   font-style: normal;
   font-weight: bold;
   font-size: 68px;
@@ -9,7 +9,7 @@ export const h1_60_bold = css`
 `;
 
 export const h2_44_bold = css`
-  font-family: Montserrat, serif;
+  font-family: var(--font-montserrat), serif;
   font-style: normal;
   font-weight: bold;
   font-size: 44px;
@@ -17,7 +17,7 @@ export const h2_44_bold = css`
 `;
 
 export const h3_36_bold = css`
-  font-family: Montserrat, serif;
+  font-family: var(--font-montserrat), serif;
   font-style: normal;
   font-weight: bold;
   font-size: 36px;
@@ -25,7 +25,7 @@ export const h3_36_bold = css`
 `;
 
 export const h4_24_bold = css`
-  font-family: Montserrat, serif;
+  font-family: var(--font-montserrat), serif;
   font-style: normal;
   font-weight: bold;
   font-size: 24px;

@@ -7,7 +7,7 @@ import {
   loginAddressSelector,
 } from "store/reducers/accountSlice";
 import InternalLink from "../internalLink";
-import { shadow_100, shadow_200, makeSquare } from "../../styles/globalCss";
+import { makeSquare } from "../../styles/globalCss";
 import { p_18_semibold } from "../../styles/textStyles";
 import SpaceLogo from "@/components/spaceLogo";
 import nextApi from "services/nextApi";
@@ -27,20 +27,20 @@ const Icon = styled.div`
 const Name = styled.div`
   white-space: nowrap;
   ${p_18_semibold};
-  color: #2e343d;
+  color: var(--textPrimary);
   text-transform: capitalize;
 `;
 
 const Symbol = styled.div`
   font-size: 14px;
   line-height: 24px;
-  color: #a1a8b3;
+  color: var(--textTertiary);
 `;
 
 const Divider = styled.div`
   min-width: 116px;
   height: 1px;
-  background: #f0f3f8;
+  background-color: var(--fillBgTertiary);
   margin: 12px 0;
 `;
 
@@ -49,13 +49,13 @@ const ActiveWrapper = styled.div`
   align-items: center;
   font-size: 14px;
   line-height: 24px;
-  color: #a1a8b3;
+  color: var(--textTertiary);
 `;
 
 const ActiveCircle = styled.div`
   ${makeSquare(6)};
   border-radius: 50%;
-  background: #56ca2f;
+  background-color: var(--accentGreen500a);
   margin-right: 8px;
 `;
 
@@ -64,22 +64,22 @@ const Count = styled.span`
 `;
 
 const ActiveCount = styled(Count)`
-  color: #506176;
+  color: var(--textSecondary);
 `;
 
 const Wrapper = styled.div`
   position: relative;
   flex: 0 0 auto;
-  border: 1px solid #f0f3f8;
-  ${shadow_100};
-  background: #ffffff;
+  border: 1px solid var(--strokeBorderDefault);
+  box-shadow: var(--shadowCardDefault);
+  background: var(--fillBgPrimary);
   padding: 24px;
   cursor: pointer;
   width: 200px;
 
   :hover {
-    border-color: #e2e8f0;
-    ${shadow_200}
+    border-color: var(--strokeActionDefault);
+    box-shadow: var(--shadowCardHover);
   }
 `;
 

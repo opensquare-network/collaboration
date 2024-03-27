@@ -1,57 +1,18 @@
-@import url("../fonts/montserrat.css");
-/* font-inter-regular - latin */
-@font-face {
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 400;
-  src: url("../fonts/inter-v3-latin-regular.woff2") format("woff2"),
-    /* Super Modern Browsers */ url("../fonts/inter-v3-latin-regular.woff")
-      format("woff");
-}
-
-/* font-inter-500 - latin */
-@font-face {
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 500;
-  src: url("../fonts/inter-v3-latin-500.woff2") format("woff2"),
-    /* Super Modern Browsers */ url("../fonts/inter-v3-latin-500.woff")
-      format("woff");
-}
-
-/*!* font-inter-600 - latin *!*/
-@font-face {
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 600;
-  src: url("../fonts/inter-v3-latin-600.woff2") format("woff2"),
-    /* Super Modern Browsers */ url("../fonts/inter-v3-latin-600.woff")
-      format("woff"),
-    /* Modern Browsers */ url("../fonts/inter-v3-latin-600.ttf")
-      format("truetype");
-}
-
-/* font-inter-700 - latin */
-@font-face {
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 700;
-  src: url("../fonts/inter-v3-latin-700.woff2") format("woff2"),
-    /* Super Modern Browsers */ url("../fonts/inter-v3-latin-700.woff")
-      format("woff");
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: Inter, -apple-system, "Helvetica Neue", Helvetica, Arial,
-    "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei",
-    "WenQuanYi Micro Hei", sans-serif;
-  color: #1e2134;
-  background: #fbfcfe;
+  color: var(--textPrimary);
+  background-color: var(--fillBgSecondary);
   font-size: 14px;
   -webkit-font-smoothing: antialiased;
+  font-family: var(--font-inter), -apple-system, "Helvetica Neue", Helvetica,
+    Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei",
+    "WenQuanYi Micro Hei", sans-serif;
 }
 
 a {

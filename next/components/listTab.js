@@ -4,7 +4,7 @@ import { ReactComponent as QuestionMark } from "../public/imgs/icons/question-ma
 import { LIST_TAB_ITEMS } from "frontedUtils/constants";
 import { p_16_semibold } from "../styles/textStyles";
 import { useRouter } from "next/router";
-import Tooltip from "@/components/tooltip";
+import { Tooltip } from "@osn/common-ui";
 import { Flex, FlexBetween } from "@osn/common-ui";
 
 const Wrapper = styled(FlexBetween)`
@@ -28,6 +28,9 @@ const Wrapper = styled(FlexBetween)`
 `;
 
 const Item = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
   @media screen and (max-width: 800px) {
     position: relative;
   }
@@ -41,19 +44,15 @@ const Item = styled.div`
   ${(p) =>
     p.active &&
     css`
-      border-bottom: 3px solid #04d2c5;
+      border-bottom: 3px solid var(--strokeBgBrandSecondary);
       padding-bottom: 17px;
     `}
-  > div:last-child {
-    margin-top: 4px;
-    margin-left: 4px;
-  }
 `;
 
 const NewPostLink = styled(Flex)`
   cursor: pointer;
   ${p_16_semibold};
-  color: #04d2c5;
+  color: var(--textBrandSecondary);
   margin-left: 40px;
   > img {
     width: 24px;

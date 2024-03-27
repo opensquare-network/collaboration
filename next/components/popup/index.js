@@ -18,13 +18,13 @@ const PopupWrapper = styled.div`
 
 const Pop = styled.div`
   position: relative;
-  background: #ffffff;
+  background: var(--fillBgPrimary);
   max-width: 320px;
   min-width: ${(p) => (p.noMinWidth ? "none" : "120px")};
   padding: 16px;
   font-size: 12px;
   line-height: 16px;
-  color: #ffffff;
+  color: var(--textPrimaryContrast);
   word-wrap: break-word;
   text-align: left;
 `;
@@ -35,7 +35,7 @@ const Triangle = styled.div`
   height: 0;
   border-left: 6px solid transparent;
   border-right: 6px solid transparent;
-  border-top: 6px solid #ffffff;
+  border-top: 6px solid var(--fillBgPrimary);
   left: 50%;
   top: 100%;
   transform: translateX(-50%);
@@ -49,15 +49,13 @@ const ChildrenWrapper = styled.div`
       display: flex;
     }
   }
-  filter: drop-shadow(0px 4px 31px rgba(26, 33, 44, 0.06))
-    drop-shadow(0px 0.751293px 8px rgba(26, 33, 44, 0.04));
 `;
 
 const TitleWrapper = styled.div`
   font-weight: bold;
   font-size: 12px;
   line-height: 16px;
-  color: #ffffff;
+  color: var(--textPrimary);
   white-space: nowrap;
 `;
 
@@ -67,7 +65,7 @@ export default function Popup({ content, children, title, noMinWidth }) {
       {children}
       {content && (
         <PopupWrapper>
-          <Pop noMinWidth={noMinWidth}>
+          <Pop noMinWidth={noMinWidth} className="shadow-shadowPopup">
             {title && <TitleWrapper>{title}</TitleWrapper>}
             {content}
             <Triangle />

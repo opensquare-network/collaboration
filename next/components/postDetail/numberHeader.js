@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { memo } from "react";
 
 const Wrapper = styled.h3`
-  font-family: Inter;
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
@@ -11,7 +10,7 @@ const Wrapper = styled.h3`
 
   span {
     margin-left: 4px;
-    color: #a1a8b3;
+    color: var(--textTertiary);
     font-weight: 500;
   }
 `;

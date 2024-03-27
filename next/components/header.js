@@ -1,50 +1,25 @@
 import styled from "styled-components";
-import { useRef } from "react";
 import Link from "next/link";
-import { useOnClickOutside } from "frontedUtils/hooks";
 import Account from "./account";
-import {
-  p_12_normal,
-  p_16_semibold,
-  p_18_semibold,
-} from "../styles/textStyles";
+import { p_12_normal, p_18_semibold } from "../styles/textStyles";
 import { useRouter } from "next/router";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  setShowHeaderMenu,
-  showHeaderMenuSelector,
-} from "../store/reducers/showConnectSlice";
 import { Header as OsnHeader } from "@osn/common-ui";
-import { ReactComponent as Plus } from "../public/imgs/icons/plus.svg";
-import { ReactComponent as Discussions } from "../public/imgs/icons/discussions.svg";
-import { Flex } from "@osn/common-ui";
-import Menu from "@/components/menu";
 import NotificationBell from "./notification/bell";
 import { ReactComponent as CaretRight } from "/public/imgs/icons/caret-right-s.svg";
+import { SystemApps } from "@osn/icons/opensquare";
+import LogoProductVotingLight from "@osn/icons/src/opensquare/logoProductVotingLight.png";
+import LogoProductVotingDark from "@osn/icons/src/opensquare/logoProductVotingDark.png";
+import { cn } from "@osn/common-ui";
 
 const CaretRightIcon = styled(CaretRight)`
   margin-left: 16px;
-`;
-
-const ContentWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  > svg {
-    margin: 20px -20px;
-    @media screen and (min-width: 800px) {
-      display: none;
-    }
-  }
 `;
 
 const AppWrapper = styled.div`
   display: flex;
   align-items: center;
   ${p_18_semibold};
-  height: 36px;
+  /* height: 36px; */
 
   cursor: pointer;
 
@@ -53,14 +28,6 @@ const AppWrapper = styled.div`
       display: flex;
       flex-wrap: wrap;
     }
-    .onHoverReverse {
-      transform: rotate(180deg);
-    }
-  }
-
-  > img {
-    width: 24px;
-    margin-right: 8px;
   }
 
   span {
@@ -80,9 +47,7 @@ const HoverMenu = styled.div`
   z-index: 1;
   top: 60px;
   width: 360px;
-  box-shadow: 0 4px 31px rgba(26, 33, 44, 0.06),
-    0px 0.751293px 8px rgba(26, 33, 44, 0.04);
-  background: white;
+  background-color: var(--fillBgPrimary);
 `;
 
 const MenuItem = styled.a`
@@ -101,106 +66,27 @@ const MenuItem = styled.a`
   }
   span {
     ${p_12_normal};
-    color: #a1a8b3;
+    color: var(--textTertiary);
   }
-`;
-
-const HeaderItemWrapper = styled.div`
-  display: flex;
-  gap: 32px;
-
-  @media screen and (max-width: 800px) {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100vw;
-    z-index: 1;
-    position: absolute;
-    top: 68px;
-    left: 0;
-    right: 0;
-  }
-  background-color: white;
-`;
-
-const SecondaryHeaderItemWrapper = styled(HeaderItemWrapper)`
-  @media screen and (min-width: 800px) {
-    display: none;
-  }
-`;
-
-const IconWrapper = styled.div`
-  display: none;
-  @media screen and (max-width: 800px) {
-    display: flex;
-    cursor: pointer;
-  }
-`;
-
-const ExternalLinkWrapper = styled(Flex)`
-  gap: 32px;
-  @media screen and (max-width: 800px) {
-    display: none;
-  }
-`;
-
-const ExternalLink = styled.a`
-  ${p_16_semibold};
-  color: #506176;
-  display: none;
-  @media screen and (min-width: 800px) {
-    display: flex;
-  }
-  cursor: pointer;
-
-  svg {
-    margin-right: 8px;
-  }
-
-  &:hover {
-    color: #506176;
-  }
-`;
-
-const InternalLink = ExternalLink;
-
-const AccountAndBell = styled.div`
-  display: flex;
-  gap: 16px;
 `;
 
 export default function Header({ networks }) {
-  const dispatch = useDispatch();
-  const showMenu = useSelector(showHeaderMenuSelector);
-
-  const ref = useRef();
-  useOnClickOutside(ref, (event) => {
-    // connect modal is at body level, doesn't contained in the <Header/>, so exclude manually
-    if (document?.querySelector(".modals")?.contains(event.target)) {
-      return;
-    }
-    dispatch(setShowHeaderMenu(false));
-  });
   const router = useRouter();
   const isHomePage = router.pathname === "/";
 
   return (
     <OsnHeader
-      logoRender={(logo) => (
-        <Link href="/" passHref>
-          {logo}
-        </Link>
-      )}
-    >
-      <ContentWrapper ref={ref}>
+      className="z-50"
+      prefix={
         <AppWrapper>
-          <span>Voting</span>
+          <SystemApps className="text-textSecondary mr-4" />
+          <img src={LogoProductVotingLight.src} className="dark:hidden h-10" />
           <img
-            className="onHoverReverse"
-            src="/imgs/icons/caret-down-s.svg"
-            alt=""
+            src={LogoProductVotingDark.src}
+            className="hidden dark:block h-10"
           />
-          <HoverMenu className="hoverMenu">
+
+          <HoverMenu className="hoverMenu shadow-shadowPopup">
             <MenuItem href="/">
               <img src="/imgs/icons/voting.svg" alt="" />
               <p>Off-chain Voting</p>
@@ -218,45 +104,39 @@ export default function Header({ networks }) {
             </MenuItem>
           </HoverMenu>
         </AppWrapper>
-        <IconWrapper
-          onClick={() => {
-            dispatch(setShowHeaderMenu(!showMenu));
-          }}
-        >
-          <img
-            src={showMenu ? "/imgs/icons/close.svg" : "/imgs/icons/menu.svg"}
-            alt=""
-          />
-        </IconWrapper>
-        <HeaderItemWrapper>
-          {isHomePage && (
-            <ExternalLinkWrapper>
-              <Link href="/space/new" passHref legacyBehavior>
-                <InternalLink>
-                  <Plus />
-                  Add a Space
-                </InternalLink>
-              </Link>
-              <ExternalLink
-                target="_blank"
-                href="https://github.com/opensquare-network/collaboration/discussions"
-              >
-                <Discussions />
-                Discussions
-              </ExternalLink>
-            </ExternalLinkWrapper>
+      }
+      logoRender={(logo) => (
+        <Link href="/" passHref>
+          {logo}
+        </Link>
+      )}
+      links={[
+        isHomePage && {
+          className: "max-lg:hidden max-sm:inline-block",
+          content: <Link href="/space/new">Add a Space</Link>,
+        },
+        {
+          content: (
+            <Link
+              target="_blank"
+              href="https://github.com/opensquare-network/collaboration/discussions"
+            >
+              Discussions
+            </Link>
+          ),
+        },
+      ].filter(Boolean)}
+      connectButton={
+        <div
+          className={cn(
+            "flex items-center gap-x-4",
+            "max-sm:w-full max-sm:flex-col",
           )}
-          <AccountAndBell>
-            <Account networks={networks} />
-            <NotificationBell />
-          </AccountAndBell>
-        </HeaderItemWrapper>
-        {showMenu && (
-          <SecondaryHeaderItemWrapper>
-            <Menu />
-          </SecondaryHeaderItemWrapper>
-        )}
-      </ContentWrapper>
-    </OsnHeader>
+        >
+          <Account networks={networks} />
+          <NotificationBell />
+        </div>
+      }
+    ></OsnHeader>
   );
 }

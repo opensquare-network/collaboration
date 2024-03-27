@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Name, Value } from "./styled";
 import { ChainIcon } from "@osn/common-ui";
-import Tooltip from "@/components/tooltip";
+import { Tooltip } from "@osn/common-ui";
 
 const Wrapper = styled.div`
   display: flex;
@@ -23,7 +23,7 @@ const Description = styled.div`
   font-size: 14px;
   line-height: 24px;
 
-  color: #1e2134;
+  color: var(--textPrimary);
 `;
 
 const Threshold = styled.span`
@@ -32,7 +32,7 @@ const Threshold = styled.span`
   font-size: 14px;
   line-height: 24px;
 
-  color: #1e2134;
+  color: var(--textPrimary);
 `;
 
 export default function Assets({ assets = [] }) {

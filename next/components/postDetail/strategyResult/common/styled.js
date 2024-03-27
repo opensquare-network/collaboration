@@ -3,7 +3,7 @@ import { p_14_medium } from "styles/textStyles";
 
 export const Divider = styled.div`
   height: 1px;
-  background: #f0f3f8;
+  background-color: var(--fillBgTertiary);
   margin: 12px 0;
 `;
 
@@ -14,7 +14,7 @@ export const VoteItem = styled.div`
   ${p_14_medium};
 
   > :first-child {
-    color: #506176;
+    color: var(--textSecondary);
   }
 `;
 
@@ -29,7 +29,7 @@ export const ProgressItem = styled.div`
 export const ProgressBackground = styled.div`
   height: 6px;
   border-radius: 3px;
-  background: #f0f3f8;
+  background-color: var(--fillBgTertiary);
   position: relative;
   overflow: hidden;
 `;
@@ -39,14 +39,14 @@ export const ProgressBar = styled.div`
   height: 6px;
   left: 0;
   top: 0;
-  background: #6848ff;
+  background: var(--fillBgBrandPrimary);
   width: ${(p) => p.percent};
 `;
 
 export const OptionIndex = styled.div`
   max-width: 118px;
   ${p_14_medium};
-  color: #a1a8b3;
+  color: var(--textTertiary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -71,14 +71,14 @@ export const ResultName = styled.span`
   font-weight: 600;
   font-size: 16px;
   line-height: 24px;
-  color: #1e2134;
+  color: var(--textPrimary);
 `;
 
 export const StatusResultName = styled.span`
   font-weight: 500;
   font-size: 14px;
   line-height: 24px;
-  color: #506176;
+  color: var(--textSecondary);
 `;
 
 export const SubtitleWrapper = styled.div`
@@ -92,11 +92,11 @@ export const Subtitle = styled.div`
   justify-self: flex-start;
   margin-left: 8px;
   svg {
-    fill: #a1a8b3;
+    fill: var(--textTertiary);
   }
   :hover {
     svg {
-      fill: #506176;
+      fill: var(--textSecondary);
     }
   }
 `;
@@ -107,7 +107,7 @@ export const FlexAround = styled.div`
   justify-content: right;
 
   .quorum-value {
-    color: rgba(161, 168, 179, 1);
+    color: var(--textTertiary);
   }
 `;
 
@@ -135,6 +135,8 @@ export const StatusItem = styled.div`
   font-size: 14px;
   line-height: 100%;
   text-align: center;
-  color: ${(p) => (p.positive ? "#4CAF50" : "#EE4444")};
-  background: ${(p) => (p.positive ? "#EDF7ED" : "#FDECEC")};
+  color: ${(p) =>
+    p.positive ? "var(--textFeedbackSuccess)" : "var(--textFeedbackError)"};
+  background: ${(p) =>
+    p.positive ? "var(--accentGreen25a)" : "var(--accentRed25a)"};
 `;

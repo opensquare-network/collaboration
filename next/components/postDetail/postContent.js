@@ -35,7 +35,7 @@ const LeftWrapper = styled.div`
   display: flex;
   align-items: center;
   line-height: 24px;
-  color: #a1a8b3;
+  color: var(--textTertiary);
   flex-wrap: wrap;
   > :not(:first-child)::before {
     content: "·";
@@ -45,7 +45,7 @@ const LeftWrapper = styled.div`
 
 const Divider = styled.div`
   height: 1px;
-  background: #f0f3f8;
+  background-color: var(--fillBgTertiary);
   margin: 20px 0;
   ${(p) =>
     p.margin &&
@@ -56,7 +56,7 @@ const Divider = styled.div`
 
 const Content = styled.div`
   ${p_14_normal};
-  color: #1e2134;
+  color: var(--textPrimary);
 `;
 
 export default function PostContent({ data, space }) {

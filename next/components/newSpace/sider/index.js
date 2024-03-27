@@ -27,7 +27,7 @@ const SpaceName = styled.span`
   font-size: 18px;
   line-height: 24px;
   text-align: center;
-  color: #1e2134;
+  color: var(--textPrimary);
 `;
 
 const TokenSymbol = styled.span`
@@ -36,7 +36,7 @@ const TokenSymbol = styled.span`
   font-size: 14px;
   line-height: 24px;
   text-align: center;
-  color: #a1a8b3;
+  color: var(--textTertiary);
 `;
 
 const FlexColumn = styled.div`

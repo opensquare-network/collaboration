@@ -9,7 +9,7 @@ const Header = styled.header`
   ${(p) =>
     !p.secondary &&
     css`
-      border-bottom: 1px solid #f0f3f8;
+      border-bottom: 1px solid var(--strokeBorderDefault);
       padding-bottom: 20px;
     `}
 

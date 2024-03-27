@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 import { Flex, Input } from "@osn/common-ui";
 import { FieldWrapper, Title } from "./styled";
-import Tooltip from "@/components/tooltip";
+import { Tooltip } from "@osn/common-ui";
 
 const Wrapper = styled.div`
   display: flex;
@@ -17,7 +17,7 @@ const MyFieldWrapper = styled(FieldWrapper)`
     ${({ disabled }) =>
       disabled &&
       css`
-        background: #f0f3f8;
+        background-color: var(--fillBgTertiary);
       `}
   }
 `;

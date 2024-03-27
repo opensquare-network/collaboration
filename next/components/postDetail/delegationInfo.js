@@ -11,7 +11,7 @@ const Wrapper = styled.div`
   font-size: 14px;
   line-height: 24px;
 
-  color: #506176;
+  color: var(--textSecondary);
 `;
 
 export default function DelegationInfo({ delegatee, network }) {

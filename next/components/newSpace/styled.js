@@ -6,7 +6,7 @@ export const SectionTitle = styled.span`
   font-weight: 600;
   font-size: 16px;
   line-height: 24px;
-  color: #1e2134;
+  color: var(--textPrimary);
   margin-bottom: 16px;
 `;
 
@@ -15,7 +15,7 @@ export const Hint = styled.div`
   font-weight: 400;
   font-size: 14px;
   line-height: 24px;
-  color: #a1a8b3;
+  color: var(--textTertiary);
 
   > * {
     &::before {

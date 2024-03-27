@@ -7,8 +7,8 @@ const Wrapper = styled.div`
   gap: 8px;
   align-items: center;
   padding: 12px 16px;
-  background: #fbfcfe;
-  border: 1px solid #e2e8f0;
+  background: var(--fillBgSecondary);
+  border: 1px solid var(--strokeActionDefault);
   ${p_14_normal};
 `;
 

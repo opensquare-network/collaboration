@@ -4,7 +4,6 @@ import Author from "./author";
 import InternalLink from "components/internalLink";
 import HardLink from "components/hardLink";
 import { p_16_semibold } from "styles/textStyles";
-import { shadow_100, shadow_200 } from "styles/globalCss";
 import StatusTag from "./statusTag";
 import PostTime from "./postTime";
 import { p_24 } from "../styles/paddings";
@@ -17,15 +16,15 @@ import { p_14_medium } from "../styles/componentCss";
 import { getSpaceIconUrl } from "frontedUtils/space";
 
 const Wrapper = styled.div`
-  background: #ffffff;
-  border: 1px solid #f0f3f8;
-  ${shadow_100}
+  background: var(--fillBgPrimary);
+  border: 1px solid var(--strokeBorderDefault);
+  box-shadow: var(--shadowCardDefault);
   ${p_24};
 
   :hover {
-    border-color: #e2e8f0;
+    border-color: var(--strokeActionDefault);
 
-    ${shadow_200}
+    box-shadow: var(--shadowCardHover);
     .icon > svg {
       display: block;
     }
@@ -33,7 +32,7 @@ const Wrapper = styled.div`
 `;
 
 const Title = styled.h3`
-  font-family: Inter, serif;
+  font-family: var(--font-inter), serif;
   font-style: normal;
   display: inline-block;
   ${p_16_semibold};
@@ -42,7 +41,7 @@ const Title = styled.h3`
 
 const Divider = styled.div`
   height: 1px;
-  background: #f0f3f8;
+  background-color: var(--fillBgTertiary);
   margin: 16px 0;
 `;
 
@@ -52,7 +51,7 @@ const InfoWrapper = styled(FlexBetween)`
 
 const LeftWrapper = styled(Flex)`
   line-height: 24px;
-  color: #a1a8b3;
+  color: var(--textTertiary);
   flex-wrap: wrap;
 
   > :not(:first-child)::before {
@@ -71,7 +70,7 @@ const SpaceName = styled.a`
   text-transform: capitalize;
   margin-left: 6px;
   ${p_14_medium};
-  color: #1e2134 !important;
+  color: var(--textPrimary) !important;
 
   :hover {
     text-decoration-line: underline;

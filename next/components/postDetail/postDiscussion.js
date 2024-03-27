@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
@@ -15,7 +15,6 @@ import {
   removeToast,
 } from "store/reducers/toastSlice";
 import { timeDuration } from "frontedUtils";
-import ExternalLink from "@osn/common-ui/es/ExternalLink";
 import { findNetworkConfig } from "services/util";
 import HeaderWithNumber from "@/components/postDetail/numberHeader";
 import encodeAddressByChain from "../../frontedUtils/chain/addr";
@@ -27,7 +26,7 @@ import {
   MarkdownPreviewer,
   renderMentionIdentityUserPlugin,
 } from "@osn/previewer";
-import { MentionIdentityUser, RichEditor } from "@osn/common-ui";
+import { IpfsSquare, MentionIdentityUser, RichEditor } from "@osn/common-ui";
 import { useSuggestions } from "./suggestions";
 
 const Item = styled.div`
@@ -38,13 +37,12 @@ const DividerWrapper = styled.div`
   display: flex;
   align-items: center;
   line-height: 24px;
-  color: #a1a8b3;
+  color: var(--textTertiary);
   > :not(:first-child) {
     ::before {
       content: "·";
       font-size: 14px;
       line-height: 24px;
-      color: #e3e7ed;
       margin: 0 8px;
     }
   }
@@ -53,7 +51,7 @@ const DividerWrapper = styled.div`
 const ContentWrapper = styled.div`
   margin: 8px 0 0 28px;
   padding-bottom: 20px;
-  border-bottom: 1px solid #f0f3f8;
+  border-bottom: 1px solid var(--strokeBorderDefault);
 `;
 
 const Content = styled.div`
@@ -73,23 +71,9 @@ const InfoWrapper = styled.div`
   justify-content: space-between;
 `;
 
-const Square = styled.div`
-  width: 20px;
-  height: 20px;
-  background: url("/imgs/icons/ipfs.svg");
-  ${(p) =>
-    !p.noHover &&
-    css`
-      cursor: pointer;
-      :hover {
-        background: url("/imgs/icons/ipfs-active.svg");
-      }
-    `}
-`;
-
 const NoCommentWrapper = styled.div`
   height: 104px;
-  border-bottom: 1px solid #f0f3f8;
+  border-bottom: 1px solid var(--strokeBorderDefault);
 
   > div {
     border: none;
@@ -194,15 +178,12 @@ export default function PostDiscussion({
               />
               <div>{timeDuration(item.createdAt)}</div>
             </DividerWrapper>
-            {item?.pinHash ? (
-              <ExternalLink
-                href={`${process.env.NEXT_PUBLIC_API_END_POINT}api/ipfs/files/${item.pinHash}`}
-              >
-                <Square />
-              </ExternalLink>
-            ) : (
-              <Square noHover={true} />
-            )}
+            <IpfsSquare
+              href={
+                item?.pinHash &&
+                `${process.env.NEXT_PUBLIC_API_END_POINT}api/ipfs/files/${item.pinHash}`
+              }
+            />
           </InfoWrapper>
           <ContentWrapper>
             <Content>

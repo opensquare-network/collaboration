@@ -6,7 +6,7 @@ import Seo from "@/components/seo";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setAvailableNetworks } from "store/reducers/accountSlice";
-import { Pagination, Container, List, Flex } from "@osn/common-ui";
+import { Pagination, List, Flex } from "@osn/common-ui";
 import { clearUnread } from "store/reducers/notificationSlice";
 import { accountSelector } from "store/reducers/accountSlice";
 import NotificationItem from "../components/notification/notificationItem";
@@ -15,7 +15,7 @@ import { ReactComponent as CheckUnderline } from "@osn/common-ui/es/imgs/icons/c
 import { text_dark_minor } from "@osn/common-ui/es/styles/colors";
 import { p_14_medium } from "@osn/common-ui/es/styles/textStyles";
 import { useNotifications } from "hooks/notification/useNotifications";
-import ListLoader from "@/components/notification/listLoader";
+import { ListLoader } from "@osn/common-ui";
 
 const Wrapper = styled.div`
   position: relative;
@@ -76,38 +76,36 @@ export default function Index({ allNetworks }) {
             }
           />
 
-          <Container>
-            <ContentWrapper>
-              <List
-                gap={20}
-                loading={isLoading}
-                loadingComponent={<ListLoader />}
-                data={notifications?.items}
-                noDataMessage="No notifications"
-                itemKey={(item) => `${item._id}_${item.read}`}
-                itemRender={(item) => (
-                  <List.Item>
-                    <NotificationItem
-                      data={item}
-                      onMarkAsRead={(data) => {
-                        dispatch(
-                          clearUnread(account.address, {
-                            items: [data._id],
-                          }),
-                        );
-                      }}
-                    />
-                  </List.Item>
-                )}
-              />
-            </ContentWrapper>
-
-            <Pagination
-              {...{ page, setPage, pageSize }}
-              onChange={() => window.scrollTo(0, 0)}
-              total={notifications?.total}
+          <ContentWrapper>
+            <List
+              gap={20}
+              loading={isLoading}
+              loadingComponent={<ListLoader />}
+              data={notifications?.items}
+              noDataMessage="No notifications"
+              itemKey={(item) => `${item._id}_${item.read}`}
+              itemRender={(item) => (
+                <List.Item>
+                  <NotificationItem
+                    data={item}
+                    onMarkAsRead={(data) => {
+                      dispatch(
+                        clearUnread(account.address, {
+                          items: [data._id],
+                        }),
+                      );
+                    }}
+                  />
+                </List.Item>
+              )}
             />
-          </Container>
+          </ContentWrapper>
+
+          <Pagination
+            {...{ page, setPage, pageSize }}
+            onChange={() => window.scrollTo(0, 0)}
+            total={notifications?.total}
+          />
         </Wrapper>
       </Layout>
     </>

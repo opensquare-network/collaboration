@@ -13,7 +13,6 @@ import NotificationMonitor from "./notification/monitor";
 
 const Wrapper = styled.div`
   min-height: 100vh;
-  width: 100vw;
   overflow: hidden;
   display: flex;
   flex-direction: column;

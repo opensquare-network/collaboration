@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { SectionTitle } from "../styled";
 import { Flex, Input } from "@osn/common-ui";
-import Tooltip from "@/components/tooltip";
+import { Tooltip } from "@osn/common-ui";
 
 const Wrapper = styled.div`
   display: flex;

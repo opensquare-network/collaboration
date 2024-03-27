@@ -34,7 +34,7 @@ const FETCH_BALANCE_ERROR =
 
 const Wrapper = styled.div`
   padding: 20px;
-  background: #fbfcfe;
+  background: var(--fillBgSecondary);
   ${(p) =>
     p.size === "small" &&
     css`
@@ -77,15 +77,15 @@ const InputWrapper = styled.div`
 
 const Input = styled.input`
   all: unset;
-  background-color: #ffffff;
-  border: 1px solid #e2e8f0;
+  background-color: var(--fillBgPrimary);
+  border: 1px solid var(--strokeActionDefault);
   padding: 23px 47px 23px 71px;
   ${p_14_normal};
   ::placeholder {
-    color: #a1a8b3;
+    color: var(--textTertiary);
   }
   :focus {
-    border-color: #b7c0cc;
+    border-color: var(--strokeActionActive);
   }
   ${(p) =>
     p.isLoading &&
@@ -105,8 +105,8 @@ const Input = styled.input`
 
 const ItemWrapper = styled(Flex)`
   padding: 11px 15px;
-  border: 1px solid #e2e8f0;
-  background: #ffffff;
+  border: 1px solid var(--strokeActionDefault);
+  background: var(--fillBgPrimary);
   cursor: pointer;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -131,7 +131,7 @@ const DetailWrapper = styled.div`
   > :last-child {
     font-size: 14px;
     line-height: 24px;
-    color: #506176;
+    color: var(--textSecondary);
   }
   ${(p) =>
     p.size === "small" &&

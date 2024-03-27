@@ -8,14 +8,13 @@ import { useOnClickOutside } from "frontedUtils/hooks";
 import { ReactComponent as CaretRight } from "/public/imgs/icons/caret-right.svg";
 import { ReactComponent as ArrowLeft } from "/public/imgs/icons/arrow-left.svg";
 import { ReactComponent as ArrowRight } from "/public/imgs/icons/arrow-right.svg";
-import Button from "@osn/common-ui/es/styled/Button";
 import {
   p_14_medium,
   p_14_normal,
   p_16_normal,
   p_16_semibold,
 } from "../styles/textStyles";
-import { Flex, FlexBetween } from "@osn/common-ui";
+import { Flex, FlexBetween, Button } from "@osn/common-ui";
 
 const Wrapper = styled.div`
   position: relative;
@@ -25,9 +24,9 @@ const DateTimeWrapper = styled.div``;
 
 const DateButton = styled.div`
   padding: 12px 16px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--strokeActionDefault);
   :hover {
-    border-color: #b7c0cc;
+    border-color: var(--strokeActionActive);
   }
   display: flex;
   cursor: pointer;
@@ -35,19 +34,19 @@ const DateButton = styled.div`
   font-size: 14px;
   line-height: 24px;
   .placeholder {
-    color: #9da9bb;
+    color: var(--textTertiary);
   }
   > div {
     flex-grow: 1;
   }
   > svg {
     flex: 0 0 24px;
-    fill: #506176;
+    fill: var(--textSecondary);
   }
   ${(p) =>
     p.active &&
     css`
-      border-color: #b7c0cc;
+      border-color: var(--strokeActionActive);
     `}
 `;
 
@@ -56,9 +55,8 @@ const DateWrapper = styled.div`
   z-index: 1;
   right: 0;
   padding: 24px;
-  background: #ffffff;
-  box-shadow: 0px 4px 31px rgba(26, 33, 44, 0.06),
-    0px 0.751293px 8px rgba(26, 33, 44, 0.04);
+  background: var(--fillBgPrimary);
+  box-shadow: var(--shadowPopup);
 
   .react-datepicker__header {
     background: transparent;
@@ -68,10 +66,10 @@ const DateWrapper = styled.div`
 
   .react-datepicker__day-name {
     width: 40px;
-    font-family: Inter, sans-serif;
+    font-family: var(--font-inter), sans-serif;
     ${p_14_medium};
     text-align: center;
-    color: #506176;
+    color: var(--textSecondary);
     margin: 0 !important;
   }
 
@@ -82,6 +80,7 @@ const DateWrapper = styled.div`
   .react-datepicker {
     border-radius: 0;
     border: none;
+    background: transparent;
   }
 
   .react-datepicker__month {
@@ -91,30 +90,30 @@ const DateWrapper = styled.div`
   .react-datepicker__day {
     width: 40px;
     height: 40px;
-    font-family: Inter, sans-serif;
+    font-family: var(--font-inter), sans-serif;
     ${p_14_normal};
-    color: #1e2134;
+    color: var(--textPrimary);
     display: inline-flex;
     align-items: center;
     justify-content: center;
     border-radius: 0;
     margin: 0 !important;
     :hover {
-      background: #f0f3f8;
+      background-color: var(--fillBgTertiary);
     }
   }
 
   .react-datepicker__day--today {
     font-weight: 600;
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--strokeActionDefault);
   }
 
   .react-datepicker__day--selected {
-    background: #f0f3f8;
+    background-color: var(--fillBgTertiary);
   }
 
   .react-datepicker__day--outside-month {
-    color: #9da9bb;
+    color: var(--textTertiary);
   }
 
   .react-datepicker__day--keyboard-selected {
@@ -122,7 +121,7 @@ const DateWrapper = styled.div`
   }
 
   .react-datepicker__day--disabled {
-    color: #9da9bb;
+    color: var(--textTertiary);
     cursor: not-allowed;
     &:hover {
       background: none;
@@ -132,23 +131,23 @@ const DateWrapper = styled.div`
 
 const DateHeader = styled(Flex)`
   > div {
-    font-family: Inter, sans-serif;
+    font-family: var(--font-inter), sans-serif;
     ${p_16_semibold};
     text-align: center;
-    color: #1e2134;
+    color: var(--textPrimary);
     flex: 1 1 auto;
   }
   > svg {
     cursor: pointer;
     path {
-      fill: #506176;
+      fill: var(--textSecondary);
     }
   }
 `;
 
 const Divider = styled.div`
   height: 1px;
-  background: #f0f3f8;
+  background-color: var(--fillBgTertiary);
   margin: 16px 0;
 `;
 
@@ -165,9 +164,8 @@ const TimeWrapper = styled.div`
   position: absolute;
   right: 0;
   padding: 24px;
-  background: #ffffff;
-  box-shadow: 0px 4px 31px rgba(26, 33, 44, 0.06),
-    0px 0.751293px 8px rgba(26, 33, 44, 0.04);
+  background: var(--fillBgPrimary);
+  box-shadow: var(--shadowPopup);
 `;
 
 const TimeHeaderWrapper = styled(FlexBetween)`
@@ -175,10 +173,10 @@ const TimeHeaderWrapper = styled(FlexBetween)`
   white-space: nowrap;
   > :first-child {
     font-weight: 600;
-    color: #1e2134;
+    color: var(--textPrimary);
   }
   > :last-child {
-    color: #9da9bb;
+    color: var(--textTertiary);
     font-size: 14px;
   }
 `;
@@ -188,9 +186,9 @@ const TimeInputWrapper = styled(FlexBetween)`
   padding: 12px 4px;
   width: 280px;
   height: 48px;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid var(--strokeActionDefault);
   ${p_14_normal};
-  background: #fbfcfe;
+  background: var(--fillBgSecondary);
 `;
 
 const TimeInput = styled.input`

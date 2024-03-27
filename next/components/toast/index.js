@@ -6,7 +6,6 @@ import { toastsSelector } from "store/reducers/toastSlice";
 
 const Wrapper = styled.div`
   position: fixed;
-  width: 100vw;
   height: 0;
   left: 0;
   top: 0;

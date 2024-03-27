@@ -8,14 +8,14 @@ export const Index = styled.div`
   width: 32px;
   height: 32px;
 
-  border: 2px solid #b7c0cc;
+  border: 2px solid var(--strokeActionDefault);
 
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
   line-height: 24px;
 
-  color: #a1a8b3;
+  color: var(--textTertiary);
 `;
 
 export const NavigationLine = styled.div`
@@ -23,11 +23,11 @@ export const NavigationLine = styled.div`
   min-width: 30px;
   height: 0px;
 
-  border: 2px solid #04d2c5;
+  border: 2px solid var(--strokeBgBrandSecondary);
 
   ${({ isHidden }) =>
     isHidden &&
     css`
-      border-color: rgba(0, 0, 0, 0);
+      border-color: transparent;
     `}
 `;

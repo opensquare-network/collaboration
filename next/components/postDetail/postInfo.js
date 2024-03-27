@@ -4,7 +4,7 @@ import moment from "moment";
 import ExternalLink from "@osn/common-ui/es/ExternalLink";
 import { capitalize, getExplorer } from "../../frontedUtils";
 import { ChainIcon } from "@osn/common-ui";
-import Tooltip from "@/components/tooltip";
+import { Tooltip } from "@osn/common-ui";
 import Panel from "@/components/postDetail/panel";
 import SideSectionTitle from "@/components/sideBar/sideSectionTitle";
 import AssetList from "../assetList";
@@ -18,7 +18,7 @@ const Wrapper = styled(Panel)`
 
 const Divider = styled.div`
   height: 1px;
-  background: #f0f3f8;
+  background-color: var(--fillBgTertiary);
   margin: 12px 0;
 `;
 
@@ -31,7 +31,7 @@ const InfoItem = styled.div`
   line-height: 24px;
 
   > :first-child {
-    color: #506176;
+    color: var(--textSecondary);
     margin-right: 8px;
   }
 
@@ -53,7 +53,7 @@ const TimestampItem = styled.div`
   line-height: 24px;
 
   > :first-child {
-    color: #506176;
+    color: var(--textSecondary);
   }
 
   span {

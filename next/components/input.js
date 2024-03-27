@@ -4,18 +4,18 @@ import { p_14_normal } from "../styles/textStyles";
 const styledInput = styled.input`
   all: unset;
   padding: 12px 16px;
-  background: #fbfcfe;
-  border-bottom: 1px solid #e2e8f0;
+  background: var(--fillBgSecondary);
+  border-bottom: 1px solid var(--strokeActionDefault);
   :hover,
   :focus,
   :active {
-    border-color: #b7c0cc;
+    border-color: var(--strokeActionActive);
   }
   ${p_14_normal};
   display: block;
-  color: #1e2134;
+  color: var(--textPrimary);
   ::placeholder {
-    color: #9da9bb;
+    color: var(--textTertiary);
   }
   ::-webkit-outer-spin-button,
   ::-webkit-inner-spin-button {

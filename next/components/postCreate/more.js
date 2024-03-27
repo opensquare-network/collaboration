@@ -22,10 +22,9 @@ import DropdownSelector from "@osn/common-ui/es/DropdownSelector";
 
 const Wrapper = styled.div`
   min-width: 302px;
-  background: #ffffff;
-  border: 1px solid #f0f3f8;
-  box-shadow: 0px 4px 31px rgba(26, 33, 44, 0.04),
-    0px 0.751293px 3.88168px rgba(26, 33, 44, 0.03);
+  background: var(--fillBgPrimary);
+  border: 1px solid var(--strokeBorderDefault);
+  box-shadow: var(--shadowCardDefault);
   padding: 32px;
   @media screen and (max-width: 800px) {
     padding: 20px;
@@ -58,7 +57,7 @@ const DateWrapper = styled.div`
 
 const Divider = styled.div`
   height: 1px;
-  background: #f0f3f8;
+  background-color: var(--fillBgTertiary);
 `;
 
 const Snapshot = styled(FlexBetween)`
@@ -67,12 +66,12 @@ const Snapshot = styled(FlexBetween)`
 
 const NetworkName = styled.div`
   ${p_14_medium};
-  color: #506176;
+  color: var(--textSecondary);
   text-transform: capitalize;
 `;
 
 const TextGrey = styled.span`
-  color: #a1a8b3;
+  color: var(--textTertiary);
 `;
 
 const ChoiceWrapper = styled.div`
@@ -80,7 +79,7 @@ const ChoiceWrapper = styled.div`
   font-weight: 500;
   font-size: 14px;
   line-height: 24px;
-  color: #1e2134;
+  color: var(--textPrimary);
 `;
 
 export default function More({ onPublish, space }) {

@@ -3,7 +3,7 @@ import copy from "copy-to-clipboard";
 import styled from "styled-components";
 import { ReactComponent as Twitter } from "./twitter.svg";
 import { ReactComponent as CopySvg } from "./copy.svg";
-import Tooltip from "@/components/tooltip";
+import { Tooltip } from "@osn/common-ui";
 
 const Wrapper = styled.div`
   display: flex;
@@ -16,18 +16,18 @@ const ShareItem = styled.span`
   &:hover {
     .twitter {
       rect {
-        fill: #e6f4fe;
+        fill: var(--accentBlue25a);
       }
       path {
-        fill: #33a2f2;
+        fill: var(--accentBlue500a);
       }
     }
     .copy {
       rect {
-        fill: #edf7ed;
+        fill: var(--accentGreen25a);
       }
       path {
-        fill: #4caf50;
+        fill: var(--textFeedbackSuccess);
       }
     }
   }

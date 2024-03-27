@@ -7,15 +7,15 @@ import { FlexBetween } from "@osn/common-ui";
 
 const Wrapper = styled(FlexBetween)`
   padding: 12px 24px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--strokeActionDefault);
   ${p_14_medium};
   :hover {
-    border-color: #b7c0cc;
+    border-color: var(--strokeActionActive);
   }
   ${(p) =>
     p.focus &&
     css`
-      border-color: #b7c0cc;
+      border-color: var(--strokeActionActive);
     `}
 `;
 
@@ -26,7 +26,7 @@ const Input = styled.input`
   min-width: 0;
   text-align: center;
   ${p_14_medium};
-  color: #1e2134;
+  color: var(--textPrimary);
 `;
 
 const SubstractButtonWrapper = styled.div`
@@ -37,9 +37,9 @@ const SubstractButtonWrapper = styled.div`
 const SubstractButton = styled(Substract)`
   flex: 0 0 auto;
   cursor: pointer;
-  fill: #9da9bb;
+  fill: var(--textTertiary);
   :hover {
-    fill: #2e343d;
+    fill: var(--textPrimary);
   }
 `;
 

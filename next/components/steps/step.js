@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import CheckedIndex from "./checkedIndex";
 import CurrentIndex from "./currentIndex";
 import { Index, NavigationLine } from "./styled";
@@ -19,7 +19,13 @@ const Title = styled.span`
   font-size: 16px;
   line-height: 24px;
 
-  color: ${({ isCurrent }) => (isCurrent ? "#04D2C5" : "#000000")};
+  color: var(--textPrimary);
+
+  ${(p) =>
+    p.isCurrent &&
+    css`
+      color: var(--textBrandSecondary);
+    `}
 `;
 
 export default function Step({ step, index = 0, currentStep = 0, isLast }) {

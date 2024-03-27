@@ -11,11 +11,12 @@
   },
   "dependencies": {
     "@osn/common": "^1.3.5",
-    "@osn/common-ui": "^1.18.10",
+    "@osn/common-ui": "^1.20.0",
     "@osn/constants": "^1.1.2",
-    "@osn/polkadot-react-identicon": "^1.0.8",
-    "@osn/previewer": "^0.12.3",
-    "@osn/rich-text-editor": "^0.1.56",
+    "@osn/icons": "^1.83.0",
+    "@osn/polkadot-react-identicon": "^1.0.10",
+    "@osn/previewer": "^1.2.2",
+    "@osn/rich-text-editor": "^0.6.6",
     "@polkadot/api": "^9.4.2",
     "@polkadot/extension-dapp": "0.44.6",
     "@polkadot/util": "10.1.9",
@@ -54,18 +55,20 @@
     "styled-components": "^5.3.1"
   },
   "devDependencies": {
-    "@osn/eslint-config": "^1.0.1",
+    "@osn/eslint-config": "^1.0.2",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.1.1",
+    "autoprefixer": "^10.4.16",
     "babel-jest": "^27.2.2",
-    "eslint": "^8.38.0",
-    "eslint-config-next": "^13.3.0",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^14.1.4",
     "file-loader": "^6.2.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^27.3.0",
     "jest-environment-node": "^27.3.0",
+    "postcss": "^8.4.33",
     "postinstall-postinstall": "^2.1.0",
-    "react-test-renderer": "^17.0.2"
+    "tailwindcss": "^3.4.1"
   },
   "packageManager": "yarn@3.6.4"
 }

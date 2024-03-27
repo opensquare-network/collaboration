@@ -7,8 +7,8 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 12px 16px;
-  background: #ffffff;
-  border: 1px solid #b7c0cc;
+  background: var(--fillBgPrimary);
+  border: 1px solid var(--strokeActionActive);
   gap: 8px;
 `;
 
@@ -22,7 +22,7 @@ const Text = styled.span`
   font-weight: 500;
   font-size: 14px;
   line-height: 24px;
-  color: #1e2134;
+  color: var(--textPrimary);
 `;
 
 const DropIcon = styled.div`

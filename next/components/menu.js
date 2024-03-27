@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { shadow_200 } from "../styles/globalCss";
 import { useSelector } from "react-redux";
 import { showHeaderMenuSelector } from "../store/reducers/showConnectSlice";
 import { p_14_medium } from "../styles/textStyles";
@@ -13,9 +12,9 @@ const MenuWrapper = styled.div`
   position: absolute;
   right: 0;
   top: 100%;
-  background: #ffffff;
-  border: 1px solid #f0f3f8;
-  ${shadow_200};
+  background: var(--fillBgPrimary);
+  border: 1px solid var(--strokeBorderDefault);
+  box-shadow: var(--shadowCardHover);
   padding: 20px;
   padding-bottom: 8px;
   z-index: 1;
@@ -27,7 +26,6 @@ const MenuWrapper = styled.div`
     position: initial;
     padding-top: 0;
     padding-bottom: 0;
-    border-bottom: 20px solid white;
   }
 `;
 
@@ -41,10 +39,10 @@ const ItemWrapper = styled.a`
   align-items: center;
   justify-content: space-between;
   ${p_14_medium};
-  color: #506176;
+  color: var(--textSecondary);
 
   :hover {
-    color: #1e2134;
+    color: var(--textPrimary);
   }
 `;
 

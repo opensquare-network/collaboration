@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Modal } from "semantic-ui-react";
+import { Modal } from "@osn/common-ui";
 import {
   p_14_normal,
   p_16_semibold,
@@ -23,7 +23,7 @@ export const CloseBar = styled.div`
   flex-direction: row-reverse;
 
   > svg path {
-    fill: #9da9bb;
+    fill: var(--textTertiary);
   }
 
   cursor: pointer;
@@ -31,18 +31,18 @@ export const CloseBar = styled.div`
 
 export const StyledTitle = styled.header`
   ${p_20_semibold};
-  color: #1e2134;
+  color: var(--textPrimary);
   margin-bottom: 8px;
 `;
 
 export const StyledText = styled.p`
   ${p_16_semibold};
-  color: #1e2134;
+  color: var(--textPrimary);
 `;
 
 export const StyledDescription = styled.p`
   ${p_14_normal};
-  color: #ee4444;
+  color: var(--textFeedbackError);
 `;
 
 export const ActionBar = styled.div`
