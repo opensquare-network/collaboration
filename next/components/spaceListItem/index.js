@@ -75,7 +75,7 @@ const Wrapper = styled.div`
   background: var(--fillBgPrimary);
   padding: 24px;
   cursor: pointer;
-  width: 200px;
+  min-width: 200px;
 
   :hover {
     border-color: var(--strokeActionDefault);
