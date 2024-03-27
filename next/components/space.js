@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { useCallback, useEffect, useState } from "react";
 
 import InternalLink from "./internalLink";
-import { no_scroll_bar } from "../styles/globalCss";
 import { h3_36_bold, p_16_semibold } from "../styles/textStyles";
 import { useWindowSize } from "../frontedUtils/hooks";
 import { setCookie } from "frontedUtils/cookie";
@@ -10,29 +9,10 @@ import { loginAddressSelector } from "store/reducers/accountSlice";
 import SpaceListItem from "./spaceListItem";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchJoinedSpace } from "store/reducers/accountSlice";
+import { cn } from "@osn/common-ui";
 
 const Title = styled.div`
   ${h3_36_bold};
-`;
-
-const ItemsWrapper = styled.div`
-  display: flex;
-  gap: 20px;
-  justify-content: start;
-  overflow: visible;
-  min-height: 227px;
-  ${no_scroll_bar};
-
-  @media screen and (max-width: 1144px) {
-    margin: 0 -32px;
-    padding: 0 32px;
-  }
-  @media screen and (max-width: 800px) {
-    margin: 0 -20px;
-    padding: 0 20px;
-  }
-
-  flex-wrap: wrap;
 `;
 
 const TitleWrapper = styled.div`
@@ -98,7 +78,17 @@ export default function Space({ spaces, showAllSpace }) {
           </SpaceButton>
         </ButtonWrapper>
       </TitleWrapper>
-      <ItemsWrapper>
+
+      <div
+        className={cn(
+          "grid gap-5",
+          "grid-cols-5",
+          "max-xl:grid-cols-4",
+          "max-lg:grid-cols-3",
+          "max-md:grid-cols-2",
+          "max-sm:grid-cols-1",
+        )}
+      >
         {(show ? sortedSpaces : sortedSpaces.slice(0, showCount)).map(
           ([name, space], index) => (
             <InternalLink href={`/space/${name}`} key={index}>
@@ -106,7 +96,7 @@ export default function Space({ spaces, showAllSpace }) {
             </InternalLink>
           ),
         )}
-      </ItemsWrapper>
+      </div>
     </div>
   );
 }
