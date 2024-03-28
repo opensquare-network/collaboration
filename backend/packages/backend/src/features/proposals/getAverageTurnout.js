@@ -4,6 +4,29 @@ const {
 } = require("../../services/proposal.service/proposalQuery");
 const { getVoteCollection } = require("../../mongo");
 
+async function getProposalNativeVotes(proposal, nativeToken) {
+  const voteCol = await getVoteCollection();
+  const votes = await voteCol.find({ proposal: proposal?._id }).toArray();
+
+  // Find out votes that are using CFG
+  const nativeVotes = votes
+    .map((vote) =>
+      vote.weights.details.find((item) => item.symbol === nativeToken),
+    )
+    .filter(Boolean);
+
+  const totalNativeVotes = nativeVotes.reduce(
+    (acc, vote) =>
+      acc.plus(new BigNumber(vote.balance).div(10 ** vote.decimals)),
+    new BigNumber(0),
+  );
+
+  return {
+    cid: proposal.cid,
+    totalNativeVotes,
+  };
+}
+
 async function getAverageTurnout(ctx) {
   const { space } = ctx.params;
 
@@ -36,30 +59,10 @@ async function getAverageTurnout(ctx) {
     return;
   }
 
-  const details = await Promise.all(
-    proposals.map(async (proposal) => {
-      const voteCol = await getVoteCollection();
-      const votes = await voteCol.find({ proposal: proposal?._id }).toArray();
-
-      // Find out votes that are using CFG
-      const nativeVotes = votes
-        .map((vote) =>
-          vote.weights.details.find((item) => item.symbol === nativeToken),
-        )
-        .filter(Boolean);
-
-      const totalNativeVotes = nativeVotes.reduce(
-        (acc, vote) =>
-          acc.plus(new BigNumber(vote.balance).div(10 ** vote.decimals)),
-        new BigNumber(0),
-      );
-
-      return {
-        cid: proposal.cid,
-        totalNativeVotes,
-      };
-    }),
+  const promises = proposals.map(async (proposal) =>
+    getProposalNativeVotes(proposal, nativeToken),
   );
+  const details = await Promise.all(promises);
 
   const totalVotes = details.reduce(
     (acc, item) => acc.plus(item.totalNativeVotes),
