@@ -16,6 +16,11 @@ const statemineCommonConfig = {
   ss58Format: 2,
 };
 
+const statemintCommonConfig = {
+  network: networks.statemint,
+  ss58Format: 0,
+};
+
 const movrErc20CommonConfig = {
   network: networks.moonriver,
 };
@@ -28,6 +33,7 @@ module.exports = {
   karuraTokenConfig,
   bifrostTokenConfig,
   statemineCommonConfig,
+  statemintCommonConfig,
   networks,
   strategies,
   movrErc20CommonConfig,

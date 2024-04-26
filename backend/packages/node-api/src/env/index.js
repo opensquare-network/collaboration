@@ -7,6 +7,7 @@ const chainEndpointPrefixMap = {
   [chains.khala]: "KHA",
   [chains.phala]: "PHA",
   [chains.statemine]: "STATEMINE",
+  [chains.statemint]: "STATEMINT",
   [chains.bifrost]: "BNC",
   [chains.kintsugi]: "KINT",
   [chains.polkadex]: "PDEX",

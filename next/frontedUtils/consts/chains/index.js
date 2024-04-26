@@ -4,6 +4,7 @@ import phala from "./phala";
 import polkadex from "./polkadex";
 import shiden from "./shiden";
 import statemine from "./statemine";
+import statemint from "./statemint";
 import turing from "./turing";
 import zeitgeist from "./zeitgeist";
 import polkadot from "./polkadot";
@@ -42,6 +43,7 @@ export const chainConfigsMap = {
   shiden,
   stafi,
   statemine,
+  statemint,
   turing,
   zeitgeist,
   basilisk,

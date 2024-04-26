@@ -37,7 +37,10 @@ class TokenController {
   async getTotalBalance(ctx) {
     const { chain, assetId, account, blockHashOrHeight } = ctx.params;
 
-    const isNotStatemine = chain !== chains.statemine;
+    const isNotStatemine = ![chains.statemine, chains.statemint].includes(
+      chain,
+    );
+
     const notTokensOnOtherChains =
       !Object.keys(supportedChainSymbols).includes(chain) ||
       !(supportedChainSymbols[chain] || []).includes(assetId);
