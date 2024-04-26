@@ -1,3 +1,4 @@
+import { SystemFail, SystemPass } from "@osn/icons/opensquare";
 import {
   Divider,
   FlexAround,
@@ -5,26 +6,13 @@ import {
   ProgressItem,
   ResultHead,
   ResultName,
-  StatusItem,
-  StatusWrapper,
 } from "./styled";
 import ValueDisplay from "@/components/valueDisplay";
+import BigNumber from "bignumber.js";
 
-export default function Quorum({ votedBalance, space, isPass, isEnded }) {
-  let passStatusText = "";
-  if (isPass) {
-    if (isEnded) {
-      passStatusText = "Passed";
-    } else {
-      passStatusText = "Passing";
-    }
-  } else {
-    if (isEnded) {
-      passStatusText = "Failed";
-    } else {
-      passStatusText = "Failing";
-    }
-  }
+export default function Quorum({ proposal, space }) {
+  const votedBalance = proposal?.votedWeights?.balanceOf || 0;
+  const isQuorumReached = new BigNumber(votedBalance).gte(space?.quorum);
 
   return (
     <>
@@ -44,12 +32,11 @@ export default function Quorum({ votedBalance, space, isPass, isEnded }) {
               noSymbol
               className="quorum-value"
             />
+            <span>&nbsp;</span>
+            {isQuorumReached ? <SystemPass /> : <SystemFail />}
           </FlexAround>
         </ProgressItem>
       </div>
-      <StatusWrapper>
-        <StatusItem positive={isPass}>{passStatusText}</StatusItem>
-      </StatusWrapper>
     </>
   );
 }

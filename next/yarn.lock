@@ -1446,7 +1446,7 @@ __metadata:
     "@osn/common-ui": ^1.20.4
     "@osn/constants": ^1.1.2
     "@osn/eslint-config": ^1.0.2
-    "@osn/icons": ^1.83.0
+    "@osn/icons": ^1.97.0
     "@osn/polkadot-react-identicon": ^1.0.10
     "@osn/previewer": ^1.2.2
     "@osn/rich-text-editor": ^0.6.6
@@ -2613,6 +2613,13 @@ __metadata:
   version: 1.83.0
   resolution: "@osn/icons@npm:1.83.0"
   checksum: 4f4c628dd5f5ec6aed303a57fd64597f739b1325f126f872b6423e676b9fab1a28dcd0ecb097ec51a5b6ea938ddde74800535088c47d3f036c80914441622f19
+  languageName: node
+  linkType: hard
+
+"@osn/icons@npm:^1.97.0":
+  version: 1.97.0
+  resolution: "@osn/icons@npm:1.97.0"
+  checksum: 7cec338f557c3551d990096a4124be28791f3626925c7684bcafd95bc61126e388777b9633b62efd936fdf937e16b9f923b37046efdabf9473e23dfc92281025
   languageName: node
   linkType: hard
 
