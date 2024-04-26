@@ -43,6 +43,7 @@ export default function OptionList({ optionList, strategy, space }) {
                     />
                   </div>
                 </Tooltip>
+                {vote.icon && <>&nbsp;{vote.icon}</>}
               </FlexAround>
             </ProgressItem>
             <ProgressBackground>

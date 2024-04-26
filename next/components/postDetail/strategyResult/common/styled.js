@@ -103,6 +103,7 @@ export const Subtitle = styled.div`
 
 export const FlexAround = styled.div`
   display: flex;
+  align-items: center;
   flex-grow: 1;
   justify-content: right;
 
