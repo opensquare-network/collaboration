@@ -33,7 +33,7 @@ async function getAssetMetadataFromApis(apis, assetId) {
 async function getTokenMetadata(ctx) {
   const { chain, assetId } = ctx.params;
 
-  const isNotStatemine = chain !== chains.statemine;
+  const isNotStatemine = ![chains.statemine, chains.statemint].includes(chain);
 
   if (isNotStatemine) {
     ctx.throw(404, "Invalid token");

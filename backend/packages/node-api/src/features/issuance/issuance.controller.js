@@ -34,7 +34,7 @@ class IssuanceController {
 
     if (
       !tokenConfig.isChain &&
-      tokenConfig.chain === chains.statemine &&
+      [chains.statemine, chains.statemint].includes(tokenConfig.chain) &&
       tokenConfig.isAssetsModule
     ) {
       const totalIssuance = await queryStatemineAssetIssuance(
