@@ -2,6 +2,7 @@ export const networks = Object.freeze({
   polkadot: "polkadot",
   kusama: "kusama",
   statemine: "statemine",
+  statemint: "statemint",
   karura: "karura",
   khala: "khala",
   phala: "phala",

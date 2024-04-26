@@ -23,6 +23,14 @@ const chainsDef = {
     symbol: "KSM",
     decimals: 12,
   },
+  statemint: {
+    name: "Statemint",
+    network: "statemint",
+    ss58Format: 0,
+    supportAssetTypes: [AssetTypes.ASSETS],
+    symbol: "DOT",
+    decimals: 10,
+  },
   karura: {
     name: "Karura",
     network: "karura",

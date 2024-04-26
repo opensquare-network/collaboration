@@ -1,5 +1,6 @@
 import moment from "moment";
 import BigNumber from "bignumber.js";
+import { Chains } from "@osn/constants";
 
 BigNumber.config({ EXPONENTIAL_AT: 36 });
 
@@ -213,7 +214,9 @@ export function abbreviateBigNumber(x, fixed = 2) {
 export const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
 export function getExplorer(network) {
-  return network === "statemine" ? "statescan" : "subscan";
+  return [Chains.statemine, Chains.statemint].includes(network)
+    ? "statescan"
+    : "subscan";
 }
 
 export function isZero(value) {
