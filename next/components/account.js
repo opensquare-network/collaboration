@@ -141,7 +141,7 @@ function Account({ networks }) {
   const showMenu = useSelector(showHeaderMenuSelector);
   useEffect(() => {
     dispatch(setShowHeaderMenu(false));
-  }, [windowSize]);
+  }, [windowSize, dispatch]);
 
   useEffect(() => setPageMounted(true), []);
 
