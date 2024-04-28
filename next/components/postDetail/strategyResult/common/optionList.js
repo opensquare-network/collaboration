@@ -37,6 +37,7 @@ export default function OptionList({ optionList, strategy, space }) {
                 >
                   <div>
                     <ValueDisplay
+                      className="whitespace-nowrap"
                       value={vote.voteBalance}
                       space={space}
                       noTooltip

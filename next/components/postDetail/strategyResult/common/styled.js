@@ -21,6 +21,7 @@ export const VoteItem = styled.div`
 export const ProgressItem = styled.div`
   margin: 12px 0 4px;
   display: flex;
+  gap: 16px;
   align-items: center;
   justify-content: space-between;
   ${p_14_medium};
