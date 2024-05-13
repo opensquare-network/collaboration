@@ -5,6 +5,7 @@ import Seo from "@/components/seo";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setAvailableNetworks } from "store/reducers/accountSlice";
+import { EmptyQuery } from "frontedUtils/constants";
 
 export default function Index({
   spaces,
@@ -34,12 +35,15 @@ export default function Index({
 }
 
 export async function getServerSideProps(context) {
+  const { page } = context.query;
+  const nPage = parseInt(page) || 1;
+
   const [
     { result: spaces },
     { result: hottestProposals },
     { result: allNetworks },
   ] = await Promise.all([
-    ssrNextApi.fetch("spaces"),
+    ssrNextApi.fetch("spaces", { page: nPage, pageSize: 15 }),
     ssrNextApi.fetch("home/hottest"),
     ssrNextApi.fetch("networks"),
   ]);
@@ -48,7 +52,7 @@ export async function getServerSideProps(context) {
 
   return {
     props: {
-      spaces: spaces || {},
+      spaces: spaces || EmptyQuery,
       hottestProposals: hottestProposals || [],
       showAllSpace: showAllSpace ?? "1",
       allNetworks: allNetworks || [],

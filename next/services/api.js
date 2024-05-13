@@ -14,7 +14,7 @@ class Api {
       url.searchParams.set(paramsKeyConvert(key), params[key]);
     }
 
-    return new Promise((resolve, reject) =>
+    return new Promise((resolve) =>
       fetch(url, options)
         .then((resp) =>
           resp.status !== 200
@@ -25,9 +25,9 @@ class Api {
                     message: data.message,
                     data: data.data,
                   },
-                })
+                }),
               )
-            : resp.json().then((result) => resolve({ result }))
+            : resp.json().then((result) => resolve({ result })),
         )
         .catch((e) =>
           resolve({
@@ -35,12 +35,12 @@ class Api {
               status: 500,
               message: e.message,
             },
-          })
-        )
+          }),
+        ),
     );
   };
 
-  post = async (path, body = null, options = null) => {
+  post = async (path, body = null) => {
     const result = await this.fetch(
       path,
       {},
@@ -49,7 +49,7 @@ class Api {
         credentials: "same-origin",
         body: body ? JSON.stringify(body) : null,
         headers: { "Content-Type": "application/json" },
-      }
+      },
     );
     return result;
   };
@@ -64,7 +64,7 @@ class Api {
         body: body ? JSON.stringify(body) : null,
         headers: { "Content-Type": "application/json" },
         ...(options ?? {}),
-      }
+      },
     );
     return result;
   };
@@ -78,7 +78,7 @@ class Api {
         credentials: "same-origin",
         body: body ? JSON.stringify(body) : null,
         headers: { "Content-Type": "application/json" },
-      }
+      },
     );
     return result;
   };
@@ -91,7 +91,7 @@ class Api {
         method: "DELETE",
         credentials: "same-origin",
         headers: { "Content-Type": "application/json" },
-      }
+      },
     );
     return result;
   };
@@ -105,7 +105,7 @@ class Api {
         credentials: "same-origin",
         body: formData,
         redirect: "follow",
-      }
+      },
     );
 
     return result;

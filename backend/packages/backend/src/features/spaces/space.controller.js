@@ -1,9 +1,18 @@
 const { pick } = require("lodash");
 const spaceService = require("../../services/space.service");
 const { getAllSpaces } = require("../../spaces");
+const { extractPage } = require("../../utils");
 
 async function getSpaces(ctx) {
-  ctx.body = await spaceService.getSpaces();
+  const { page, pageSize } = extractPage(ctx);
+  const allSpaces = await spaceService.getSpaces();
+  const items = allSpaces.slice((page - 1) * pageSize, page * pageSize);
+  ctx.body = {
+    items,
+    page,
+    pageSize,
+    total: allSpaces.length,
+  };
 }
 
 async function getSpace(ctx) {
