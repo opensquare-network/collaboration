@@ -7,12 +7,7 @@ import { useDispatch } from "react-redux";
 import { setAvailableNetworks } from "store/reducers/accountSlice";
 import { EmptyQuery } from "frontedUtils/constants";
 
-export default function Index({
-  spaces,
-  hottestProposals,
-  showAllSpace,
-  allNetworks,
-}) {
+export default function Index({ spaces, hottestProposals, allNetworks }) {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(setAvailableNetworks(allNetworks || []));
@@ -24,11 +19,7 @@ export default function Index({
     <>
       <Seo desc={desc} />
       <Layout bgHeight="183px" networks={allNetworks}>
-        <Home
-          spaces={spaces}
-          hottestProposals={hottestProposals}
-          showAllSpace={showAllSpace}
-        />
+        <Home spaces={spaces} hottestProposals={hottestProposals} />
       </Layout>
     </>
   );
@@ -48,13 +39,10 @@ export async function getServerSideProps(context) {
     ssrNextApi.fetch("networks"),
   ]);
 
-  const showAllSpace = context.req.cookies.showallspace;
-
   return {
     props: {
       spaces: spaces || EmptyQuery,
       hottestProposals: hottestProposals || [],
-      showAllSpace: showAllSpace ?? "1",
       allNetworks: allNetworks || [],
     },
   };
