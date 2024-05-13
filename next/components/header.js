@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { Header as OsnHeader } from "@osn/common-ui";
 import NotificationBell from "./notification/bell";
 import { ReactComponent as CaretRight } from "/public/imgs/icons/caret-right-s.svg";
-import { SystemApps } from "@osn/icons/opensquare";
+import { SystemApps, SystemAppsActive } from "@osn/icons/opensquare";
 import LogoProductVotingLight from "@osn/icons/src/opensquare/logoProductVotingLight.png";
 import LogoProductVotingDark from "@osn/icons/src/opensquare/logoProductVotingDark.png";
 import { cn } from "@osn/common-ui";
@@ -19,16 +19,8 @@ const AppWrapper = styled.div`
   display: flex;
   align-items: center;
   ${p_18_semibold};
-  /* height: 36px; */
 
   cursor: pointer;
-
-  &:hover {
-    .hoverMenu {
-      display: flex;
-      flex-wrap: wrap;
-    }
-  }
 
   span {
     margin-right: 4px;
@@ -45,7 +37,7 @@ const HoverMenu = styled.div`
     flex-wrap: wrap;
   }
   z-index: 1;
-  top: 60px;
+  top: 56px;
   width: 360px;
   background-color: var(--fillBgPrimary);
 `;
@@ -77,16 +69,22 @@ export default function Header({ networks }) {
   return (
     <OsnHeader
       className="z-10"
-      prefix={
-        <AppWrapper>
-          <SystemApps className="text-textSecondary mr-4" />
-          <img src={LogoProductVotingLight.src} className="dark:hidden h-10" />
+      suffix={
+        <AppWrapper className="group">
+          <div>
+            <SystemApps className="text-textSecondary mr-4 group-hover:hidden" />
+            <SystemAppsActive className="text-textSecondary mr-4 hidden group-hover:block" />
+          </div>
+          <img
+            src={LogoProductVotingLight.src}
+            className="dark:hidden h-[32px]"
+          />
           <img
             src={LogoProductVotingDark.src}
-            className="hidden dark:block h-10"
+            className="hidden dark:block h-[32px]"
           />
 
-          <HoverMenu className="hoverMenu shadow-shadowPopup">
+          <HoverMenu className="hidden group-hover:flex flex-wrap shadow-shadowPopup">
             <MenuItem href="/">
               <img src="/imgs/icons/voting.svg" alt="" />
               <p>Off-chain Voting</p>
@@ -107,7 +105,7 @@ export default function Header({ networks }) {
       }
       logoRender={(logo) => (
         <Link href="/" passHref legacyBehavior>
-          {logo}
+          <a className="cursor-pointer">{logo}</a>
         </Link>
       )}
       links={[

@@ -1443,10 +1443,10 @@ __metadata:
   resolution: "@collaboration/voting@workspace:."
   dependencies:
     "@osn/common": ^1.3.5
-    "@osn/common-ui": ^1.20.4
+    "@osn/common-ui": ^1.20.5
     "@osn/constants": ^1.1.2
     "@osn/eslint-config": ^1.0.2
-    "@osn/icons": ^1.97.0
+    "@osn/icons": ^1.100.0
     "@osn/polkadot-react-identicon": ^1.0.10
     "@osn/previewer": ^1.2.2
     "@osn/rich-text-editor": ^0.6.6
@@ -2548,9 +2548,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@osn/common-ui@npm:^1.20.4":
-  version: 1.20.4
-  resolution: "@osn/common-ui@npm:1.20.4"
+"@osn/common-ui@npm:^1.20.5":
+  version: 1.20.5
+  resolution: "@osn/common-ui@npm:1.20.5"
   dependencies:
     "@floating-ui/react": ^0.26.6
     "@osn/icons": ^1.83.0
@@ -2579,7 +2579,7 @@ __metadata:
     semantic-ui-css: ^2.4.1
     semantic-ui-react: ^2.1.3
     styled-components: ^6.1.6
-  checksum: 0c31813d39f4e1b2d5517629b8fc7c6646667be3ed6bed71d174e6c736bf9c5666b2cd702d0f84b95b83e58d9b8f560dfca0d47482c0ea083b99b0fc2fb6a9fb
+  checksum: 20bee3f4b919b26fe1b63d87df3475a93d21ae3e9158f261f855fbe411284725ea4361fe4a5fd934db407e890a788281addd40d2a2384806d3ab10ef41d40171
   languageName: node
   linkType: hard
 
@@ -2618,17 +2618,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@osn/icons@npm:^1.100.0":
+  version: 1.100.0
+  resolution: "@osn/icons@npm:1.100.0"
+  checksum: 2a4bd7c2d9cc0e5bf613463ad0efed556ac0767ef38499b3d293bd7653f17f3e6e8942f073a21ae7d42922b1eced9d944d83ab451acba4806c728d4cd35f4c94
+  languageName: node
+  linkType: hard
+
 "@osn/icons@npm:^1.83.0":
   version: 1.83.0
   resolution: "@osn/icons@npm:1.83.0"
   checksum: 4f4c628dd5f5ec6aed303a57fd64597f739b1325f126f872b6423e676b9fab1a28dcd0ecb097ec51a5b6ea938ddde74800535088c47d3f036c80914441622f19
-  languageName: node
-  linkType: hard
-
-"@osn/icons@npm:^1.97.0":
-  version: 1.97.0
-  resolution: "@osn/icons@npm:1.97.0"
-  checksum: 7cec338f557c3551d990096a4124be28791f3626925c7684bcafd95bc61126e388777b9633b62efd936fdf937e16b9f923b37046efdabf9473e23dfc92281025
   languageName: node
   linkType: hard
 
