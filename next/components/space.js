@@ -32,8 +32,6 @@ export default function Space({ spaces }) {
     dispatch(fetchJoinedSpace(address));
   }, [dispatch, address]);
 
-  const sortedSpaces = spaces.items;
-
   return (
     <div>
       <TitleWrapper>
@@ -50,7 +48,7 @@ export default function Space({ spaces }) {
           "max-sm:grid-cols-1",
         )}
       >
-        {(sortedSpaces || []).map((space, index) => (
+        {(spaces.items || []).map((space, index) => (
           <InternalLink href={`/space/${space.id}`} key={index}>
             <SpaceListItem name={space.id} space={space} />
           </InternalLink>
