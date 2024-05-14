@@ -6,14 +6,12 @@ import Save from "./save";
 import { useDispatch, useSelector } from "react-redux";
 import { loginAccountSelector } from "../../store/reducers/accountSlice";
 import {
-  clearToasts,
   newErrorToast,
   newSuccessToast,
 } from "../../store/reducers/toastSlice";
 import encodeAddressByChain from "../../frontedUtils/chain/addr";
 import { extensionCancelled } from "../../frontedUtils/consts/extension";
 import nextApi from "../../services/nextApi";
-import { useRouter } from "next/router";
 
 function WhyProposalTemplate() {
   return (
@@ -67,7 +65,6 @@ function ContentField({ content, setContent }) {
 }
 
 export default function ProposalTemplate({ space, settings }) {
-  const router = useRouter();
   const dispatch = useDispatch();
   const account = useSelector(loginAccountSelector);
   const { proposalTemplate } = settings;
@@ -125,9 +122,6 @@ export default function ProposalTemplate({ space, settings }) {
       );
       if (result) {
         dispatch(newSuccessToast("Settings saved successfully!"));
-        router
-          .push(`/space/${space.id}`)
-          .then((redirected) => redirected && dispatch(clearToasts()));
       }
       if (error) {
         dispatch(newErrorToast(error.message));
@@ -135,7 +129,7 @@ export default function ProposalTemplate({ space, settings }) {
     } finally {
       setIsLoading(false);
     }
-  }, [dispatch, account, title, content, contentType, space, router]);
+  }, [dispatch, account, title, content, contentType, space]);
 
   return (
     <div
