@@ -5,13 +5,9 @@ import Seo from "@/components/seo";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setAvailableNetworks } from "store/reducers/accountSlice";
+import { EmptyQuery } from "frontedUtils/constants";
 
-export default function Index({
-  spaces,
-  hottestProposals,
-  showAllSpace,
-  allNetworks,
-}) {
+export default function Index({ spaces, hottestProposals, allNetworks }) {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(setAvailableNetworks(allNetworks || []));
@@ -23,34 +19,30 @@ export default function Index({
     <>
       <Seo desc={desc} />
       <Layout bgHeight="183px" networks={allNetworks}>
-        <Home
-          spaces={spaces}
-          hottestProposals={hottestProposals}
-          showAllSpace={showAllSpace}
-        />
+        <Home spaces={spaces} hottestProposals={hottestProposals} />
       </Layout>
     </>
   );
 }
 
 export async function getServerSideProps(context) {
+  const { page } = context.query;
+  const nPage = parseInt(page) || 1;
+
   const [
     { result: spaces },
     { result: hottestProposals },
     { result: allNetworks },
   ] = await Promise.all([
-    ssrNextApi.fetch("spaces"),
+    ssrNextApi.fetch("spaces", { page: nPage, pageSize: 15 }),
     ssrNextApi.fetch("home/hottest"),
     ssrNextApi.fetch("networks"),
   ]);
 
-  const showAllSpace = context.req.cookies.showallspace;
-
   return {
     props: {
-      spaces: spaces || {},
+      spaces: spaces || EmptyQuery,
       hottestProposals: hottestProposals || [],
-      showAllSpace: showAllSpace ?? "1",
       allNetworks: allNetworks || [],
     },
   };

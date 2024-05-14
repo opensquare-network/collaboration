@@ -34,7 +34,7 @@ export default function Pagination({
         passHref
         legacyBehavior
       >
-        {originalElement}
+        <a>{originalElement}</a>
       </Link>
     );
   };

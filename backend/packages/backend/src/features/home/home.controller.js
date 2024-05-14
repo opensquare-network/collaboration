@@ -1,3 +1,4 @@
+const { spaces: spaceServices } = require("../../spaces");
 const { getProposalStatus } = require("../../services/proposal.service/common");
 const { getProposalCollection } = require("../../mongo");
 
@@ -17,9 +18,11 @@ async function getHottestProposals(ctx) {
 
   ctx.body = (proposals || []).map((proposal) => {
     const status = getProposalStatus(proposal);
+    const spaceInfo = spaceServices[proposal.space];
     return {
       ...proposal,
       status,
+      spaceInfo,
     };
   });
 }

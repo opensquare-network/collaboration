@@ -81,9 +81,7 @@ const TitleWrapper = styled(FlexBetween)`
   align-items: flex-start;
 `;
 
-export default function Post({ data, showSpace, space, spaces }) {
-  const getSpaceFromId = (spaceId) => spaces?.[spaceId];
-  const getSpaceDisplayName = (spaceId) => getSpaceFromId(spaceId)?.name;
+export default function Post({ data, showSpace, space }) {
   const windowSize = useWindowSize();
   const [showRichInfo, setShowRichInfo] = useState(true);
 
@@ -101,7 +99,7 @@ export default function Post({ data, showSpace, space, spaces }) {
   );
   const spaceSupportMultiChain = proposerNetworkConfig?.networks?.length > 1;
 
-  const spaceInfo = space ?? getSpaceFromId(data.space);
+  const spaceInfo = space ?? data.spaceInfo;
   const spaceIcon = getSpaceIconUrl(spaceInfo);
 
   return (
@@ -137,7 +135,7 @@ export default function Post({ data, showSpace, space, spaces }) {
                 alt=""
               />
               <InternalLink href={`/space/${data.space}`}>
-                <SpaceName>{getSpaceDisplayName(data.space)}</SpaceName>
+                <SpaceName>{spaceInfo?.name}</SpaceName>
               </InternalLink>
             </FromSpace>
           )}
