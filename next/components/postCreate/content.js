@@ -18,7 +18,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const InnerWrapper = styled.div`
+export const InnerWrapper = styled.div`
   display: flex;
   flex-direction: column;
   > :not(:first-child) {
@@ -26,7 +26,7 @@ const InnerWrapper = styled.div`
   }
 `;
 
-const Title = styled.div`
+export const Title = styled.div`
   font-weight: 600;
   font-size: 16px;
   line-height: 24px;

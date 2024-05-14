@@ -1,20 +1,20 @@
 import Layout from "components/layout";
 import Breadcrumb from "components/breadcrumb";
-import PostCreate from "@/components/postCreate";
 import { ssrNextApi } from "services/nextApi";
 import { to404 } from "../../../frontedUtils/serverSideUtil";
+import PostSettings from "../../../components/postSettings";
 
-export default function Create({ space, settings }) {
+export default function Settings({ space, settings }) {
   return (
     <Layout bgHeight="183px" networks={space.networks}>
       <Breadcrumb
         routes={[
           { name: "Home", link: "/" },
           { name: space?.name, link: `/space/${space?.id}` },
-          { name: "New Post" },
+          { name: "Settings" },
         ]}
       />
-      <PostCreate space={space} settings={settings} />
+      <PostSettings space={space} settings={settings} />
     </Layout>
   );
 }

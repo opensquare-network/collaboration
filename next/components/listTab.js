@@ -53,7 +53,6 @@ const NewPostLink = styled(Flex)`
   cursor: pointer;
   ${p_16_semibold};
   color: var(--textBrandSecondary);
-  margin-left: 40px;
   > img {
     width: 24px;
     height: 24px;
@@ -116,12 +115,21 @@ export default function ListTab({
           </Item>
         ))}
       </Flex>
-      <a href={`/space/${spaceId}/create`}>
-        <NewPostLink>
-          <img src="/imgs/icons/add.svg" alt="" />
-          New Proposal
-        </NewPostLink>
-      </a>
+      <div className="flex gap-[16px]">
+        <a href={`/space/${spaceId}/settings`}>
+          <NewPostLink>
+            <img src="/imgs/icons/setting.svg" alt="" />
+            Settings
+          </NewPostLink>
+        </a>
+
+        <a href={`/space/${spaceId}/create`}>
+          <NewPostLink>
+            <img src="/imgs/icons/add.svg" alt="" />
+            New Proposal
+          </NewPostLink>
+        </a>
+      </div>
     </Wrapper>
   );
 }

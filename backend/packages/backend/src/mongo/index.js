@@ -30,6 +30,7 @@ module.exports = {
   initDb,
   getDb,
   getProposalCollection: () => getCollection("proposal"),
+  getProposalTemplateCollection: () => getCollection("proposalTemplate"),
   getAppendantCollection: () => getCollection("appendant"),
   getVoteCollection: () => getCollection("vote"),
   getCommentCollection: () => getCollection("comment"),
