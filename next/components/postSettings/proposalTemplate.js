@@ -70,7 +70,7 @@ export default function ProposalTemplate({ space, settings }) {
   const { proposalTemplate } = settings;
   const [title, setTitle] = useState(proposalTemplate?.title);
   const [content, setContent] = useState(proposalTemplate?.content);
-  const [contentType] = useState(proposalTemplate?.contentType);
+  const [contentType] = useState(proposalTemplate?.contentType || "markdown");
   const [isLoading, setIsLoading] = useState(false);
 
   const disabled = !title || !content;
