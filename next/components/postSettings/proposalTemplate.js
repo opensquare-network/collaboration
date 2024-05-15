@@ -134,7 +134,7 @@ export default function ProposalTemplate({ space, settings }) {
   return (
     <div
       className={cn(
-        "flex flex-col grow p-[32px] gap-[32px]",
+        "flex flex-col grow p-[32px] max-sm:p-[20px] gap-[32px]",
         "border border-strokeBorderDefault bg-fillBgPrimary shadow-shadowCardDefault",
       )}
     >
