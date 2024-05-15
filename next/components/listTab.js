@@ -53,7 +53,8 @@ const NewPostLink = styled(Flex)`
   cursor: pointer;
   ${p_16_semibold};
   color: var(--textBrandSecondary);
-  > img {
+  > .img-div {
+    display: inline-flex;
     width: 24px;
     height: 24px;
     margin-right: 8px;
@@ -115,17 +116,21 @@ export default function ListTab({
           </Item>
         ))}
       </Flex>
-      <div className="flex gap-[16px]">
+      <div className="flex items-center gap-[16px] ml-[32px]">
         <a href={`/space/${spaceId}/settings`}>
           <NewPostLink>
-            <img src="/imgs/icons/setting.svg" alt="" />
+            <div className="img-div">
+              <img src="/imgs/icons/setting.svg" alt="" />
+            </div>
             Settings
           </NewPostLink>
         </a>
 
         <a href={`/space/${spaceId}/create`}>
           <NewPostLink>
-            <img src="/imgs/icons/add.svg" alt="" />
+            <div className="img-div">
+              <img src="/imgs/icons/add.svg" alt="" />
+            </div>
             New Proposal
           </NewPostLink>
         </a>
