@@ -87,6 +87,7 @@ export default function List({
           <ListInfo spaceId={spaceId} space={space} />
           <ListTab
             spaceId={spaceId}
+            space={space}
             activeTab={activeTab}
             onActiveTab={setTab}
             defaultPage={defaultPage}
