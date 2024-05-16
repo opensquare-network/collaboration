@@ -13,6 +13,29 @@ const isEmpty = require("lodash.isempty");
 const { findDelegationStrategies } = require("../../utils/delegation");
 const { getProposalCollection } = require("../../mongo");
 
+function checkProposalContent(data) {
+  const { title, content, contentType } = data;
+
+  if (!title) {
+    throw new HttpError(400, { title: ["Title is missing"] });
+  }
+
+  if (!content) {
+    throw new HttpError(400, { content: ["Content is missing"] });
+  }
+
+  if (!contentType) {
+    throw new HttpError(400, { contentType: ["Content type is missing"] });
+  }
+
+  if (
+    contentType !== ContentType.Markdown &&
+    contentType !== ContentType.Html
+  ) {
+    throw new HttpError(400, { contentType: ["Invalid content type"] });
+  }
+}
+
 async function createProposal(ctx) {
   const { data, address, signature } = ctx.request.body;
   const {
@@ -41,13 +64,7 @@ async function createProposal(ctx) {
     });
   }
 
-  if (!title) {
-    throw new HttpError(400, { title: ["Title is missing"] });
-  }
-
-  if (!content) {
-    throw new HttpError(400, { content: ["Content is missing"] });
-  }
+  checkProposalContent(data);
 
   if (!choiceType) {
     throw new HttpError(400, { content: ["Choice type is missing"] });
@@ -91,13 +108,6 @@ async function createProposal(ctx) {
     throw new HttpError(400, {
       proposerNetwork: ["Proposer network is missing"],
     });
-  }
-
-  if (
-    contentType !== ContentType.Markdown &&
-    contentType !== ContentType.Html
-  ) {
-    throw new HttpError(400, { contentType: ["Unknown content type"] });
   }
 
   ctx.body = await proposalService.createProposal({
@@ -405,4 +415,5 @@ module.exports = {
   getStats,
   getVoterBalance,
   terminate,
+  checkProposalContent,
 };

@@ -77,7 +77,7 @@ const SiderWrapper = styled.div`
 const FETCH_BALANCE_ERROR =
   "something went wrong while querying balance, please try again later.";
 
-export default function PostCreate({ space }) {
+export default function PostCreate({ space, settings }) {
   const dispatch = useDispatch();
   const account = useSelector(loginAccountSelector);
   const loginAddress = useSelector(loginAddressSelector);
@@ -88,9 +88,14 @@ export default function PostCreate({ space }) {
   const router = useRouter();
 
   const [title, setTitle] = useState(
-    router.query.title || space?.proposalTemplate?.title || "",
+    router.query.title ||
+      settings?.proposalTemplate?.title ||
+      space?.proposalTemplate?.title ||
+      "",
   );
-  const [content, setContent] = useState(space?.proposalTemplate?.body || "");
+  const [content, setContent] = useState(
+    settings?.proposalTemplate?.content || space?.proposalTemplate?.body || "",
+  );
   const [isSetBanner, setIsSetBanner] = useState(false);
   const [bannerUrl, setBannerUrl] = useState("");
 

@@ -24,6 +24,7 @@ const config = {
   version: "4",
   spaceIcon: "dota.svg",
   seoImage: "QmRY3R3ZZ3miYeATGueWjS2WXYEv5NQ5KpjnVF7WFhNi3w",
+  admins: [],
 };
 
 module.exports = {

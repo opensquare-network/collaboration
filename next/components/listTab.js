@@ -6,6 +6,10 @@ import { p_16_semibold } from "../styles/textStyles";
 import { useRouter } from "next/router";
 import { Tooltip } from "@osn/common-ui";
 import { Flex, FlexBetween } from "@osn/common-ui";
+import { useSelector } from "react-redux";
+import { loginAccountSelector } from "store/reducers/accountSlice";
+import { isAdmin } from "frontedUtils/admin";
+import { ReactComponent as SettingsSVG } from "../public/imgs/icons/setting.svg";
 
 const Wrapper = styled(FlexBetween)`
   align-items: flex-start;
@@ -53,8 +57,8 @@ const NewPostLink = styled(Flex)`
   cursor: pointer;
   ${p_16_semibold};
   color: var(--textBrandSecondary);
-  margin-left: 40px;
-  > img {
+  > .img-div {
+    display: inline-flex;
     width: 24px;
     height: 24px;
     margin-right: 8px;
@@ -63,6 +67,7 @@ const NewPostLink = styled(Flex)`
 
 export default function ListTab({
   spaceId,
+  space,
   activeTab,
   onActiveTab = () => {},
   defaultPage,
@@ -80,6 +85,36 @@ export default function ListTab({
     setTabIndex(currTabIndex >= 0 ? currTabIndex : 0);
     onActiveTab(router.query.tab);
   }, [router, onActiveTab]);
+
+  const account = useSelector(loginAccountSelector);
+  const isSpaceAdmin = isAdmin(space, account?.address);
+
+  let settings = (
+    <>
+      <div>
+        <SettingsSVG width={24} height={24} />
+      </div>
+      <span className="text16Semibold">Settings</span>
+    </>
+  );
+
+  if (isSpaceAdmin) {
+    settings = (
+      <a href={`/space/${spaceId}/settings`}>
+        <div className="flex gap-[8px] cursor-pointer [&_svg_path]:fill-textBrandSecondary text-textBrandSecondary">
+          {settings}
+        </div>
+      </a>
+    );
+  } else {
+    settings = (
+      <Tooltip content="Only the admins can change settings">
+        <div className="flex gap-[8px] [&_svg_path]:fill-textQuaternary text-textQuaternary">
+          {settings}
+        </div>
+      </Tooltip>
+    );
+  }
 
   return (
     <Wrapper>
@@ -116,12 +151,18 @@ export default function ListTab({
           </Item>
         ))}
       </Flex>
-      <a href={`/space/${spaceId}/create`}>
-        <NewPostLink>
-          <img src="/imgs/icons/add.svg" alt="" />
-          New Proposal
-        </NewPostLink>
-      </a>
+      <div className="flex items-center gap-[16px] ml-[32px]">
+        {settings}
+
+        <a href={`/space/${spaceId}/create`}>
+          <NewPostLink>
+            <div className="img-div">
+              <img src="/imgs/icons/add.svg" alt="" />
+            </div>
+            New Proposal
+          </NewPostLink>
+        </a>
+      </div>
     </Wrapper>
   );
 }

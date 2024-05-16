@@ -48,6 +48,7 @@ const config = {
   version: "4",
   spaceIcon: "dotsama.svg",
   seoImage: "bafybeie2rgjfil5humlhb7sizikywk2klztqf2tlvz5kes4ou7m6japauy",
+  admins: [],
 };
 
 module.exports = {

@@ -21,6 +21,7 @@ const crabConfig = {
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
   version: "4",
   spaceIcon: "crab.svg",
+  admins: [],
 };
 
 module.exports = {

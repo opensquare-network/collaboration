@@ -36,6 +36,7 @@ const config = {
   version: "4",
   spaceIcon: "darwinia.svg",
   seoImage: "bafybeifbv3yweo55vuwg6bufin4kxq57naitazrebyusxkf5fn7lvplr3y",
+  admins: [],
 };
 
 module.exports = {

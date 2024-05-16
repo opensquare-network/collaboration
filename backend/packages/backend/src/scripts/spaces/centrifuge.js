@@ -26,6 +26,7 @@ const centrifugeConfig = {
   version: "4",
   spaceIcon: "centrifuge.svg",
   seoImage: "bafybeidulohutktuxt35n7fjdtshbtzhcdc2idmcynnnaha7t6mdtbzdee",
+  admins: [],
 };
 
 module.exports = {

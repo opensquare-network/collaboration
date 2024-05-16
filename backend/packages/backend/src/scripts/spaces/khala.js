@@ -23,6 +23,7 @@ const khalaConfig = {
   version: "4",
   spaceIcon: "khala.svg",
   seoImage: "bafybeihfumdgabiha5rc2tr5gpedo4zp2z6x4phzoqdjr45pmdmbyxghlm",
+  admins: [],
 };
 
 module.exports = {

@@ -32,6 +32,7 @@ const config = {
   version: "4",
   spaceIcon: "lksm.svg",
   seoImage: "QmSgPB9aA4ZLre2VizBn6ufM3EAVB8aJUZC28oFkT3pm8Q",
+  admins: [],
 };
 
 module.exports = {

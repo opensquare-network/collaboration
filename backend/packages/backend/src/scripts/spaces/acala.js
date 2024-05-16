@@ -27,6 +27,7 @@ const config = {
   version: "4",
   spaceIcon: "acala.svg",
   seoImage: "bafybeid6yjg7n2vh3kc34tv6wpqzr53bnbuij6nvxz5bkgvbi2jb5cy2mq",
+  admins: [],
 };
 
 module.exports = {

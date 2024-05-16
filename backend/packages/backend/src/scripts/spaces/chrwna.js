@@ -23,6 +23,7 @@ const config = {
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
   version: "4",
   spaceIcon: "chrwna.svg",
+  admins: [],
 };
 
 module.exports = {
