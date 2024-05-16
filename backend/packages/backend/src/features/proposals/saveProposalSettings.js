@@ -9,7 +9,7 @@ async function saveProposalSettings(ctx) {
   const { title, content, contentType } = proposalTemplate;
 
   if (!isAdmin(space, address)) {
-    throw new HttpError(403, { address: ["Only admin can modify settings"] });
+    throw new HttpError(403, { address: ["Only admins can change settings"] });
   }
 
   if (!space) {
