@@ -23,6 +23,7 @@ const config = {
   version: "4",
   spaceIcon: "polkadex.svg",
   seoImage: "bafybeig3y3dlntpdhrge7v7vzdsq4poi6yuymvemmvqqptcbiisr3652ma",
+  admins: [],
 };
 
 module.exports = {

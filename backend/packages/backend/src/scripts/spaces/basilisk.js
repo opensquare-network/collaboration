@@ -23,6 +23,7 @@ const basiliskConfig = {
   version: "4",
   spaceIcon: "basilisk.svg",
   seoImage: "bafybeihuz5wbvovfq7a4xzii4ynytvwq6cwhbzaprqye6bsc26hnlia6tu",
+  admins: [],
 };
 
 module.exports = {

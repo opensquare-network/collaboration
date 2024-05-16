@@ -41,6 +41,7 @@ const polarisDaoConfig = {
   version: "4",
   spaceIcon: "polarisdao.svg",
   seoImage: "bafybeiha6qqajks5sava3rdkkxbgjaexijnr4vzvsvf6xfprjei745pc3y",
+  admins: [],
 };
 
 module.exports = {

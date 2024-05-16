@@ -15,6 +15,7 @@ const { getBalanceFromNetwork } = require("../../services/node.service");
 const { pinData, createSpaceNotifications } = require("./common");
 const isEqual = require("lodash.isequal");
 const pick = require("lodash.pick");
+const { isAdmin } = require("../../utils/admin");
 
 async function createProposal({
   space,
@@ -65,14 +66,8 @@ async function createProposal({
     throw new HttpError(500, "Unknown space");
   }
 
-  if (
-    spaceService.admin &&
-    spaceService.admin.toLowerCase() !== (address || "").toLowerCase()
-  ) {
-    throw new HttpError(
-      401,
-      `Only admin(${spaceService.admin}) can create proposal`,
-    );
+  if (spaceService.onlyAdminCanCreateProposals && !isAdmin(space, address)) {
+    throw new HttpError(401, `Only the space admins can create proposals`);
   }
 
   const maxOptionsCount = spaceService.maxOptionsCount || 10;

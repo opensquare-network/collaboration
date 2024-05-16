@@ -1,23 +1,17 @@
-const { encodeAddress } = require("@polkadot/util-crypto");
-const { ethers } = require("ethers");
+const { spaces: spaceServices } = require("../spaces");
+const { HttpError } = require("../exc");
+const { isSameAddress } = require("./address");
 
-const adminAccounts = (process.env.ADMINS || "")
-  .split("|")
-  .filter((acc) => acc)
-  .map((addr) => {
-    if (ethers.utils.isAddress(addr)) {
-      return addr.toLowerCase();
-    }
-    return encodeAddress(addr, 42).toLowerCase();
-  });
-
-function isAdmin(address) {
-  let target = address;
-  if (!ethers.utils.isAddress(address)) {
-    target = encodeAddress(address, 42);
+function isAdmin(space, address) {
+  const spaceConfig = spaceServices[space];
+  if (!spaceConfig) {
+    throw new HttpError(500, "Unknown space");
   }
-
-  return adminAccounts.includes((target || "").toLowerCase());
+  return (
+    (spaceConfig.admins || []).findIndex((item) =>
+      isSameAddress(item, address),
+    ) !== -1
+  );
 }
 
 module.exports = {

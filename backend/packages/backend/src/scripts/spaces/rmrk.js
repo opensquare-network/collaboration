@@ -73,6 +73,7 @@ const config = {
   version: "4",
   spaceIcon: "rmrk.svg",
   seoImage: "bafybeibhjq4ls327o52xm76zgabalkltmdofzku57sfjw2afsao3ud2yjq",
+  admins: [],
 };
 
 const curationConfig = {
@@ -95,6 +96,7 @@ const curationConfig = {
   version: "4",
   spaceIcon: "rmrk-curation.png",
   seoImage: "bafybeic42ekrlmnjdwfi3kdshqfuvo76yhugu5nbkewebnigjxxe5hqjty",
+  admins: [],
 };
 
 module.exports = {

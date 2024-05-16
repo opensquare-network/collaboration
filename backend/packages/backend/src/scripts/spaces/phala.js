@@ -46,6 +46,7 @@ const phalaConfig = {
   version: "4",
   spaceIcon: "phala.svg",
   seoImage: "bafybeifj4smmnnn5t25quydmujkphoxymyylfbaxoaymszeovsejqyep5y",
+  admins: [],
 };
 
 module.exports = {
