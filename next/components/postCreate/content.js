@@ -1,8 +1,9 @@
 import styled from "styled-components";
 
-import { Input, RichEditor, FlexBetween } from "@osn/common-ui";
+import { Input, FlexBetween } from "@osn/common-ui";
 import ToggleText from "@/components/uploadBanner/toggleText";
 import Uploader from "@/components/uploadBanner/uploader";
+import Editor from "../editor";
 
 const Wrapper = styled.div`
   background: var(--fillBgPrimary);
@@ -62,11 +63,7 @@ export default function Content({
 
       <InnerWrapper>
         <Title>Proposal</Title>
-        <RichEditor
-          content={content}
-          setContent={setContent}
-          showButtons={false}
-        />
+        <Editor content={content} setContent={setContent} showButtons={false} />
       </InnerWrapper>
     </Wrapper>
   );
