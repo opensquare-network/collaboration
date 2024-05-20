@@ -26,8 +26,9 @@ import {
   MarkdownPreviewer,
   renderMentionIdentityUserPlugin,
 } from "@osn/previewer";
-import { IpfsSquare, MentionIdentityUser, RichEditor } from "@osn/common-ui";
+import { IpfsSquare, MentionIdentityUser } from "@osn/common-ui";
 import { useSuggestions } from "./suggestions";
+import Editor from "../editor";
 
 const Item = styled.div`
   padding-top: 20px;
@@ -216,7 +217,7 @@ export default function PostDiscussion({
         />
       </PaginationWrapper>
 
-      <RichEditor
+      <Editor
         submitting={isLoading}
         content={content}
         setContent={setContent}

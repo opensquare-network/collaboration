@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 import { useCallback, useState } from "react";
-import { Input, RichEditor, cn } from "@osn/common-ui";
+import { Input, cn } from "@osn/common-ui";
 import { InnerWrapper, Title } from "../postCreate/content";
 import Save from "./save";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,6 +12,7 @@ import {
 import encodeAddressByChain from "../../frontedUtils/chain/addr";
 import { extensionCancelled } from "../../frontedUtils/consts/extension";
 import nextApi from "../../services/nextApi";
+import Editor from "../editor";
 
 function WhyProposalTemplate() {
   return (
@@ -55,11 +56,7 @@ function ContentField({ content, setContent }) {
   return (
     <InnerWrapper>
       <Title>Content</Title>
-      <RichEditor
-        content={content}
-        setContent={setContent}
-        showButtons={false}
-      />
+      <Editor content={content} setContent={setContent} showButtons={false} />
     </InnerWrapper>
   );
 }

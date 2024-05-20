@@ -1443,7 +1443,7 @@ __metadata:
   resolution: "@collaboration/voting@workspace:."
   dependencies:
     "@osn/common": ^1.3.5
-    "@osn/common-ui": ^1.20.6
+    "@osn/common-ui": ^1.20.7
     "@osn/constants": ^1.1.2
     "@osn/eslint-config": ^1.0.2
     "@osn/icons": ^1.100.0
@@ -2548,9 +2548,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@osn/common-ui@npm:^1.20.6":
-  version: 1.20.6
-  resolution: "@osn/common-ui@npm:1.20.6"
+"@osn/common-ui@npm:^1.20.7":
+  version: 1.20.7
+  resolution: "@osn/common-ui@npm:1.20.7"
   dependencies:
     "@floating-ui/react": ^0.26.6
     "@osn/icons": ^1.83.0
@@ -2579,7 +2579,7 @@ __metadata:
     semantic-ui-css: ^2.4.1
     semantic-ui-react: ^2.1.3
     styled-components: ^6.1.6
-  checksum: edfb2bc43285b19c80fc3a1cffcdd0cb0ad91231b1e37efe85c826a7128edcd1cecfa53eb9d6294f17479e697a5d2e70ac54fc18eb9fa017bde175c62706b12f
+  checksum: bfd6a9423a7984f88dd20558ae127b08db5d44a7a145d314f7d803701350ed9e193df6bf68779497c3aeb9d0fc5ea63ce8d7200126783e17e8e98f260c328b60
   languageName: node
   linkType: hard
 
