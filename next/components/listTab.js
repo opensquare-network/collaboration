@@ -108,7 +108,7 @@ export default function ListTab({
     );
   } else {
     settings = (
-      <Tooltip content="Only the admins can change settings">
+      <Tooltip content="Only admins can change settings">
         <div className="flex gap-[8px] [&_svg_path]:fill-textQuaternary text-textQuaternary">
           {settings}
         </div>
