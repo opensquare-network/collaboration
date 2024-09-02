@@ -55,6 +55,11 @@ async function getProposalById(proposalId) {
     )
       .plus(vote.weights.quadraticBalanceOf)
       .toString();
+    votedWeights.onePersonOneVote = new BigNumber(
+      votedWeights.onePersonOneVote || 0,
+    )
+      .plus(1)
+      .toString();
   }
   proposal.votesCount = votesCount;
   proposal.votedWeights = votedWeights;

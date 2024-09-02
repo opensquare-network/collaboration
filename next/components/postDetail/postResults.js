@@ -8,6 +8,7 @@ import Divider from "../styled/divider";
 import { VoteItem } from "./strategyResult/common/styled";
 import QuorumBalanceOfResult from "./strategyResult/quorumBalanceOfResult";
 import QuorumQuadraticBalanceOfResult from "./strategyResult/quorumQuadraticBalanceOfResult";
+import OnePersonOneVoteResult from "./strategyResult/onePersonOneVoteResult";
 
 export default function PostResult({ data, voteStatus, space }) {
   const votedAmount = data?.votedWeights?.balanceOf || 0;
@@ -49,6 +50,17 @@ export default function PostResult({ data, voteStatus, space }) {
     if (strategy === "quorum-quadratic-balance-of") {
       return (
         <QuorumQuadraticBalanceOfResult
+          key={strategy}
+          proposal={data}
+          space={space}
+          voteStatus={voteStatus}
+        />
+      );
+    }
+
+    if (strategy === "one-person-one-vote") {
+      return (
+        <OnePersonOneVoteResult
           key={strategy}
           proposal={data}
           space={space}

@@ -25,6 +25,7 @@ async function getStats(proposalCid) {
         choice,
         balanceOf: "0",
         quadraticBalanceOf: "0",
+        onePersonOneVote: "0",
         votesCount: 0,
       },
     ]),
@@ -40,6 +41,10 @@ async function getStats(proposalCid) {
       )
         .plus(vote.weights.quadraticBalanceOf)
         .toString();
+      weights.onePersonOneVote = new BigNumber(weights.onePersonOneVote || 0)
+        .plus(1)
+        .toString();
+
       weights.votesCount = (weights.votesCount || 0) + 1;
     }
   }
