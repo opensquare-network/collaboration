@@ -22,7 +22,7 @@ const config = {
   proposeThreshold: "10000000000",
   weightStrategy: [strategies.onePersonOneVote],
   version: "4",
-  spaceIcon: "kusama.svg",
+  spaceIcon: "kusamasociety.png",
   seoImage: "QmYB3YVU3Sa27EfqTk3cGZ9S3GhiH6Z2ANpQdHKETpRrEZ",
   admins: [],
 };
