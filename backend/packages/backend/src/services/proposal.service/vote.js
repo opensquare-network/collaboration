@@ -15,6 +15,8 @@ const { getBeenDelegated } = require("../node.service/getBeenDelegated");
 const { adaptBalance } = require("../../utils/balance");
 const { getDemocracyDelegated } = require("../node.service/getDelegated");
 const { findDelegationStrategies } = require("../../utils/delegation");
+const { getSocietyMember } = require("../node.service/getSocietyMember");
+const { Accessibility } = require("../../consts/space");
 
 async function getDelegatorBalances({
   proposal,
@@ -195,6 +197,29 @@ async function checkVoteThreshold({
   }
 }
 
+async function checkSocietyVote({
+  proposal,
+  voterNetwork,
+  address,
+  realVoter,
+}) {
+  if (proposal.networksConfig.accessibility !== Accessibility.SOCIETY) {
+    return;
+  }
+
+  const snapshotHeight = proposal.snapshotHeights?.[voterNetwork];
+  const voter = realVoter || address;
+
+  const societyMember = await getSocietyMember(
+    voterNetwork,
+    voter,
+    snapshotHeight,
+  );
+  if (!societyMember.data) {
+    // throw new HttpError(400, "You are not the society member");
+  }
+}
+
 async function vote(
   proposalCid,
   choices,
@@ -210,6 +235,13 @@ async function vote(
   if (!proposal) {
     throw new HttpError(400, "Proposal not found.");
   }
+
+  await checkSocietyVote({
+    proposal,
+    voterNetwork,
+    address,
+    realVoter,
+  });
 
   const now = new Date();
 

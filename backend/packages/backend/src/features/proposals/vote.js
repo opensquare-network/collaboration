@@ -1,5 +1,4 @@
 const { ChoiceType } = require("../../constants");
-const { Accessibility } = require("../../consts/space");
 const { HttpError } = require("../../exc");
 const { getProposalCollection } = require("../../mongo");
 const proposalService = require("../../services/proposal.service");
@@ -76,20 +75,6 @@ async function vote(ctx) {
   checkProposal(proposal);
   checkVoteChoices(choices, proposal);
   checkVoterNetwork(voterNetwork, proposal);
-
-  if (proposal.networksConfig.accessibility === Accessibility.SOCIETY) {
-    ctx.body = await proposalService.voteSocietyProposal(
-      proposalCid,
-      choices,
-      remark,
-      realVoter,
-      data,
-      address,
-      voterNetwork,
-      signature,
-    );
-    return;
-  }
 
   ctx.body = await proposalService.vote(
     proposalCid,
