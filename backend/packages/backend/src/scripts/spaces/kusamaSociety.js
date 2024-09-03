@@ -19,8 +19,6 @@ const config = {
       ],
     },
   ],
-  whoCanVote: "societyMember",
-  whoCanPropose: "societyMember",
   weightStrategy: [strategies.onePersonOneVote],
   version: "4",
   spaceIcon: "kusamasociety.png",
