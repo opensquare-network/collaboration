@@ -143,9 +143,13 @@ async function createProposal({
     blockHeight: lastHeight,
   });
 
-  const bnCreatorBalance = new BigNumber(creatorBalance?.balanceOf);
-  if (bnCreatorBalance.lt(spaceService.proposeThreshold)) {
-    throw new HttpError(403, "Balance is not enough to create the proposal");
+  //TODO: Kusama society who can propose?
+
+  if (spaceService.proposeThreshold) {
+    const bnCreatorBalance = new BigNumber(creatorBalance?.balanceOf);
+    if (bnCreatorBalance.lt(spaceService.proposeThreshold)) {
+      throw new HttpError(403, "Balance is not enough to create the proposal");
+    }
   }
 
   const { cid, pinHash } = await pinData({ data, address, signature });
