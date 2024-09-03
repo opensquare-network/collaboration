@@ -9,6 +9,7 @@ const config = {
     {
       network: networks.kusama,
       ss58Format: 2,
+      whoCanVote: "societyMember",
       assets: [
         {
           symbol: "KSM",

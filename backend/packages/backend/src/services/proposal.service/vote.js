@@ -17,6 +17,7 @@ const { getBeenDelegated } = require("../node.service/getBeenDelegated");
 const { adaptBalance } = require("../../utils/balance");
 const { getDemocracyDelegated } = require("../node.service/getDelegated");
 const { findDelegationStrategies } = require("../../utils/delegation");
+const { getSocietyMembers } = require("../node.service/getSocietyMembers");
 
 async function getDelegatorBalances({
   proposal,
@@ -134,6 +135,57 @@ async function addDelegatedVotes(
   }
 }
 
+async function checkVoterDelegation({
+  proposal,
+  voterNetwork,
+  address,
+  realVoter,
+}) {
+  const snapshotHeight = proposal.snapshotHeights?.[voterNetwork];
+  const voter = realVoter || address;
+
+  if (realVoter && realVoter !== address) {
+    await checkDelegation(voterNetwork, address, realVoter, snapshotHeight);
+  }
+
+  const delegationStrategies = findDelegationStrategies(
+    proposal.networksConfig,
+    voterNetwork,
+  );
+  if (delegationStrategies.includes("democracy")) {
+    const delegation = await getDemocracyDelegated(
+      voterNetwork,
+      snapshotHeight,
+      voter,
+    );
+    if (!isEmpty(delegation)) {
+      throw new HttpError(
+        400,
+        "You can't vote because you have delegated your votes",
+      );
+    }
+  }
+}
+
+async function checkWhoCanVote({ proposal, voterNetwork, address, realVoter }) {
+  const snapshotHeight = proposal.snapshotHeights?.[voterNetwork];
+  const voter = realVoter || address;
+
+  const networkCfg = proposal.networksConfig.networks?.find(
+    (networkCfg) => networkCfg.network === voterNetwork,
+  );
+  if (networkCfg && networkCfg.whoCanVote === "societyMember") {
+    const societyMembers = await getSocietyMembers(
+      voterNetwork,
+      snapshotHeight,
+    );
+    const item = societyMembers.find((item) => item.address === voter);
+    if (!item) {
+      throw new HttpError(400, "Cannot vote");
+    }
+  }
+}
+
 async function vote(
   proposalCid,
   choices,
@@ -181,30 +233,17 @@ async function vote(
     throw new HttpError(400, "Voter network is not supported by this proposal");
   }
 
-  const snapshotHeight = proposal.snapshotHeights?.[voterNetwork];
-  if (realVoter && realVoter !== address) {
-    await checkDelegation(voterNetwork, address, realVoter, snapshotHeight);
-  }
+  await checkVoterDelegation({
+    proposal,
+    voterNetwork,
+    address,
+    realVoter,
+  });
 
+  const snapshotHeight = proposal.snapshotHeights?.[voterNetwork];
   const voter = realVoter || address;
 
-  const delegationStrategies = findDelegationStrategies(
-    proposal.networksConfig,
-    voterNetwork,
-  );
-  if (delegationStrategies.includes("democracy")) {
-    const delegation = await getDemocracyDelegated(
-      voterNetwork,
-      snapshotHeight,
-      voter,
-    );
-    if (!isEmpty(delegation)) {
-      throw new HttpError(
-        400,
-        "You can't vote because you have delegated your votes",
-      );
-    }
-  }
+  await checkWhoCanVote({ proposal, voterNetwork, address, realVoter });
 
   const networkBalance = await getBalanceFromNetwork({
     networksConfig: proposal.networksConfig,
@@ -229,14 +268,16 @@ async function vote(
   const networkConfig = networksConfig?.networks?.find(
     (item) => item.network === voterNetwork,
   );
-  const passThreshold = networkConfig?.assets?.some((item) =>
-    networkBalanceDetails?.some((balance) =>
-      new BigNumber(item.votingThreshold || 0).lte(balance.balance),
-    ),
-  );
+  if (networkConfig?.assets) {
+    const passThreshold = networkConfig?.assets?.some((item) =>
+      networkBalanceDetails?.some((balance) =>
+        new BigNumber(item.votingThreshold || 0).lte(balance.balance),
+      ),
+    );
 
-  if (!passThreshold) {
-    throw new HttpError(400, "You don't have enough balance to vote");
+    if (!passThreshold) {
+      throw new HttpError(400, "You don't have enough balance to vote");
+    }
   }
 
   const delegators = await getDelegatorBalances({
