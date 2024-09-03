@@ -1,3 +1,4 @@
+const { Accessibility } = require("../../consts/space");
 const { networks, strategies } = require("./consts");
 
 const altairConfig = {
@@ -5,6 +6,7 @@ const altairConfig = {
   name: "Altair",
   symbol: "AIR",
   decimals: 18,
+  accessibility: Accessibility.PUBLIC,
   networks: [
     {
       network: networks.altair,

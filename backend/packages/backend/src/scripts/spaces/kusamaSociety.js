@@ -1,3 +1,4 @@
+const { Accessibility } = require("../../consts/space");
 const { networks, strategies } = require("./consts");
 
 const config = {
@@ -5,21 +6,21 @@ const config = {
   name: "KusamaSociety",
   symbol: "KSM",
   decimals: 12,
+  accessibility: Accessibility.SOCIETY,
   networks: [
     {
       network: networks.kusama,
       ss58Format: 2,
-      whoCanVote: "societyMember",
       assets: [
         {
           symbol: "KSM",
           decimals: 12,
-          votingThreshold: "10000000000",
         },
       ],
     },
   ],
-  proposeThreshold: "10000000000",
+  whoCanVote: "societyMember",
+  whoCanPropose: "societyMember",
   weightStrategy: [strategies.onePersonOneVote],
   version: "4",
   spaceIcon: "kusamasociety.png",

@@ -143,8 +143,6 @@ async function createProposal({
     blockHeight: lastHeight,
   });
 
-  //TODO: Kusama society who can propose?
-
   if (spaceService.proposeThreshold) {
     const bnCreatorBalance = new BigNumber(creatorBalance?.balanceOf);
     if (bnCreatorBalance.lt(spaceService.proposeThreshold)) {

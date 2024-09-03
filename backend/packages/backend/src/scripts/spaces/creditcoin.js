@@ -1,11 +1,13 @@
 const { strategies } = require("../../consts/voting");
 const { networks } = require("../../consts/networks");
+const { Accessibility } = require("../../consts/space");
 
 const config = {
   id: "creditcoin",
   name: "Creditcoin",
   symbol: "CTC",
   decimals: 18,
+  accessibility: Accessibility.PUBLIC,
   networks: [
     {
       network: networks.creditcoin,

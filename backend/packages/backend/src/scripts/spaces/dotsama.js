@@ -1,11 +1,13 @@
 const { strategies } = require("../../consts/voting");
 const { networks } = require("../../consts/networks");
+const { Accessibility } = require("../../consts/space");
 
 const config = {
   id: "dotsama",
   name: "DotSama",
   symbol: "VOTE",
   decimals: 10,
+  accessibility: Accessibility.PUBLIC,
   networks: [
     {
       network: networks.polkadot,

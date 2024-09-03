@@ -1,3 +1,4 @@
+const { Accessibility } = require("../../consts/space");
 const { networks, strategies } = require("./consts");
 
 const shidenConfig = {
@@ -5,6 +6,7 @@ const shidenConfig = {
   name: "Shiden",
   symbol: "SDN",
   decimals: 18,
+  accessibility: Accessibility.PUBLIC,
   networks: [
     {
       network: networks.shiden,

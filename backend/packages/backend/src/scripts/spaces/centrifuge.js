@@ -1,3 +1,4 @@
+const { Accessibility } = require("../../consts/space");
 const { networks, strategies } = require("./consts");
 
 const centrifugeConfig = {
@@ -5,6 +6,7 @@ const centrifugeConfig = {
   name: "Centrifuge",
   symbol: "CFG",
   decimals: 18,
+  accessibility: Accessibility.PUBLIC,
   networks: [
     {
       network: networks.centrifuge,

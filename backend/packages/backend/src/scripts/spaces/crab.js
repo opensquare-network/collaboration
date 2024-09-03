@@ -1,9 +1,11 @@
+const { Accessibility } = require("../../consts/space");
 const { networks, strategies } = require("./consts");
 const crabConfig = {
   id: "crab",
   name: "Crab",
   symbol: "CRAB",
   decimals: 9,
+  accessibility: Accessibility.PUBLIC,
   networks: [
     {
       network: networks.crab,
