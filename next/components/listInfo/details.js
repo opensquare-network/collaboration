@@ -72,7 +72,6 @@ const DetailsValue = styled(FlexBetween)`
 export default function Details({ space }) {
   const strategyCount = space.weightStrategy?.length || 0;
   const assets = getSpaceAssets(space);
-  const isSociety = space.accessibility === "society";
 
   return (
     <Wrapper>
@@ -92,7 +91,7 @@ export default function Details({ space }) {
       <Divider />
 
       <DetailSections>
-        {!isSociety && (
+        {space.proposeThreshold && (
           <DetailsItem>
             <DetailsLabel>Config</DetailsLabel>
             <DetailsValue>
