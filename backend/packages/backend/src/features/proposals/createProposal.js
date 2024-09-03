@@ -137,7 +137,12 @@ function checkNetworkConfig(data) {
   const spaceService = spaceServices[space];
   if (
     !isEqual(networksConfig, {
-      ...pick(spaceService, ["symbol", "decimals", "networks"]),
+      ...pick(spaceService, [
+        "symbol",
+        "decimals",
+        "networks",
+        "accessibility",
+      ]),
       strategies: spaceService.weightStrategy,
       ...pick(spaceService, ["quorum", "version"]),
     })

@@ -5,6 +5,7 @@ const { getProposalById } = require("./getProposalById");
 const { postComment } = require("./postComment");
 const { getComments } = require("./getComments");
 const { vote } = require("./vote");
+const { voteSocietyProposal } = require("./voteSocietyProposal");
 const { getVotes } = require("./getVotes");
 const { getAddressVote } = require("./getAddressVote");
 const { getStats } = require("./getStats");
@@ -19,6 +20,7 @@ module.exports = {
   postComment,
   getComments,
   vote,
+  voteSocietyProposal,
   getVotes,
   getAddressVote,
   getStats,

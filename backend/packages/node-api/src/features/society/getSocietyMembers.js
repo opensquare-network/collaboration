@@ -25,8 +25,7 @@ async function getSocietyMembersFromApis(apis, blockHashOrHeight) {
 }
 
 async function getSocietyMembers(ctx) {
-  const { chain } = ctx.params;
-  const { block: blockHashOrHeight } = ctx.query;
+  const { chain, blockHashOrHeight } = ctx.params;
   if (![chains.kusama].includes(chain)) {
     ctx.throw(400, `Not support chain ${chain}`);
   }

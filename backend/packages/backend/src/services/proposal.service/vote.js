@@ -7,17 +7,14 @@ const {
   getSpaceCollection,
 } = require("../../mongo");
 const { HttpError } = require("../../exc");
-const { spaces: spaceServices } = require("../../spaces");
 const { checkDelegation } = require("../../services/node.service");
 const { toDecimal128 } = require("../../utils");
 const { getBalanceFromNetwork } = require("../../services/node.service");
-const { ChoiceType } = require("../../constants");
 const { pinData } = require("./common");
 const { getBeenDelegated } = require("../node.service/getBeenDelegated");
 const { adaptBalance } = require("../../utils/balance");
 const { getDemocracyDelegated } = require("../node.service/getDelegated");
 const { findDelegationStrategies } = require("../../utils/delegation");
-const { getSocietyMembers } = require("../node.service/getSocietyMembers");
 
 async function getDelegatorBalances({
   proposal,
@@ -167,94 +164,11 @@ async function checkVoterDelegation({
   }
 }
 
-async function checkWhoCanVote({ proposal, voterNetwork, address, realVoter }) {
-  const snapshotHeight = proposal.snapshotHeights?.[voterNetwork];
-  const voter = realVoter || address;
-
-  const networkCfg = proposal.networksConfig.networks?.find(
-    (networkCfg) => networkCfg.network === voterNetwork,
-  );
-  if (networkCfg && networkCfg.whoCanVote === "societyMember") {
-    const societyMembers = await getSocietyMembers(
-      voterNetwork,
-      snapshotHeight,
-    );
-    const item = societyMembers.find((item) => item.address === voter);
-    if (!item) {
-      throw new HttpError(400, "Cannot vote");
-    }
-  }
-}
-
-async function vote(
-  proposalCid,
-  choices,
-  remark,
-  realVoter,
-  data,
-  address,
+async function checkVoteThreshold({
+  networkBalanceDetails,
+  proposal,
   voterNetwork,
-  signature,
-) {
-  const proposalCol = await getProposalCollection();
-  const proposal = await proposalCol.findOne({ cid: proposalCid });
-  if (!proposal) {
-    throw new HttpError(400, "Proposal not found.");
-  }
-
-  if (proposal.choiceType === ChoiceType.Single && choices.length !== 1) {
-    throw new HttpError(400, "Can vote single choice only");
-  }
-
-  for (const choice of choices) {
-    if (!proposal.choices?.includes(choice)) {
-      throw new HttpError(400, `Invalid choice: ${choice}`);
-    }
-  }
-
-  const now = new Date();
-
-  if (proposal.startDate > now.getTime()) {
-    throw new HttpError(400, "The voting is not started yet");
-  }
-
-  if (proposal.endDate < now.getTime()) {
-    throw new HttpError(400, "The voting had already ended");
-  }
-
-  const space = proposal.space;
-  const spaceService = spaceServices[space];
-  if (!spaceService) {
-    throw new HttpError(500, "Unknown space");
-  }
-
-  const snapshotNetworks = Object.keys(proposal.snapshotHeights);
-  if (!snapshotNetworks.includes(voterNetwork)) {
-    throw new HttpError(400, "Voter network is not supported by this proposal");
-  }
-
-  await checkVoterDelegation({
-    proposal,
-    voterNetwork,
-    address,
-    realVoter,
-  });
-
-  const snapshotHeight = proposal.snapshotHeights?.[voterNetwork];
-  const voter = realVoter || address;
-
-  await checkWhoCanVote({ proposal, voterNetwork, address, realVoter });
-
-  const networkBalance = await getBalanceFromNetwork({
-    networksConfig: proposal.networksConfig,
-    networkName: voterNetwork,
-    address: voter,
-    blockHeight: snapshotHeight,
-  });
-
-  const balanceOf = networkBalance?.balanceOf;
-  const networkBalanceDetails = networkBalance?.details;
-
+}) {
   let networksConfig = null;
 
   if (proposal.networksConfig?.version === "4") {
@@ -279,6 +193,47 @@ async function vote(
       throw new HttpError(400, "You don't have enough balance to vote");
     }
   }
+}
+
+async function vote(
+  proposalCid,
+  choices,
+  remark,
+  realVoter,
+  data,
+  address,
+  voterNetwork,
+  signature,
+) {
+  const proposalCol = await getProposalCollection();
+  const proposal = await proposalCol.findOne({ cid: proposalCid });
+  if (!proposal) {
+    throw new HttpError(400, "Proposal not found.");
+  }
+
+  const now = new Date();
+
+  await checkVoterDelegation({
+    proposal,
+    voterNetwork,
+    address,
+    realVoter,
+  });
+
+  const snapshotHeight = proposal.snapshotHeights?.[voterNetwork];
+  const voter = realVoter || address;
+
+  const networkBalance = await getBalanceFromNetwork({
+    networksConfig: proposal.networksConfig,
+    networkName: voterNetwork,
+    address: voter,
+    blockHeight: snapshotHeight,
+  });
+
+  const balanceOf = networkBalance?.balanceOf;
+  const networkBalanceDetails = networkBalance?.details;
+
+  await checkVoteThreshold({ networkBalanceDetails, proposal, voterNetwork });
 
   const delegators = await getDelegatorBalances({
     proposal,

@@ -72,6 +72,7 @@ const DetailsValue = styled(FlexBetween)`
 export default function Details({ space }) {
   const strategyCount = space.weightStrategy?.length || 0;
   const assets = getSpaceAssets(space);
+  const isSociety = space.accessibility === "society";
 
   return (
     <Wrapper>
@@ -91,19 +92,21 @@ export default function Details({ space }) {
       <Divider />
 
       <DetailSections>
-        <DetailsItem>
-          <DetailsLabel>Config</DetailsLabel>
-          <DetailsValue>
-            <span>Threshold</span>
-            <ValueDisplay value={space.proposeThreshold} space={space} />
-          </DetailsValue>
-          {space.quorum && (
+        {!isSociety && (
+          <DetailsItem>
+            <DetailsLabel>Config</DetailsLabel>
             <DetailsValue>
-              <span>Quorum</span>
-              <ValueDisplay value={space.quorum} space={space} />
+              <span>Threshold</span>
+              <ValueDisplay value={space.proposeThreshold} space={space} />
             </DetailsValue>
-          )}
-        </DetailsItem>
+            {space.quorum && (
+              <DetailsValue>
+                <span>Quorum</span>
+                <ValueDisplay value={space.quorum} space={space} />
+              </DetailsValue>
+            )}
+          </DetailsItem>
+        )}
 
         <DetailsItem>
           <DetailsLabel>Strategies({strategyCount})</DetailsLabel>

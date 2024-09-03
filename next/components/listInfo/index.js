@@ -88,6 +88,7 @@ export default function ListInfo({ space }) {
 
   const strategyCount = space.weightStrategy?.length || 0;
   const networkCount = space.networks?.length || 0;
+  const isSociety = space.accessibility === "society";
 
   const handleShowModal = () => {
     setModalOpen(true);
@@ -123,16 +124,20 @@ export default function ListInfo({ space }) {
           </div>
         </AboutItem>
         <AboutDivider />
-        <AboutItem>
-          <AboutIcon src="/imgs/icons/threshold.svg" />
-          <div>
-            <AboutName onClick={handleShowModal}>Threshold</AboutName>
-            <AboutDetail>
-              <ValueDisplay value={space.proposeThreshold} space={space} />
-            </AboutDetail>
-          </div>
-        </AboutItem>
-        <AboutDivider />
+        {!isSociety && (
+          <>
+            <AboutItem>
+              <AboutIcon src="/imgs/icons/threshold.svg" />
+              <div>
+                <AboutName onClick={handleShowModal}>Threshold</AboutName>
+                <AboutDetail>
+                  <ValueDisplay value={space.proposeThreshold} space={space} />
+                </AboutDetail>
+              </div>
+            </AboutItem>
+            <AboutDivider />
+          </>
+        )}
         <AboutItem>
           <AboutIcon src="/imgs/icons/strategy.svg" />
           <div>

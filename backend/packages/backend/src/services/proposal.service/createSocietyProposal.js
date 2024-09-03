@@ -4,11 +4,8 @@ const { nextPostUid } = require("../status.service");
 const { getProposalCollection } = require("../../mongo");
 const { HttpError } = require("../../exc");
 const { ContentType } = require("../../constants");
-const { getLatestHeight } = require("../chain.service");
 const { spaces: spaceServices } = require("../../spaces");
-const { checkDelegation } = require("../../services/node.service");
 const { pinData, createSpaceNotifications } = require("./common");
-const { isAdmin } = require("../../utils/admin");
 
 async function createSocietyProposal({
   space,
@@ -29,17 +26,7 @@ async function createSocietyProposal({
   signature,
 }) {
   const spaceService = spaceServices[space];
-  if (spaceService.onlyAdminCanCreateProposals && !isAdmin(space, address)) {
-    throw new HttpError(401, `Only the space admins can create proposals`);
-  }
-
   const weightStrategy = spaceService.weightStrategy;
-
-  const lastHeight = await getLatestHeight(proposerNetwork);
-
-  if (realProposer && realProposer !== address) {
-    await checkDelegation(proposerNetwork, address, realProposer, lastHeight);
-  }
 
   const proposer = realProposer || address;
 

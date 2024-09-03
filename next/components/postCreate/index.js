@@ -206,7 +206,7 @@ export default function PostCreate({ space, settings }) {
     const proposal = {
       space: space.id,
       networksConfig: {
-        ...pick(space, ["symbol", "decimals", "networks"]),
+        ...pick(space, ["symbol", "decimals", "networks", "accessibility"]),
         strategies: space.weightStrategy,
         ...pick(space, ["quorum", "version"]),
       },
