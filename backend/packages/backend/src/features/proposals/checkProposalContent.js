@@ -1,11 +1,17 @@
 const { HttpError } = require("../../exc");
-const { ContentType } = require("../../constants");
+const { ContentType, PostTitleLengthLimitation } = require("../../constants");
 
 function checkProposalContent(data) {
   const { title, content, contentType } = data;
 
   if (!title) {
     throw new HttpError(400, { title: ["Title is missing"] });
+  }
+
+  if (title.length > PostTitleLengthLimitation) {
+    throw new HttpError(400, {
+      title: ["Title must be no more than %d characters"],
+    });
   }
 
   if (!content) {

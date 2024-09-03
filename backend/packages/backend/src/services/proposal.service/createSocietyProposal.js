@@ -1,4 +1,3 @@
-const BigNumber = require("bignumber.js");
 const { safeHtml } = require("../../utils/post");
 const { NotificationType } = require("../../constants");
 const { nextPostUid } = require("../status.service");
@@ -8,11 +7,10 @@ const { ContentType } = require("../../constants");
 const { getLatestHeight } = require("../chain.service");
 const { spaces: spaceServices } = require("../../spaces");
 const { checkDelegation } = require("../../services/node.service");
-const { getBalanceFromNetwork } = require("../../services/node.service");
 const { pinData, createSpaceNotifications } = require("./common");
 const { isAdmin } = require("../../utils/admin");
 
-async function createProposal({
+async function createSocietyProposal({
   space,
   networksConfig,
   title,
@@ -44,20 +42,6 @@ async function createProposal({
   }
 
   const proposer = realProposer || address;
-
-  const creatorBalance = await getBalanceFromNetwork({
-    networksConfig,
-    networkName: proposerNetwork,
-    address: proposer,
-    blockHeight: lastHeight,
-  });
-
-  if (spaceService.proposeThreshold) {
-    const bnCreatorBalance = new BigNumber(creatorBalance?.balanceOf);
-    if (bnCreatorBalance.lt(spaceService.proposeThreshold)) {
-      throw new HttpError(403, "Balance is not enough to create the proposal");
-    }
-  }
 
   const { cid, pinHash } = await pinData({ data, address, signature });
 
@@ -113,5 +97,5 @@ async function createProposal({
 }
 
 module.exports = {
-  createProposal,
+  createSocietyProposal,
 };
