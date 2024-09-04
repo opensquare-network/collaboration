@@ -12,8 +12,9 @@ import {
   createProposalLoadingSelector,
 } from "../../store/reducers/statusSlice";
 import BigNumber from "bignumber.js";
+import SocietyMemberButton from "../societyMemberButton";
 
-function Publish({ threshold, onPublish }) {
+function Publish({ threshold, onPublish, space }) {
   const dispatch = useDispatch();
   const useProxy = useSelector(useProxySelector);
   const loginAddress = useSelector(loginAddressSelector);
@@ -21,6 +22,7 @@ function Publish({ threshold, onPublish }) {
   const balance = useSelector(targetBalanceSelector);
   const belowThreshold = new BigNumber(balance).isLessThan(threshold);
   const createProposalLoading = useSelector(createProposalLoadingSelector);
+  const isSocietySpace = space.accessibility === "society";
 
   if (!loginAddress) {
     return (
@@ -30,8 +32,10 @@ function Publish({ threshold, onPublish }) {
     );
   }
 
+  const PublishButton = isSocietySpace ? SocietyMemberButton : Button;
+
   return (
-    <Button
+    <PublishButton
       block
       large
       primary
@@ -40,7 +44,7 @@ function Publish({ threshold, onPublish }) {
       disabled={belowThreshold}
     >
       {useProxy ? "Proxy Publish" : "Publish"}
-    </Button>
+    </PublishButton>
   );
 }
 

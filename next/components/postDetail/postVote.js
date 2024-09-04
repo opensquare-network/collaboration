@@ -42,6 +42,7 @@ import VoteBalanceDetail from "./VoteBalanceDetail";
 import DelegationInfo from "./delegationInfo";
 import { isOnePersonOnVoteOnly } from "frontedUtils/strategy";
 import SocietyMemberHit from "../postCreate/societyMemberHit";
+import SocietyMemberButton from "../societyMemberButton";
 
 const Wrapper = styled.div`
   > :not(:first-child) {
@@ -120,6 +121,10 @@ export default function PostVote({ proposal }) {
   const proxyAddress = useSelector(proxySelector);
   const proxyBalance = useSelector(proxyBalanceSelector);
   const proxyDelegation = useSelector(proxyDelegationSelector);
+  const isSocietyProposal =
+    proposal.networksConfig?.accessibility === "society";
+
+  const VoteButton = isSocietyProposal ? SocietyMemberButton : Button;
 
   const loginAddress = useSelector(loginAddressSelector);
   const { network: loginNetwork } = useSelector(loginNetworkSelector) || {};
@@ -295,7 +300,7 @@ export default function PostVote({ proposal }) {
           </>
         );
       }
-    } else if (proposal.networksConfig?.accessibility === "society") {
+    } else if (isSocietyProposal) {
       balanceInfo = <SocietyMemberHit />;
     }
 
@@ -322,7 +327,7 @@ export default function PostVote({ proposal }) {
         )}
 
         <Flex>
-          <Button
+          <VoteButton
             primary
             large
             block
@@ -331,7 +336,7 @@ export default function PostVote({ proposal }) {
             disabled={!canVote}
           >
             {useProxy ? "Proxy Vote" : "Vote"}
-          </Button>
+          </VoteButton>
 
           {terminateButton}
         </Flex>

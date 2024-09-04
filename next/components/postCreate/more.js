@@ -175,7 +175,11 @@ export default function More({ onPublish, space }) {
         <Divider />
         <Information space={space} />
       </InnerWrapper>
-      <Publish threshold={space.proposeThreshold} onPublish={onPublish} />
+      <Publish
+        threshold={space.proposeThreshold}
+        onPublish={onPublish}
+        space={space}
+      />
     </Wrapper>
   );
 }
