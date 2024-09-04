@@ -1,3 +1,4 @@
+const { Accessibility } = require("../../consts/space");
 const { networks, strategies } = require("./consts");
 
 const hydradxConfig = {
@@ -5,6 +6,7 @@ const hydradxConfig = {
   name: "HydraDX",
   symbol: "HDX",
   decimals: 12,
+  accessibility: Accessibility.PUBLIC,
   networks: [
     {
       network: networks.hydradx,

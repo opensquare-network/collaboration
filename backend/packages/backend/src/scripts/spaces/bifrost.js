@@ -1,3 +1,4 @@
+const { Accessibility } = require("../../consts/space");
 const { networks, strategies } = require("./consts");
 
 const bifrostConfig = {
@@ -5,6 +6,7 @@ const bifrostConfig = {
   name: "Bifrost",
   symbol: "BNC",
   decimals: 12,
+  accessibility: Accessibility.PUBLIC,
   networks: [
     {
       network: networks.bifrost,

@@ -1,3 +1,4 @@
+const { Accessibility } = require("../../consts/space");
 const { networks } = require("./consts");
 const { statemineCommonConfig, strategies } = require("./consts");
 
@@ -58,6 +59,7 @@ const config = {
   name: "RMRK",
   symbol: "RMRK",
   decimals: 10,
+  accessibility: Accessibility.PUBLIC,
   networks: [
     statemineAssetConfig,
     karuraTokenConfig,
@@ -81,6 +83,7 @@ const curationConfig = {
   name: "RMRK Curation",
   symbol: "RMRK",
   decimals: 10,
+  accessibility: Accessibility.PUBLIC,
   networks: [
     statemineAssetConfig,
     karuraTokenConfig,

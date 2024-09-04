@@ -14,6 +14,7 @@ const { phalaConfig } = require("./spaces/phala");
 const { karuraConfig } = require("./spaces/karura");
 const { rmrkConfig, rmrkCurationConfig } = require("./spaces/rmrk");
 const { kusamaConfig } = require("./spaces/kusama");
+const { kusamaSocietyConfig } = require("./spaces/kusamaSociety");
 const { chrwnaConfig } = require("./spaces/chrwna");
 const { interlayConfig } = require("./spaces/interlay");
 const { acalaConfig } = require("./spaces/acala");
@@ -59,6 +60,7 @@ const spaces = [
   shidenConfig,
   // crabConfig,
   dotsamaConfig,
+  kusamaSocietyConfig,
   lksmConfig,
   centrifugeConfig,
   altairConfig,

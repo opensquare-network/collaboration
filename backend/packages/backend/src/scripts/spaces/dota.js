@@ -1,3 +1,4 @@
+const { Accessibility } = require("../../consts/space");
 const { statemintCommonConfig, strategies } = require("./consts");
 
 const statemintAssetConfig = {
@@ -18,6 +19,7 @@ const config = {
   name: "DOTA",
   symbol: "DOTA",
   decimals: 4,
+  accessibility: Accessibility.PUBLIC,
   networks: [statemintAssetConfig],
   proposeThreshold: "1000000",
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],

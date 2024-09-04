@@ -1,11 +1,13 @@
 const { strategies } = require("../../consts/voting");
 const { networks } = require("../../consts/networks");
+const { Accessibility } = require("../../consts/space");
 
 const config = {
   id: "darwinia",
   name: "Darwinia",
   symbol: "RING",
   decimals: 9,
+  accessibility: Accessibility.PUBLIC,
   networks: [
     {
       network: networks.darwinia,

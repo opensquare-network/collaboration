@@ -1,11 +1,13 @@
 const { strategies } = require("../../consts/voting");
 const { networks } = require("../../consts/networks");
+const { Accessibility } = require("../../consts/space");
 
 const config = {
   id: "crust",
   name: "Crust",
   symbol: "CRU",
   decimals: 12,
+  accessibility: Accessibility.PUBLIC,
   networks: [
     {
       network: networks.crust,

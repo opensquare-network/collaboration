@@ -1,3 +1,4 @@
+const { Accessibility } = require("../../consts/space");
 const { networks, strategies } = require("./consts");
 
 const litentryConfig = {
@@ -5,6 +6,7 @@ const litentryConfig = {
   name: "Litentry",
   symbol: "LIT",
   decimals: 12,
+  accessibility: Accessibility.PUBLIC,
   networks: [
     {
       network: networks.litmus,

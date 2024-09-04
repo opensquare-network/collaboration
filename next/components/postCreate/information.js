@@ -19,6 +19,8 @@ import {
   proxyBalanceLoadingSelector,
 } from "../../store/reducers/statusSlice";
 import BalanceRow from "@/components/postCreate/BalanceRow";
+import { isOnePersonOnVoteOnly } from "frontedUtils/strategy";
+import SocietyMemberHit from "./societyMemberHit";
 
 const Hint = styled.div`
   margin-top: 4px !important;
@@ -34,7 +36,12 @@ const PostAddressWrapper = styled.div`
 `;
 
 export default function Information({ space }) {
-  const { proposeThreshold: threshold, decimals, symbol } = space;
+  const {
+    proposeThreshold: threshold,
+    decimals,
+    symbol,
+    weightStrategy,
+  } = space;
 
   const dispatch = useDispatch();
   const balance = useSelector(targetBalanceSelector);
@@ -87,13 +94,16 @@ export default function Information({ space }) {
 
   return (
     <>
-      <BalanceRow
-        balance={balance}
-        isLoading={useProxy ? proxyBalanceLoading : balanceLoading}
-        decimals={decimals}
-        symbol={symbol}
-      />
+      {!isOnePersonOnVoteOnly(weightStrategy) && (
+        <BalanceRow
+          balance={balance}
+          isLoading={useProxy ? proxyBalanceLoading : balanceLoading}
+          decimals={decimals}
+          symbol={symbol}
+        />
+      )}
       {hint}
+      {space.accessibility === "society" && <SocietyMemberHit space={space} />}
       {proxyElements}
     </>
   );

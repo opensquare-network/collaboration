@@ -1,3 +1,4 @@
+const { Accessibility } = require("../../consts/space");
 const { networks, strategies } = require("./consts");
 
 const turingConfig = {
@@ -5,6 +6,7 @@ const turingConfig = {
   name: "Turing",
   symbol: "TUR",
   decimals: 10,
+  accessibility: Accessibility.PUBLIC,
   networks: [
     {
       network: networks.turing,

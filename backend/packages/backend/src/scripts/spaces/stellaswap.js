@@ -1,3 +1,4 @@
+const { Accessibility } = require("../../consts/space");
 const { networks, strategies } = require("./consts");
 
 const stellaSwapConfig = {
@@ -5,6 +6,7 @@ const stellaSwapConfig = {
   name: "StellaSwap",
   symbol: "xStella",
   decimals: 18,
+  accessibility: Accessibility.PUBLIC,
   networks: [
     {
       network: networks.moonbeam,

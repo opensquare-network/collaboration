@@ -1,3 +1,4 @@
+const { Accessibility } = require("../../consts/space");
 const { statemineCommonConfig, strategies } = require("./consts");
 
 const config = {
@@ -5,6 +6,7 @@ const config = {
   name: "Chrawnna",
   symbol: "CHRWNA",
   decimals: 10,
+  accessibility: Accessibility.PUBLIC,
   networks: [
     {
       ...statemineCommonConfig,

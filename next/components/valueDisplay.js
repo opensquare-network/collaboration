@@ -13,7 +13,7 @@ import {
  */
 
 export default function ValueDisplay({
-  value,
+  value = 0,
   space,
   showAEM = false,
   tooltipContent,
