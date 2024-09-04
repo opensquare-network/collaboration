@@ -9,6 +9,7 @@ import { VoteItem } from "./strategyResult/common/styled";
 import QuorumBalanceOfResult from "./strategyResult/quorumBalanceOfResult";
 import QuorumQuadraticBalanceOfResult from "./strategyResult/quorumQuadraticBalanceOfResult";
 import OnePersonOneVoteResult from "./strategyResult/onePersonOneVoteResult";
+import { isOnePersonOnVoteOnly } from "frontedUtils/strategy";
 
 export default function PostResult({ data, voteStatus, space }) {
   const votedAmount = data?.votedWeights?.balanceOf || 0;
@@ -81,12 +82,14 @@ export default function PostResult({ data, voteStatus, space }) {
       <SideSectionTitle title="Results" img="/imgs/icons/strategy.svg" />
       <Divider />
       <div>
-        <VoteItem>
-          <div>Voted</div>
-          <div>
-            <ValueDisplay value={votedAmount?.toString()} space={space} />
-          </div>
-        </VoteItem>
+        {!isOnePersonOnVoteOnly(data?.weightStrategy) && (
+          <VoteItem>
+            <div>Voted</div>
+            <div>
+              <ValueDisplay value={votedAmount?.toString()} space={space} />
+            </div>
+          </VoteItem>
+        )}
         <VoteItem>
           <div>Voters</div>
           <div>{data?.votesCount}</div>
