@@ -216,7 +216,7 @@ async function checkSocietyVote({
     snapshotHeight,
   );
   if (!societyMember.data) {
-    // throw new HttpError(400, "You are not the society member");
+    throw new HttpError(400, "You are not the society member");
   }
 }
 
