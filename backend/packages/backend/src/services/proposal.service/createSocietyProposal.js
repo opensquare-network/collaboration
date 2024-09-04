@@ -6,6 +6,22 @@ const { HttpError } = require("../../exc");
 const { ContentType } = require("../../constants");
 const { spaces: spaceServices } = require("../../spaces");
 const { pinData, createSpaceNotifications } = require("./common");
+const { Accessibility } = require("../../consts/space");
+const { getSocietyMember } = require("../node.service/getSocietyMember");
+
+async function checkSocietyMember({
+  networksConfig,
+  proposerNetwork,
+  proposer,
+}) {
+  if (networksConfig.accessibility !== Accessibility.SOCIETY) {
+    return;
+  }
+  const societyMember = await getSocietyMember(proposerNetwork, proposer);
+  if (!societyMember.data) {
+    throw new HttpError(400, "You are not the society member");
+  }
+}
 
 async function createSocietyProposal({
   space,
@@ -29,6 +45,12 @@ async function createSocietyProposal({
   const weightStrategy = spaceService.weightStrategy;
 
   const proposer = realProposer || address;
+
+  await checkSocietyMember({
+    networksConfig,
+    proposerNetwork,
+    proposer,
+  });
 
   const { cid, pinHash } = await pinData({ data, address, signature });
 
