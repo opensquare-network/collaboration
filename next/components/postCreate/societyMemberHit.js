@@ -12,5 +12,5 @@ export default function SocietyMemberHit() {
     return null;
   }
 
-  return <Hint>You are not the society member</Hint>;
+  return <Hint>You are not a society member</Hint>;
 }
