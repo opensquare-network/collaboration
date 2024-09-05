@@ -9,11 +9,8 @@ import {
   ResultHead,
   ResultName,
 } from "./styled";
-import { toPrecision } from "@osn/common";
 
-export default function VoteCountOptionList({ optionList, strategy, space }) {
-  const symbol = space?.symbol;
-
+export default function VoteCountOptionList({ optionList, strategy }) {
   return (
     <>
       <ResultHead>
@@ -28,14 +25,7 @@ export default function VoteCountOptionList({ optionList, strategy, space }) {
                 <OptionIndex>{vote.choice}</OptionIndex>
               </Tooltip>
               <FlexAround>
-                <Tooltip
-                  content={`${toPrecision(
-                    vote.voteBalance,
-                    space?.decimals,
-                  )} ${symbol} (${vote.percentage}%)`}
-                >
-                  <div>{vote.voteBalance} VOTE</div>
-                </Tooltip>
+                <div>{vote.voteBalance} VOTE</div>
                 {vote.icon && <>&nbsp;{vote.icon}</>}
               </FlexAround>
             </ProgressItem>

@@ -69,7 +69,6 @@ export default function PostResult({ data, voteStatus, space }) {
         <OnePersonOneVoteResult
           key={strategy}
           proposal={data}
-          space={space}
           voteStatus={voteStatus}
         />
       );
@@ -80,7 +79,6 @@ export default function PostResult({ data, voteStatus, space }) {
         <SocietyVoteResult
           key={strategy}
           proposal={data}
-          space={space}
           voteStatus={voteStatus}
         />
       );
