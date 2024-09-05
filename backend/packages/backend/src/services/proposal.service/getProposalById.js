@@ -45,22 +45,30 @@ async function getProposalById(proposalId) {
 
   const votes = await voteCol.find({ proposal: proposal._id }).toArray();
   const calculatedVotes = votes.map((v) => calcWeights(v, decimals));
+
   const votedWeights = {};
+
   for (const vote of calculatedVotes) {
     votedWeights.balanceOf = new BigNumber(votedWeights.balanceOf || 0)
-      .plus(vote.weights.balanceOf)
+      .plus(vote.weights.balanceOf || 0)
       .toString();
     votedWeights.quadraticBalanceOf = new BigNumber(
       votedWeights.quadraticBalanceOf || 0,
     )
-      .plus(vote.weights.quadraticBalanceOf)
+      .plus(vote.weights.quadraticBalanceOf || 0)
       .toString();
+
     votedWeights.onePersonOneVote = new BigNumber(
       votedWeights.onePersonOneVote || 0,
     )
       .plus(1)
       .toString();
+
+    votedWeights.societyVote = new BigNumber(votedWeights.societyVote || 0)
+      .plus(vote.weights.societyVote || 0)
+      .toString();
   }
+
   proposal.votesCount = votesCount;
   proposal.votedWeights = votedWeights;
 

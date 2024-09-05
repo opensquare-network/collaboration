@@ -62,6 +62,7 @@ const calcWeights = (vote, decimals) => {
         vote.weights.balanceOf?.toString(),
         decimals,
       ),
+      societyVote: vote.weights.societyVote?.toString(),
       details: vote.weights.details,
     },
   };

@@ -89,6 +89,9 @@ function toSymbolUnit(value, decimals) {
 }
 
 function enhancedSqrtOfBalance(balance, decimals) {
+  if (!balance) {
+    return balance;
+  }
   return new BigNumber(balance)
     .div(Math.pow(10, decimals))
     .sqrt()

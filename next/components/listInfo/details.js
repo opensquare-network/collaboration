@@ -12,7 +12,7 @@ import { Flex, FlexBetween } from "@osn/common-ui";
 import uniq from "lodash.uniq";
 import { getSpaceAssets } from "frontedUtils/getSpaceAssets";
 import AssetList from "../assetList";
-import { isOnePersonOnVoteOnly } from "frontedUtils/strategy";
+import { hasBalanceStrategy } from "frontedUtils/strategy";
 
 const Wrapper = styled.div``;
 
@@ -117,7 +117,7 @@ export default function Details({ space }) {
           </div>
         </DetailsItem>
 
-        {!isOnePersonOnVoteOnly(space?.weightStrategy) && (
+        {hasBalanceStrategy(space?.weightStrategy) && (
           <DetailsItem>
             <DetailsLabel>Assets({assets.length})</DetailsLabel>
             <AssetList assets={assets} />

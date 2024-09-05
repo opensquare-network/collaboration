@@ -19,7 +19,7 @@ import {
   proxyBalanceLoadingSelector,
 } from "../../store/reducers/statusSlice";
 import BalanceRow from "@/components/postCreate/BalanceRow";
-import { isOnePersonOnVoteOnly } from "frontedUtils/strategy";
+import { hasBalanceStrategy } from "frontedUtils/strategy";
 import SocietyMemberHit from "./societyMemberHit";
 
 const Hint = styled.div`
@@ -94,7 +94,7 @@ export default function Information({ space }) {
 
   return (
     <>
-      {!isOnePersonOnVoteOnly(weightStrategy) && (
+      {hasBalanceStrategy(weightStrategy) && (
         <BalanceRow
           balance={balance}
           isLoading={useProxy ? proxyBalanceLoading : balanceLoading}

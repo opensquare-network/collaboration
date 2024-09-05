@@ -9,10 +9,15 @@ import { VoteItem } from "./strategyResult/common/styled";
 import QuorumBalanceOfResult from "./strategyResult/quorumBalanceOfResult";
 import QuorumQuadraticBalanceOfResult from "./strategyResult/quorumQuadraticBalanceOfResult";
 import OnePersonOneVoteResult from "./strategyResult/onePersonOneVoteResult";
-import { isOnePersonOnVoteOnly } from "frontedUtils/strategy";
+import {
+  hasBalanceStrategy,
+  hasSocietyVoteStrategyOnly,
+} from "frontedUtils/strategy";
+import SocietyVoteResult from "./strategyResult/societyVoteResult";
 
 export default function PostResult({ data, voteStatus, space }) {
   const votedAmount = data?.votedWeights?.balanceOf || 0;
+  const societyVotedAmount = data?.votedWeights?.societyVote || 0;
 
   const results = data?.weightStrategy?.map((strategy) => {
     if (strategy === "balance-of") {
@@ -70,6 +75,17 @@ export default function PostResult({ data, voteStatus, space }) {
       );
     }
 
+    if (strategy === "society") {
+      return (
+        <SocietyVoteResult
+          key={strategy}
+          proposal={data}
+          space={space}
+          voteStatus={voteStatus}
+        />
+      );
+    }
+
     return null;
   });
 
@@ -77,19 +93,31 @@ export default function PostResult({ data, voteStatus, space }) {
     <BiasedVotingResult proposal={data} space={space} voteStatus={voteStatus} />
   );
 
+  let voted = null;
+  if (hasBalanceStrategy(data?.weightStrategy)) {
+    voted = (
+      <VoteItem>
+        <div>Voted</div>
+        <div>
+          <ValueDisplay value={votedAmount?.toString()} space={space} />
+        </div>
+      </VoteItem>
+    );
+  } else if (hasSocietyVoteStrategyOnly(data?.weightStrategy)) {
+    voted = (
+      <VoteItem>
+        <div>Voted</div>
+        <div>{societyVotedAmount} VOTE</div>
+      </VoteItem>
+    );
+  }
+
   return (
     <Panel>
       <SideSectionTitle title="Results" img="/imgs/icons/strategy.svg" />
       <Divider />
       <div>
-        {!isOnePersonOnVoteOnly(data?.weightStrategy) && (
-          <VoteItem>
-            <div>Voted</div>
-            <div>
-              <ValueDisplay value={votedAmount?.toString()} space={space} />
-            </div>
-          </VoteItem>
-        )}
+        {voted}
         <VoteItem>
           <div>Voters</div>
           <div>{data?.votesCount}</div>
