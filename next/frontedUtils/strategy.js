@@ -12,3 +12,15 @@ export function hasBalanceStrategy(strategies) {
     )
   );
 }
+
+export function hasSocietyVoteStrategyOnly(strategies) {
+  return strategies && strategies.length === 1 && strategies[0] === "society";
+}
+
+export function hasOnePersonOneVoteStrategyOnly(strategies) {
+  return (
+    strategies &&
+    strategies.length === 1 &&
+    strategies[0] === "one-person-one-vote"
+  );
+}
