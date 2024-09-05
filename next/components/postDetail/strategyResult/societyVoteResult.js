@@ -3,7 +3,7 @@ import { Tooltip } from "@osn/common-ui";
 import { SystemFail, SystemPass } from "@osn/icons/opensquare";
 import VoteCountOptionList from "./common/voteCountOptionList";
 
-export default function SocietyVoteResult({ proposal, space, voteStatus }) {
+export default function SocietyVoteResult({ proposal, voteStatus }) {
   let winnerChoice = null;
   for (let item of voteStatus) {
     if (new BigNumber(item.societyVote).isZero()) {
@@ -69,11 +69,5 @@ export default function SocietyVoteResult({ proposal, space, voteStatus }) {
     });
   });
 
-  return (
-    <VoteCountOptionList
-      strategy="society"
-      optionList={optionList}
-      space={space}
-    />
-  );
+  return <VoteCountOptionList strategy="society" optionList={optionList} />;
 }

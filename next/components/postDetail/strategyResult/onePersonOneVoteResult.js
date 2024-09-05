@@ -3,11 +3,7 @@ import { Tooltip } from "@osn/common-ui";
 import { SystemFail, SystemPass } from "@osn/icons/opensquare";
 import VoteCountOptionList from "./common/voteCountOptionList";
 
-export default function OnePersonOneVoteResult({
-  proposal,
-  space,
-  voteStatus,
-}) {
+export default function OnePersonOneVoteResult({ proposal, voteStatus }) {
   let winnerChoice = null;
   for (let item of voteStatus) {
     if (new BigNumber(item.onePersonOneVote).isZero()) {
@@ -77,7 +73,6 @@ export default function OnePersonOneVoteResult({
     <VoteCountOptionList
       strategy="one-person-one-vote"
       optionList={optionList}
-      space={space}
     />
   );
 }
