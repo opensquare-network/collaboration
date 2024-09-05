@@ -9,6 +9,7 @@ import Panel from "@/components/postDetail/panel";
 import SideSectionTitle from "@/components/sideBar/sideSectionTitle";
 import AssetList from "../assetList";
 import { getSpaceAssets } from "frontedUtils/getSpaceAssets";
+import { isOnePersonOnVoteOnly } from "frontedUtils/strategy";
 
 const Wrapper = styled(Panel)`
   > :not(:first-child) {
@@ -115,14 +116,16 @@ export default function PostInfo({ data, space }) {
           )}
         </div>
       </div>
-      <div>
-        <SideSectionTitle
-          title={`Assets(${assets.length})`}
-          img="/imgs/icons/asset.svg"
-        />
-        <Divider />
-        <AssetList assets={assets} />
-      </div>
+      {!isOnePersonOnVoteOnly(space?.weightStrategy) && (
+        <div>
+          <SideSectionTitle
+            title={`Assets(${assets.length})`}
+            img="/imgs/icons/asset.svg"
+          />
+          <Divider />
+          <AssetList assets={assets} />
+        </div>
+      )}
       <div>
         <SideSectionTitle title="Timestamp" img="/imgs/icons/timeline.svg" />
         <Divider />

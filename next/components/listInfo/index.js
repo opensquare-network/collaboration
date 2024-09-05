@@ -123,16 +123,20 @@ export default function ListInfo({ space }) {
           </div>
         </AboutItem>
         <AboutDivider />
-        <AboutItem>
-          <AboutIcon src="/imgs/icons/threshold.svg" />
-          <div>
-            <AboutName onClick={handleShowModal}>Threshold</AboutName>
-            <AboutDetail>
-              <ValueDisplay value={space.proposeThreshold} space={space} />
-            </AboutDetail>
-          </div>
-        </AboutItem>
-        <AboutDivider />
+        {space.proposeThreshold && (
+          <>
+            <AboutItem>
+              <AboutIcon src="/imgs/icons/threshold.svg" />
+              <div>
+                <AboutName onClick={handleShowModal}>Threshold</AboutName>
+                <AboutDetail>
+                  <ValueDisplay value={space.proposeThreshold} space={space} />
+                </AboutDetail>
+              </div>
+            </AboutItem>
+            <AboutDivider />
+          </>
+        )}
         <AboutItem>
           <AboutIcon src="/imgs/icons/strategy.svg" />
           <div>

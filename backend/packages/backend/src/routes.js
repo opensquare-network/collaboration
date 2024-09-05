@@ -19,6 +19,7 @@ const commonFeatureRouters = [
   require("./features/files/routes"),
   require("./features/notifications/routes"),
   require("./features/proposals/commonRoutes"),
+  require("./features/society/index"),
 ];
 
 async function checkSpaceExisten(ctx, next) {

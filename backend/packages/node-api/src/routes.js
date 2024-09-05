@@ -14,6 +14,7 @@ const tokenMetaRoutes = require("./features/tokenMeta/routes");
 const evmRoutes = require("./features/evm/routes");
 const issuanceRoutes = require("./features/issuance/routes");
 const stafiRoutes = require("./features/stafi/routes");
+const societyRoutes = require("./features/society/routes");
 const { evmChains } = require("./constants");
 const { chains } = require("./constants");
 
@@ -36,6 +37,12 @@ module.exports = (app) => {
     "/:chain(stafi)",
     stafiRoutes.routes(),
     stafiRoutes.allowedMethods({ throw: true }),
+  );
+
+  router.use(
+    "/:chain(kusama)",
+    societyRoutes.routes(),
+    societyRoutes.allowedMethods({ throw: true }),
   );
 
   router.use(

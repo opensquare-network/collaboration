@@ -1,3 +1,4 @@
+const { Accessibility } = require("../../consts/space");
 const { networks, strategies } = require("./consts");
 
 const phalaConfig = {
@@ -5,6 +6,7 @@ const phalaConfig = {
   name: "Phala",
   symbol: "PHA",
   decimals: 12,
+  accessibility: Accessibility.PUBLIC,
   networks: [
     {
       network: networks.phala,

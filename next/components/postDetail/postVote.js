@@ -40,6 +40,9 @@ import { useTerminate } from "./terminate";
 import { Tooltip } from "@osn/common-ui";
 import VoteBalanceDetail from "./VoteBalanceDetail";
 import DelegationInfo from "./delegationInfo";
+import { isOnePersonOnVoteOnly } from "frontedUtils/strategy";
+import SocietyMemberHit from "../postCreate/societyMemberHit";
+import SocietyMemberButton from "../societyMemberButton";
 
 const Wrapper = styled.div`
   > :not(:first-child) {
@@ -118,6 +121,10 @@ export default function PostVote({ proposal }) {
   const proxyAddress = useSelector(proxySelector);
   const proxyBalance = useSelector(proxyBalanceSelector);
   const proxyDelegation = useSelector(proxyDelegationSelector);
+  const isSocietyProposal =
+    proposal.networksConfig?.accessibility === "society";
+
+  const VoteButton = isSocietyProposal ? SocietyMemberButton : Button;
 
   const loginAddress = useSelector(loginAddressSelector);
   const { network: loginNetwork } = useSelector(loginNetworkSelector) || {};
@@ -258,39 +265,43 @@ export default function PostVote({ proposal }) {
   if (!proposalClosed) {
     let balanceInfo = null;
 
-    if (voteDelegation) {
-      balanceInfo = (
-        <DelegationInfo
-          delegatee={voteDelegation?.delegatee}
-          network={loginNetwork}
-        />
-      );
-    } else {
-      balanceInfo = (
-        <>
-          {!isNil(voteBalance) && (
-            <div>
-              <Tooltip
-                content={
-                  !isZero(voteBalance) ? (
-                    <VoteBalanceDetail details={balanceDetail} />
-                  ) : null
-                }
-              >
-                {`Available ${toApproximatelyFixed(
-                  bigNumber2Locale(
-                    fromAssetUnit(
-                      voteBalance,
-                      proposal?.networksConfig?.decimals,
+    if (!isOnePersonOnVoteOnly(proposal?.weightStrategy)) {
+      if (voteDelegation) {
+        balanceInfo = (
+          <DelegationInfo
+            delegatee={voteDelegation?.delegatee}
+            network={loginNetwork}
+          />
+        );
+      } else {
+        balanceInfo = (
+          <>
+            {!isNil(voteBalance) && (
+              <div>
+                <Tooltip
+                  content={
+                    !isZero(voteBalance) ? (
+                      <VoteBalanceDetail details={balanceDetail} />
+                    ) : null
+                  }
+                >
+                  {`Available ${toApproximatelyFixed(
+                    bigNumber2Locale(
+                      fromAssetUnit(
+                        voteBalance,
+                        proposal?.networksConfig?.decimals,
+                      ),
                     ),
-                  ),
-                )} ${proposal.networksConfig?.symbol}`}
-              </Tooltip>
-            </div>
-          )}
-          {belowThreshold && <RedText>Insufficient</RedText>}
-        </>
-      );
+                  )} ${proposal.networksConfig?.symbol}`}
+                </Tooltip>
+              </div>
+            )}
+            {belowThreshold && <RedText>Insufficient</RedText>}
+          </>
+        );
+      }
+    } else if (isSocietyProposal) {
+      balanceInfo = <SocietyMemberHit />;
     }
 
     voteButton = (
@@ -316,7 +327,7 @@ export default function PostVote({ proposal }) {
         )}
 
         <Flex>
-          <Button
+          <VoteButton
             primary
             large
             block
@@ -325,7 +336,7 @@ export default function PostVote({ proposal }) {
             disabled={!canVote}
           >
             {useProxy ? "Proxy Vote" : "Vote"}
-          </Button>
+          </VoteButton>
 
           {terminateButton}
         </Flex>

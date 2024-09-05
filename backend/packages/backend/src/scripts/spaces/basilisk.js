@@ -1,3 +1,4 @@
+const { Accessibility } = require("../../consts/space");
 const { networks, strategies } = require("./consts");
 
 const basiliskConfig = {
@@ -5,6 +6,7 @@ const basiliskConfig = {
   name: "Basilisk",
   symbol: "BSX",
   decimals: 12,
+  accessibility: Accessibility.PUBLIC,
   networks: [
     {
       network: networks.basilisk,

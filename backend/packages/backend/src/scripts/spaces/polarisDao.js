@@ -1,3 +1,4 @@
+const { Accessibility } = require("../../consts/space");
 const { networks, strategies } = require("./consts");
 
 const polarisDaoConfig = {
@@ -5,6 +6,7 @@ const polarisDaoConfig = {
   name: "PolarisDAO",
   symbol: "ARIS",
   decimals: 8,
+  accessibility: Accessibility.PUBLIC,
   networks: [
     {
       network: networks.statemine,

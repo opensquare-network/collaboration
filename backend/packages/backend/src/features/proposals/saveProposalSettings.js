@@ -1,7 +1,7 @@
 const { HttpError } = require("../../exc");
 const { getProposalTemplateCollection } = require("../../mongo");
 const { isAdmin } = require("../../utils/admin");
-const { checkProposalContent } = require("./proposal.controller");
+const { checkProposalContent } = require("./checkProposalContent");
 
 async function saveProposalSettings(ctx) {
   const { data, address } = ctx.request.body;

@@ -7,6 +7,7 @@ import Voter from "@/components/role/voter";
 import { Tooltip } from "@osn/common-ui";
 import VoteBalanceDetail from "./VoteBalanceDetail";
 import { isZero } from "frontedUtils";
+import { isOnePersonOnVoteOnly } from "frontedUtils/strategy";
 
 const Item = styled.div`
   padding: 20px 0;
@@ -190,16 +191,18 @@ export default function PostVotesItem({
         </EqualWrapper>
         <EqualWrapper>
           <BalanceWrapper>
-            <ValueDisplay
-              value={data.weights?.balanceOf}
-              space={space}
-              showAEM={true}
-              tooltipContent={
-                !isZero(data.weights?.balanceOf) ? (
-                  <VoteBalanceDetail details={data.weights?.details} />
-                ) : null
-              }
-            />
+            {!isOnePersonOnVoteOnly(space.strategies) && (
+              <ValueDisplay
+                value={data.weights?.balanceOf}
+                space={space}
+                showAEM={true}
+                tooltipContent={
+                  !isZero(data.weights?.balanceOf) ? (
+                    <VoteBalanceDetail details={data.weights?.details} />
+                  ) : null
+                }
+              />
+            )}
             <IpfsSquare
               href={
                 data?.pinHash &&

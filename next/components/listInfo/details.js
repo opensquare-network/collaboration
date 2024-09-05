@@ -12,6 +12,7 @@ import { Flex, FlexBetween } from "@osn/common-ui";
 import uniq from "lodash.uniq";
 import { getSpaceAssets } from "frontedUtils/getSpaceAssets";
 import AssetList from "../assetList";
+import { isOnePersonOnVoteOnly } from "frontedUtils/strategy";
 
 const Wrapper = styled.div``;
 
@@ -91,19 +92,21 @@ export default function Details({ space }) {
       <Divider />
 
       <DetailSections>
-        <DetailsItem>
-          <DetailsLabel>Config</DetailsLabel>
-          <DetailsValue>
-            <span>Threshold</span>
-            <ValueDisplay value={space.proposeThreshold} space={space} />
-          </DetailsValue>
-          {space.quorum && (
+        {space.proposeThreshold && (
+          <DetailsItem>
+            <DetailsLabel>Config</DetailsLabel>
             <DetailsValue>
-              <span>Quorum</span>
-              <ValueDisplay value={space.quorum} space={space} />
+              <span>Threshold</span>
+              <ValueDisplay value={space.proposeThreshold} space={space} />
             </DetailsValue>
-          )}
-        </DetailsItem>
+            {space.quorum && (
+              <DetailsValue>
+                <span>Quorum</span>
+                <ValueDisplay value={space.quorum} space={space} />
+              </DetailsValue>
+            )}
+          </DetailsItem>
+        )}
 
         <DetailsItem>
           <DetailsLabel>Strategies({strategyCount})</DetailsLabel>
@@ -114,10 +117,12 @@ export default function Details({ space }) {
           </div>
         </DetailsItem>
 
-        <DetailsItem>
-          <DetailsLabel>Assets({assets.length})</DetailsLabel>
-          <AssetList assets={assets} />
-        </DetailsItem>
+        {!isOnePersonOnVoteOnly(space?.weightStrategy) && (
+          <DetailsItem>
+            <DetailsLabel>Assets({assets.length})</DetailsLabel>
+            <AssetList assets={assets} />
+          </DetailsItem>
+        )}
       </DetailSections>
     </Wrapper>
   );

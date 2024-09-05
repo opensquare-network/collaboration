@@ -1,9 +1,6 @@
 const BigNumber = require("bignumber.js");
 const { safeHtml } = require("../../utils/post");
-const {
-  PostTitleLengthLimitation,
-  NotificationType,
-} = require("../../constants");
+const { NotificationType } = require("../../constants");
 const { nextPostUid } = require("../status.service");
 const { getProposalCollection } = require("../../mongo");
 const { HttpError } = require("../../exc");
@@ -13,8 +10,6 @@ const { spaces: spaceServices } = require("../../spaces");
 const { checkDelegation } = require("../../services/node.service");
 const { getBalanceFromNetwork } = require("../../services/node.service");
 const { pinData, createSpaceNotifications } = require("./common");
-const isEqual = require("lodash.isequal");
-const pick = require("lodash.pick");
 const { isAdmin } = require("../../utils/admin");
 
 async function createProposal({
@@ -35,95 +30,9 @@ async function createProposal({
   address,
   signature,
 }) {
-  if (title.length > PostTitleLengthLimitation) {
-    throw new HttpError(400, {
-      title: ["Title must be no more than %d characters"],
-    });
-  }
-
-  if (endDate <= startDate) {
-    throw new HttpError(400, "Start date should not be larger than end date");
-  }
-
-  const now = new Date();
-
-  if (endDate < now.getTime()) {
-    throw new HttpError(
-      400,
-      "End date should not be earlier than current time",
-    );
-  }
-
-  const uniqueChoices = Array.from(new Set(choices));
-  if (uniqueChoices.length < 2) {
-    throw new HttpError(400, {
-      choices: ["There must be at least 2 different choices"],
-    });
-  }
-
   const spaceService = spaceServices[space];
-  if (!spaceService) {
-    throw new HttpError(500, "Unknown space");
-  }
-
   if (spaceService.onlyAdminCanCreateProposals && !isAdmin(space, address)) {
     throw new HttpError(401, `Only the space admins can create proposals`);
-  }
-
-  const maxOptionsCount = spaceService.maxOptionsCount || 10;
-  if (choices.length > spaceService.maxOptionsCount) {
-    throw new HttpError(
-      400,
-      `Too many options, support up to ${maxOptionsCount} options`,
-    );
-  }
-
-  // Check if the snapshot heights is matching the space configuration
-  const snapshotNetworks = Object.keys(snapshotHeights || {});
-  if (
-    snapshotNetworks.length === 0 ||
-    snapshotNetworks.length !== spaceService.networks.length
-  ) {
-    throw new HttpError(400, {
-      snapshotHeights: [
-        "The snapshot heights must match the space configuration",
-      ],
-    });
-  }
-  for (const spaceNetwork of spaceService.networks) {
-    if (snapshotNetworks.includes(spaceNetwork.network)) {
-      continue;
-    }
-
-    throw new HttpError(400, {
-      snapshotHeights: [`Missing snapshot height of ${spaceNetwork.network}`],
-    });
-  }
-
-  await Promise.all(
-    Object.keys(snapshotHeights).map(async (chain) => {
-      const lastHeight = await getLatestHeight(chain);
-      if (lastHeight && snapshotHeights[chain] > lastHeight) {
-        throw new HttpError(
-          400,
-          `Snapshot height should not be higher than the current finalized height: ${chain}`,
-        );
-      }
-    }),
-  );
-
-  if (
-    !isEqual(networksConfig, {
-      ...pick(spaceService, ["symbol", "decimals", "networks"]),
-      strategies: spaceService.weightStrategy,
-      ...pick(spaceService, ["quorum", "version"]),
-    })
-  ) {
-    throw new HttpError(400, {
-      networksConfig: [
-        "The proposal networks config is not matching the space config",
-      ],
-    });
   }
 
   const weightStrategy = spaceService.weightStrategy;
@@ -143,14 +52,19 @@ async function createProposal({
     blockHeight: lastHeight,
   });
 
-  const bnCreatorBalance = new BigNumber(creatorBalance?.balanceOf);
-  if (bnCreatorBalance.lt(spaceService.proposeThreshold)) {
-    throw new HttpError(403, "Balance is not enough to create the proposal");
+  if (spaceService.proposeThreshold) {
+    const bnCreatorBalance = new BigNumber(creatorBalance?.balanceOf);
+    if (bnCreatorBalance.lt(spaceService.proposeThreshold)) {
+      throw new HttpError(403, "Balance is not enough to create the proposal");
+    }
   }
 
   const { cid, pinHash } = await pinData({ data, address, signature });
 
   const postUid = await nextPostUid();
+
+  const uniqueChoices = Array.from(new Set(choices));
+  const now = new Date();
 
   const proposalCol = await getProposalCollection();
   const result = await proposalCol.insertOne({

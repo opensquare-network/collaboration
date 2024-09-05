@@ -1,3 +1,4 @@
+const { Accessibility } = require("../../consts/space");
 const { networks, strategies } = require("./consts");
 
 const config = {
@@ -5,6 +6,7 @@ const config = {
   name: "Kusama",
   symbol: "KSM",
   decimals: 12,
+  accessibility: Accessibility.PUBLIC,
   networks: [
     {
       network: networks.kusama,

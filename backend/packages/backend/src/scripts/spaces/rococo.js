@@ -1,3 +1,4 @@
+const { Accessibility } = require("../../consts/space");
 const { networks, strategies } = require("./consts");
 
 const rococoConfig = {
@@ -5,6 +6,7 @@ const rococoConfig = {
   name: "Rococo",
   symbol: "ROC",
   decimals: 12,
+  accessibility: Accessibility.PUBLIC,
   networks: [
     {
       network: networks.rococo,

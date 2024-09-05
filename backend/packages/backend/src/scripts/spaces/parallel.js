@@ -1,3 +1,4 @@
+const { Accessibility } = require("../../consts/space");
 const { networks, strategies } = require("./consts");
 
 const parallelConfig = {
@@ -5,6 +6,7 @@ const parallelConfig = {
   name: "Parallel",
   symbol: "PARA",
   decimals: 12,
+  accessibility: Accessibility.PUBLIC,
   networks: [
     {
       network: networks.parallel,

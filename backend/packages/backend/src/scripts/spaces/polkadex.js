@@ -1,3 +1,4 @@
+const { Accessibility } = require("../../consts/space");
 const { strategies } = require("./consts");
 
 const config = {
@@ -5,6 +6,7 @@ const config = {
   name: "Polkadex",
   symbol: "PDEX",
   decimals: 12,
+  accessibility: Accessibility.PUBLIC,
   networks: [
     {
       network: "polkadex",
