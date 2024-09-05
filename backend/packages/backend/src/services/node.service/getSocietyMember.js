@@ -6,7 +6,7 @@ async function getSocietyMember(network, address, height) {
   if (isTestAccount(address)) {
     return {
       data: {
-        rank: 0,
+        rank: 1,
         strikes: 10,
         vouching: null,
         index: 0,

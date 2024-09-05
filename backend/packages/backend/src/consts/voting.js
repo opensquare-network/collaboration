@@ -5,6 +5,7 @@ const strategies = Object.freeze({
   quorumQuadraticBalanceOf: "quorum-quadratic-balance-of",
   biasedVoting: "biased-voting",
   onePersonOneVote: "one-person-one-vote",
+  society: "society",
 });
 
 module.exports = {

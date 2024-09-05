@@ -9,7 +9,8 @@ import { VoteItem } from "./strategyResult/common/styled";
 import QuorumBalanceOfResult from "./strategyResult/quorumBalanceOfResult";
 import QuorumQuadraticBalanceOfResult from "./strategyResult/quorumQuadraticBalanceOfResult";
 import OnePersonOneVoteResult from "./strategyResult/onePersonOneVoteResult";
-import { isOnePersonOnVoteOnly } from "frontedUtils/strategy";
+import { hasBalanceStrategy } from "frontedUtils/strategy";
+import SocietyVoteResult from "./strategyResult/societyVoteResult";
 
 export default function PostResult({ data, voteStatus, space }) {
   const votedAmount = data?.votedWeights?.balanceOf || 0;
@@ -70,6 +71,17 @@ export default function PostResult({ data, voteStatus, space }) {
       );
     }
 
+    if (strategy === "society") {
+      return (
+        <SocietyVoteResult
+          key={strategy}
+          proposal={data}
+          space={space}
+          voteStatus={voteStatus}
+        />
+      );
+    }
+
     return null;
   });
 
@@ -82,7 +94,7 @@ export default function PostResult({ data, voteStatus, space }) {
       <SideSectionTitle title="Results" img="/imgs/icons/strategy.svg" />
       <Divider />
       <div>
-        {!isOnePersonOnVoteOnly(data?.weightStrategy) && (
+        {hasBalanceStrategy(data?.weightStrategy) && (
           <VoteItem>
             <div>Voted</div>
             <div>

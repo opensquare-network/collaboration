@@ -18,6 +18,7 @@ async function getStats(proposalCid) {
   const calculatedVotes = votes.map((v) =>
     calcWeights(v, spaceService.decimals),
   );
+
   const stats = Object.fromEntries(
     proposal.choices.map((choice) => [
       choice,
@@ -25,6 +26,7 @@ async function getStats(proposalCid) {
         choice,
         balanceOf: "0",
         quadraticBalanceOf: "0",
+        societyVote: "0",
         onePersonOneVote: "0",
         votesCount: 0,
       },
@@ -33,14 +35,20 @@ async function getStats(proposalCid) {
   for (const vote of calculatedVotes) {
     for (const choice of vote.choices) {
       const weights = (stats[choice] = stats[choice] || { choice });
+
       weights.balanceOf = new BigNumber(weights.balanceOf || 0)
-        .plus(vote.weights.balanceOf)
+        .plus(vote.weights.balanceOf || 0)
         .toString();
       weights.quadraticBalanceOf = new BigNumber(
         weights.quadraticBalanceOf || 0,
       )
-        .plus(vote.weights.quadraticBalanceOf)
+        .plus(vote.weights.quadraticBalanceOf || 0)
         .toString();
+
+      weights.societyVote = new BigNumber(weights.societyVote || 0)
+        .plus(vote.weights.societyVote || 0)
+        .toString();
+
       weights.onePersonOneVote = new BigNumber(weights.onePersonOneVote || 0)
         .plus(1)
         .toString();

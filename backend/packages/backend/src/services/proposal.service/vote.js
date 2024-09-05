@@ -17,6 +17,10 @@ const { getDemocracyDelegated } = require("../node.service/getDelegated");
 const { findDelegationStrategies } = require("../../utils/delegation");
 const { getSocietyMember } = require("../node.service/getSocietyMember");
 const { Accessibility } = require("../../consts/space");
+const {
+  hasBalanceStrategy,
+  hasSocietyStrategy,
+} = require("../../utils/strategy");
 
 async function getDelegatorBalances({
   proposal,
@@ -220,6 +224,22 @@ async function checkSocietyVote({
   }
 }
 
+async function getSocietyVote({ voterNetwork, voter, snapshotHeight }) {
+  const societyMember = await getSocietyMember(
+    voterNetwork,
+    voter,
+    snapshotHeight,
+  );
+  if (societyMember.data) {
+    const rank = societyMember.data.rank;
+    if (rank === 1) {
+      return 4;
+    }
+    return 1;
+  }
+  return 0;
+}
+
 async function vote(
   proposalCid,
   choices,
@@ -255,17 +275,32 @@ async function vote(
   const snapshotHeight = proposal.snapshotHeights?.[voterNetwork];
   const voter = realVoter || address;
 
-  const networkBalance = await getBalanceFromNetwork({
-    networksConfig: proposal.networksConfig,
-    networkName: voterNetwork,
-    address: voter,
-    blockHeight: snapshotHeight,
-  });
+  const weights = {};
 
-  const balanceOf = networkBalance?.balanceOf;
-  const networkBalanceDetails = networkBalance?.details;
+  if (hasBalanceStrategy(proposal)) {
+    const networkBalance = await getBalanceFromNetwork({
+      networksConfig: proposal.networksConfig,
+      networkName: voterNetwork,
+      address: voter,
+      blockHeight: snapshotHeight,
+    });
 
-  await checkVoteThreshold({ networkBalanceDetails, proposal, voterNetwork });
+    const balanceOf = networkBalance?.balanceOf;
+    const networkBalanceDetails = networkBalance?.details;
+
+    await checkVoteThreshold({ networkBalanceDetails, proposal, voterNetwork });
+
+    weights.balanceOf = toDecimal128(balanceOf);
+    weights.details = networkBalanceDetails;
+  }
+
+  if (hasSocietyStrategy(proposal)) {
+    weights.societyVote = await getSocietyVote({
+      voterNetwork,
+      voter,
+      snapshotHeight,
+    });
+  }
 
   const delegators = await getDelegatorBalances({
     proposal,
@@ -301,10 +336,7 @@ async function vote(
         updatedAt: now,
         cid,
         pinHash,
-        weights: {
-          balanceOf: toDecimal128(balanceOf),
-          details: networkBalanceDetails,
-        },
+        weights,
         // Version 2: multiple network space support
         // Version 3: multiple choices support
         // Version 4: multi-assets network

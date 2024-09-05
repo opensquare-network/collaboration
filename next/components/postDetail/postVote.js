@@ -40,7 +40,7 @@ import { useTerminate } from "./terminate";
 import { Tooltip } from "@osn/common-ui";
 import VoteBalanceDetail from "./VoteBalanceDetail";
 import DelegationInfo from "./delegationInfo";
-import { isOnePersonOnVoteOnly } from "frontedUtils/strategy";
+import { hasBalanceStrategy } from "frontedUtils/strategy";
 import SocietyMemberHit from "../postCreate/societyMemberHit";
 import SocietyMemberButton from "../societyMemberButton";
 
@@ -265,7 +265,7 @@ export default function PostVote({ proposal }) {
   if (!proposalClosed) {
     let balanceInfo = null;
 
-    if (!isOnePersonOnVoteOnly(proposal?.weightStrategy)) {
+    if (hasBalanceStrategy(proposal?.weightStrategy)) {
       if (voteDelegation) {
         balanceInfo = (
           <DelegationInfo

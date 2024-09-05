@@ -3,19 +3,15 @@ import { Tooltip } from "@osn/common-ui";
 import { SystemFail, SystemPass } from "@osn/icons/opensquare";
 import VoteCountOptionList from "./common/voteCountOptionList";
 
-export default function OnePersonOneVoteResult({
-  proposal,
-  space,
-  voteStatus,
-}) {
+export default function SocietyVoteResult({ proposal, space, voteStatus }) {
   let winnerChoice = null;
   for (let item of voteStatus) {
-    if (new BigNumber(item.onePersonOneVote).isZero()) {
+    if (new BigNumber(item.societyVote).isZero()) {
       continue;
     }
     if (
       !winnerChoice ||
-      new BigNumber(item.onePersonOneVote).gte(winnerChoice.onePersonOneVote)
+      new BigNumber(item.societyVote).gte(winnerChoice.societyVote)
     ) {
       winnerChoice = item;
     }
@@ -25,7 +21,7 @@ export default function OnePersonOneVoteResult({
   const passStatusText = isEnded ? "Passed" : "Passing";
   const failStatusText = isEnded ? "Failed" : "Failing";
 
-  const total = proposal?.votedWeights?.onePersonOneVote || 0;
+  const total = proposal?.votedWeights?.societyVote || 0;
 
   const optionList = [];
   proposal?.choices?.forEach((choice, index) => {
@@ -34,9 +30,9 @@ export default function OnePersonOneVoteResult({
         continue;
       }
 
-      const voteBalance = new BigNumber(voteStat.onePersonOneVote || 0);
+      const voteBalance = new BigNumber(voteStat.societyVote || 0);
       const percentage = (
-        voteStat.onePersonOneVote > 0 ? voteBalance.dividedBy(total) * 100 : 0
+        voteStat.societyVote > 0 ? voteBalance.dividedBy(total) * 100 : 0
       ).toFixed(2);
 
       const isWin = voteStat.choice === winnerChoice?.choice;
@@ -75,7 +71,7 @@ export default function OnePersonOneVoteResult({
 
   return (
     <VoteCountOptionList
-      strategy="one-person-one-vote"
+      strategy="society"
       optionList={optionList}
       space={space}
     />

@@ -11,11 +11,7 @@ import {
 } from "./styled";
 import { toPrecision } from "@osn/common";
 
-export default function OnePersonOneVoteOptionList({
-  optionList,
-  strategy,
-  space,
-}) {
+export default function VoteCountOptionList({ optionList, strategy, space }) {
   const symbol = space?.symbol;
 
   return (
