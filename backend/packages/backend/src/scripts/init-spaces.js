@@ -29,7 +29,7 @@ const { litentryConfig } = require("./spaces/litentry");
 const { lksmConfig } = require("./spaces/lksm");
 const { parallelConfig } = require("./spaces/parallel");
 const { basiliskConfig } = require("./spaces/basilisk");
-const { hydradxConfig } = require("./spaces/hydradx");
+const { hydradxConfig, hydrationConfig } = require("./spaces/hydradx");
 const { rococoConfig } = require("./spaces/rococo");
 const { stellaSwapConfig } = require("./spaces/stellaswap");
 const { stafiConfig } = require("./spaces/stafi");
@@ -65,6 +65,7 @@ const spaces = [
   parallelConfig,
   basiliskConfig,
   hydradxConfig,
+  hydrationConfig,
   stellaSwapConfig,
   stafiConfig,
   creditcoinConfig,

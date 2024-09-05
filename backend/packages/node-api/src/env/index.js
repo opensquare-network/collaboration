@@ -25,6 +25,7 @@ const chainEndpointPrefixMap = {
   [chains.parallel]: "PARA",
   [chains.basilisk]: "BSX",
   [chains.hydradx]: "HDX",
+  [chains.hydration]: "HDX",
   [chains.rococo]: "ROC",
   [chains.stafi]: "STAFI",
   [chains.moonbeam]: "GLMR",

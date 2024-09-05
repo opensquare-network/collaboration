@@ -25,6 +25,7 @@ const networks = Object.freeze({
   parallel: "parallel",
   basilisk: "basilisk",
   hydradx: "hydradx",
+  hydration: "hydration",
   ethereum: "ethereum",
   rococo: "rococo",
   stafi: "stafi",
