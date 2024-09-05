@@ -2,7 +2,7 @@ const { networks, strategies } = require("./consts");
 
 const hydradxConfig = {
   id: "hydradx",
-  name: "Hydration",
+  name: "HydraDX",
   symbol: "HDX",
   decimals: 12,
   networks: [
