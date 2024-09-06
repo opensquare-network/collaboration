@@ -190,15 +190,64 @@ export default function PostCreate({ space, settings }) {
   }, [space, account?.network, dispatch, loginAddress, loginNetworkSnapshot]);
 
   const onPublish = async () => {
-    const address = account?.address ?? "";
-    if (!address) {
+    if (!account?.address) {
       dispatch(newErrorToast("Please connect wallet"));
       return;
     }
 
-    if (!viewFunc) {
+    if (space.weightStrategy?.includes("society")) {
+      await onPublishSocietyProposal();
       return;
     }
+    await onPublishProposal();
+  };
+
+  const onPublishSocietyProposal = async () => {
+    const proposalSnapshotHeights = Object.fromEntries(
+      snapshotHeights.map((item) => [item.network, item.height]),
+    );
+
+    const { result: societyMembersCount } = await nextApi.fetch(
+      `${account.network}/society/members/count/height/${
+        proposalSnapshotHeights[account.network]
+      }`,
+    );
+    if (!societyMembersCount) {
+      dispatch(newErrorToast("Failed to get society members count"));
+      return;
+    }
+
+    const societyQuorum = Math.max(
+      1,
+      Math.ceil(societyMembersCount.count * 0.2),
+    );
+
+    const proposal = {
+      space: space.id,
+      networksConfig: {
+        ...pick(space, ["symbol", "decimals", "networks", "accessibility"]),
+        strategies: space.weightStrategy,
+        ...pick(space, ["quorum", "version"]),
+        societyQuorum,
+      },
+      title,
+      content,
+      contentType: "markdown",
+      choiceType: choiceTypeIndex === 0 ? "single" : "multiple",
+      choices: choices.filter(Boolean),
+      startDate: startDate?.getTime(),
+      endDate: endDate?.getTime(),
+      snapshotHeights: proposalSnapshotHeights,
+      address: encodeAddressByChain(account?.address, account?.network),
+      realProposer: useProxy ? proxyAddress : null,
+      proposerNetwork: account.network,
+      ...(isSetBanner && bannerUrl ? { banner: bannerUrl } : {}),
+    };
+
+    return await signAndSendProposal(proposal);
+  };
+
+  const onPublishProposal = async () => {
     const proposalSnapshotHeights = {};
     snapshotHeights.forEach((snapshotHeight) => {
       proposalSnapshotHeights[snapshotHeight.network] = snapshotHeight.height;
@@ -218,11 +267,19 @@ export default function PostCreate({ space, settings }) {
       startDate: startDate?.getTime(),
       endDate: endDate?.getTime(),
       snapshotHeights: proposalSnapshotHeights,
-      address: encodeAddressByChain(address, account?.network),
+      address: encodeAddressByChain(account?.address, account?.network),
       realProposer: useProxy ? proxyAddress : null,
       proposerNetwork: account.network,
       ...(isSetBanner && bannerUrl ? { banner: bannerUrl } : {}),
     };
+
+    return await signAndSendProposal(proposal);
+  };
+
+  const signAndSendProposal = async (proposal) => {
+    if (!viewFunc) {
+      return;
+    }
 
     const formError = viewFunc.validateProposal(proposal);
     if (formError) {

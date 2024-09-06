@@ -73,6 +73,7 @@ export default function OnePersonOneVoteResult({ proposal, voteStatus }) {
     <VoteCountOptionList
       strategy="one-person-one-vote"
       optionList={optionList}
+      total={total}
     />
   );
 }
