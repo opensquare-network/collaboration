@@ -10,7 +10,7 @@ import {
   ResultName,
 } from "./styled";
 
-export default function VoteCountOptionList({ optionList, strategy }) {
+export default function VoteCountOptionList({ optionList, strategy, total }) {
   return (
     <>
       <ResultHead>
@@ -25,7 +25,15 @@ export default function VoteCountOptionList({ optionList, strategy }) {
                 <OptionIndex>{vote.choice}</OptionIndex>
               </Tooltip>
               <FlexAround>
-                <div>{vote.voteBalance} VOTE</div>
+                <Tooltip
+                  content={
+                    total === 0
+                      ? "0.00%"
+                      : `${((vote.voteBalance / total) * 100).toFixed(2)}%`
+                  }
+                >
+                  <div>{vote.voteBalance} VOTE</div>
+                </Tooltip>
                 {vote.icon && <>&nbsp;{vote.icon}</>}
               </FlexAround>
             </ProgressItem>

@@ -4,14 +4,17 @@ import { SystemFail, SystemPass } from "@osn/icons/opensquare";
 import VoteCountOptionList from "./common/voteCountOptionList";
 
 export default function SocietyVoteResult({ proposal, voteStatus }) {
+  const total = proposal?.votedWeights?.societyVote || 0;
+
   let winnerChoice = null;
   for (let item of voteStatus) {
     if (new BigNumber(item.societyVote).isZero()) {
       continue;
     }
     if (
-      !winnerChoice ||
-      new BigNumber(item.societyVote).gte(winnerChoice.societyVote)
+      (!winnerChoice ||
+        new BigNumber(item.societyVote).gte(winnerChoice.societyVote)) &&
+      new BigNumber(item.societyVote).div(total).gte(0.51)
     ) {
       winnerChoice = item;
     }
@@ -20,8 +23,6 @@ export default function SocietyVoteResult({ proposal, voteStatus }) {
   const isEnded = new Date().getTime() > proposal?.endDate;
   const passStatusText = isEnded ? "Passed" : "Passing";
   const failStatusText = isEnded ? "Failed" : "Failing";
-
-  const total = proposal?.votedWeights?.societyVote || 0;
 
   const optionList = [];
   proposal?.choices?.forEach((choice, index) => {
@@ -69,5 +70,11 @@ export default function SocietyVoteResult({ proposal, voteStatus }) {
     });
   });
 
-  return <VoteCountOptionList strategy="society" optionList={optionList} />;
+  return (
+    <VoteCountOptionList
+      strategy="society"
+      optionList={optionList}
+      total={total}
+    />
+  );
 }

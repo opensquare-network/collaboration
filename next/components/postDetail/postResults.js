@@ -13,7 +13,7 @@ import {
   hasBalanceStrategy,
   hasSocietyVoteStrategyOnly,
 } from "frontedUtils/strategy";
-import SocietyVoteResult from "./strategyResult/societyVoteResult";
+import QuorumSocietyVoteResult from "./strategyResult/quorumSocietyVoteResult";
 
 export default function PostResult({ data, voteStatus, space }) {
   const votedAmount = data?.votedWeights?.balanceOf || 0;
@@ -76,7 +76,7 @@ export default function PostResult({ data, voteStatus, space }) {
 
     if (strategy === "society") {
       return (
-        <SocietyVoteResult
+        <QuorumSocietyVoteResult
           key={strategy}
           proposal={data}
           voteStatus={voteStatus}

@@ -7,6 +7,7 @@ const { Accessibility } = require("../../consts/space");
 const { checkProposalContent } = require("./checkProposalContent");
 const isEqual = require("lodash.isequal");
 const pick = require("lodash.pick");
+const omit = require("lodash.omit");
 const { getLatestHeight } = require("../../services/chain.service");
 
 function checkProposalChoices(data) {
@@ -136,7 +137,7 @@ function checkNetworkConfig(data) {
 
   const spaceService = spaceServices[space];
   if (
-    !isEqual(networksConfig, {
+    !isEqual(omit(networksConfig, ["societyQuorum"]), {
       ...pick(spaceService, [
         "symbol",
         "decimals",
