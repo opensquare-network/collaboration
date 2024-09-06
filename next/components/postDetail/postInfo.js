@@ -98,9 +98,11 @@ export default function PostInfo({ data, space }) {
                     )} ${height.toLocaleString()}`}
                     size="fit"
                   >
-                    <ExternalLink href={link}>
-                      <ChainIcon chainName={networkName} />
-                    </ExternalLink>
+                    <div>
+                      <ExternalLink href={link}>
+                        <ChainIcon chainName={networkName} />
+                      </ExternalLink>
+                    </div>
                   </Tooltip>
                 );
               })}
