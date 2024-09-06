@@ -8,21 +8,31 @@ const {
   USE_LOCAL_IFPS_NODE,
 } = require("../../env");
 
-const [ipfsClient] = getClients(
-  USE_LOCAL_IFPS_NODE ? ClientMode.Local : ClientMode.Infura,
-  new ClientOptions(
-    INFURA_PROJECT_ID,
-    INFURA_PROJECT_SECRET,
-    LOCAL_IPFS_NODE_URL,
-  ),
-);
+let ipfsClient;
+
+async function getIpfsClient() {
+  if (!ipfsClient) {
+    [ipfsClient] = await getClients(
+      USE_LOCAL_IFPS_NODE ? ClientMode.Local : ClientMode.Infura,
+      new ClientOptions(
+        INFURA_PROJECT_ID,
+        INFURA_PROJECT_SECRET,
+        LOCAL_IPFS_NODE_URL,
+      ),
+    );
+  }
+
+  return ipfsClient;
+}
 
 async function ipfsAddJson(data) {
+  const ipfsClient = await getIpfsClient();
   const added = await ipfsClient.add(JSON.stringify(data));
   return added;
 }
 
 async function ipfsAddBuffer(data) {
+  const ipfsClient = await getIpfsClient();
   const added = await ipfsClient.add(data);
   return added;
 }
