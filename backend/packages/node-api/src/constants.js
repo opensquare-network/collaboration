@@ -42,6 +42,7 @@ const evmChains = Object.freeze({
   moonriver: "moonriver",
   moonbeam: "moonbeam",
   ethereum: "ethereum",
+  creditcoin_evm: "creditcoin_evm",
 });
 
 const chainBlockTime = {
@@ -73,6 +74,7 @@ const chainBlockTime = {
   [evmChains.moonriver]: twelveSecond,
   [evmChains.moonbeam]: twelveSecond,
   [evmChains.ethereum]: thirteenSecond,
+  [evmChains.creditcoin_evm]: twelveSecond,
 };
 
 const symbols = {
