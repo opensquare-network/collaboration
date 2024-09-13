@@ -1,11 +1,11 @@
-import { defaultSeoImage } from "frontedUtils/consts/spaces/sns";
 import { NextSeo } from "next-seo";
+import { getOpenGraphImages } from "./getOpenGraphImages";
 
 export default function Seo({ space, title, desc, banner }) {
-  const imageCid = space?.seoImage || defaultSeoImage;
+  const ogImage = getOpenGraphImages(space?.seoCoverFilename);
   const images = [
     {
-      url: banner ?? `https://ipfs.fleek.co/ipfs/${imageCid}`,
+      url: banner ?? ogImage.large,
       width: 1200,
       height: 628,
     },
