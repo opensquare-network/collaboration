@@ -24,7 +24,7 @@ const polkadotConfig = {
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
   version: "4",
   spaceIcon: "polkadot.svg",
-  seoImage: "bafybeihaby2kn5w6663ftuihg4rlx7cdmwwus745gbxl7c26uyxkcm4mq4",
+  seoCoverFilename: "polkadot.jpg",
   admins: [],
 };
 

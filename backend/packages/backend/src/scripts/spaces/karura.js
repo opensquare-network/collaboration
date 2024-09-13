@@ -52,7 +52,7 @@ const config = {
   ],
   version: "4",
   spaceIcon: "karura.svg",
-  seoImage: "bafybeidqwvg6pjgcxs52ujondwclidzgvowj3osy2vegzywfcz7pzqygxy",
+  seoCoverFilename: "karura.jpg",
   admins: [],
 };
 

@@ -25,7 +25,7 @@ const config = {
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
   version: "4",
   spaceIcon: "creditcoin.png",
-  seoImage: "bafybeiex6ep6hsqtourew54oqng7ifrskqjnara32ohirl5o5hg2epfzgy",
+  seoCoverFilename: "creditcoin.jpg",
   admins: [],
 };
 

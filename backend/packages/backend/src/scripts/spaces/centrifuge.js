@@ -27,7 +27,7 @@ const centrifugeConfig = {
   quorum: "4000000000000000000000000",
   version: "4",
   spaceIcon: "centrifuge.svg",
-  seoImage: "bafybeidulohutktuxt35n7fjdtshbtzhcdc2idmcynnnaha7t6mdtbzdee",
+  seoCoverFilename: "centrifuge.jpg",
   admins: [],
 };
 

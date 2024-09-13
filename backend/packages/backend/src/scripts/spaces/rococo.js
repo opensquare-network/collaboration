@@ -26,7 +26,7 @@ const rococoConfig = {
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
   version: "4",
   spaceIcon: "rococo.svg",
-  seoImage: "bafybeiabamvl7vjnvxlj2ik3xyvtdxpcfan5qoq7ve7bld4wnw7q2jukpe",
+  seoCoverFilename: "rococo.jpg",
   admins: [],
 };
 
