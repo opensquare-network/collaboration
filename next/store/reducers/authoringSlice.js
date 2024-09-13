@@ -20,7 +20,7 @@ const authoringSlice = createSlice({
     setEndTimestamp(state, { payload }) {
       state.endTimestamp = payload;
     },
-    setchoiceTypeIndex(state, { payload }) {
+    setChoiceTypeIndex(state, { payload }) {
       state.choiceTypeIndex = payload;
     },
   },
@@ -30,7 +30,7 @@ export const {
   setSnapshotHeights,
   setStartTimestamp,
   setEndTimestamp,
-  setchoiceTypeIndex,
+  setChoiceTypeIndex,
 } = authoringSlice.actions;
 
 export const snapshotHeightsSelector = (state) =>
