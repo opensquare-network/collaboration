@@ -24,7 +24,7 @@ const ztgConfig = {
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
   version: "4",
   spaceIcon: "zeitgeist.svg",
-  seoImage: "bafybeie36tzyj37hqwaavdibymki5vekejtp3gfmorrxxrwkrmhopo5j6y",
+  seoCoverFilename: "zeitgeist.jpg",
   admins: [],
 };
 

@@ -36,7 +36,7 @@ const litentryConfig = {
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
   version: "4",
   spaceIcon: "litentry.svg",
-  seoImage: "bafybeidhd2cwbkha2fybrzir2xwj3au4nagycgm3vssdvmdlw744ny4734",
+  seoCoverFilename: "litentry.jpg",
   admins: [],
 };
 

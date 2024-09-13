@@ -33,7 +33,7 @@ const stellaSwapConfig = {
   maxOptionsCount: 30,
   version: "4",
   spaceIcon: "stellaswap.svg",
-  seoImage: "QmSAgQzyZcMVVxgiGehSRQ2S5Amvpu4NG4sLeszJSyPyzA",
+  seoCoverFilename: "stellaswap.jpg",
   proposalTemplate: {
     title: "Incentives vote for pool <token1>-<token2>",
     body: `## Instructions

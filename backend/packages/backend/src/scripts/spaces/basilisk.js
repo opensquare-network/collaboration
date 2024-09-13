@@ -24,8 +24,8 @@ const basiliskConfig = {
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
   version: "4",
   spaceIcon: "basilisk.svg",
-  seoImage: "bafybeihuz5wbvovfq7a4xzii4ynytvwq6cwhbzaprqye6bsc26hnlia6tu",
   admins: [],
+  seoCoverFilename: "basilisk.jpg",
 };
 
 module.exports = {

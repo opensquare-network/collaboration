@@ -25,7 +25,7 @@ const config = {
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
   version: "4",
   spaceIcon: "dota.svg",
-  seoImage: "QmRY3R3ZZ3miYeATGueWjS2WXYEv5NQ5KpjnVF7WFhNi3w",
+  seoCoverFilename: "dota.jpg",
   admins: [],
 };
 

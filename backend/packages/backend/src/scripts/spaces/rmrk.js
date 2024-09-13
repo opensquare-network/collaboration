@@ -74,7 +74,7 @@ const config = {
   ],
   version: "4",
   spaceIcon: "rmrk.svg",
-  seoImage: "bafybeibhjq4ls327o52xm76zgabalkltmdofzku57sfjw2afsao3ud2yjq",
+  seoCoverFilename: "rmrk.jpg",
   admins: [],
 };
 
@@ -98,7 +98,7 @@ const curationConfig = {
   ],
   version: "4",
   spaceIcon: "rmrk-curation.png",
-  seoImage: "bafybeic42ekrlmnjdwfi3kdshqfuvo76yhugu5nbkewebnigjxxe5hqjty",
+  seoCoverFilename: "rmrk-curation.jpg",
   admins: [],
 };
 

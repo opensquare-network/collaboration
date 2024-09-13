@@ -22,7 +22,7 @@ const config = {
   weightStrategy: [strategies.society],
   version: "4",
   spaceIcon: "kusamasociety.png",
-  seoImage: "QmYB3YVU3Sa27EfqTk3cGZ9S3GhiH6Z2ANpQdHKETpRrEZ",
+  seoCoverFilename: "kusamasociety.jpg",
   admins: [],
 };
 

@@ -26,7 +26,7 @@ const altairConfig = {
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
   version: "4",
   spaceIcon: "altair.svg",
-  seoImage: "bafybeia35246c4f5ahk2whjywwno7enn4yub4ln5e3acehhtzkw2yhrlae",
+  seoCoverFilename: "altair.jpg",
   admins: [],
 };
 

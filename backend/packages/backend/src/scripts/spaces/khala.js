@@ -24,7 +24,7 @@ const khalaConfig = {
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
   version: "4",
   spaceIcon: "khala.svg",
-  seoImage: "bafybeihfumdgabiha5rc2tr5gpedo4zp2z6x4phzoqdjr45pmdmbyxghlm",
+  seoCoverFilename: "khala.jpg",
   admins: [],
 };
 
