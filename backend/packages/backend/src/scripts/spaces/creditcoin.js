@@ -25,7 +25,7 @@ const config = {
       assets: [
         {
           type: "native",
-          symbol: "CTC",
+          symbol: "CTC_EVM",
           decimals: 18,
           votingThreshold: "1000000000000000000",
         },

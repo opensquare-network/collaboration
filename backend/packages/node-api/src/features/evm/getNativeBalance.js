@@ -1,13 +1,11 @@
-const { ethers } = require("ethers");
 const { evmChains } = require("../../constants");
 const { getProviders } = require("./providers");
 
 async function queryBalanceFromOneProvider(provider, address, blockTag) {
   try {
     const balance = await provider.getBalance(address, blockTag);
-    const balanceInEther = ethers.utils.formatEther(balance);
     return {
-      balance: balanceInEther,
+      balance: balance.toString(),
     };
   } catch (e) {
     return {};
@@ -29,7 +27,6 @@ function queryNativeBalance(network, address, blockTag) {
 
 async function getNativeBalance(ctx) {
   const { chain, address, blockHeight } = ctx.params;
-  console.log({ chain, address, blockHeight });
   if (!evmChains[chain]) {
     ctx.throw(400, `Invalid chain: ${chain}`);
     return;

@@ -61,6 +61,8 @@ export default function IdentityOrAddr({
     link = `https://moonscan.io/address/${address}`;
   } else if ("creditcoin" === network) {
     link = `https://explorer.creditcoin.org/Account/RecentExtrinsics/${address}`;
+  } else if (evm.creditcoin_evm === network) {
+    link = `https://creditcoin.blockscout.com/address/${address}`;
   }
 
   const isEvm = evmChains.includes(network);

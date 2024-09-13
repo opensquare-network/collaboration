@@ -3,7 +3,7 @@ import moment from "moment";
 
 import ExternalLink from "@osn/common-ui/es/ExternalLink";
 import { capitalize, getExplorer } from "../../frontedUtils";
-import { ChainIcon } from "@osn/common-ui";
+import { ChainIcon } from "components/chainIcon";
 import { Tooltip } from "@osn/common-ui";
 import Panel from "@/components/postDetail/panel";
 import SideSectionTitle from "@/components/sideBar/sideSectionTitle";
