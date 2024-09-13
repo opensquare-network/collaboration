@@ -14,7 +14,7 @@ export default function SocietyVoteResult({ proposal, voteStatus }) {
     if (
       (!winnerChoice ||
         new BigNumber(item.societyVote).gte(winnerChoice.societyVote)) &&
-      new BigNumber(item.societyVote).div(total).gte(0.51)
+      new BigNumber(item.societyVote).div(total).gte(2 / 3)
     ) {
       winnerChoice = item;
     }
