@@ -2,6 +2,12 @@ import BigNumber from "bignumber.js";
 import { Tooltip } from "@osn/common-ui";
 import { SystemFail, SystemPass } from "@osn/icons/opensquare";
 import VoteCountOptionList from "./common/voteCountOptionList";
+import styled from "styled-components";
+
+const Description = styled.div`
+  margin-top: 20px;
+  color: var(--textSecondary);
+`;
 
 export default function SocietyVoteResult({ proposal, voteStatus }) {
   const total = proposal?.votedWeights?.societyVote || 0;
@@ -71,10 +77,13 @@ export default function SocietyVoteResult({ proposal, voteStatus }) {
   });
 
   return (
-    <VoteCountOptionList
-      strategy="society"
-      optionList={optionList}
-      total={total}
-    />
+    <div>
+      <VoteCountOptionList
+        strategy="society"
+        optionList={optionList}
+        total={total}
+      />
+      <Description>Require 2/3 majority for approval</Description>
+    </div>
   );
 }
