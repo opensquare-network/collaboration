@@ -19,6 +19,7 @@ import Publish from "@/components/postCreate/publish";
 import SideSectionTitle from "@/components/sideBar/sideSectionTitle";
 import { FlexBetween } from "@osn/common-ui";
 import DropdownSelector from "@osn/common-ui/es/DropdownSelector";
+import dayjs from "dayjs";
 
 const Wrapper = styled.div`
   min-width: 302px;
@@ -102,6 +103,10 @@ export default function More({ onPublish, space }) {
     }
   }, [dispatch, space?.networks]);
 
+  function getMinStartDate() {
+    return dayjs().startOf("day").toDate();
+  }
+
   function getMinEndDate() {
     if (!authoringStartDate || authoringStartDate < new Date()) {
       return new Date();
@@ -131,6 +136,7 @@ export default function More({ onPublish, space }) {
         <SideSectionTitle title="Period" img="/imgs/icons/date.svg" />
         <DateWrapper>
           <DatePicker
+            minDate={getMinStartDate()}
             date={authoringStartDate}
             setDate={(value) => {
               if (value?.getTime) {
