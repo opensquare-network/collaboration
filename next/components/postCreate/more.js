@@ -9,7 +9,7 @@ import {
   authoringEndDateSelector,
   authoringStartDateSelector,
   choiceTypeIndexSelector,
-  setchoiceTypeIndex,
+  setChoiceTypeIndex,
   setEndTimestamp,
   setSnapshotHeights,
   setStartTimestamp,
@@ -19,6 +19,7 @@ import Publish from "@/components/postCreate/publish";
 import SideSectionTitle from "@/components/sideBar/sideSectionTitle";
 import { FlexBetween } from "@osn/common-ui";
 import DropdownSelector from "@osn/common-ui/es/DropdownSelector";
+import { hasSocietyVoteStrategyOnly } from "frontedUtils/strategy";
 import dayjs from "dayjs";
 
 const Wrapper = styled.div`
@@ -122,6 +123,14 @@ export default function More({ onPublish, space }) {
     }),
   );
 
+  const isSocietyOnly = hasSocietyVoteStrategyOnly(space.weightStrategy);
+  useEffect(() => {
+    if (authoringStartDate) {
+      const endDate = dayjs(authoringStartDate).add(14, "day").toDate();
+      dispatch(setEndTimestamp(endDate.getTime()));
+    }
+  }, [dispatch, authoringStartDate]);
+
   return (
     <Wrapper>
       <InnerWrapper>
@@ -129,7 +138,7 @@ export default function More({ onPublish, space }) {
         <DropdownSelector
           options={choiceTypes}
           value={choiceTypeIndex}
-          onSelect={(value) => dispatch(setchoiceTypeIndex(value))}
+          onSelect={(value) => dispatch(setChoiceTypeIndex(value))}
         />
       </InnerWrapper>
       <InnerWrapper>
@@ -155,6 +164,7 @@ export default function More({ onPublish, space }) {
               }
             }}
             placeholder="End date"
+            disabled={isSocietyOnly}
           />
         </DateWrapper>
       </InnerWrapper>

@@ -48,7 +48,7 @@ const bifrostConfig = {
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
   version: "4",
   spaceIcon: "bifrost.svg",
-  seoImage: "bafybeigefryb4kw7wskzv7cc6jtbj5454vmsyzlddeuowg4fsd2lnui37m",
+  seoCoverFilename: "bifrost.jpg",
   admins: [],
 };
 

@@ -55,7 +55,7 @@ const config = {
   quorum: "400000000000000000000000",
   version: "4",
   spaceIcon: "stafi.png",
-  seoImage: "QmPY3zaL9ZgMSEB2pn5j6HrwCEZ9jnuZPrK9WNpvDqQ2rn",
+  seoCoverFilename: "stafi.jpg",
   admins: [],
 };
 

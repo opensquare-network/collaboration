@@ -37,7 +37,7 @@ const config = {
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
   version: "4",
   spaceIcon: "darwinia.svg",
-  seoImage: "bafybeifbv3yweo55vuwg6bufin4kxq57naitazrebyusxkf5fn7lvplr3y",
+  seoCoverFilename: "darwinia.jpg",
   admins: [],
 };
 

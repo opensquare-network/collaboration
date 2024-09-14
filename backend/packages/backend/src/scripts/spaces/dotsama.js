@@ -49,7 +49,7 @@ const config = {
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
   version: "4",
   spaceIcon: "dotsama.svg",
-  seoImage: "bafybeie2rgjfil5humlhb7sizikywk2klztqf2tlvz5kes4ou7m6japauy",
+  seoCoverFilename: "dotsama.jpg",
   admins: [],
 };
 

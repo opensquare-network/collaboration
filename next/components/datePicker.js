@@ -25,11 +25,18 @@ const DateTimeWrapper = styled.div``;
 const DateButton = styled.div`
   padding: 12px 16px;
   border: 1px solid var(--strokeActionDefault);
-  :hover {
-    border-color: var(--strokeActionActive);
-  }
   display: flex;
-  cursor: pointer;
+  ${(p) =>
+    p.disabled
+      ? css`
+          cursor: not-allowed;
+        `
+      : css`
+          cursor: pointer;
+          :hover {
+            border-color: var(--strokeActionActive);
+          }
+        `}
   font-weight: 500;
   font-size: 14px;
   line-height: 24px;
@@ -207,6 +214,7 @@ export default function Component({
   button,
   onSelect = () => {},
   defaultTime = "00:00",
+  disabled,
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [show, setShow] = useState("date");
@@ -221,6 +229,9 @@ export default function Component({
     setDate(e);
   };
   const handleClick = (e) => {
+    if (disabled) {
+      return;
+    }
     e.preventDefault();
     setShow("date");
     setIsOpen(!isOpen);
@@ -301,7 +312,7 @@ export default function Component({
         {button ? (
           <div onClick={handleClick}>{button}</div>
         ) : (
-          <DateButton onClick={handleClick} active={isOpen}>
+          <DateButton disabled={disabled} onClick={handleClick} active={isOpen}>
             {date && <div>{moment(date).format("MMM,DD YYYY HH:mm")}</div>}
             {!date && <div className="placeholder">{placeholder}</div>}
             <CaretRight />

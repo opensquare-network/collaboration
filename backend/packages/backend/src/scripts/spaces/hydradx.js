@@ -24,7 +24,7 @@ const hydradxConfig = {
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
   version: "4",
   spaceIcon: "hydradx.svg",
-  seoImage: "bafybeibbo36wx4t7y5hpj6dutnkxwo7rigk7vwivcblonb2aws7keervme",
+  seoCoverFilename: "hydration.jpg",
   admins: [],
 };
 
@@ -39,6 +39,7 @@ const hydrationConfig = {
     },
   ],
   spaceIcon: "hydration.svg",
+  seoCoverFilename: "hydration.jpg",
 };
 
 module.exports = {
