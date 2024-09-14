@@ -1,9 +1,12 @@
-import { ChainIcon as _ChainIcon } from "@osn/common-ui";
+import camalCase from "lodash.camelcase";
+import { ChainIcon as _ChainIcon, Tooltip } from "@osn/common-ui";
 
 export function ChainIcon({ chainName, size }) {
-  let _chainName = chainName;
-  if (chainName === "creditcoin_evm") {
-    _chainName = "creditcoin";
-  }
-  return <_ChainIcon chainName={_chainName} size={size} />;
+  return (
+    <Tooltip content={chainName}>
+      <div>
+        <_ChainIcon chainName={camalCase(chainName)} size={size} />
+      </div>
+    </Tooltip>
+  );
 }
