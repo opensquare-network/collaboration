@@ -104,6 +104,9 @@ export default function More({ onPublish, space }) {
     }
   }, [dispatch, space?.networks]);
 
+  function getMinStartDate() {
+    return dayjs().startOf("day").toDate();
+  }
   function getMinEndDate() {
     if (!authoringStartDate || authoringStartDate < new Date()) {
       return new Date();
@@ -141,6 +144,7 @@ export default function More({ onPublish, space }) {
         <SideSectionTitle title="Period" img="/imgs/icons/date.svg" />
         <DateWrapper>
           <DatePicker
+            minDate={getMinStartDate()}
             date={authoringStartDate}
             setDate={(value) => {
               if (value?.getTime) {
