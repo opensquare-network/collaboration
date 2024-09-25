@@ -6,7 +6,8 @@ const chains = {
   phala: "phala",
   statemine: "statemine",
   statemint: "statemint",
-  bifrost: "bifrost",
+  bifrost: "bifrost", // bifrost is bifrost-kusama
+  bifrostPolkadot: "bifrost-polkadot",
   kintsugi: "kintsugi",
   interlay: "interlay",
   acala: "acala",

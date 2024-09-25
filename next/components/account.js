@@ -17,7 +17,7 @@ import {
   showConnectSelector,
   showHeaderMenuSelector,
 } from "../store/reducers/showConnectSlice";
-import { ChainIcon } from "@osn/common-ui";
+import { ChainIcon } from "components/chainIcon";
 import IdentityOrAddr from "@/components/identityOrAddr";
 import { useMetaMaskEventHandlers } from "services/metamask";
 import { useOnClickOutside, useWindowSize } from "frontedUtils/hooks";

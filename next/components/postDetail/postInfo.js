@@ -2,14 +2,19 @@ import styled from "styled-components";
 import moment from "moment";
 
 import ExternalLink from "@osn/common-ui/es/ExternalLink";
-import { capitalize, getExplorer } from "../../frontedUtils";
-import { ChainIcon } from "@osn/common-ui";
+import { getExplorer } from "../../frontedUtils";
+import { ChainIcon } from "components/chainIcon";
 import { Tooltip } from "@osn/common-ui";
 import Panel from "@/components/postDetail/panel";
 import SideSectionTitle from "@/components/sideBar/sideSectionTitle";
 import AssetList from "../assetList";
 import { getSpaceAssets } from "frontedUtils/getSpaceAssets";
 import { hasBalanceStrategy } from "frontedUtils/strategy";
+import { normalizeChainName } from "frontedUtils/chain";
+
+const Capitalize = styled.span`
+  text-transform: capitalize;
+`;
 
 const Wrapper = styled(Panel)`
   > :not(:first-child) {
@@ -93,9 +98,12 @@ export default function PostInfo({ data, space }) {
                 return (
                   <Tooltip
                     key={networkName}
-                    content={`${capitalize(
-                      networkName,
-                    )} ${height.toLocaleString()}`}
+                    content={
+                      <Capitalize>
+                        {normalizeChainName(networkName)}{" "}
+                        {height.toLocaleString()}
+                      </Capitalize>
+                    }
                     size="fit"
                   >
                     <div>

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 import Avatar from "./avatar";
-import { ChainIcon } from "@osn/common-ui";
+import { ChainIcon } from "components/chainIcon";
 import IdentityOrAddr from "@/components/identityOrAddr";
 
 const Wrapper = styled.div`

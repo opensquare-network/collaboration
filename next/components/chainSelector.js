@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import styled, { css } from "styled-components";
 import { p_14_medium } from "../styles/textStyles";
-import { ChainIcon } from "@osn/common-ui";
+import { ChainIcon } from "components/chainIcon";
 import DropdownSelector from "@osn/common-ui/es/DropdownSelector";
+import { normalizeChainName } from "frontedUtils/chain";
 
 const Wrapper = styled.div`
   margin-bottom: 8px;
@@ -42,7 +43,7 @@ const ChainItem = ({ header, chainName }) => {
     <ItemWrapper header={header}>
       <ChainIcon chainName={chainName} />
       <div>
-        <Text>{chainName}</Text>
+        <Text>{normalizeChainName(chainName)}</Text>
       </div>
     </ItemWrapper>
   );
