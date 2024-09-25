@@ -4,8 +4,8 @@ import { networks } from "frontedUtils/consts/chains/networks";
 import { normalizeChainName } from "frontedUtils/chain";
 
 function getIconChainName(chainName) {
-  if ([networks.bifrostPolkadot, networks.bifrostKusama].includes(chainName)) {
-    return networks.bifrost;
+  if (networks.bifrost === chainName) {
+    return networks.bifrostKusama;
   }
   return chainName;
 }

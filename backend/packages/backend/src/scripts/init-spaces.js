@@ -8,8 +8,7 @@ const { turingConfig } = require("./spaces/turing");
 const { crustConfig } = require("./spaces/crust");
 const { polarisDaoConfig } = require("./spaces/polarisDao");
 const { polkadotConfig } = require("./spaces/polkadot");
-const { bifrostKusamaConfig } = require("./spaces/bifrostKusama");
-const { bifrostPolkadotConfig } = require("./spaces/bifrostPolkadot");
+const { bifrostConfig } = require("./spaces/bifrost");
 // const { khalaConfig } = require("./spaces/khala");
 const { phalaConfig } = require("./spaces/phala");
 const { karuraConfig } = require("./spaces/karura");
@@ -46,8 +45,7 @@ const spaces = [
   // khalaConfig,
   rmrkConfig,
   rmrkCurationConfig,
-  bifrostKusamaConfig,
-  bifrostPolkadotConfig,
+  bifrostConfig,
   kintsugiConfig,
   polarisDaoConfig,
   // polkadexConfig,
