@@ -7,7 +7,6 @@ export const networks = Object.freeze({
   khala: "khala",
   phala: "phala",
   bifrost: "bifrost", // bifrost is bifrost-kusama
-  bifrostKusama: "bifrost-kusama",
   bifrostPolkadot: "bifrost-polkadot",
   kintsugi: "kintsugi",
   polkadex: "polkadex",

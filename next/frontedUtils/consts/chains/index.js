@@ -31,7 +31,6 @@ export const chainConfigsMap = {
   acala,
   altair,
   bifrost: bifrostKusama,
-  "bifrost-kusama": bifrostKusama,
   "bifrost-polkadot": bifrostPolkadot,
   centrifuge,
   crust,
