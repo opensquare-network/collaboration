@@ -11,7 +11,8 @@ import polkadot from "./polkadot";
 import kusama from "./kusama";
 import acala from "./acala";
 import altair from "./altair";
-import bifrost from "./bifrost";
+import bifrostKusama from "./bifrostKusama";
+import bifrostPolkadot from "./bifrostPolkadot";
 import centrifuge from "./centrifuge";
 import crust from "./crust";
 import interlay from "./interlay";
@@ -29,7 +30,9 @@ export const chainConfigsMap = {
   kusama,
   acala,
   altair,
-  bifrost,
+  bifrost: bifrostKusama,
+  "bifrost-kusama": bifrostKusama,
+  "bifrost-polkadot": bifrostPolkadot,
   centrifuge,
   crust,
   interlay,

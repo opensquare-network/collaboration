@@ -1,15 +1,15 @@
 const { Accessibility } = require("../../consts/space");
 const { networks, strategies } = require("./consts");
 
-const bifrostConfig = {
+const bifrostKusamaConfig = {
   id: "bifrost",
-  name: "Bifrost",
+  name: "Bifrost Kusama",
   symbol: "BNC",
   decimals: 12,
   accessibility: Accessibility.PUBLIC,
   networks: [
     {
-      network: networks.bifrost,
+      network: networks.bifrostKusama,
       ss58Format: 6,
       assets: [
         {
@@ -47,11 +47,11 @@ const bifrostConfig = {
   proposeThreshold: "1000000000000",
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
   version: "4",
-  spaceIcon: "bifrost.svg",
-  seoCoverFilename: "bifrost.jpg",
+  spaceIcon: "bifrost-kusama.svg",
+  seoCoverFilename: "bifrost_kusama.jpg",
   admins: [],
 };
 
 module.exports = {
-  bifrostConfig,
+  bifrostKusamaConfig,
 };

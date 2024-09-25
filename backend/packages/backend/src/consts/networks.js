@@ -1,7 +1,9 @@
 const networks = Object.freeze({
   statemine: "statemine",
   statemint: "statemint",
-  bifrost: "bifrost",
+  bifrost: "bifrost", // bifrost is bifrost-kusama
+  bifrostKusama: "bifrost-kusama",
+  bifrostPolkadot: "bifrost-polkadot",
   karura: "karura",
   kusama: "kusama",
   polkadot: "polkadot",

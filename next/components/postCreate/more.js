@@ -124,11 +124,11 @@ export default function More({ onPublish, space }) {
 
   const isSocietyOnly = hasSocietyVoteStrategyOnly(space.weightStrategy);
   useEffect(() => {
-    if (authoringStartDate) {
+    if (isSocietyOnly && authoringStartDate) {
       const endDate = dayjs(authoringStartDate).add(14, "day").toDate();
       dispatch(setEndTimestamp(endDate.getTime()));
     }
-  }, [dispatch, authoringStartDate]);
+  }, [dispatch, isSocietyOnly, authoringStartDate]);
 
   return (
     <Wrapper>

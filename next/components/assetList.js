@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { p_14_medium, p_12_normal } from "../styles/textStyles";
-import { ChainIcon, FlexBetween } from "@osn/common-ui";
+import { FlexBetween } from "@osn/common-ui";
 import { Tooltip } from "@osn/common-ui";
+import { ChainIcon } from "components/chainIcon";
 
 const Wrapper = styled.div`
   display: flex;
