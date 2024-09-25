@@ -1,22 +1,23 @@
 import camalCase from "lodash.camelcase";
 import { ChainIcon as _ChainIcon, Tooltip } from "@osn/common-ui";
 import { networks } from "frontedUtils/consts/chains/networks";
+import { normalizeChainName } from "frontedUtils/chain";
+
+function getIconChainName(chainName) {
+  if ([networks.bifrostPolkadot, networks.bifrostKusama].includes(chainName)) {
+    return networks.bifrost;
+  }
+  return chainName;
+}
 
 export function ChainIcon({ chainName, size }) {
-  const normalizedChain =
-    chainName === networks.bifrost ? networks.bifrostKusama : chainName;
-
-  let iconChainName = normalizedChain;
-  if (
-    [networks.bifrostPolkadot, networks.bifrostKusama].includes(normalizedChain)
-  ) {
-    iconChainName = networks.bifrost;
-  }
-
   return (
-    <Tooltip content={normalizedChain}>
+    <Tooltip content={normalizeChainName(chainName)}>
       <div>
-        <_ChainIcon chainName={camalCase(iconChainName)} size={size} />
+        <_ChainIcon
+          chainName={camalCase(getIconChainName(chainName))}
+          size={size}
+        />
       </div>
     </Tooltip>
   );
