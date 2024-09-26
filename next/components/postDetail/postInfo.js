@@ -10,11 +10,7 @@ import SideSectionTitle from "@/components/sideBar/sideSectionTitle";
 import AssetList from "../assetList";
 import { getSpaceAssets } from "frontedUtils/getSpaceAssets";
 import { hasBalanceStrategy } from "frontedUtils/strategy";
-import { normalizeChainName } from "frontedUtils/chain";
-
-const Capitalize = styled.span`
-  text-transform: capitalize;
-`;
+import { getChainDisplayName } from "frontedUtils/chain";
 
 const Wrapper = styled(Panel)`
   > :not(:first-child) {
@@ -98,12 +94,9 @@ export default function PostInfo({ data, space }) {
                 return (
                   <Tooltip
                     key={networkName}
-                    content={
-                      <Capitalize>
-                        {normalizeChainName(networkName)}{" "}
-                        {height.toLocaleString()}
-                      </Capitalize>
-                    }
+                    content={`${getChainDisplayName(
+                      networkName,
+                    )} ${height.toLocaleString()}`}
                     size="fit"
                   >
                     <div>

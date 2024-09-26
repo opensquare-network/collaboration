@@ -1517,6 +1517,7 @@ __metadata:
     lodash.isempty: ^4.4.0
     lodash.isnil: ^4.0.0
     lodash.pick: ^4.4.0
+    lodash.startcase: ^4.4.0
     lodash.uniq: ^4.5.0
     micromark: ^3.0.10
     micromark-extension-gfm: ^2.0.1
@@ -8794,6 +8795,13 @@ __metadata:
   version: 4.4.0
   resolution: "lodash.pick@npm:4.4.0"
   checksum: 2c36cab7da6b999a20bd3373b40e31a3ef81fa264f34a6979c852c5bc8ac039379686b27380f0cb8e3781610844fafec6949c6fbbebc059c98f8fa8570e3675f
+  languageName: node
+  linkType: hard
+
+"lodash.startcase@npm:^4.4.0":
+  version: 4.4.0
+  resolution: "lodash.startcase@npm:4.4.0"
+  checksum: c03a4a784aca653845fe09d0ef67c902b6e49288dc45f542a4ab345a9c406a6dc194c774423fa313ee7b06283950301c1221dd2a1d8ecb2dac8dfbb9ed5606b5
   languageName: node
   linkType: hard
 
