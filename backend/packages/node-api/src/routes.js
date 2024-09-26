@@ -27,7 +27,7 @@ module.exports = (app) => {
 
   for (const r of chainFeatureRouters) {
     router.use(
-      `/:chain(${Object.keys(chains).join("|")})`,
+      `/:chain(${Object.values(chains).join("|")})`,
       r.routes(),
       r.allowedMethods({ throw: true }),
     );

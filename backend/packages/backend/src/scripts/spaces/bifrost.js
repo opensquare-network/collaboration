@@ -9,7 +9,18 @@ const bifrostConfig = {
   accessibility: Accessibility.PUBLIC,
   networks: [
     {
-      network: networks.bifrost,
+      network: networks.bifrostPolkadot,
+      ss58Format: 6,
+      assets: [
+        {
+          symbol: "BNC",
+          decimals: 12,
+          votingThreshold: "10000000000",
+        },
+      ],
+    },
+    {
+      network: networks.bifrost, // Bifrost Kusama
       ss58Format: 6,
       assets: [
         {
