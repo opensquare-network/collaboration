@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 import { p_14_medium } from "../styles/textStyles";
 import { ChainIcon } from "components/chainIcon";
 import DropdownSelector from "@osn/common-ui/es/DropdownSelector";
-import { normalizeChainName } from "frontedUtils/chain";
+import { getChainDisplayName } from "frontedUtils/chain";
 
 const Wrapper = styled.div`
   margin-bottom: 8px;
@@ -43,7 +43,7 @@ const ChainItem = ({ header, chainName }) => {
     <ItemWrapper header={header}>
       <ChainIcon chainName={chainName} />
       <div>
-        <Text>{normalizeChainName(chainName)}</Text>
+        <Text>{getChainDisplayName(chainName)}</Text>
       </div>
     </ItemWrapper>
   );

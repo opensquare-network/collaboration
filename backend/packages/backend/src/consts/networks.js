@@ -31,9 +31,15 @@ const networks = Object.freeze({
   rococo: "rococo",
   stafi: "stafi",
   creditcoin: "creditcoin",
+  creditcoin_evm: "creditcoin_evm",
 });
 
-const evmNetworks = [networks.moonbeam, networks.moonriver, networks.ethereum];
+const evmNetworks = [
+  networks.moonbeam,
+  networks.moonriver,
+  networks.ethereum,
+  networks.creditcoin_evm,
+];
 
 module.exports = {
   networks,

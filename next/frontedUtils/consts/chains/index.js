@@ -67,10 +67,17 @@ export const evm = {
   moonbeam: "moonbeam",
   moonriver: "moonriver",
   ethereum: "ethereum",
+  creditcoin_evm: "creditcoin_evm",
 };
-export const evmChains = [evm.moonbeam, evm.moonriver, evm.ethereum];
+export const evmChains = [
+  evm.moonbeam,
+  evm.moonriver,
+  evm.ethereum,
+  evm.creditcoin_evm,
+];
 export const evmChainId = Object.freeze({
   [evm.moonbeam]: 1284,
   [evm.moonriver]: 1285,
   [evm.ethereum]: 1,
+  [evm.creditcoin_evm]: 102030,
 });

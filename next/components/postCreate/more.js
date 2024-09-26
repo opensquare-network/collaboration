@@ -21,7 +21,7 @@ import { FlexBetween } from "@osn/common-ui";
 import DropdownSelector from "@osn/common-ui/es/DropdownSelector";
 import { hasSocietyVoteStrategyOnly } from "frontedUtils/strategy";
 import dayjs from "dayjs";
-import { normalizeChainName } from "frontedUtils/chain";
+import { getChainDisplayName } from "frontedUtils/chain";
 
 const Wrapper = styled.div`
   min-width: 302px;
@@ -108,6 +108,7 @@ export default function More({ onPublish, space }) {
   function getMinStartDate() {
     return dayjs().startOf("day").toDate();
   }
+
   function getMinEndDate() {
     if (!authoringStartDate || authoringStartDate < new Date()) {
       return new Date();
@@ -178,7 +179,7 @@ export default function More({ onPublish, space }) {
           <SnapshotHeightPicker space={space} />
           {space.networks?.map((network) => (
             <Snapshot className="snapshot" key={network.network}>
-              <NetworkName>{normalizeChainName(network.network)}</NetworkName>
+              <NetworkName>{getChainDisplayName(network.network)}</NetworkName>
               {snapshotHeights.find(
                 (snapshotHeight) => snapshotHeight.network === network.network,
               )?.height || <TextGrey>-</TextGrey>}

@@ -20,6 +20,17 @@ const config = {
         },
       ],
     },
+    {
+      network: networks.creditcoin_evm,
+      assets: [
+        {
+          type: "native",
+          symbol: "CTC",
+          decimals: 18,
+          votingThreshold: "1000000000000000000",
+        },
+      ],
+    },
   ],
   proposeThreshold: "1000000000000000000000",
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
