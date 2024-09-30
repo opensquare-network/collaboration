@@ -3,8 +3,8 @@ const { networks } = require("../../consts/networks");
 const { Accessibility } = require("../../consts/space");
 
 const config = {
-  id: "creditcoin_cc3",
-  name: "Creditcoin",
+  id: "creditcoin",
+  name: "Creditcoin Enterprise",
   symbol: "CTC",
   decimals: 18,
   accessibility: Accessibility.PUBLIC,
@@ -14,17 +14,6 @@ const config = {
       ss58Format: 42,
       assets: [
         {
-          symbol: "CTC",
-          decimals: 18,
-          votingThreshold: "1000000000000000000",
-        },
-      ],
-    },
-    {
-      network: networks.creditcoin_evm,
-      assets: [
-        {
-          type: "native",
           symbol: "CTC",
           decimals: 18,
           votingThreshold: "1000000000000000000",
@@ -41,5 +30,5 @@ const config = {
 };
 
 module.exports = {
-  creditcoinConfig: config,
+  creditcoinEnterpriseConfig: config,
 };
