@@ -24,8 +24,8 @@ const config = {
   proposeThreshold: "1000000000000000000000",
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
   version: "4",
-  spaceIcon: "creditcoin.png",
-  seoCoverFilename: "creditcoin.jpg",
+  spaceIcon: "creditcoin_enterprise.svg",
+  seoCoverFilename: "creditcoin_enterprise.jpg",
   admins: [],
 };
 
