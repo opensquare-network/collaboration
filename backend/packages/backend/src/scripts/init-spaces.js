@@ -35,6 +35,7 @@ const { rococoConfig } = require("./spaces/rococo");
 const { stellaSwapConfig } = require("./spaces/stellaswap");
 const { stafiConfig } = require("./spaces/stafi");
 const { creditcoinConfig } = require("./spaces/creditcoin");
+const { creditcoinEnterpriseConfig } = require("./spaces/creditcoinEnterprise");
 const { dotaConfig } = require("./spaces/dota");
 
 const spaces = [
@@ -71,6 +72,7 @@ const spaces = [
   stellaSwapConfig,
   stafiConfig,
   creditcoinConfig,
+  creditcoinEnterpriseConfig,
   dotaConfig,
 ];
 
