@@ -8,7 +8,7 @@ import { votesSelector, fetchVote } from "store/reducers/voteSlice";
 import { ReactComponent as LoadingSvg } from "public/imgs/icons/loading.svg";
 import BigNumber from "bignumber.js";
 
-const ResultWrapper = styled.div`
+export const ResultWrapper = styled.div`
   z-index: 999;
   position: absolute;
   background: var(--fillBgPrimary);
@@ -27,7 +27,7 @@ const ResultWrapper = styled.div`
     `}
 `;
 
-const Triangle = styled.div`
+export const Triangle = styled.div`
   position: absolute;
   width: 0;
   height: 0;
@@ -38,7 +38,7 @@ const Triangle = styled.div`
   top: 100%;
 `;
 
-const TriangleTop = styled(Triangle)`
+export const TriangleTop = styled(Triangle)`
   border-top: 0;
   border-bottom: 8px solid var(--fillBgPrimary);
   top: -8px;

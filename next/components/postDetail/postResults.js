@@ -14,10 +14,12 @@ import {
   hasSocietyVoteStrategyOnly,
 } from "frontedUtils/strategy";
 import QuorumSocietyVoteResult from "./strategyResult/quorumSocietyVoteResult";
+import isNil from "lodash.isnil";
+import LoadingField from "../loadingField";
 
-export default function PostResult({ data, voteStatus, space }) {
-  const votedAmount = data?.votedWeights?.balanceOf || 0;
-  const societyVotedAmount = data?.votedWeights?.societyVote || 0;
+export function InnerPostResult({ data, voteStatus, space }) {
+  const votedAmount = data?.votedWeights?.balanceOf;
+  const societyVotedAmount = data?.votedWeights?.societyVote;
 
   const results = data?.weightStrategy?.map((strategy) => {
     if (strategy === "balance-of") {
@@ -97,7 +99,9 @@ export default function PostResult({ data, voteStatus, space }) {
       <VoteItem>
         <div>Voted</div>
         <div>
-          <ValueDisplay value={votedAmount?.toString()} space={space} />
+          <LoadingField isLoading={isNil(votedAmount)}>
+            <ValueDisplay value={votedAmount?.toString()} space={space} />
+          </LoadingField>
         </div>
       </VoteItem>
     );
@@ -105,24 +109,40 @@ export default function PostResult({ data, voteStatus, space }) {
     voted = (
       <VoteItem>
         <div>Voted</div>
-        <div>{societyVotedAmount} VOTE</div>
+        <div>
+          <LoadingField isLoading={isNil(societyVotedAmount)}>
+            {societyVotedAmount} VOTE
+          </LoadingField>
+        </div>
       </VoteItem>
     );
   }
 
   return (
-    <Panel>
+    <>
       <SideSectionTitle title="Results" img="/imgs/icons/strategy.svg" />
       <Divider />
       <div>
         {voted}
         <VoteItem>
           <div>Voters</div>
-          <div>{data?.votesCount}</div>
+          <div>
+            <LoadingField isLoading={isNil(data?.votesCount)}>
+              {data?.votesCount}
+            </LoadingField>
+          </div>
         </VoteItem>
       </div>
       {results}
       {biasedVoting}
+    </>
+  );
+}
+
+export default function PostResultPanel({ data, voteStatus, space }) {
+  return (
+    <Panel>
+      <InnerPostResult data={data} voteStatus={voteStatus} space={space} />
     </Panel>
   );
 }

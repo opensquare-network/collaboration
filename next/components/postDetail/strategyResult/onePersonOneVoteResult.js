@@ -5,7 +5,7 @@ import VoteCountOptionList from "./common/voteCountOptionList";
 
 export default function OnePersonOneVoteResult({ proposal, voteStatus }) {
   let winnerChoice = null;
-  for (let item of voteStatus) {
+  for (let item of voteStatus || []) {
     if (new BigNumber(item.onePersonOneVote).isZero()) {
       continue;
     }
@@ -25,6 +25,17 @@ export default function OnePersonOneVoteResult({ proposal, voteStatus }) {
 
   const optionList = [];
   proposal?.choices?.forEach((choice, index) => {
+    if (!voteStatus) {
+      optionList.push({
+        index: index + 1,
+        choice,
+        voteBalance: null,
+        percentage: "0",
+        icon: null,
+      });
+      return;
+    }
+
     for (let voteStat of voteStatus) {
       if (voteStat.choice !== choice) {
         continue;
