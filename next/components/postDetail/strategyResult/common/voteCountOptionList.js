@@ -9,6 +9,8 @@ import {
   ResultHead,
   ResultName,
 } from "./styled";
+import isNil from "lodash.isnil";
+import LoadingField from "@/components/loadingField";
 
 export default function VoteCountOptionList({ optionList, strategy, total }) {
   return (
@@ -25,16 +27,18 @@ export default function VoteCountOptionList({ optionList, strategy, total }) {
                 <OptionIndex>{vote.choice}</OptionIndex>
               </Tooltip>
               <FlexAround>
-                <Tooltip
-                  content={
-                    total === 0
-                      ? "0.00%"
-                      : `${((vote.voteBalance / total) * 100).toFixed(2)}%`
-                  }
-                >
-                  <div>{vote.voteBalance} VOTE</div>
-                </Tooltip>
-                {vote.icon && <>&nbsp;{vote.icon}</>}
+                <LoadingField isLoading={isNil(vote.voteBalance)}>
+                  <Tooltip
+                    content={
+                      total === 0
+                        ? "0.00%"
+                        : `${((vote.voteBalance / total) * 100).toFixed(2)}%`
+                    }
+                  >
+                    <div>{vote.voteBalance} VOTE</div>
+                  </Tooltip>
+                  {vote.icon && <>&nbsp;{vote.icon}</>}
+                </LoadingField>
               </FlexAround>
             </ProgressItem>
             <ProgressBackground>

@@ -4,6 +4,11 @@ import { useRef, useState } from "react";
 import { ReactComponent as StatusSvg } from "public/imgs/icons/status.svg";
 import { useOffset } from "frontedUtils/hooks";
 import Popup from "./popup";
+import SocietyPopup from "./societyPopup";
+import {
+  hasOnePersonOneVoteStrategyOnly,
+  hasSocietyVoteStrategyOnly,
+} from "frontedUtils/strategy";
 
 const Wrapper = styled.div`
   position: relative;
@@ -32,6 +37,11 @@ export default function ResultPopup({ data, space }) {
   const { top } = useOffset(ref);
   const [show, setShow] = useState(false);
 
+  const isSocietyProposal =
+    hasSocietyVoteStrategyOnly(data?.weightStrategy) ||
+    hasOnePersonOneVoteStrategyOnly(data?.weightStrategy);
+  const PopupComponent = isSocietyProposal ? SocietyPopup : Popup;
+
   return (
     <Wrapper
       ref={ref}
@@ -41,7 +51,7 @@ export default function ResultPopup({ data, space }) {
       <IconWrapper className="icon">
         <StatusSvg />
       </IconWrapper>
-      {show && <Popup data={data} space={space} isTop={top > 400} />}
+      {show && <PopupComponent data={data} space={space} isTop={top > 400} />}
     </Wrapper>
   );
 }
