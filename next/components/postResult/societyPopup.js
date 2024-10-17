@@ -9,13 +9,13 @@ export default function SocietyPopup({ data, isTop, space }) {
   const votes = useSelector(votesSelector);
   const dispatch = useDispatch();
 
-  const vote = votes[data?.cid];
-
   useEffect(() => {
     if (data?.cid && !votes[data?.cid]) {
       dispatch(fetchVote(data?.cid, data?.space));
     }
   }, [votes, data, dispatch]);
+
+  const vote = votes[data?.cid];
 
   const votesCount = vote?.reduce(
     (pre, cur) => pre + Number(cur.votesCount ?? 0),
