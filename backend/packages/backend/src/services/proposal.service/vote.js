@@ -20,14 +20,13 @@ const { Accessibility } = require("../../consts/space");
 const {
   hasBalanceStrategy,
   hasSocietyStrategy,
+  hasOnePersonOneVoteStrategy,
 } = require("../../utils/strategy");
+const { checkWhitelistMember } = require("./createWhitelistProposal");
 
-async function getDelegatorBalances({
-  proposal,
-  snapshotHeight,
-  voter,
-  voterNetwork,
-}) {
+async function getDelegatorBalances({ proposal, voter, voterNetwork }) {
+  const snapshotHeight = proposal.snapshotHeights?.[voterNetwork];
+
   const networksConfig = proposal.networksConfig;
   const networkCfg = networksConfig?.networks?.find(
     (n) => n.network === voterNetwork,
@@ -201,18 +200,8 @@ async function checkVoteThreshold({
   }
 }
 
-async function checkSocietyVote({
-  proposal,
-  voterNetwork,
-  address,
-  realVoter,
-}) {
-  if (proposal.networksConfig.accessibility !== Accessibility.SOCIETY) {
-    return;
-  }
-
+async function checkSocietyVote({ proposal, voterNetwork, voter }) {
   const snapshotHeight = proposal.snapshotHeights?.[voterNetwork];
-  const voter = realVoter || address;
 
   const societyMember = await getSocietyMember(
     voterNetwork,
@@ -240,42 +229,10 @@ async function getSocietyVote({ voterNetwork, voter, snapshotHeight }) {
   return 0;
 }
 
-async function vote(
-  proposalCid,
-  choices,
-  remark,
-  realVoter,
-  data,
-  address,
-  voterNetwork,
-  signature,
-) {
-  const proposalCol = await getProposalCollection();
-  const proposal = await proposalCol.findOne({ cid: proposalCid });
-  if (!proposal) {
-    throw new HttpError(400, "Proposal not found.");
-  }
-
-  await checkSocietyVote({
-    proposal,
-    voterNetwork,
-    address,
-    realVoter,
-  });
-
-  const now = new Date();
-
-  await checkVoterDelegation({
-    proposal,
-    voterNetwork,
-    address,
-    realVoter,
-  });
+async function getWeights({ proposal, voterNetwork, voter }) {
+  const weights = {};
 
   const snapshotHeight = proposal.snapshotHeights?.[voterNetwork];
-  const voter = realVoter || address;
-
-  const weights = {};
 
   if (hasBalanceStrategy(proposal)) {
     const networkBalance = await getBalanceFromNetwork({
@@ -302,13 +259,28 @@ async function vote(
     });
   }
 
-  const delegators = await getDelegatorBalances({
-    proposal,
-    snapshotHeight,
-    voter,
-    voterNetwork,
-  });
+  if (hasOnePersonOneVoteStrategy(proposal)) {
+    weights.onePersonOneVote = 1;
+  }
 
+  return weights;
+}
+
+async function saveVote({
+  data,
+  address,
+  signature,
+  delegators,
+  proposal,
+  voter,
+  voterNetwork,
+  choices,
+  remark,
+  now,
+  weights,
+  proposalCol,
+  proposalCid,
+}) {
   const { cid, pinHash } = await pinData({
     data,
     address,
@@ -384,6 +356,74 @@ async function vote(
       },
     },
   );
+}
+
+async function vote(
+  proposalCid,
+  choices,
+  remark,
+  realVoter,
+  data,
+  address,
+  voterNetwork,
+  signature,
+) {
+  const voter = realVoter || address;
+
+  const proposalCol = await getProposalCollection();
+  const proposal = await proposalCol.findOne({ cid: proposalCid });
+  if (!proposal) {
+    throw new HttpError(400, "Proposal not found.");
+  }
+
+  if (proposal.networksConfig.accessibility === Accessibility.SOCIETY) {
+    await checkSocietyVote({
+      proposal,
+      voterNetwork,
+      voter,
+    });
+  }
+
+  if (proposal.networksConfig.accessibility === Accessibility.WHITELIST) {
+    await checkWhitelistMember(proposal.networksConfig, voter);
+  }
+
+  const now = new Date();
+
+  await checkVoterDelegation({
+    proposal,
+    voterNetwork,
+    address,
+    realVoter,
+  });
+
+  const weights = await getWeights({
+    proposal,
+    voterNetwork,
+    voter,
+  });
+
+  const delegators = await getDelegatorBalances({
+    proposal,
+    voterNetwork,
+    voter,
+  });
+
+  await saveVote({
+    data,
+    address,
+    signature,
+    delegators,
+    proposal,
+    voter,
+    voterNetwork,
+    choices,
+    remark,
+    now,
+    weights,
+    proposalCol,
+    proposalCid,
+  });
 
   return {
     success: true,

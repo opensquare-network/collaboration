@@ -59,6 +59,46 @@ async function createProposal({
     }
   }
 
+  return await saveProposal({
+    data,
+    address,
+    signature,
+    choices,
+    space,
+    networksConfig,
+    title,
+    contentType,
+    content,
+    choiceType,
+    startDate,
+    endDate,
+    snapshotHeights,
+    weightStrategy,
+    proposer,
+    proposerNetwork,
+    banner,
+  });
+}
+
+async function saveProposal({
+  data,
+  address,
+  signature,
+  choices,
+  space,
+  networksConfig,
+  title,
+  contentType,
+  content,
+  choiceType,
+  startDate,
+  endDate,
+  snapshotHeights,
+  weightStrategy,
+  proposer,
+  proposerNetwork,
+  banner,
+}) {
   const { cid, pinHash } = await pinData({ data, address, signature });
 
   const postUid = await nextPostUid();
@@ -114,4 +154,5 @@ async function createProposal({
 
 module.exports = {
   createProposal,
+  saveProposal,
 };

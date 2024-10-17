@@ -1,16 +1,19 @@
 const { HttpError } = require("../../exc");
 const { spaces: spaceServices } = require("../../spaces");
-const { getSocietyMember } = require("../node.service/getSocietyMember");
+const { isSameAddress } = require("../../utils/address");
 const { saveProposal } = require("./createProposal");
 
-async function checkSocietyMember({ proposerNetwork, proposer }) {
-  const societyMember = await getSocietyMember(proposerNetwork, proposer);
-  if (!societyMember.data) {
-    throw new HttpError(400, "You are not the society member");
+async function checkWhitelistMember(networksConfig, address) {
+  if (
+    (networksConfig.whitelist || []).findIndex((item) =>
+      isSameAddress(item, address),
+    ) === -1
+  ) {
+    throw new HttpError(400, "You are not the member");
   }
 }
 
-async function createSocietyProposal({
+async function createWhitelistProposal({
   space,
   networksConfig,
   title,
@@ -33,10 +36,7 @@ async function createSocietyProposal({
 
   const proposer = realProposer || address;
 
-  await checkSocietyMember({
-    proposerNetwork,
-    proposer,
-  });
+  await checkWhitelistMember(networksConfig, proposer);
 
   return await saveProposal({
     data,
@@ -60,5 +60,6 @@ async function createSocietyProposal({
 }
 
 module.exports = {
-  createSocietyProposal,
+  createWhitelistProposal,
+  checkWhitelistMember,
 };
