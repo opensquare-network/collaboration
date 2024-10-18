@@ -22,8 +22,8 @@ const config = {
   ],
   weightStrategy: [strategies.onePersonOneVote],
   version: "4",
-  spaceIcon: "permanencedao.png",
-  seoCoverFilename: "permanencedao.jpg",
+  spaceIcon: "permanencedao.svg",
+  seoCoverFilename: "permanence_dao.jpg",
   admins: [],
 };
 
