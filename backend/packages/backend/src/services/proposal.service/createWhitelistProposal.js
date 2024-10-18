@@ -9,7 +9,7 @@ async function checkWhitelistMember(networksConfig, address) {
       isSameAddress(item, address),
     ) === -1
   ) {
-    throw new HttpError(400, "You are not the member");
+    throw new HttpError(400, "Only members can create a proposal");
   }
 }
 
@@ -61,5 +61,4 @@ async function createWhitelistProposal({
 
 module.exports = {
   createWhitelistProposal,
-  checkWhitelistMember,
 };

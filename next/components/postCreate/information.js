@@ -21,6 +21,7 @@ import {
 import BalanceRow from "@/components/postCreate/BalanceRow";
 import { hasBalanceStrategy } from "frontedUtils/strategy";
 import SocietyMemberHit from "./societyMemberHit";
+import { isSpaceNeedProxy } from "frontedUtils/isNeedProxy";
 
 const Hint = styled.div`
   margin-top: 4px !important;
@@ -35,62 +36,71 @@ const PostAddressWrapper = styled.div`
   margin-top: 4px !important;
 `;
 
-export default function Information({ space }) {
-  const {
-    proposeThreshold: threshold,
-    decimals,
-    symbol,
-    weightStrategy,
-  } = space;
-
+function Proxy({ space }) {
   const dispatch = useDispatch();
-  const balance = useSelector(targetBalanceSelector);
-  const canUseProxy = useSelector(canUseProxySelector);
-  const loadBalanceError = useSelector(loadBalanceErrorSelector);
   const useProxy = useSelector(useProxySelector);
+  const canUseProxy = useSelector(canUseProxySelector);
+  if (!canUseProxy) {
+    return null;
+  }
+
+  const needProxy = isSpaceNeedProxy(space);
+  if (!needProxy) {
+    return null;
+  }
+
+  return (
+    <>
+      <ProxyVoteWrapper>
+        <Row
+          header="Proxy vote"
+          content={
+            <Toggle
+              on={useProxy}
+              setOn={() => dispatch(setUseProxy(!useProxy))}
+            />
+          }
+        />
+      </ProxyVoteWrapper>
+      {useProxy && (
+        <PostAddressWrapper>
+          <PostAddress size="small" spaceId={space.id} />
+        </PostAddressWrapper>
+      )}
+    </>
+  );
+}
+
+function InfoHint({ space }) {
+  const { proposeThreshold: threshold, decimals, symbol } = space;
+
+  const balance = useSelector(targetBalanceSelector);
+  const loadBalanceError = useSelector(loadBalanceErrorSelector);
   const belowThreshold = new BigNumber(balance).isLessThan(threshold);
   const loginAddress = useSelector(loginAddressSelector);
 
-  const proxyBalanceLoading = useSelector(proxyBalanceLoadingSelector);
-  const balanceLoading = useSelector(balanceLoadingSelector);
-
-  let proxyElements = null;
-  if (canUseProxy) {
-    proxyElements = (
-      <>
-        <ProxyVoteWrapper>
-          <Row
-            header="Proxy vote"
-            content={
-              <Toggle
-                on={useProxy}
-                setOn={() => dispatch(setUseProxy(!useProxy))}
-              />
-            }
-          />
-        </ProxyVoteWrapper>
-        {useProxy && (
-          <PostAddressWrapper>
-            <PostAddress size="small" spaceId={space.id} />
-          </PostAddressWrapper>
-        )}
-      </>
-    );
-  }
-
-  let hint = null;
   if (!loginAddress) {
-    hint = <Hint>Link an address to create proposal.</Hint>;
+    return <Hint>Link an address to create proposal.</Hint>;
   } else if (loadBalanceError) {
-    hint = <Hint>{loadBalanceError}</Hint>;
+    return <Hint>{loadBalanceError}</Hint>;
   } else if (belowThreshold) {
-    hint = (
+    return (
       <Hint>
         You need to have a minimum of {toPrecision(threshold, decimals)}{" "}
         {symbol} in order to publish a proposal.
       </Hint>
     );
   }
+}
+
+export default function Information({ space }) {
+  const { decimals, symbol, weightStrategy } = space;
+
+  const balance = useSelector(targetBalanceSelector);
+  const useProxy = useSelector(useProxySelector);
+
+  const proxyBalanceLoading = useSelector(proxyBalanceLoadingSelector);
+  const balanceLoading = useSelector(balanceLoadingSelector);
 
   return (
     <>
@@ -102,9 +112,9 @@ export default function Information({ space }) {
           symbol={symbol}
         />
       )}
-      {hint}
+      <InfoHint space={space} />
       {space.accessibility === "society" && <SocietyMemberHit space={space} />}
-      {proxyElements}
+      <Proxy space={space} />
     </>
   );
 }

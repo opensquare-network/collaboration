@@ -2,8 +2,8 @@ const { Accessibility } = require("../../consts/space");
 const { networks, strategies } = require("./consts");
 
 const config = {
-  id: "permanencedao",
-  name: "PermanenceDAO",
+  id: "permanence",
+  name: "Permanence",
   symbol: "DOT",
   decimals: 10,
   accessibility: Accessibility.WHITELIST,
@@ -34,11 +34,11 @@ const config = {
   ],
   weightStrategy: [strategies.onePersonOneVote],
   version: "4",
-  spaceIcon: "permanencedao.svg",
+  spaceIcon: "permanence.svg",
   seoCoverFilename: "permanence_dao.jpg",
   admins: [],
 };
 
 module.exports = {
-  permanenceDaoConfig: config,
+  permanenceConfig: config,
 };

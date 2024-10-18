@@ -43,6 +43,7 @@ import DelegationInfo from "./delegationInfo";
 import { hasBalanceStrategy } from "frontedUtils/strategy";
 import SocietyMemberHit from "../postCreate/societyMemberHit";
 import SocietyMemberButton from "../societyMemberButton";
+import { isProposalNeedProxy } from "frontedUtils/isNeedProxy";
 
 const Wrapper = styled.div`
   > :not(:first-child) {
@@ -107,24 +108,113 @@ const RedText = styled.span`
   ${text_secondary_red_500};
 `;
 
-export default function PostVote({ proposal }) {
-  const router = useRouter();
+function ProxySwitch() {
   const dispatch = useDispatch();
-  const [choiceIndexes, setChoiceIndexes] = useState([]);
-  const [remark, setRemark] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [balance, setBalance] = useState();
-  const [balanceDetail, setBalanceDetail] = useState([]);
-  const [delegation, setDelegation] = useState();
-  const viewfunc = useViewfunc();
   const useProxy = useSelector(useProxySelector);
-  const proxyAddress = useSelector(proxySelector);
+
+  return (
+    <ToggleWrapper>
+      <div>Proxy vote</div>
+      <Toggle on={useProxy} setOn={() => dispatch(setUseProxy(!useProxy))} />
+    </ToggleWrapper>
+  );
+}
+
+function VoteBalance({ voteBalance, balanceDetail, proposal }) {
+  return (
+    <div>
+      <Tooltip
+        content={
+          !isZero(voteBalance) ? (
+            <VoteBalanceDetail details={balanceDetail} />
+          ) : null
+        }
+      >
+        {`Available ${toApproximatelyFixed(
+          bigNumber2Locale(
+            fromAssetUnit(voteBalance, proposal?.networksConfig?.decimals),
+          ),
+        )} ${proposal.networksConfig?.symbol}`}
+      </Tooltip>
+    </div>
+  );
+}
+
+function BalanceInfo({ proposal, balance, balanceDetail, delegation }) {
+  const useProxy = useSelector(useProxySelector);
   const proxyBalance = useSelector(proxyBalanceSelector);
   const proxyDelegation = useSelector(proxyDelegationSelector);
   const isSocietyProposal =
     proposal.networksConfig?.accessibility === "society";
 
-  const VoteButton = isSocietyProposal ? SocietyMemberButton : Button;
+  const { network: loginNetwork } = useSelector(loginNetworkSelector) || {};
+
+  const voteBalance = useProxy ? proxyBalance : balance;
+  const voteDelegation = useProxy ? proxyDelegation : delegation;
+
+  const belowThreshold = new BigNumber(voteBalance).eq(0);
+
+  const supportProxy = useSelector(canUseProxySelector);
+  const needProxy = isProposalNeedProxy(proposal);
+  const snapshot = proposal.snapshotHeights[loginNetwork];
+
+  let balanceInfo = null;
+
+  if (hasBalanceStrategy(proposal?.weightStrategy)) {
+    if (voteDelegation) {
+      balanceInfo = (
+        <DelegationInfo
+          delegatee={voteDelegation?.delegatee}
+          network={loginNetwork}
+        />
+      );
+    } else {
+      balanceInfo = (
+        <>
+          {!isNil(voteBalance) && (
+            <VoteBalance
+              proposal={proposal}
+              voteBalance={voteBalance}
+              balanceDetail={balanceDetail}
+            />
+          )}
+          {belowThreshold && <RedText>Insufficient</RedText>}
+        </>
+      );
+    }
+  } else if (isSocietyProposal) {
+    balanceInfo = <SocietyMemberHit />;
+  }
+
+  return (
+    <>
+      <ProxyHeader>
+        {balanceInfo}
+        {supportProxy && needProxy && <ProxySwitch />}
+      </ProxyHeader>
+      {useProxy && (
+        <PostAddress
+          spaceId={proposal.space}
+          proposalCid={proposal.cid}
+          snapshot={snapshot}
+        />
+      )}
+    </>
+  );
+}
+
+function MyVoteButton({
+  proposal,
+  balance,
+  balanceDetail,
+  delegation,
+  onVote,
+  isLoading,
+  choiceIndexes,
+}) {
+  const useProxy = useSelector(useProxySelector);
+  const proxyBalance = useSelector(proxyBalanceSelector);
+  const proxyDelegation = useSelector(proxyDelegationSelector);
 
   const loginAddress = useSelector(loginAddressSelector);
   const { network: loginNetwork } = useSelector(loginNetworkSelector) || {};
@@ -145,7 +235,113 @@ export default function PostVote({ proposal }) {
     proposalStatus.active === proposal?.status &&
     !voteDelegation;
 
-  const supportProxy = useSelector(canUseProxySelector);
+  const isSocietyProposal =
+    proposal.networksConfig?.accessibility === "society";
+
+  const VoteButton = isSocietyProposal ? SocietyMemberButton : Button;
+
+  return (
+    <InnerWrapper>
+      <BalanceInfo
+        proposal={proposal}
+        balance={balance}
+        balanceDetail={balanceDetail}
+        delegation={delegation}
+      />
+
+      <Flex>
+        <VoteButton
+          primary
+          large
+          block
+          isLoading={isLoading}
+          onClick={onVote}
+          disabled={!canVote}
+        >
+          {useProxy ? "Proxy Vote" : "Vote"}
+        </VoteButton>
+
+        {terminateButton}
+      </Flex>
+    </InnerWrapper>
+  );
+}
+
+function Remark({ remark, setRemark }) {
+  return (
+    <InnerWrapper>
+      <Title>Remark</Title>
+      <Input
+        placeholder="What do you think about this proposal? (optional)"
+        value={remark}
+        onChange={(e) => setRemark(e.target.value)}
+      />
+    </InnerWrapper>
+  );
+}
+
+function Options({ proposal, choiceIndexes, setChoiceIndexes }) {
+  const onClickChoice = (index) => {
+    if (choiceIndexes.includes(index)) {
+      setChoiceIndexes(
+        choiceIndexes.filter((choiceIndex) => choiceIndex !== index),
+      );
+    } else {
+      if (proposal.choiceType === "single") {
+        setChoiceIndexes([index]);
+      } else {
+        setChoiceIndexes([...choiceIndexes, index]);
+      }
+    }
+  };
+
+  const proposalClosed = isProposalClosed(proposal);
+
+  return (
+    <InnerWrapper>
+      <Title>
+        {proposalClosed ? "Options" : "Cast your vote"}
+        <span className="type">{proposal.choiceType}</span>
+      </Title>
+      <ButtonsWrapper>
+        {(proposal.choices || []).map((item, index) => (
+          <Option
+            key={index}
+            active={choiceIndexes.includes(index)}
+            onClick={() => onClickChoice(index)}
+            disabled={proposalClosed}
+            index={index + 1}
+            block
+          >
+            {item}
+          </Option>
+        ))}
+      </ButtonsWrapper>
+    </InnerWrapper>
+  );
+}
+
+function isProposalClosed(proposal) {
+  return [proposalStatus.closed, proposalStatus.terminated].includes(
+    proposal?.status,
+  );
+}
+
+export default function PostVote({ proposal }) {
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const [choiceIndexes, setChoiceIndexes] = useState([]);
+  const [remark, setRemark] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [balance, setBalance] = useState();
+  const [balanceDetail, setBalanceDetail] = useState([]);
+  const [delegation, setDelegation] = useState();
+  const viewfunc = useViewfunc();
+  const useProxy = useSelector(useProxySelector);
+  const proxyAddress = useSelector(proxySelector);
+  const loginAddress = useSelector(loginAddressSelector);
+  const { network: loginNetwork } = useSelector(loginNetworkSelector) || {};
+
   const snapshot = proposal.snapshotHeights[loginNetwork];
 
   const reset = () => {
@@ -153,10 +349,7 @@ export default function PostVote({ proposal }) {
     setRemark("");
   };
 
-  const proposalClosed = [
-    proposalStatus.closed,
-    proposalStatus.terminated,
-  ].includes(proposal?.status);
+  const proposalClosed = isProposalClosed(proposal);
 
   useEffect(() => {
     if (proposal && loginAddress && loginNetwork) {
@@ -246,137 +439,27 @@ export default function PostVote({ proposal }) {
     }
   };
 
-  const onClickChoice = (index) => {
-    if (choiceIndexes.includes(index)) {
-      setChoiceIndexes(
-        choiceIndexes.filter((choiceIndex) => choiceIndex !== index),
-      );
-    } else {
-      if (proposal.choiceType === "single") {
-        setChoiceIndexes([index]);
-      } else {
-        setChoiceIndexes([...choiceIndexes, index]);
-      }
-    }
-  };
-
-  let voteButton = null;
-
-  if (!proposalClosed) {
-    let balanceInfo = null;
-
-    if (hasBalanceStrategy(proposal?.weightStrategy)) {
-      if (voteDelegation) {
-        balanceInfo = (
-          <DelegationInfo
-            delegatee={voteDelegation?.delegatee}
-            network={loginNetwork}
-          />
-        );
-      } else {
-        balanceInfo = (
-          <>
-            {!isNil(voteBalance) && (
-              <div>
-                <Tooltip
-                  content={
-                    !isZero(voteBalance) ? (
-                      <VoteBalanceDetail details={balanceDetail} />
-                    ) : null
-                  }
-                >
-                  {`Available ${toApproximatelyFixed(
-                    bigNumber2Locale(
-                      fromAssetUnit(
-                        voteBalance,
-                        proposal?.networksConfig?.decimals,
-                      ),
-                    ),
-                  )} ${proposal.networksConfig?.symbol}`}
-                </Tooltip>
-              </div>
-            )}
-            {belowThreshold && <RedText>Insufficient</RedText>}
-          </>
-        );
-      }
-    } else if (isSocietyProposal) {
-      balanceInfo = <SocietyMemberHit />;
-    }
-
-    voteButton = (
-      <InnerWrapper>
-        <ProxyHeader>
-          {balanceInfo}
-          {supportProxy && (
-            <ToggleWrapper>
-              <div>Proxy vote</div>
-              <Toggle
-                on={useProxy}
-                setOn={() => dispatch(setUseProxy(!useProxy))}
-              />
-            </ToggleWrapper>
-          )}
-        </ProxyHeader>
-        {useProxy && (
-          <PostAddress
-            spaceId={proposal.space}
-            proposalCid={proposal.cid}
-            snapshot={snapshot}
-          />
-        )}
-
-        <Flex>
-          <VoteButton
-            primary
-            large
-            block
-            isLoading={isLoading}
-            onClick={onVote}
-            disabled={!canVote}
-          >
-            {useProxy ? "Proxy Vote" : "Vote"}
-          </VoteButton>
-
-          {terminateButton}
-        </Flex>
-      </InnerWrapper>
-    );
-  }
-
   return (
     <Wrapper>
-      <InnerWrapper>
-        <Title>
-          {proposalClosed ? "Options" : "Cast your vote"}
-          <span className="type">{proposal.choiceType}</span>
-        </Title>
-        <ButtonsWrapper>
-          {(proposal.choices || []).map((item, index) => (
-            <Option
-              key={index}
-              active={choiceIndexes.includes(index)}
-              onClick={() => onClickChoice(index)}
-              disabled={proposalClosed}
-              index={index + 1}
-              block
-            >
-              {item}
-            </Option>
-          ))}
-        </ButtonsWrapper>
-      </InnerWrapper>
+      <Options
+        proposal={proposal}
+        choiceIndexes={choiceIndexes}
+        setChoiceIndexes={setChoiceIndexes}
+      />
       {choiceIndexes.length > 0 && (
-        <InnerWrapper>
-          <Title>Remark</Title>
-          <Input
-            placeholder="What do you think about this proposal? (optional)"
-            value={remark}
-            onChange={(e) => setRemark(e.target.value)}
-          />
-        </InnerWrapper>
+        <Remark remark={remark} setRemark={setRemark} />
       )}
-      {voteButton}
+      {!proposalClosed && (
+        <MyVoteButton
+          proposal={proposal}
+          balance={balance}
+          balanceDetail={balanceDetail}
+          delegation={delegation}
+          onVote={onVote}
+          isLoading={isLoading}
+          choiceIndexes={choiceIndexes}
+        />
+      )}
     </Wrapper>
   );
 }

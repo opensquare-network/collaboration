@@ -22,7 +22,7 @@ const {
   hasSocietyStrategy,
   hasOnePersonOneVoteStrategy,
 } = require("../../utils/strategy");
-const { checkWhitelistMember } = require("./createWhitelistProposal");
+const { isSameAddress } = require("../../utils/address");
 
 async function getDelegatorBalances({ proposal, voter, voterNetwork }) {
   const snapshotHeight = proposal.snapshotHeights?.[voterNetwork];
@@ -210,6 +210,16 @@ async function checkSocietyVote({ proposal, voterNetwork, voter }) {
   );
   if (!societyMember.data) {
     throw new HttpError(400, "You are not the society member");
+  }
+}
+
+async function checkWhitelistMember(networksConfig, address) {
+  if (
+    (networksConfig.whitelist || []).findIndex((item) =>
+      isSameAddress(item, address),
+    ) === -1
+  ) {
+    throw new HttpError(400, "Only members can vote on this proposal");
   }
 }
 
