@@ -7,7 +7,7 @@ const config = {
   symbol: "DOT",
   decimals: 10,
   accessibility: Accessibility.WHITELIST,
-  whitelist: ["5DctGWV3aRtMiapszBwAE4GR9AYEzGM4Gkn5gqyU5nU7R9uk"],
+  whitelist: [],
   networks: [
     {
       network: networks.polkadot,
