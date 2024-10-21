@@ -13,8 +13,8 @@ async function getChainHeight(api) {
   return { height: 100000 };
 }
 
-async function checkDelegation(api, delegatee, delegator, blockHeight) {
-  console.log("Use mock checkDelegation");
+async function checkProxy(api, delegatee, delegator, blockHeight) {
+  console.log("Use mock checkProxy");
   return { isProxy: true };
 }
 
@@ -32,6 +32,6 @@ module.exports = {
   getTotalBalance,
   getTokenBalance,
   getChainHeight,
-  checkDelegation,
+  checkProxy,
   getBalanceFromNetwork,
 };

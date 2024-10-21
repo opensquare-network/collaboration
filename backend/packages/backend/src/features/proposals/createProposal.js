@@ -142,6 +142,7 @@ function checkNetworkConfig(data) {
         "decimals",
         "networks",
         "accessibility",
+        "whitelist",
       ]),
       strategies: spaceService.weightStrategy,
       ...pick(spaceService, ["quorum", "version"]),
@@ -211,6 +212,28 @@ async function createProposal(ctx) {
   await checkProposalOptions(data);
 
   const spaceConfig = spaceServices[space];
+
+  if (spaceConfig.accessibility === Accessibility.WHITELIST) {
+    ctx.body = await proposalService.createWhitelistProposal({
+      space,
+      networksConfig,
+      title,
+      content,
+      contentType,
+      choiceType,
+      choices,
+      startDate,
+      endDate,
+      snapshotHeights,
+      realProposer,
+      proposerNetwork,
+      banner,
+      data,
+      address,
+      signature,
+    });
+    return;
+  }
 
   if (spaceConfig.accessibility === Accessibility.SOCIETY) {
     ctx.body = await proposalService.createSocietyProposal({

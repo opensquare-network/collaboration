@@ -75,48 +75,59 @@ const SnapshotsWrapper = styled.div`
   }
 `;
 
+function Snapshot({ snapshotHeights }) {
+  return (
+    <InfoItem>
+      <div>Snapshot</div>
+      <SnapshotsWrapper>
+        {Object.keys(snapshotHeights).map((networkName) => {
+          const height = snapshotHeights[networkName];
+          const explorer = getExplorer(networkName);
+          const link = `https://${networkName}.${explorer}.io/block/${height}`;
+          return (
+            <Tooltip
+              key={networkName}
+              content={`${getChainDisplayName(
+                networkName,
+              )} ${height.toLocaleString()}`}
+              size="fit"
+            >
+              <div>
+                <ExternalLink href={link}>
+                  <ChainIcon chainName={networkName} />
+                </ExternalLink>
+              </div>
+            </Tooltip>
+          );
+        })}
+      </SnapshotsWrapper>
+    </InfoItem>
+  );
+}
+
+function PinHash({ pinHash }) {
+  return (
+    <InfoItem>
+      <div>IPFS</div>
+      <ExternalLink
+        href={`${process.env.NEXT_PUBLIC_API_END_POINT}api/ipfs/files/${pinHash}`}
+      >{`#${pinHash?.slice(0, 7)}`}</ExternalLink>
+    </InfoItem>
+  );
+}
+
 // eslint-disable-next-line
 export default function PostInfo({ data, space }) {
   const assets = getSpaceAssets(data.networksConfig);
+
   return (
     <Wrapper>
       <div>
         <SideSectionTitle title="Information" img="/imgs/icons/info.svg" />
         <Divider />
         <div>
-          <InfoItem>
-            <div>Snapshot</div>
-            <SnapshotsWrapper>
-              {Object.keys(data.snapshotHeights).map((networkName) => {
-                const height = data.snapshotHeights[networkName];
-                const explorer = getExplorer(networkName);
-                const link = `https://${networkName}.${explorer}.io/block/${height}`;
-                return (
-                  <Tooltip
-                    key={networkName}
-                    content={`${getChainDisplayName(
-                      networkName,
-                    )} ${height.toLocaleString()}`}
-                    size="fit"
-                  >
-                    <div>
-                      <ExternalLink href={link}>
-                        <ChainIcon chainName={networkName} />
-                      </ExternalLink>
-                    </div>
-                  </Tooltip>
-                );
-              })}
-            </SnapshotsWrapper>
-          </InfoItem>
-          {data?.pinHash && (
-            <InfoItem>
-              <div>IPFS</div>
-              <ExternalLink
-                href={`${process.env.NEXT_PUBLIC_API_END_POINT}api/ipfs/files/${data?.pinHash}`}
-              >{`#${data?.pinHash?.slice(0, 7)}`}</ExternalLink>
-            </InfoItem>
-          )}
+          <Snapshot snapshotHeights={data?.snapshotHeights} />
+          {data?.pinHash && <PinHash pinHash={data?.pinHash} />}
         </div>
       </div>
       {hasBalanceStrategy(space?.weightStrategy) && (

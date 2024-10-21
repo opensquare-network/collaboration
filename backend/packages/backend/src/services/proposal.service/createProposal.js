@@ -7,7 +7,7 @@ const { HttpError } = require("../../exc");
 const { ContentType } = require("../../constants");
 const { getLatestHeight } = require("../chain.service");
 const { spaces: spaceServices } = require("../../spaces");
-const { checkDelegation } = require("../../services/node.service");
+const { checkProxy } = require("../../services/node.service");
 const { getBalanceFromNetwork } = require("../../services/node.service");
 const { pinData, createSpaceNotifications } = require("./common");
 const { isAdmin } = require("../../utils/admin");
@@ -40,7 +40,7 @@ async function createProposal({
   const lastHeight = await getLatestHeight(proposerNetwork);
 
   if (realProposer && realProposer !== address) {
-    await checkDelegation(proposerNetwork, address, realProposer, lastHeight);
+    await checkProxy(proposerNetwork, address, realProposer, lastHeight);
   }
 
   const proposer = realProposer || address;
@@ -59,6 +59,46 @@ async function createProposal({
     }
   }
 
+  return await saveProposal({
+    data,
+    address,
+    signature,
+    choices,
+    space,
+    networksConfig,
+    title,
+    contentType,
+    content,
+    choiceType,
+    startDate,
+    endDate,
+    snapshotHeights,
+    weightStrategy,
+    proposer,
+    proposerNetwork,
+    banner,
+  });
+}
+
+async function saveProposal({
+  data,
+  address,
+  signature,
+  choices,
+  space,
+  networksConfig,
+  title,
+  contentType,
+  content,
+  choiceType,
+  startDate,
+  endDate,
+  snapshotHeights,
+  weightStrategy,
+  proposer,
+  proposerNetwork,
+  banner,
+}) {
   const { cid, pinHash } = await pinData({ data, address, signature });
 
   const postUid = await nextPostUid();
@@ -114,4 +154,5 @@ async function createProposal({
 
 module.exports = {
   createProposal,
+  saveProposal,
 };

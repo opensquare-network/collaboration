@@ -3,7 +3,7 @@ const { NODE_API_ENDPOINT } = require("../../env");
 const { isTestAccount } = require("../../utils");
 const { fetchApi } = require("../../utils/fech.api");
 
-async function checkDelegation(network, delegatee, delegator, blockHeight) {
+async function checkProxy(network, delegatee, delegator, blockHeight) {
   if (isTestAccount(delegator)) {
     return;
   }
@@ -23,5 +23,5 @@ async function checkDelegation(network, delegatee, delegator, blockHeight) {
 }
 
 module.exports = {
-  checkDelegation,
+  checkProxy,
 };

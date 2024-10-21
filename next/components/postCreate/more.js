@@ -85,12 +85,9 @@ const ChoiceWrapper = styled.div`
   color: var(--textPrimary);
 `;
 
-export default function More({ onPublish, space }) {
+function SnapshotHeight({ space }) {
   const dispatch = useDispatch();
   const snapshotHeights = useSelector(snapshotHeightsSelector);
-  const authoringStartDate = useSelector(authoringStartDateSelector);
-  const authoringEndDate = useSelector(authoringEndDateSelector);
-  const choiceTypeIndex = useSelector(choiceTypeIndexSelector);
 
   useEffect(() => {
     if (space?.networks) {
@@ -105,6 +102,33 @@ export default function More({ onPublish, space }) {
     }
   }, [dispatch, space?.networks]);
 
+  return (
+    <InnerWrapper>
+      <SideSectionTitle
+        title="Snapshot"
+        tooltip="Support multiple chain voting"
+        img="/imgs/icons/block.svg"
+      />
+      <DateWrapper>
+        <SnapshotHeightPicker space={space} />
+        {space.networks?.map((network) => (
+          <Snapshot className="snapshot" key={network.network}>
+            <NetworkName>{getChainDisplayName(network.network)}</NetworkName>
+            {snapshotHeights.find(
+              (snapshotHeight) => snapshotHeight.network === network.network,
+            )?.height || <TextGrey>-</TextGrey>}
+          </Snapshot>
+        ))}
+      </DateWrapper>
+    </InnerWrapper>
+  );
+}
+
+function Period({ space }) {
+  const dispatch = useDispatch();
+  const authoringStartDate = useSelector(authoringStartDateSelector);
+  const authoringEndDate = useSelector(authoringEndDateSelector);
+
   function getMinStartDate() {
     return dayjs().startOf("day").toDate();
   }
@@ -116,14 +140,6 @@ export default function More({ onPublish, space }) {
     return authoringStartDate;
   }
 
-  const choiceTypes = ["Single choice voting", "Multiple choice voting"].map(
-    (item, i) => ({
-      key: i,
-      value: i,
-      content: <ChoiceWrapper>{item}</ChoiceWrapper>,
-    }),
-  );
-
   const isSocietyOnly = hasSocietyVoteStrategyOnly(space.weightStrategy);
   useEffect(() => {
     if (isSocietyOnly && authoringStartDate) {
@@ -133,60 +149,66 @@ export default function More({ onPublish, space }) {
   }, [dispatch, isSocietyOnly, authoringStartDate]);
 
   return (
+    <InnerWrapper>
+      <SideSectionTitle title="Period" img="/imgs/icons/date.svg" />
+      <DateWrapper>
+        <DatePicker
+          minDate={getMinStartDate()}
+          date={authoringStartDate}
+          setDate={(value) => {
+            if (value?.getTime) {
+              dispatch(setStartTimestamp(value.getTime()));
+            }
+          }}
+          placeholder="Start date"
+          defaultTime="now"
+        />
+        <DatePicker
+          minDate={getMinEndDate()}
+          date={authoringEndDate}
+          setDate={(value) => {
+            if (value?.getTime) {
+              dispatch(setEndTimestamp(value?.getTime()));
+            }
+          }}
+          placeholder="End date"
+          disabled={isSocietyOnly}
+        />
+      </DateWrapper>
+    </InnerWrapper>
+  );
+}
+
+function ChoiceType() {
+  const dispatch = useDispatch();
+  const choiceTypeIndex = useSelector(choiceTypeIndexSelector);
+
+  const choiceTypes = ["Single choice voting", "Multiple choice voting"].map(
+    (item, i) => ({
+      key: i,
+      value: i,
+      content: <ChoiceWrapper>{item}</ChoiceWrapper>,
+    }),
+  );
+
+  return (
+    <InnerWrapper>
+      <SideSectionTitle title="System" img="/imgs/icons/action.svg" />
+      <DropdownSelector
+        options={choiceTypes}
+        value={choiceTypeIndex}
+        onSelect={(value) => dispatch(setChoiceTypeIndex(value))}
+      />
+    </InnerWrapper>
+  );
+}
+
+export default function More({ onPublish, space }) {
+  return (
     <Wrapper>
-      <InnerWrapper>
-        <SideSectionTitle title="System" img="/imgs/icons/action.svg" />
-        <DropdownSelector
-          options={choiceTypes}
-          value={choiceTypeIndex}
-          onSelect={(value) => dispatch(setChoiceTypeIndex(value))}
-        />
-      </InnerWrapper>
-      <InnerWrapper>
-        <SideSectionTitle title="Period" img="/imgs/icons/date.svg" />
-        <DateWrapper>
-          <DatePicker
-            minDate={getMinStartDate()}
-            date={authoringStartDate}
-            setDate={(value) => {
-              if (value?.getTime) {
-                dispatch(setStartTimestamp(value.getTime()));
-              }
-            }}
-            placeholder="Start date"
-            defaultTime="now"
-          />
-          <DatePicker
-            minDate={getMinEndDate()}
-            date={authoringEndDate}
-            setDate={(value) => {
-              if (value?.getTime) {
-                dispatch(setEndTimestamp(value?.getTime()));
-              }
-            }}
-            placeholder="End date"
-            disabled={isSocietyOnly}
-          />
-        </DateWrapper>
-      </InnerWrapper>
-      <InnerWrapper>
-        <SideSectionTitle
-          title="Snapshot"
-          tooltip="Support multiple chain voting"
-          img="/imgs/icons/block.svg"
-        />
-        <DateWrapper>
-          <SnapshotHeightPicker space={space} />
-          {space.networks?.map((network) => (
-            <Snapshot className="snapshot" key={network.network}>
-              <NetworkName>{getChainDisplayName(network.network)}</NetworkName>
-              {snapshotHeights.find(
-                (snapshotHeight) => snapshotHeight.network === network.network,
-              )?.height || <TextGrey>-</TextGrey>}
-            </Snapshot>
-          ))}
-        </DateWrapper>
-      </InnerWrapper>
+      <ChoiceType />
+      <Period space={space} />
+      <SnapshotHeight space={space} />
       <InnerWrapper>
         <SideSectionTitle title="Information" img="/imgs/icons/info.svg" />
         <Divider />
