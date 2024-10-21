@@ -43,7 +43,6 @@ import DelegationInfo from "./delegationInfo";
 import { hasBalanceStrategy } from "frontedUtils/strategy";
 import SocietyMemberHit from "../postCreate/societyMemberHit";
 import SocietyMemberButton from "../societyMemberButton";
-import { isProposalNeedProxy } from "frontedUtils/isNeedProxy";
 
 const Wrapper = styled.div`
   > :not(:first-child) {
@@ -155,7 +154,6 @@ function BalanceInfo({ proposal, balance, balanceDetail, delegation }) {
   const belowThreshold = new BigNumber(voteBalance).eq(0);
 
   const supportProxy = useSelector(canUseProxySelector);
-  const needProxy = isProposalNeedProxy(proposal);
   const snapshot = proposal.snapshotHeights[loginNetwork];
 
   let balanceInfo = null;
@@ -190,7 +188,7 @@ function BalanceInfo({ proposal, balance, balanceDetail, delegation }) {
     <>
       <ProxyHeader>
         {balanceInfo}
-        {supportProxy && needProxy && <ProxySwitch />}
+        {supportProxy && <ProxySwitch />}
       </ProxyHeader>
       {useProxy && (
         <PostAddress

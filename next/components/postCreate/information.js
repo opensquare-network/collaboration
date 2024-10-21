@@ -21,7 +21,6 @@ import {
 import BalanceRow from "@/components/postCreate/BalanceRow";
 import { hasBalanceStrategy } from "frontedUtils/strategy";
 import SocietyMemberHit from "./societyMemberHit";
-import { isSpaceNeedProxy } from "frontedUtils/isNeedProxy";
 
 const Hint = styled.div`
   margin-top: 4px !important;
@@ -41,11 +40,6 @@ function Proxy({ space }) {
   const useProxy = useSelector(useProxySelector);
   const canUseProxy = useSelector(canUseProxySelector);
   if (!canUseProxy) {
-    return null;
-  }
-
-  const needProxy = isSpaceNeedProxy(space);
-  if (!needProxy) {
     return null;
   }
 

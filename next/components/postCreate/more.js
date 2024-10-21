@@ -22,7 +22,6 @@ import DropdownSelector from "@osn/common-ui/es/DropdownSelector";
 import { hasSocietyVoteStrategyOnly } from "frontedUtils/strategy";
 import dayjs from "dayjs";
 import { getChainDisplayName } from "frontedUtils/chain";
-import { isSpaceNeedSnapshot } from "frontedUtils/isNeedSnapshot";
 
 const Wrapper = styled.div`
   min-width: 302px;
@@ -205,13 +204,11 @@ function ChoiceType() {
 }
 
 export default function More({ onPublish, space }) {
-  const needSnapshot = isSpaceNeedSnapshot(space);
-
   return (
     <Wrapper>
       <ChoiceType />
       <Period space={space} />
-      {needSnapshot && <SnapshotHeight space={space} />}
+      <SnapshotHeight space={space} />
       <InnerWrapper>
         <SideSectionTitle title="Information" img="/imgs/icons/info.svg" />
         <Divider />

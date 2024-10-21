@@ -11,7 +11,6 @@ import AssetList from "../assetList";
 import { getSpaceAssets } from "frontedUtils/getSpaceAssets";
 import { hasBalanceStrategy } from "frontedUtils/strategy";
 import { getChainDisplayName } from "frontedUtils/chain";
-import { isProposalNeedSnapshot } from "frontedUtils/isNeedSnapshot";
 
 const Wrapper = styled(Panel)`
   > :not(:first-child) {
@@ -120,14 +119,14 @@ function PinHash({ pinHash }) {
 // eslint-disable-next-line
 export default function PostInfo({ data, space }) {
   const assets = getSpaceAssets(data.networksConfig);
-  const needSnapshot = isProposalNeedSnapshot(data);
+
   return (
     <Wrapper>
       <div>
         <SideSectionTitle title="Information" img="/imgs/icons/info.svg" />
         <Divider />
         <div>
-          {needSnapshot && <Snapshot snapshotHeights={data?.snapshotHeights} />}
+          <Snapshot snapshotHeights={data?.snapshotHeights} />
           {data?.pinHash && <PinHash pinHash={data?.pinHash} />}
         </div>
       </div>

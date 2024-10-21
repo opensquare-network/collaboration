@@ -7,7 +7,7 @@ const {
   getSpaceCollection,
 } = require("../../mongo");
 const { HttpError } = require("../../exc");
-const { checkDelegation } = require("../../services/node.service");
+const { checkProxy: _checkProxy } = require("../../services/node.service");
 const { toDecimal128 } = require("../../utils");
 const { getBalanceFromNetwork } = require("../../services/node.service");
 const { pinData } = require("./common");
@@ -137,18 +137,17 @@ async function addDelegatedVotes(
   }
 }
 
-async function checkVoterDelegation({
-  proposal,
-  voterNetwork,
-  address,
-  realVoter,
-}) {
-  const snapshotHeight = proposal.snapshotHeights?.[voterNetwork];
-  const voter = realVoter || address;
-
-  if (realVoter && realVoter !== address) {
-    await checkDelegation(voterNetwork, address, realVoter, snapshotHeight);
+async function checkProxy({ proposal, voterNetwork, address, realVoter }) {
+  if (!realVoter || realVoter === address) {
+    return;
   }
+
+  const snapshotHeight = proposal.snapshotHeights?.[voterNetwork];
+  await _checkProxy(voterNetwork, address, realVoter, snapshotHeight);
+}
+
+async function checkVoterDelegation({ proposal, voterNetwork, voter }) {
+  const snapshotHeight = proposal.snapshotHeights?.[voterNetwork];
 
   const delegationStrategies = findDelegationStrategies(
     proposal.networksConfig,
@@ -399,6 +398,8 @@ async function vote(
   }
 
   const now = new Date();
+
+  await checkProxy({ proposal, voterNetwork, address, realVoter });
 
   await checkVoterDelegation({
     proposal,
