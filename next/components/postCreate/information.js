@@ -20,7 +20,8 @@ import {
 } from "../../store/reducers/statusSlice";
 import BalanceRow from "@/components/postCreate/BalanceRow";
 import { hasBalanceStrategy } from "frontedUtils/strategy";
-import SocietyMemberHit from "./societyMemberHit";
+import SocietyMemberHint from "./societyMemberHint";
+import WhitelistMemberHint from "./whitelistMemberHint";
 
 const Hint = styled.div`
   margin-top: 4px !important;
@@ -107,7 +108,12 @@ export default function Information({ space }) {
         />
       )}
       <InfoHint space={space} />
-      {space.accessibility === "society" && <SocietyMemberHit space={space} />}
+      {space.accessibility === "society" && <SocietyMemberHint space={space} />}
+      {space.accessibility === "whitelist" && (
+        <WhitelistMemberHint whitelist={space?.whitelist}>
+          Only members can create a proposal
+        </WhitelistMemberHint>
+      )}
       <Proxy space={space} />
     </>
   );

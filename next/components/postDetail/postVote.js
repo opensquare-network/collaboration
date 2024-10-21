@@ -41,8 +41,9 @@ import { Tooltip } from "@osn/common-ui";
 import VoteBalanceDetail from "./VoteBalanceDetail";
 import DelegationInfo from "./delegationInfo";
 import { hasBalanceStrategy } from "frontedUtils/strategy";
-import SocietyMemberHit from "../postCreate/societyMemberHit";
+import SocietyMemberHint from "../postCreate/societyMemberHint";
 import SocietyMemberButton from "../societyMemberButton";
+import WhitelistMemberHint from "../postCreate/whitelistMemberHint";
 
 const Wrapper = styled.div`
   > :not(:first-child) {
@@ -145,6 +146,8 @@ function BalanceInfo({ proposal, balance, balanceDetail, delegation }) {
   const proxyDelegation = useSelector(proxyDelegationSelector);
   const isSocietyProposal =
     proposal.networksConfig?.accessibility === "society";
+  const isWhitelistProposal =
+    proposal.networksConfig?.accessibility === "whitelist";
 
   const { network: loginNetwork } = useSelector(loginNetworkSelector) || {};
 
@@ -181,7 +184,13 @@ function BalanceInfo({ proposal, balance, balanceDetail, delegation }) {
       );
     }
   } else if (isSocietyProposal) {
-    balanceInfo = <SocietyMemberHit />;
+    balanceInfo = <SocietyMemberHint />;
+  } else if (isWhitelistProposal) {
+    balanceInfo = (
+      <WhitelistMemberHint whitelist={proposal?.networksConfig?.whitelist}>
+        Only members can vote
+      </WhitelistMemberHint>
+    );
   }
 
   return (
