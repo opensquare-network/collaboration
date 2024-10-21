@@ -1,5 +1,7 @@
 const { HttpError } = require("../../exc");
 const { spaces: spaceServices } = require("../../spaces");
+const { getLatestHeight } = require("../chain.service");
+const { checkProxy } = require("../node.service");
 const { getSocietyMember } = require("../node.service/getSocietyMember");
 const { saveProposal } = require("./createProposal");
 
@@ -30,6 +32,11 @@ async function createSocietyProposal({
 }) {
   const spaceService = spaceServices[space];
   const weightStrategy = spaceService.weightStrategy;
+
+  if (realProposer && realProposer !== address) {
+    const lastHeight = await getLatestHeight(proposerNetwork);
+    await checkProxy(proposerNetwork, address, realProposer, lastHeight);
+  }
 
   const proposer = realProposer || address;
 

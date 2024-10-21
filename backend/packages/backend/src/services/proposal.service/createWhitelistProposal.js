@@ -1,6 +1,8 @@
 const { HttpError } = require("../../exc");
 const { spaces: spaceServices } = require("../../spaces");
 const { isSameAddress } = require("../../utils/address");
+const { getLatestHeight } = require("../chain.service");
+const { checkProxy } = require("../node.service");
 const { saveProposal } = require("./createProposal");
 
 async function checkWhitelistMember(networksConfig, address) {
@@ -33,6 +35,11 @@ async function createWhitelistProposal({
 }) {
   const spaceService = spaceServices[space];
   const weightStrategy = spaceService.weightStrategy;
+
+  if (realProposer && realProposer !== address) {
+    const lastHeight = await getLatestHeight(proposerNetwork);
+    await checkProxy(proposerNetwork, address, realProposer, lastHeight);
+  }
 
   const proposer = realProposer || address;
 
