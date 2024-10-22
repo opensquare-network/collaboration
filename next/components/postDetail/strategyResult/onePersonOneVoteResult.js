@@ -4,24 +4,29 @@ import { SystemFail, SystemPass } from "@osn/icons/opensquare";
 import VoteCountOptionList from "./common/voteCountOptionList";
 
 export default function OnePersonOneVoteResult({ proposal, voteStatus }) {
+  const total = proposal?.votedWeights?.onePersonOneVote || 0;
+
+  let maxVote = 0;
   let winnerChoice = null;
   for (let item of voteStatus || []) {
-    if (new BigNumber(item.onePersonOneVote).isZero()) {
+    const currVote = new BigNumber(item.onePersonOneVote);
+    if (currVote.isZero()) {
       continue;
     }
-    if (
-      !winnerChoice ||
-      new BigNumber(item.onePersonOneVote).gte(winnerChoice.onePersonOneVote)
-    ) {
+    if (!winnerChoice || currVote.gt(maxVote)) {
+      maxVote = currVote;
       winnerChoice = item;
+      continue;
+    }
+    if (currVote.eq(maxVote)) {
+      winnerChoice = null;
+      continue;
     }
   }
 
   const isEnded = new Date().getTime() > proposal?.endDate;
   const passStatusText = isEnded ? "Passed" : "Passing";
   const failStatusText = isEnded ? "Failed" : "Failing";
-
-  const total = proposal?.votedWeights?.onePersonOneVote || 0;
 
   const optionList = [];
   proposal?.choices?.forEach((choice, index) => {

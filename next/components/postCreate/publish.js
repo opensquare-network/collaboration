@@ -13,16 +13,37 @@ import {
 } from "../../store/reducers/statusSlice";
 import BigNumber from "bignumber.js";
 import SocietyMemberButton from "../societyMemberButton";
+import WhitelistMemberButton from "../whitelistMemberButton";
 
-function Publish({ threshold, onPublish, space }) {
-  const dispatch = useDispatch();
-  const useProxy = useSelector(useProxySelector);
-  const loginAddress = useSelector(loginAddressSelector);
+function BalanceThresholdButton({
+  children,
+  threshold,
+  isLoading,
+  disabled,
+  ...props
+}) {
   const balanceLoading = useSelector(balanceLoadingSelector);
   const balance = useSelector(targetBalanceSelector);
   const belowThreshold = new BigNumber(balance).isLessThan(threshold);
+
+  return (
+    <Button
+      isLoading={isLoading || balanceLoading}
+      disabled={disabled || belowThreshold}
+      {...props}
+    >
+      {children}
+    </Button>
+  );
+}
+
+function Publish({ onPublish, space }) {
+  const dispatch = useDispatch();
+  const useProxy = useSelector(useProxySelector);
+  const loginAddress = useSelector(loginAddressSelector);
   const createProposalLoading = useSelector(createProposalLoadingSelector);
   const isSocietySpace = space.accessibility === "society";
+  const isWhitelistSpace = space.accessibility === "whitelist";
 
   if (!loginAddress) {
     return (
@@ -32,19 +53,48 @@ function Publish({ threshold, onPublish, space }) {
     );
   }
 
-  const PublishButton = isSocietySpace ? SocietyMemberButton : Button;
+  const buttonText = useProxy ? "Proxy Publish" : "Publish";
+
+  if (isSocietySpace) {
+    return (
+      <SocietyMemberButton
+        block
+        large
+        primary
+        onClick={onPublish}
+        isLoading={createProposalLoading}
+      >
+        {buttonText}
+      </SocietyMemberButton>
+    );
+  }
+
+  if (isWhitelistSpace) {
+    return (
+      <WhitelistMemberButton
+        block
+        large
+        primary
+        onClick={onPublish}
+        isLoading={createProposalLoading}
+        whitelist={space?.whitelist}
+      >
+        {buttonText}
+      </WhitelistMemberButton>
+    );
+  }
 
   return (
-    <PublishButton
+    <BalanceThresholdButton
       block
       large
       primary
       onClick={onPublish}
-      isLoading={balanceLoading || createProposalLoading}
-      disabled={belowThreshold}
+      isLoading={createProposalLoading}
+      threshold={space?.proposeThreshold}
     >
-      {useProxy ? "Proxy Publish" : "Publish"}
-    </PublishButton>
+      {buttonText}
+    </BalanceThresholdButton>
   );
 }
 

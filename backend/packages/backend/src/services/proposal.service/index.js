@@ -1,5 +1,6 @@
 const { createProposal } = require("./createProposal");
 const { createSocietyProposal } = require("./createSocietyProposal");
+const { createWhitelistProposal } = require("./createWhitelistProposal");
 const { getProposalBySpace } = require("./getProposalBySpace");
 const { getProposalById } = require("./getProposalById");
 const { postComment } = require("./postComment");
@@ -14,6 +15,7 @@ const { terminate } = require("./terminate");
 module.exports = {
   createProposal,
   createSocietyProposal,
+  createWhitelistProposal,
   getProposalBySpace,
   getProposalById,
   postComment,
