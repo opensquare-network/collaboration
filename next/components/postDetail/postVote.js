@@ -36,7 +36,7 @@ import Toggle from "@osn/common-ui/es/Toggle";
 import isNil from "lodash.isnil";
 import { proposalStatus } from "../../frontedUtils/consts/proposal";
 import { extensionCancelled } from "../../frontedUtils/consts/extension";
-import { useTerminate } from "./terminate";
+import { TerminateButton } from "./terminate";
 import { Tooltip } from "@osn/common-ui";
 import VoteBalanceDetail from "./VoteBalanceDetail";
 import DelegationInfo from "./delegationInfo";
@@ -44,6 +44,7 @@ import { hasBalanceStrategy } from "frontedUtils/strategy";
 import SocietyMemberHint from "../postCreate/societyMemberHint";
 import SocietyMemberButton from "../societyMemberButton";
 import WhitelistMemberHint from "../postCreate/whitelistMemberHint";
+import WhitelistMemberButton from "../whitelistMemberButton";
 
 const Wrapper = styled.div`
   > :not(:first-child) {
@@ -210,7 +211,99 @@ function BalanceInfo({ proposal, balance, balanceDetail, delegation }) {
   );
 }
 
-function MyVoteButton({
+function BalanceThresholdButton({
+  children,
+  balance,
+  delegation,
+  isLoading,
+  disabled,
+  ...props
+}) {
+  const useProxy = useSelector(useProxySelector);
+  const proxyBalance = useSelector(proxyBalanceSelector);
+  const proxyDelegation = useSelector(proxyDelegationSelector);
+
+  const voteBalance = useProxy ? proxyBalance : balance;
+  const voteDelegation = useProxy ? proxyDelegation : delegation;
+
+  const belowThreshold = new BigNumber(voteBalance).eq(0);
+  const canVote = !belowThreshold && !voteDelegation;
+
+  return (
+    <Button isLoading={isLoading} disabled={disabled || !canVote} {...props}>
+      {children}
+    </Button>
+  );
+}
+
+function VoteButton({
+  proposal,
+  onVote,
+  isLoading,
+  choiceIndexes,
+  balance,
+  delegation,
+}) {
+  const canVote =
+    choiceIndexes.length && proposalStatus.active === proposal?.status;
+
+  const isSocietyProposal =
+    proposal.networksConfig?.accessibility === "society";
+  const isWhitelistProposal =
+    proposal.networksConfig?.accessibility === "whitelist";
+
+  const useProxy = useSelector(useProxySelector);
+
+  const buttonText = useProxy ? "Proxy Vote" : "Vote";
+
+  if (isSocietyProposal) {
+    return (
+      <SocietyMemberButton
+        primary
+        large
+        block
+        isLoading={isLoading}
+        onClick={onVote}
+        disabled={!canVote}
+      >
+        {buttonText}
+      </SocietyMemberButton>
+    );
+  }
+
+  if (isWhitelistProposal) {
+    return (
+      <WhitelistMemberButton
+        primary
+        large
+        block
+        isLoading={isLoading}
+        onClick={onVote}
+        disabled={!canVote}
+        whitelist={proposal?.networksConfig?.whitelist}
+      >
+        {buttonText}
+      </WhitelistMemberButton>
+    );
+  }
+
+  return (
+    <BalanceThresholdButton
+      primary
+      large
+      block
+      isLoading={isLoading}
+      onClick={onVote}
+      disabled={!canVote}
+      balance={balance}
+      delegation={delegation}
+    >
+      {buttonText}
+    </BalanceThresholdButton>
+  );
+}
+
+function ProposalActions({
   proposal,
   balance,
   balanceDetail,
@@ -219,34 +312,6 @@ function MyVoteButton({
   isLoading,
   choiceIndexes,
 }) {
-  const useProxy = useSelector(useProxySelector);
-  const proxyBalance = useSelector(proxyBalanceSelector);
-  const proxyDelegation = useSelector(proxyDelegationSelector);
-
-  const loginAddress = useSelector(loginAddressSelector);
-  const { network: loginNetwork } = useSelector(loginNetworkSelector) || {};
-
-  const { terminateButton } = useTerminate({
-    proposal,
-    loginAddress,
-    loginNetwork,
-  });
-
-  const voteBalance = useProxy ? proxyBalance : balance;
-  const voteDelegation = useProxy ? proxyDelegation : delegation;
-
-  const belowThreshold = new BigNumber(voteBalance).eq(0);
-  const canVote =
-    !belowThreshold &&
-    choiceIndexes.length &&
-    proposalStatus.active === proposal?.status &&
-    !voteDelegation;
-
-  const isSocietyProposal =
-    proposal.networksConfig?.accessibility === "society";
-
-  const VoteButton = isSocietyProposal ? SocietyMemberButton : Button;
-
   return (
     <InnerWrapper>
       <BalanceInfo
@@ -258,17 +323,15 @@ function MyVoteButton({
 
       <Flex>
         <VoteButton
-          primary
-          large
-          block
+          proposal={proposal}
+          balance={balance}
+          delegation={delegation}
+          onVote={onVote}
           isLoading={isLoading}
-          onClick={onVote}
-          disabled={!canVote}
-        >
-          {useProxy ? "Proxy Vote" : "Vote"}
-        </VoteButton>
+          choiceIndexes={choiceIndexes}
+        />
 
-        {terminateButton}
+        <TerminateButton proposal={proposal} />
       </Flex>
     </InnerWrapper>
   );
@@ -457,7 +520,7 @@ export default function PostVote({ proposal }) {
         <Remark remark={remark} setRemark={setRemark} />
       )}
       {!proposalClosed && (
-        <MyVoteButton
+        <ProposalActions
           proposal={proposal}
           balance={balance}
           balanceDetail={balanceDetail}

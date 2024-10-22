@@ -3,7 +3,7 @@ import { Button } from "@osn/common-ui";
 import nextApi from "services/nextApi";
 import { useViewfunc } from "frontedUtils/hooks";
 import { extensionCancelled } from "frontedUtils/consts/extension";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 // TODO: use { createToast } from common-ui instead
 import {
@@ -15,12 +15,18 @@ import {
 } from "store/reducers/toastSlice";
 import { useState } from "react";
 import { delayPromise } from "../../services/delayLoading";
+import {
+  loginAddressSelector,
+  loginNetworkSelector,
+} from "store/reducers/accountSlice";
 
-const TerminateButton = styled(Button)`
+const StyledButton = styled(Button)`
   margin-left: 20px;
 `;
 
-export function useTerminate({ loginAddress, loginNetwork, proposal = {} }) {
+export function TerminateButton({ proposal = {} }) {
+  const loginAddress = useSelector(loginAddressSelector);
+  const { network: loginNetwork } = useSelector(loginNetworkSelector) || {};
   const dispatch = useDispatch();
   const viewfunc = useViewfunc();
   const router = useRouter();
@@ -74,17 +80,13 @@ export function useTerminate({ loginAddress, loginNetwork, proposal = {} }) {
     }
   };
 
-  let terminateButton = null;
-
-  if (isAuthor) {
-    terminateButton = (
-      <TerminateButton isLoading={isLoading} large onClick={handleTerminate}>
-        Terminate
-      </TerminateButton>
-    );
+  if (!isAuthor) {
+    return null;
   }
 
-  return {
-    terminateButton,
-  };
+  return (
+    <StyledButton isLoading={isLoading} large onClick={handleTerminate}>
+      Terminate
+    </StyledButton>
+  );
 }
