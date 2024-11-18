@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 import Author from "./author";
 import InternalLink from "components/internalLink";
-import HardLink from "components/hardLink";
 import { p_16_semibold } from "styles/textStyles";
 import StatusTag from "./statusTag";
 import PostTime from "./postTime";
@@ -105,9 +104,9 @@ export default function Post({ data, showSpace, space }) {
   return (
     <Wrapper>
       <TitleWrapper>
-        <HardLink href={`/space/${data.space}/proposal/${data.cid}`}>
+        <a href={`/space/${data.space}/proposal/${data.cid}`}>
           <Title>{data.title}</Title>
-        </HardLink>
+        </a>
         <PostResult data={data} space={spaceInfo} />
       </TitleWrapper>
       <Divider />
