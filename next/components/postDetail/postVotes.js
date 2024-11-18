@@ -52,12 +52,12 @@ export default function PostVotes({
             item.voter !== myVote?.voter ||
             item.voterNetwork !== myVote?.voterNetwork,
         )
-        .map((item, index) => (
+        .map((item) => (
           <PostVotesItem
             choices={proposal.choices}
             data={item}
             space={proposal.networksConfig}
-            key={index}
+            key={`${item.voter}-${item.voterNetwork}`}
             isSafari={isSafari}
             isDelegate={item.isDelegate}
           />
