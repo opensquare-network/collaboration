@@ -19,19 +19,19 @@ async function singByMetaMask(text, address) {
 }
 
 export const signMessage = async (text, address) => {
+  if (!address) {
+    throw new Error("Sign address is missing");
+  }
+
   if (ethers.utils.isAddress(address)) {
     return singByMetaMask(text, address);
   }
 
+  await web3Enable("opensquare.io");
   if (!isWeb3Injected) {
     throw new Error("Polkadot Extension is not installed");
   }
 
-  if (!address) {
-    throw new Error("Sign addres is missing");
-  }
-
-  await web3Enable("opensquare.io");
   const injector = await web3FromAddress(address);
 
   const data = stringToHex(text);
