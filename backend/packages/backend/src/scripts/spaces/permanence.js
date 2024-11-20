@@ -19,6 +19,7 @@ const config = {
     "14Gn7SEmCgMX7Ukuppnw5TRjA7pao2HFpuJo39frB42tYLEh", // EzioRed
     "15fTH34bbKGMUjF1bLmTqxPYgpg481imThwhWcQfCyktyBzL", // Helikon
     "167YoKNriVtP4Nxk9F9GRV7HTKu5VnxaRq1pKMANAnmmTY9F", // José Rabasso
+    "13znFMMjHyM2UvSewvaKMC2bLUcySRMzcM8BAMTzm1G2P5ju", // PERMANENCE DAO/GOV-PROXY
   ],
   networks: [
     {
