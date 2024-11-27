@@ -130,7 +130,7 @@ export default function SpaceListItem({ name, space }) {
   );
 
   return (
-    <Wrapper>
+    <Wrapper role="button">
       <IconWrapper>
         <Icon>
           <SpaceLogo space={space} />

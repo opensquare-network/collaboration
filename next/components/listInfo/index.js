@@ -109,7 +109,7 @@ export default function ListInfo({ space }) {
         <AboutItem>
           <AboutIcon src="/imgs/icons/network.svg" />
           <div>
-            <AboutName onClick={handleShowModal}>
+            <AboutName role="button" onClick={handleShowModal}>
               Network({networkCount})
             </AboutName>
             <ChainIconsWrapper>
@@ -128,7 +128,9 @@ export default function ListInfo({ space }) {
             <AboutItem>
               <AboutIcon src="/imgs/icons/threshold.svg" />
               <div>
-                <AboutName onClick={handleShowModal}>Threshold</AboutName>
+                <AboutName role="button" onClick={handleShowModal}>
+                  Threshold
+                </AboutName>
                 <AboutDetail>
                   <ValueDisplay value={space.proposeThreshold} space={space} />
                 </AboutDetail>
@@ -140,7 +142,7 @@ export default function ListInfo({ space }) {
         <AboutItem>
           <AboutIcon src="/imgs/icons/strategy.svg" />
           <div>
-            <AboutName onClick={handleShowModal}>
+            <AboutName role="button" onClick={handleShowModal}>
               Strategy({strategyCount})
             </AboutName>
             <StrategyAboutDetail title={space.weightStrategy?.join(", ")}>
