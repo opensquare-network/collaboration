@@ -121,6 +121,7 @@ export default function ListTab({
       <Flex>
         {LIST_TAB_ITEMS.map((item, index) => (
           <Item
+            role="button"
             key={index}
             active={tabIndex === index}
             onClick={() => {
