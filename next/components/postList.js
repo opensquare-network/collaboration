@@ -35,7 +35,7 @@ function useMyVotes(proposals) {
       .fetch("votes", {
         address: voter,
         network: voterNetwork,
-        proposalCid: (proposals || [])?.map((item) => item.cid).join(","),
+        proposalCid: proposals.map((p) => p.cid).join(","),
       })
       .then(({ result }) => {
         setMyVotes(result || []);
