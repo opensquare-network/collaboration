@@ -5,15 +5,15 @@ async function getUserVotesOfProposals(ctx) {
   const { network, address, proposal_cid: proposalCid } = ctx.query;
 
   if (!proposalCid) {
-    throw new HttpError(400, "Proposal cid is required");
+    throw new HttpError(400, "Query parameter proposal cid is required");
   }
 
   if (!network) {
-    throw new HttpError(400, "Network is required");
+    throw new HttpError(400, "Query parameter network is required");
   }
 
   if (!address) {
-    throw new HttpError(400, "Address is required");
+    throw new HttpError(400, "Query parameter address is required");
   }
 
   const proposalCids = proposalCid.split(",");
