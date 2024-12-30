@@ -6,11 +6,11 @@ import { p_16_semibold } from "styles/textStyles";
 import StatusTag from "./statusTag";
 import PostTime from "./postTime";
 import { p_24 } from "../styles/paddings";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useWindowSize } from "../frontedUtils/hooks";
 import PostResult from "./postResult";
 import { findNetworkConfig } from "../services/util";
-import { Flex, FlexBetween } from "@osn/common-ui";
+import { Flex, FlexBetween, Tooltip } from "@osn/common-ui";
 import { p_14_medium } from "../styles/componentCss";
 import { getSpaceIconUrl } from "frontedUtils/space";
 
@@ -59,6 +59,10 @@ const LeftWrapper = styled(Flex)`
   }
 `;
 
+const RightWrapper = styled(Flex)`
+  gap: 8px;
+`;
+
 const FromSpace = styled(Flex)`
   .ml-4px {
     margin-left: 8px;
@@ -80,9 +84,41 @@ const TitleWrapper = styled(FlexBetween)`
   align-items: flex-start;
 `;
 
-export default function Post({ data, showSpace, space }) {
+function MyVoteMark({ proposal, myVote }) {
+  if (!myVote || !proposal) {
+    return null;
+  }
+
+  const getVoteIndex = (choice) =>
+    proposal.choices.findIndex((item) => item === choice) + 1;
+
+  const content = (
+    <div>
+      <span>Vote:</span>
+      <ul>
+        {myVote.choices.map((choice, index) => (
+          <li key={index}>
+            #{getVoteIndex(choice)}: {choice}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+
+  return (
+    <Tooltip content={content}>
+      <img src="/imgs/icons/my-vote-mark.svg" alt="" />
+    </Tooltip>
+  );
+}
+
+export default function Post({ data, showSpace, space, myVotes }) {
   const windowSize = useWindowSize();
   const [showRichInfo, setShowRichInfo] = useState(true);
+  const myVote = useMemo(
+    () => myVotes.find((item) => item.data.proposalCid === data.cid),
+    [myVotes, data.cid],
+  );
 
   useEffect(() => {
     if (windowSize.width <= 900) {
@@ -139,7 +175,10 @@ export default function Post({ data, showSpace, space }) {
             </FromSpace>
           )}
         </LeftWrapper>
-        <StatusTag>{data.status}</StatusTag>
+        <RightWrapper>
+          <MyVoteMark proposal={data} myVote={myVote} />
+          <StatusTag>{data.status}</StatusTag>
+        </RightWrapper>
       </InfoWrapper>
     </Wrapper>
   );
