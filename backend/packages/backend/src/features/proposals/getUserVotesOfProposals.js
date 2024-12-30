@@ -1,9 +1,22 @@
+const { HttpError } = require("../../exc");
 const { getVoteCollection } = require("../../mongo");
 
 async function getUserVotesOfProposals(ctx) {
-  const { network, address, proposal_cid } = ctx.query;
+  const { network, address, proposal_cid: proposalCid } = ctx.query;
 
-  const proposalCids = proposal_cid.split(",");
+  if (!proposalCid) {
+    throw new HttpError(400, "Proposal cid is required");
+  }
+
+  if (!network) {
+    throw new HttpError(400, "Network is required");
+  }
+
+  if (!address) {
+    throw new HttpError(400, "Address is required");
+  }
+
+  const proposalCids = proposalCid.split(",");
 
   const q = {
     "data.proposalCid": { $in: proposalCids },
