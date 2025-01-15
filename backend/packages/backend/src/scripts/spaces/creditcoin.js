@@ -24,7 +24,7 @@ const config = {
       network: networks.creditcoin_evm,
       assets: [
         {
-          type: "native",
+          type: "evm_native",
           symbol: "CTC",
           decimals: 18,
           votingThreshold: "1000000000000000000",
