@@ -9,5 +9,10 @@ export function normalizeChainName(chainName) {
 }
 
 export function getChainDisplayName(chainName) {
+  if (chainName === networks.creditcoin) {
+    return "Creditcoin Native";
+  } else if (chainName === networks.creditcoinEvm) {
+    return "Creditcoin";
+  }
   return startCase(normalizeChainName(chainName));
 }
