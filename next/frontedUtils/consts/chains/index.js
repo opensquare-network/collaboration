@@ -52,6 +52,7 @@ export const chainConfigsMap = {
   hydradx,
   rococo,
   creditcoin,
+  creditcoin_native: creditcoin,
 };
 
 export function getChainConfigs(chain) {

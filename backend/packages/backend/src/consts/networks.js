@@ -32,6 +32,7 @@ const networks = Object.freeze({
   stafi: "stafi",
   creditcoin: "creditcoin",
   creditcoin_evm: "creditcoin_evm",
+  creditcoin_native: "creditcoin_native",
 });
 
 const evmNetworks = [

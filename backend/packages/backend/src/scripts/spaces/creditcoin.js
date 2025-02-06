@@ -10,7 +10,7 @@ const config = {
   accessibility: Accessibility.PUBLIC,
   networks: [
     {
-      network: networks.creditcoin,
+      network: networks.creditcoin_native,
       ss58Format: 42,
       assets: [
         {
