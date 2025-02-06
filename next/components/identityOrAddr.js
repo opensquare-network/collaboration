@@ -7,6 +7,7 @@ import { fetchIdentity } from "services/identity";
 import { useEffect, useState } from "react";
 import { ExternalLink } from "@osn/common-ui";
 import encodeAddressByChain from "frontedUtils/chain/addr";
+import { networks } from "frontedUtils/consts/chains/networks";
 
 const IdentityWrapper = styled.span`
   display: inline-flex;
@@ -59,7 +60,9 @@ export default function IdentityOrAddr({
     link = `https://moonriver.moonscan.io/address/${address}`;
   } else if (evm.moonbeam === network) {
     link = `https://moonscan.io/address/${address}`;
-  } else if ("creditcoin" === network) {
+  } else if (
+    [networks.creditcoin, networks.creditcoinNative].includes(network)
+  ) {
     link = `https://explorer.creditcoin.org/Account/RecentExtrinsics/${address}`;
   } else if (evm.creditcoin_evm === network) {
     link = `https://creditcoin.blockscout.com/address/${address}`;

@@ -30,6 +30,7 @@ const chains = {
   moonbeam: "moonbeam",
   moonriver: "moonriver",
   creditcoin: "creditcoin",
+  creditcoinNative: "creditcoin_native",
 };
 
 const noProxyChains = [chains.kintsugi, chains.interlay, chains.crust];

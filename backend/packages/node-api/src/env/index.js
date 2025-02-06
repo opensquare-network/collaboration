@@ -32,6 +32,7 @@ const chainEndpointPrefixMap = {
   [chains.moonbeam]: "GLMR",
   [chains.moonriver]: "MOVR",
   [chains.creditcoin]: "CTC",
+  [chains.creditcoinNative]: "CTC_CC3",
 };
 
 // [chain, endpoints]

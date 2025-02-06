@@ -32,4 +32,5 @@ export const networks = Object.freeze({
   stafi: "stafi",
   creditcoin: "creditcoin",
   creditcoinEvm: "creditcoin_evm",
+  creditcoinNative: "creditcoin_native",
 });
