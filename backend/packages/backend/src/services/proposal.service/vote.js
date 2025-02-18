@@ -404,8 +404,7 @@ async function vote(
   await checkVoterDelegation({
     proposal,
     voterNetwork,
-    address,
-    realVoter,
+    voter,
   });
 
   const weights = await getWeights({
