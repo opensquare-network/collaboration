@@ -18,8 +18,12 @@ import isNil from "lodash.isnil";
 import LoadingField from "../loadingField";
 
 export function InnerPostResult({ data, voteStatus, space }) {
-  const votedAmount = data?.votedWeights?.balanceOf;
-  const societyVotedAmount = data?.votedWeights?.societyVote;
+  let votedAmount;
+  let societyVotedAmount;
+  if (data) {
+    votedAmount = data.votedWeights?.balanceOf || 0;
+    societyVotedAmount = data.votedWeights?.societyVote || 0;
+  }
 
   const results = data?.weightStrategy?.map((strategy) => {
     if (strategy === "balance-of") {
