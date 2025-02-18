@@ -18,8 +18,8 @@ import isNil from "lodash.isnil";
 import LoadingField from "../loadingField";
 
 export function InnerPostResult({ data, voteStatus, space }) {
-  const votedAmount = data?.votedWeights?.balanceOf;
-  const societyVotedAmount = data?.votedWeights?.societyVote;
+  const votedAmount = data?.votedWeights?.balanceOf || 0;
+  const societyVotedAmount = data?.votedWeights?.societyVote || 0;
 
   const results = data?.weightStrategy?.map((strategy) => {
     if (strategy === "balance-of") {
@@ -99,7 +99,7 @@ export function InnerPostResult({ data, voteStatus, space }) {
       <VoteItem>
         <div>Voted</div>
         <div>
-          <LoadingField isLoading={isNil(votedAmount)}>
+          <LoadingField isLoading={isNil(data)}>
             <ValueDisplay value={votedAmount?.toString()} space={space} />
           </LoadingField>
         </div>
@@ -110,7 +110,7 @@ export function InnerPostResult({ data, voteStatus, space }) {
       <VoteItem>
         <div>Voted</div>
         <div>
-          <LoadingField isLoading={isNil(societyVotedAmount)}>
+          <LoadingField isLoading={isNil(data)}>
             {societyVotedAmount} VOTE
           </LoadingField>
         </div>
@@ -127,7 +127,7 @@ export function InnerPostResult({ data, voteStatus, space }) {
         <VoteItem>
           <div>Voters</div>
           <div>
-            <LoadingField isLoading={isNil(data?.votesCount)}>
+            <LoadingField isLoading={isNil(data)}>
               {data?.votesCount}
             </LoadingField>
           </div>
