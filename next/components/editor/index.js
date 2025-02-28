@@ -5,7 +5,7 @@ import LoadingEditor from "./loading";
 
 const RichEditor = dynamic(
   () => import("@osn/common-ui").then((mod) => mod.RichEditor),
-  { ssr: false },
+  { ssr: false, loading: () => <LoadingEditor /> },
 );
 
 export default function Editor(props) {
@@ -20,10 +20,7 @@ export default function Editor(props) {
         "[&_.rich-editor]:bg-fillBgPrimary",
       )}
     >
-      <LoadingEditor />
-      <div className="absolute top-0 right-0 bottom-0 left-0 z-10">
-        <RichEditor {...props} onChangePreviewMode={setIsPreview} />
-      </div>
+      <RichEditor {...props} onChangePreviewMode={setIsPreview} />
     </div>
   );
 }
