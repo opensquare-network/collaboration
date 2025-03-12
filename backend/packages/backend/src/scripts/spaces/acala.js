@@ -30,6 +30,7 @@ const config = {
   spaceIcon: "acala.svg",
   seoCoverFilename: "acala.jpg",
   admins: [],
+  maxOptionsCount: 20,
 };
 
 module.exports = {
