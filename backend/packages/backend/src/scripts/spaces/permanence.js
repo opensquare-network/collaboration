@@ -42,6 +42,7 @@ const config = {
     "15fTH34bbKGMUjF1bLmTqxPYgpg481imThwhWcQfCyktyBzL", // Helikon
     "14rp4CvtyN3WSftrndyNxjJFi4cGXsgrE9gFr528QSYFvPTu", // Permanence DAO
     "13znFMMjHyM2UvSewvaKMC2bLUcySRMzcM8BAMTzm1G2P5ju", // Permanence DAO Gov Proxy
+    "14gMJV95zwxUsFEZDSC8mtBVifS6SypKJkfBKANkMsLZdeVb", // Yongfeng
   ],
 };
 
