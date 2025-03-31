@@ -19,6 +19,7 @@ import {
   loginAddressSelector,
   loginNetworkSelector,
 } from "store/reducers/accountSlice";
+import { isSameAddress } from "frontedUtils/address";
 
 const StyledButton = styled(Button)`
   margin-left: 20px;
@@ -32,7 +33,7 @@ export function TerminateButton({ proposal = {} }) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
-  const isAuthor = loginAddress === proposal.address;
+  const isAuthor = isSameAddress(loginAddress, proposal.address);
 
   const handleTerminate = async () => {
     if (!viewfunc) {
