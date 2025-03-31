@@ -23,6 +23,7 @@ const config = {
     "123KEnwuHKiu48WsfwAX4YonGFTpkEmWS6V2WGoJA1qzBkbS", // MORUM
     "15p3jWZaP4dHTkDTuKM5VXQL5XGfH9U5r6Ntu3UAv2K7vPb8", // Tessera
     "15R1pWegyu7AfMev8DBMT67qxYoJhA1v7BbA2nn7S2uJ5QDF", // JamBrains
+    "15fGrDWmFoaApnZXEw1Zg45zuCqpkbMS9YPzczeU9dHseUUu", // Fluffy Labs
   ],
   networks: [
     {
