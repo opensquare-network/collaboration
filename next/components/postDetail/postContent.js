@@ -16,6 +16,7 @@ import { loginAddressSelector } from "store/reducers/accountSlice";
 import { proposalStatus } from "frontedUtils/consts/proposal";
 import { MarkdownPreviewer } from "@osn/previewer";
 import PostBanner from "@/components/postDetail/postBanner";
+import { isSameAddress } from "frontedUtils/address";
 
 const Title = styled.div`
   ${p_semibold};
@@ -61,7 +62,7 @@ const Content = styled.div`
 
 export default function PostContent({ data, space }) {
   const loginAddress = useSelector(loginAddressSelector);
-  const isOwner = loginAddress === (data.proposor || data.address);
+  const isOwner = isSameAddress(loginAddress, data.proposor || data.address);
   const networkConfig = findNetworkConfig(
     data.networksConfig,
     data.proposerNetwork,

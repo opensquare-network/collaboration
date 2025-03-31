@@ -138,7 +138,7 @@ async function addDelegatedVotes(
 }
 
 async function checkProxy({ proposal, voterNetwork, address, realVoter }) {
-  if (!realVoter || realVoter === address) {
+  if (!realVoter || isSameAddress(realVoter, address)) {
     return;
   }
 

@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { fetchIdentity } from "services/identity";
 import Author from "../author";
 import { chainConfigsMap } from "../../frontedUtils/consts/chains";
+import { isSameAddress } from "frontedUtils/address";
 
 export function useSuggestions(comments = []) {
   const [suggestions, setSuggestions] = useState();
@@ -22,7 +23,8 @@ export function useSuggestions(comments = []) {
             network: comment.commenterNetwork,
           };
         }),
-        (a, b) => a.address === b.address && a.network === b.network,
+        (a, b) =>
+          isSameAddress(a.address, b.address) && a.network === b.network,
       ).map(async (item) => {
         const configs = chainConfigsMap[item.network];
         const identityChain = (configs && configs.identity) || item.network;
