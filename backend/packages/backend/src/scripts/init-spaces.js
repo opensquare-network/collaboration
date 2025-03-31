@@ -38,6 +38,7 @@ const { creditcoinConfig } = require("./spaces/creditcoin");
 const { creditcoinEnterpriseConfig } = require("./spaces/creditcoinEnterprise");
 const { dotaConfig } = require("./spaces/dota");
 const { permanenceConfig } = require("./spaces/permanence");
+const { jamDaoConfig } = require("./spaces/jamdao");
 
 const spaces = [
   polkadotConfig,
@@ -76,6 +77,7 @@ const spaces = [
   creditcoinEnterpriseConfig,
   dotaConfig,
   permanenceConfig,
+  jamDaoConfig,
 ];
 
 if (["1", "true", "TRUE"].includes(process.env.DEVELOPMENT)) {
