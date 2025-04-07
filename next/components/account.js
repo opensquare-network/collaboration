@@ -23,6 +23,32 @@ import { useMetaMaskEventHandlers } from "services/metamask";
 import { useOnClickOutside, useWindowSize } from "frontedUtils/hooks";
 import tw from "tailwind-styled-components";
 
+import { ConnectionDialog } from "dot-connect/react.js";
+import { dot } from "@polkadot-api/descriptors";
+import { defineConfig } from "@reactive-dot/core";
+import { createLightClientProvider } from "@reactive-dot/core/providers/light-client.js";
+import { InjectedWalletProvider } from "@reactive-dot/core/wallets.js";
+import { registerDotConnect } from "dot-connect";
+import { useAccounts } from "@reactive-dot/react";
+
+const lightClientProvider = createLightClientProvider();
+
+export const config = defineConfig({
+  chains: {
+    // "polkadot" here can be any unique string value
+    polkadot: {
+      descriptor: dot,
+      provider: lightClientProvider.addRelayChain({ id: "polkadot" }),
+    },
+  },
+  wallets: [new InjectedWalletProvider()],
+});
+
+// Register dot-connect custom elements & configure supported wallets
+registerDotConnect({
+  wallets: config.wallets,
+});
+
 const ConnectModal = dynamic(() => import("./connect"), {
   ssr: false,
 });
@@ -130,6 +156,15 @@ function Account({ networks }) {
   const [pageMounted, setPageMounted] = useState(false);
   const address = useSelector(loginAddressSelector);
   const spaceSupportMultiChain = networks?.length > 1;
+  const [open, setOpen] = useState(false);
+
+  const accounts = useAccounts();
+
+  console.log({
+    open,
+    useAccounts,
+    // accounts,
+  });
 
   const menuRef = useRef();
   useOnClickOutside(menuRef, () => {
@@ -163,7 +198,8 @@ function Account({ networks }) {
     <ButtonPrimary
       primary
       onClick={() => {
-        dispatch(popUpConnect());
+        // dispatch(popUpConnect());
+        setOpen(true);
       }}
       className="w-full"
     >
@@ -245,6 +281,7 @@ function Account({ networks }) {
       <div className="flex w-full">
         {ConnectWalletButton}
         {showConnect && <ConnectModal networks={networks} />}
+        <ConnectionDialog open={open} onClose={() => setOpen(false)} />
       </div>
     );
   }
