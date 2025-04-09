@@ -38,7 +38,7 @@ export default function useExtension() {
       const extensionAccounts = await web3Accounts();
       // Currently we don't support sign in ethereum address with polkadot extension
       const filteredAccounts = extensionAccounts.filter(
-        ({ address }) => !ethers.utils.isAddress(address)
+        ({ address }) => !ethers.utils.isAddress(address),
       );
 
       if (isMounted) {
