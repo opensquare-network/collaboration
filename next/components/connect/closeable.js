@@ -9,7 +9,12 @@ function Closeable({ open, children }) {
   const closeModal = () => dispatch(closeConnect());
 
   return (
-    <Modal open={open} onClose={closeModal} footer={false}>
+    <Modal
+      className="w-[480px]"
+      open={open}
+      onClose={closeModal}
+      footer={false}
+    >
       <StyledTitle>Connect Wallet</StyledTitle>
 
       {children}

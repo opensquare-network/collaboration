@@ -15,6 +15,8 @@ import useExtension from "../../frontedUtils/hooks/useExtension";
 import { evmChains } from "../../frontedUtils/consts/chains";
 import ConnectButton from "@/components/connect/connectButton";
 import { MetamaskElement } from "@/components/connect/metamask";
+import SubstrateWalletList from "./wallets/substrateWallets";
+import useExtensionAccounts from "./wallets/useExtensionAccounts";
 
 const Wrapper = styled.div``;
 
@@ -75,8 +77,11 @@ function WalletAccount({
 export default function Connect({ networks }) {
   const [chain, setChain] = useState(networks[0]);
   const availableNetworks = useSelector(availableNetworksSelector);
-  const { accounts, hasExtension, extensionAccessible, detecting } =
-    useExtension();
+  const { hasExtension, extensionAccessible, detecting } = useExtension();
+  const [wallet, setWallet] = useState();
+  const { accounts, loading: isAccountsLoading } = useExtensionAccounts(
+    wallet?.extensionName,
+  );
 
   const [metaMaskNetworkChangeCount, setMetaMaskNetworkChangeCount] =
     useState(1);
@@ -99,14 +104,17 @@ export default function Connect({ networks }) {
           chains={availableNetworks}
           onSelect={(chain) => setChain(chain)}
         />
-        <WalletAccount
-          chain={chain}
-          isEvmChain={isEvmChain}
-          detecting={detecting}
-          hasExtension={hasExtension}
-          extensionAccessible={extensionAccessible}
-          accounts={accounts}
-        />
+        {!wallet && <SubstrateWalletList onSelectWallet={setWallet} />}
+        {wallet && !isAccountsLoading && (
+          <WalletAccount
+            chain={chain}
+            isEvmChain={isEvmChain}
+            detecting={detecting}
+            hasExtension={hasExtension}
+            extensionAccessible={extensionAccessible}
+            accounts={accounts}
+          />
+        )}
       </Closeable>
     </Wrapper>
   );
