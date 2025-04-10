@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import { availableNetworksSelector } from "store/reducers/accountSlice";
 import ChainSelector from "@/components/chainSelector";
@@ -10,18 +10,6 @@ import AccountsList from "./wallets/accountsList";
 
 function SelectWalletView({ setChain, setWallet }) {
   const availableNetworks = useSelector(availableNetworksSelector);
-
-  const [metaMaskNetworkChangeCount, setMetaMaskNetworkChangeCount] =
-    useState(1);
-
-  useEffect(() => {
-    if (!window.ethereum || !window.ethereum.isMetaMask) {
-      return;
-    }
-    window.ethereum.on("chainChanged", () => {
-      setMetaMaskNetworkChangeCount(metaMaskNetworkChangeCount + 1);
-    });
-  }, [metaMaskNetworkChangeCount]);
 
   return (
     <>
@@ -50,7 +38,9 @@ function SelectAccountView({ chain, wallet }) {
           <Logo className="w-[32px] h-[32px]" />
           <label className="text14Semibold">{wallet.title}</label>
         </div>
-        <span className="text12Medium text-textTertiary">6 Connected</span>
+        <span className="text12Medium text-textTertiary">
+          {accounts?.length || 0} Connected
+        </span>
       </div>
       {!isAccountsLoading && <AccountsList chain={chain} accounts={accounts} />}
     </>
