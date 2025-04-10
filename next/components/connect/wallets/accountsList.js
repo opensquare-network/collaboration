@@ -31,7 +31,7 @@ function AccountItem({ account, chain, onClick }) {
           </div>
         </div>
       </div>
-      <ArrowCaretRight />
+      <ArrowCaretRight className="w-[24px] h-[24px] [&_path]:fill-textSecondary" />
     </div>
   );
 }

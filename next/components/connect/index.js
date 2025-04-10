@@ -7,9 +7,12 @@ import Closeable from "@/components/connect/closeable";
 import SubstrateWalletList from "./wallets/substrateWallets";
 import useExtensionAccounts from "./wallets/useExtensionAccounts";
 import AccountsList from "./wallets/accountsList";
+import { evmChains } from "../../frontedUtils/consts/chains";
+import EvmWalletList from "./wallets/evmWalletList";
 
-function SelectWalletView({ setChain, setWallet }) {
+function SelectWalletView({ chain, setChain, setWallet }) {
   const availableNetworks = useSelector(availableNetworksSelector);
+  const isEvmChain = evmChains.includes(chain.network);
 
   return (
     <>
@@ -18,7 +21,11 @@ function SelectWalletView({ setChain, setWallet }) {
         chains={availableNetworks}
         onSelect={(chain) => setChain(chain)}
       />
-      <SubstrateWalletList onSelectWallet={setWallet} />
+      {isEvmChain ? (
+        <EvmWalletList onSelectWallet={setWallet} />
+      ) : (
+        <SubstrateWalletList onSelectWallet={setWallet} />
+      )}
     </>
   );
 }
@@ -57,7 +64,11 @@ export default function Connect({ networks }) {
         {wallet ? (
           <SelectAccountView chain={chain} wallet={wallet} />
         ) : (
-          <SelectWalletView setChain={setChain} setWallet={setWallet} />
+          <SelectWalletView
+            chain={chain}
+            setChain={setChain}
+            setWallet={setWallet}
+          />
         )}
       </div>
     </Closeable>

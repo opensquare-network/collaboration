@@ -87,13 +87,9 @@ export const substrateWallets = [
   nova,
 ];
 
-export const allWallets = [
-  polkadotJs,
-  subWallet,
-  talisman,
+export const evmWallets = [
   metamask,
-  polkagate,
-  nova,
+  talisman,
   phantom,
   okxWallet,
   coinbaseWallet,
