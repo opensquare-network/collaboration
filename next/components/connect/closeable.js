@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { closeConnect } from "../../store/reducers/showConnectSlice";
 import Modal from "@osn/common-ui/es/Modal";
 
-function Closeable({ open, children }) {
+function Closeable({ open = true, children }) {
   const dispatch = useDispatch();
   const closeModal = () => dispatch(closeConnect());
 
