@@ -6,7 +6,6 @@ import {
   WalletPolkagate,
   WalletSubwallet,
   WalletTailsman,
-  WalletSignet,
   WalletPhantom,
   WalletOkx,
   WalletCoinbase,
@@ -59,13 +58,6 @@ export const nova = {
   logo: WalletNova,
 };
 
-export const signet = {
-  extensionName: WalletTypes.SIGNET,
-  title: "Signet",
-  installUrl: "https://www.talisman.xyz/signet",
-  logo: WalletSignet,
-};
-
 export const phantom = {
   extensionName: WalletTypes.PHANTOM,
   title: "Phantom",
@@ -102,7 +94,6 @@ export const allWallets = [
   metamask,
   polkagate,
   nova,
-  signet,
   phantom,
   okxWallet,
   coinbaseWallet,
