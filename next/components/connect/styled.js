@@ -1,10 +1,6 @@
 import styled from "styled-components";
 import { Modal } from "@osn/common-ui";
-import {
-  p_14_normal,
-  p_16_semibold,
-  p_20_semibold,
-} from "../../styles/textStyles";
+import { p_14_normal, p_16_semibold } from "../../styles/textStyles";
 
 export const StyledModal = styled(Modal)`
   max-width: 400px !important;
@@ -30,9 +26,8 @@ export const CloseBar = styled.div`
 `;
 
 export const StyledTitle = styled.header`
-  ${p_20_semibold};
+  ${p_16_semibold};
   color: var(--textPrimary);
-  margin-bottom: 8px;
 `;
 
 export const StyledText = styled.p`

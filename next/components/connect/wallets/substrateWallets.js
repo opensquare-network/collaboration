@@ -52,7 +52,7 @@ function SubstrateWallet({ wallet, onClick }) {
 
 export default function SubstrateWalletList({ onSelectWallet }) {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col gap-[16px]">
       <StyledTitle>Wallet</StyledTitle>
       <div className="flex flex-wrap gap-[12px]">
         {substrateWallets.map((wallet) => (
