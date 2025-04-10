@@ -6,8 +6,8 @@ import { StyledTitle } from "@/components/connect/styled";
 import Closeable from "@/components/connect/closeable";
 import SubstrateWalletList from "./wallets/substrateWallets";
 import { evmChains } from "../../frontedUtils/consts/chains";
-import EvmWalletList from "./wallets/evmWalletList";
 import SubstrateAccountsView from "./wallets/substrateAccountsView";
+import { MetamaskAccountList } from "./metamask";
 
 function SelectWalletView({ chain, setChain, setWallet }) {
   const availableNetworks = useSelector(availableNetworksSelector);
@@ -21,7 +21,7 @@ function SelectWalletView({ chain, setChain, setWallet }) {
         onSelect={(chain) => setChain(chain)}
       />
       {isEvmChain ? (
-        <EvmWalletList onSelectWallet={setWallet} />
+        <MetamaskAccountList chain={chain} />
       ) : (
         <SubstrateWalletList onSelectWallet={setWallet} />
       )}

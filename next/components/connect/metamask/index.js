@@ -1,15 +1,26 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import NoMetamask from "@/components/connect/metamask/noMetamask";
-import { ActionBar } from "@/components/connect/styled";
-import ConnectButton from "@/components/connect/connectButton";
 import { evmChainId } from "../../../frontedUtils/consts/chains";
 import WrongNetwork from "@/components/connect/metamask/wrongNetwork";
 import MetamaskNoAccount from "@/components/connect/metamask/noAccount";
+import AccountsList from "../wallets/accountsList";
+
+function useSubMetamaskChainChanged(callback) {
+  useEffect(() => {
+    if (!window.ethereum || !window.ethereum.isMetaMask) {
+      return;
+    }
+    window.ethereum.on("chainChanged", callback);
+    return () => {
+      window.ethereum.removeListener("chainChanged", callback);
+    };
+  }, [callback]);
+}
 
 function useChainId() {
   const [chainId, setChainId] = useState(null);
 
-  useEffect(() => {
+  const fetch = useCallback(() => {
     if (window?.ethereum) {
       window.ethereum
         .request({ method: "eth_chainId" })
@@ -17,13 +28,19 @@ function useChainId() {
     }
   }, []);
 
+  useSubMetamaskChainChanged(fetch);
+
+  useEffect(() => {
+    fetch();
+  }, [fetch]);
+
   return chainId;
 }
 
 function useAccounts() {
   const [accounts, setAccounts] = useState([]);
 
-  useEffect(() => {
+  const fetch = useCallback(() => {
     if (window?.ethereum) {
       window.ethereum
         .request({ method: "eth_requestAccounts" })
@@ -31,32 +48,37 @@ function useAccounts() {
     }
   }, []);
 
+  useSubMetamaskChainChanged(fetch);
+
+  useEffect(() => {
+    fetch();
+  }, [fetch]);
+
   return accounts;
 }
 
-export function MetamaskElement({ network }) {
+function MetamaskAccounts({ chain }) {
   const chainId = useChainId();
   const accounts = useAccounts();
+  const evmAccounts = useMemo(
+    () => accounts.map((acc) => ({ address: acc })),
+    [accounts],
+  );
 
-  if (!window?.ethereum || !window?.ethereum.isMetaMask) {
-    return <NoMetamask />;
-  }
-
-  if (chainId !== evmChainId[network]) {
-    return <WrongNetwork network={network} />;
+  if (chainId !== evmChainId[chain.network]) {
+    return <WrongNetwork network={chain.network} />;
   }
 
   if (accounts.length <= 0) {
     return <MetamaskNoAccount />;
   }
 
-  return (
-    <ActionBar>
-      <ConnectButton
-        address={accounts[0]}
-        network={network}
-        isMetamask={true}
-      />
-    </ActionBar>
-  );
+  return <AccountsList chain={chain} accounts={evmAccounts} />;
+}
+
+export function MetamaskAccountList({ chain }) {
+  if (!window?.ethereum || !window?.ethereum.isMetaMask) {
+    return <NoMetamask />;
+  }
+  return <MetamaskAccounts chain={chain} />;
 }
