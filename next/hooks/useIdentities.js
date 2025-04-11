@@ -1,4 +1,4 @@
-import { getChainConfigs } from "../frontedUtils/consts/chains";
+import { evmChains, getChainConfigs } from "../frontedUtils/consts/chains";
 import { fetchIdentity } from "services/identity";
 import { useCallback, useEffect, useState } from "react";
 import encodeAddressByChain from "frontedUtils/chain/addr";
@@ -6,6 +6,7 @@ import encodeAddressByChain from "frontedUtils/chain/addr";
 export default function useIdentities(network, addresses) {
   const [identities, setIdentities] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const isEvm = evmChains.includes(network);
 
   const fetchOne = useCallback(async (network, address) => {
     const chainConfig = getChainConfigs(network);
@@ -15,7 +16,7 @@ export default function useIdentities(network, addresses) {
   }, []);
 
   useEffect(() => {
-    if (!addresses || !network) {
+    if (!addresses || !network || isEvm) {
       return;
     }
 
@@ -27,7 +28,7 @@ export default function useIdentities(network, addresses) {
       .finally(() => {
         setIsLoading(false);
       });
-  }, [fetchOne, addresses, network]);
+  }, [fetchOne, addresses, network, isEvm]);
 
   return { identities, isLoading };
 }
