@@ -11,8 +11,11 @@ import {
 import NoAccount from "../noAccount";
 import { StyledTitle } from "../styled";
 import encodeAddressByChain from "frontedUtils/chain/addr";
+import useIdentity from "hooks/useIdentity";
+import useIdentities from "hooks/useIdentities";
 
 function AccountItem({ account, chain, onClick }) {
+  const { identity } = useIdentity(chain.network, account.address);
   const address = encodeAddressByChain(account.address, chain.network);
   return (
     <div
@@ -25,7 +28,11 @@ function AccountItem({ account, chain, onClick }) {
       <div className="flex gap-[12px] items-center overflow-hidden">
         <Avatar address={address} size={32} />
         <div className="flex flex-col overflow-hidden">
-          <label className="text14Medium">{addressEllipsis(address)}</label>
+          <label className="text14Medium">
+            {identity?.info?.display ||
+              account.name ||
+              addressEllipsis(address)}
+          </label>
           <div className="text12Medium text-textTertiary truncate">
             {address}
           </div>
@@ -38,18 +45,39 @@ function AccountItem({ account, chain, onClick }) {
 
 export default function AccountsList({ chain, accounts }) {
   const dispatch = useDispatch();
-  const [address, setAddress] = useState("");
+  const [search, setSearch] = useState("");
+  const addresses = useMemo(
+    () => (accounts || []).map((account) => account.address),
+    [accounts],
+  );
+  const { identities } = useIdentities(chain.network, addresses);
 
   const filteredAccounts = useMemo(
     () =>
-      (accounts || []).filter((account) => {
-        return address
-          ? encodeAddressByChain(account.address, chain.network)
-              .toLowerCase()
-              .includes(address.toLowerCase())
-          : accounts;
+      (accounts || []).filter((account, index) => {
+        if (!search) {
+          return accounts;
+        }
+        const identity = identities?.[index];
+        if (identity) {
+          if (
+            identity.info?.display &&
+            identity.info.display.toLowerCase().includes(search.toLowerCase())
+          ) {
+            return true;
+          }
+        } else {
+          if (
+            account.name &&
+            account.name.toLowerCase().includes(search.toLowerCase())
+          ) {
+            return true;
+          }
+        }
+        const accAddr = encodeAddressByChain(account.address, chain.network);
+        return accAddr.toLowerCase().includes(search.toLowerCase());
       }),
-    [accounts, chain, address],
+    [accounts, chain, search, identities],
   );
 
   const onSelectAccount = useCallback(
@@ -75,8 +103,8 @@ export default function AccountsList({ chain, accounts }) {
       <StyledTitle>Accounts</StyledTitle>
       <Input
         placeholder="Search by name or address"
-        value={address}
-        onChange={(e) => setAddress(e.target.value)}
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
         suffix={
           <SystemSearch className="w-[20px] h-[20px] [&_path]:fill-textTertiary" />
         }
