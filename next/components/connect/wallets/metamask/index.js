@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { evmChainId } from "../../../frontedUtils/consts/chains";
-import WrongNetwork from "@/components/connect/metamask/wrongNetwork";
-import MetamaskNoAccount from "@/components/connect/metamask/noAccount";
-import AccountsList from "../wallets/accountsList";
+import { evmChainId } from "frontedUtils/consts/chains";
+import WrongNetwork from "./wrongNetwork";
+import MetamaskNoAccount from "./noAccount";
+import AccountsList from "../accountsList";
 
 function useSubMetamaskChainChanged(callback) {
   useEffect(() => {

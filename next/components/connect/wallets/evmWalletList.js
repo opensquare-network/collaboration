@@ -2,13 +2,12 @@ import { useConnector } from "hooks/wagmi";
 import { StyledTitle } from "../styled";
 import { evmWallets } from "./consts";
 import WalletItem from "./walletItem";
-import { useAccount, useConnect, useDisconnect } from "wagmi";
+import { useAccount, useConnect } from "wagmi";
 import { useCallback } from "react";
 
 function EvmWallet({ wallet, onConnect }) {
   const walletConnector = useConnector(wallet.connectorId);
   const { connect } = useConnect();
-  const { disconnect } = useDisconnect();
   const { connector: activeConnector } = useAccount();
 
   const onSelectWallet = useCallback(async () => {
@@ -19,9 +18,8 @@ function EvmWallet({ wallet, onConnect }) {
       onConnect();
       return;
     }
-    disconnect();
     connect({ connector: walletConnector }, { onSuccess: onConnect });
-  }, [connect, disconnect, onConnect, walletConnector, activeConnector]);
+  }, [connect, onConnect, walletConnector, activeConnector]);
 
   const installed = !!walletConnector;
 

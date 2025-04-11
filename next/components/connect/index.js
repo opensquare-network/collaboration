@@ -4,7 +4,7 @@ import { availableNetworksSelector } from "store/reducers/accountSlice";
 import ChainSelector from "@/components/chainSelector";
 import { StyledTitle } from "@/components/connect/styled";
 import Closeable from "@/components/connect/closeable";
-import { evmChains } from "../../frontedUtils/consts/chains";
+import { evmChains } from "frontedUtils/consts/chains";
 import SubstrateAccountsView from "./wallets/substrateAccountsView";
 import SubstrateWalletList from "./wallets/substrateWallets";
 import EvmAccountsView from "./wallets/evmAccountsView";
