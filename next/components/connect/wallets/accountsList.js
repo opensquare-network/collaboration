@@ -1,8 +1,8 @@
-import { useCallback } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Avatar, cn } from "@osn/common-ui";
+import { Avatar, cn, Input } from "@osn/common-ui";
 import { addressEllipsis } from "@osn/common";
-import { ArrowCaretRight } from "@osn/icons/opensquare";
+import { ArrowCaretRight, SystemSearch } from "@osn/icons/opensquare";
 import { setAccount } from "store/reducers/accountSlice";
 import {
   closeConnect,
@@ -38,6 +38,19 @@ function AccountItem({ account, chain, onClick }) {
 
 export default function AccountsList({ chain, accounts }) {
   const dispatch = useDispatch();
+  const [address, setAddress] = useState("");
+
+  const filteredAccounts = useMemo(
+    () =>
+      (accounts || []).filter((account) => {
+        return address
+          ? encodeAddressByChain(account.address, chain.network)
+              .toLowerCase()
+              .includes(address.toLowerCase())
+          : accounts;
+      }),
+    [accounts, chain, address],
+  );
 
   const onSelectAccount = useCallback(
     (account) => {
@@ -60,8 +73,17 @@ export default function AccountsList({ chain, accounts }) {
   return (
     <div className="flex flex-col gap-[16px]">
       <StyledTitle>Accounts</StyledTitle>
+      <Input
+        placeholder="Search by name or address"
+        value={address}
+        onChange={(e) => setAddress(e.target.value)}
+        suffix={
+          <SystemSearch className="w-[20px] h-[20px] [&_path]:fill-textTertiary" />
+        }
+      />
+
       <div className="flex flex-col gap-[12px] max-h-[264px] overflow-y-auto scrollbar-none">
-        {(accounts || []).map((account) => (
+        {(filteredAccounts || []).map((account) => (
           <AccountItem
             key={account.address}
             account={account}
