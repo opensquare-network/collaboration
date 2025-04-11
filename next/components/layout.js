@@ -10,6 +10,8 @@ import { useEffect } from "react";
 import { initAccount } from "store/reducers/accountSlice";
 import { useDispatch } from "react-redux";
 import NotificationMonitor from "./notification/monitor";
+import WagmiProvider from "context/wagmi";
+import ReactQueryClientProvider from "context/reactQuery";
 
 const Wrapper = styled.div`
   min-height: 100vh;
@@ -26,14 +28,18 @@ export default function Layout({ bgHeight, children, networks }) {
 
   return (
     <ThemeProvider theme={theme}>
-      <Wrapper>
-        <Header networks={networks} />
-        <Main bgHeight={bgHeight}>{children}</Main>
-        <Footer github="https://github.com/opensquare-network/collaboration/" />
-        <Toast />
-        <Shade />
-        <NotificationMonitor />
-      </Wrapper>
+      <WagmiProvider>
+        <ReactQueryClientProvider>
+          <Wrapper>
+            <Header networks={networks} />
+            <Main bgHeight={bgHeight}>{children}</Main>
+            <Footer github="https://github.com/opensquare-network/collaboration/" />
+            <Toast />
+            <Shade />
+            <NotificationMonitor />
+          </Wrapper>
+        </ReactQueryClientProvider>
+      </WagmiProvider>
     </ThemeProvider>
   );
 }
