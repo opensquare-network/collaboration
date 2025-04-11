@@ -33,6 +33,7 @@ export const talisman = {
   installUrl:
     "https://chrome.google.com/webstore/detail/talisman-wallet/fijngjgcjhjmmpcmkeiomlglpeiijkld",
   logo: WalletTailsman,
+  connectorId: "xyz.talisman",
 };
 
 export const metamask = {
@@ -41,6 +42,7 @@ export const metamask = {
   installUrl:
     "https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn",
   logo: WalletMetamask,
+  connectorId: "io.metamask",
 };
 
 export const polkagate = {
@@ -77,6 +79,7 @@ export const coinbaseWallet = {
   title: "Coinbase Wallet",
   installUrl: "https://www.coinbase.com/wallet/downloads",
   logo: WalletCoinbase,
+  connectorId: "coinbaseWalletSDK",
 };
 
 export const substrateWallets = [

@@ -12,14 +12,12 @@ export default function SubstrateAccountsView({ chain, wallet }) {
     [accounts],
   );
 
-  const Logo = wallet.logo;
-
   return (
     <>
       <StyledTitle>Select An Account</StyledTitle>
       <div className="flex justify-between items-center p-[12px] bg-fillBgTertiary">
         <div className="flex gap-[12px] items-center">
-          <Logo className="w-[32px] h-[32px]" />
+          <wallet.logo className="w-[32px] h-[32px]" />
           <label className="text14Semibold">{wallet.title}</label>
         </div>
         <span className="text12Medium text-textTertiary">

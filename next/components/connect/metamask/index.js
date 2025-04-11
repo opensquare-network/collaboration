@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import NoMetamask from "@/components/connect/metamask/noMetamask";
 import { evmChainId } from "../../../frontedUtils/consts/chains";
 import WrongNetwork from "@/components/connect/metamask/wrongNetwork";
 import MetamaskNoAccount from "@/components/connect/metamask/noAccount";
@@ -37,31 +36,10 @@ function useChainId() {
   return chainId;
 }
 
-function useAccounts() {
-  const [accounts, setAccounts] = useState([]);
-
-  const fetch = useCallback(() => {
-    if (window?.ethereum) {
-      window.ethereum
-        .request({ method: "eth_requestAccounts" })
-        .then((accs) => setAccounts(accs));
-    }
-  }, []);
-
-  useSubMetamaskChainChanged(fetch);
-
-  useEffect(() => {
-    fetch();
-  }, [fetch]);
-
-  return accounts;
-}
-
-function MetamaskAccounts({ chain }) {
+export function MetamaskAccountList({ chain, accounts }) {
   const chainId = useChainId();
-  const accounts = useAccounts();
   const evmAccounts = useMemo(
-    () => accounts.map((acc) => ({ address: acc })),
+    () => (accounts || []).map((acc) => ({ address: acc })),
     [accounts],
   );
 
@@ -74,11 +52,4 @@ function MetamaskAccounts({ chain }) {
   }
 
   return <AccountsList chain={chain} accounts={evmAccounts} />;
-}
-
-export function MetamaskAccountList({ chain }) {
-  if (!window?.ethereum || !window?.ethereum.isMetaMask) {
-    return <NoMetamask />;
-  }
-  return <MetamaskAccounts chain={chain} />;
 }
