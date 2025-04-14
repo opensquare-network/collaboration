@@ -3,7 +3,7 @@ import { substrateWallets } from "./consts";
 import useInjectedExtension from "./useInjectedExtension";
 import WalletTypes from "./walletTypes";
 import WalletItem from "./walletItem";
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { appName } from "frontedUtils/consts/app";
 
 function getExtensionName(wallet) {
@@ -16,11 +16,15 @@ function getExtensionName(wallet) {
 function SubstrateWallet({ wallet, onConnect }) {
   const extensionName = getExtensionName(wallet);
   const { loading, injectedExtension } = useInjectedExtension(extensionName);
+  const [isNovaInjected, setIsNovaInjected] = useState(false);
 
   const installed =
     injectedExtension &&
-    (wallet.extensionName !== WalletTypes.NOVA ||
-      injectedExtension?.isNovaWallet);
+    (wallet.extensionName !== WalletTypes.NOVA || isNovaInjected);
+
+  useEffect(() => {
+    setIsNovaInjected(window.walletExtension?.isNovaWallet === true);
+  }, []);
 
   const onClick = useCallback(async () => {
     if (!injectedExtension) {
