@@ -4,6 +4,7 @@ import useInjectedExtension from "./useInjectedExtension";
 import WalletTypes from "./walletTypes";
 import WalletItem from "./walletItem";
 import { useCallback } from "react";
+import { appName } from "frontedUtils/consts/app";
 
 function getExtensionName(wallet) {
   if (wallet.extensionName === WalletTypes.NOVA) {
@@ -26,7 +27,7 @@ function SubstrateWallet({ wallet, onConnect }) {
       return;
     }
     try {
-      const injected = await injectedExtension.enable("opensquare.io");
+      const injected = await injectedExtension.enable(appName);
       await injected.accounts.get();
       onConnect();
     } catch (e) {

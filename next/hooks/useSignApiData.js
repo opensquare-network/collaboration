@@ -1,5 +1,6 @@
 import useInjectedExtension from "@/components/connect/wallets/useInjectedExtension";
 import { stringToHex } from "@polkadot/util";
+import { appName } from "frontedUtils/consts/app";
 import { evmChains } from "frontedUtils/consts/chains";
 import { useCallback } from "react";
 import { useSelector } from "react-redux";
@@ -14,7 +15,7 @@ function useSubstrateSignMessage(extensionName) {
         throw new Error("Injected extension not found");
       }
 
-      const injector = await injectedExtension.enable("opensquare.io");
+      const injector = await injectedExtension.enable(appName);
       if (!injector) {
         throw new Error("Enable injector extension failed");
       }

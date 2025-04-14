@@ -3,6 +3,7 @@ import { createConfig } from "wagmi";
 import { coinbaseWallet, injected } from "wagmi/connectors";
 import { http } from "wagmi";
 import { mainnet, creditCoin3Mainnet, moonriver, moonbeam } from "wagmi/chains";
+import { appName } from "frontedUtils/consts/app";
 
 export const wagmiConfig = createConfig({
   chains: [mainnet, moonriver, moonbeam, creditCoin3Mainnet],
@@ -10,7 +11,7 @@ export const wagmiConfig = createConfig({
   connectors: [
     injected(),
     coinbaseWallet({
-      appName: "opensquare.io",
+      appName,
     }),
   ],
   transports: {

@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import useInjectedExtension from "./useInjectedExtension";
+import { appName } from "frontedUtils/consts/app";
 
 async function fetchAccounts(injectedExtension) {
-  const walletExtension = await injectedExtension.enable("opensquare.io");
+  const walletExtension = await injectedExtension.enable(appName);
   return await walletExtension.accounts?.get();
 }
 
