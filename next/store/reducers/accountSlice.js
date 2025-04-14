@@ -118,31 +118,6 @@ export const initAccount = () => async (dispatch) => {
     return;
   }
 
-  if (
-    evmChains.includes(network) &&
-    window.ethereum &&
-    window.ethereum.isMetaMask
-  ) {
-    try {
-      const accounts = await window.ethereum.request({
-        method: "eth_requestAccounts",
-      });
-      if (accounts.includes(address)) {
-        dispatch(
-          setAccount({
-            address,
-            network,
-          }),
-        );
-      } else {
-        dispatch(setAccount(""));
-      }
-    } catch (e) {
-      dispatch(setAccount(""));
-    }
-    return;
-  }
-
   dispatch(
     setAccount({
       address,
