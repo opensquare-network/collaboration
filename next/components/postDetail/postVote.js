@@ -476,11 +476,10 @@ export default function PostVote({ proposal }) {
       );
     } catch (error) {
       const errorMessage = error.message;
-      if (extensionCancelled === errorMessage) {
-        setIsLoading(false);
-      } else {
+      if (extensionCancelled !== errorMessage) {
         dispatch(newErrorToast(errorMessage));
       }
+      setIsLoading(false);
       return;
     }
 
