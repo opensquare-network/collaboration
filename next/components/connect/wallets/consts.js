@@ -65,6 +65,7 @@ export const phantom = {
   title: "Phantom",
   installUrl: "https://phantom.app/",
   logo: WalletPhantom,
+  connectorId: "app.phantom",
 };
 
 export const okxWallet = {
@@ -72,6 +73,7 @@ export const okxWallet = {
   title: "OKX Wallet",
   installUrl: "https://www.okx.com/web3",
   logo: WalletOkx,
+  connectorId: "com.okex.wallet",
 };
 
 export const coinbaseWallet = {
