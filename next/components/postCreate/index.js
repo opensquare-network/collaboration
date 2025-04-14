@@ -251,9 +251,8 @@ export default function PostCreate({ space, settings }) {
       if (extensionCancelled !== errorMessage) {
         dispatch(newErrorToast(errorMessage));
       }
-      return;
-    } finally {
       dispatch(setCreateProposalLoading(false));
+      return;
     }
 
     const toastId = newToastId();
