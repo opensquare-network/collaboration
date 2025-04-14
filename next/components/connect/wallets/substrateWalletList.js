@@ -3,6 +3,7 @@ import { substrateWallets } from "./consts";
 import useInjectedExtension from "./useInjectedExtension";
 import WalletTypes from "./walletTypes";
 import WalletItem from "./walletItem";
+import { useCallback } from "react";
 
 function getExtensionName(wallet) {
   if (wallet.extensionName === WalletTypes.NOVA) {
@@ -11,7 +12,7 @@ function getExtensionName(wallet) {
   return wallet.extensionName;
 }
 
-function SubstrateWallet({ wallet, onClick }) {
+function SubstrateWallet({ wallet, onConnect }) {
   const extensionName = getExtensionName(wallet);
   const { loading, injectedExtension } = useInjectedExtension(extensionName);
 
@@ -19,6 +20,19 @@ function SubstrateWallet({ wallet, onClick }) {
     injectedExtension &&
     (wallet.extensionName !== WalletTypes.NOVA ||
       injectedExtension?.isNovaWallet);
+
+  const onClick = useCallback(async () => {
+    if (!injectedExtension) {
+      return;
+    }
+    try {
+      const injected = await injectedExtension.enable("opensquare.io");
+      await injected.accounts.get();
+      onConnect();
+    } catch (e) {
+      return;
+    }
+  }, [injectedExtension, onConnect]);
 
   return (
     <WalletItem
@@ -39,7 +53,7 @@ export default function SubstrateWalletList({ onSelectWallet }) {
           <SubstrateWallet
             key={wallet.extensionName}
             wallet={wallet}
-            onClick={() => onSelectWallet(wallet)}
+            onConnect={() => onSelectWallet(wallet)}
           />
         ))}
       </div>

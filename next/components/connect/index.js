@@ -6,7 +6,7 @@ import { StyledTitle } from "@/components/connect/styled";
 import Closeable from "@/components/connect/closeable";
 import { evmChains } from "frontedUtils/consts/chains";
 import SubstrateAccountsView from "./wallets/substrateAccountsView";
-import SubstrateWalletList from "./wallets/substrateWallets";
+import SubstrateWalletList from "./wallets/substrateWalletList";
 import EvmAccountsView from "./wallets/evmAccountsView";
 import EvmWalletList from "./wallets/evmWalletList";
 
