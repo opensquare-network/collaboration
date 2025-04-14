@@ -1,6 +1,18 @@
 import useInjectedWeb3 from "./useInjectedWeb3";
 import WalletTypes from "./walletTypes";
 
+export function findInjectedWeb3(injectedWeb3, extensionName) {
+  if (!injectedWeb3 || !extensionName) {
+    return null;
+  }
+
+  if (extensionName === WalletTypes.NOVA) {
+    return injectedWeb3[WalletTypes.POLKADOT_JS];
+  }
+
+  return injectedWeb3[extensionName];
+}
+
 export default function useInjectedExtension(extensionName) {
   const { loading, injectedWeb3 } = useInjectedWeb3();
 
@@ -18,15 +30,9 @@ export default function useInjectedExtension(extensionName) {
     };
   }
 
-  if (extensionName === WalletTypes.NOVA) {
-    return {
-      loading,
-      injectedExtension: injectedWeb3[WalletTypes.POLKADOT_JS],
-    };
-  }
-
+  const injectedExtension = findInjectedWeb3(injectedWeb3, extensionName);
   return {
     loading,
-    injectedExtension: injectedWeb3[extensionName],
+    injectedExtension,
   };
 }

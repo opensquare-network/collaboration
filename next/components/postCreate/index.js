@@ -42,6 +42,8 @@ import {
 import encodeAddressByChain from "../../frontedUtils/chain/addr";
 import nextApi from "../../services/nextApi";
 import { extensionCancelled } from "../../frontedUtils/consts/extension";
+import { signProposalWith } from "frontedUtils/signData";
+import useSignApiData from "hooks/useSignApiData";
 
 const Wrapper = styled.div`
   display: flex;
@@ -82,6 +84,7 @@ export default function PostCreate({ space, settings }) {
   const account = useSelector(loginAccountSelector);
   const loginAddress = useSelector(loginAddressSelector);
   const loginNetworkSnapshot = useSelector(loginNetworkSnapshotSelector);
+  const signApiData = useSignApiData();
 
   const snapshotHeights = useSelector(snapshotHeightsSelector);
   const choiceTypeIndex = useSelector(choiceTypeIndexSelector);
@@ -242,7 +245,7 @@ export default function PostCreate({ space, settings }) {
     dispatch(setCreateProposalLoading(true));
     let signedData;
     try {
-      signedData = await viewFunc.signProposal(proposal);
+      signedData = await signProposalWith(signApiData, proposal);
     } catch (e) {
       const errorMessage = e.message;
       if (extensionCancelled !== errorMessage) {
