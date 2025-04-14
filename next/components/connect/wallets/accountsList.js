@@ -43,7 +43,7 @@ function AccountItem({ account, chain, onClick }) {
   );
 }
 
-export default function AccountsList({ chain, accounts }) {
+export default function AccountsList({ chain, accounts, walletId }) {
   const dispatch = useDispatch();
   const [search, setSearch] = useState("");
   const addresses = useMemo(
@@ -86,12 +86,13 @@ export default function AccountsList({ chain, accounts }) {
         setAccount({
           address: account.address,
           network: chain.network,
+          wallet: walletId,
         }),
       );
       dispatch(closeConnect());
       dispatch(setShowHeaderMenu(false));
     },
-    [dispatch, chain],
+    [dispatch, chain, walletId],
   );
 
   if (accounts.length <= 0) {

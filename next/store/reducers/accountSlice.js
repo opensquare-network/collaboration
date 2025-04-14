@@ -24,12 +24,16 @@ const accountSlice = createSlice({
       if (payload) {
         state.account = payload;
         if (typeof window !== "undefined") {
-          setCookie("addressV3", `${payload.network}/${payload.address}`, 7);
+          setCookie(
+            "addressV4",
+            `${payload.network}/${payload.address}/${payload.wallet}`,
+            7,
+          );
         }
       } else {
         state.account = null;
         if (typeof window !== "undefined") {
-          clearCookie("addressV3");
+          clearCookie("addressV4");
         }
       }
     },
@@ -105,12 +109,12 @@ export const initAccount = () => async (dispatch) => {
     return;
   }
 
-  const data = getCookie("addressV3");
+  const data = getCookie("addressV4");
   if (!data) {
     return;
   }
 
-  const [network, address] = data.split("/");
+  const [network, address, wallet] = data.split("/");
   if (
     !isAddress(address) ||
     !(network in chainConfigsMap || evmChains.includes(network))
@@ -122,6 +126,7 @@ export const initAccount = () => async (dispatch) => {
     setAccount({
       address,
       network,
+      wallet,
     }),
   );
 };

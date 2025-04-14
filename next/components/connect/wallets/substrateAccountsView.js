@@ -25,7 +25,11 @@ export default function SubstrateAccountsView({ chain, wallet }) {
         </span>
       </div>
       {!isAccountsLoading && (
-        <AccountsList chain={chain} accounts={substrateAccounts} />
+        <AccountsList
+          chain={chain}
+          accounts={substrateAccounts}
+          walletId={wallet?.extensionName}
+        />
       )}
     </>
   );

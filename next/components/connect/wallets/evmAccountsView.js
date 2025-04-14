@@ -18,7 +18,11 @@ export default function EvmAccountsView({ chain, wallet }) {
         </span>
       </div>
       {isConnected && (
-        <MetamaskAccountList chain={chain} accounts={addresses} />
+        <MetamaskAccountList
+          chain={chain}
+          accounts={addresses}
+          wallet={wallet}
+        />
       )}
     </>
   );
