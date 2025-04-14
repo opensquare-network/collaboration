@@ -20,6 +20,8 @@ import {
   loginNetworkSelector,
 } from "store/reducers/accountSlice";
 import { isSameAddress } from "frontedUtils/address";
+import { signTerminateWith } from "frontedUtils/signData";
+import useSignApiData from "hooks/useSignApiData";
 
 const StyledButton = styled(Button)`
   margin-left: 20px;
@@ -32,6 +34,7 @@ export function TerminateButton({ proposal = {} }) {
   const viewfunc = useViewfunc();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const signApiData = useSignApiData();
 
   const isAuthor = isSameAddress(loginAddress, proposal.address);
 
@@ -43,7 +46,7 @@ export function TerminateButton({ proposal = {} }) {
     let signedData;
     setIsLoading(true);
     try {
-      signedData = await viewfunc.signTerminate({
+      signedData = await signTerminateWith(signApiData, {
         address: loginAddress,
         proposalCid: proposal.cid,
         terminatorNetwork: loginNetwork,

@@ -45,6 +45,8 @@ import SocietyMemberHint from "../postCreate/societyMemberHint";
 import SocietyMemberButton from "../societyMemberButton";
 import WhitelistMemberHint from "../postCreate/whitelistMemberHint";
 import WhitelistMemberButton from "../whitelistMemberButton";
+import { signVoteWith } from "frontedUtils/signData";
+import useSignApiData from "hooks/useSignApiData";
 
 const Wrapper = styled.div`
   > :not(:first-child) {
@@ -411,6 +413,7 @@ export default function PostVote({ proposal }) {
   const proxyAddress = useSelector(proxySelector);
   const loginAddress = useSelector(loginAddressSelector);
   const { network: loginNetwork } = useSelector(loginNetworkSelector) || {};
+  const signApiData = useSignApiData();
 
   const snapshot = proposal.snapshotHeights[loginNetwork];
 
@@ -465,15 +468,14 @@ export default function PostVote({ proposal }) {
         (choiceIndex) => proposal?.choices?.[choiceIndex],
       );
 
-      signedData = await viewfunc.signVote(
-        proposal?.space,
-        proposal?.cid,
+      signedData = await signVoteWith(signApiData, {
+        proposalCid: proposal?.cid,
         choices,
         remark,
-        loginAddress,
-        useProxy ? proxyAddress : undefined,
-        loginNetwork,
-      );
+        address: loginAddress,
+        realVoter: useProxy ? proxyAddress : undefined,
+        voterNetwork: loginNetwork,
+      });
     } catch (error) {
       const errorMessage = error.message;
       if (extensionCancelled !== errorMessage) {

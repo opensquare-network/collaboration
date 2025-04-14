@@ -45,21 +45,6 @@ export function validateProposal(formData) {
   return false;
 }
 
-export async function signProposal(proposal) {
-  const { address, ...data } = proposal;
-  return await signApiData(
-    {
-      ...data,
-      // Version 2: multi space network support
-      // Version 3: banner supported
-      // Version 4: multi assets support
-      // Version 5, add networks configuration
-      version: "5",
-    },
-    address,
-  );
-}
-
 export async function signProposalSettings(template) {
   const { address, ...data } = template;
   return await signApiData(data, address);
@@ -80,31 +65,6 @@ export async function signComment(
       contentType,
       commenterNetwork,
       version: "2",
-    },
-    address,
-  );
-}
-
-export async function signVote(
-  space,
-  proposalCid,
-  choices,
-  remark,
-  address,
-  realVoter,
-  voterNetwork,
-) {
-  return await signApiData(
-    {
-      proposalCid,
-      choices,
-      remark,
-      realVoter,
-      voterNetwork,
-      // Version 2: multi space network support
-      // Version 3: multi choices support
-      // Version 4: multi assets support
-      version: "4",
     },
     address,
   );

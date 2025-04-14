@@ -1,6 +1,6 @@
 const { getProposalCollection } = require("../../mongo");
 const { HttpError } = require("../../exc");
-const { isSamePublicKey } = require("../../utils");
+const { isSameAddress } = require("../../utils/address");
 
 async function terminate(
   proposalCid,
@@ -22,8 +22,8 @@ async function terminate(
   }
 
   if (
-    !isSamePublicKey(address, proposal.proposer) &&
-    !isSamePublicKey(address, proposal.address)
+    !isSameAddress(address, proposal.proposer) &&
+    !isSameAddress(address, proposal.address)
   ) {
     throw new HttpError(400, "Only the proposer can terminate the proposal");
   }
