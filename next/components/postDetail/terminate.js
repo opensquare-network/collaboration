@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { Button } from "@osn/common-ui";
 import nextApi from "services/nextApi";
-import { useViewfunc } from "frontedUtils/hooks";
 import { extensionCancelled } from "frontedUtils/consts/extension";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
@@ -31,7 +30,6 @@ export function TerminateButton({ proposal = {} }) {
   const loginAddress = useSelector(loginAddressSelector);
   const { network: loginNetwork } = useSelector(loginNetworkSelector) || {};
   const dispatch = useDispatch();
-  const viewfunc = useViewfunc();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const signApiData = useSignApiData();
@@ -39,10 +37,6 @@ export function TerminateButton({ proposal = {} }) {
   const isAuthor = isSameAddress(loginAddress, proposal.address);
 
   const handleTerminate = async () => {
-    if (!viewfunc) {
-      return;
-    }
-
     let signedData;
     setIsLoading(true);
     try {

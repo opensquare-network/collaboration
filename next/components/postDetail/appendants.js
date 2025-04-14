@@ -22,7 +22,6 @@ import {
   p_16_semibold,
 } from "@osn/common-ui/es/styles/textStyles";
 import { text_dark_accessory } from "@osn/common-ui/es/styles/colors";
-import { useViewfunc } from "frontedUtils/hooks";
 import nextApi from "services/nextApi";
 import { MarkdownPreviewer } from "@osn/previewer";
 import Editor from "../editor";
@@ -88,7 +87,6 @@ export default function Appendants({ proposal, appendants, editable }) {
   const [editing, setEditing] = useState(false);
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
-  const viewfunc = useViewfunc();
   const signApiData = useSignApiData();
 
   const contentType = "markdown";
@@ -96,10 +94,6 @@ export default function Appendants({ proposal, appendants, editable }) {
   const showErrorToast = (message) => dispatch(newErrorToast(message));
 
   const onSubmit = async () => {
-    if (!viewfunc) {
-      return;
-    }
-
     if (!account) {
       return showErrorToast("Please connect wallet");
     }

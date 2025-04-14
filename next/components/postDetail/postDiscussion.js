@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 
 import Author from "components/author";
 import Pagination from "components/pagination";
-import { useViewfunc } from "frontedUtils/hooks";
 import { loginAccountSelector } from "store/reducers/accountSlice";
 import {
   newErrorToast,
@@ -92,7 +91,6 @@ export default function PostDiscussion({
   votesPage = 1,
 }) {
   const [content, setContent] = useState("");
-  const viewfunc = useViewfunc();
   const account = useSelector(loginAccountSelector);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
@@ -101,9 +99,6 @@ export default function PostDiscussion({
 
   const onSubmit = async (callback) => {
     if (isLoading) return;
-    if (!viewfunc) {
-      return;
-    }
     if (!account) {
       dispatch(newErrorToast("Please connect wallet"));
       return;

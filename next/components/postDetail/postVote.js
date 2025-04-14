@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 
 import { Input, Button, Flex } from "@osn/common-ui";
-import { useViewfunc } from "frontedUtils/hooks";
 import {
   canUseProxySelector,
   loginAddressSelector,
@@ -408,7 +407,6 @@ export default function PostVote({ proposal }) {
   const [balance, setBalance] = useState();
   const [balanceDetail, setBalanceDetail] = useState([]);
   const [delegation, setDelegation] = useState();
-  const viewfunc = useViewfunc();
   const useProxy = useSelector(useProxySelector);
   const proxyAddress = useSelector(proxySelector);
   const loginAddress = useSelector(loginAddressSelector);
@@ -447,10 +445,6 @@ export default function PostVote({ proposal }) {
 
   const onVote = async () => {
     if (isLoading) return;
-
-    if (!viewfunc) {
-      return;
-    }
 
     if (!loginAddress) {
       dispatch(newErrorToast("Please connect wallet"));

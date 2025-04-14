@@ -15,6 +15,7 @@ import nextApi from "../../services/nextApi";
 import Editor from "../editor";
 import { signProposalSettingsWith } from "frontedUtils/signData";
 import useSignApiData from "hooks/useSignApiData";
+import { validateProposalSettings } from "frontedUtils/validate";
 
 function WhyProposalTemplate() {
   return (
@@ -82,8 +83,6 @@ export default function ProposalTemplate({ space, settings }) {
       return;
     }
 
-    const viewFunc = await import("frontedUtils/viewfunc");
-
     const settings = {
       space: space.id,
       proposalTemplate: {
@@ -94,7 +93,7 @@ export default function ProposalTemplate({ space, settings }) {
       address: encodeAddressByChain(address, account?.network),
     };
 
-    const formError = viewFunc.validateProposalSettings(settings);
+    const formError = validateProposalSettings(settings);
     if (formError) {
       dispatch(newErrorToast(formError));
       return;
