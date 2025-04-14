@@ -14,7 +14,6 @@ import {
   newToastId,
   removeToast,
 } from "store/reducers/toastSlice";
-import { timeDuration } from "frontedUtils";
 import { findNetworkConfig } from "services/util";
 import HeaderWithNumber from "@/components/postDetail/numberHeader";
 import encodeAddressByChain from "../../frontedUtils/chain/addr";
@@ -31,6 +30,7 @@ import { useSuggestions } from "./suggestions";
 import Editor from "../editor";
 import { signCommentWith } from "frontedUtils/signData";
 import useSignApiData from "hooks/useSignApiData";
+import TimeDuration from "../duration";
 
 const Item = styled.div`
   padding-top: 20px;
@@ -178,7 +178,9 @@ export default function PostDiscussion({
                 size={20}
                 showNetwork={spaceSupportMultiChain}
               />
-              <div>{timeDuration(item.createdAt)}</div>
+              <div>
+                <TimeDuration time={item.createdAt} />
+              </div>
             </DividerWrapper>
             <IpfsSquare
               href={

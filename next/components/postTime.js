@@ -1,17 +1,31 @@
-import { timeDuration } from "frontedUtils";
+import TimeDuration from "./duration";
 
 export default function PostTime({ post }) {
   return (
     <div>
-      {post.status === "pending"
-        ? "Start " + timeDuration(post.startDate)
-        : post.status === "active"
-        ? "End " + timeDuration(post.endDate)
-        : post.status === "closed"
-        ? "Ended " + timeDuration(post.endDate)
-        : post.status === "terminated"
-        ? "Terminated " + timeDuration(post.terminated.terminatedAt)
-        : ""}
+      {post.status === "pending" ? (
+        <>
+          Start&nbsp;
+          <TimeDuration time={post.startDate} />
+        </>
+      ) : post.status === "active" ? (
+        <>
+          End&nbsp;
+          <TimeDuration time={post.endDate} />
+        </>
+      ) : post.status === "closed" ? (
+        <>
+          Ended&nbsp;
+          <TimeDuration time={post.endDate} />
+        </>
+      ) : post.status === "terminated" ? (
+        <>
+          Terminated&nbsp;
+          <TimeDuration time={post.terminated} />
+        </>
+      ) : (
+        ""
+      )}
     </div>
   );
 }
