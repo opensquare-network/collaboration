@@ -1,5 +1,3 @@
-import { signApiData } from "../services/chainApi";
-
 export function validateProposalSettings(formData) {
   const fields = ["space", "proposalTemplate", "address"];
   for (let field of fields) {
@@ -43,29 +41,4 @@ export function validateProposal(formData) {
     return "End date should be greater than current time!";
   }
   return false;
-}
-
-export async function signProposalSettings(template) {
-  const { address, ...data } = template;
-  return await signApiData(data, address);
-}
-
-export async function signComment(
-  space,
-  proposalCid,
-  content,
-  contentType,
-  address,
-  commenterNetwork,
-) {
-  return await signApiData(
-    {
-      proposalCid,
-      content,
-      contentType,
-      commenterNetwork,
-      version: "2",
-    },
-    address,
-  );
 }

@@ -29,6 +29,8 @@ import {
 import { IpfsSquare, MentionIdentityUser } from "@osn/common-ui";
 import { useSuggestions } from "./suggestions";
 import Editor from "../editor";
+import { signCommentWith } from "frontedUtils/signData";
+import useSignApiData from "hooks/useSignApiData";
 
 const Item = styled.div`
   padding-top: 20px;
@@ -95,6 +97,7 @@ export default function PostDiscussion({
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const signApiData = useSignApiData();
 
   const onSubmit = async (callback) => {
     if (isLoading) return;
@@ -112,21 +115,19 @@ export default function PostDiscussion({
     setIsLoading(true);
     let signedData;
     try {
-      signedData = await viewfunc.signComment(
-        space.id,
-        proposal?.cid,
+      signedData = await signCommentWith(signApiData, {
+        proposalCid: proposal?.cid,
         content,
-        "markdown",
-        encodeAddressByChain(account?.address, account?.network),
-        account?.network,
-      );
+        contentType: "markdown",
+        address: encodeAddressByChain(account?.address, account?.network),
+        commenterNetwork: account?.network,
+      });
     } catch (e) {
       const errorMessage = e.message;
-      if (extensionCancelled === errorMessage) {
-        setIsLoading(false);
-      } else {
+      if (extensionCancelled !== errorMessage) {
         dispatch(newErrorToast(errorMessage));
       }
+      setIsLoading(false);
       return;
     }
 

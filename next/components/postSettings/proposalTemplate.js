@@ -13,6 +13,8 @@ import encodeAddressByChain from "../../frontedUtils/chain/addr";
 import { extensionCancelled } from "../../frontedUtils/consts/extension";
 import nextApi from "../../services/nextApi";
 import Editor from "../editor";
+import { signProposalSettingsWith } from "frontedUtils/signData";
+import useSignApiData from "hooks/useSignApiData";
 
 function WhyProposalTemplate() {
   return (
@@ -69,6 +71,7 @@ export default function ProposalTemplate({ space, settings }) {
   const [content, setContent] = useState(proposalTemplate?.content);
   const [contentType] = useState(proposalTemplate?.contentType || "markdown");
   const [isLoading, setIsLoading] = useState(false);
+  const signApiData = useSignApiData();
 
   const disabled = !title || !content;
 
@@ -100,18 +103,16 @@ export default function ProposalTemplate({ space, settings }) {
     setIsLoading(true);
     let signedData;
     try {
-      signedData = await viewFunc.signProposalSettings(settings);
+      signedData = await signProposalSettingsWith(signApiData, settings);
     } catch (e) {
       const errorMessage = e.message;
       if (extensionCancelled !== errorMessage) {
         dispatch(newErrorToast(errorMessage));
       }
-      return;
-    } finally {
       setIsLoading(false);
+      return;
     }
 
-    setIsLoading(true);
     try {
       const { result, error } = await nextApi.post(
         `${space.id}/proposals/settings`,
@@ -126,7 +127,7 @@ export default function ProposalTemplate({ space, settings }) {
     } finally {
       setIsLoading(false);
     }
-  }, [dispatch, account, title, content, contentType, space]);
+  }, [dispatch, account, title, content, contentType, space, signApiData]);
 
   return (
     <div
