@@ -100,10 +100,6 @@ function enhancedSqrtOfBalance(balance, decimals) {
     .toString();
 }
 
-function isSamePublicKey(address1, address2) {
-  return encodeAddress(address1, 42) === encodeAddress(address2, 42);
-}
-
 function toPublicKey(address) {
   const publicKey = decodeAddress(address);
   return Buffer.from(publicKey).toString("hex");
@@ -128,7 +124,6 @@ module.exports = {
   toSymbolUnit,
   fromSymbolUnit,
   enhancedSqrtOfBalance,
-  isSamePublicKey,
   toPublicKey,
   sleep,
   timeout,
