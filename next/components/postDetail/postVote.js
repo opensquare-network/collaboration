@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 
 import { Button, Flex } from "@osn/common-ui";
-import { useViewfunc } from "frontedUtils/hooks";
 import {
   canUseProxySelector,
   loginAddressSelector,
@@ -45,6 +44,8 @@ import SocietyMemberHint from "../postCreate/societyMemberHint";
 import SocietyMemberButton from "../societyMemberButton";
 import WhitelistMemberHint from "../postCreate/whitelistMemberHint";
 import WhitelistMemberButton from "../whitelistMemberButton";
+import { signVoteWith } from "frontedUtils/signData";
+import useSignApiData from "hooks/useSignApiData";
 import MultiLineInput from "../multiLineInput";
 
 const Wrapper = styled.div`
@@ -407,11 +408,11 @@ export default function PostVote({ proposal }) {
   const [balance, setBalance] = useState();
   const [balanceDetail, setBalanceDetail] = useState([]);
   const [delegation, setDelegation] = useState();
-  const viewfunc = useViewfunc();
   const useProxy = useSelector(useProxySelector);
   const proxyAddress = useSelector(proxySelector);
   const loginAddress = useSelector(loginAddressSelector);
   const { network: loginNetwork } = useSelector(loginNetworkSelector) || {};
+  const signApiData = useSignApiData();
 
   const snapshot = proposal.snapshotHeights[loginNetwork];
 
@@ -446,10 +447,6 @@ export default function PostVote({ proposal }) {
   const onVote = async () => {
     if (isLoading) return;
 
-    if (!viewfunc) {
-      return;
-    }
-
     if (!loginAddress) {
       dispatch(newErrorToast("Please connect wallet"));
       return;
@@ -466,22 +463,20 @@ export default function PostVote({ proposal }) {
         (choiceIndex) => proposal?.choices?.[choiceIndex],
       );
 
-      signedData = await viewfunc.signVote(
-        proposal?.space,
-        proposal?.cid,
+      signedData = await signVoteWith(signApiData, {
+        proposalCid: proposal?.cid,
         choices,
         remark,
-        loginAddress,
-        useProxy ? proxyAddress : undefined,
-        loginNetwork,
-      );
+        address: loginAddress,
+        realVoter: useProxy ? proxyAddress : undefined,
+        voterNetwork: loginNetwork,
+      });
     } catch (error) {
       const errorMessage = error.message;
-      if (extensionCancelled === errorMessage) {
-        setIsLoading(false);
-      } else {
+      if (extensionCancelled !== errorMessage) {
         dispatch(newErrorToast(errorMessage));
       }
+      setIsLoading(false);
       return;
     }
 

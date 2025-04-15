@@ -1,6 +1,6 @@
 const { HttpError } = require("../exc");
 const { getProposalCollection, getAppendantCollection } = require("../mongo");
-const { isSamePublicKey } = require("../utils");
+const { isSameAddress } = require("../utils/address");
 const { pinData } = require("./proposal.service/common");
 
 async function addAppendant(
@@ -21,8 +21,8 @@ async function addAppendant(
   const now = Date.now();
 
   if (
-    !isSamePublicKey(address, proposal.proposer) &&
-    !isSamePublicKey(address, proposal.address)
+    !isSameAddress(address, proposal.proposer) &&
+    !isSameAddress(address, proposal.address)
   ) {
     throw new HttpError(400, "Only the proposer can append");
   }

@@ -69,16 +69,6 @@ export function useSpace() {
   return space;
 }
 
-export function useViewfunc() {
-  const [viewFunc, setViewFunc] = useState();
-  useEffect(() => {
-    import("frontedUtils/viewfunc").then((viewFunc) => {
-      setViewFunc(viewFunc);
-    });
-  }, []);
-  return viewFunc;
-}
-
 export function useNetwork() {
   const [network, setNetwork] = useState();
   const space = useSpace();

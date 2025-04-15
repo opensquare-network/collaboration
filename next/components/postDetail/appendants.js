@@ -22,10 +22,11 @@ import {
   p_16_semibold,
 } from "@osn/common-ui/es/styles/textStyles";
 import { text_dark_accessory } from "@osn/common-ui/es/styles/colors";
-import { useViewfunc } from "frontedUtils/hooks";
 import nextApi from "services/nextApi";
 import { MarkdownPreviewer } from "@osn/previewer";
 import Editor from "../editor";
+import { signAppendantWith } from "frontedUtils/signData";
+import useSignApiData from "hooks/useSignApiData";
 
 const Wrapper = styled.div`
   > :first-child {
@@ -86,17 +87,13 @@ export default function Appendants({ proposal, appendants, editable }) {
   const [editing, setEditing] = useState(false);
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
-  const viewfunc = useViewfunc();
+  const signApiData = useSignApiData();
 
   const contentType = "markdown";
 
   const showErrorToast = (message) => dispatch(newErrorToast(message));
 
   const onSubmit = async () => {
-    if (!viewfunc) {
-      return;
-    }
-
     if (!account) {
       return showErrorToast("Please connect wallet");
     }
@@ -108,21 +105,19 @@ export default function Appendants({ proposal, appendants, editable }) {
     let signedData;
     setLoading(true);
     try {
-      signedData = await viewfunc.signAppendant(
-        proposal?.space,
-        proposal?.cid,
+      signedData = await signAppendantWith(signApiData, {
+        proposalCid: proposal?.cid,
         content,
         contentType,
-        account.address,
-        account.network,
-      );
+        address: account.address,
+        appenderNetwork: account.network,
+      });
     } catch (error) {
       const errorMessage = error.message;
-      if ("Cancelled" === errorMessage) {
-        setLoading(false);
-      } else {
+      if ("Cancelled" !== errorMessage) {
         dispatch(newErrorToast(errorMessage));
       }
+      setLoading(false);
       return;
     }
 

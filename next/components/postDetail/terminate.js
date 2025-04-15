@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { Button } from "@osn/common-ui";
 import nextApi from "services/nextApi";
-import { useViewfunc } from "frontedUtils/hooks";
 import { extensionCancelled } from "frontedUtils/consts/extension";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
@@ -20,6 +19,8 @@ import {
   loginNetworkSelector,
 } from "store/reducers/accountSlice";
 import { isSameAddress } from "frontedUtils/address";
+import { signTerminateWith } from "frontedUtils/signData";
+import useSignApiData from "hooks/useSignApiData";
 
 const StyledButton = styled(Button)`
   margin-left: 20px;
@@ -29,21 +30,17 @@ export function TerminateButton({ proposal = {} }) {
   const loginAddress = useSelector(loginAddressSelector);
   const { network: loginNetwork } = useSelector(loginNetworkSelector) || {};
   const dispatch = useDispatch();
-  const viewfunc = useViewfunc();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const signApiData = useSignApiData();
 
   const isAuthor = isSameAddress(loginAddress, proposal.address);
 
   const handleTerminate = async () => {
-    if (!viewfunc) {
-      return;
-    }
-
     let signedData;
     setIsLoading(true);
     try {
-      signedData = await viewfunc.signTerminate({
+      signedData = await signTerminateWith(signApiData, {
         address: loginAddress,
         proposalCid: proposal.cid,
         terminatorNetwork: loginNetwork,
