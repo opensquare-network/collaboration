@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 
-import { Input, Button, Flex } from "@osn/common-ui";
+import { Button, Flex } from "@osn/common-ui";
 import {
   canUseProxySelector,
   loginAddressSelector,
@@ -46,6 +46,7 @@ import WhitelistMemberHint from "../postCreate/whitelistMemberHint";
 import WhitelistMemberButton from "../whitelistMemberButton";
 import { signVoteWith } from "frontedUtils/signData";
 import useSignApiData from "hooks/useSignApiData";
+import MultiLineInput from "../multiLineInput";
 
 const Wrapper = styled.div`
   > :not(:first-child) {
@@ -342,7 +343,7 @@ function Remark({ remark, setRemark }) {
   return (
     <InnerWrapper>
       <Title>Remark</Title>
-      <Input
+      <MultiLineInput
         placeholder="What do you think about this proposal? (optional)"
         value={remark}
         onChange={(e) => setRemark(e.target.value)}
