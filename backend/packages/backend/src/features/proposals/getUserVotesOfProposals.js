@@ -1,5 +1,6 @@
 const { HttpError } = require("../../exc");
 const { getVoteCollection } = require("../../mongo");
+const { normalizeAddress } = require("../../utils/address");
 
 async function getUserVotesOfProposals(ctx) {
   const { network, address, proposal_cid: proposalCid } = ctx.query;
@@ -17,10 +18,11 @@ async function getUserVotesOfProposals(ctx) {
   }
 
   const proposalCids = proposalCid.split(",");
+  const normalizedAddress = normalizeAddress(address);
 
   const q = {
     "data.proposalCid": { $in: proposalCids },
-    voter: address,
+    voter: { $in: [address, normalizedAddress] },
     voterNetwork: network,
   };
 
