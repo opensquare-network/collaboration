@@ -82,9 +82,10 @@ export default function AccountsList({ chain, accounts, walletId }) {
 
   const onSelectAccount = useCallback(
     (account) => {
+      const address = encodeAddressByChain(account.address, chain.network);
       dispatch(
         setAccount({
-          address: account.address,
+          address,
           network: chain.network,
           wallet: walletId,
         }),
