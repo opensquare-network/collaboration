@@ -2,6 +2,10 @@ const { encodeAddress } = require("@polkadot/util-crypto");
 const { ethers } = require("ethers");
 
 function normalizeAddress(address) {
+  if (!address) {
+    return address;
+  }
+
   try {
     return ethers.utils.getAddress(address);
   } catch (e) {
@@ -26,5 +30,6 @@ function isSameAddress(addr1, addr2) {
 }
 
 module.exports = {
+  normalizeAddress,
   isSameAddress,
 };
