@@ -1,10 +1,12 @@
 const { getVoteCollection } = require("../../mongo");
 const { calcWeights, getProposalSpaceByCid } = require("./common");
+const { normalizeAddress } = require("../../utils/address");
 
 async function getAddressVote(proposalCid, address, network) {
+  const normalizedAddress = normalizeAddress(address);
   const q = {
     "data.proposalCid": proposalCid,
-    voter: address,
+    voter: { $in: [address, normalizedAddress] },
   };
 
   if (network) {

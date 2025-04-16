@@ -3,7 +3,7 @@ const { networks, strategies } = require("./consts");
 
 const config = {
   id: "permanence",
-  name: "Permanence",
+  name: "Permanence DAO",
   symbol: "DOT",
   decimals: 10,
   accessibility: Accessibility.WHITELIST,
