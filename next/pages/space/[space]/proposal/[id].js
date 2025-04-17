@@ -156,7 +156,7 @@ export async function getServerSideProps(context) {
     }),
   ]);
 
-  const cookieValue = context.req.cookies.addressV3;
+  const cookieValue = context.req.cookies.addressV5;
   let myVote;
   if (cookieValue) {
     const [network, address] = cookieValue.split("/");
