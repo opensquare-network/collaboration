@@ -22,7 +22,7 @@ const {
   hasSocietyStrategy,
   hasOnePersonOneVoteStrategy,
 } = require("../../utils/strategy");
-const { isSameAddress } = require("../../utils/address");
+const { isSameAddress, normalizeAddress } = require("../../utils/address");
 
 async function getDelegatorBalances({ proposal, voter, voterNetwork }) {
   const snapshotHeight = proposal.snapshotHeights?.[voterNetwork];
@@ -298,17 +298,38 @@ async function saveVote({
   });
 
   const voteCol = await getVoteCollection();
+
+  // Remove existing duplicate votes with same address in different ss58 format
+  const normalizedVoterAddress = normalizeAddress(voter);
+  const existingVotes = await voteCol
+    .find({
+      proposal: proposal._id,
+      voter: { $in: [voter, normalizedVoterAddress] },
+      voterNetwork,
+    })
+    .sort({ updatedAt: 1 })
+    .toArray();
+
+  if (existingVotes.length > 1) {
+    // Delete duplicates and keep the latest vote
+    existingVotes.pop();
+    for (const vote of existingVotes) {
+      await voteCol.deleteOne({ _id: vote._id });
+    }
+  }
+
   const bulk = voteCol.initializeOrderedBulkOp();
 
   bulk
     .find({
       proposal: proposal._id,
-      voter,
+      voter: { $in: [voter, normalizedVoterAddress] },
       voterNetwork,
     })
     .upsert()
     .updateOne({
       $set: {
+        voter,
         choices,
         remark,
         data,
