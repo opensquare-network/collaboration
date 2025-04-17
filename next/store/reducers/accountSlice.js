@@ -25,7 +25,7 @@ const accountSlice = createSlice({
         state.account = payload;
         if (typeof window !== "undefined") {
           setCookie(
-            "addressV4",
+            "addressV5",
             `${payload.network}/${payload.address}/${payload.wallet}`,
             7,
           );
@@ -33,7 +33,7 @@ const accountSlice = createSlice({
       } else {
         state.account = null;
         if (typeof window !== "undefined") {
-          clearCookie("addressV4");
+          clearCookie("addressV5");
         }
       }
     },
@@ -109,7 +109,7 @@ export const initAccount = () => async (dispatch) => {
     return;
   }
 
-  const data = getCookie("addressV4");
+  const data = getCookie("addressV5");
   if (!data) {
     return;
   }
