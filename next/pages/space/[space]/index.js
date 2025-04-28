@@ -12,10 +12,15 @@ import Seo from "@/components/seo";
 import { useDispatch } from "react-redux";
 import { setAvailableNetworks } from "store/reducers/accountSlice";
 import pick from "lodash.pick";
+import dynamic from "next/dynamic";
+
+const SpaceHiddenTip = dynamic(() => import("@/components/spaceHiddenTip"), {
+  ssr: false,
+});
 
 const HeaderWrapper = styled.div`
   > :not(:first-child) {
-    margin-top: 40px;
+    margin-top: 20px;
   }
 
   @media screen and (max-width: 800px) {
@@ -84,6 +89,7 @@ export default function List({
               },
             ]}
           />
+          <SpaceHiddenTip spaceId={spaceId} />
           <ListInfo spaceId={spaceId} space={space} />
           <ListTab
             spaceId={spaceId}
