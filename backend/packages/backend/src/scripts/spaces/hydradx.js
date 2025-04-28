@@ -13,23 +13,28 @@ const hydradxNetwork = {
   ],
 };
 
-const hydradxConfig = {
-  id: "hydradx",
-  name: "HydraDX",
+const publicConfig = {
   symbol: "HDX",
   decimals: 12,
   accessibility: Accessibility.PUBLIC,
-  networks: [hydradxNetwork],
   proposeThreshold: "1000000000000",
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],
   version: "4",
-  spaceIcon: "hydradx.svg",
-  seoCoverFilename: "hydration.jpg",
   admins: [],
 };
 
+const hydradxConfig = {
+  ...publicConfig,
+  id: "hydradx",
+  name: "HydraDX",
+  spaceIcon: "hydradx.svg",
+  seoCoverFilename: "hydration.jpg",
+  networks: [hydradxNetwork],
+  offline: true,
+};
+
 const hydrationConfig = {
-  ...hydradxConfig,
+  ...publicConfig,
   id: "hydration",
   name: "Hydration",
   networks: [
