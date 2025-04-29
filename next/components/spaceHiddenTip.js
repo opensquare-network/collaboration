@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useMemo } from "react";
 import { useSessionStorage } from "react-use";
 
-function HydradxTip() {
+function HydrationTip() {
   const [hidden, setHidden] = useSessionStorage("TipsHydradx", false);
   if (hidden) {
     return null;
@@ -15,7 +15,7 @@ function HydradxTip() {
           proposals{" "}
           <Link
             className="text-textLink cursor-pointer"
-            href={"/space/hydration"}
+            href={"/space/hydradx"}
           >
             here
           </Link>
@@ -37,7 +37,7 @@ function HydradxTip() {
 export default function SpaceHiddenTip({ spaceId }) {
   const Component = useMemo(() => {
     return {
-      hydradx: HydradxTip,
+      hydration: HydrationTip,
     }[spaceId];
   }, [spaceId]);
 
