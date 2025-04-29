@@ -88,7 +88,11 @@ async function main() {
   const spaceCol = await getSpaceCollection();
   const bulk = spaceCol.initializeUnorderedBulkOp();
   for (const space of spaces) {
-    bulk.find({ id: space.id }).upsert().update({ $set: space });
+    const spaceData = {
+      offline: false, // set default offline space
+      ...space,
+    };
+    bulk.find({ id: space.id }).upsert().update({ $set: spaceData });
   }
   await bulk.execute();
 }

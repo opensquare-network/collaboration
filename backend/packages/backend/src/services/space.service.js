@@ -57,9 +57,11 @@ async function getSpaces() {
     }
   }
 
-  const sortedSpaces = Object.values(result).sort((a, b) => {
-    return b.proposalsCount - a.proposalsCount;
-  });
+  const sortedSpaces = Object.values(result)
+    .sort((a, b) => {
+      return b.proposalsCount - a.proposalsCount;
+    })
+    .filter((item) => item.offline !== true);
 
   return sortedSpaces;
 }
