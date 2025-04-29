@@ -34,7 +34,7 @@ function HydradxTip() {
   );
 }
 
-export default function X({ spaceId }) {
+export default function SpaceHiddenTip({ spaceId }) {
   const Component = useMemo(() => {
     return {
       hydradx: HydradxTip,
