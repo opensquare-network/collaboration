@@ -13,6 +13,7 @@ const config = {
     "167rjWHghVwBJ52mz8sNkqr5bKu5vpchbc9CBoieBhVX714h", // Qinwen(Lollipop)
     "16ap6fdqS2rqFsyYah35hX1FH6rPNWtLqqXZDQC9x6GW141C", // Lurpis
     "14pa3BAYZLPvZfRDjWEfZXZWBVU45E67HUQEUxNCrdXGoata", // Tiny/Mimir
+    "14qwyVVvW4Tuhq4Fvt2AHZqhbCtGfVb8HUY2xM2PKrzKsmZT",
   ],
   networks: [
     {
