@@ -60,7 +60,7 @@ async function postComment(
     { cid: proposalCid },
     {
       $set: {
-        lastActivityAt: new Date(),
+        lastActivityAt: now,
       },
     },
   );

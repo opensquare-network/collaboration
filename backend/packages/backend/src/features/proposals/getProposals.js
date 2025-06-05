@@ -15,7 +15,7 @@ async function getProposals(ctx) {
   const q = { space };
   ctx.body = await queryProposals(
     q,
-    { terminatedOrEndedAt: -1 },
+    { terminatedOrEndedAt: -1, createdAt: -1 },
     page,
     pageSize,
   );
@@ -37,7 +37,12 @@ async function getPendingProposals(ctx) {
     terminated: null,
   };
 
-  ctx.body = await queryProposals(q, { startDate: 1 }, page, pageSize);
+  ctx.body = await queryProposals(
+    q,
+    { startDate: 1, createdAt: -1 },
+    page,
+    pageSize,
+  );
 }
 
 async function getActiveProposals(ctx) {
@@ -57,7 +62,12 @@ async function getActiveProposals(ctx) {
     terminated: null,
   };
 
-  ctx.body = await queryProposals(q, { endDate: 1 }, page, pageSize);
+  ctx.body = await queryProposals(
+    q,
+    { endDate: 1, createdAt: -1 },
+    page,
+    pageSize,
+  );
 }
 
 async function getClosedProposals(ctx) {
@@ -77,7 +87,7 @@ async function getClosedProposals(ctx) {
 
   ctx.body = await queryProposals(
     q,
-    { terminatedOrEndedAt: -1 },
+    { terminatedOrEndedAt: -1, createdAt: -1 },
     page,
     pageSize,
   );
