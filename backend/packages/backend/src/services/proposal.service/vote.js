@@ -382,7 +382,7 @@ async function saveVote({
     { cid: proposalCid },
     {
       $set: {
-        lastActivityAt: new Date(),
+        lastActivityAt: now,
       },
     },
   );

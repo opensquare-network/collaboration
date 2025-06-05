@@ -126,7 +126,7 @@ async function saveProposal({
     data,
     address,
     signature,
-    lastActivityAt: new Date(),
+    lastActivityAt: now,
     createdAt: now,
     updatedAt: now,
     cid,
