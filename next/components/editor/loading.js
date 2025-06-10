@@ -1,25 +1,9 @@
 import { cn, useIsDark } from "@osn/common-ui";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
+import { skeleton_gradient_dark, skeleton_gradient_light } from "../styles/editorStyles";
 
 const SkeletonDiv = styled.div`
-  ${(props) =>
-    props.isDark
-      ? css`
-          background: linear-gradient(
-            90deg,
-            var(--fillBgTertiary) 0%,
-            var(--neutralGray900) 49.5%,
-            var(--fillBgTertiary) 100%
-          );
-        `
-      : css`
-          background: linear-gradient(
-            270deg,
-            var(--fillBgTertiary) 0%,
-            var(--neutralGray50) 50%,
-            var(--fillBgTertiary) 100%
-          );
-        `}
+  ${(props) => props.isDark ? skeleton_gradient_dark : skeleton_gradient_light}
 `;
 
 const Skeleton = (props) => {
@@ -36,16 +20,16 @@ export default function LoadingEditor() {
         "border-t border-b border-strokeActionDisable",
       )}
     >
-      <div className="flex py-[12px] gap-[20px] sm:hidden">
-        <Skeleton className="h-[24px] grow" />
-        <Skeleton className="h-[24px] grow" />
+      <div className="flex py-[12px] gap-[20px] sm:hidden px-4">
+        <Skeleton className="h-[24px] grow rounded" />
+        <Skeleton className="h-[24px] grow rounded" />
       </div>
-      <div className="flex justify-between py-[12px] border-t border-strokeActionDisable">
+      <div className="flex justify-between py-[12px] px-4 border-t border-strokeActionDisable">
         <div className="flex gap-[20px] max-sm:hidden">
-          <Skeleton className="h-[24px] w-[80px]" />
-          <Skeleton className="h-[24px] w-[80px]" />
+          <Skeleton className="h-[24px] w-[80px] rounded" />
+          <Skeleton className="h-[24px] w-[80px] rounded" />
         </div>
-        <Skeleton className="h-[24px] grow sm:max-w-[240px]" />
+        <Skeleton className="h-[24px] grow sm:max-w-[240px] rounded" />
       </div>
       <div className="grow bg-fillBgInputDefault"></div>
     </div>
