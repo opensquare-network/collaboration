@@ -6,7 +6,7 @@ const { spaces: spaceServices } = require("../../spaces");
 const { Accessibility } = require("../../consts/space");
 const { checkProposalContent } = require("./checkProposalContent");
 const isEqual = require("lodash.isequal");
-const pick = require("lodash.pick");
+const pick = require("lodash/pick");
 const { getLatestHeight } = require("../../services/chain.service");
 
 function checkProposalChoices(data) {
