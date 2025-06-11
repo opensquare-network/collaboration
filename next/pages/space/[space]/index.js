@@ -11,7 +11,7 @@ import { to404 } from "../../../frontedUtils/serverSideUtil";
 import Seo from "@/components/seo";
 import { useDispatch } from "react-redux";
 import { setAvailableNetworks } from "store/reducers/accountSlice";
-import pick from "lodash.pick";
+import pick from "lodash/pick";
 import dynamic from "next/dynamic";
 
 const SpaceHiddenTip = dynamic(() => import("@/components/spaceHiddenTip"), {

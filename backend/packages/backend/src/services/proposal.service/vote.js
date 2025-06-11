@@ -1,6 +1,6 @@
 const BigNumber = require("bignumber.js");
 const isEmpty = require("lodash.isempty");
-const pick = require("lodash.pick");
+const pick = require("lodash/pick");
 const {
   getProposalCollection,
   getVoteCollection,

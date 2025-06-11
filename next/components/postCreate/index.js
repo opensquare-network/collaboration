@@ -23,7 +23,7 @@ import {
   removeToast,
 } from "store/reducers/toastSlice";
 import { useRouter } from "next/router";
-import pick from "lodash.pick";
+import pick from "lodash/pick";
 import {
   authoringEndDateSelector,
   authoringStartDateSelector,
