@@ -34,3 +34,7 @@ a {
 #nprogress .peg {
   box-shadow: 0 0 10px #04d2c5, 0 0 5px #04d2c5 !important;
 }
+
+.markdown-body pre{
+  color: var(--fgColor-default) !important;
+}
