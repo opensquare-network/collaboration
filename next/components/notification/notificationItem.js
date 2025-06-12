@@ -205,7 +205,6 @@ export default function NotificationItem({ data, onMarkAsRead = () => {} }) {
             <Link
               href={`/space/${space}/proposal/${proposalCid}`}
               passHref
-              legacyBehavior
             >
               {title}
             </Link>

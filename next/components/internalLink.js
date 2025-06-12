@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Link from "next/link";
+import { useRouter } from "next/router";
 
 const Wrapper = styled.div`
   cursor: pointer;
@@ -13,16 +13,26 @@ const Wrapper = styled.div`
 `;
 
 export default function InternalLink({ href, children }) {
+  const router = useRouter();
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    router.push(href);
+  };
+
   return href ? (
     <Wrapper
-      onClick={(e) => {
-        e.preventDefault();
-        e.stopPropagation();
+      onClick={handleClick}
+      onKeyDown={(e) => {
+        if (e.key === "Enter") {
+          handleClick(e);
+        }
       }}
+      role="link"
+      tabIndex={0}
     >
-      <Link href={href} passHref legacyBehavior>
-        <div>{children}</div>
-      </Link>
+      {children}
     </Wrapper>
   ) : (
     <>{children}</>
