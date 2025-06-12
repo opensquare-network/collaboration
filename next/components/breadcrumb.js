@@ -7,7 +7,7 @@ export default function Breadcrumb({ routes }) {
   return (
     <OsnBreadcrumb
       backButtonRender={(button) => (
-        <Link href={backLink} passHref legacyBehavior>
+        <Link href={backLink} passHref>
           {button}
         </Link>
       )}
@@ -16,7 +16,7 @@ export default function Breadcrumb({ routes }) {
         isLast ? (
           <span>{route.name}</span>
         ) : (
-          <Link href={route.link} passHref legacyBehavior>
+          <Link href={route.link} passHref>
             {route.name}
           </Link>
         )
