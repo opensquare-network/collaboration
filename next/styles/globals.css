@@ -36,5 +36,5 @@ a {
 }
 
 .markdown-body pre{
-  color: var(--fgColor-default) !important;
+  background-color: var(--fillBgTertiary) !important;
 }
