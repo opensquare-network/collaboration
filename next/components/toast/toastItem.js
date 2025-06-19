@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import styled, { css } from "styled-components";
 
@@ -6,10 +6,10 @@ import { removeToast } from "store/reducers/toastSlice";
 import { ReactComponent as Close } from "public/imgs/icons/close.svg";
 import { ReactComponent as Sticky } from "public/imgs/icons/sticky.svg";
 import { TOAST_TYPES } from "frontedUtils/constants";
-import { useIsMounted } from "frontedUtils/hooks";
 import { cn } from "@osn/common-ui";
 
 const Wrapper = styled.div`
+  pointer-events: initial;
   padding: 20px;
   width: 400px;
   background: var(--fillBgPrimary);
@@ -24,11 +24,6 @@ const Wrapper = styled.div`
     `}
   @media screen and (max-width: 500px) {
     width: auto;
-  }
-  transform: translateX(200%);
-  transition: all 0.25s ease-out;
-  &.tran {
-    transform: translateX(0) !important;
   }
 `;
 
@@ -85,8 +80,6 @@ const getToastColor = (type) => {
 const ToastItem = ({ type, message, id, sticky }) => {
   const dispatch = useDispatch();
   const color = getToastColor(type);
-  const isMounted = useIsMounted();
-  const [tranClass, setTranClass] = useState("");
 
   useEffect(() => {
     if (sticky) {
@@ -97,17 +90,9 @@ const ToastItem = ({ type, message, id, sticky }) => {
     }, 5000);
   }, [dispatch, id, sticky]);
 
-  useEffect(() => {
-    setTimeout(() => {
-      if (isMounted.current) {
-        setTranClass("tran");
-      }
-    }, 100);
-  });
-
   if (!message) return null;
   return (
-    <Wrapper color={color} className={cn("shadow-shadowPopup", tranClass)}>
+    <Wrapper color={color} className={cn("shadow-shadowPopup")}>
       <LeftWrapper>
         <Title>{type}</Title>
         <Content>{message}</Content>
