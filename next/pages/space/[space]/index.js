@@ -31,7 +31,7 @@ const HeaderWrapper = styled.div`
 `;
 
 const PostWrapper = styled.div`
-  margin-top: 24px;
+  margin-top: 20px;
 `;
 
 export default function List({
