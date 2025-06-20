@@ -2,6 +2,7 @@ const { isAddress } = require("@polkadot/util-crypto");
 const { HttpError } = require("../../exc");
 const { getSpaceCollection } = require("../../mongo");
 const { ipfsAddBuffer } = require("../../services/ipfs.service/ipfs");
+const { isSameAddress } = require("../../utils/address");
 
 const dataUriToBuffer = (dataUri) =>
   import("data-uri-to-buffer").then(({ default: fn }) => fn(dataUri));
@@ -32,7 +33,10 @@ async function checkIsSpaceAdmin(spaceId, address) {
     throw new HttpError(400, `Space with id ${spaceId} does not exist`);
   }
 
-  if (!existingSpace.admins || !existingSpace.admins.includes(address)) {
+  if (
+    !existingSpace.admins ||
+    !existingSpace.admins.some((item) => isSameAddress(item, address))
+  ) {
     throw new HttpError(403, `You are not an admin of space ${spaceId}`);
   }
 }

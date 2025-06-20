@@ -10,12 +10,20 @@ const {
   checkSpaceLogo,
   checkAddressList,
 } = require("./common");
+const { HttpError } = require("../../exc");
+
+function checkSpaceAdmins(admins) {
+  checkAddressList(admins, "Admins");
+  if (admins.length > 10) {
+    throw new HttpError(400, "Admins list cannot exceed 10 addresses");
+  }
+}
 
 function checkSpaceParams({ name, logo, members, admins }) {
   checkSpaceName(name);
   checkSpaceLogo(logo);
   checkAddressList(members, "Members");
-  checkAddressList(admins, "Admins");
+  checkSpaceAdmins(admins);
 }
 
 async function createDaoSpace(ctx) {
