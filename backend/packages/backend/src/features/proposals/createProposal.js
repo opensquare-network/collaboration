@@ -162,7 +162,7 @@ function checkNetworkConfig(data) {
   }
 }
 
-async function checkProposalSpace(data) {
+function checkProposalSpace(data) {
   const { space } = data;
 
   if (!space) {
