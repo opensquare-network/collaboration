@@ -1,14 +1,11 @@
 const { HttpError } = require("../../exc");
 const slugify = require("slugify");
 const { getSpaceCollection } = require("../../mongo");
-const { ipfsAddBuffer } = require("../../services/ipfs.service/ipfs");
 const { reloadSpaces } = require("../../spaces");
 const { strategies } = require("../../consts/voting");
 const isNil = require("lodash.isnil");
 const { chainsDef } = require("../../constants");
-
-const dataUriToBuffer = (dataUri) =>
-  import("data-uri-to-buffer").then(({ default: fn }) => fn(dataUri));
+const { pinLogo, checkSpaceExists } = require("./common");
 
 function checkAssetParams({
   chain,
@@ -156,6 +153,10 @@ async function createSpace(ctx) {
     weightStrategy,
   } = ctx.request.body;
 
+  const id = slugify(name).toLowerCase();
+
+  await checkSpaceExists(id);
+
   const assetsByNetwork = assets.reduce((acc, asset) => {
     const {
       chain,
@@ -187,14 +188,8 @@ async function createSpace(ctx) {
     return acc;
   }, {});
 
-  let logoCid = null;
-  if (logo) {
-    const buf = await dataUriToBuffer(logo);
-    const added = await ipfsAddBuffer(buf);
-    logoCid = added.path;
-  }
+  const logoCid = await pinLogo(logo);
 
-  const id = slugify(name).toLowerCase();
   const spaceConfig = {
     id,
     name,
@@ -208,11 +203,7 @@ async function createSpace(ctx) {
   };
 
   const spaceCol = await getSpaceCollection();
-  await spaceCol.updateOne(
-    { id: name },
-    { $set: spaceConfig },
-    { upsert: true },
-  );
+  await spaceCol.updateOne({ id }, { $set: spaceConfig }, { upsert: true });
 
   // Refresh space cache
   await reloadSpaces();
