@@ -5,33 +5,46 @@ const { reloadSpaces } = require("../../spaces");
 const { strategies } = require("../../consts/voting");
 const { Accessibility } = require("../../consts/space");
 const { networks } = require("../../consts/networks");
-const { pinLogo, checkSpaceExists } = require("./common");
+const {
+  pinLogo,
+  checkSpaceExists,
+  checkSpaceName,
+  checkSpaceLogo,
+} = require("./common");
+const { isAddress } = require("@polkadot/util-crypto");
 
-function checkSpaceParams({ name, logo }) {
-  if (!name) {
-    throw new HttpError(400, "Name is required");
+function checkAddressList(addressList, listName) {
+  if (!Array.isArray(addressList)) {
+    throw new HttpError(400, `${listName} must be an array`);
   }
 
-  if (name.length > 20) {
-    throw new HttpError(400, "Space name too long");
+  if (addressList.length === 0) {
+    throw new HttpError(400, `${listName} must not be empty`);
   }
 
-  if (!/^[a-zA-Z0-9_\-\s]+$/.test(name)) {
-    throw new HttpError(
-      400,
-      "Only letters, numbers, spaces, underscores and hyphens are allowed in space name",
-    );
-  }
+  addressList.forEach((item) => {
+    if (typeof item !== "string") {
+      throw new HttpError(400, `${listName} must contain only strings`);
+    }
 
-  if (!logo) {
-    throw new HttpError(400, "Logo is required");
-  }
+    // Must be valid address
+    if (!isAddress(item)) {
+      throw new HttpError(400, `${listName} contains invalid address: ${item}`);
+    }
+  });
+}
+
+function checkSpaceParams({ name, logo, whitelist, admins }) {
+  checkSpaceName(name);
+  checkSpaceLogo(logo);
+  checkAddressList(whitelist, "Whitelist");
+  checkAddressList(admins, "Admins");
 }
 
 async function createDaoSpace(ctx) {
   checkSpaceParams(ctx.request.body);
 
-  const { name, logo, whitelist } = ctx.request.body;
+  const { name, logo, whitelist, admins } = ctx.request.body;
 
   const id = slugify(name).toLowerCase();
 
@@ -59,6 +72,7 @@ async function createDaoSpace(ctx) {
     accessibility: Accessibility.WHITELIST,
     whitelist,
     weightStrategy: [strategies.onePersonOneVote],
+    admins,
     version: "4",
     spaceIcon: logoCid,
   };

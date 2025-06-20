@@ -24,7 +24,37 @@ async function checkSpaceExists(id) {
   }
 }
 
+function checkSpaceName(name) {
+  if (!name) {
+    throw new HttpError(400, "Name is required");
+  }
+
+  if (name.length > 20) {
+    throw new HttpError(400, "Space name too long");
+  }
+
+  if (!/^[a-zA-Z0-9_\-\s]+$/.test(name)) {
+    throw new HttpError(
+      400,
+      "Only letters, numbers, spaces, underscores and hyphens are allowed in space name",
+    );
+  }
+}
+
+function checkSpaceLogo(logo) {
+  if (!logo) {
+    throw new HttpError(400, "Logo is required");
+  }
+
+  // Check if logo is a valid data URI
+  if (!/^data:image\/\w+;base64,/.test(logo)) {
+    throw new HttpError(400, "Logo must be a valid data URI");
+  }
+}
+
 module.exports = {
   pinLogo,
   checkSpaceExists,
+  checkSpaceName,
+  checkSpaceLogo,
 };
