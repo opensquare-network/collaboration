@@ -53,8 +53,8 @@ function checkVoterNetwork(voterNetwork, proposal) {
     throw new HttpError(500, "Unknown space");
   }
 
-  const snapshotNetworks = Object.keys(proposal.snapshotHeights);
-  if (!snapshotNetworks.includes(voterNetwork)) {
+  const networks = proposal.networksConfig?.networks;
+  if (!networks.find((item) => item.network === voterNetwork)) {
     throw new HttpError(400, "Voter network is not supported by this proposal");
   }
 }
