@@ -1,3 +1,4 @@
+const { isAddress } = require("@polkadot/util-crypto");
 const { HttpError } = require("../../exc");
 const { getSpaceCollection } = require("../../mongo");
 const { ipfsAddBuffer } = require("../../services/ipfs.service/ipfs");
@@ -16,11 +17,23 @@ async function pinLogo(logo) {
   return logoCid;
 }
 
-async function checkSpaceExists(id) {
+async function checkSpaceConflict(id) {
   const spaceCol = await getSpaceCollection();
   const existingSpace = await spaceCol.findOne({ id });
   if (existingSpace) {
     throw new HttpError(400, `Space with id ${id} already exists`);
+  }
+}
+
+async function checkIsSpaceAdmin(spaceId, address) {
+  const spaceCol = await getSpaceCollection();
+  const existingSpace = await spaceCol.findOne({ id: spaceId });
+  if (!existingSpace) {
+    throw new HttpError(400, `Space with id ${spaceId} does not exist`);
+  }
+
+  if (!existingSpace.admins || !existingSpace.admins.includes(address)) {
+    throw new HttpError(403, `You are not an admin of space ${spaceId}`);
   }
 }
 
@@ -52,9 +65,32 @@ function checkSpaceLogo(logo) {
   }
 }
 
+function checkAddressList(addressList, listName) {
+  if (!Array.isArray(addressList)) {
+    throw new HttpError(400, `${listName} must be an array`);
+  }
+
+  if (addressList.length === 0) {
+    throw new HttpError(400, `${listName} must not be empty`);
+  }
+
+  addressList.forEach((item) => {
+    if (typeof item !== "string") {
+      throw new HttpError(400, `${listName} must contain only strings`);
+    }
+
+    // Must be valid address
+    if (!isAddress(item)) {
+      throw new HttpError(400, `${listName} contains invalid address: ${item}`);
+    }
+  });
+}
+
 module.exports = {
   pinLogo,
-  checkSpaceExists,
+  checkSpaceConflict,
+  checkIsSpaceAdmin,
   checkSpaceName,
   checkSpaceLogo,
+  checkAddressList,
 };

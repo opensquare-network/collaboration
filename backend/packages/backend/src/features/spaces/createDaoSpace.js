@@ -1,5 +1,4 @@
 const slugify = require("slugify");
-const { HttpError } = require("../../exc");
 const { getSpaceCollection } = require("../../mongo");
 const { reloadSpaces } = require("../../spaces");
 const { strategies } = require("../../consts/voting");
@@ -7,32 +6,11 @@ const { Accessibility } = require("../../consts/space");
 const { networks } = require("../../consts/networks");
 const {
   pinLogo,
-  checkSpaceExists,
+  checkSpaceConflict,
   checkSpaceName,
   checkSpaceLogo,
+  checkAddressList,
 } = require("./common");
-const { isAddress } = require("@polkadot/util-crypto");
-
-function checkAddressList(addressList, listName) {
-  if (!Array.isArray(addressList)) {
-    throw new HttpError(400, `${listName} must be an array`);
-  }
-
-  if (addressList.length === 0) {
-    throw new HttpError(400, `${listName} must not be empty`);
-  }
-
-  addressList.forEach((item) => {
-    if (typeof item !== "string") {
-      throw new HttpError(400, `${listName} must contain only strings`);
-    }
-
-    // Must be valid address
-    if (!isAddress(item)) {
-      throw new HttpError(400, `${listName} contains invalid address: ${item}`);
-    }
-  });
-}
 
 function checkSpaceParams({ name, logo, whitelist, admins }) {
   checkSpaceName(name);
@@ -48,13 +26,14 @@ async function createDaoSpace(ctx) {
 
   const id = slugify(name).toLowerCase();
 
-  await checkSpaceExists(id);
+  await checkSpaceConflict(id);
 
   const logoCid = await pinLogo(logo);
 
   const spaceConfig = {
     id,
     name,
+    type: "dao",
     symbol: "DOT",
     decimals: 10,
     networks: [

@@ -7,7 +7,7 @@ const isNil = require("lodash.isnil");
 const { chainsDef } = require("../../constants");
 const {
   pinLogo,
-  checkSpaceExists,
+  checkSpaceConflict,
   checkSpaceName,
   checkSpaceLogo,
 } = require("./common");
@@ -156,7 +156,7 @@ async function createSpace(ctx) {
 
   const id = slugify(name).toLowerCase();
 
-  await checkSpaceExists(id);
+  await checkSpaceConflict(id);
 
   const assetsByNetwork = assets.reduce((acc, asset) => {
     const {

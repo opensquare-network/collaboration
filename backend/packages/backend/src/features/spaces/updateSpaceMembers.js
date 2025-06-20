@@ -1,0 +1,24 @@
+const omit = require("lodash.omit");
+const { getSpaceCollection } = require("../../mongo");
+const { checkAddressList, checkIsSpaceAdmin } = require("./common");
+
+async function updateSpaceMembers(ctx) {
+  const { space } = ctx.params;
+
+  const { data: whitelist, address } = ctx.request.body;
+
+  checkAddressList(whitelist, "Members");
+
+  await checkIsSpaceAdmin(space, address);
+
+  const spaceCol = await getSpaceCollection();
+  const result = await spaceCol.findOneAndUpdate(
+    { id: space },
+    { $set: { whitelist } },
+    { upsert: true, returnDocument: "after" },
+  );
+
+  ctx.body = omit(result.value || {}, ["_id"]);
+}
+
+module.exports = { updateSpaceMembers };
