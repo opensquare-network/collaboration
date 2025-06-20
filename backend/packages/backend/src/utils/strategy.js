@@ -18,8 +18,16 @@ function hasOnePersonOneVoteStrategy(proposal) {
   return proposal.weightStrategy.includes(strategies.onePersonOneVote);
 }
 
+function hasOnePersonOneVoteStrategyOnly(proposal) {
+  return (
+    proposal.weightStrategy?.length === 1 &&
+    proposal.weightStrategy[0] === strategies.onePersonOneVote
+  );
+}
+
 module.exports = {
   hasBalanceStrategy,
   hasSocietyStrategy,
   hasOnePersonOneVoteStrategy,
+  hasOnePersonOneVoteStrategyOnly,
 };

@@ -8,6 +8,7 @@ const { checkProposalContent } = require("./checkProposalContent");
 const isEqual = require("lodash.isequal");
 const pick = require("lodash/pick");
 const { getLatestHeight } = require("../../services/chain.service");
+const { hasOnePersonOneVoteStrategyOnly } = require("../../utils/strategy");
 
 function checkProposalChoices(data) {
   const { space, choiceType, choices } = data;
@@ -82,6 +83,14 @@ function checkProposalDate(data) {
 
 async function checkSnapshotHeights(data) {
   const { networksConfig, snapshotHeights } = data;
+
+  if (
+    networksConfig.accessibility === Accessibility.WHITELIST &&
+    hasOnePersonOneVoteStrategyOnly(networksConfig)
+  ) {
+    // We don't need snapshotHeights in this case
+    return;
+  }
 
   const networks = networksConfig.networks || [];
 
