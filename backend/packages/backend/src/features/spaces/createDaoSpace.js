@@ -3,7 +3,6 @@ const { getSpaceCollection } = require("../../mongo");
 const { reloadSpaces } = require("../../spaces");
 const { strategies } = require("../../consts/voting");
 const { Accessibility } = require("../../consts/space");
-const { networks } = require("../../consts/networks");
 const {
   pinLogo,
   checkSpaceConflict,
@@ -33,21 +32,7 @@ async function createDaoSpace(ctx) {
   const spaceConfig = {
     id,
     name,
-    type: "dao",
-    symbol: "DOT",
-    decimals: 10,
-    networks: [
-      {
-        network: networks.polkadot,
-        ss58Format: 0,
-        assets: [
-          {
-            symbol: "DOT",
-            decimals: 10,
-          },
-        ],
-      },
-    ],
+    type: "collectives-dao",
     accessibility: Accessibility.WHITELIST,
     whitelist,
     weightStrategy: [strategies.onePersonOneVote],
