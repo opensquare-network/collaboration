@@ -6,11 +6,8 @@ const { checkProxy } = require("../node.service");
 const { saveProposal } = require("./createProposal");
 
 async function checkWhitelistMember(networksConfig, address) {
-  if (
-    (networksConfig.whitelist || []).findIndex((item) =>
-      isSameAddress(item, address),
-    ) === -1
-  ) {
+  const members = networksConfig.members || networksConfig.whitelist || [];
+  if (members.findIndex((item) => isSameAddress(item, address)) === -1) {
     throw new HttpError(400, "Only members can create a proposal");
   }
 }

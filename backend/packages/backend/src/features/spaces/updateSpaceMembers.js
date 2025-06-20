@@ -5,16 +5,14 @@ const { checkAddressList, checkIsSpaceAdmin } = require("./common");
 async function updateSpaceMembers(ctx) {
   const { space } = ctx.params;
 
-  const { data: whitelist, address } = ctx.request.body;
-
-  checkAddressList(whitelist, "Members");
-
+  const { data: members, address } = ctx.request.body;
+  checkAddressList(members, "Members");
   await checkIsSpaceAdmin(space, address);
 
   const spaceCol = await getSpaceCollection();
   const result = await spaceCol.findOneAndUpdate(
     { id: space },
-    { $set: { whitelist } },
+    { $set: { members } },
     { upsert: true, returnDocument: "after" },
   );
 

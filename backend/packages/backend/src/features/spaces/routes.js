@@ -12,7 +12,7 @@ router.get("/networks", spaceController.getAllNetworks);
 router.get("/spaces", spaceController.getSpaces);
 router.get("/spaces/:space", spaceController.getSpace);
 router.post("/spaces", createSpace);
-router.post("/spaces/dao", createDaoSpace);
+router.post("/spaces/collectives", createDaoSpace);
 router.post("/spaces/:space/members", requireSignature, updateSpaceMembers);
 router.post("/spaces/:space/admins", requireSignature, updateSpaceAdmins);
 

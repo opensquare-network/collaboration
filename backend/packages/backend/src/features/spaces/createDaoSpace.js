@@ -11,22 +11,19 @@ const {
   checkAddressList,
 } = require("./common");
 
-function checkSpaceParams({ name, logo, whitelist, admins }) {
+function checkSpaceParams({ name, logo, members, admins }) {
   checkSpaceName(name);
   checkSpaceLogo(logo);
-  checkAddressList(whitelist, "Whitelist");
+  checkAddressList(members, "Members");
   checkAddressList(admins, "Admins");
 }
 
 async function createDaoSpace(ctx) {
   checkSpaceParams(ctx.request.body);
 
-  const { name, logo, whitelist, admins } = ctx.request.body;
-
+  const { name, logo, members, admins } = ctx.request.body;
   const id = slugify(name).toLowerCase();
-
   await checkSpaceConflict(id);
-
   const logoCid = await pinLogo(logo);
 
   const spaceConfig = {
@@ -34,7 +31,7 @@ async function createDaoSpace(ctx) {
     name,
     type: "collectives-dao",
     accessibility: Accessibility.WHITELIST,
-    whitelist,
+    members,
     weightStrategy: [strategies.onePersonOneVote],
     admins,
     version: "4",

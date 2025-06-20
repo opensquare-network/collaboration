@@ -148,6 +148,7 @@ function checkNetworkConfig(data) {
       "networks",
       "accessibility",
       "whitelist",
+      "members",
     ]),
     strategies: spaceService.weightStrategy,
     ...pick(spaceService, ["quorum", "version"]),
