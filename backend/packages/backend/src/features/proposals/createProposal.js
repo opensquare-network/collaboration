@@ -8,6 +8,7 @@ const { checkProposalContent } = require("./checkProposalContent");
 const isEqual = require("lodash.isequal");
 const pick = require("lodash/pick");
 const { getLatestHeight } = require("../../services/chain.service");
+const { strategies } = require("../../consts/voting");
 
 function checkProposalChoices(data) {
   const { space, choiceType, choices } = data;
@@ -81,19 +82,24 @@ function checkProposalDate(data) {
 }
 
 async function checkSnapshotHeights(data) {
-  const { space, snapshotHeights } = data;
+  const { networksConfig, snapshotHeights } = data;
 
-  if (!snapshotHeights) {
-    throw new HttpError(400, { content: ["Snapshot height is missing"] });
+  if (
+    networksConfig.accessibility === Accessibility.WHITELIST &&
+    networksConfig.strategies?.length === 1 &&
+    networksConfig.strategies[0] === strategies.onePersonOneVote
+  ) {
+    // We don't need snapshotHeights in this case
+    return;
   }
 
-  const spaceService = spaceServices[space];
+  const networks = networksConfig.networks || [];
 
   // Check if the snapshot heights is matching the space configuration
   const snapshotNetworks = Object.keys(snapshotHeights || {});
   if (
     snapshotNetworks.length === 0 ||
-    snapshotNetworks.length !== spaceService.networks.length
+    snapshotNetworks.length !== networks.length
   ) {
     throw new HttpError(400, {
       snapshotHeights: [
@@ -102,18 +108,18 @@ async function checkSnapshotHeights(data) {
     });
   }
 
-  for (const spaceNetwork of spaceService.networks) {
-    if (snapshotNetworks.includes(spaceNetwork.network)) {
+  for (const networkItem of networks) {
+    if (snapshotNetworks.includes(networkItem.network)) {
       continue;
     }
 
     throw new HttpError(400, {
-      snapshotHeights: [`Missing snapshot height of ${spaceNetwork.network}`],
+      snapshotHeights: [`Missing snapshot height of ${networkItem.network}`],
     });
   }
 
   await Promise.all(
-    Object.keys(snapshotHeights).map(async (chain) => {
+    snapshotNetworks.map(async (chain) => {
       const lastHeight = await getLatestHeight(chain);
       if (lastHeight && snapshotHeights[chain] > lastHeight) {
         throw new HttpError(
@@ -135,19 +141,19 @@ function checkNetworkConfig(data) {
   }
 
   const spaceService = spaceServices[space];
-  if (
-    !isEqual(networksConfig, {
-      ...pick(spaceService, [
-        "symbol",
-        "decimals",
-        "networks",
-        "accessibility",
-        "whitelist",
-      ]),
-      strategies: spaceService.weightStrategy,
-      ...pick(spaceService, ["quorum", "version"]),
-    })
-  ) {
+  const spaceNetworksConfig = {
+    ...pick(spaceService, [
+      "symbol",
+      "decimals",
+      "networks",
+      "accessibility",
+      "whitelist",
+    ]),
+    strategies: spaceService.weightStrategy,
+    ...pick(spaceService, ["quorum", "version"]),
+  };
+
+  if (!isEqual(networksConfig, spaceNetworksConfig)) {
     throw new HttpError(400, {
       networksConfig: [
         "The proposal networks config is not matching the space config",

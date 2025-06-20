@@ -208,7 +208,7 @@ async function checkSocietyVote({ proposal, voterNetwork, voter }) {
     snapshotHeight,
   );
   if (!societyMember.data) {
-    throw new HttpError(400, "You are not the society member");
+    throw new HttpError(403, "Only society members can vote on this proposal");
   }
 }
 
@@ -218,7 +218,10 @@ async function checkWhitelistMember(networksConfig, address) {
       isSameAddress(item, address),
     ) === -1
   ) {
-    throw new HttpError(400, "Only members can vote on this proposal");
+    throw new HttpError(
+      403,
+      "Only whitelist members can vote on this proposal",
+    );
   }
 }
 
@@ -241,9 +244,8 @@ async function getSocietyVote({ voterNetwork, voter, snapshotHeight }) {
 async function getWeights({ proposal, voterNetwork, voter }) {
   const weights = {};
 
-  const snapshotHeight = proposal.snapshotHeights?.[voterNetwork];
-
   if (hasBalanceStrategy(proposal)) {
+    const snapshotHeight = proposal.snapshotHeights?.[voterNetwork];
     const networkBalance = await getBalanceFromNetwork({
       networksConfig: proposal.networksConfig,
       networkName: voterNetwork,
@@ -261,6 +263,7 @@ async function getWeights({ proposal, voterNetwork, voter }) {
   }
 
   if (hasSocietyStrategy(proposal)) {
+    const snapshotHeight = proposal.snapshotHeights?.[voterNetwork];
     weights.societyVote = await getSocietyVote({
       voterNetwork,
       voter,
@@ -388,6 +391,60 @@ async function saveVote({
   );
 }
 
+async function handleBalanceVote({
+  proposal,
+  voterNetwork,
+  voter,
+  data,
+  address,
+  signature,
+  choices,
+  remark,
+  now,
+  proposalCol,
+  proposalCid,
+}) {
+  // Make sure the voter is not delegated to others
+  await checkVoterDelegation({
+    proposal,
+    voterNetwork,
+    voter,
+  });
+
+  const weights = await getWeights({
+    proposal,
+    voterNetwork,
+    voter,
+  });
+
+  // Get balances that delegated to the voter
+  const delegators = await getDelegatorBalances({
+    proposal,
+    voterNetwork,
+    voter,
+  });
+
+  await saveVote({
+    data,
+    address,
+    signature,
+    delegators,
+    proposal,
+    voter,
+    voterNetwork,
+    choices,
+    remark,
+    now,
+    weights,
+    proposalCol,
+    proposalCid,
+  });
+
+  return {
+    success: true,
+  };
+}
+
 async function vote(
   proposalCid,
   choices,
@@ -418,23 +475,28 @@ async function vote(
     await checkWhitelistMember(proposal.networksConfig, voter);
   }
 
-  const now = new Date();
-
+  // If realVoter is provided, check the proxy setting
   await checkProxy({ proposal, voterNetwork, address, realVoter });
 
-  await checkVoterDelegation({
-    proposal,
-    voterNetwork,
-    voter,
-  });
+  const now = new Date();
+
+  if (hasBalanceStrategy(proposal)) {
+    return await handleBalanceVote({
+      proposal,
+      voterNetwork,
+      voter,
+      data,
+      address,
+      signature,
+      choices,
+      remark,
+      now,
+      proposalCol,
+      proposalCid,
+    });
+  }
 
   const weights = await getWeights({
-    proposal,
-    voterNetwork,
-    voter,
-  });
-
-  const delegators = await getDelegatorBalances({
     proposal,
     voterNetwork,
     voter,
@@ -444,7 +506,6 @@ async function vote(
     data,
     address,
     signature,
-    delegators,
     proposal,
     voter,
     voterNetwork,
