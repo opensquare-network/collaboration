@@ -1,14 +1,16 @@
 const { HttpError } = require("../../exc");
 const slugify = require("slugify");
 const { getSpaceCollection } = require("../../mongo");
-const { ipfsAddBuffer } = require("../../services/ipfs.service/ipfs");
 const { reloadSpaces } = require("../../spaces");
 const { strategies } = require("../../consts/voting");
 const isNil = require("lodash.isnil");
 const { chainsDef } = require("../../constants");
-
-const dataUriToBuffer = (dataUri) =>
-  import("data-uri-to-buffer").then(({ default: fn }) => fn(dataUri));
+const {
+  pinLogo,
+  checkSpaceConflict,
+  checkSpaceName,
+  checkSpaceLogo,
+} = require("./common");
 
 function checkAssetParams({
   chain,
@@ -76,34 +78,7 @@ function checkAssetParams({
   }
 }
 
-function checkSpaceParams({
-  name,
-  logo,
-  assets,
-  symbol,
-  decimals,
-  proposalThreshold,
-  weightStrategy,
-}) {
-  if (!name) {
-    throw new HttpError(400, "Name is required");
-  }
-
-  if (name.length > 20) {
-    throw new HttpError(400, "Space name too long");
-  }
-
-  if (!/^[a-zA-Z0-9_\-\s]+$/.test(name)) {
-    throw new HttpError(
-      400,
-      "Only letters, numbers, spaces, underscores and hyphens are allowed in space name",
-    );
-  }
-
-  if (!logo) {
-    throw new HttpError(400, "Logo is required");
-  }
-
+function checkSpaceSymbol(symbol, decimals) {
   if (!symbol) {
     throw new HttpError(400, "Space symbol is required");
   }
@@ -115,7 +90,9 @@ function checkSpaceParams({
   if (decimals <= 0) {
     throw new HttpError(400, "Decimals must be greater than 0");
   }
+}
 
+function checkProposalThreshold(proposalThreshold) {
   if (isNil(proposalThreshold)) {
     throw new HttpError(400, "Proposal threshold is required");
   }
@@ -123,7 +100,19 @@ function checkSpaceParams({
   if (proposalThreshold < 0) {
     throw new HttpError(400, "Proposal threshold can't be negative");
   }
+}
 
+function checkSpaceAssets(assets) {
+  if (!assets || !assets.length) {
+    throw new HttpError(400, "Assets are required");
+  }
+
+  for (const asset of assets) {
+    checkAssetParams(asset);
+  }
+}
+
+function checkSpaceStrategy(weightStrategy) {
   if (!weightStrategy || !weightStrategy.length) {
     throw new HttpError(400, "Weight strategy is required");
   }
@@ -133,14 +122,23 @@ function checkSpaceParams({
       throw new HttpError(400, `Invalid weight strategy: ${item}`);
     }
   }
+}
 
-  if (!assets || !assets.length) {
-    throw new HttpError(400, "Assets are required");
-  }
-
-  for (const asset of assets) {
-    checkAssetParams(asset);
-  }
+function checkSpaceParams({
+  name,
+  logo,
+  assets,
+  symbol,
+  decimals,
+  proposalThreshold,
+  weightStrategy,
+}) {
+  checkSpaceName(name);
+  checkSpaceLogo(logo);
+  checkSpaceSymbol(symbol, decimals);
+  checkProposalThreshold(proposalThreshold);
+  checkSpaceStrategy(weightStrategy);
+  checkSpaceAssets(assets);
 }
 
 async function createSpace(ctx) {
@@ -155,6 +153,10 @@ async function createSpace(ctx) {
     proposalThreshold,
     weightStrategy,
   } = ctx.request.body;
+
+  const id = slugify(name).toLowerCase();
+
+  await checkSpaceConflict(id);
 
   const assetsByNetwork = assets.reduce((acc, asset) => {
     const {
@@ -187,14 +189,8 @@ async function createSpace(ctx) {
     return acc;
   }, {});
 
-  let logoCid = null;
-  if (logo) {
-    const buf = await dataUriToBuffer(logo);
-    const added = await ipfsAddBuffer(buf);
-    logoCid = added.path;
-  }
+  const logoCid = await pinLogo(logo);
 
-  const id = slugify(name).toLowerCase();
   const spaceConfig = {
     id,
     name,
@@ -208,11 +204,7 @@ async function createSpace(ctx) {
   };
 
   const spaceCol = await getSpaceCollection();
-  await spaceCol.updateOne(
-    { id: name },
-    { $set: spaceConfig },
-    { upsert: true },
-  );
+  await spaceCol.updateOne({ id }, { $set: spaceConfig }, { upsert: true });
 
   // Refresh space cache
   await reloadSpaces();
