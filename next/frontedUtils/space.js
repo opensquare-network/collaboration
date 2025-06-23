@@ -1,7 +1,7 @@
 import { getDefaultLogoUri } from "hooks/useDefaultLogo";
 import { useMemo } from "react";
 
-export function getSpaceIconUrl(space) {
+export function getSpaceIconUri(space) {
   if (!space) {
     return null;
   }
@@ -21,5 +21,5 @@ export function getSpaceIconUrl(space) {
 }
 
 export function useSpaceIconUri(space) {
-  return useMemo(() => getSpaceIconUrl(space), [space]);
+  return useMemo(() => getSpaceIconUri(space), [space]);
 }
