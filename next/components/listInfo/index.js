@@ -11,7 +11,7 @@ import { useState } from "react";
 import Details from "./details";
 import { SystemMembers } from "@osn/icons/opensquare";
 import { Flex, FlexBetween } from "@osn/common-ui";
-import Avatar from "../avatar";
+import { AvatarWithTooltip } from "../avatar";
 
 const Wrapper = styled(FlexBetween)`
   @media screen and (max-width: 900px) {
@@ -120,7 +120,13 @@ export default function ListInfo({ space }) {
                 <AvatarIconsWrapper>
                   <AvatarIcons>
                     {space.whitelist?.slice(0, 5).map((address, index) => (
-                      <Avatar key={index} address={address} size={20} />
+                      // polkadot identity
+                      <AvatarWithTooltip
+                        key={index}
+                        address={address}
+                        network="polkadot"
+                        size={20}
+                      />
                     ))}
                   </AvatarIcons>
                   {space.whitelist?.length > 5 && (
