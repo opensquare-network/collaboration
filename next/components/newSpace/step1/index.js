@@ -53,7 +53,7 @@ export default function Step1({
   };
 
   return (
-    <MyPanel>
+    <>
       <Steps steps={steps} currentStep={currentStep} />
       <MyDivider />
       <Sections>
@@ -63,6 +63,6 @@ export default function Step1({
       <NextButton block onClick={() => handleNext()}>
         Next
       </NextButton>
-    </MyPanel>
+    </>
   );
 }

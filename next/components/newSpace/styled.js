@@ -37,3 +37,47 @@ export const Sections = styled.div`
   flex-direction: column;
   gap: 32px;
 `;
+
+export const SelectTypeTitle = styled.div`
+  color: var(--textPrimary);
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 36px;
+  text-align: center;
+  padding-bottom: 40px;
+`;
+
+export const SelectTypeItem = styled.a`
+  padding: 32px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  border: 1px solid var(--strokeActionDefault);
+  background: var(--fillBgPrimary);
+  width: 300px;
+  box-shadow: var(--shadowCardDefault);
+  :hover {
+    box-shadow: var(--shadowCardHover);
+  }
+`;
+
+export const SelectTypeItemTitle = styled.div`
+  color: var(--textPrimary);
+  text-align: center;
+  font-family: Inter;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 32px;
+`;
+
+export const SelectTypeItemDesc = styled.div`
+  color: var(--textTertiary);
+  text-align: center;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 24px;
+`;

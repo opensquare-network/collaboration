@@ -10,6 +10,8 @@ import {
 import Step3 from "./step3";
 import { useEffect, useMemo, useState } from "react";
 import { identicon } from "minidenticons";
+import Steps from "@/components/steps";
+import { MyPanel } from "./styled";
 
 const Wrapper = styled.div`
   display: flex;
@@ -137,7 +139,12 @@ export default function Content({ chainsDef, tokensDef }) {
 
   return (
     <Wrapper>
-      <MainWrapper>{stepContent}</MainWrapper>
+      <MainWrapper>
+        {/*<MyPanel>*/}
+        {/*  <Steps steps={steps} currentStep={currentStep} />*/}
+        {/*</MyPanel>*/}
+        {stepContent}
+      </MainWrapper>
       <SiderWrapper>
         <Sider
           symbol={symbol}

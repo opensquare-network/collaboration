@@ -108,7 +108,7 @@ SERVER_PORT=3223 # keep it
 Then run
 
 ```bash
-node src/index.js
+node src/newTokenWeightedSpace.js
 ```
 
 Well, the node-api should be ready.
