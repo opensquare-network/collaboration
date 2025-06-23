@@ -1,18 +1,14 @@
 import styled from "styled-components";
-import Steps from "../../steps";
 import { Button } from "@osn/common-ui";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  currentStepSelector,
-  setCurrentStep,
-} from "store/reducers/newSpaceSlice";
-import { MyPanel, Sections } from "../styled";
-import BackButton from "../backButton";
+import { useDispatch } from "react-redux";
+import { setCurrentStep } from "../../../../store/reducers/newSpaceSlice";
+import { Sections } from "../../styled";
+import BackButton from "../../backButton";
 import NewAssetButton from "./newAssetButton";
 import Asset from "./asset";
-import MyDivider from "../myDivider";
+import MyDivider from "../../myDivider";
 import { Fragment, useCallback } from "react";
-import { newErrorToast } from "store/reducers/toastSlice";
+import { newErrorToast } from "../../../../store/reducers/toastSlice";
 import uniq from "lodash.uniq";
 
 const ButtonsWrapper = styled.div`
@@ -20,15 +16,8 @@ const ButtonsWrapper = styled.div`
   gap: 20px;
 `;
 
-export default function Step2({
-  steps,
-  chainsDef,
-  tokensDef,
-  assets,
-  setAssets,
-}) {
+export default function Step2({ chainsDef, tokensDef, assets, setAssets }) {
   const dispatch = useDispatch();
-  const currentStep = useSelector(currentStepSelector);
 
   const nextStep = useCallback(() => {
     if (!assets.length) {
@@ -109,8 +98,7 @@ export default function Step2({
   }, [dispatch, assets]);
 
   return (
-    <MyPanel>
-      <Steps steps={steps} currentStep={currentStep} />
+    <>
       <MyDivider />
       <Sections>
         {assets?.map((asset, index) => (
@@ -159,6 +147,6 @@ export default function Step2({
           Next
         </Button>
       </ButtonsWrapper>
-    </MyPanel>
+    </>
   );
 }

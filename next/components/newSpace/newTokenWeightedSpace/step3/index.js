@@ -1,24 +1,18 @@
-import { useSelector } from "react-redux";
-import Steps from "../../steps";
-import { MyPanel, Sections } from "../styled";
-import { currentStepSelector } from "store/reducers/newSpaceSlice";
-import MyDivider from "../myDivider";
+import { Sections } from "../../styled";
+import MyDivider from "../../myDivider";
 import ProposalThreshold from "./proposalThreshold";
 import Strategies from "./strategies";
 
 export default function Step3({
   symbol,
-  steps,
   proposalThreshold,
   setProposalThreshold,
   options,
   selectedOptions,
   setSelectedOptions,
 }) {
-  const currentStep = useSelector(currentStepSelector);
   return (
-    <MyPanel>
-      <Steps steps={steps} currentStep={currentStep} />
+    <>
       <MyDivider />
       <Sections>
         <ProposalThreshold
@@ -32,6 +26,6 @@ export default function Step3({
           setSelectedOptions={setSelectedOptions}
         />
       </Sections>
-    </MyPanel>
+    </>
   );
 }

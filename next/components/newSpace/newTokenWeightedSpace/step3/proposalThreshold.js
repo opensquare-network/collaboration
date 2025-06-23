@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { SectionTitle } from "../styled";
+import { SectionTitle } from "../../styled";
 import { Flex, Input } from "@osn/common-ui";
 import { Tooltip } from "@osn/common-ui";
 

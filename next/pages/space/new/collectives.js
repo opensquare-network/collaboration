@@ -4,7 +4,7 @@ import Layout from "@/components/layout";
 import Seo from "@/components/seo";
 import { ssrNextApi } from "../../../services/nextApi";
 import { setAvailableNetworks } from "../../../store/reducers/accountSlice";
-import NewCollectiveSpace from "@/components/newSpace/newCollectiveSpace";
+import Index from "@/components/newSpace/newCollectiveSpace";
 
 export default function Collectives({ allNetworks, chainsDef, tokensDef }) {
   const dispatch = useDispatch();
@@ -17,7 +17,7 @@ export default function Collectives({ allNetworks, chainsDef, tokensDef }) {
     <>
       <Seo desc={desc} />
       <Layout bgHeight="183px" networks={allNetworks}>
-        <NewCollectiveSpace />
+        <Index />
       </Layout>
     </>
   );

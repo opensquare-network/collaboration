@@ -3,14 +3,14 @@ import { Button } from "@osn/common-ui";
 import {
   currentStepSelector,
   setCurrentStep,
-} from "store/reducers/newSpaceSlice";
-import Steps from "../../steps";
+} from "../../../../store/reducers/newSpaceSlice";
+import Steps from "../../../steps";
 import Logo from "./logo";
 import Name from "./name";
-import { MyPanel, Sections } from "../styled";
+import { Sections } from "../../styled";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import MyDivider from "../myDivider";
+import MyDivider from "../../myDivider";
 
 const NextButton = styled(Button)`
   padding: 12px 0;
@@ -54,7 +54,6 @@ export default function Step1({
 
   return (
     <>
-      <Steps steps={steps} currentStep={currentStep} />
       <MyDivider />
       <Sections>
         <Logo imageFile={imageFile} setImageFile={setImageFile} />
