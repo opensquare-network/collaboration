@@ -2,6 +2,9 @@ import styled from "styled-components";
 import Identicon from "@osn/polkadot-react-identicon";
 import { ethers } from "ethers";
 import makeBlockie from "ethereum-blockies-base64";
+import { Tooltip } from "@osn/common-ui";
+import React from "react";
+import IdentityOrAddr from "./identityOrAddr";
 
 const Wrapper = styled.span`
   display: inline-flex;
@@ -35,4 +38,14 @@ export default function Avatar({ address, size = 20 }) {
   }
 
   return <Identicon value={address} size={size} />;
+}
+
+export function AvatarWithTooltip({ address, size = 20, network }) {
+  return (
+    <Tooltip content={<IdentityOrAddr address={address} network={network} />}>
+      <div>
+        <Avatar address={address} size={size} />
+      </div>
+    </Tooltip>
+  );
 }
