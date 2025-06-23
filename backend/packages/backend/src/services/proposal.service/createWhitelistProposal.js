@@ -7,7 +7,7 @@ const { saveProposal } = require("./createProposal");
 
 async function checkWhitelistMember(networksConfig, address) {
   const members = networksConfig.members || networksConfig.whitelist || [];
-  if (members.find((item) => isSameAddress(item, address))) {
+  if (!members.some((item) => isSameAddress(item, address))) {
     throw new HttpError(400, "Only members can create a proposal");
   }
 }
