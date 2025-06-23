@@ -1,79 +1,24 @@
-import styled from "styled-components";
 import moment from "moment";
 
 import ExternalLink from "@osn/common-ui/es/ExternalLink";
 import { getExplorer } from "../../frontedUtils";
 import { ChainIcon } from "components/chainIcon";
 import { Tooltip } from "@osn/common-ui";
-import Panel from "@/components/postDetail/panel";
 import SideSectionTitle from "@/components/sideBar/sideSectionTitle";
 import AssetList from "../assetList";
 import { getSpaceAssets } from "frontedUtils/getSpaceAssets";
 import { hasBalanceStrategy } from "frontedUtils/strategy";
 import { getChainDisplayName } from "frontedUtils/chain";
 
-const Wrapper = styled(Panel)`
-  > :not(:first-child) {
-    margin-top: 20px;
-  }
-`;
-
-const Divider = styled.div`
-  height: 1px;
-  background-color: var(--fillBgTertiary);
-  margin: 12px 0;
-`;
-
-const InfoItem = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 24px;
-
-  > :first-child {
-    color: var(--textSecondary);
-    margin-right: 8px;
-  }
-
-  > :last-child {
-    flex-grow: 1;
-    text-align: right;
-    justify-content: end;
-  }
-`;
-
-const TimestampWrapper = styled.div``;
-
-const TimestampItem = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 24px;
-
-  > :first-child {
-    color: var(--textSecondary);
-  }
-
-  span {
-    text-align: right;
-  }
-`;
-
-const SnapshotsWrapper = styled.div`
-  display: flex;
-  justify-content: end;
-  > div {
-    line-height: 0;
-  }
-
-  & > div:not(:first-child) {
-    margin-left: 4px;
-  }
-`;
+import {
+  Wrapper,
+  Divider,
+  InfoItem,
+  SnapshotsWrapper,
+  TimestampWrapper,
+  TimestampItem,
+} from "../styled/infoItem";
+import PostMembers from "./postMembers";
 
 function Snapshot({ snapshotHeights }) {
   return (
@@ -128,6 +73,7 @@ export default function PostInfo({ data, space }) {
         <div>
           <Snapshot snapshotHeights={data?.snapshotHeights} />
           {data?.pinHash && <PinHash pinHash={data?.pinHash} />}
+          <PostMembers whitelist={space?.whitelist} data={data} />
         </div>
       </div>
       {hasBalanceStrategy(space?.weightStrategy) && (
