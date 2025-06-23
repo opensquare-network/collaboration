@@ -214,7 +214,7 @@ async function checkSocietyVote({ proposal, voterNetwork, voter }) {
 
 async function checkWhitelistMember(networksConfig, address) {
   const members = networksConfig.members || networksConfig.whitelist || [];
-  if (members.find((item) => isSameAddress(item, address))) {
+  if (!members.some((item) => isSameAddress(item, address))) {
     throw new HttpError(
       403,
       "Only whitelist members can vote on this proposal",
