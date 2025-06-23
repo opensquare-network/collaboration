@@ -12,7 +12,7 @@ import PostResult from "./postResult";
 import { findNetworkConfig } from "../services/util";
 import { Flex, FlexBetween, Tooltip } from "@osn/common-ui";
 import { p_14_medium } from "../styles/componentCss";
-import { getSpaceIconUrl } from "frontedUtils/space";
+import { useSpaceIconUri } from "frontedUtils/space";
 
 const Wrapper = styled.div`
   background: var(--fillBgPrimary);
@@ -135,7 +135,7 @@ export default function Post({ data, showSpace, space, myVotes }) {
   const spaceSupportMultiChain = proposerNetworkConfig?.networks?.length > 1;
 
   const spaceInfo = space ?? data.spaceInfo;
-  const spaceIcon = getSpaceIconUrl(spaceInfo);
+  const spaceIcon = useSpaceIconUri(spaceInfo);
 
   return (
     <Wrapper>

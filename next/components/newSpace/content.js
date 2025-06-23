@@ -8,8 +8,8 @@ import {
   setCurrentStep,
 } from "store/reducers/newSpaceSlice";
 import Step3 from "./step3";
-import { useEffect, useMemo, useState } from "react";
-import { identicon } from "minidenticons";
+import { useEffect, useState } from "react";
+import { useDefaultLogo } from "hooks/useDefaultLogo";
 
 const Wrapper = styled.div`
   display: flex;
@@ -48,15 +48,6 @@ const SiderWrapper = styled.div`
     max-width: none;
   }
 `;
-
-const useDefaultLogo = ({ username, saturation, lightness }) => {
-  const svgText = useMemo(
-    () => identicon(username, saturation, lightness),
-    [username, saturation, lightness],
-  );
-  if (!username) return null;
-  return `data:image/svg+xml;utf8,${encodeURIComponent(svgText)}`;
-};
 
 export default function Content({ chainsDef, tokensDef }) {
   const dispatch = useDispatch();
@@ -142,7 +133,7 @@ export default function Content({ chainsDef, tokensDef }) {
         <Sider
           symbol={symbol}
           decimals={decimals}
-          imageFile={logoImage}
+          imageFile={imageFile}
           name={name}
           assets={assets}
           proposalThreshold={proposalThreshold}
