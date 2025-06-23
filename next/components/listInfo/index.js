@@ -5,12 +5,13 @@ import {
   p_20_semibold,
 } from "../../styles/textStyles";
 import SpaceLogo from "@/components/spaceLogo";
-import { ChainIcon } from "components/chainIcon";
 import ValueDisplay from "../valueDisplay";
 import Modal from "@osn/common-ui/es/Modal";
 import { useState } from "react";
 import Details from "./details";
+import { SystemMembers } from "@osn/icons/opensquare";
 import { Flex, FlexBetween } from "@osn/common-ui";
+import Avatar from "../avatar";
 
 const Wrapper = styled(FlexBetween)`
   @media screen and (max-width: 900px) {
@@ -68,17 +69,19 @@ const AboutDivider = styled.div`
   margin: 0 40px;
 `;
 
-const ChainIconsWrapper = styled.div`
+const AvatarIconsWrapper = styled.div`
   ${p_14_normal};
+  line-height: 20px;
   color: var(--textTertiary);
   display: flex;
+  align-items: center;
 `;
 
-const ChainIcons = styled.div`
+const AvatarIcons = styled.div`
   display: flex;
   svg,
   img {
-    margin-right: 4px;
+    margin-right: -4px;
     vertical-align: middle;
   }
 `;
@@ -87,7 +90,7 @@ export default function ListInfo({ space }) {
   const [modalOpen, setModalOpen] = useState(false);
 
   const strategyCount = space.weightStrategy?.length || 0;
-  const networkCount = space.networks?.length || 0;
+  const memberCount = space.whitelist?.length || 0;
 
   const handleShowModal = () => {
     setModalOpen(true);
@@ -106,23 +109,29 @@ export default function ListInfo({ space }) {
         </div>
       </Flex>
       <Flex>
-        <AboutItem>
-          <AboutIcon src="/imgs/icons/network.svg" />
-          <div>
-            <AboutName role="button" onClick={handleShowModal}>
-              Network({networkCount})
-            </AboutName>
-            <ChainIconsWrapper>
-              <ChainIcons>
-                {space.networks?.slice(0, 3).map((network, index) => (
-                  <ChainIcon key={index} chainName={network.network} />
-                ))}
-              </ChainIcons>
-              {space.networks?.length > 3 && "..."}
-            </ChainIconsWrapper>
-          </div>
-        </AboutItem>
-        <AboutDivider />
+        {memberCount > 0 && (
+          <>
+            <AboutItem>
+              <SystemMembers className="w-5 h-5 mr-2 text-textTertiary" />
+              <div>
+                <AboutName role="button" onClick={handleShowModal}>
+                  Members({memberCount})
+                </AboutName>
+                <AvatarIconsWrapper>
+                  <AvatarIcons>
+                    {space.whitelist?.slice(0, 5).map((address, index) => (
+                      <Avatar key={index} address={address} size={20} />
+                    ))}
+                  </AvatarIcons>
+                  {space.whitelist?.length > 5 && (
+                    <span className="text-textTertiary ml-3">...</span>
+                  )}
+                </AvatarIconsWrapper>
+              </div>
+            </AboutItem>
+            <AboutDivider />
+          </>
+        )}
         {space.proposeThreshold && (
           <>
             <AboutItem>
