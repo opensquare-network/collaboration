@@ -1,32 +1,41 @@
-import { Input, noop } from "@osn/common-ui";
+import { cn, Input } from "@osn/common-ui";
 import { SystemSearch } from "@osn/icons/opensquare";
-import { useCallback, useEffect, useState, useMemo } from "react";
-import { debounce } from "lodash-es";
-import { LoadingIcon } from "@osn/common-ui";
+import { useCallback, useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
-export default function SearchForm({
-  placeholder = "Search",
-  onInput = noop,
-  loading = false,
-}) {
+export default function SearchForm({ placeholder = "Search" }) {
+  const router = useRouter();
   const [input, setInput] = useState("");
 
-  const debouncedOnInput = useMemo(() => debounce(onInput, 500), [onInput]);
-
   useEffect(() => {
-    debouncedOnInput(input);
-    return () => {
-      debouncedOnInput.cancel();
-    };
-  }, [input, debouncedOnInput]);
+    if (router.query.search) {
+      setInput(router.query.search);
+    }
+  }, [router.query.search]);
+
+  const handleSubmit = useCallback(
+    (evt) => {
+      evt.preventDefault();
+      evt.stopPropagation();
+
+      const query = { ...router.query };
+      delete query.page;
+      delete query.search;
+
+      if (input) {
+        query.search = input;
+      }
+
+      router.push({
+        pathname: router.pathname,
+        query,
+      });
+    },
+    [router, input],
+  );
 
   const handleInput = useCallback((evt) => {
     setInput(evt.target.value);
-  }, []);
-
-  const handleSubmit = useCallback((evt) => {
-    evt.preventDefault();
-    evt.stopPropagation();
   }, []);
 
   return (
@@ -37,23 +46,21 @@ export default function SearchForm({
       <Input
         type="text"
         name="search"
-        value={input}
-        onInput={handleInput}
         className="w-full"
         placeholder={placeholder}
+        onChange={handleInput}
+        value={input}
         suffix={
-          <div className="flex items-center justify-center w-4 h-4">
-            <SearchSuffix loading={loading} />
-          </div>
+          <button type="submit">
+            <SystemSearch
+              className={cn(
+                "w-4 h-4",
+                input ? "text-textBrandSecondary" : "text-textTertiary",
+              )}
+            />
+          </button>
         }
       />
     </form>
   );
-}
-
-function SearchSuffix({ loading = false }) {
-  if (loading) {
-    return <LoadingIcon className="w-4 h-4 text-textTertiary" />;
-  }
-  return <SystemSearch className="w-4 h-4 text-textTertiary" />;
 }

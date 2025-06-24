@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import InternalLink from "./internalLink";
 import { h3_36_bold } from "../styles/textStyles";
@@ -10,7 +10,6 @@ import { fetchJoinedSpace } from "store/reducers/accountSlice";
 import { cn } from "@osn/common-ui";
 import Pagination from "./pagination";
 import SearchForm from "./searchForm";
-import useSpaces from "hooks/useSpaces";
 
 const Title = styled.div`
   ${h3_36_bold};
@@ -39,9 +38,7 @@ const EmptyResult = styled.div`
   }
 `;
 
-export default function Space({ spaces: initialSpaces }) {
-  const [search, setSearch] = useState("");
-  const { spaces = [], isLoading } = useSpaces({ initialSpaces, search });
+export default function Space({ spaces }) {
   const dispatch = useDispatch();
   const address = useSelector(loginAddressSelector);
 
@@ -56,11 +53,7 @@ export default function Space({ spaces: initialSpaces }) {
     <div>
       <TitleWrapper>
         <Title>Space</Title>
-        <SearchForm
-          placeholder="Search for space"
-          onInput={(value) => setSearch(value)}
-          loading={isLoading}
-        />
+        <SearchForm placeholder="Search for space" />
       </TitleWrapper>
 
       <div
