@@ -1,4 +1,4 @@
-import { SystemNewPost } from "@osn/icons/opensquare";
+import { SystemNewPost, SystemInfo } from "@osn/icons/opensquare";
 
 export default function SettingsNavigation({ step, setStep }) {
   return (
@@ -12,7 +12,7 @@ export default function SettingsNavigation({ step, setStep }) {
             setStep(0);
           }}
         >
-          <SystemNewPost className="[&_path]:fill-textTertiary" />
+          <SystemInfo className="[&_path]:fill-textTertiary" />
           <span className="text16Semibold text-textPrimary">Space Profile</span>
         </div>
         <div
