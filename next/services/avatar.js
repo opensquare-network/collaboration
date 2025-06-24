@@ -2,7 +2,7 @@ import { debounce } from "lodash-es";
 import { Deferred } from "@osn/common";
 
 // only support polkadot now
-const avatarServerHost = process.env.NEXT_PUBLIC_AVATAR_SERVER_HOST;
+const avatarServerHost = "https://polkadot-api.subsquare.io/";
 
 const cachedAvatars = new Map();
 const pendingQueries = new Map();
