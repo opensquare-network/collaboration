@@ -1,20 +1,21 @@
+import { EmptyQuery } from "frontedUtils/constants";
 import { useEffect, useState } from "react";
 import nextApi from "services/nextApi";
 
-export default function useSpaces({ initialSpaces = [], search = "" }) {
+export default function useSpaces({
+  initialSpaces = {},
+  page = 1,
+  search = "",
+}) {
   const [spaces, setSpaces] = useState(initialSpaces);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (!search) {
-      setSpaces(initialSpaces);
-      return;
-    }
     setIsLoading(true);
     nextApi
-      .fetch("spaces", { page: 1, pageSize: 15, search })
+      .fetch("spaces", { page, pageSize: 15, search })
       .then((res) => {
-        setSpaces(res?.result || []);
+        setSpaces(res?.result || EmptyQuery);
       })
       .catch((err) => {
         console.error(err);
@@ -22,7 +23,7 @@ export default function useSpaces({ initialSpaces = [], search = "" }) {
       .finally(() => {
         setIsLoading(false);
       });
-  }, [search, initialSpaces]);
+  }, [search, page]);
 
   return { spaces, isLoading };
 }

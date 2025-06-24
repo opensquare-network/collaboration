@@ -8,10 +8,14 @@ export default function SearchForm({
   placeholder = "Search",
   onInput = noop,
   loading = false,
+  debounceMs = 500,
 }) {
   const [input, setInput] = useState("");
 
-  const debouncedOnInput = useMemo(() => debounce(onInput, 500), [onInput]);
+  const debouncedOnInput = useMemo(
+    () => debounce(onInput, debounceMs),
+    [debounceMs, onInput],
+  );
 
   useEffect(() => {
     debouncedOnInput(input);

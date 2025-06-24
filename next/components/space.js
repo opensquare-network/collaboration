@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import InternalLink from "./internalLink";
 import { h3_36_bold } from "../styles/textStyles";
@@ -7,8 +7,7 @@ import { loginAddressSelector } from "store/reducers/accountSlice";
 import SpaceListItem from "./spaceListItem";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchJoinedSpace } from "store/reducers/accountSlice";
-import { cn } from "@osn/common-ui";
-import Pagination from "./pagination";
+import { cn, Pagination } from "@osn/common-ui";
 import SearchForm from "./searchForm";
 import useSpaces from "hooks/useSpaces";
 
@@ -41,7 +40,12 @@ const EmptyResult = styled.div`
 
 export default function Space({ spaces: initialSpaces }) {
   const [search, setSearch] = useState("");
-  const { spaces = [], isLoading } = useSpaces({ initialSpaces, search });
+  const [page, setPage] = useState(1);
+  const { spaces, isLoading } = useSpaces({
+    initialSpaces,
+    search,
+    page,
+  });
   const dispatch = useDispatch();
   const address = useSelector(loginAddressSelector);
 
@@ -52,13 +56,18 @@ export default function Space({ spaces: initialSpaces }) {
     dispatch(fetchJoinedSpace(address));
   }, [dispatch, address]);
 
+  const handleSearch = useCallback((value) => {
+    setPage(1);
+    setSearch(value);
+  }, []);
+
   return (
     <div>
       <TitleWrapper>
         <Title>Space</Title>
         <SearchForm
           placeholder="Search for space"
-          onInput={(value) => setSearch(value)}
+          onInput={handleSearch}
           loading={isLoading}
         />
       </TitleWrapper>
@@ -86,7 +95,8 @@ export default function Space({ spaces: initialSpaces }) {
       </div>
       <div className="flex justify-center mt-[20px]">
         <Pagination
-          page={spaces.page}
+          page={page}
+          setPage={setPage}
           total={spaces.total}
           pageSize={spaces.pageSize}
         />
