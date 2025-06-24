@@ -5,14 +5,19 @@ import {
   getCachedAvatar,
   removeCachedAvatar,
 } from "services/avatar";
+import { encodeNetworkAddress } from "@osn/common";
+
+const AVATAR_NETWORK = "polkadot";
 
 export async function refreshAvatar(address) {
-  removeCachedAvatar(address);
-  await fetchAvatar(address);
+  const encodedAddress = encodeNetworkAddress(address, AVATAR_NETWORK);
+  removeCachedAvatar(encodedAddress);
+  await fetchAvatar(encodedAddress);
 }
 
 export default function useAvatarInfo(address) {
-  const cachedAvatar = getCachedAvatar(address);
+  const encodedAddress = encodeNetworkAddress(address, AVATAR_NETWORK);
+  const cachedAvatar = getCachedAvatar(encodedAddress);
   const [avatar, setAvatar] = useState(cachedAvatar);
 
   useEffect(() => {
@@ -21,8 +26,8 @@ export default function useAvatarInfo(address) {
 
   useEffect(() => {
     const avatarServerHost = process.env.NEXT_PUBLIC_AVATAR_SERVER_HOST;
-    if (address && avatarServerHost) {
-      fetchAvatar(address, avatarServerHost)
+    if (encodedAddress && avatarServerHost) {
+      fetchAvatar(encodedAddress, avatarServerHost)
         .then((result) => {
           if (result === avatar) {
             return;
@@ -34,7 +39,7 @@ export default function useAvatarInfo(address) {
           setAvatar(null);
         });
     }
-  }, [address, avatar]);
+  }, [encodedAddress, avatar]);
 
   return [avatar, !isNil(avatar)];
 }
