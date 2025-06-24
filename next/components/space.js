@@ -10,7 +10,7 @@ import { fetchJoinedSpace } from "store/reducers/accountSlice";
 import { cn } from "@osn/common-ui";
 import Pagination from "./pagination";
 import SearchForm from "./searchForm";
-import nextApi from "services/nextApi";
+import useSpaces from "hooks/useSpaces";
 
 const Title = styled.div`
   ${h3_36_bold};
@@ -40,30 +40,10 @@ const EmptyResult = styled.div`
 `;
 
 export default function Space({ spaces: initialSpaces }) {
-  const [spaces, setSpaces] = useState(initialSpaces);
-  const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
+  const { spaces = [], isLoading } = useSpaces({ initialSpaces, search });
   const dispatch = useDispatch();
   const address = useSelector(loginAddressSelector);
-
-  useEffect(() => {
-    if (!search) {
-      setSpaces(initialSpaces);
-      return;
-    }
-    setLoading(true);
-    nextApi
-      .fetch("spaces", { page: 1, pageSize: 15, search })
-      .then((res) => {
-        setSpaces(res?.result || []);
-      })
-      .catch((err) => {
-        console.error(err);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [search, initialSpaces]);
 
   useEffect(() => {
     if (!address) {
@@ -79,7 +59,7 @@ export default function Space({ spaces: initialSpaces }) {
         <SearchForm
           placeholder="Search for space"
           onInput={(value) => setSearch(value)}
-          loading={loading}
+          loading={isLoading}
         />
       </TitleWrapper>
 
