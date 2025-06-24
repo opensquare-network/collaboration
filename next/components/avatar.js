@@ -5,6 +5,8 @@ import makeBlockie from "ethereum-blockies-base64";
 import { Tooltip } from "@osn/common-ui";
 import React from "react";
 import IdentityOrAddr from "./identityOrAddr";
+import useAvatarInfo from "hooks/useAvatar";
+import IpfsAvatar from "./ipfsAvatar";
 
 const Wrapper = styled.span`
   display: inline-flex;
@@ -21,6 +23,12 @@ const ImgWrapper = styled.img`
 `;
 
 export default function Avatar({ address, size = 20 }) {
+  const [avatarCid] = useAvatarInfo(address);
+  const normalizedSize = isNaN(size) ? size : `${size}px`;
+
+  if (avatarCid) {
+    return <IpfsAvatar avatarCid={avatarCid} size={normalizedSize} />;
+  }
   if (ethers.utils.isAddress(address)) {
     const imgSize = (size / 10) * 8;
 

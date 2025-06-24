@@ -1617,6 +1617,7 @@ __metadata:
     nprogress: ^0.2.0
     postcss: ^8.4.33
     postinstall-postinstall: ^2.1.0
+    quick-lru: ^7.0.1
     react: 18.3.1
     react-content-loader: ^6.2.0
     react-datepicker: ^4.2.1
@@ -12768,6 +12769,13 @@ __metadata:
   version: 4.0.4
   resolution: "quick-format-unescaped@npm:4.0.4"
   checksum: 7bc32b99354a1aa46c089d2a82b63489961002bb1d654cee3e6d2d8778197b68c2d854fd23d8422436ee1fdfd0abaddc4d4da120afe700ade68bd357815b26fd
+  languageName: node
+  linkType: hard
+
+"quick-lru@npm:^7.0.1":
+  version: 7.0.1
+  resolution: "quick-lru@npm:7.0.1"
+  checksum: 85fb9c0c7ec99affd3962f629f042f02c43ac078aa2755f43e802be0a91c2c30fa8abbd530428f0cdce188187939ac44037d778a1e22ec9035ebac51c31cdd25
   languageName: node
   linkType: hard
 
