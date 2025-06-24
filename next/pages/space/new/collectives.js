@@ -6,12 +6,11 @@ import { ssrNextApi } from "../../../services/nextApi";
 import { setAvailableNetworks } from "../../../store/reducers/accountSlice";
 import Index from "@/components/newSpace/newCollectiveSpace";
 
-export default function Collectives({ allNetworks, chainsDef, tokensDef }) {
+export default function Collectives({ allNetworks }) {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(setAvailableNetworks(allNetworks || []));
   }, [dispatch, allNetworks]);
-  console.log(chainsDef);
 
   const desc = "Create new space";
   return (

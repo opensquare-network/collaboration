@@ -102,7 +102,6 @@ export default function Sider({
     proposalThreshold,
     selectedStrategies,
   ]);
-  console.log(allStrategies, selectedStrategies);
 
   return (
     <MyPanel>

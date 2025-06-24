@@ -3,7 +3,7 @@ import Layout from "@/components/layout";
 import { ssrNextApi } from "../../../services/nextApi";
 import SelectSpaceType from "@/components/newSpace/selectSpaceType";
 
-export default function NewSpacePage({ allNetworks, chainsDef, tokensDef }) {
+export default function NewSpacePage({ allNetworks }) {
   return (
     <>
       <Seo desc={"desc"} />

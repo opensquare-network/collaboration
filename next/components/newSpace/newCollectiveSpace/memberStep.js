@@ -12,6 +12,7 @@ import { useState } from "react";
 
 const MemberItem = styled(FlexBetween)`
   display: flex;
+  justify-content: space-between;
   padding: 12px 16px;
   gap: 8px;
   align-self: stretch;
@@ -73,28 +74,20 @@ const MemeberList = ({ members, setMembers }) => {
     <Flex className="flex flex-col gap-4">
       {members.map((member, index) => {
         return (
-          <MemberItem key={index} className="px-4 py-3 justify-between">
-            <MemberAddress
-              address={member}
-              onChange={(value) => {
-                const newMembers = [...members];
-                newMembers[index] = value;
-                setMembers(newMembers);
-              }}
-            />
-            <Tooltip content="Remove">
-              <Button
-                className="!p-0 border-none h-auto"
-                onClick={() => {
-                  const newMembers = [...members];
-                  newMembers.splice(index, 1);
-                  setMembers(newMembers);
-                }}
-              >
-                <SystemDelete className="w-5 h-5" />
-              </Button>
-            </Tooltip>
-          </MemberItem>
+          <MemberAddress
+            key={member}
+            address={member}
+            onChange={(value) => {
+              const newMembers = [...members];
+              newMembers[index] = value;
+              setMembers(newMembers);
+            }}
+            onDelete={() => {
+              const newMembers = [...members];
+              newMembers.splice(index, 1);
+              setMembers(newMembers);
+            }}
+          />
         );
       })}
       <Flex className="w-full justify-start">
@@ -110,31 +103,56 @@ const MemeberList = ({ members, setMembers }) => {
   );
 };
 
-const MemberAddress = ({ address, onChange }) => {
-  const [showInput, setShowInput] = useState(false);
-  if (!showInput && isAddress(address)) {
+const MemberAddress = ({ address, onChange, onDelete }) => {
+  const [showInput, setShowInput] = useState(!isAddress(address));
+  const [showError, setShowError] = useState(false);
+  if (!showInput) {
     return (
-      <Flex className="gap-2" onClick={() => setShowInput(true)}>
-        <Avatar size={20} address={address} />
-        <IdentityOrAddr address={address} noLink={true} />
-      </Flex>
+      <MemberItem>
+        <Flex className="gap-2" onClick={() => setShowInput(true)}>
+          <Avatar size={20} address={address} />
+          <IdentityOrAddr
+            network={"polkadot"}
+            ellipsis={false}
+            address={address}
+            noLink={true}
+          />
+        </Flex>
+        <DeleteButton onClick={onDelete} />
+      </MemberItem>
     );
   }
+
   return (
-    <Flex className="gap-2 w-full">
-      <UserIcon className="h-5 w-5" />
-      <Input
-        className="px-0 outline-none bg-none"
-        placeholder="address..."
-        value={address}
-        onChange={(e) => {
-          onChange(e.target.value);
-        }}
-        onBlur={() => {
-          setShowInput(false);
-        }}
-        autoFocus
-      />
-    </Flex>
+    <MemberItem>
+      <Flex className="gap-2 w-full">
+        <UserIcon className="h-5 w-5" />
+        <Input
+          className="px-0 outline-none bg-none"
+          placeholder="address..."
+          value={address}
+          onChange={(e) => {
+            onChange(e.target.value);
+          }}
+          onBlur={(e) => {
+            const value = e.target.value.trim();
+            setShowInput(!isAddress(value));
+          }}
+          autoFocus
+        />
+        <div>Invalid address</div>
+      </Flex>
+      <DeleteButton onClick={onDelete} />
+    </MemberItem>
+  );
+};
+
+const DeleteButton = ({ onClick }) => {
+  return (
+    <Tooltip content="Remove">
+      <Button className="!p-0 border-none h-auto" onClick={onClick}>
+        <SystemDelete className="w-5 h-5" />
+      </Button>
+    </Tooltip>
   );
 };
