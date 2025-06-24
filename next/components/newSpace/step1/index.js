@@ -6,7 +6,7 @@ import {
 } from "store/reducers/newSpaceSlice";
 import Steps from "../../steps";
 import Logo from "./logo";
-import Name from "./name";
+import Name, { checkName } from "./name";
 import { MyPanel, Sections } from "../styled";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
@@ -32,20 +32,9 @@ export default function Step1({
   }, [name]);
 
   const handleNext = () => {
-    if (!name) {
-      setErrorMsg("Space name cannot be empty");
-      return;
-    }
-
-    if (name.length > 20) {
-      setErrorMsg("Space name cannot exceed 20 characters");
-      return;
-    }
-
-    if (!/^[a-zA-Z0-9_\-\s]+$/.test(name)) {
-      setErrorMsg(
-        "Only letters, numbers, spaces, underscores and hyphens are allowed",
-      );
+    const nameError = checkName(name);
+    if (nameError) {
+      setErrorMsg(nameError);
       return;
     }
 
