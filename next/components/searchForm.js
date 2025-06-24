@@ -1,15 +1,8 @@
-import tw from "tailwind-styled-components";
 import { Input, noop } from "@osn/common-ui";
 import { SystemSearch } from "@osn/icons/opensquare";
 import { useCallback, useEffect, useState, useMemo } from "react";
 import { debounce } from "lodash-es";
-import LoadingField from "./loadingField";
-
-const Wrapper = tw.form`
-  w-[200px]!
-  max-sm:w-full
-  flex items-center gap-2
-`;
+import { LoadingIcon } from "@osn/common-ui";
 
 export default function SearchForm({
   placeholder = "Search",
@@ -37,7 +30,10 @@ export default function SearchForm({
   }, []);
 
   return (
-    <Wrapper className="[&>div]:w-full" onSubmit={handleSubmit}>
+    <form
+      className="[&>div]:w-full flex items-center gap-2 w-[200px]! max-sm:w-full"
+      onSubmit={handleSubmit}
+    >
       <Input
         type="text"
         name="search"
@@ -47,17 +43,17 @@ export default function SearchForm({
         placeholder={placeholder}
         suffix={
           <div className="flex items-center justify-center w-4 h-4">
-            {loading ? (
-              <LoadingField
-                isLoading={loading}
-                className="w-4 h-4 text-textTertiary"
-              />
-            ) : (
-              <SystemSearch className="w-4 h-4 text-textTertiary" />
-            )}
+            <SearchSuffix loading={loading} />
           </div>
         }
       />
-    </Wrapper>
+    </form>
   );
+}
+
+function SearchSuffix({ loading = false }) {
+  if (loading) {
+    return <LoadingIcon className="w-4 h-4 text-textTertiary" />;
+  }
+  return <SystemSearch className="w-4 h-4 text-textTertiary" />;
 }
