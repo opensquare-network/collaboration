@@ -6,7 +6,7 @@ async function getAllNetworks(ctx) {
 
   const allNetworks = {};
   for (const space of spaces) {
-    for (const network of space.networks) {
+    for (const network of space.networks || []) {
       allNetworks[network.network] = network;
     }
   }
