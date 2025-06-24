@@ -14,7 +14,7 @@ const router = new Router();
 router.get("/networks", getAllNetworks);
 router.get("/spaces", getSpaces);
 router.get("/spaces/:space", getSpace);
-router.patch("/spaces/:space", updateSpace);
+router.patch("/spaces/:space", requireSignature, updateSpace);
 router.post("/spaces", createSpace);
 router.post("/spaces/collectives", createDaoSpace);
 router.post("/spaces/:space/members", requireSignature, updateSpaceMembers);
