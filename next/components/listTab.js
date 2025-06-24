@@ -98,7 +98,7 @@ export default function ListTab({
     </>
   );
 
-  if (!isSpaceAdmin) {
+  if (isSpaceAdmin) {
     settings = (
       <a href={`/space/${spaceId}/settings`}>
         <div className="flex gap-[8px] cursor-pointer [&_svg_path]:fill-textBrandSecondary text-textBrandSecondary">

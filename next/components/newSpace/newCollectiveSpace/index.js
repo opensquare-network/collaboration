@@ -15,8 +15,7 @@ import CollectiveSider from "@/components/newSpace/sider/collectiveSider";
 
 const options = [{ value: "one-person-one-vote", text: "one-person-one-vote" }];
 
-export default function Index({ chainsDef, tokensDef }) {
-  console.log(chainsDef);
+export default function NewCollectiveSpace() {
   const [selectedStrategies] = useState(["one-person-one-vote"]);
   const [members, setMembers] = useState([
     "13znFMMjHyM2UvSewvaKMC2bLUcySRMzcM8BAMTzm1G2P5ju",

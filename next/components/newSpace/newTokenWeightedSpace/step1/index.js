@@ -51,8 +51,12 @@ export default function Step1({
         <Logo imageFile={imageFile} setImageFile={setImageFile} />
         <Name name={name} setName={setName} errorMsg={errorMsg} />
       </Sections>
-      <NextButton block onClick={() => handleNext()}>
-        Next
+      <NextButton
+        disabled={!name || !imageFile}
+        block
+        onClick={() => handleNext()}
+      >
+        Next Step
       </NextButton>
     </>
   );
