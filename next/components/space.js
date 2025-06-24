@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import InternalLink from "./internalLink";
 import { h3_36_bold } from "../styles/textStyles";
@@ -9,6 +9,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchJoinedSpace } from "store/reducers/accountSlice";
 import { cn } from "@osn/common-ui";
 import Pagination from "./pagination";
+import SearchForm from "./searchForm";
+import nextApi from "services/nextApi";
 
 const Title = styled.div`
   ${h3_36_bold};
@@ -19,11 +21,49 @@ const TitleWrapper = styled.div`
   align-items: center;
   justify-content: space-between;
   margin-bottom: 24px;
+  @media screen and (max-width: 800px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
 `;
 
-export default function Space({ spaces }) {
+const EmptyResult = styled.div`
+  background: var(--fillBgPrimary);
+  border: 1px solid var(--strokeBorderDefault);
+  box-shadow: var(--shadowCardDefault);
+
+  :hover {
+    border-color: var(--strokeActionDefault);
+    box-shadow: var(--shadowCardHover);
+  }
+`;
+
+export default function Space({ spaces: initialSpaces }) {
+  const [spaces, setSpaces] = useState(initialSpaces);
+  const [loading, setLoading] = useState(false);
+  const [search, setSearch] = useState("");
   const dispatch = useDispatch();
   const address = useSelector(loginAddressSelector);
+
+  useEffect(() => {
+    if (!search) {
+      setSpaces(initialSpaces);
+      return;
+    }
+    setLoading(true);
+    nextApi
+      .fetch("spaces", { page: 1, pageSize: 15, search })
+      .then((res) => {
+        setSpaces(res?.result || []);
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [search, initialSpaces]);
 
   useEffect(() => {
     if (!address) {
@@ -36,6 +76,11 @@ export default function Space({ spaces }) {
     <div>
       <TitleWrapper>
         <Title>Space</Title>
+        <SearchForm
+          placeholder="Search for space"
+          onInput={(value) => setSearch(value)}
+          loading={loading}
+        />
       </TitleWrapper>
 
       <div
@@ -53,6 +98,11 @@ export default function Space({ spaces }) {
             <SpaceListItem name={space.id} space={space} />
           </InternalLink>
         ))}
+        {spaces.items.length === 0 && (
+          <EmptyResult className="col-span-full h-[130px] flex items-center justify-center bg-white text-textTertiary">
+            Result not found
+          </EmptyResult>
+        )}
       </div>
       <div className="flex justify-center mt-[20px]">
         <Pagination
