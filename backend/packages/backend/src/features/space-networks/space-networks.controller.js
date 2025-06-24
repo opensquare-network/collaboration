@@ -19,7 +19,7 @@ async function getNetworkHeights(ctx) {
   }
 
   const promises = [];
-  for (const { network } of spaceConfig.networks) {
+  for (const { network } of spaceConfig.networks || []) {
     promises.push(getChainHeightByTime(network, time));
   }
 
