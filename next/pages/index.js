@@ -26,16 +26,15 @@ export default function Index({ spaces, hottestProposals, allNetworks }) {
 }
 
 export async function getServerSideProps(context) {
-  const { page, search } = context.query;
+  const { page } = context.query;
   const nPage = parseInt(page) || 1;
-  const nSearch = search || "";
 
   const [
     { result: spaces },
     { result: hottestProposals },
     { result: allNetworks },
   ] = await Promise.all([
-    ssrNextApi.fetch("spaces", { page: nPage, pageSize: 15, search: nSearch }),
+    ssrNextApi.fetch("spaces", { page: nPage, pageSize: 15 }),
     ssrNextApi.fetch("home/hottest"),
     ssrNextApi.fetch("networks"),
   ]);
