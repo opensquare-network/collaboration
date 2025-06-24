@@ -1,34 +1,39 @@
-import { SystemNewPost, SystemInfo } from "@osn/icons/opensquare";
+import { cn } from "@osn/common-ui";
+import { useMemo, useState } from "react";
 
-export default function SettingsNavigation({ step, setStep }) {
+export default function SettingsNavigation({ items }) {
+  const [step, setStep] = useState(() => items[0].value);
+
+  const content = useMemo(() => {
+    return items.find((item) => item.value === step)?.content || null;
+  }, [items, step]);
+
   return (
-    <div>
-      <div className="sm:w-[300px] py-[20px] bg-fillBgPrimary border border-strokeBorderDefault shadow-shadowCardDefault">
-        <div
-          className={`flex gap-[8px] py-[12px] px-[16px] cursor-pointer ${
-            step === 0 ? "bg-fillBgTertiary" : ""
-          }`}
-          onClick={() => {
-            setStep(0);
-          }}
-        >
-          <SystemInfo className="[&_path]:fill-textTertiary" />
-          <span className="text16Semibold text-textPrimary">Space Profile</span>
-        </div>
-        <div
-          className={`flex gap-[8px] py-[12px] px-[16px] cursor-pointer  ${
-            step === 1 ? "bg-fillBgTertiary" : ""
-          }`}
-          onClick={() => {
-            setStep(1);
-          }}
-        >
-          <SystemNewPost className="[&_path]:fill-textTertiary" />
-          <span className="text16Semibold text-textPrimary">
-            Proposal Template
-          </span>
+    <>
+      <div>
+        <div className="sm:w-[300px] py-[20px] bg-fillBgPrimary border border-strokeBorderDefault shadow-shadowCardDefault">
+          {items.map((item) => {
+            return (
+              <div
+                key={item.value}
+                className={cn(
+                  "flex gap-[8px] py-[12px] px-[16px] cursor-pointer",
+                  step === item.value ? "bg-fillBgTertiary" : "",
+                )}
+                onClick={() => {
+                  setStep(item.value);
+                }}
+              >
+                {item.icon}
+                <span className="text16Semibold text-textPrimary">
+                  {item.label}
+                </span>
+              </div>
+            );
+          })}
         </div>
       </div>
-    </div>
+      {content}
+    </>
   );
 }
