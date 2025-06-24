@@ -76,6 +76,7 @@ export default function PostContent({ data, space }) {
   const showAppendants =
     (isOwner && !proposalClosed) || data.appendants?.length > 0;
 
+  console.log(networkConfig, spaceSupportMultiChain, data);
   return (
     <Panel>
       <Title>{data?.title}</Title>

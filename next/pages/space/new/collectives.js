@@ -11,6 +11,7 @@ export default function Collectives({ allNetworks, chainsDef, tokensDef }) {
   useEffect(() => {
     dispatch(setAvailableNetworks(allNetworks || []));
   }, [dispatch, allNetworks]);
+  console.log(chainsDef);
 
   const desc = "Create new space";
   return (

@@ -44,15 +44,16 @@ export default function Voter({
   // eslint-disable-next-line
   isSafari = false,
 }) {
+  console.log(network);
   const popup = (
     <PopupCard>
-      <IdentityUser
-        address={address}
-        network={network}
-        networkIconSize={showNetwork ? 16 : 0}
-      />
-      <Divider />
-      <TextMinor>{address}</TextMinor>
+      {/*<IdentityUser*/}
+      {/*  address={address}*/}
+      {/*  network={network}*/}
+      {/*  networkIconSize={showNetwork ? 16 : 0}*/}
+      {/*/>*/}
+      {/*<Divider />*/}
+      {/*<TextMinor>{address}</TextMinor>*/}
     </PopupCard>
   );
 

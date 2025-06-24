@@ -2,7 +2,6 @@ import BigNumber from "bignumber.js";
 import { MyPanel, SectionTitle } from "../styled";
 import Assets from "./assets";
 import Logo from "./logo";
-import styled from "styled-components";
 import Strategies from "./strategies";
 import { currentStepSelector } from "store/reducers/newSpaceSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,43 +11,13 @@ import { newErrorToast, newSuccessToast } from "store/reducers/toastSlice";
 import nextApi from "services/nextApi";
 import { useRouter } from "next/router";
 import isEmpty from "lodash.isempty";
-
-const Sections = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-`;
-
-const SpaceName = styled.span`
-  font-style: normal;
-  font-weight: 600;
-  font-size: 18px;
-  line-height: 24px;
-  text-align: center;
-  color: var(--textPrimary);
-`;
-
-const TokenSymbol = styled.span`
-  font-style: normal;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 24px;
-  text-align: center;
-  color: var(--textTertiary);
-`;
-
-const FlexColumn = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const Items = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-`;
+import {
+  FlexColumn,
+  Items,
+  SpaceName,
+  TokenSymbol,
+  Sections,
+} from "@/components/newSpace/sider/styled";
 
 export default function Sider({
   symbol,
@@ -133,6 +102,7 @@ export default function Sider({
     proposalThreshold,
     selectedStrategies,
   ]);
+  console.log(allStrategies, selectedStrategies);
 
   return (
     <MyPanel>

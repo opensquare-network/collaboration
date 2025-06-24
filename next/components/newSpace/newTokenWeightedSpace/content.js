@@ -2,17 +2,12 @@ import Step1 from "./step1";
 import Step2 from "./step2";
 import Sider from "../sider";
 import Step3 from "./step3";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  currentStepSelector,
-  setCurrentStep,
-} from "../../../store/reducers/newSpaceSlice";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { identicon } from "minidenticons";
 import Steps from "@/components/steps";
 import { MainWrapper, MyPanel, SiderWrapper, Wrapper } from "../styled";
 
-const useDefaultLogo = ({ username, saturation, lightness }) => {
+export const useDefaultLogo = ({ username, saturation, lightness }) => {
   const svgText = useMemo(
     () => identicon(username, saturation, lightness),
     [username, saturation, lightness],
@@ -22,8 +17,7 @@ const useDefaultLogo = ({ username, saturation, lightness }) => {
 };
 
 export default function Content({ chainsDef, tokensDef }) {
-  const dispatch = useDispatch();
-  const currentStep = useSelector(currentStepSelector);
+  const [currentStep, setCurrentStep] = useState(0);
   const [imageFile, setImageFile] = useState();
   const [name, setName] = useState("");
   const defaultLogo = useDefaultLogo({
@@ -42,10 +36,6 @@ export default function Content({ chainsDef, tokensDef }) {
     { value: "balance-of", text: "balance-of" },
     { value: "quadratic-balance-of", text: "quadratic-balance-of" },
   ];
-
-  useEffect(() => {
-    dispatch(setCurrentStep(0));
-  }, [dispatch]);
 
   const steps = [
     { title: "Space profile" },
@@ -71,6 +61,7 @@ export default function Content({ chainsDef, tokensDef }) {
         setImageFile={setImageFile}
         name={name}
         setName={setName}
+        onNextStep={() => setCurrentStep(1)}
       />
     );
   } else if (currentStep === 1) {
@@ -80,6 +71,8 @@ export default function Content({ chainsDef, tokensDef }) {
         tokensDef={tokensDef}
         assets={assets}
         setAssets={setAssets}
+        onNextStep={() => setCurrentStep(2)}
+        onBackStep={() => setCurrentStep(0)}
       />
     );
   } else if (currentStep === 2) {

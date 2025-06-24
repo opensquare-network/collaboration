@@ -1,10 +1,9 @@
 import styled from "styled-components";
 import { Button } from "@osn/common-ui";
 import { useDispatch } from "react-redux";
-import { setCurrentStep } from "../../../../store/reducers/newSpaceSlice";
 import { Sections } from "../../styled";
 import BackButton from "../../backButton";
-import NewAssetButton from "./newAssetButton";
+import NewAssetButton from "./newButton";
 import Asset from "./asset";
 import MyDivider from "../../myDivider";
 import { Fragment, useCallback } from "react";
@@ -16,7 +15,14 @@ const ButtonsWrapper = styled.div`
   gap: 20px;
 `;
 
-export default function Step2({ chainsDef, tokensDef, assets, setAssets }) {
+export default function Step2({
+  chainsDef,
+  tokensDef,
+  assets,
+  setAssets,
+  onNextStep,
+  onBackStep,
+}) {
   const dispatch = useDispatch();
 
   const nextStep = useCallback(() => {
@@ -94,8 +100,8 @@ export default function Step2({ chainsDef, tokensDef, assets, setAssets }) {
       return;
     }
 
-    dispatch(setCurrentStep(2));
-  }, [dispatch, assets]);
+    onNextStep();
+  }, [dispatch, assets, onNextStep]);
 
   return (
     <>
@@ -138,11 +144,13 @@ export default function Step2({ chainsDef, tokensDef, assets, setAssets }) {
               },
             ])
           }
-        />
+        >
+          New Asset
+        </NewAssetButton>
       </Sections>
       <MyDivider />
       <ButtonsWrapper>
-        <BackButton />
+        <BackButton onClick={onBackStep} />
         <Button block onClick={nextStep}>
           Next
         </Button>

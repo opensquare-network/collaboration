@@ -28,7 +28,7 @@ export const Hint = styled.div`
 
 export const MyPanel = styled(Panel)`
   > :not(:first-child) {
-    margin-top: 32px;
+    margin-top: 20px;
   }
 `;
 

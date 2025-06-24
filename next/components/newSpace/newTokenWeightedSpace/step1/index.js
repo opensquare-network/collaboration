@@ -1,10 +1,4 @@
-import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@osn/common-ui";
-import {
-  currentStepSelector,
-  setCurrentStep,
-} from "../../../../store/reducers/newSpaceSlice";
-import Steps from "../../../steps";
 import Logo from "./logo";
 import Name from "./name";
 import { Sections } from "../../styled";
@@ -17,14 +11,12 @@ const NextButton = styled(Button)`
 `;
 
 export default function Step1({
-  steps,
   imageFile,
   setImageFile,
   name,
   setName,
+  onNextStep,
 }) {
-  const dispatch = useDispatch();
-  const currentStep = useSelector(currentStepSelector);
   const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
@@ -49,7 +41,7 @@ export default function Step1({
       return;
     }
 
-    dispatch(setCurrentStep(1));
+    onNextStep();
   };
 
   return (
