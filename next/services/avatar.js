@@ -1,12 +1,15 @@
 import { debounce } from "lodash-es";
 import { Deferred } from "@osn/common";
 
+// only support polkadot now
+const avatarServerHost = process.env.NEXT_PUBLIC_AVATAR_SERVER_HOST;
+
 const cachedAvatars = new Map();
 const pendingQueries = new Map();
 const processingQueries = new Map();
 
-const delayQuery = debounce(async (avatarServerHost) => {
-  if (pendingQueries.size < 1) {
+const delayQuery = debounce(async () => {
+  if (pendingQueries.size < 1 || !avatarServerHost) {
     return;
   }
 
@@ -59,8 +62,8 @@ const delayQuery = debounce(async (avatarServerHost) => {
   }
 }, 500);
 
-export function fetchAvatar(address, avatarServerHost) {
-  if (!address || !avatarServerHost) {
+export function fetchAvatar(address) {
+  if (!address) {
     return Promise.resolve(null);
   }
 

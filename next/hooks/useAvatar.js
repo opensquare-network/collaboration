@@ -7,6 +7,7 @@ import {
 } from "services/avatar";
 import { encodeNetworkAddress } from "@osn/common";
 
+// only support polkadot now
 const AVATAR_NETWORK = "polkadot";
 
 export async function refreshAvatar(address) {
@@ -25,9 +26,8 @@ export default function useAvatarInfo(address) {
   }, [cachedAvatar]);
 
   useEffect(() => {
-    const avatarServerHost = process.env.NEXT_PUBLIC_AVATAR_SERVER_HOST;
-    if (encodedAddress && avatarServerHost) {
-      fetchAvatar(encodedAddress, avatarServerHost)
+    if (encodedAddress) {
+      fetchAvatar(encodedAddress)
         .then((result) => {
           if (result === avatar) {
             return;
