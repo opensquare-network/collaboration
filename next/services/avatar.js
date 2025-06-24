@@ -1,10 +1,17 @@
 import { debounce } from "lodash-es";
 import { Deferred } from "@osn/common";
+import QuickLRU from "quick-lru";
 
 // only support polkadot now
 const avatarServerHost = "https://polkadot-api.subsquare.io/";
 
-const cachedAvatars = new Map();
+const CACHE_MAX_SIZE = 1000;
+const CACHE_MAX_AGE = 1000 * 60 * 5; // 5 minutes
+
+const cachedAvatars = new QuickLRU({
+  maxSize: CACHE_MAX_SIZE,
+  maxAge: CACHE_MAX_AGE,
+});
 const pendingQueries = new Map();
 const processingQueries = new Map();
 
