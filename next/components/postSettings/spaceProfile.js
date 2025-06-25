@@ -5,7 +5,7 @@ import Save from "./save";
 import { Divider } from "../postDetail/strategyResult/common/styled";
 import Logo from "../newSpace/step1/logo";
 import Name, { checkName } from "../newSpace/step1/name";
-import { getSpaceIconUrl } from "frontedUtils/space";
+import { getSpaceIconUri } from "frontedUtils/space";
 import { loginAccountSelector } from "../../store/reducers/accountSlice";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -18,7 +18,7 @@ import nextApi from "../../services/nextApi";
 import encodeAddressByChain from "../../frontedUtils/chain/addr";
 
 export default function SpaceProfile({ space }) {
-  const sourceLogo = getSpaceIconUrl(space);
+  const sourceLogo = getSpaceIconUri(space);
   const dispatch = useDispatch();
   const [imageFile, setImageFile] = useState(sourceLogo);
   const [name, setName] = useState(space?.name || "");
