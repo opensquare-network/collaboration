@@ -12,6 +12,8 @@ import { Button } from "@osn/common-ui";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { accountSelector } from "store/reducers/accountSlice";
+import { popUpConnect } from "store/reducers/showConnectSlice";
+import { useDispatch } from "react-redux";
 
 export default function CollectiveSider({
   name,
@@ -21,18 +23,6 @@ export default function CollectiveSider({
   currentStep,
   members,
 }) {
-  const account = useSelector(accountSelector);
-
-  const [isLoading, setIsLoading] = useState(false);
-  const submit = () => {
-    const params = {
-      name,
-      logo: imageFile,
-      members,
-      admins: [account.address],
-    };
-  };
-
   return (
     <>
       <MyPanel>
@@ -50,12 +40,42 @@ export default function CollectiveSider({
             selectedOptions={selectedStrategies}
           />
         </Items>
-        {currentStep === 2 && (
-          <Button primary block onClick={submit} isLoading={isLoading}>
-            Submit
-          </Button>
-        )}
+        <ActionButton
+          currentStep={currentStep}
+          params={{
+            name,
+            logo: imageFile,
+            members,
+          }}
+        />
       </MyPanel>
     </>
   );
 }
+
+const ActionButton = ({ currentStep }) => {
+  const account = useSelector(accountSelector);
+
+  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
+
+  const submit = () => {
+    setIsLoading(true);
+  };
+
+  if (currentStep !== 2) {
+    return;
+  }
+  if (account?.address) {
+    return (
+      <Button primary block onClick={submit} isLoading={isLoading}>
+        Submit
+      </Button>
+    );
+  }
+  return (
+    <Button primary block onClick={() => dispatch(popUpConnect())}>
+      Connect Wallet
+    </Button>
+  );
+};
