@@ -7,6 +7,7 @@ const {
   checkSpaceLogo,
   pinLogo,
 } = require("./common");
+const { reloadSpaces } = require("../../spaces");
 
 async function updateSpace(ctx) {
   const { space } = ctx.params;
@@ -33,6 +34,9 @@ async function updateSpace(ctx) {
     { $set: updates },
     { returnDocument: "after" },
   );
+
+  // Refresh space cache
+  await reloadSpaces();
 
   ctx.body = omit(result.value || {}, ["_id"]);
 }
