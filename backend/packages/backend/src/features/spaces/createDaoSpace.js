@@ -2,7 +2,7 @@ const slugify = require("slugify");
 const { getSpaceCollection } = require("../../mongo");
 const { reloadSpaces } = require("../../spaces");
 const { strategies } = require("../../consts/voting");
-const { Accessibility } = require("../../consts/space");
+const { Accessibility, SpaceType } = require("../../consts/space");
 const {
   pinLogo,
   checkSpaceConflict,
@@ -37,7 +37,7 @@ async function createDaoSpace(ctx) {
   const spaceConfig = {
     id,
     name,
-    type: "collectives-dao",
+    type: SpaceType.CollectivesDao,
     accessibility: Accessibility.WHITELIST,
     members,
     weightStrategy: [strategies.onePersonOneVote],

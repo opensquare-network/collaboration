@@ -2,7 +2,7 @@ import Api from "./api";
 
 const nextApi = new Api(
   new URL(
-    "/api/",
+    "/",
     process.env.NEXT_PUBLIC_API_END_POINT || "https://test.opensquare.io/",
   ).href,
 );

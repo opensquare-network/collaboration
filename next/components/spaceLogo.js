@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { makeSquare } from "../styles/globalCss";
-import { getSpaceIconUrl } from "frontedUtils/space";
+import { useSpaceIconUri } from "frontedUtils/space";
 
 const LogoImg = styled.img`
   ${makeSquare(64)};
@@ -10,5 +10,6 @@ const LogoImg = styled.img`
 `;
 
 export default function SpaceLogo({ space }) {
-  return <LogoImg src={getSpaceIconUrl(space)} alt="" />;
+  const spaceIcon = useSpaceIconUri(space);
+  return <LogoImg src={spaceIcon} alt="" />;
 }

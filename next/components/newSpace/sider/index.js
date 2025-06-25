@@ -12,6 +12,7 @@ import { newErrorToast, newSuccessToast } from "store/reducers/toastSlice";
 import nextApi from "services/nextApi";
 import { useRouter } from "next/router";
 import isEmpty from "lodash.isempty";
+import { useDefaultLogo } from "hooks/useDefaultLogo";
 
 const Sections = styled.div`
   display: flex;
@@ -64,6 +65,11 @@ export default function Sider({
   const currentStep = useSelector(currentStepSelector);
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const defaultLogo = useDefaultLogo({
+    username: name,
+    saturation: 50,
+    lightness: 50,
+  });
 
   const verifyData = useCallback(() => {
     if (isNaN(proposalThreshold)) {
@@ -138,7 +144,7 @@ export default function Sider({
     <MyPanel>
       <SectionTitle>Summary</SectionTitle>
       <Sections>
-        <Logo imageFile={imageFile} />
+        <Logo imageFile={imageFile || defaultLogo} />
         <FlexColumn>
           <SpaceName>{name || "Name"}</SpaceName>
           <TokenSymbol>{symbol || "Token Symbol"}</TokenSymbol>

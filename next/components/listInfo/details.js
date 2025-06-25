@@ -13,6 +13,7 @@ import uniq from "lodash.uniq";
 import { getSpaceAssets } from "frontedUtils/getSpaceAssets";
 import AssetList from "../assetList";
 import { hasBalanceStrategy } from "frontedUtils/strategy";
+import Author from "../author";
 
 const Wrapper = styled.div``;
 
@@ -72,6 +73,7 @@ const DetailsValue = styled(FlexBetween)`
 
 export default function Details({ space }) {
   const strategyCount = space.weightStrategy?.length || 0;
+  const memberCount = space.whitelist?.length || 0;
   const assets = getSpaceAssets(space);
 
   return (
@@ -113,6 +115,22 @@ export default function Details({ space }) {
           <div>
             {space.weightStrategy?.map((strategy, index) => (
               <DetailsValue key={index}>{strategy}</DetailsValue>
+            ))}
+          </div>
+        </DetailsItem>
+
+        <DetailsItem>
+          <DetailsLabel>Members({memberCount})</DetailsLabel>
+          <div className="max-h-[236px] overflow-y-auto">
+            {space.whitelist?.map((address, index) => (
+              <DetailsValue key={index}>
+                {/* Identity in Polkadot */}
+                <Author
+                  space={{ ...space, network: "polkadot" }}
+                  address={address}
+                  size={20}
+                />
+              </DetailsValue>
             ))}
           </div>
         </DetailsItem>

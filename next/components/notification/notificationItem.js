@@ -11,7 +11,7 @@ import Link from "next/link";
 import { MOBILE_SIZE } from "@osn/constants";
 import { useState } from "react";
 import { OnlyDesktop, OnlyMobile } from "@osn/common-ui";
-import { getSpaceIconUrl } from "frontedUtils/space";
+import { useSpaceIconUri } from "frontedUtils/space";
 
 const NotificationItemWrapper = styled.div`
   &:hover {
@@ -169,6 +169,8 @@ export default function NotificationItem({ data, onMarkAsRead = () => {} }) {
     setRead(true);
   }
 
+  const spaceIcon = useSpaceIconUri(spaceInfo);
+
   const status = (
     <StatusWrapper>
       {!read ? (
@@ -191,7 +193,7 @@ export default function NotificationItem({ data, onMarkAsRead = () => {} }) {
               width="20px"
               height="20px"
               className="ml-4px"
-              src={getSpaceIconUrl(spaceInfo)}
+              src={spaceIcon}
               alt=""
             />
             <Dot />
@@ -202,10 +204,7 @@ export default function NotificationItem({ data, onMarkAsRead = () => {} }) {
             <Dot />
           </OnlyDesktop>
           <Title>
-            <Link
-              href={`/space/${space}/proposal/${proposalCid}`}
-              passHref
-            >
+            <Link href={`/space/${space}/proposal/${proposalCid}`} passHref>
               {title}
             </Link>
           </Title>

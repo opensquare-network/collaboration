@@ -60,11 +60,11 @@ function checkSpaceName(name) {
 
 function checkSpaceLogo(logo) {
   if (!logo) {
-    throw new HttpError(400, "Logo is required");
+    return;
   }
 
   // Check if logo is a valid data URI
-  if (!/^data:image\/\w+;base64,/.test(logo)) {
+  if (!/^data:image\/[^;]+;base64,/.test(logo)) {
     throw new HttpError(400, "Logo must be a valid data URI");
   }
 }

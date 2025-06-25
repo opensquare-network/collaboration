@@ -1,4 +1,5 @@
 const { ChoiceType } = require("../../constants");
+const { SpaceType } = require("../../consts/space");
 const { HttpError } = require("../../exc");
 const { getProposalCollection } = require("../../mongo");
 const proposalService = require("../../services/proposal.service");
@@ -53,7 +54,11 @@ function checkVoterNetwork(voterNetwork, proposal) {
     throw new HttpError(500, "Unknown space");
   }
 
-  const networks = proposal.networksConfig?.networks;
+  if (proposal.networksConfig?.type === SpaceType.CollectivesDao) {
+    return;
+  }
+
+  const networks = proposal.networksConfig?.networks || [];
   if (!networks.find((item) => item.network === voterNetwork)) {
     throw new HttpError(400, "Voter network is not supported by this proposal");
   }
