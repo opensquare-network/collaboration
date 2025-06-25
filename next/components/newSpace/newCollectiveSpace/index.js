@@ -17,15 +17,10 @@ const options = [{ value: "one-person-one-vote", text: "one-person-one-vote" }];
 
 export default function NewCollectiveSpace() {
   const [selectedStrategies] = useState(["one-person-one-vote"]);
-  const [members, setMembers] = useState([
-    "13znFMMjHyM2UvSewvaKMC2bLUcySRMzcM8BAMTzm1G2P5ju",
-    "13znFMMjHyM2UvSewvaKMC2bLUcySRMzcM8BAMTzm1G2P5ju",
-    "13znFMMjHyM2UvSewvaKMC2bLUcySRMzcM8BAMTzm1G2P5ju",
-    "",
-  ]);
+  const [members, setMembers] = useState(["", ""]);
   const [currentStep, setCurrentStep] = useState(0);
   const [imageFile, setImageFile] = useState();
-  const [name, setName] = useState("test name");
+  const [name, setName] = useState("");
   const defaultLogo = useDefaultLogo({
     username: name,
     saturation: 50,
@@ -87,6 +82,7 @@ export default function NewCollectiveSpace() {
             imageFile={logoImage}
             allStrategies={options}
             selectedStrategies={selectedStrategies}
+            currentStep={currentStep}
           />
         </SiderWrapper>
       </Wrapper>

@@ -17,14 +17,16 @@ const Text = styled.div`
   line-height: 20px; /* 142.857% */
 `;
 
-export default function StrategiesStep() {
+export default function StrategiesStep({ selectedStrategies }) {
   return (
     <>
       <Divider />
       <Sections>
-        <div class="space-y-4">
+        <div className="space-y-4">
           <SectionTitle>Strategies</SectionTitle>
-          <Text>one-person-one-vote</Text>
+          {selectedStrategies.map((text) => (
+            <Text key={text}>{text}</Text>
+          ))}
         </div>
       </Sections>
     </>

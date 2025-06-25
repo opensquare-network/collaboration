@@ -8,13 +8,31 @@ import {
   TokenSymbol,
   Items,
 } from "@/components/newSpace/sider/styled";
+import { Button } from "@osn/common-ui";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { accountSelector } from "store/reducers/accountSlice";
 
 export default function CollectiveSider({
   name,
   imageFile,
   allStrategies,
   selectedStrategies,
+  currentStep,
+  members,
 }) {
+  const account = useSelector(accountSelector);
+
+  const [isLoading, setIsLoading] = useState(false);
+  const submit = () => {
+    const params = {
+      name,
+      logo: imageFile,
+      members,
+      admins: [account.address],
+    };
+  };
+
   return (
     <>
       <MyPanel>
@@ -32,6 +50,11 @@ export default function CollectiveSider({
             selectedOptions={selectedStrategies}
           />
         </Items>
+        {currentStep === 2 && (
+          <Button primary block onClick={submit} isLoading={isLoading}>
+            Submit
+          </Button>
+        )}
       </MyPanel>
     </>
   );

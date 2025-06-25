@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Panel from "../postDetail/panel";
+import { p_14_medium } from "styles/textStyles";
 
 export const SectionTitle = styled.span`
   font-style: normal;
@@ -117,5 +118,46 @@ export const SiderWrapper = styled.div`
     margin-left: 0;
     margin-top: 20px;
     max-width: none;
+  }
+`;
+
+export const MemberItem = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 16px;
+  gap: 8px;
+  align-self: stretch;
+  border-bottom: 1px solid;
+  border-color: ${(props) =>
+    props.isError ? "var(--textFeedbackError)" : "var(--strokeActionDefault)"};
+  background: var(--fillBgInputDefault);
+`;
+
+export const MemberAddressInput = styled.input`
+  ${p_14_medium}
+  flex-grow: 1;
+  text-align: left;
+  color: var(--textPrimary);
+  placeholder {
+    color: var(--textQuaternary);
+  }
+  outline: none;
+  background: transparent;
+  border: none;
+  padding: 0;
+`;
+
+export const MemberAddressErrorText = styled.div`
+  color: var(--textFeedbackError);
+  padding-top: 8px;
+  transition: opacity 0.3s ease-in-out;
+  display: ${(props) => (props.isError ? "block" : "none")};
+`;
+
+export const MemberAddressWrapper = styled.div`
+  display: flex;
+  overflow: hidden;
+  & > span:first-child {
+    ${p_14_medium}
   }
 `;
