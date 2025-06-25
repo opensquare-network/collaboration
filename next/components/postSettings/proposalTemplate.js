@@ -140,7 +140,7 @@ export default function ProposalTemplate({ space, settings }) {
         <TitleField title={title} setTitle={setTitle} />
         <ContentField content={content} setContent={setContent} />
       </div>
-      <div className="flex flex-start">
+      <div className="flex justify-end">
         <Save disabled={disabled} loading={isLoading} onSave={onSave} />
       </div>
     </div>
