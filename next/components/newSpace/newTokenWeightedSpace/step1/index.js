@@ -1,7 +1,7 @@
 import { Button } from "@osn/common-ui";
 import Logo from "./logo";
-import Name from "./name";
 import { Sections } from "../../styled";
+import Name, { checkName } from "./name";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import MyDivider from "../../myDivider";
@@ -24,20 +24,9 @@ export default function Step1({
   }, [name]);
 
   const handleNext = () => {
-    if (!name) {
-      setErrorMsg("Space name cannot be empty");
-      return;
-    }
-
-    if (name.length > 20) {
-      setErrorMsg("Space name cannot exceed 20 characters");
-      return;
-    }
-
-    if (!/^[a-zA-Z0-9_\-\s]+$/.test(name)) {
-      setErrorMsg(
-        "Only letters, numbers, spaces, underscores and hyphens are allowed",
-      );
+    const nameError = checkName(name);
+    if (nameError) {
+      setErrorMsg(nameError);
       return;
     }
 

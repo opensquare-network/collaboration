@@ -22,7 +22,7 @@ const commonFeatureRouters = [
   require("./features/society/index"),
 ];
 
-async function checkSpaceExisten(ctx, next) {
+async function checkSpaceExistence(ctx, next) {
   if (!spaceServices[ctx.params.space]) {
     return ctx.throw(404, "Space does not exists");
   }
@@ -37,7 +37,7 @@ module.exports = (app) => {
   for (const r of spaceFeatureRoutes) {
     router.use(
       "/:space",
-      checkSpaceExisten,
+      checkSpaceExistence,
       r.routes(),
       r.allowedMethods({ throw: true }),
     );

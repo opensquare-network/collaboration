@@ -1,6 +1,7 @@
 const omit = require("lodash.omit");
 const { getSpaceCollection } = require("../../mongo");
 const { checkAddressList, checkIsSpaceAdmin } = require("./common");
+const { reloadSpaces } = require("../../spaces");
 
 async function updateSpaceMembers(ctx) {
   const { space } = ctx.params;
@@ -15,6 +16,9 @@ async function updateSpaceMembers(ctx) {
     { $set: { members } },
     { upsert: true, returnDocument: "after" },
   );
+
+  // Refresh space cache
+  await reloadSpaces();
 
   ctx.body = omit(result.value || {}, ["_id"]);
 }

@@ -3,8 +3,7 @@ import { MyPanel, SectionTitle } from "../styled";
 import Assets from "./assets";
 import Logo from "./logo";
 import Strategies from "./strategies";
-import { currentStepSelector } from "store/reducers/newSpaceSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Button } from "@osn/common-ui";
 import { useCallback, useState } from "react";
 import { newErrorToast, newSuccessToast } from "store/reducers/toastSlice";
@@ -18,6 +17,7 @@ import {
   TokenSymbol,
   Sections,
 } from "@/components/newSpace/sider/styled";
+import { useDefaultLogo } from "hooks/useDefaultLogo";
 
 export default function Sider({
   symbol,
@@ -28,11 +28,16 @@ export default function Sider({
   proposalThreshold,
   allStrategies,
   selectedStrategies,
+  currentStep,
 }) {
   const dispatch = useDispatch();
-  const currentStep = useSelector(currentStepSelector);
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const defaultLogo = useDefaultLogo({
+    username: name,
+    saturation: 50,
+    lightness: 50,
+  });
 
   const verifyData = useCallback(() => {
     if (isNaN(proposalThreshold)) {
@@ -107,7 +112,7 @@ export default function Sider({
     <MyPanel>
       <SectionTitle>Summary</SectionTitle>
       <Sections>
-        <Logo imageFile={imageFile} />
+        <Logo imageFile={imageFile || defaultLogo} />
         <FlexColumn>
           <SpaceName>{name || "Name"}</SpaceName>
           <TokenSymbol>{symbol || "Token Symbol"}</TokenSymbol>

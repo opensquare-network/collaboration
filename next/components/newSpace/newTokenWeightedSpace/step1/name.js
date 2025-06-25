@@ -11,6 +11,20 @@ const InputWrapper = styled.div`
   gap: 8px;
 `;
 
+export const checkName = (name) => {
+  if (!name) {
+    return "Space name cannot be empty";
+  }
+
+  if (name.length > 20) {
+    return "Space name cannot exceed 20 characters";
+  }
+
+  if (!/^[a-zA-Z0-9_\-\s]+$/.test(name)) {
+    return "Only letters, numbers, spaces, underscores and hyphens are allowed";
+  }
+};
+
 export default function Name({ name, setName, errorMsg }) {
   return (
     <Wrapper>

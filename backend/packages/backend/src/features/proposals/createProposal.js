@@ -143,6 +143,7 @@ function checkNetworkConfig(data) {
   const spaceService = spaceServices[space];
   const spaceNetworksConfig = {
     ...pick(spaceService, [
+      "type",
       "symbol",
       "decimals",
       "networks",

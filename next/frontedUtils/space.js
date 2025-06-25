@@ -1,5 +1,16 @@
-export function getSpaceIconUrl(space) {
-  const spaceIcon = space?.spaceIcon;
+import { getDefaultLogoUri } from "hooks/useDefaultLogo";
+import { useMemo } from "react";
+
+export function getSpaceIconUri(space) {
+  if (!space) {
+    return null;
+  }
+
+  const spaceIcon = space.spaceIcon;
+
+  if (!spaceIcon) {
+    return getDefaultLogoUri(space.name, 50, 50);
+  }
 
   const notCid = spaceIcon?.includes(".");
   if (notCid) {
@@ -7,4 +18,8 @@ export function getSpaceIconUrl(space) {
   }
 
   return `${process.env.NEXT_PUBLIC_IPFS_ENDPOINT}${spaceIcon}`;
+}
+
+export function useSpaceIconUri(space) {
+  return useMemo(() => getSpaceIconUri(space), [space]);
 }

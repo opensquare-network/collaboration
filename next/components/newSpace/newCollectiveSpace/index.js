@@ -8,7 +8,7 @@ import {
 import Steps from "@/components/steps";
 import { useMemo, useState } from "react";
 import Step1 from "@/components/newSpace/newTokenWeightedSpace/step1";
-import { useDefaultLogo } from "@/components/newSpace/newTokenWeightedSpace/content";
+import { useDefaultLogo } from "hooks/useDefaultLogo";
 import MemberStep from "@/components/newSpace/newCollectiveSpace/memberStep";
 import StrategiesStep from "@/components/newSpace/newCollectiveSpace/strategiesStep";
 import CollectiveSider from "@/components/newSpace/sider/collectiveSider";

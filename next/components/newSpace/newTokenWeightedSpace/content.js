@@ -2,19 +2,10 @@ import Step1 from "./step1";
 import Step2 from "./step2";
 import Sider from "../sider";
 import Step3 from "./step3";
-import { useMemo, useState } from "react";
-import { identicon } from "minidenticons";
+import { useState } from "react";
 import Steps from "@/components/steps";
 import { MainWrapper, MyPanel, SiderWrapper, Wrapper } from "../styled";
-
-export const useDefaultLogo = ({ username, saturation, lightness }) => {
-  const svgText = useMemo(
-    () => identicon(username, saturation, lightness),
-    [username, saturation, lightness],
-  );
-  if (!username) return null;
-  return `data:image/svg+xml;utf8,${encodeURIComponent(svgText)}`;
-};
+import { useDefaultLogo } from "hooks/useDefaultLogo";
 
 export default function Content({ chainsDef, tokensDef }) {
   const [currentStep, setCurrentStep] = useState(0);
@@ -98,9 +89,10 @@ export default function Content({ chainsDef, tokensDef }) {
       </MainWrapper>
       <SiderWrapper>
         <Sider
+          currentStep={currentStep}
           symbol={symbol}
           decimals={decimals}
-          imageFile={logoImage}
+          imageFile={imageFile}
           name={name}
           assets={assets}
           proposalThreshold={proposalThreshold}

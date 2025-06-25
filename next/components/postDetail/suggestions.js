@@ -1,5 +1,5 @@
 import { addressEllipsis } from "frontedUtils";
-import { uniqWith } from "lodash";
+import { uniqWith } from "lodash-es";
 import { useCallback, useEffect, useState } from "react";
 import { fetchIdentity } from "services/identity";
 import Author from "../author";

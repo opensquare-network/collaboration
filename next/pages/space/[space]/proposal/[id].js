@@ -10,7 +10,7 @@ import {
   loginAddressSelector,
   setAvailableNetworks,
 } from "store/reducers/accountSlice";
-import pick from "lodash/pick";
+import { pick } from "lodash-es";
 import Seo from "@/components/seo";
 import { useIsMounted } from "../../../../frontedUtils/hooks";
 import encodeAddressByChain from "../../../../frontedUtils/chain/addr";

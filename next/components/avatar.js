@@ -2,6 +2,11 @@ import styled from "styled-components";
 import Identicon from "@osn/polkadot-react-identicon";
 import { ethers } from "ethers";
 import makeBlockie from "ethereum-blockies-base64";
+import { Tooltip } from "@osn/common-ui";
+import React from "react";
+import IdentityOrAddr from "./identityOrAddr";
+import useAvatarInfo from "hooks/useAvatar";
+import IpfsAvatar from "./ipfsAvatar";
 
 const Wrapper = styled.span`
   display: inline-flex;
@@ -18,6 +23,12 @@ const ImgWrapper = styled.img`
 `;
 
 export default function Avatar({ address, size = 20 }) {
+  const [avatarCid] = useAvatarInfo(address);
+  const normalizedSize = isNaN(size) ? size : `${size}px`;
+
+  if (avatarCid) {
+    return <IpfsAvatar avatarCid={avatarCid} size={normalizedSize} />;
+  }
   if (ethers.utils.isAddress(address)) {
     const imgSize = (size / 10) * 8;
 
@@ -35,4 +46,14 @@ export default function Avatar({ address, size = 20 }) {
   }
 
   return <Identicon value={address} size={size} />;
+}
+
+export function AvatarWithTooltip({ address, size = 20, network }) {
+  return (
+    <Tooltip content={<IdentityOrAddr address={address} network={network} />}>
+      <div>
+        <Avatar address={address} size={size} />
+      </div>
+    </Tooltip>
+  );
 }

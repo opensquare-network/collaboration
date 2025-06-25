@@ -21,7 +21,7 @@ function Save({ disabled, loading, onSave }) {
       large
       primary
       disabled={disabled}
-      loading={loading}
+      isLoading={loading}
       onClick={onSave}
     >
       Save Changes

@@ -4,6 +4,11 @@ const Accessibility = {
   WHITELIST: "whitelist",
 };
 
+const SpaceType = {
+  CollectivesDao: "collectives-dao",
+};
+
 module.exports = {
   Accessibility,
+  SpaceType,
 };
