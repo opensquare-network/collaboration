@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from "react";
 import { useDispatch } from "react-redux";
 import { setAvailableNetworks } from "../../store/reducers/accountSlice";
-import pick from "lodash/pick";
+import { pick } from "lodash-es";
 import SettingsNavigation from "./nav.js";
 import ProposalTemplate from "./proposalTemplate.js";
 import SpaceProfile from "./spaceProfile";
