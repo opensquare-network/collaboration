@@ -10,6 +10,7 @@ import {
 import Step3 from "./step3";
 import { useEffect, useMemo, useState } from "react";
 import { identicon } from "minidenticons";
+import unescape from "lodash/unescape";
 
 const Wrapper = styled.div`
   display: flex;
@@ -55,7 +56,7 @@ const useDefaultLogo = ({ username, saturation, lightness }) => {
     [username, saturation, lightness],
   );
   if (!username) return null;
-  return `data:image/svg+xml;utf8,${encodeURIComponent(svgText)}`;
+  return `data:image/svg+xml;base64,${btoa(unescape(svgText))}`;
 };
 
 export default function Content({ chainsDef, tokensDef }) {
