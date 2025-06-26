@@ -6,18 +6,27 @@ import {
   removeCachedAvatar,
 } from "services/avatar";
 import { encodeNetworkAddress } from "@osn/common";
+import { isEthereumAddress } from "@polkadot/util-crypto";
 
 // only support polkadot now
 const AVATAR_NETWORK = "polkadot";
 
+function encodeAddress(address) {
+  const isEthAddr = isEthereumAddress(address);
+  if (isEthAddr) {
+    return address;
+  }
+  return encodeNetworkAddress(address, AVATAR_NETWORK);
+}
+
 export async function refreshAvatar(address) {
-  const encodedAddress = encodeNetworkAddress(address, AVATAR_NETWORK);
+  const encodedAddress = encodeAddress(address);
   removeCachedAvatar(encodedAddress);
   await fetchAvatar(encodedAddress);
 }
 
 export default function useAvatarInfo(address) {
-  const encodedAddress = encodeNetworkAddress(address, AVATAR_NETWORK);
+  const encodedAddress = encodeAddress(address);
   const cachedAvatar = getCachedAvatar(encodedAddress);
   const [avatar, setAvatar] = useState(cachedAvatar);
 
