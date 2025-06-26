@@ -1,6 +1,7 @@
 import { Divider } from "@osn/common-ui";
 import { Sections, SectionTitle } from "@/components/newSpace/styled";
 import styled from "styled-components";
+import BackButton from "@/components/newSpace/backButton";
 
 const Text = styled.div`
   display: flex;
@@ -17,7 +18,7 @@ const Text = styled.div`
   line-height: 20px; /* 142.857% */
 `;
 
-export default function StrategiesStep({ selectedStrategies }) {
+export default function StrategiesStep({ selectedStrategies, onBackStep }) {
   return (
     <>
       <Divider />
@@ -28,6 +29,9 @@ export default function StrategiesStep({ selectedStrategies }) {
             <Text key={text}>{text}</Text>
           ))}
         </div>
+      </Sections>
+      <Sections>
+        <BackButton onClick={onBackStep} />
       </Sections>
     </>
   );

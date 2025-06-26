@@ -53,6 +53,7 @@ export default function NewCollectiveSpace() {
         <StrategiesStep
           options={options}
           selectedStrategies={selectedStrategies}
+          onBackStep={() => setCurrentStep(1)}
         />
       );
     }

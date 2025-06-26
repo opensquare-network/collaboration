@@ -152,7 +152,7 @@ export default function Step2({
       <ButtonsWrapper>
         <BackButton onClick={onBackStep} />
         <Button block onClick={nextStep}>
-          Next
+          Next Step
         </Button>
       </ButtonsWrapper>
     </>

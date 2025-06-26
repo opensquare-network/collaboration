@@ -2,6 +2,7 @@ import { Sections } from "../../styled";
 import MyDivider from "../../myDivider";
 import ProposalThreshold from "./proposalThreshold";
 import Strategies from "./strategies";
+import BackButton from "@/components/newSpace/backButton";
 
 export default function Step3({
   symbol,
@@ -10,6 +11,7 @@ export default function Step3({
   options,
   selectedOptions,
   setSelectedOptions,
+  onBackStep,
 }) {
   return (
     <>
@@ -25,6 +27,9 @@ export default function Step3({
           selectedOptions={selectedOptions}
           setSelectedOptions={setSelectedOptions}
         />
+        <Sections>
+          <BackButton onClick={onBackStep}>Back</BackButton>
+        </Sections>
       </Sections>
     </>
   );

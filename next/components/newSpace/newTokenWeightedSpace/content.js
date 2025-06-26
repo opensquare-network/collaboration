@@ -75,6 +75,7 @@ export default function Content({ chainsDef, tokensDef }) {
         options={options}
         selectedOptions={selectedOptions}
         setSelectedOptions={setSelectedOptions}
+        onBackStep={() => setCurrentStep(1)}
       />
     );
   }
