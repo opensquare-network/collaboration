@@ -68,7 +68,7 @@ const ActionButton = ({ currentStep, params }) => {
   const submit = async () => {
     setIsLoading(true);
     const { result, error } = await nextApi
-      .post("/spaces/collectives", {
+      .post("spaces/collectives", {
         ...params,
         admins: [account.address],
       })

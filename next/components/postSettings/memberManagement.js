@@ -3,58 +3,48 @@ import { Title } from "../postCreate/content";
 import Save from "./save";
 import { Divider } from "../postDetail/strategyResult/common/styled";
 import { useState } from "react";
-import SpaceMemeberList from "../newSpace/spaceMemberList";
+import SpaceMemberList from "../newSpace/spaceMemberList";
 import { Hint } from "../newSpace/styled";
 import nextApi from "services/nextApi";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   newErrorToast,
   newSuccessToast,
 } from "../../store/reducers/toastSlice";
-import useSignApiData from "hooks/useSignApiData";
+import { useRawSignData } from "hooks/useSignApiData";
 import { extensionCancelled } from "../../frontedUtils/consts/extension";
-import { loginAccountSelector } from "../../store/reducers/accountSlice";
-import encodeAddressByChain from "../../frontedUtils/chain/addr";
 
 export default function MemberManagement({ space }) {
   return (
     <div className="flex flex-col gap-5 w-full">
-      <MemeberCard space={space} />
+      <MemberCard space={space} />
       <AdminsCard space={space} />
     </div>
   );
 }
 
-const MemeberCard = ({ space }) => {
+const MemberCard = ({ space }) => {
   const [members, setMembers] = useState(space.members || []);
 
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
-  const account = useSelector(loginAccountSelector);
-  const signApiData = useSignApiData();
+  const signData = useRawSignData();
 
   const onSubmit = async () => {
     setIsLoading(true);
-    const signedData = await signApiData(
-      { members },
-      encodeAddressByChain(account.address, account?.network),
-    ).catch((e) => {
+    const signedData = await signData(members).catch((e) => {
       const errorMessage = e.message;
       if (extensionCancelled !== errorMessage) {
         dispatch(newErrorToast(errorMessage));
       }
       setIsLoading(false);
     });
+
     if (!signedData) {
       return;
     }
-    // return console.log("signedData", signedData);
-
     const { result, error } = await nextApi
-      .post(`/spaces/${space.id}/members`, {
-        ...signedData,
-        data: members,
-      })
+      .post(`spaces/${space.id}/members`, signedData)
       .finally(() => {
         setIsLoading(false);
       });
@@ -80,7 +70,7 @@ const MemeberCard = ({ space }) => {
           <p>Add at least 2 more members to this DAO.</p>
         </Hint>
         <Divider className="!m-0" />
-        <SpaceMemeberList
+        <SpaceMemberList
           minLength={2}
           members={members}
           setMembers={setMembers}
@@ -97,15 +87,11 @@ const AdminsCard = ({ space }) => {
   const [admins, setAdmins] = useState(space.admins || []);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
-  const account = useSelector(loginAccountSelector);
-  const signApiData = useSignApiData();
+  const signData = useRawSignData();
 
   const onSubmit = async () => {
     setIsLoading(true);
-    const signedData = await signApiData(
-      { admins },
-      encodeAddressByChain(account.address, account?.network),
-    ).catch((e) => {
+    const signedData = await signData(admins).catch((e) => {
       const errorMessage = e.message;
       if (extensionCancelled !== errorMessage) {
         dispatch(newErrorToast(errorMessage));
@@ -117,10 +103,7 @@ const AdminsCard = ({ space }) => {
     }
 
     const { result, error } = await nextApi
-      .post(`/spaces/${space.id}/admins`, {
-        ...signedData,
-        data: admins,
-      })
+      .post(`spaces/${space.id}/admins`, signedData)
       .finally(() => {
         setIsLoading(false);
       });
@@ -147,7 +130,7 @@ const AdminsCard = ({ space }) => {
           <p>Add at least 2 more members to this DAO.</p>
         </Hint>
         <Divider className="!m-0" />
-        <SpaceMemeberList
+        <SpaceMemberList
           minLength={1}
           members={admins}
           setMembers={setAdmins}

@@ -47,18 +47,14 @@ function useEvmSignMessage() {
   );
 }
 
-export default function useSignApiData() {
+export function useRawSignData() {
   const account = useSelector(accountSelector);
   const substrateSignMessage = useSubstrateSignMessage(account?.wallet);
   const evmSignMessage = useEvmSignMessage(account?.wallet);
 
   return useCallback(
     async (data) => {
-      const dataToSign = {
-        ...data,
-        timestamp: parseInt(Date.now() / 1000),
-      };
-      const msg = JSON.stringify(dataToSign);
+      const msg = JSON.stringify(data);
       const isEvmChain = evmChains.includes(account?.network);
       let signature;
       if (isEvmChain) {
@@ -68,11 +64,25 @@ export default function useSignApiData() {
       }
 
       return {
-        data: dataToSign,
+        data,
         address: account?.address,
         signature,
       };
     },
     [account, evmSignMessage, substrateSignMessage],
+  );
+}
+
+export default function useSignApiData() {
+  const signData = useRawSignData();
+  return useCallback(
+    async (data) => {
+      const dataToSign = {
+        ...data,
+        timestamp: parseInt(Date.now() / 1000),
+      };
+      return signData(dataToSign);
+    },
+    [signData],
   );
 }
