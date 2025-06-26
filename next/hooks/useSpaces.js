@@ -1,6 +1,7 @@
 import { EmptyQuery } from "frontedUtils/constants";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import nextApi from "services/nextApi";
+import useUpdateEffect from "./useUpdateEffect";
 
 export default function useSpaces({
   initialSpaces = {},
@@ -10,7 +11,7 @@ export default function useSpaces({
   const [spaces, setSpaces] = useState(initialSpaces);
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
+  useUpdateEffect(() => {
     setIsLoading(true);
     nextApi
       .fetch("spaces", { page, pageSize: 15, search })
