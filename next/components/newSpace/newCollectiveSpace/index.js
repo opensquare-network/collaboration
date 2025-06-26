@@ -83,6 +83,7 @@ export default function NewCollectiveSpace() {
             allStrategies={options}
             selectedStrategies={selectedStrategies}
             currentStep={currentStep}
+            members={members}
           />
         </SiderWrapper>
       </Wrapper>

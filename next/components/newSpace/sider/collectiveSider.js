@@ -14,6 +14,12 @@ import { useSelector } from "react-redux";
 import { accountSelector } from "store/reducers/accountSlice";
 import { popUpConnect } from "store/reducers/showConnectSlice";
 import { useDispatch } from "react-redux";
+import nextApi from "../../../services/nextApi";
+import {
+  newErrorToast,
+  newSuccessToast,
+} from "../../../store/reducers/toastSlice";
+import { useRouter } from "next/router";
 
 export default function CollectiveSider({
   name,
@@ -53,14 +59,29 @@ export default function CollectiveSider({
   );
 }
 
-const ActionButton = ({ currentStep }) => {
+const ActionButton = ({ currentStep, params }) => {
   const account = useSelector(accountSelector);
-
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
 
-  const submit = () => {
+  const submit = async () => {
     setIsLoading(true);
+    const { result, error } = await nextApi
+      .post("/spaces/collectives", {
+        ...params,
+        admins: [account.address],
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+    if (error) {
+      dispatch(newErrorToast(error.message));
+    }
+    if (result) {
+      dispatch(newSuccessToast("Space created successfully"));
+      router.push(`/space/${result.spaceId}`);
+    }
   };
 
   if (currentStep !== 2) {
