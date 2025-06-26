@@ -1,7 +1,7 @@
 import BackButton from "@/components/newSpace/backButton";
 import { Button, Divider } from "@osn/common-ui";
 import { Hint, Sections, SectionTitle } from "@/components/newSpace/styled";
-import SpaceMemeberList from "@/components/newSpace/spaceMemberList";
+import SpaceMemberList from "@/components/newSpace/spaceMemberList";
 import { useMemo } from "react";
 import { newErrorToast } from "store/reducers/toastSlice";
 import { useDispatch } from "react-redux";
@@ -58,7 +58,7 @@ export default function MemberStep({
         </div>
       </Sections>
       <Divider />
-      <SpaceMemeberList members={members} setMembers={setMembers} />
+      <SpaceMemberList members={members} setMembers={setMembers} />
       <Divider />
       <div>
         <div className="flex gap-5">
