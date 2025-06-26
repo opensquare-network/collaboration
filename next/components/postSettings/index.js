@@ -5,7 +5,12 @@ import { pick } from "lodash-es";
 import SettingsNavigation from "./nav.js";
 import ProposalTemplate from "./proposalTemplate.js";
 import SpaceProfile from "./spaceProfile";
-import { SystemNewPost, SystemInfo } from "@osn/icons/opensquare";
+import MemberManagement from "./memberManagement.js";
+import {
+  SystemNewPost,
+  SystemInfo,
+  SystemMemberManagement,
+} from "@osn/icons/opensquare";
 
 export default function PostSettings({ space, settings }) {
   const dispatch = useDispatch();
@@ -32,6 +37,12 @@ export default function PostSettings({ space, settings }) {
         icon: <SystemNewPost className="[&_path]:fill-textTertiary" />,
         value: "proposalTemplate",
         content: <ProposalTemplate space={space} settings={settings} />,
+      },
+      {
+        label: "Member Management",
+        icon: <SystemMemberManagement className="[&_path]:fill-textTertiary" />,
+        value: "memberManagement",
+        content: <MemberManagement space={space} settings={settings} />,
       },
     ],
     [settings, space],

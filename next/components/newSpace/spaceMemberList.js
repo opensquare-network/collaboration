@@ -14,7 +14,7 @@ import NewAssetButton from "@/components/newSpace/newTokenWeightedSpace/step2/ne
 import { ReactComponent as UserIcon } from "../../public/imgs/icons/user.svg";
 import { ethers } from "ethers";
 
-export default function SpaceMemeberList({ members, setMembers }) {
+export default function SpaceMemeberList({ minLength, members, setMembers }) {
   const onChange = (value, index) => {
     const newMembers = [...members];
     newMembers[index] = value;
@@ -49,7 +49,7 @@ export default function SpaceMemeberList({ members, setMembers }) {
             address={member}
             onChange={(value) => onChange(value, index)}
             onDelete={() => onDelete(index)}
-            hiddenDelete={members.length <= 2}
+            hiddenDelete={members.length <= minLength}
           />
         );
       })}

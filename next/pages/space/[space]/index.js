@@ -43,6 +43,7 @@ export default function List({
   closedProposals,
   activeTab,
   defaultPage,
+  allNetworks,
 }) {
   const dispatch = useDispatch();
   const [tab, setTab] = useState(activeTab);
@@ -51,10 +52,10 @@ export default function List({
     dispatch(
       setAvailableNetworks(
         space?.networks?.map((item) => pick(item, ["network", "ss58Format"])) ||
-          [],
+          allNetworks,
       ),
     );
-  }, [dispatch, space]);
+  }, [allNetworks, dispatch, space]);
 
   if (!space) {
     return null;
@@ -75,7 +76,7 @@ export default function List({
   return (
     <>
       <Seo space={space} title={`${space.name} off-chain voting`} desc={desc} />
-      <Layout bgHeight="264px" networks={space.networks}>
+      <Layout bgHeight="264px" networks={space.networks || allNetworks}>
         <HeaderWrapper>
           <Breadcrumb
             routes={[
@@ -116,12 +117,14 @@ export async function getServerSideProps(context) {
   const pageSize = 20;
 
   const [
+    { result: allNetworks },
     { result: space },
     { result: proposals },
     { result: pendingProposals },
     { result: activeProposals },
     { result: closedProposals },
   ] = await Promise.all([
+    ssrNextApi.fetch("networks"),
     ssrNextApi.fetch(`spaces/${spaceId}`),
     ssrNextApi.fetch(`${spaceId}/proposals`, {
       page: activeTab === "all" ? nPage : 1,
@@ -150,6 +153,7 @@ export async function getServerSideProps(context) {
       spaceId,
       space: space || null,
       activeTab,
+      allNetworks,
       proposals: proposals ?? EmptyQuery,
       pendingProposals: pendingProposals ?? EmptyQuery,
       activeProposals: activeProposals ?? EmptyQuery,

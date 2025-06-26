@@ -24,21 +24,13 @@ export default function Collectives({ allNetworks }) {
 }
 
 export async function getServerSideProps() {
-  const [
-    { result: allNetworks },
-    { result: chainsDef },
-    { result: tokensDef },
-  ] = await Promise.all([
+  const [{ result: allNetworks }] = await Promise.all([
     ssrNextApi.fetch("networks"),
-    ssrNextApi.fetch("chains/definition"),
-    ssrNextApi.fetch("tokens/definition"),
   ]);
 
   return {
     props: {
       allNetworks: allNetworks || [],
-      chainsDef: chainsDef || [],
-      tokensDef: tokensDef || [],
     },
   };
 }
