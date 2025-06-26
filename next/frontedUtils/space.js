@@ -1,6 +1,8 @@
 import { getDefaultLogoUri } from "hooks/useDefaultLogo";
 import { useMemo } from "react";
 
+export const isCollectiveSpace = (type) => type === "collectives-dao";
+
 export function getSpaceIconUri(space) {
   if (!space) {
     return null;
