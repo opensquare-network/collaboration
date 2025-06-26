@@ -3,6 +3,7 @@ import Breadcrumb from "components/breadcrumb";
 import PostCreate from "@/components/postCreate";
 import { ssrNextApi } from "services/nextApi";
 import { to404 } from "../../../frontedUtils/serverSideUtil";
+import { getSpaceNetwork } from "frontedUtils/space";
 
 export default function Create({ space, settings }) {
   return (
@@ -22,14 +23,18 @@ export default function Create({ space, settings }) {
 export async function getServerSideProps(context) {
   const { space: spaceId } = context.params;
 
-  const [{ result: space }, { result: settings }] = await Promise.all([
-    ssrNextApi.fetch(`spaces/${spaceId}`),
-    ssrNextApi.fetch(`${spaceId}/proposals/settings`),
-  ]);
+  const [{ result: allNetworks }, { result: space }, { result: settings }] =
+    await Promise.all([
+      ssrNextApi.fetch("networks"),
+      ssrNextApi.fetch(`spaces/${spaceId}`),
+      ssrNextApi.fetch(`${spaceId}/proposals/settings`),
+    ]);
 
   if (!space) {
     to404(context);
   }
+
+  space.networks = getSpaceNetwork(space, allNetworks);
 
   return {
     props: {

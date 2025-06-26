@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { setAvailableNetworks } from "store/reducers/accountSlice";
 import { pick } from "lodash-es";
 import { useEffect } from "react";
+import { getSpaceNetwork } from "frontedUtils/space";
 
 export default function Settings({ space, settings, allNetworks }) {
   const dispatch = useDispatch();
@@ -45,6 +46,8 @@ export async function getServerSideProps(context) {
   if (!space) {
     to404(context);
   }
+
+  space.networks = getSpaceNetwork(space, allNetworks);
 
   return {
     props: {

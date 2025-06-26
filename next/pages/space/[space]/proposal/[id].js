@@ -14,6 +14,7 @@ import { pick } from "lodash-es";
 import Seo from "@/components/seo";
 import { useIsMounted } from "../../../../frontedUtils/hooks";
 import encodeAddressByChain from "../../../../frontedUtils/chain/addr";
+import { getSpaceNetwork } from "frontedUtils/space";
 
 export default function Index({
   detail,
@@ -139,11 +140,13 @@ export async function getServerSideProps(context) {
   }
 
   const [
+    { result: allNetworks },
     { result: space },
     { result: votes },
     { result: voteStatus },
     { result: comments },
   ] = await Promise.all([
+    ssrNextApi.fetch("networks"),
     ssrNextApi.fetch(`spaces/${spaceId}`),
     ssrNextApi.fetch(`${spaceId}/proposal/${detail?.cid}/votes`, {
       page: nPage,
@@ -166,6 +169,8 @@ export async function getServerSideProps(context) {
     );
     myVote = result.result ?? null;
   }
+
+  space.networks = getSpaceNetwork(space, allNetworks);
 
   return {
     props: {

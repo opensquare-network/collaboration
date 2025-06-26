@@ -5,18 +5,19 @@ import Seo from "@/components/seo";
 import { ssrNextApi } from "../../../services/nextApi";
 import { setAvailableNetworks } from "../../../store/reducers/accountSlice";
 import Index from "@/components/newSpace/newCollectiveSpace";
+import { getCollectiveSpaceNetwork } from "frontedUtils/space";
 
-export default function Collectives({ allNetworks }) {
+export default function Collectives({ networks }) {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(setAvailableNetworks(allNetworks || []));
-  }, [dispatch, allNetworks]);
+    dispatch(setAvailableNetworks(networks || []));
+  }, [dispatch, networks]);
 
   const desc = "Create new space";
   return (
     <>
       <Seo desc={desc} />
-      <Layout bgHeight="183px" networks={allNetworks}>
+      <Layout bgHeight="183px" networks={networks}>
         <Index />
       </Layout>
     </>
@@ -30,7 +31,7 @@ export async function getServerSideProps() {
 
   return {
     props: {
-      allNetworks: allNetworks || [],
+      networks: getCollectiveSpaceNetwork(allNetworks || []),
     },
   };
 }

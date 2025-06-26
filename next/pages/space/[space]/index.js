@@ -11,8 +11,8 @@ import { to404 } from "../../../frontedUtils/serverSideUtil";
 import Seo from "@/components/seo";
 import { useDispatch } from "react-redux";
 import { setAvailableNetworks } from "store/reducers/accountSlice";
-import { pick } from "lodash-es";
 import dynamic from "next/dynamic";
+import { getSpaceNetwork } from "frontedUtils/space";
 
 const SpaceHiddenTip = dynamic(() => import("@/components/spaceHiddenTip"), {
   ssr: false,
@@ -43,19 +43,13 @@ export default function List({
   closedProposals,
   activeTab,
   defaultPage,
-  allNetworks,
 }) {
   const dispatch = useDispatch();
   const [tab, setTab] = useState(activeTab);
 
   useEffect(() => {
-    dispatch(
-      setAvailableNetworks(
-        space?.networks?.map((item) => pick(item, ["network", "ss58Format"])) ||
-          allNetworks,
-      ),
-    );
-  }, [allNetworks, dispatch, space]);
+    dispatch(setAvailableNetworks(space?.networks));
+  }, [dispatch, space]);
 
   if (!space) {
     return null;
@@ -76,7 +70,7 @@ export default function List({
   return (
     <>
       <Seo space={space} title={`${space.name} off-chain voting`} desc={desc} />
-      <Layout bgHeight="264px" networks={space.networks || allNetworks}>
+      <Layout bgHeight="264px" networks={space.networks}>
         <HeaderWrapper>
           <Breadcrumb
             routes={[
@@ -148,12 +142,13 @@ export async function getServerSideProps(context) {
     to404(context);
   }
 
+  space.networks = getSpaceNetwork(space, allNetworks);
+
   return {
     props: {
       spaceId,
       space: space || null,
       activeTab,
-      allNetworks,
       proposals: proposals ?? EmptyQuery,
       pendingProposals: pendingProposals ?? EmptyQuery,
       activeProposals: activeProposals ?? EmptyQuery,

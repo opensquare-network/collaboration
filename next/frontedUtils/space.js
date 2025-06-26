@@ -1,7 +1,21 @@
 import { getDefaultLogoUri } from "hooks/useDefaultLogo";
 import { useMemo } from "react";
+import pick from "lodash-es/pick";
 
 export const isCollectiveSpace = (type) => type === "collectives-dao";
+
+export const getCollectiveSpaceNetwork = (networks) =>
+  networks.filter((item) => ["polkadot", "ethereum"].includes(item.network));
+
+export const getSpaceNetwork = (space, networks) => {
+  if (isCollectiveSpace(space?.type)) {
+    return getCollectiveSpaceNetwork(networks);
+  } else {
+    return (
+      space.networks?.map((item) => pick(item, ["network", "ss58Format"])) || []
+    );
+  }
+};
 
 export function getSpaceIconUri(space) {
   if (!space) {
