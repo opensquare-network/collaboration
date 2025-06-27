@@ -7,12 +7,9 @@ import SpaceMemberList from "../newSpace/spaceMemberList";
 import { Hint } from "../newSpace/styled";
 import nextApi from "services/nextApi";
 import { useDispatch } from "react-redux";
-import {
-  newErrorToast,
-  newSuccessToast,
-} from "../../store/reducers/toastSlice";
+import { newErrorToast, newSuccessToast } from "store/reducers/toastSlice";
 import useSignApiData from "hooks/useSignApiData";
-import { extensionCancelled } from "../../frontedUtils/consts/extension";
+import { extensionCancelled } from "frontedUtils/consts/extension";
 import { isAddress } from "@polkadot/util-crypto";
 
 export default function MemberManagement({ space }) {

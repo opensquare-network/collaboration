@@ -7,7 +7,7 @@ import NewAssetButton from "./newButton";
 import Asset from "./asset";
 import MyDivider from "../../myDivider";
 import { Fragment, useCallback } from "react";
-import { newErrorToast } from "../../../../store/reducers/toastSlice";
+import { newErrorToast } from "store/reducers/toastSlice";
 import uniq from "lodash.uniq";
 
 const ButtonsWrapper = styled.div`

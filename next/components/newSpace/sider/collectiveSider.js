@@ -1,24 +1,15 @@
 import { MyPanel, SectionTitle } from "@/components/newSpace/styled";
-import Logo from "@/components/newSpace/sider/logo";
-import Strategies from "@/components/newSpace/sider/strategies";
-import {
-  FlexColumn,
-  SpaceName,
-  Sections,
-  TokenSymbol,
-  Items,
-} from "@/components/newSpace/sider/styled";
+import Logo from "./logo";
+import Strategies from "./strategies";
+import { FlexColumn, SpaceName, Sections, TokenSymbol, Items } from "./styled";
 import { Button } from "@osn/common-ui";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { accountSelector } from "store/reducers/accountSlice";
 import { popUpConnect } from "store/reducers/showConnectSlice";
 import { useDispatch } from "react-redux";
-import nextApi from "../../../services/nextApi";
-import {
-  newErrorToast,
-  newSuccessToast,
-} from "../../../store/reducers/toastSlice";
+import nextApi from "services/nextApi";
+import { newErrorToast, newSuccessToast } from "store/reducers/toastSlice";
 import { useRouter } from "next/router";
 
 export default function CollectiveSider({

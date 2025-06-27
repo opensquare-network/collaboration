@@ -5,7 +5,7 @@ import { Input, noop } from "@osn/common-ui";
 import AssetDetail from "../assetDetail";
 import AssetConfig from "../assetConfig";
 import { useIsMounted } from "@osn/common";
-import nextApi from "../../../../../../services/nextApi";
+import nextApi from "services/nextApi";
 import debounce from "lodash.debounce";
 
 export default function StatemineAssetConfig({

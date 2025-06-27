@@ -5,11 +5,10 @@ import {
   MemberAddressWrapper,
 } from "./styled";
 import { useState } from "react";
-import { IdentityUser } from "@osn/common-ui";
 import { addressEllipsis } from "frontedUtils";
 import { isAddress } from "@polkadot/util-crypto";
 import { SystemDelete } from "@osn/icons/opensquare";
-import { Button, Tooltip, Flex } from "@osn/common-ui";
+import { Button, Tooltip, Flex, IdentityUser } from "@osn/common-ui";
 import NewAssetButton from "@/components/newSpace/newTokenWeightedSpace/step2/newButton";
 import { ReactComponent as UserIcon } from "../../public/imgs/icons/user.svg";
 import { ethers } from "ethers";
@@ -17,7 +16,7 @@ import { isSameAddress } from "frontedUtils/address";
 
 const checkAddressIsAlreadyExists = (list, address, index) => {
   const currentIndex = list.findIndex((item) => isSameAddress(item, address));
-  return currentIndex != index;
+  return currentIndex !== index;
 };
 
 export default function SpaceMemberList({ minLength, members, setMembers }) {
@@ -69,15 +68,14 @@ export default function SpaceMemberList({ minLength, members, setMembers }) {
               setCurrentInput(index);
             }}
             onChange={(value) => onChange(value, index)}
-            onDelete={() => onDelete(index)}
             isAlreadyExist={checkAddressIsAlreadyExists(members, member, index)}
             error={errors[index]}
             showInput={currentInput === index ? true : !isAddress(member)}
-            deleteConponent={
+            deleteComponent={
               <>
                 <DeleteButton
                   hidden={members.length <= minLength}
-                  onClick={onDelete}
+                  onClick={() => onDelete(index)}
                 />
               </>
             }
@@ -99,7 +97,7 @@ const MemberAddress = ({
   autoFocus,
   isAlreadyExist,
   error,
-  deleteConponent,
+  deleteComponent,
   showInput,
 }) => {
   if (!showInput) {
@@ -107,7 +105,7 @@ const MemberAddress = ({
       <div className="w-full">
         <MemberItem>
           <AddressDetail address={defaultValue} onClick={onFocus} />
-          {deleteConponent}
+          {deleteComponent}
         </MemberItem>
         <MemberAddressErrorText isError={isAlreadyExist}>
           Address already exists
@@ -138,7 +136,7 @@ const MemberAddress = ({
             autoFocus={autoFocus}
           />
         </Flex>
-        {deleteConponent}
+        {deleteComponent}
       </MemberItem>
       <MemberAddressErrorText isError={error}>
         Invalid address
