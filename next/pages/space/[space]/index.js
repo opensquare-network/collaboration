@@ -11,6 +11,7 @@ import { to404 } from "../../../frontedUtils/serverSideUtil";
 import Seo from "@/components/seo";
 import { useDispatch } from "react-redux";
 import { setAvailableNetworks } from "store/reducers/accountSlice";
+import { pick } from "lodash-es";
 import dynamic from "next/dynamic";
 import { getSpaceNetwork } from "frontedUtils/space";
 
@@ -48,7 +49,13 @@ export default function List({
   const [tab, setTab] = useState(activeTab);
 
   useEffect(() => {
-    dispatch(setAvailableNetworks(getSpaceNetwork(space)));
+    dispatch(
+      setAvailableNetworks(
+        getSpaceNetwork(space)?.map((item) =>
+          pick(item, ["network", "ss58Format"]),
+        ),
+      ),
+    );
   }, [dispatch, space]);
 
   if (!space) {
