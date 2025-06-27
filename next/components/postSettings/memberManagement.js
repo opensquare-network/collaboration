@@ -11,7 +11,7 @@ import {
   newErrorToast,
   newSuccessToast,
 } from "../../store/reducers/toastSlice";
-import { useRawSignData } from "hooks/useSignApiData";
+import useSignApiData from "hooks/useSignApiData";
 import { extensionCancelled } from "../../frontedUtils/consts/extension";
 
 export default function MemberManagement({ space }) {
@@ -28,11 +28,11 @@ const MemberCard = ({ space }) => {
 
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
-  const signData = useRawSignData();
+  const signData = useSignApiData();
 
   const onSubmit = async () => {
     setIsLoading(true);
-    const signedData = await signData(members).catch((e) => {
+    const signedData = await signData({ members }).catch((e) => {
       const errorMessage = e.message;
       if (extensionCancelled !== errorMessage) {
         dispatch(newErrorToast(errorMessage));
@@ -87,11 +87,11 @@ const AdminsCard = ({ space }) => {
   const [admins, setAdmins] = useState(space.admins || []);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
-  const signData = useRawSignData();
+  const signData = useSignApiData();
 
   const onSubmit = async () => {
     setIsLoading(true);
-    const signedData = await signData(admins).catch((e) => {
+    const signedData = await signData({ admins }).catch((e) => {
       const errorMessage = e.message;
       if (extensionCancelled !== errorMessage) {
         dispatch(newErrorToast(errorMessage));

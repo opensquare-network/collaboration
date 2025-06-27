@@ -25,7 +25,8 @@ export default function MemberStep({
         return false;
       }
     }
-    return true;
+
+    return new Set(members).size === members.length;
   }, [members]);
 
   const nextStep = () => {
@@ -58,7 +59,11 @@ export default function MemberStep({
         </div>
       </Sections>
       <Divider />
-      <SpaceMemberList members={members} setMembers={setMembers} />
+      <SpaceMemberList
+        minLength={2}
+        members={members}
+        setMembers={setMembers}
+      />
       <Divider />
       <div>
         <div className="flex gap-5">

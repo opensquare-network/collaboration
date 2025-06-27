@@ -13,105 +13,134 @@ import { Button, Tooltip, Flex } from "@osn/common-ui";
 import NewAssetButton from "@/components/newSpace/newTokenWeightedSpace/step2/newButton";
 import { ReactComponent as UserIcon } from "../../public/imgs/icons/user.svg";
 import { ethers } from "ethers";
+import { isSameAddress } from "frontedUtils/address";
+
+const checkAddressIsAlreadyExists = (list, address, index) => {
+  const currentIndex = list.findIndex((item) => isSameAddress(item, address));
+  return currentIndex != index;
+};
 
 export default function SpaceMemberList({ minLength, members, setMembers }) {
   const onChange = (value, index) => {
     const newMembers = [...members];
     newMembers[index] = value;
     setMembers(newMembers);
+    onCheckError(value, index);
+  };
+
+  const onCheckError = (value, index) => {
+    setErrors((val) => {
+      val[index] = !isAddress(value);
+      return [...val];
+    });
   };
 
   const onDelete = (index) => {
     const newMembers = [...members];
     newMembers.splice(index, 1);
     setMembers([...newMembers]);
+
+    setErrors((val) => {
+      val.splice(index, 1);
+      return [...val];
+    });
   };
 
-  const addAMember = () => {
+  const addMember = () => {
     setMembers([...members, ""]);
     setCurrentInput(members.length);
   };
   const [currentInput, setCurrentInput] = useState(0);
+  const [errors, setErrors] = useState([]);
 
   return (
     <Flex className="flex flex-col gap-4">
       {members.map((member, index) => {
         return (
           <MemberAddress
+            defaultValue={member}
+            key={`member-${index}-${member}`}
             autoFocus={currentInput === index}
-            onBlur={() => {
+            onBlur={(value) => {
               setCurrentInput(null);
+              onChange(value, index);
             }}
             onFocus={() => {
               setCurrentInput(index);
             }}
-            key={`member-${index}-${member}`}
-            address={member}
             onChange={(value) => onChange(value, index)}
             onDelete={() => onDelete(index)}
-            hiddenDelete={members.length <= minLength}
+            isAlreadyExist={checkAddressIsAlreadyExists(members, member, index)}
+            error={errors[index]}
+            showInput={currentInput === index ? true : !isAddress(member)}
+            deleteConponent={
+              <>
+                <DeleteButton
+                  hidden={members.length <= minLength}
+                  onClick={onDelete}
+                />
+              </>
+            }
           />
         );
       })}
       <Flex className="w-full justify-start">
-        <NewAssetButton onClick={addAMember}>New Member</NewAssetButton>
+        <NewAssetButton onClick={addMember}>New Member</NewAssetButton>
       </Flex>
     </Flex>
   );
 }
 
 const MemberAddress = ({
-  hiddenDelete,
-  address,
+  defaultValue,
   onChange,
-  onDelete,
   onFocus,
   onBlur,
   autoFocus,
+  isAlreadyExist,
+  error,
+  deleteConponent,
+  showInput,
 }) => {
-  const [showInput, setShowInput] = useState(!isAddress(address));
-  const [showError, setShowError] = useState(false);
   if (!showInput) {
     return (
-      <MemberItem>
-        <AddressDetail address={address} onClick={() => setShowInput(true)} />
-        <DeleteButton hidden={hiddenDelete} onClick={onDelete} />
-      </MemberItem>
+      <div className="w-full">
+        <MemberItem>
+          <AddressDetail address={defaultValue} onClick={onFocus} />
+          {deleteConponent}
+        </MemberItem>
+        <MemberAddressErrorText isError={isAlreadyExist}>
+          Address already exists
+        </MemberAddressErrorText>
+      </div>
     );
   }
 
   return (
     <div className="w-full">
-      <MemberItem isError={showError}>
+      <MemberItem isError={error}>
         <Flex className="gap-2 w-full">
           <UserIcon className="h-5 w-5" />
           <MemberAddressInput
             placeholder="polkadot or evm address..."
-            // value={address}
-            defaultValue={address}
+            value={defaultValue}
             onChange={(e) => {
-              onChange(e.target.value.trim());
+              const value = e.target.value.trim();
+              onChange(value);
+              if (isAddress(value)) {
+                onBlur(value);
+              }
             }}
             onBlur={(e) => {
-              const isValid = isAddress(e.target.value.trim());
-              if (isValid) {
-                setShowError(false);
-                setShowInput(false);
-              } else {
-                setShowError(true);
-                setShowInput(true);
-              }
-              onBlur();
+              onBlur(e.target.value.trim());
             }}
-            onFocus={() => {
-              onFocus();
-            }}
+            onFocus={() => onFocus()}
             autoFocus={autoFocus}
           />
         </Flex>
-        <DeleteButton hidden={hiddenDelete} onClick={onDelete} />
+        {deleteConponent}
       </MemberItem>
-      <MemberAddressErrorText isError={showError}>
+      <MemberAddressErrorText isError={error}>
         Invalid address
       </MemberAddressErrorText>
     </div>
