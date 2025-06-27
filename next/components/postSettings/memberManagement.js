@@ -2,7 +2,7 @@ import { cn, Flex } from "@osn/common-ui";
 import { Title } from "../postCreate/content";
 import Save from "./save";
 import { Divider } from "../postDetail/strategyResult/common/styled";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import SpaceMemberList from "../newSpace/spaceMemberList";
 import { Hint } from "../newSpace/styled";
 import nextApi from "services/nextApi";
@@ -13,6 +13,7 @@ import {
 } from "../../store/reducers/toastSlice";
 import useSignApiData from "hooks/useSignApiData";
 import { extensionCancelled } from "../../frontedUtils/consts/extension";
+import { isAddress } from "@polkadot/util-crypto";
 
 export default function MemberManagement({ space }) {
   return (
@@ -56,6 +57,17 @@ const MemberCard = ({ space }) => {
       dispatch(newErrorToast(error.message));
     }
   };
+
+  const addressAllIsValid = useMemo(() => {
+    for (const member of members) {
+      if (!isAddress(member)) {
+        return false;
+      }
+    }
+
+    return new Set(members).size === members.length;
+  }, [members]);
+
   return (
     <div
       className={cn(
@@ -76,7 +88,11 @@ const MemberCard = ({ space }) => {
           setMembers={setMembers}
         />
         <Flex className="justify-end">
-          <Save loading={isLoading} onSave={onSubmit} />
+          <Save
+            disabled={!addressAllIsValid}
+            loading={isLoading}
+            onSave={onSubmit}
+          />
         </Flex>
       </div>
     </div>
@@ -116,6 +132,16 @@ const AdminsCard = ({ space }) => {
     }
   };
 
+  const addressAllIsValid = useMemo(() => {
+    for (const member of admins) {
+      if (!isAddress(member)) {
+        return false;
+      }
+    }
+
+    return new Set(admins).size === admins.length;
+  }, [admins]);
+
   return (
     <div
       className={cn(
@@ -137,7 +163,11 @@ const AdminsCard = ({ space }) => {
         />
 
         <Flex className="justify-end">
-          <Save loading={isLoading} onSave={onSubmit} />
+          <Save
+            disabled={!addressAllIsValid}
+            loading={isLoading}
+            onSave={onSubmit}
+          />
         </Flex>
       </div>
     </div>

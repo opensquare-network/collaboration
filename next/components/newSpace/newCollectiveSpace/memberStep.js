@@ -53,7 +53,7 @@ export default function MemberStep({
           <SectionTitle>Members</SectionTitle>
           <Hint>
             <p>Please input a Polkadot or EVM address to add a DAO member.</p>
-            <p>Add at least two more members to this DAO.</p>
+            <p>Add at least 2 more members to this DAO.</p>
             <p>The DAO creator has the authority to set the DAO space.</p>
           </Hint>
         </div>
