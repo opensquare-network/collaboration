@@ -48,7 +48,7 @@ export default function List({
   const [tab, setTab] = useState(activeTab);
 
   useEffect(() => {
-    dispatch(setAvailableNetworks(space?.networks));
+    dispatch(setAvailableNetworks(getSpaceNetwork(space)));
   }, [dispatch, space]);
 
   if (!space) {
@@ -70,7 +70,7 @@ export default function List({
   return (
     <>
       <Seo space={space} title={`${space.name} off-chain voting`} desc={desc} />
-      <Layout bgHeight="264px" networks={space.networks}>
+      <Layout bgHeight="264px" networks={getSpaceNetwork(space)}>
         <HeaderWrapper>
           <Breadcrumb
             routes={[
@@ -111,14 +111,12 @@ export async function getServerSideProps(context) {
   const pageSize = 20;
 
   const [
-    { result: allNetworks },
     { result: space },
     { result: proposals },
     { result: pendingProposals },
     { result: activeProposals },
     { result: closedProposals },
   ] = await Promise.all([
-    ssrNextApi.fetch("networks"),
     ssrNextApi.fetch(`spaces/${spaceId}`),
     ssrNextApi.fetch(`${spaceId}/proposals`, {
       page: activeTab === "all" ? nPage : 1,
@@ -141,8 +139,6 @@ export async function getServerSideProps(context) {
   if (!space) {
     to404(context);
   }
-
-  space.networks = getSpaceNetwork(space, allNetworks);
 
   return {
     props: {

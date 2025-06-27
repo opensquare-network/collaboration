@@ -7,7 +7,7 @@ import { getSpaceNetwork } from "frontedUtils/space";
 
 export default function Create({ space, settings }) {
   return (
-    <Layout bgHeight="183px" networks={space.networks}>
+    <Layout bgHeight="183px" networks={getSpaceNetwork(space)}>
       <Breadcrumb
         routes={[
           { name: "Home", link: "/" },
@@ -23,18 +23,14 @@ export default function Create({ space, settings }) {
 export async function getServerSideProps(context) {
   const { space: spaceId } = context.params;
 
-  const [{ result: allNetworks }, { result: space }, { result: settings }] =
-    await Promise.all([
-      ssrNextApi.fetch("networks"),
-      ssrNextApi.fetch(`spaces/${spaceId}`),
-      ssrNextApi.fetch(`${spaceId}/proposals/settings`),
-    ]);
+  const [{ result: space }, { result: settings }] = await Promise.all([
+    ssrNextApi.fetch(`spaces/${spaceId}`),
+    ssrNextApi.fetch(`${spaceId}/proposals/settings`),
+  ]);
 
   if (!space) {
     to404(context);
   }
-
-  space.networks = getSpaceNetwork(space, allNetworks);
 
   return {
     props: {

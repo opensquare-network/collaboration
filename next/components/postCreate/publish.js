@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   loginAddressSelector,
@@ -14,6 +14,7 @@ import {
 import BigNumber from "bignumber.js";
 import SocietyMemberButton from "../societyMemberButton";
 import WhitelistMemberButton from "../whitelistMemberButton";
+import { isCollectiveSpace } from "frontedUtils/space";
 
 function BalanceThresholdButton({
   children,
@@ -44,6 +45,12 @@ function Publish({ onPublish, space }) {
   const createProposalLoading = useSelector(createProposalLoadingSelector);
   const isSocietySpace = space.accessibility === "society";
   const isWhitelistSpace = space.accessibility === "whitelist";
+  const whitelist = useMemo(() => {
+    if (isCollectiveSpace(space.type)) {
+      return space?.members;
+    }
+    return space?.whitelist;
+  }, [space?.members, space.type, space?.whitelist]);
 
   if (!loginAddress) {
     return (
@@ -77,7 +84,7 @@ function Publish({ onPublish, space }) {
         primary
         onClick={onPublish}
         isLoading={createProposalLoading}
-        whitelist={space?.whitelist}
+        whitelist={whitelist}
       >
         {buttonText}
       </WhitelistMemberButton>

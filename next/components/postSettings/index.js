@@ -1,7 +1,6 @@
 import { useEffect, useMemo } from "react";
 import { useDispatch } from "react-redux";
 import { setAvailableNetworks } from "../../store/reducers/accountSlice";
-import { pick } from "lodash-es";
 import SettingsNavigation from "./nav.js";
 import ProposalTemplate from "./proposalTemplate.js";
 import SpaceProfile from "./spaceProfile";
@@ -11,18 +10,13 @@ import {
   SystemInfo,
   SystemMemberManagement,
 } from "@osn/icons/opensquare";
-import { isCollectiveSpace } from "../../frontedUtils/space";
+import { getSpaceNetwork, isCollectiveSpace } from "../../frontedUtils/space";
 
 export default function PostSettings({ space, settings }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(
-      setAvailableNetworks(
-        space?.networks?.map((item) => pick(item, ["network", "ss58Format"])) ||
-          [],
-      ),
-    );
+    dispatch(setAvailableNetworks(getSpaceNetwork(space)));
   }, [dispatch, space]);
 
   const items = useMemo(

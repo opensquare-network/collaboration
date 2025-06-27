@@ -35,7 +35,7 @@ export default function Index({
   useEffect(() => {
     dispatch(
       setAvailableNetworks(
-        detail?.networksConfig?.networks?.map((item) =>
+        getSpaceNetwork(detail?.networksConfig)?.map((item) =>
           pick(item, ["network", "ss58Format"]),
         ) || [],
       ),
@@ -96,7 +96,7 @@ export default function Index({
           `${process.env.NEXT_PUBLIC_API_END_POINT}api/ipfs/files/${detail?.banner}`
         }
       />
-      <Layout bgHeight="183px" networks={space.networks}>
+      <Layout bgHeight="183px" networks={getSpaceNetwork(space)}>
         <Breadcrumb
           routes={[
             { name: "Home", link: "/" },
@@ -140,13 +140,11 @@ export async function getServerSideProps(context) {
   }
 
   const [
-    { result: allNetworks },
     { result: space },
     { result: votes },
     { result: voteStatus },
     { result: comments },
   ] = await Promise.all([
-    ssrNextApi.fetch("networks"),
     ssrNextApi.fetch(`spaces/${spaceId}`),
     ssrNextApi.fetch(`${spaceId}/proposal/${detail?.cid}/votes`, {
       page: nPage,
@@ -169,8 +167,6 @@ export async function getServerSideProps(context) {
     );
     myVote = result.result ?? null;
   }
-
-  space.networks = getSpaceNetwork(space, allNetworks);
 
   return {
     props: {
