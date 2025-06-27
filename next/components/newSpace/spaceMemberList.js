@@ -19,9 +19,13 @@ const checkAddressIsAlreadyExists = (list, address, index) => {
   return currentIndex !== index;
 };
 
-export default function SpaceMemberList({ minLength, members, setMembers }) {
+export default function SpaceMemberList({
+  minLength,
+  addressList,
+  onChange: setMembers,
+}) {
   const onChange = (value, index) => {
-    const newMembers = [...members];
+    const newMembers = [...addressList];
     newMembers[index] = value;
     setMembers(newMembers);
     onCheckError(value, index);
@@ -35,7 +39,7 @@ export default function SpaceMemberList({ minLength, members, setMembers }) {
   };
 
   const onDelete = (index) => {
-    const newMembers = [...members];
+    const newMembers = [...addressList];
     newMembers.splice(index, 1);
     setMembers([...newMembers]);
 
@@ -46,15 +50,15 @@ export default function SpaceMemberList({ minLength, members, setMembers }) {
   };
 
   const addMember = () => {
-    setMembers([...members, ""]);
-    setCurrentInput(members.length);
+    setMembers([...addressList, ""]);
+    setCurrentInput(addressList.length);
   };
   const [currentInput, setCurrentInput] = useState(0);
   const [errors, setErrors] = useState([]);
 
   return (
     <Flex className="flex flex-col gap-4">
-      {members.map((member, index) => {
+      {addressList.map((member, index) => {
         return (
           <MemberAddress
             defaultValue={member}
@@ -68,13 +72,17 @@ export default function SpaceMemberList({ minLength, members, setMembers }) {
               setCurrentInput(index);
             }}
             onChange={(value) => onChange(value, index)}
-            isAlreadyExist={checkAddressIsAlreadyExists(members, member, index)}
+            isAlreadyExist={checkAddressIsAlreadyExists(
+              addressList,
+              member,
+              index,
+            )}
             error={errors[index]}
             showInput={currentInput === index ? true : !isAddress(member)}
             deleteComponent={
               <>
                 <DeleteButton
-                  hidden={members.length <= minLength}
+                  hidden={addressList.length <= minLength}
                   onClick={() => onDelete(index)}
                 />
               </>

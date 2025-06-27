@@ -60,9 +60,9 @@ export default function MemberStep({
       </Sections>
       <Divider />
       <SpaceMemberList
+        addressList={members}
+        onChange={setMembers}
         minLength={2}
-        members={members}
-        setMembers={setMembers}
       />
       <Divider />
       <div>

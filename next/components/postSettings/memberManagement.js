@@ -1,7 +1,6 @@
-import { cn, Flex } from "@osn/common-ui";
+import { Flex, Divider } from "@osn/common-ui";
 import { Title } from "../postCreate/content";
 import Save from "./save";
-import { Divider } from "../postDetail/strategyResult/common/styled";
 import { useMemo, useState } from "react";
 import SpaceMemberList from "../newSpace/spaceMemberList";
 import { Hint } from "../newSpace/styled";
@@ -11,6 +10,20 @@ import { newErrorToast, newSuccessToast } from "store/reducers/toastSlice";
 import useSignApiData from "hooks/useSignApiData";
 import { extensionCancelled } from "frontedUtils/consts/extension";
 import { isAddress } from "@polkadot/util-crypto";
+import styled from "styled-components";
+
+const CardWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: 32px;
+  gap: 20px;
+  border: 1px solid var(--strokeBorderDefault);
+  background-color: var(--fillBgPrimary);
+  @media (max-width: 639px) {
+    padding: 20px;
+  }
+`;
 
 export default function MemberManagement({ space }) {
   return (
@@ -66,33 +79,28 @@ const MemberCard = ({ space }) => {
   }, [members]);
 
   return (
-    <div
-      className={cn(
-        "flex flex-col grow p-[32px] max-sm:p-[20px] gap-[32px]",
-        "border border-strokeBorderDefault bg-fillBgPrimary shadow-shadowCardDefault",
-      )}
-    >
-      <div className="flex flex-col gap-[20px]">
-        <Title>Members {members.lenght}</Title>
-        <Hint>
-          <p>Please input a Polkadot or EVM address to add a DAO member.</p>
-          <p>Add at least 2 more members to this DAO.</p>
-        </Hint>
-        <Divider className="!m-0" />
-        <SpaceMemberList
-          minLength={2}
-          members={members}
-          setMembers={setMembers}
+    <CardWrapper className={"shadow-shadowCardDefault"}>
+      <Title>
+        Members <span className="text-textTertiary">· {members.length}</span>
+      </Title>
+      <Hint>
+        <p>Please input a Polkadot or EVM address to add a DAO member.</p>
+        <p>Add at least 2 more members to this DAO.</p>
+      </Hint>
+      <Divider className="!m-0" />
+      <SpaceMemberList
+        minLength={2}
+        addressList={members}
+        onChange={setMembers}
+      />
+      <Flex className="justify-end">
+        <Save
+          disabled={!addressAllIsValid}
+          loading={isLoading}
+          onSave={onSubmit}
         />
-        <Flex className="justify-end">
-          <Save
-            disabled={!addressAllIsValid}
-            loading={isLoading}
-            onSave={onSubmit}
-          />
-        </Flex>
-      </div>
-    </div>
+      </Flex>
+    </CardWrapper>
   );
 };
 
@@ -140,33 +148,28 @@ const AdminsCard = ({ space }) => {
   }, [admins]);
 
   return (
-    <div
-      className={cn(
-        "flex flex-col grow p-[32px] max-sm:p-[20px] gap-[32px]",
-        "border border-strokeBorderDefault bg-fillBgPrimary shadow-shadowCardDefault",
-      )}
-    >
-      <div className="flex flex-col gap-[20px]">
-        <Title>Admins {admins.lenght}</Title>
-        <Hint>
-          <p>Please input a Polkadot or EVM address to add a DAO member.</p>
-          <p>Add at least 2 more members to this DAO.</p>
-        </Hint>
-        <Divider className="!m-0" />
-        <SpaceMemberList
-          minLength={1}
-          members={admins}
-          setMembers={setAdmins}
-        />
+    <CardWrapper className={"shadow-shadowCardDefault"}>
+      <Title>
+        Admins <span className="text-textTertiary">· {admins.length}</span>
+      </Title>
+      <Hint>
+        <p>Please input a Polkadot or EVM address to add a DAO member.</p>
+        <p>Add at least 2 more members to this DAO.</p>
+      </Hint>
+      <Divider className="!m-0" />
+      <SpaceMemberList
+        minLength={1}
+        addressList={admins}
+        onChange={setAdmins}
+      />
 
-        <Flex className="justify-end">
-          <Save
-            disabled={!addressAllIsValid}
-            loading={isLoading}
-            onSave={onSubmit}
-          />
-        </Flex>
-      </div>
-    </div>
+      <Flex className="justify-end">
+        <Save
+          disabled={!addressAllIsValid}
+          loading={isLoading}
+          onSave={onSubmit}
+        />
+      </Flex>
+    </CardWrapper>
   );
 };
