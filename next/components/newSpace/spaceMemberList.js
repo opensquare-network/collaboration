@@ -13,6 +13,7 @@ import NewAssetButton from "@/components/newSpace/newTokenWeightedSpace/step2/ne
 import { ReactComponent as UserIcon } from "../../public/imgs/icons/user.svg";
 import { ethers } from "ethers";
 import { isSameAddress } from "frontedUtils/address";
+import encodeAddressByChain from "frontedUtils/chain/addr";
 
 const checkAddressIsAlreadyExists = (list, address, index) => {
   const currentIndex = list.findIndex((item) => isSameAddress(item, address));
@@ -134,7 +135,7 @@ const MemberAddress = ({
               const value = e.target.value.trim();
               onChange(value);
               if (isAddress(value)) {
-                onBlur(value);
+                onBlur(encodeAddressByChain(value, "polkadot"));
               }
             }}
             onBlur={(e) => {
