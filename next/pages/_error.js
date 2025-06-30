@@ -26,12 +26,7 @@ function ErrorPage({ statusCode }) {
   const { title, subTitle, description } = getErrorReason(statusCode);
 
   return (
-    <ErrorContent
-      statusCode={statusCode}
-      title={title}
-      subTitle={subTitle}
-      description={description}
-    />
+    <ErrorContent title={title} subTitle={subTitle} description={description} />
   );
 }
 
