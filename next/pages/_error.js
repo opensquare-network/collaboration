@@ -5,7 +5,8 @@ import ErrorContent from "@/components/errorContent";
 function getErrorReason(statusCode) {
   const reasons = {
     500: {
-      title: "Internal Server Error",
+      title: "500",
+      subTitle: "Internal Server Error",
       description:
         "The server encountered an internal error or misconfiguration and was unable to complete your request.",
     },
@@ -13,7 +14,8 @@ function getErrorReason(statusCode) {
 
   return (
     reasons[statusCode] || {
-      title: "Application Error",
+      title: "Sorry",
+      subTitle: "Application Error",
       description:
         "A client-side exception has occurred (see the browser console for more information).",
     }
@@ -21,13 +23,13 @@ function getErrorReason(statusCode) {
 }
 
 function ErrorPage({ statusCode }) {
-  const { title, description } = getErrorReason(statusCode);
+  const { title, subTitle, description } = getErrorReason(statusCode);
 
   return (
     <ErrorContent
       statusCode={statusCode}
-      title={"Sorry"}
-      subTitle={title}
+      title={title}
+      subTitle={subTitle}
       description={description}
     />
   );

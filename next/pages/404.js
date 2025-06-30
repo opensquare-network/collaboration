@@ -4,7 +4,7 @@ export default function FourOFour() {
   return (
     <ErrorContent
       statusCode={404}
-      title="Sorry"
+      title="404"
       subTitle="Page Not Found"
       description="Sorry. the content you’re looking for doesn’t exist. Either it was removed, or you mistyped the link."
     />
