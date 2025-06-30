@@ -22,7 +22,7 @@ import BalanceRow from "@/components/postCreate/BalanceRow";
 import { hasBalanceStrategy } from "frontedUtils/strategy";
 import SocietyMemberHint from "./societyMemberHint";
 import WhitelistMemberHint from "./whitelistMemberHint";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { isCollectiveSpace } from "frontedUtils/space";
 
 const Hint = styled.div`
@@ -76,11 +76,22 @@ function InfoHint({ space }) {
   const belowThreshold = new BigNumber(balance).isLessThan(threshold);
   const loginAddress = useSelector(loginAddressSelector);
 
+  const [showHint, setShowHint] = useState(false);
+  useEffect(() => setTimeout(() => setShowHint(true), 250), []);
+
+  if (!showHint) {
+    return null;
+  }
+
   if (!loginAddress) {
     return <Hint>Link an address to create proposal.</Hint>;
-  } else if (loadBalanceError) {
+  }
+
+  if (loadBalanceError) {
     return <Hint>{loadBalanceError}</Hint>;
-  } else if (belowThreshold) {
+  }
+
+  if (belowThreshold) {
     return (
       <Hint>
         You need to have a minimum of {toPrecision(threshold, decimals)}{" "}
