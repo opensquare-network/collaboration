@@ -14,6 +14,8 @@ import { getSpaceAssets } from "frontedUtils/getSpaceAssets";
 import AssetList from "../assetList";
 import { hasBalanceStrategy } from "frontedUtils/strategy";
 import Author from "../author";
+import { isCollectiveSpace } from "frontedUtils/space";
+import { useMemo } from "react";
 
 const Wrapper = styled.div``;
 
@@ -73,8 +75,14 @@ const DetailsValue = styled(FlexBetween)`
 
 export default function Details({ space }) {
   const strategyCount = space.weightStrategy?.length || 0;
-  const memberCount = space.whitelist?.length || 0;
   const assets = getSpaceAssets(space);
+  const whitelist = useMemo(() => {
+    if (isCollectiveSpace(space.type)) {
+      return space?.members;
+    }
+    return space?.whitelist;
+  }, [space?.members, space.type, space?.whitelist]);
+  const memberCount = whitelist?.length || 0;
 
   return (
     <Wrapper>
@@ -122,7 +130,7 @@ export default function Details({ space }) {
         <DetailsItem>
           <DetailsLabel>Members({memberCount})</DetailsLabel>
           <div className="max-h-[236px] overflow-y-auto">
-            {space.whitelist?.map((address, index) => (
+            {whitelist?.map((address, index) => (
               <DetailsValue key={index}>
                 {/* Identity in Polkadot */}
                 <Author

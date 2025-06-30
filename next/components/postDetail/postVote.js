@@ -338,12 +338,14 @@ function ProposalActions({
 }) {
   return (
     <InnerWrapper>
-      <BalanceInfo
-        proposal={proposal}
-        balance={balance}
-        balanceDetail={balanceDetail}
-        delegation={delegation}
-      />
+      {!isCollectiveSpace(proposal?.networksConfig?.type) && (
+        <BalanceInfo
+          proposal={proposal}
+          balance={balance}
+          balanceDetail={balanceDetail}
+          delegation={delegation}
+        />
+      )}
 
       <Flex>
         <VoteButton
