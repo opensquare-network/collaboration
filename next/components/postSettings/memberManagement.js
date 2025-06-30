@@ -84,8 +84,8 @@ const MemberCard = ({ space }) => {
         Members <span className="text-textTertiary">· {members.length}</span>
       </Title>
       <Hint>
-        <p>Please input a Polkadot or EVM address to add a DAO member.</p>
-        <p>Add at least 2 more members to this DAO.</p>
+        <p>Please add polkadot or ethereum addresses</p>
+        <p>At least 2 members</p>
       </Hint>
       <Divider className="!m-0" />
       <SpaceMemberList
@@ -153,8 +153,8 @@ const AdminsCard = ({ space }) => {
         Admins <span className="text-textTertiary">· {admins.length}</span>
       </Title>
       <Hint>
-        <p>Please input a Polkadot or EVM address to add a DAO member.</p>
-        <p>Add at least 2 more members to this DAO.</p>
+        <p>Please add polkadot or ethereum addresses</p>
+        <p>At least 2 members</p>
       </Hint>
       <Divider className="!m-0" />
       <SpaceMemberList
