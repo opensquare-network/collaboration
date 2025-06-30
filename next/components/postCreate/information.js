@@ -123,7 +123,7 @@ export default function Information({ space }) {
           Only members can create a proposal
         </WhitelistMemberHint>
       )}
-      <Proxy space={space} />
+      {!isCollectiveSpace(space.type) && <Proxy space={space} />}
     </>
   );
 }

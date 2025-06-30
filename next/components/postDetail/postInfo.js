@@ -19,6 +19,8 @@ import {
   TimestampItem,
 } from "../styled/infoItem";
 import PostMembers from "./postMembers";
+import { useMemo } from "react";
+import { isCollectiveSpace } from "frontedUtils/space";
 
 function Snapshot({ snapshotHeights }) {
   return (
@@ -65,15 +67,24 @@ function PinHash({ pinHash }) {
 export default function PostInfo({ data, space }) {
   const assets = getSpaceAssets(data.networksConfig);
 
+  const whitelist = useMemo(() => {
+    if (isCollectiveSpace(space.type)) {
+      return space?.members;
+    }
+    return space?.whitelist;
+  }, [space?.members, space.type, space?.whitelist]);
+
   return (
     <Wrapper>
       <div>
         <SideSectionTitle title="Information" img="/imgs/icons/info.svg" />
         <Divider />
         <div>
-          <Snapshot snapshotHeights={data?.snapshotHeights} />
+          {!isCollectiveSpace(space?.type) && (
+            <Snapshot snapshotHeights={data?.snapshotHeights} />
+          )}
           {data?.pinHash && <PinHash pinHash={data?.pinHash} />}
-          <PostMembers whitelist={space?.whitelist} data={data} />
+          <PostMembers whitelist={whitelist} data={data} />
         </div>
       </div>
       {hasBalanceStrategy(space?.weightStrategy) && (
