@@ -22,6 +22,7 @@ import DropdownSelector from "@osn/common-ui/es/DropdownSelector";
 import { hasSocietyVoteStrategyOnly } from "frontedUtils/strategy";
 import dayjs from "dayjs";
 import { getChainDisplayName } from "frontedUtils/chain";
+import { isCollectiveSpace } from "frontedUtils/space";
 
 const Wrapper = styled.div`
   min-width: 302px;
@@ -101,6 +102,10 @@ function SnapshotHeight({ space }) {
       );
     }
   }, [dispatch, space?.networks]);
+
+  if (isCollectiveSpace(space.type)) {
+    return;
+  }
 
   return (
     <InnerWrapper>

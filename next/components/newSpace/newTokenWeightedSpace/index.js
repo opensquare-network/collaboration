@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Breadcrumb from "../breadcrumb";
+import Breadcrumb from "../../breadcrumb";
 import Content from "./content";
 
 const Wrapper = styled.div``;

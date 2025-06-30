@@ -1,6 +1,6 @@
 import MultiSelect from "@/components/multiSelect";
 import styled from "styled-components";
-import { SectionTitle } from "../styled";
+import { SectionTitle } from "../../styled";
 
 const Wrapper = styled.div`
   display: flex;

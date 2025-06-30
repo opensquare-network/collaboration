@@ -5,7 +5,7 @@ import { noop } from "@osn/common-ui";
 import AssetDetail from "../assetDetail";
 import AssetConfig from "../assetConfig";
 import { useIsMounted } from "@osn/common";
-import nextApi from "services/nextApi";
+import nextApi from "../../../../../../services/nextApi";
 import LoadingInput from "@/components/loadingInput";
 
 export default function Erc20TokenConfig({

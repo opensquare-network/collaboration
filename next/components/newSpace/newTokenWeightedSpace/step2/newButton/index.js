@@ -16,11 +16,11 @@ const Text = styled.span`
   color: var(--textBrandSecondary);
 `;
 
-export default function NewAssetButton({ onClick = noop }) {
+export default function NewButton({ onClick = noop, children }) {
   return (
     <Wrapper onClick={onClick}>
       <AddAvg />
-      <Text>New Asset</Text>
+      <Text>{children}</Text>
     </Wrapper>
   );
 }

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import LogoUploader from "@/components/logoUploader";
-import { Hint, SectionTitle } from "../styled";
+import { Hint, SectionTitle } from "../../styled";
 
 const Wrapper = styled.div`
   display: flex;

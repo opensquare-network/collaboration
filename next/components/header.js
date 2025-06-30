@@ -111,7 +111,7 @@ export default function Header({ networks }) {
       links={[
         isHomePage && {
           className: "max-lg:hidden max-sm:inline-block",
-          content: <Link href="/space/new">Add a Space</Link>,
+          content: <Link href="/space/new">New Space</Link>,
         },
         {
           content: (

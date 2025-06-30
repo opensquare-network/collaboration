@@ -3,10 +3,11 @@ import Breadcrumb from "components/breadcrumb";
 import PostCreate from "@/components/postCreate";
 import { ssrNextApi } from "services/nextApi";
 import { to404 } from "../../../frontedUtils/serverSideUtil";
+import { getSpaceNetwork } from "frontedUtils/space";
 
 export default function Create({ space, settings }) {
   return (
-    <Layout bgHeight="183px" networks={space.networks}>
+    <Layout bgHeight="183px" networks={getSpaceNetwork(space)}>
       <Breadcrumb
         routes={[
           { name: "Home", link: "/" },
