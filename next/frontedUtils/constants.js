@@ -31,3 +31,5 @@ export const TOAST_TYPES = {
   INFO: "Info",
   PENDING: "Pending",
 };
+
+export const IS_PRODUCTION = process.env.NODE_ENV === "production";
