@@ -52,9 +52,9 @@ export default function MemberStep({
         <div className="space-y-4">
           <SectionTitle>Members</SectionTitle>
           <Hint>
-            <p>Please input a Polkadot or EVM address to add a DAO member.</p>
-            <p>Add at least 2 more members to this DAO.</p>
-            <p>The DAO creator has the authority to set the DAO space.</p>
+            <p>Please add polkadot or ethereum addresses</p>
+            <p>At least 2 members</p>
+            <p>You will be the admin by default</p>
           </Hint>
         </div>
       </Sections>
@@ -63,6 +63,7 @@ export default function MemberStep({
         addressList={members}
         onChange={setMembers}
         minLength={2}
+        defaultFocus={0}
       />
       <Divider />
       <div>

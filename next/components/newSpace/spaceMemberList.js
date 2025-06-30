@@ -24,6 +24,7 @@ export default function SpaceMemberList({
   minLength,
   addressList,
   onChange: setMembers,
+  defaultFocus,
 }) {
   const onChange = (value, index) => {
     const newMembers = [...addressList];
@@ -54,7 +55,7 @@ export default function SpaceMemberList({
     setMembers([...addressList, ""]);
     setCurrentInput(addressList.length);
   };
-  const [currentInput, setCurrentInput] = useState(0);
+  const [currentInput, setCurrentInput] = useState(defaultFocus);
   const [errors, setErrors] = useState([]);
 
   return (

@@ -5,18 +5,6 @@ export const isCollectiveSpace = (type) => type === "collectives-dao";
 
 export const COLLECTIVE_SPACE_NETWORK = [
   {
-    network: "ethereum",
-    ss58Format: null,
-    assets: [
-      {
-        symbol: "ETH",
-        decimals: 18,
-        votingThreshold: "1000000000000000000",
-        multiplier: 1,
-      },
-    ],
-  },
-  {
     network: "polkadot",
     ss58Format: 0,
     assets: [
@@ -24,6 +12,18 @@ export const COLLECTIVE_SPACE_NETWORK = [
         symbol: "DOT",
         decimals: 10,
         votingThreshold: "0",
+        multiplier: 1,
+      },
+    ],
+  },
+  {
+    network: "ethereum",
+    ss58Format: null,
+    assets: [
+      {
+        symbol: "ETH",
+        decimals: 18,
+        votingThreshold: "1000000000000000000",
         multiplier: 1,
       },
     ],
