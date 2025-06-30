@@ -50,7 +50,7 @@ const Content = styled.div`
   ${p_16_normal};
   color: var(--textSecondary);
   ${({ isDark }) =>
-    `background-image: url("/imgs/backgrounds/bg-404${
+    `background-image: url("/imgs/backgrounds/bg-error${
       isDark ? "-dark" : ""
     }.png");`}
   background-position-x: 50%;
