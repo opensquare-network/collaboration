@@ -28,12 +28,20 @@ export default function SelectSpaceType() {
 
       <div className="flex justify-center gap-5 pb-[118px]">
         <SelectTypeItem href={"new/collectives"}>
-          <img src={logoURL.collectives} alt="" />
+          <img
+            className="w-[234px] h-[234px]"
+            src={logoURL.collectives}
+            alt="collectives"
+          />
           <SelectTypeItemTitle>Collectives DAO</SelectTypeItemTitle>
           <SelectTypeItemDesc>One person, one vote</SelectTypeItemDesc>
         </SelectTypeItem>
         <SelectTypeItem href={"new/token-weighted"}>
-          <img src={logoURL.tokenWeighted} alt="" />
+          <img
+            className="w-[234px] h-[234px]"
+            src={logoURL.tokenWeighted}
+            alt="tokenWeighted"
+          />
           <SelectTypeItemTitle>Token-weighted DAO</SelectTypeItemTitle>
           <SelectTypeItemDesc>Voting by balance</SelectTypeItemDesc>
         </SelectTypeItem>
