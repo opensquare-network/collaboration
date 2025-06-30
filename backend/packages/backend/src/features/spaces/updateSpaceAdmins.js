@@ -6,7 +6,10 @@ const { reloadSpaces } = require("../../spaces");
 async function updateSpaceAdmins(ctx) {
   const { space } = ctx.params;
 
-  const { data: admins, address } = ctx.request.body;
+  const {
+    data: { admins },
+    address,
+  } = ctx.request.body;
   checkAddressList(admins, "Admins");
   await checkIsSpaceAdmin(space, address);
 

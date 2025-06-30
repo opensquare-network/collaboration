@@ -14,6 +14,7 @@ const commonFeatureRouters = [
   require("./features/spaces/routes"),
   require("./features/space-members/routes"),
   require("./features/home/routes"),
+  require("./features/clientErrors/routes"),
   require("./features/chain/routes"),
   require("./features/token/routes"),
   require("./features/files/routes"),
