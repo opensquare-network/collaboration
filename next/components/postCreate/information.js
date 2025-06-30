@@ -22,6 +22,8 @@ import BalanceRow from "@/components/postCreate/BalanceRow";
 import { hasBalanceStrategy } from "frontedUtils/strategy";
 import SocietyMemberHint from "./societyMemberHint";
 import WhitelistMemberHint from "./whitelistMemberHint";
+import { useMemo } from "react";
+import { isCollectiveSpace } from "frontedUtils/space";
 
 const Hint = styled.div`
   margin-top: 4px !important;
@@ -97,6 +99,13 @@ export default function Information({ space }) {
   const proxyBalanceLoading = useSelector(proxyBalanceLoadingSelector);
   const balanceLoading = useSelector(balanceLoadingSelector);
 
+  const whiteList = useMemo(() => {
+    if (isCollectiveSpace(space?.type)) {
+      return space?.members;
+    }
+    return space?.whitelist;
+  }, [space?.members, space?.type, space?.whitelist]);
+
   return (
     <>
       {hasBalanceStrategy(weightStrategy) && (
@@ -110,7 +119,7 @@ export default function Information({ space }) {
       <InfoHint space={space} />
       {space.accessibility === "society" && <SocietyMemberHint space={space} />}
       {space.accessibility === "whitelist" && (
-        <WhitelistMemberHint whitelist={space?.whitelist}>
+        <WhitelistMemberHint whitelist={whiteList}>
           Only members can create a proposal
         </WhitelistMemberHint>
       )}

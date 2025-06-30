@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 
@@ -47,6 +47,7 @@ import WhitelistMemberButton from "../whitelistMemberButton";
 import { signVoteWith } from "frontedUtils/signData";
 import useSignApiData from "hooks/useSignApiData";
 import MultiLineInput from "../multiLineInput";
+import { isCollectiveSpace } from "frontedUtils/space";
 
 const Wrapper = styled.div`
   > :not(:first-child) {
@@ -162,6 +163,16 @@ function BalanceInfo({ proposal, balance, balanceDetail, delegation }) {
   const supportProxy = useSelector(canUseProxySelector);
   const snapshot = proposal.snapshotHeights[loginNetwork];
 
+  const whitelist = useMemo(() => {
+    if (isCollectiveSpace(proposal?.networksConfig?.type)) {
+      return proposal?.networksConfig?.members;
+    }
+    return proposal?.networksConfig?.whitelist;
+  }, [
+    proposal?.networksConfig?.members,
+    proposal?.networksConfig?.type,
+    proposal?.networksConfig?.whitelist,
+  ]);
   let balanceInfo = null;
 
   if (hasBalanceStrategy(proposal?.weightStrategy)) {
@@ -190,7 +201,7 @@ function BalanceInfo({ proposal, balance, balanceDetail, delegation }) {
     balanceInfo = <SocietyMemberHint />;
   } else if (isWhitelistProposal) {
     balanceInfo = (
-      <WhitelistMemberHint whitelist={proposal?.networksConfig?.whitelist}>
+      <WhitelistMemberHint whitelist={whitelist}>
         Only members can vote
       </WhitelistMemberHint>
     );
@@ -258,6 +269,17 @@ function VoteButton({
 
   const buttonText = useProxy ? "Proxy Vote" : "Vote";
 
+  const whitelist = useMemo(() => {
+    if (isCollectiveSpace(proposal?.networksConfig?.type)) {
+      return proposal?.networksConfig?.members;
+    }
+    return proposal?.networksConfig?.whitelist;
+  }, [
+    proposal?.networksConfig?.members,
+    proposal?.networksConfig?.type,
+    proposal?.networksConfig?.whitelist,
+  ]);
+
   if (isSocietyProposal) {
     return (
       <SocietyMemberButton
@@ -282,7 +304,7 @@ function VoteButton({
         isLoading={isLoading}
         onClick={onVote}
         disabled={!canVote}
-        whitelist={proposal?.networksConfig?.whitelist}
+        whitelist={whitelist}
       >
         {buttonText}
       </WhitelistMemberButton>

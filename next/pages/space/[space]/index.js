@@ -13,6 +13,7 @@ import { useDispatch } from "react-redux";
 import { setAvailableNetworks } from "store/reducers/accountSlice";
 import { pick } from "lodash-es";
 import dynamic from "next/dynamic";
+import { getSpaceNetwork } from "frontedUtils/space";
 
 const SpaceHiddenTip = dynamic(() => import("@/components/spaceHiddenTip"), {
   ssr: false,
@@ -50,8 +51,9 @@ export default function List({
   useEffect(() => {
     dispatch(
       setAvailableNetworks(
-        space?.networks?.map((item) => pick(item, ["network", "ss58Format"])) ||
-          [],
+        getSpaceNetwork(space)?.map((item) =>
+          pick(item, ["network", "ss58Format"]),
+        ),
       ),
     );
   }, [dispatch, space]);
@@ -75,7 +77,7 @@ export default function List({
   return (
     <>
       <Seo space={space} title={`${space.name} off-chain voting`} desc={desc} />
-      <Layout bgHeight="264px" networks={space.networks}>
+      <Layout bgHeight="264px" networks={getSpaceNetwork(space)}>
         <HeaderWrapper>
           <Breadcrumb
             routes={[

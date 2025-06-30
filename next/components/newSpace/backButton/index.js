@@ -1,8 +1,3 @@
-import { useDispatch, useSelector } from "react-redux";
-import {
-  currentStepSelector,
-  setCurrentStep,
-} from "store/reducers/newSpaceSlice";
 import { ReactComponent as BackSVG } from "./back.svg";
 import styled from "styled-components";
 import { Button } from "@osn/common-ui";
@@ -14,17 +9,10 @@ const Wrapper = styled.div`
   }
 `;
 
-export default function BackButton() {
-  const dispatch = useDispatch();
-  const currentStep = useSelector(currentStepSelector);
-
-  const handleBack = () => {
-    dispatch(setCurrentStep(currentStep - 1));
-  };
-
+export default function BackButton({ onClick }) {
   return (
     <Wrapper>
-      <Button onClick={handleBack}>
+      <Button onClick={onClick}>
         <BackSVG />
       </Button>
     </Wrapper>

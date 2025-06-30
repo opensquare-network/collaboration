@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import Layout from "components/layout";
+import Layout from "@/components/layout";
 import Seo from "@/components/seo";
 import { ssrNextApi } from "services/nextApi";
 import { setAvailableNetworks } from "store/reducers/accountSlice";
-import NewSpace from "@/components/newSpace";
+import NewSpace from "@/components/newSpace/newTokenWeightedSpace";
 
 export default function Index({ allNetworks, chainsDef, tokensDef }) {
   const dispatch = useDispatch();

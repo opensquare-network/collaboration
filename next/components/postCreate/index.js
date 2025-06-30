@@ -45,6 +45,7 @@ import { extensionCancelled } from "../../frontedUtils/consts/extension";
 import { signProposalWith } from "frontedUtils/signData";
 import useSignApiData from "hooks/useSignApiData";
 import { validateProposal } from "frontedUtils/validate";
+import { getSpaceNetwork } from "frontedUtils/space";
 
 const Wrapper = styled.div`
   display: flex;
@@ -123,8 +124,9 @@ export default function PostCreate({ space, settings }) {
   useEffect(() => {
     dispatch(
       setAvailableNetworks(
-        space?.networks?.map((item) => pick(item, ["network", "ss58Format"])) ||
-          [],
+        getSpaceNetwork(space)?.map((item) =>
+          pick(item, ["network", "ss58Format"]),
+        ) || [],
       ),
     );
   }, [dispatch, space]);
@@ -198,14 +200,17 @@ export default function PostCreate({ space, settings }) {
       space: space.id,
       networksConfig: {
         ...pick(space, [
+          "type",
           "symbol",
           "decimals",
           "networks",
           "accessibility",
           "whitelist",
+          "members",
+          "quorum",
+          "version",
         ]),
         strategies: space.weightStrategy,
-        ...pick(space, ["quorum", "version"]),
       },
       title,
       content,

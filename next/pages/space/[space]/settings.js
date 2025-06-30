@@ -1,12 +1,28 @@
 import Layout from "components/layout";
 import Breadcrumb from "components/breadcrumb";
 import { ssrNextApi } from "services/nextApi";
-import { to404 } from "../../../frontedUtils/serverSideUtil";
-import PostSettings from "../../../components/postSettings";
+import { to404 } from "frontedUtils/serverSideUtil";
+import PostSettings from "components/postSettings";
+import { useDispatch } from "react-redux";
+import { setAvailableNetworks } from "store/reducers/accountSlice";
+import { useEffect } from "react";
+import { getSpaceNetwork } from "frontedUtils/space";
+import pick from "lodash-es/pick";
 
 export default function Settings({ space, settings }) {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(
+      setAvailableNetworks(
+        getSpaceNetwork(space)?.map((item) =>
+          pick(item, ["network", "ss58Format"]),
+        ),
+      ),
+    );
+  }, [dispatch, space]);
+
   return (
-    <Layout bgHeight="183px" networks={space.networks}>
+    <Layout bgHeight="183px" networks={getSpaceNetwork(space)}>
       <Breadcrumb
         routes={[
           { name: "Home", link: "/" },

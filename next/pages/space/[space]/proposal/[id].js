@@ -14,6 +14,7 @@ import { pick } from "lodash-es";
 import Seo from "@/components/seo";
 import { useIsMounted } from "../../../../frontedUtils/hooks";
 import encodeAddressByChain from "../../../../frontedUtils/chain/addr";
+import { getSpaceNetwork } from "frontedUtils/space";
 
 export default function Index({
   detail,
@@ -34,7 +35,7 @@ export default function Index({
   useEffect(() => {
     dispatch(
       setAvailableNetworks(
-        detail?.networksConfig?.networks?.map((item) =>
+        getSpaceNetwork(detail?.networksConfig)?.map((item) =>
           pick(item, ["network", "ss58Format"]),
         ) || [],
       ),
@@ -95,7 +96,7 @@ export default function Index({
           `${process.env.NEXT_PUBLIC_API_END_POINT}api/ipfs/files/${detail?.banner}`
         }
       />
-      <Layout bgHeight="183px" networks={space.networks}>
+      <Layout bgHeight="183px" networks={getSpaceNetwork(space)}>
         <Breadcrumb
           routes={[
             { name: "Home", link: "/" },

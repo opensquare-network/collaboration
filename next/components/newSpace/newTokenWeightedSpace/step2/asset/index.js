@@ -7,7 +7,7 @@ import CommonAssetConfig from "./commonAssetConfig";
 import OrmlTokenConfig from "./ormlTokenConfig";
 import Erc20TokenConfig from "./erc20TokenConfig";
 import styled from "styled-components";
-import useStateChanged from "hooks/useStateChanged";
+import useStateChanged from "../../../../../hooks/useStateChanged";
 import { AssetTypes } from "./constants";
 
 const Header = styled.div`

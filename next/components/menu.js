@@ -56,7 +56,7 @@ function Menu() {
             target="_blank"
             href="https://github.com/opensquare-network/collaboration/discussions/813"
           >
-            <span>Add a Space</span>
+            <span>New Space</span>
             <Plus />
           </ItemWrapper>
         </MenuItem>

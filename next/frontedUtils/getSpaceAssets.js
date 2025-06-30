@@ -1,7 +1,9 @@
+import { getSpaceNetwork } from "./space";
+
 export function getSpaceAssets(space) {
   const assets = [];
 
-  for (const network of space.networks) {
+  for (const network of getSpaceNetwork(space)) {
     if (network.assets?.length > 0) {
       for (const asset of network.assets) {
         const symbol = asset?.symbol ?? network?.symbol ?? space?.symbol;

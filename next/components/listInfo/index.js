@@ -7,11 +7,16 @@ import {
 import SpaceLogo from "@/components/spaceLogo";
 import ValueDisplay from "../valueDisplay";
 import Modal from "@osn/common-ui/es/Modal";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Details from "./details";
-import { SystemMembers } from "@osn/icons/opensquare";
+import {
+  SystemMembers,
+  SystemStrategy,
+  SystemThreshold,
+} from "@osn/icons/opensquare";
 import { Flex, FlexBetween } from "@osn/common-ui";
 import { AvatarWithTooltip } from "../avatar";
+import { isCollectiveSpace } from "frontedUtils/space";
 
 const Wrapper = styled(FlexBetween)`
   @media screen and (max-width: 900px) {
@@ -33,12 +38,6 @@ const AboutItem = styled.div`
   display: flex;
   align-items: flex-start;
   position: relative;
-`;
-
-const AboutIcon = styled.img`
-  width: 24px;
-  height: 24px;
-  margin-right: 8px;
 `;
 
 const AboutName = styled.div`
@@ -88,9 +87,14 @@ const AvatarIcons = styled.div`
 
 export default function ListInfo({ space }) {
   const [modalOpen, setModalOpen] = useState(false);
+  const memebers = useMemo(() => {
+    if (isCollectiveSpace(space.type)) {
+      return space.members || [];
+    }
+    return space.whitelist || [];
+  }, [space.members, space.type, space.whitelist]);
 
   const strategyCount = space.weightStrategy?.length || 0;
-  const memberCount = space.whitelist?.length || 0;
 
   const handleShowModal = () => {
     setModalOpen(true);
@@ -109,18 +113,17 @@ export default function ListInfo({ space }) {
         </div>
       </Flex>
       <Flex>
-        {memberCount > 0 && (
+        {memebers.length > 0 && (
           <>
             <AboutItem>
-              <SystemMembers className="w-5 h-5 mr-2 text-textTertiary" />
+              <SystemMembers className="w-6 h-6 mr-2 text-textTertiary" />
               <div>
                 <AboutName role="button" onClick={handleShowModal}>
-                  Members({memberCount})
+                  Members({memebers.length})
                 </AboutName>
                 <AvatarIconsWrapper>
                   <AvatarIcons>
-                    {space.whitelist?.slice(0, 5).map((address, index) => (
-                      // polkadot identity
+                    {memebers?.slice(0, 5).map((address, index) => (
                       <AvatarWithTooltip
                         key={index}
                         address={address}
@@ -141,7 +144,7 @@ export default function ListInfo({ space }) {
         {space.proposeThreshold && (
           <>
             <AboutItem>
-              <AboutIcon src="/imgs/icons/threshold.svg" />
+              <SystemThreshold className="w-6 h-6 mr-2 text-textTertiary" />
               <div>
                 <AboutName role="button" onClick={handleShowModal}>
                   Threshold
@@ -155,7 +158,7 @@ export default function ListInfo({ space }) {
           </>
         )}
         <AboutItem>
-          <AboutIcon src="/imgs/icons/strategy.svg" />
+          <SystemStrategy className="w-6 h-6 mr-2 text-textTertiary" />
           <div>
             <AboutName role="button" onClick={handleShowModal}>
               Strategy({strategyCount})

@@ -5,7 +5,13 @@ import { pick } from "lodash-es";
 import SettingsNavigation from "./nav.js";
 import ProposalTemplate from "./proposalTemplate.js";
 import SpaceProfile from "./spaceProfile";
-import { SystemNewPost, SystemInfo } from "@osn/icons/opensquare";
+import MemberManagement from "./memberManagement.js";
+import {
+  SystemNewPost,
+  SystemInfo,
+  SystemMemberManagement,
+} from "@osn/icons/opensquare";
+import { getSpaceNetwork, isCollectiveSpace } from "../../frontedUtils/space";
 
 export default function PostSettings({ space, settings }) {
   const dispatch = useDispatch();
@@ -13,27 +19,37 @@ export default function PostSettings({ space, settings }) {
   useEffect(() => {
     dispatch(
       setAvailableNetworks(
-        space?.networks?.map((item) => pick(item, ["network", "ss58Format"])) ||
-          [],
+        getSpaceNetwork(space)?.map((item) =>
+          pick(item, ["network", "ss58Format"]),
+        ),
       ),
     );
   }, [dispatch, space]);
 
   const items = useMemo(
-    () => [
-      {
-        label: "Space Profile",
-        icon: <SystemInfo className="[&_path]:fill-textTertiary" />,
-        value: "spaceProfile",
-        content: <SpaceProfile space={space} settings={settings} />,
-      },
-      {
-        label: "Proposal Template",
-        icon: <SystemNewPost className="[&_path]:fill-textTertiary" />,
-        value: "proposalTemplate",
-        content: <ProposalTemplate space={space} settings={settings} />,
-      },
-    ],
+    () =>
+      [
+        {
+          label: "Space Profile",
+          icon: <SystemInfo className="[&_path]:fill-textTertiary" />,
+          value: "spaceProfile",
+          content: <SpaceProfile space={space} settings={settings} />,
+        },
+        {
+          label: "Proposal Template",
+          icon: <SystemNewPost className="[&_path]:fill-textTertiary" />,
+          value: "proposalTemplate",
+          content: <ProposalTemplate space={space} settings={settings} />,
+        },
+        isCollectiveSpace(space.type) && {
+          label: "Member Management",
+          icon: (
+            <SystemMemberManagement className="[&_path]:fill-textTertiary" />
+          ),
+          value: "memberManagement",
+          content: <MemberManagement space={space} settings={settings} />,
+        },
+      ].filter(Boolean),
     [settings, space],
   );
 
