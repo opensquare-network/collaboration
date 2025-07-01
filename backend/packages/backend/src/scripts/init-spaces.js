@@ -18,17 +18,12 @@ const { kusamaSocietyConfig } = require("./spaces/kusamaSociety");
 const { chrwnaConfig } = require("./spaces/chrwna");
 const { interlayConfig } = require("./spaces/interlay");
 const { acalaConfig } = require("./spaces/acala");
-const { darwiniaConfig } = require("./spaces/darwinia");
 const { centrifugeConfig } = require("./spaces/centrifuge");
 const { dotsamaConfig } = require("./spaces/dotsama");
 const { shidenConfig } = require("./spaces/shiden");
-const { altairConfig } = require("./spaces/altair");
 
 const { getSpaceCollection } = require("../mongo");
 const { kintsugiConfig } = require("./spaces/kintsugi");
-const { litentryConfig } = require("./spaces/litentry");
-const { lksmConfig } = require("./spaces/lksm");
-const { parallelConfig } = require("./spaces/parallel");
 const { basiliskConfig } = require("./spaces/basilisk");
 const { hydradxConfig, hydrationConfig } = require("./spaces/hydradx");
 const { rococoConfig } = require("./spaces/rococo");
@@ -36,7 +31,6 @@ const { stellaSwapConfig } = require("./spaces/stellaswap");
 const { stafiConfig } = require("./spaces/stafi");
 const { creditcoinConfig } = require("./spaces/creditcoin");
 const { creditcoinEnterpriseConfig } = require("./spaces/creditcoinEnterprise");
-const { dotaConfig } = require("./spaces/dota");
 const { permanenceConfig } = require("./spaces/permanence");
 const { jamDaoConfig } = require("./spaces/jamdao");
 const { truthDaoConfig } = require("./spaces/truthdao");
@@ -57,18 +51,13 @@ const spaces = [
   interlayConfig,
   acalaConfig,
   crustConfig,
-  darwiniaConfig,
   turingConfig,
-  litentryConfig,
   zeitgeistConfig,
   shidenConfig,
   // crabConfig,
   dotsamaConfig,
   kusamaSocietyConfig,
-  lksmConfig,
   centrifugeConfig,
-  altairConfig,
-  parallelConfig,
   basiliskConfig,
   hydradxConfig,
   hydrationConfig,
@@ -76,7 +65,6 @@ const spaces = [
   stafiConfig,
   creditcoinConfig,
   creditcoinEnterpriseConfig,
-  dotaConfig,
   permanenceConfig,
   jamDaoConfig,
   truthDaoConfig,
