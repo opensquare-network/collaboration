@@ -408,9 +408,8 @@ function Options({ proposal, choiceIndexes, setChoiceIndexes }) {
             disabled={proposalClosed}
             index={index + 1}
             block
-          >
-            {item}
-          </Option>
+            item={item}
+          />
         ))}
       </ButtonsWrapper>
     </InnerWrapper>

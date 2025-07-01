@@ -77,7 +77,7 @@ export default function List({
   return (
     <>
       <Seo space={space} title={`${space.name} off-chain voting`} desc={desc} />
-      <Layout bgHeight="264px" networks={getSpaceNetwork(space)}>
+      <Layout bgHeight="244px" networks={getSpaceNetwork(space)}>
         <HeaderWrapper>
           <Breadcrumb
             routes={[

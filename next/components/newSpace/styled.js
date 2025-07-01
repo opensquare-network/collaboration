@@ -54,12 +54,13 @@ export const SelectTypeItem = styled.a`
   flex-direction: column;
   align-items: flex-start;
   gap: 20px;
-  border: 1px solid var(--strokeActionDefault);
+  border: 1px solid var(--strokeBorderDefault);
   background: var(--fillBgPrimary);
   width: 300px;
   box-shadow: var(--shadowCardDefault);
   :hover {
     box-shadow: var(--shadowCardHover);
+    border-color: var(--strokeActionDefault);
   }
 `;
 
