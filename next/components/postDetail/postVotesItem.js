@@ -127,11 +127,15 @@ const MobileOnly = styled.div`
 const VoterWrapper = styled(EqualWrapper)``;
 
 function getChoiceIndex(choices, userChoice) {
-  for (let index in choices) {
-    if (choices[index] === userChoice) {
-      return parseInt(index) + 1;
+  if (userChoice.length > 10) {
+    for (let index in choices) {
+      if (choices[index] === userChoice) {
+        return `# ${parseInt(index) + 1}`;
+      }
     }
   }
+
+  return userChoice;
 }
 
 export default function PostVotesItem({
@@ -183,11 +187,7 @@ export default function PostVotesItem({
             <MobileOnly>
               <Choices>
                 {data.choices.map((choice) => (
-                  <span key={choice}>
-                    {choice.length > 10
-                      ? `# ${getChoiceIndex(choices, choice)}`
-                      : choice}
-                  </span>
+                  <span key={choice}>{getChoiceIndex(choices, choice)}</span>
                 ))}
               </Choices>
             </MobileOnly>
