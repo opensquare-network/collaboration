@@ -183,10 +183,11 @@ export default function PostVotesItem({
             <MobileOnly>
               <Choices>
                 {data.choices.map((choice) => (
-                  <span key={choice}>{`# ${getChoiceIndex(
-                    choices,
-                    choice,
-                  )}`}</span>
+                  <span key={choice}>
+                    {choice.length > 10
+                      ? `# ${getChoiceIndex(choices, choice)}`
+                      : choice}
+                  </span>
                 ))}
               </Choices>
             </MobileOnly>
