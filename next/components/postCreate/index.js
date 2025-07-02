@@ -261,9 +261,11 @@ export default function PostCreate({ space, settings }) {
       if (result) {
         dispatch(removeToast(toastId));
         dispatch(newSuccessToast("Proposal created successfully!"));
-        router
-          .replace(`/space/${space.id}/proposal/${result.cid}`)
-          .then((redirected) => redirected && dispatch(clearToasts()));
+        setTimeout(() => {
+          router
+            .replace(`/space/${space.id}/proposal/${result.cid}`)
+            .then((redirected) => redirected && dispatch(clearToasts()));
+        }, 250);
       }
       if (error) {
         dispatch(removeToast(toastId));
