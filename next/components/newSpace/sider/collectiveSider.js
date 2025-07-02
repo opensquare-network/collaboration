@@ -71,7 +71,9 @@ const ActionButton = ({ currentStep, params }) => {
     }
     if (result) {
       dispatch(newSuccessToast("Space created successfully"));
-      router.push(`/space/${result.spaceId}`);
+      setTimeout(() => {
+        router.replace(`/space/${result.spaceId}`);
+      }, 250);
     }
   };
 

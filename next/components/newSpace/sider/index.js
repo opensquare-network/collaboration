@@ -90,7 +90,9 @@ export default function Sider({
       }
       if (result) {
         dispatch(newSuccessToast("Space created successfully"));
-        router.push(`/space/${result.spaceId}`);
+        setTimeout(() => {
+          router.replace(`/space/${result.spaceId}`);
+        }, 250);
       }
     } finally {
       setIsLoading(false);
