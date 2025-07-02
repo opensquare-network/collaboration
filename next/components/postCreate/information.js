@@ -77,7 +77,9 @@ function InfoHint({ space }) {
   const loginAddress = useSelector(loginAddressSelector);
 
   const [showHint, setShowHint] = useState(false);
-  useEffect(() => setTimeout(() => setShowHint(true), 250), []);
+  useEffect(() => {
+    setTimeout(() => setShowHint(true), 250);
+  }, []);
 
   if (!showHint) {
     return null;
