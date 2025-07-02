@@ -1,3 +1,4 @@
+import { isEthereumAddress } from "@polkadot/util-crypto";
 import { getDefaultLogoUri } from "hooks/useDefaultLogo";
 import { useMemo } from "react";
 
@@ -7,7 +8,7 @@ export const getCollectiveMenberIdentityLink = (
   address,
   network = "polkadot",
 ) => {
-  if (!address) {
+  if (!address || isEthereumAddress(address)) {
     return "";
   }
 
