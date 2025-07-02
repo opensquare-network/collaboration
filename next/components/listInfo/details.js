@@ -137,6 +137,7 @@ export default function Details({ space }) {
                   space={{ ...space, network: "polkadot" }}
                   address={address}
                   size={20}
+                  isCollective={isCollectiveSpace(space.type)}
                 />
               </DetailsValue>
             ))}

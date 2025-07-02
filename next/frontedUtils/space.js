@@ -3,6 +3,17 @@ import { useMemo } from "react";
 
 export const isCollectiveSpace = (type) => type === "collectives-dao";
 
+export const getCollectiveMenberIdentityLink = (
+  address,
+  network = "polkadot",
+) => {
+  if (!address) {
+    return "";
+  }
+
+  return `https://${network}.subsquare.io/user/${address}`;
+};
+
 export const COLLECTIVE_SPACE_NETWORK = [
   {
     network: "polkadot",

@@ -129,6 +129,7 @@ export default function ListInfo({ space }) {
                         address={address}
                         network="polkadot"
                         size={20}
+                        isCollective={isCollectiveSpace(space.type)}
                       />
                     ))}
                   </AvatarIcons>

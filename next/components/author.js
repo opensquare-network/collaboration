@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Avatar from "./avatar";
 import { ChainIcon } from "components/chainIcon";
 import IdentityOrAddr from "@/components/identityOrAddr";
+import { getCollectiveMenberIdentityLink } from "frontedUtils/space";
 
 const Wrapper = styled.div`
   display: flex;
@@ -22,8 +23,10 @@ export default function Author({
   size = 20,
   showNetwork = false,
   noLink,
+  isCollective = false,
 }) {
-  const { network } = space || {};
+  const { network: spaceNetwork } = space || {};
+  const network = !isCollective ? spaceNetwork : space?.network ?? "polkadot";
 
   return (
     <Wrapper noLink={noLink}>
@@ -31,7 +34,14 @@ export default function Author({
       {showNetwork && (
         <ChainIcon showTooltip chainName={space?.network} size={16} />
       )}
-      <IdentityOrAddr network={network} address={address} noLink={noLink} />
+      <IdentityOrAddr
+        network={network}
+        address={address}
+        noLink={noLink}
+        href={
+          isCollective ? getCollectiveMenberIdentityLink(address, network) : ""
+        }
+      />
     </Wrapper>
   );
 }

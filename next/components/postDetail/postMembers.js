@@ -3,6 +3,7 @@ import { InfoItem } from "../styled/infoItem";
 import MemberList from "../memberList";
 import { useState } from "react";
 import { findNetworkConfig } from "services/util";
+import { isCollectiveSpace } from "frontedUtils/space";
 
 export default function PostMembers({ whitelist = [], data }) {
   const [modalOpen, setModalOpen] = useState(false);
@@ -10,6 +11,8 @@ export default function PostMembers({ whitelist = [], data }) {
   if (len <= 0) {
     return null;
   }
+
+  const isCollective = isCollectiveSpace(data?.networksConfig?.type);
 
   const networkConfig = findNetworkConfig(
     data.networksConfig,
@@ -42,7 +45,11 @@ export default function PostMembers({ whitelist = [], data }) {
         okButtonProps={{ primary: false }}
         onOk={handleCloseModal}
       >
-        <MemberList members={whitelist} space={networkConfig} />
+        <MemberList
+          members={whitelist}
+          space={networkConfig}
+          isCollective={isCollective}
+        />
       </Modal>
     </>
   );
