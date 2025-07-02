@@ -12,7 +12,7 @@ import PostResult from "./postResult";
 import { findNetworkConfig } from "../services/util";
 import { Flex, FlexBetween, Tooltip } from "@osn/common-ui";
 import { p_14_medium } from "../styles/componentCss";
-import { useSpaceIconUri } from "frontedUtils/space";
+import { isCollectiveSpace, useSpaceIconUri } from "frontedUtils/space";
 
 const Wrapper = styled.div`
   background: var(--fillBgPrimary);
@@ -128,10 +128,13 @@ export default function Post({ data, showSpace, space, myVotes }) {
     }
   }, [windowSize.width, setShowRichInfo]);
 
+  const isCollective = isCollectiveSpace(space?.type);
+
   const proposerNetworkConfig = findNetworkConfig(
     data.networksConfig,
     data.proposerNetwork,
   );
+
   const spaceSupportMultiChain = proposerNetworkConfig?.networks?.length > 1;
 
   const spaceInfo = space ?? data.spaceInfo;
@@ -153,6 +156,7 @@ export default function Post({ data, showSpace, space, myVotes }) {
               address={data.proposer ?? data.address}
               space={proposerNetworkConfig}
               showNetwork={spaceSupportMultiChain}
+              isCollective={isCollective}
             />
           )}
           {!showRichInfo && (

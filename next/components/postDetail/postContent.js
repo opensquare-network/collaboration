@@ -17,6 +17,7 @@ import { proposalStatus } from "frontedUtils/consts/proposal";
 import { MarkdownPreviewer } from "@osn/previewer";
 import PostBanner from "@/components/postDetail/postBanner";
 import { isSameAddress } from "frontedUtils/address";
+import { isCollectiveSpace } from "frontedUtils/space";
 
 const Title = styled.div`
   ${p_semibold};
@@ -85,6 +86,7 @@ export default function PostContent({ data, space }) {
             address={data.proposer ?? data.address}
             space={networkConfig}
             showNetwork={spaceSupportMultiChain}
+            isCollective={isCollectiveSpace(space?.type)}
           />
           <PostTime post={data} />
         </LeftWrapper>

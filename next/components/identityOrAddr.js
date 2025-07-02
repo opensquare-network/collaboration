@@ -48,6 +48,7 @@ export default function IdentityOrAddr({
   iconSize = 12,
   ellipsis = false,
   isSafari = false,
+  href = "",
 }) {
   const [identity, setIdentity] = useState();
   const isMounted = useIsMounted();
@@ -103,7 +104,9 @@ export default function IdentityOrAddr({
     );
 
   if (isLink) {
-    identityChild = <ExternalLink href={link}>{identityChild}</ExternalLink>;
+    identityChild = (
+      <ExternalLink href={href || link}>{identityChild}</ExternalLink>
+    );
   }
 
   return identityChild;

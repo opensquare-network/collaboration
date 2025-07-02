@@ -1,7 +1,19 @@
+import { isEthereumAddress } from "@polkadot/util-crypto";
 import { getDefaultLogoUri } from "hooks/useDefaultLogo";
 import { useMemo } from "react";
 
 export const isCollectiveSpace = (type) => type === "collectives-dao";
+
+export const getCollectiveMenberIdentityLink = (
+  address,
+  network = "polkadot",
+) => {
+  if (!address || isEthereumAddress(address)) {
+    return "";
+  }
+
+  return `https://${network}.subsquare.io/user/${address}`;
+};
 
 export const COLLECTIVE_SPACE_NETWORK = [
   {

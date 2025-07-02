@@ -7,6 +7,7 @@ import React from "react";
 import IdentityOrAddr from "./identityOrAddr";
 import useAvatarInfo from "hooks/useAvatar";
 import IpfsAvatar from "./ipfsAvatar";
+import { getCollectiveMenberIdentityLink } from "frontedUtils/space";
 
 const Wrapper = styled.span`
   display: inline-flex;
@@ -48,9 +49,22 @@ export default function Avatar({ address, size = 20 }) {
   return <Identicon value={address} size={size} />;
 }
 
-export function AvatarWithTooltip({ address, size = 20, network }) {
+export function AvatarWithTooltip({
+  address,
+  size = 20,
+  network,
+  isCollective = false,
+}) {
   return (
-    <Tooltip content={<IdentityOrAddr address={address} network={network} />}>
+    <Tooltip
+      content={
+        <IdentityOrAddr
+          address={address}
+          network={network}
+          href={isCollective ? getCollectiveMenberIdentityLink(address) : ""}
+        />
+      }
+    >
       <div>
         <Avatar address={address} size={size} />
       </div>
