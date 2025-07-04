@@ -49,6 +49,7 @@ const Button = styled.button`
   font-style: normal;
   font-weight: 500;
   line-height: 16px;
+  cursor: pointer;
 `;
 
 export default function ToggleCollapsed({ children, collapsedHeight = 640 }) {
