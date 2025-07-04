@@ -12,6 +12,7 @@ import {
   hasSocietyVoteStrategyOnly,
 } from "frontedUtils/strategy";
 import { MarkdownPreviewer } from "@osn/previewer";
+import ToggleCollapsed from "../toggleCollapsed";
 
 const Item = styled.div`
   padding: 20px 0;
@@ -33,13 +34,13 @@ const InfoWrapper = styled.div`
 `;
 
 const ContentWrapper = styled.div`
-  padding: 8px 0 0 28px;
   > :not(:first-child) {
     margin-top: 8px;
   }
 `;
 
 const Content = styled.div`
+  padding: 8px 0 0 28px;
   line-height: 24px;
   color: var(--textSecondary);
 `;
@@ -232,7 +233,13 @@ function ContentPreviewer({ data }) {
     return null;
   }
   if (data.remarkType === "markdown") {
-    return <MarkdownPreviewer content={data.remark} />;
+    return (
+      <ToggleCollapsed collapsedHeight={240}>
+        <div className="pl-7 pt-2">
+          <MarkdownPreviewer content={data.remark} />
+        </div>
+      </ToggleCollapsed>
+    );
   }
   return <Content>{data.remark}</Content>;
 }

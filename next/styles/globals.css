@@ -38,3 +38,17 @@ a {
 .markdown-body pre{
   background-color: var(--fillBgTertiary) !important;
 }
+
+:root{
+  --fillBgPrimary100:rgb(255, 255, 255,1);
+  --fillBgPrimary80:rgba(255, 255, 255,0.8);
+  --fillBgPrimary0:rgba(255, 255, 255,0);
+  
+}
+
+.dark:root{
+
+  --fillBgPrimary100:rgb(16, 24, 40,1);
+  --fillBgPrimary80:rgb(16, 24, 40,0.8);
+  --fillBgPrimary0:rgb(16, 24, 40,0);
+}
