@@ -11,6 +11,7 @@ import {
   hasBalanceStrategy,
   hasSocietyVoteStrategyOnly,
 } from "frontedUtils/strategy";
+import { MarkdownPreviewer } from "@osn/previewer";
 
 const Item = styled.div`
   padding: 20px 0;
@@ -219,11 +220,19 @@ export default function PostVotesItem({
           </BalanceWrapper>
         </EqualWrapper>
       </InfoWrapper>
-      {data.remark && (
-        <ContentWrapper>
-          <Content>{data.remark}</Content>
-        </ContentWrapper>
-      )}
+      <ContentWrapper>
+        <ContentPreviewer data={data} />
+      </ContentWrapper>
     </Item>
   );
+}
+
+function ContentPreviewer({ data }) {
+  if (!data.remark) {
+    return null;
+  }
+  if (data.remarkType === "markdown") {
+    return <MarkdownPreviewer content={data.remark} />;
+  }
+  return <Content>{data.remark}</Content>;
 }

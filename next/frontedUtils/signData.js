@@ -36,7 +36,15 @@ export async function signCommentWith(
 
 export async function signVoteWith(
   signApiData,
-  { proposalCid, choices, remark, address, realVoter, voterNetwork },
+  {
+    proposalCid,
+    choices,
+    remark,
+    address,
+    realVoter,
+    voterNetwork,
+    remarkType,
+  },
 ) {
   return await signApiData(
     {
@@ -45,6 +53,7 @@ export async function signVoteWith(
       remark,
       realVoter,
       voterNetwork,
+      remarkType,
       // Version 2: multi space network support
       // Version 3: multi choices support
       // Version 4: multi assets support
