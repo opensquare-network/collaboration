@@ -1,3 +1,4 @@
+const isNil = require("lodash.isnil");
 const { ChoiceType } = require("../../constants");
 const { SpaceType } = require("../../consts/space");
 const { HttpError } = require("../../exc");
@@ -64,9 +65,26 @@ function checkVoterNetwork(voterNetwork, proposal) {
   }
 }
 
+function checkRemark(remark, remarkType) {
+  if (isNil(remark)) {
+    return;
+  }
+
+  if (typeof remark !== "string") {
+    throw new HttpError(400, { remark: ["Remark must be a string"] });
+  }
+
+  if (!isNil(remarkType) && remarkType !== "markdown") {
+    throw new HttpError(400, "Invalid remark type");
+  }
+}
+
 async function vote(ctx) {
   const { data, address, signature } = ctx.request.body;
-  const { proposalCid, choices, remark, realVoter, voterNetwork } = data;
+  const { proposalCid, choices, remark, remarkType, realVoter, voterNetwork } =
+    data;
+
+  checkRemark(remark, remarkType);
 
   if (!proposalCid) {
     throw new HttpError(400, { proposalCid: ["Proposal CID is missing"] });
@@ -85,6 +103,7 @@ async function vote(ctx) {
     proposalCid,
     choices,
     remark,
+    remarkType,
     realVoter,
     data,
     address,
