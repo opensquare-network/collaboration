@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
+import Editor from "@/components/editor";
 
 import { Button, Flex } from "@osn/common-ui";
 import {
@@ -363,15 +364,26 @@ function ProposalActions({
   );
 }
 
-function Remark({ remark, setRemark }) {
-  return (
-    <InnerWrapper>
-      <Title>Remark</Title>
+function Remark({ proposal, remark, setRemark }) {
+  const editor = useMemo(() => {
+    if (isCollectiveSpace(proposal?.networksConfig?.type)) {
+      return (
+        <Editor content={remark} setContent={setRemark} showButtons={false} />
+      );
+    }
+    return (
       <MultiLineInput
         placeholder="What do you think about this proposal? (optional)"
         value={remark}
         onChange={(e) => setRemark(e.target.value)}
       />
+    );
+  }, [proposal.networksConfig.type, remark, setRemark]);
+
+  return (
+    <InnerWrapper>
+      <Title>Remark</Title>
+      {editor}
     </InnerWrapper>
   );
 }
@@ -427,6 +439,9 @@ export default function PostVote({ proposal }) {
   const dispatch = useDispatch();
   const [choiceIndexes, setChoiceIndexes] = useState([]);
   const [remark, setRemark] = useState("");
+  const remarkType = isCollectiveSpace(proposal.networksConfig.type)
+    ? "markdown"
+    : null;
   const [isLoading, setIsLoading] = useState(false);
   const [balance, setBalance] = useState();
   const [balanceDetail, setBalanceDetail] = useState([]);
@@ -490,6 +505,7 @@ export default function PostVote({ proposal }) {
         proposalCid: proposal?.cid,
         choices,
         remark,
+        remarkType,
         address: loginAddress,
         realVoter: useProxy ? proxyAddress : undefined,
         voterNetwork: loginNetwork,
@@ -536,7 +552,7 @@ export default function PostVote({ proposal }) {
         setChoiceIndexes={setChoiceIndexes}
       />
       {choiceIndexes.length > 0 && (
-        <Remark remark={remark} setRemark={setRemark} />
+        <Remark proposal={proposal} remark={remark} setRemark={setRemark} />
       )}
       {!proposalClosed && (
         <ProposalActions
