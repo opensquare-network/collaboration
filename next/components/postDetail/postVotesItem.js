@@ -235,7 +235,7 @@ function ContentPreviewer({ data }) {
   if (data.remarkType === "markdown") {
     return (
       <ToggleCollapsed collapsedHeight={240}>
-        <div className="pl-7 pt-2">
+        <div className="pl-7 pt-2 proposal-vote-remark-markdown">
           <MarkdownPreviewer content={data.remark} />
         </div>
       </ToggleCollapsed>
