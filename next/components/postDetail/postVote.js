@@ -365,29 +365,21 @@ function ProposalActions({
 }
 
 function Remark({ proposal, remark, setRemark }) {
-  const editor = useMemo(() => {
-    if (
-      isCollectiveSpace(proposal?.networksConfig?.type) ||
-      hasWhitelist(proposal?.networksConfig)
-    ) {
-      return (
-        <Editor content={remark} setContent={setRemark} showButtons={false} />
-      );
-    }
+  if (
+    isCollectiveSpace(proposal?.networksConfig?.type) ||
+    hasWhitelist(proposal?.networksConfig)
+  ) {
     return (
-      <MultiLineInput
-        placeholder="What do you think about this proposal? (optional)"
-        value={remark}
-        onChange={(e) => setRemark(e.target.value)}
-      />
+      <Editor content={remark} setContent={setRemark} showButtons={false} />
     );
-  }, [proposal?.networksConfig, remark, setRemark]);
+  }
 
   return (
-    <InnerWrapper>
-      <Title>Remark</Title>
-      {editor}
-    </InnerWrapper>
+    <MultiLineInput
+      placeholder="What do you think about this proposal? (optional)"
+      value={remark}
+      onChange={(e) => setRemark(e.target.value)}
+    />
   );
 }
 
@@ -557,7 +549,10 @@ export default function PostVote({ proposal }) {
         setChoiceIndexes={setChoiceIndexes}
       />
       {choiceIndexes.length > 0 && (
-        <Remark proposal={proposal} remark={remark} setRemark={setRemark} />
+        <InnerWrapper>
+          <Title>Remark</Title>
+          <Remark proposal={proposal} remark={remark} setRemark={setRemark} />
+        </InnerWrapper>
       )}
       {!proposalClosed && (
         <ProposalActions
