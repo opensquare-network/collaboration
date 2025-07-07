@@ -48,7 +48,7 @@ import WhitelistMemberButton from "../whitelistMemberButton";
 import { signVoteWith } from "frontedUtils/signData";
 import useSignApiData from "hooks/useSignApiData";
 import MultiLineInput from "../multiLineInput";
-import { isCollectiveSpace } from "frontedUtils/space";
+import { hasWhitelist, isCollectiveSpace } from "frontedUtils/space";
 
 const Wrapper = styled.div`
   > :not(:first-child) {
@@ -366,7 +366,10 @@ function ProposalActions({
 
 function Remark({ proposal, remark, setRemark }) {
   const editor = useMemo(() => {
-    if (isCollectiveSpace(proposal?.networksConfig?.type)) {
+    if (
+      isCollectiveSpace(proposal?.networksConfig?.type) ||
+      hasWhitelist(proposal?.networksConfig)
+    ) {
       return (
         <Editor content={remark} setContent={setRemark} showButtons={false} />
       );
@@ -378,7 +381,7 @@ function Remark({ proposal, remark, setRemark }) {
         onChange={(e) => setRemark(e.target.value)}
       />
     );
-  }, [proposal.networksConfig.type, remark, setRemark]);
+  }, [proposal?.networksConfig, remark, setRemark]);
 
   return (
     <InnerWrapper>
@@ -439,9 +442,11 @@ export default function PostVote({ proposal }) {
   const dispatch = useDispatch();
   const [choiceIndexes, setChoiceIndexes] = useState([]);
   const [remark, setRemark] = useState("");
-  const remarkType = isCollectiveSpace(proposal.networksConfig.type)
-    ? "markdown"
-    : null;
+  const remarkType =
+    isCollectiveSpace(proposal.networksConfig.type) ||
+    hasWhitelist(proposal.networksConfig)
+      ? "markdown"
+      : null;
   const [isLoading, setIsLoading] = useState(false);
   const [balance, setBalance] = useState();
   const [balanceDetail, setBalanceDetail] = useState([]);

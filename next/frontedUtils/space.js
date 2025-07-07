@@ -3,6 +3,7 @@ import { getDefaultLogoUri } from "hooks/useDefaultLogo";
 import { useMemo } from "react";
 
 export const isCollectiveSpace = (type) => type === "collectives-dao";
+export const hasWhitelist = (spaceConfig) => !!spaceConfig?.whitelist?.length;
 
 export const getCollectiveMenberIdentityLink = (
   address,
