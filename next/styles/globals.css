@@ -2,6 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+:root{
+  --fillBgPrimary100:rgba(255, 255, 255,1);
+  --fillBgPrimary80:rgba(255, 255, 255,0.8);
+  --fillBgPrimary0:rgba(255, 255, 255,0);
+  
+}
+
+.dark:root{
+  --fillBgPrimary100:rgba(16, 24, 40,1);
+  --fillBgPrimary80:rgba(16, 24, 40,0.8);
+  --fillBgPrimary0:rgba(16, 24, 40,0);
+}
+
 html,
 body {
   padding: 0;
@@ -37,4 +50,8 @@ a {
 
 .markdown-body pre{
   background-color: var(--fillBgTertiary) !important;
+}
+
+.proposal-vote-remark-markdown .markdown-body{
+  color: var(--textSecondary);
 }

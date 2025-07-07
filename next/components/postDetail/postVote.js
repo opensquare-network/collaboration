@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
+import Editor from "@/components/editor";
 
 import { Button, Flex } from "@osn/common-ui";
 import {
@@ -47,7 +48,7 @@ import WhitelistMemberButton from "../whitelistMemberButton";
 import { signVoteWith } from "frontedUtils/signData";
 import useSignApiData from "hooks/useSignApiData";
 import MultiLineInput from "../multiLineInput";
-import { isCollectiveSpace } from "frontedUtils/space";
+import { hasWhitelist, isCollectiveSpace } from "frontedUtils/space";
 
 const Wrapper = styled.div`
   > :not(:first-child) {
@@ -363,16 +364,22 @@ function ProposalActions({
   );
 }
 
-function Remark({ remark, setRemark }) {
+function Remark({ proposal, remark, setRemark }) {
+  if (
+    isCollectiveSpace(proposal?.networksConfig?.type) ||
+    hasWhitelist(proposal?.networksConfig)
+  ) {
+    return (
+      <Editor content={remark} setContent={setRemark} showButtons={false} />
+    );
+  }
+
   return (
-    <InnerWrapper>
-      <Title>Remark</Title>
-      <MultiLineInput
-        placeholder="What do you think about this proposal? (optional)"
-        value={remark}
-        onChange={(e) => setRemark(e.target.value)}
-      />
-    </InnerWrapper>
+    <MultiLineInput
+      placeholder="What do you think about this proposal? (optional)"
+      value={remark}
+      onChange={(e) => setRemark(e.target.value)}
+    />
   );
 }
 
@@ -427,6 +434,11 @@ export default function PostVote({ proposal }) {
   const dispatch = useDispatch();
   const [choiceIndexes, setChoiceIndexes] = useState([]);
   const [remark, setRemark] = useState("");
+  const remarkType =
+    isCollectiveSpace(proposal.networksConfig.type) ||
+    hasWhitelist(proposal.networksConfig)
+      ? "markdown"
+      : null;
   const [isLoading, setIsLoading] = useState(false);
   const [balance, setBalance] = useState();
   const [balanceDetail, setBalanceDetail] = useState([]);
@@ -490,6 +502,7 @@ export default function PostVote({ proposal }) {
         proposalCid: proposal?.cid,
         choices,
         remark,
+        remarkType,
         address: loginAddress,
         realVoter: useProxy ? proxyAddress : undefined,
         voterNetwork: loginNetwork,
@@ -536,7 +549,10 @@ export default function PostVote({ proposal }) {
         setChoiceIndexes={setChoiceIndexes}
       />
       {choiceIndexes.length > 0 && (
-        <Remark remark={remark} setRemark={setRemark} />
+        <InnerWrapper>
+          <Title>Remark</Title>
+          <Remark proposal={proposal} remark={remark} setRemark={setRemark} />
+        </InnerWrapper>
       )}
       {!proposalClosed && (
         <ProposalActions

@@ -20,9 +20,13 @@ import {
 } from "../styled/infoItem";
 import PostMembers from "./postMembers";
 import { useMemo } from "react";
-import { isCollectiveSpace } from "frontedUtils/space";
+import { hasWhitelist, isCollectiveSpace } from "frontedUtils/space";
 
-function Snapshot({ snapshotHeights }) {
+function Snapshot({ space, snapshotHeights }) {
+  if (isCollectiveSpace(space?.type) || hasWhitelist(space)) {
+    return null;
+  }
+
   return (
     <InfoItem>
       <div>Snapshot</div>
@@ -80,9 +84,7 @@ export default function PostInfo({ data, space }) {
         <SideSectionTitle title="Information" img="/imgs/icons/info.svg" />
         <Divider />
         <div>
-          {!isCollectiveSpace(space?.type) && (
-            <Snapshot snapshotHeights={data?.snapshotHeights} />
-          )}
+          <Snapshot space={space} snapshotHeights={data?.snapshotHeights} />
           {data?.pinHash && <PinHash pinHash={data?.pinHash} />}
           <PostMembers whitelist={whitelist} data={data} />
         </div>

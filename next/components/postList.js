@@ -15,7 +15,6 @@ const Title = styled.div`
 `;
 
 const PostsWrapper = styled.div`
-  padding-top: 20px;
   > :not(:first-child) {
     margin-top: 20px;
   }
