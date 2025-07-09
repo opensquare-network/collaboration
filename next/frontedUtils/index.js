@@ -222,3 +222,7 @@ export function getExplorer(network) {
 export function isZero(value) {
   return new BigNumber(value).isZero();
 }
+
+export function isUseReCaptcha() {
+  return !!process.env.NEXT_PUBLIC_RECAPTCHA_SITEKEY;
+}

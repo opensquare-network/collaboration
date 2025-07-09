@@ -62,79 +62,89 @@ const MenuItem = styled.a`
   }
 `;
 
-export default function Header({ networks }) {
+function HeaderSuffix() {
+  return (
+    <AppWrapper className="group">
+      <div>
+        <SystemApps className="text-textSecondary mr-4 group-hover:hidden" />
+        <SystemAppsActive className="text-textSecondary mr-4 hidden group-hover:block" />
+      </div>
+      <img src={LogoProductVotingLight.src} className="dark:hidden h-[32px]" />
+      <img
+        src={LogoProductVotingDark.src}
+        className="hidden dark:block h-[32px]"
+      />
+
+      <HoverMenu className="hidden group-hover:flex flex-wrap shadow-shadowPopup">
+        <MenuItem href="/">
+          <img src="/imgs/icons/voting.svg" alt="" />
+          <p>Off-chain Voting</p>
+          <CaretRightIcon />
+          <span>
+            Multi-chain assets off-chain voting platform for Polkadot ecosystem
+          </span>
+        </MenuItem>
+        <MenuItem href="https://bounties.opensquare.io/">
+          <img src="/imgs/icons/short-term-employment.svg" alt="" />
+          <p>Bounties</p>
+          <CaretRightIcon />
+          <span>Decentralized bounty collaboration platform</span>
+        </MenuItem>
+      </HoverMenu>
+    </AppWrapper>
+  );
+}
+
+function ConnectButton({ networks }) {
+  return (
+    <div
+      className={cn(
+        "flex items-center gap-x-4",
+        "max-sm:w-full max-sm:flex-col",
+      )}
+    >
+      <Account networks={networks} />
+      <NotificationBell />
+    </div>
+  );
+}
+
+function useLinks() {
   const router = useRouter();
   const isHomePage = router.pathname === "/";
+
+  return [
+    isHomePage && {
+      className: "max-lg:hidden max-sm:inline-block",
+      content: <Link href="/space/new">New Space</Link>,
+    },
+    {
+      content: (
+        <Link
+          target="_blank"
+          href="https://github.com/opensquare-network/collaboration/discussions"
+        >
+          Discussions
+        </Link>
+      ),
+    },
+  ].filter(Boolean);
+}
+
+export default function Header({ networks }) {
+  const links = useLinks();
 
   return (
     <OsnHeader
       className="z-10"
-      suffix={
-        <AppWrapper className="group">
-          <div>
-            <SystemApps className="text-textSecondary mr-4 group-hover:hidden" />
-            <SystemAppsActive className="text-textSecondary mr-4 hidden group-hover:block" />
-          </div>
-          <img
-            src={LogoProductVotingLight.src}
-            className="dark:hidden h-[32px]"
-          />
-          <img
-            src={LogoProductVotingDark.src}
-            className="hidden dark:block h-[32px]"
-          />
-
-          <HoverMenu className="hidden group-hover:flex flex-wrap shadow-shadowPopup">
-            <MenuItem href="/">
-              <img src="/imgs/icons/voting.svg" alt="" />
-              <p>Off-chain Voting</p>
-              <CaretRightIcon />
-              <span>
-                Multi-chain assets off-chain voting platform for Polkadot
-                ecosystem
-              </span>
-            </MenuItem>
-            <MenuItem href="https://bounties.opensquare.io/">
-              <img src="/imgs/icons/short-term-employment.svg" alt="" />
-              <p>Bounties</p>
-              <CaretRightIcon />
-              <span>Decentralized bounty collaboration platform</span>
-            </MenuItem>
-          </HoverMenu>
-        </AppWrapper>
-      }
+      suffix={<HeaderSuffix />}
       logoRender={(logo) => (
         <Link href="/" className="cursor-pointer" passHref>
           {logo}
         </Link>
       )}
-      links={[
-        isHomePage && {
-          className: "max-lg:hidden max-sm:inline-block",
-          content: <Link href="/space/new">New Space</Link>,
-        },
-        {
-          content: (
-            <Link
-              target="_blank"
-              href="https://github.com/opensquare-network/collaboration/discussions"
-            >
-              Discussions
-            </Link>
-          ),
-        },
-      ].filter(Boolean)}
-      connectButton={
-        <div
-          className={cn(
-            "flex items-center gap-x-4",
-            "max-sm:w-full max-sm:flex-col",
-          )}
-        >
-          <Account networks={networks} />
-          <NotificationBell />
-        </div>
-      }
+      links={links}
+      connectButton={<ConnectButton networks={networks} />}
     ></OsnHeader>
   );
 }

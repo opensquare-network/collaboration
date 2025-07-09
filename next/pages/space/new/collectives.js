@@ -5,6 +5,7 @@ import Seo from "@/components/seo";
 import { setAvailableNetworks } from "store/reducers/accountSlice";
 import Index from "@/components/newSpace/newCollectiveSpace";
 import { COLLECTIVE_SPACE_NETWORK } from "frontedUtils/space";
+import { MaybeReCaptcha } from "@/components/reCaptcha";
 
 export default function Collectives({ networks }) {
   const dispatch = useDispatch();
@@ -16,6 +17,7 @@ export default function Collectives({ networks }) {
   return (
     <>
       <Seo desc={desc} />
+      <MaybeReCaptcha />
       <Layout bgHeight="183px" networks={networks}>
         <Index />
       </Layout>

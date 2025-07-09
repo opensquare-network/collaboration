@@ -18,6 +18,8 @@ import {
   Sections,
 } from "@/components/newSpace/sider/styled";
 import { useDefaultLogo } from "hooks/useDefaultLogo";
+import { executeRecaptcha } from "@/components/reCaptcha";
+import { isUseReCaptcha } from "frontedUtils";
 
 export default function Sider({
   symbol,
@@ -81,6 +83,15 @@ export default function Sider({
         .times(Math.pow(10, decimals))
         .toFixed(),
     };
+
+    if (isUseReCaptcha()) {
+      try {
+        spaceData.captcha = await executeRecaptcha();
+      } catch (error) {
+        dispatch(newErrorToast("Recaptcha verification failed"));
+        return;
+      }
+    }
 
     setIsLoading(true);
     try {
