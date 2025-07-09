@@ -12,6 +12,7 @@ const {
   checkSpaceLogo,
   checkRecaptchaResponse,
 } = require("./common");
+const { isUseReCaptcha } = require("../../utils");
 
 function checkAssetParams({
   chain,
@@ -141,7 +142,9 @@ async function checkSpaceParams({
   checkProposalThreshold(proposalThreshold);
   checkSpaceStrategy(weightStrategy);
   checkSpaceAssets(assets);
-  await checkRecaptchaResponse(captcha);
+  if (isUseReCaptcha()) {
+    await checkRecaptchaResponse(captcha);
+  }
 }
 
 async function createSpace(ctx) {

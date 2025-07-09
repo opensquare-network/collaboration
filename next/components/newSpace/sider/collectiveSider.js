@@ -12,6 +12,7 @@ import nextApi from "services/nextApi";
 import { newErrorToast, newSuccessToast } from "store/reducers/toastSlice";
 import { useRouter } from "next/router";
 import { executeRecaptcha } from "@/components/reCaptcha";
+import { isUseReCaptcha } from "frontedUtils";
 
 export default function CollectiveSider({
   name,
@@ -58,21 +59,23 @@ const ActionButton = ({ currentStep, params }) => {
   const dispatch = useDispatch();
 
   const submit = async () => {
-    let token;
-    try {
-      token = await executeRecaptcha();
-    } catch (error) {
-      dispatch(newErrorToast("Recaptcha verification failed"));
-      return;
+    const spaceData = {
+      ...params,
+      admins: [account.address],
+    };
+
+    if (isUseReCaptcha()) {
+      try {
+        spaceData.captcha = await executeRecaptcha();
+      } catch (error) {
+        dispatch(newErrorToast("Recaptcha verification failed"));
+        return;
+      }
     }
 
     setIsLoading(true);
     const { result, error } = await nextApi
-      .post("spaces/collectives", {
-        ...params,
-        admins: [account.address],
-        captcha: token,
-      })
+      .post("spaces/collectives", spaceData)
       .finally(() => {
         setIsLoading(false);
       });

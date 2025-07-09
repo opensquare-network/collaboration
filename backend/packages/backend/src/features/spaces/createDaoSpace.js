@@ -12,6 +12,7 @@ const {
   checkRecaptchaResponse,
 } = require("./common");
 const { HttpError } = require("../../exc");
+const { isUseReCaptcha } = require("../../utils");
 
 function checkSpaceAdmins(admins) {
   checkAddressList(admins, "Admins");
@@ -25,7 +26,9 @@ async function checkSpaceParams({ name, logo, members, admins, captcha }) {
   checkSpaceLogo(logo);
   checkAddressList(members, "Members");
   checkSpaceAdmins(admins);
-  await checkRecaptchaResponse(captcha);
+  if (isUseReCaptcha()) {
+    await checkRecaptchaResponse(captcha);
+  }
 }
 
 async function createDaoSpace(ctx) {

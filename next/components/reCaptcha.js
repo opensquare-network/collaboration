@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import HeadScript from "./headScript";
+import { isUseReCaptcha } from "frontedUtils";
 
 export async function executeRecaptcha() {
   return await new Promise((resolve, reject) => {
@@ -44,4 +45,11 @@ export function ReCaptcha() {
       defer
     />
   );
+}
+
+export function MaybeReCaptcha() {
+  if (!isUseReCaptcha()) {
+    return null;
+  }
+  return <ReCaptcha />;
 }

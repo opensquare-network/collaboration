@@ -114,6 +114,14 @@ async function timeout(ms) {
   throw new Error("timeout");
 }
 
+function isTrue(value) {
+  return [true, 1, "TRUE", "true", "1"].includes(value);
+}
+
+function isUseReCaptcha() {
+  return isTrue(process.env.USE_RECAPTCHA);
+}
+
 module.exports = {
   extractPage,
   handler,
@@ -127,4 +135,5 @@ module.exports = {
   toPublicKey,
   sleep,
   timeout,
+  isUseReCaptcha,
 };

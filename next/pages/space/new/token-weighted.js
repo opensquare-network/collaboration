@@ -5,7 +5,7 @@ import Seo from "@/components/seo";
 import { ssrNextApi } from "services/nextApi";
 import { setAvailableNetworks } from "store/reducers/accountSlice";
 import NewSpace from "@/components/newSpace/newTokenWeightedSpace";
-import { ReCaptcha } from "@/components/reCaptcha";
+import { MaybeReCaptcha } from "@/components/reCaptcha";
 
 export default function Index({ allNetworks, chainsDef, tokensDef }) {
   const dispatch = useDispatch();
@@ -17,7 +17,7 @@ export default function Index({ allNetworks, chainsDef, tokensDef }) {
   return (
     <>
       <Seo desc={desc} />
-      <ReCaptcha />
+      <MaybeReCaptcha />
       <Layout bgHeight="183px" networks={allNetworks}>
         <NewSpace chainsDef={chainsDef} tokensDef={tokensDef} />
       </Layout>

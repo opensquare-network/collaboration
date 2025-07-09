@@ -222,3 +222,11 @@ export function getExplorer(network) {
 export function isZero(value) {
   return new BigNumber(value).isZero();
 }
+
+export function isTrue(value) {
+  return [true, 1, "TRUE", "true", "1"].includes(value);
+}
+
+export function isUseReCaptcha() {
+  return isTrue(process.env.NEXT_PUBLIC_USE_RECAPTCHA);
+}
