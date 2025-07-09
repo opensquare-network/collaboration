@@ -9,6 +9,7 @@ const {
   checkSpaceName,
   checkSpaceLogo,
   checkAddressList,
+  checkRecaptchaResponse,
 } = require("./common");
 const { HttpError } = require("../../exc");
 
@@ -19,15 +20,16 @@ function checkSpaceAdmins(admins) {
   }
 }
 
-function checkSpaceParams({ name, logo, members, admins }) {
+async function checkSpaceParams({ name, logo, members, admins, captcha }) {
   checkSpaceName(name);
   checkSpaceLogo(logo);
   checkAddressList(members, "Members");
   checkSpaceAdmins(admins);
+  await checkRecaptchaResponse(captcha);
 }
 
 async function createDaoSpace(ctx) {
-  checkSpaceParams(ctx.request.body);
+  await checkSpaceParams(ctx.request.body);
 
   const { name, logo, members, admins } = ctx.request.body;
   const id = slugify(name).toLowerCase();

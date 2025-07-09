@@ -18,6 +18,7 @@ import {
   Sections,
 } from "@/components/newSpace/sider/styled";
 import { useDefaultLogo } from "hooks/useDefaultLogo";
+import { executeRecaptcha } from "@/components/reCaptcha";
 
 export default function Sider({
   symbol,
@@ -63,6 +64,14 @@ export default function Sider({
       return;
     }
 
+    let token;
+    try {
+      token = await executeRecaptcha();
+    } catch (error) {
+      dispatch(newErrorToast("Recaptcha verification failed"));
+      return;
+    }
+
     const spaceData = {
       name,
       symbol,
@@ -80,6 +89,7 @@ export default function Sider({
       proposalThreshold: new BigNumber(proposalThreshold)
         .times(Math.pow(10, decimals))
         .toFixed(),
+      captcha: token,
     };
 
     setIsLoading(true);

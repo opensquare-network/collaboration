@@ -10,6 +10,7 @@ const {
   checkSpaceConflict,
   checkSpaceName,
   checkSpaceLogo,
+  checkRecaptchaResponse,
 } = require("./common");
 
 function checkAssetParams({
@@ -124,7 +125,7 @@ function checkSpaceStrategy(weightStrategy) {
   }
 }
 
-function checkSpaceParams({
+async function checkSpaceParams({
   name,
   logo,
   assets,
@@ -132,6 +133,7 @@ function checkSpaceParams({
   decimals,
   proposalThreshold,
   weightStrategy,
+  captcha,
 }) {
   checkSpaceName(name);
   checkSpaceLogo(logo);
@@ -139,10 +141,11 @@ function checkSpaceParams({
   checkProposalThreshold(proposalThreshold);
   checkSpaceStrategy(weightStrategy);
   checkSpaceAssets(assets);
+  await checkRecaptchaResponse(captcha);
 }
 
 async function createSpace(ctx) {
-  checkSpaceParams(ctx.request.body);
+  await checkSpaceParams(ctx.request.body);
 
   const {
     name,

@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux";
 import nextApi from "services/nextApi";
 import { newErrorToast, newSuccessToast } from "store/reducers/toastSlice";
 import { useRouter } from "next/router";
+import { executeRecaptcha } from "@/components/reCaptcha";
 
 export default function CollectiveSider({
   name,
@@ -57,11 +58,20 @@ const ActionButton = ({ currentStep, params }) => {
   const dispatch = useDispatch();
 
   const submit = async () => {
+    let token;
+    try {
+      token = await executeRecaptcha();
+    } catch (error) {
+      dispatch(newErrorToast("Recaptcha verification failed"));
+      return;
+    }
+
     setIsLoading(true);
     const { result, error } = await nextApi
       .post("spaces/collectives", {
         ...params,
         admins: [account.address],
+        captcha: token,
       })
       .finally(() => {
         setIsLoading(false);

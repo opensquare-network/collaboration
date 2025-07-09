@@ -90,6 +90,37 @@ function checkAddressList(addressList, listName) {
   });
 }
 
+async function checkRecaptchaResponse(token) {
+  if (!token) {
+    throw new HttpError(400, "Recaptcha response is required");
+  }
+
+  const secret = process.env.RECAPTCHA_SECRET;
+  let verifyResult;
+  try {
+    verifyResult = await fetch(
+      `https://www.recaptcha.net/recaptcha/api/siteverify?secret=${secret}&response=${token}`,
+      {
+        method: "POST",
+      },
+    );
+  } catch (err) {
+    throw new HttpError(500, "Failed to fetch recaptcha verify result");
+  }
+
+  if (!verifyResult.ok) {
+    throw new HttpError(
+      500,
+      "Failed to verify reCAPTCHA response, please try again later",
+    );
+  }
+
+  const result = await verifyResult.json();
+  if (!result.success) {
+    throw new HttpError(400, "Invalid reCAPTCHA response");
+  }
+}
+
 module.exports = {
   pinLogo,
   checkSpaceConflict,
@@ -97,4 +128,5 @@ module.exports = {
   checkSpaceName,
   checkSpaceLogo,
   checkAddressList,
+  checkRecaptchaResponse,
 };
