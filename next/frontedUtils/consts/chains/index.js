@@ -21,6 +21,7 @@ import khala from "./khala";
 import kintsugi from "./kintsugi";
 import basilisk from "./basilisk";
 import hydradx from "./hydradx";
+import hydration from "./hydration";
 import rococo from "./rococo";
 import stafi from "./stafi";
 import creditcoin from "./creditcoin";
@@ -50,6 +51,7 @@ export const chainConfigsMap = {
   zeitgeist,
   basilisk,
   hydradx,
+  hydration,
   rococo,
   creditcoin,
   creditcoin_native: creditcoin,

@@ -28,6 +28,7 @@ export const networks = Object.freeze({
   parallel: "parallel",
   basilisk: "basilisk",
   hydradx: "hydradx",
+  hydration: "hydration",
   rococo: "rococo",
   stafi: "stafi",
   creditcoin: "creditcoin",
