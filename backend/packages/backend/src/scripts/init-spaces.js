@@ -1,13 +1,13 @@
 const dotenv = require("dotenv");
 dotenv.config();
 
-const spaces = require("./spaces");
+const { spaces, daoSpaces } = require("./spaces");
 const { getSpaceCollection } = require("../mongo");
 
 async function main() {
   const spaceCol = await getSpaceCollection();
   const bulk = spaceCol.initializeUnorderedBulkOp();
-  for (const space of spaces) {
+  for (const space of [...spaces, ...daoSpaces]) {
     const spaceData = {
       offline: false, // set default offline space
       ...space,

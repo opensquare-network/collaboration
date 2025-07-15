@@ -54,13 +54,15 @@ const spaces = [
   stafiConfig,
   creditcoinConfig,
   creditcoinEnterpriseConfig,
-  permanenceConfig,
-  jamDaoConfig,
-  truthDaoConfig,
 ];
+
+const daoSpaces = [permanenceConfig, jamDaoConfig, truthDaoConfig];
 
 if (["1", "true", "TRUE"].includes(process.env.DEVELOPMENT)) {
   spaces.push(rococoConfig);
 }
 
-module.exports = spaces;
+module.exports = {
+  spaces,
+  daoSpaces,
+};
