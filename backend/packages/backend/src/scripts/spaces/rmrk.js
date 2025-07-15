@@ -30,7 +30,7 @@ const karuraTokenConfig = {
 
 const bifrostTokenConfig = {
   network: networks.bifrost,
-  ss58Format: 6,
+  ss58Format: 0,
   assets: [
     {
       type: "token",

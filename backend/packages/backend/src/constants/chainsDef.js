@@ -42,7 +42,7 @@ const chainsDef = {
   bifrost: {
     name: "Bifrost",
     network: "bifrost",
-    ss58Format: 6,
+    ss58Format: 0,
     supportAssetTypes: [AssetTypes.ORML],
     symbol: "BNC",
     decimals: 12,
@@ -178,7 +178,7 @@ const chainsDef = {
   hydradx: {
     name: "Hydradx",
     network: "hydradx",
-    ss58Format: 63,
+    ss58Format: 0,
     symbol: "HDX",
     decimals: 12,
   },
