@@ -10,7 +10,7 @@ const bifrostConfig = {
   networks: [
     {
       network: networks.bifrostPolkadot,
-      ss58Format: 6,
+      ss58Format: 0,
       assets: [
         {
           symbol: "BNC",
@@ -21,7 +21,7 @@ const bifrostConfig = {
     },
     {
       network: networks.bifrost, // Bifrost Kusama
-      ss58Format: 6,
+      ss58Format: 0,
       assets: [
         {
           symbol: "BNC",
