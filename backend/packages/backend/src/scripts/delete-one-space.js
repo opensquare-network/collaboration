@@ -7,134 +7,68 @@ const {
   getVoteCollection,
   getCommentCollection,
 } = require("../mongo");
-const { logger } = require("../utils/logger");
 
 function validateArgs(args) {
   if (!args.space) {
-    console.error("Must specify space id with argument --space=[spaceId]");
-    return null;
+    throw new Error("Must specify space id with argument --space=[spaceId]");
   }
   return args.space;
 }
 
-async function getCollections() {
-  const spaceCol = await getSpaceCollection();
+async function getProposalIds(spaceId) {
   const proposalCol = await getProposalCollection();
-  const voteCol = await getVoteCollection();
-  const commentCol = await getCommentCollection();
-
-  return { spaceCol, proposalCol, voteCol, commentCol };
-}
-
-async function validateSpace(spaceCol, spaceId) {
-  const space = await spaceCol.findOne({ id: spaceId });
-  if (!space) {
-    console.error(`Space with id "${spaceId}" not found.`);
-    return null;
-  }
-  return space;
-}
-
-async function getProposalsForSpace(proposalCol, spaceId) {
   const proposals = await proposalCol.find({ space: spaceId }).toArray();
-  const proposalIds = proposals.map((p) => p._id);
+  const proposalIds = proposals?.map((p) => p._id);
 
-  console.log(`Found ${proposals.length} proposals to delete`);
-
-  return { proposals, proposalIds };
+  return proposalIds || [];
 }
 
-async function deleteVotesAndComments(voteCol, commentCol, proposalIds) {
-  if (proposalIds.length === 0) {
-    return { votesDeleted: 0, commentsDeleted: 0 };
-  }
-
-  const voteDeleteResult = await voteCol.deleteMany({
+async function deleteVotes(proposalIds) {
+  const voteCol = await getVoteCollection();
+  await voteCol.deleteMany({
     proposal: { $in: proposalIds },
   });
-  console.log(`Deleted ${voteDeleteResult.deletedCount} votes`);
-
-  const commentDeleteResult = await commentCol.deleteMany({
-    proposal: { $in: proposalIds },
-  });
-  console.log(`Deleted ${commentDeleteResult.deletedCount} comments`);
-
-  return {
-    votesDeleted: voteDeleteResult.deletedCount,
-    commentsDeleted: commentDeleteResult.deletedCount,
-  };
 }
 
-async function deleteProposals(proposalCol, spaceId) {
-  const proposalDeleteResult = await proposalCol.deleteMany({
+async function deleteComments(proposalIds) {
+  const commentCol = await getCommentCollection();
+  await commentCol.deleteMany({
+    proposal: { $in: proposalIds },
+  });
+}
+
+async function deleteProposals(spaceId) {
+  const proposalCol = await getProposalCollection();
+  await proposalCol.deleteMany({
     space: spaceId,
   });
-  console.log(`Deleted ${proposalDeleteResult.deletedCount} proposals`);
-
-  return proposalDeleteResult.deletedCount;
 }
 
-async function deleteSpace(spaceCol, spaceId) {
-  const spaceDeleteResult = await spaceCol.deleteOne({ id: spaceId });
-  return spaceDeleteResult.deletedCount > 0;
-}
-
-function logDeleteResult(spaceId, success, proposalCount, proposalIds) {
-  if (success) {
-    console.log(
-      `Successfully deleted space "${spaceId}" and all associated data`,
-    );
-    logger.info(
-      `[Success] Deleted space "${spaceId}" with ${proposalCount} proposals, ${
-        proposalIds.length > 0 ? "votes and comments" : "no votes or comments"
-      }`,
-    );
-  } else {
-    console.error(`Failed to delete space "${spaceId}"`);
-    logger.error(`[Error] Failed to delete space "${spaceId}"`);
-  }
-}
-
-async function executeDelete(spaceId) {
-  const { spaceCol, proposalCol, voteCol, commentCol } = await getCollections();
-
-  const space = await validateSpace(spaceCol, spaceId);
+async function deleteSpace(spaceId) {
+  const spaceCol = await getSpaceCollection();
+  const space = await spaceCol.findOne({ id: spaceId });
   if (!space) {
-    return;
+    throw new Error(`Space with id "${spaceId}" not found.`);
   }
 
-  const { proposals, proposalIds } = await getProposalsForSpace(
-    proposalCol,
-    spaceId,
-  );
-
-  await deleteVotesAndComments(voteCol, commentCol, proposalIds);
-
-  await deleteProposals(proposalCol, spaceId);
-
-  const success = await deleteSpace(spaceCol, spaceId);
-
-  logDeleteResult(spaceId, success, proposals.length, proposalIds);
+  await spaceCol.deleteOne({ id: spaceId });
 }
 
 async function main() {
   const args = minimist(process.argv.slice(2));
-
   const spaceId = validateArgs(args);
-  if (!spaceId) {
-    return;
+
+  await deleteSpace(spaceId);
+
+  const proposalIds = await getProposalIds(spaceId);
+  if (proposalIds.length > 0) {
+    await deleteComments(proposalIds);
+    await deleteVotes(proposalIds);
   }
 
-  console.log(`Starting deletion process for space: ${spaceId}`);
+  await deleteProposals(spaceId);
 
-  try {
-    await executeDelete(spaceId);
-  } catch (error) {
-    console.error(`Error during deletion process:`, error);
-    logger.error(
-      `[Error] Failed to delete space "${spaceId}": ${error.message}`,
-    );
-  }
+  console.log(`Deleted space ${spaceId}`);
 }
 
 main()
