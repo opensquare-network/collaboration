@@ -8,11 +8,22 @@ const {
   getCommentCollection,
 } = require("../mongo");
 
-function validateArgs(args) {
+function getSpaceId() {
+  const args = minimist(process.argv.slice(2));
   if (!args.space) {
     throw new Error("Must specify space id with argument --space=[spaceId]");
   }
   return args.space;
+}
+
+async function deleteSpace(spaceId) {
+  const spaceCol = await getSpaceCollection();
+  const space = await spaceCol.findOne({ id: spaceId });
+  if (!space) {
+    throw new Error(`Space with id "${spaceId}" not found.`);
+  }
+
+  await spaceCol.deleteOne({ id: spaceId });
 }
 
 async function getProposalIds(spaceId) {
@@ -44,20 +55,8 @@ async function deleteProposals(spaceId) {
   });
 }
 
-async function deleteSpace(spaceId) {
-  const spaceCol = await getSpaceCollection();
-  const space = await spaceCol.findOne({ id: spaceId });
-  if (!space) {
-    throw new Error(`Space with id "${spaceId}" not found.`);
-  }
-
-  await spaceCol.deleteOne({ id: spaceId });
-}
-
 async function main() {
-  const args = minimist(process.argv.slice(2));
-  const spaceId = validateArgs(args);
-
+  const spaceId = getSpaceId();
   await deleteSpace(spaceId);
 
   const proposalIds = await getProposalIds(spaceId);
@@ -68,7 +67,7 @@ async function main() {
 
   await deleteProposals(spaceId);
 
-  console.log(`Deleted space ${spaceId}`);
+  console.log(`Deleted space ${spaceId} and related data successfully`);
 }
 
 main()
