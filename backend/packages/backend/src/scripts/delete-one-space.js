@@ -16,13 +16,16 @@ function getSpaceId() {
   return args.space;
 }
 
-async function deleteSpace(spaceId) {
+async function throwIfNoSpace(spaceId) {
   const spaceCol = await getSpaceCollection();
   const space = await spaceCol.findOne({ id: spaceId });
   if (!space) {
     throw new Error(`Space with id "${spaceId}" not found.`);
   }
+}
 
+async function deleteSpace(spaceId) {
+  const spaceCol = await getSpaceCollection();
   await spaceCol.deleteOne({ id: spaceId });
 }
 
@@ -57,17 +60,17 @@ async function deleteProposals(spaceId) {
 
 async function main() {
   const spaceId = getSpaceId();
-  await deleteSpace(spaceId);
+  await throwIfNoSpace(spaceId);
 
   const proposalIds = await getProposalIds(spaceId);
   if (proposalIds.length > 0) {
     await deleteComments(proposalIds);
     await deleteVotes(proposalIds);
   }
-
   await deleteProposals(spaceId);
+  await deleteSpace(spaceId);
 
-  console.log(`Deleted space ${spaceId} and related data successfully`);
+  console.log(`Delete space ${spaceId} and related data successfully`);
 }
 
 main()
