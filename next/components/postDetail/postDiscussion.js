@@ -88,6 +88,7 @@ export default function PostDiscussion({
   proposal,
   space,
   comments,
+  votes,
   votesPage = 1,
 }) {
   const [content, setContent] = useState("");
@@ -157,7 +158,7 @@ export default function PostDiscussion({
     findNetworkConfig(proposal.networksConfig, comment.commenterNetwork);
   const spaceSupportMultiChain = space?.networks?.length > 1;
 
-  const { loadSuggestions } = useSuggestions(comments);
+  const { loadSuggestions } = useSuggestions(comments, votes);
 
   return (
     <AccordionPanel

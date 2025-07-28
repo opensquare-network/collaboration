@@ -65,7 +65,7 @@ export default function PostDetail({
           discussionPage={defaultPage?.discussionPage}
           isSafari={isSafari}
         />
-        <PostDiscussion proposal={data} comments={comments} space={space} />
+        <PostDiscussion proposal={data} comments={comments} space={space} votes={votes} />
       </MainWrapper>
       <SiderWrapper>
         <PostInfo data={data} space={space} />
