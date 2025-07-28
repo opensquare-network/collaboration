@@ -2,7 +2,15 @@ const dotenv = require("dotenv");
 dotenv.config();
 const { getChainCollection } = require("../mongo");
 
-const chainNetworks = ["khala", "turing", "altair", "rococo"];
+const chainNetworks = [
+  "khala",
+  "turing",
+  "altair",
+  "rococo",
+  "parallel",
+  "darwinia",
+  "litmus",
+];
 
 if (!Array.isArray(chainNetworks) || chainNetworks.length === 0) {
   console.log(
