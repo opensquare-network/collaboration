@@ -65,9 +65,13 @@ export function useSuggestions(comments = [], votes = null) {
   }, [comments, votes]);
 
   const loadSuggestions = (text) => {
+    if (!suggestions) {
+      return [];
+    }
+
     const lowerText = text.toLowerCase();
 
-    return suggestions.filter((item) => {
+    return suggestions?.filter((item) => {
       const { displayName, address } = item;
       if (
         !isNil(displayName) &&
