@@ -31,6 +31,15 @@ const MyFieldWrapper = styled(FieldWrapper)`
   z-index: 20;
 `;
 
+const UN_SUPPORTED_CHAINS = [
+  "khala",
+  "turing",
+  "crust",
+  "zeitgeist",
+  "altair",
+  "rococo",
+];
+
 export default function Asset({
   chainsDef,
   tokensDef,
@@ -131,6 +140,10 @@ export default function Asset({
     );
   }
 
+  const supportedChains = chainsDef.filter(
+    (item) => !UN_SUPPORTED_CHAINS.includes(item.network),
+  );
+
   return (
     <Wrapper>
       <Header>
@@ -141,7 +154,7 @@ export default function Asset({
       </Header>
       <MyFieldWrapper>
         <Title>Chain</Title>
-        <ChainSelector chains={chainsDef} onSelect={onSelectChain} />
+        <ChainSelector chains={supportedChains} onSelect={onSelectChain} />
       </MyFieldWrapper>
       {assetConfig}
     </Wrapper>
