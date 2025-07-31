@@ -13,8 +13,8 @@ require("dotenv").config({
   path: path.resolve(__dirname, "../../.env"), // Adjust based on actual path
 });
 
-const MNEMONIC = process.env.MNEMONIC;
-const PRIVATE_KEY = process.env.PRIVATE_KEY;
+const MNEMONIC = process.env.ADMIN_ADDRESS_MNEMONIC;
+const PRIVATE_KEY = process.env.ADMIN_ADDRESS_PRIVATE_KEY;
 
 /**
  * Generate sr25519 key pair from private key
