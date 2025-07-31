@@ -2,13 +2,14 @@ const fetch = require("node-fetch");
 const { pick } = require("lodash");
 const { signWithPolkadot } = require("../utils/signature");
 
+const host = "https://test.opensquare.io";
+const spaceId = "quinn-collective";
+
+const choiceType = "single"; // Single choice voting\
 const currencyMap = {
   polkadot: "DOT",
   kusama: "KSM",
 };
-const host = "https://test.opensquare.io";
-const choiceType = "single"; // Single choice voting\
-const spaceId = "quinn-collective";
 
 /**
  *
