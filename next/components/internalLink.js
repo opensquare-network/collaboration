@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 
 const Wrapper = styled.div`
   cursor: pointer;
-
   > a {
     :hover {
       color: inherit;

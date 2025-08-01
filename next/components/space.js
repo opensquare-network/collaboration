@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useCallback, useEffect, useState } from "react";
 
-import InternalLink from "./internalLink";
+import Link from "next/link";
 import { h3_36_bold } from "../styles/textStyles";
 import { loginAddressSelector } from "store/reducers/accountSlice";
 import SpaceListItem from "./spaceListItem";
@@ -83,9 +83,9 @@ export default function Space({ spaces: initialSpaces }) {
         )}
       >
         {(spaces.items || []).map((space, index) => (
-          <InternalLink href={`/space/${space.id}`} key={index}>
+          <Link href={`/space/${space.id}`} key={index}>
             <SpaceListItem name={space.id} space={space} />
-          </InternalLink>
+          </Link>
         ))}
         {spaces.items.length === 0 && (
           <EmptyResult className="col-span-full h-[130px] flex items-center justify-center bg-white text-textTertiary">

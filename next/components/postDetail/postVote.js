@@ -212,7 +212,10 @@ function BalanceInfo({ proposal, balance, balanceDetail, delegation }) {
     <>
       <ProxyHeader>
         {balanceInfo}
-        {supportProxy && <ProxySwitch />}
+        {supportProxy &&
+          proposal.networksConfig?.accessibility !== "whitelist" && (
+            <ProxySwitch />
+          )}
       </ProxyHeader>
       {useProxy && (
         <PostAddress

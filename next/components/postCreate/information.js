@@ -136,7 +136,7 @@ export default function Information({ space }) {
           Only members can create a proposal
         </WhitelistMemberHint>
       )}
-      {!isCollectiveSpace(space.type) && <Proxy space={space} />}
+      {space.accessibility !== "whitelist" && <Proxy space={space} />}
     </>
   );
 }
