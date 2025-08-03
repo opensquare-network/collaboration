@@ -142,7 +142,6 @@ const createProposal = async (body) => {
 const main = async () => {
   const [network, referendumIndexStr] = process.argv.splice(2);
   const referendumIndex = parseInt(referendumIndexStr, 10);
-
   if (!network || isNil(referendumIndex)) {
     console.log("network or referendum index is required");
     return;
@@ -155,7 +154,6 @@ const main = async () => {
   }
 
   const referendumDetail = await getReferendumDetail(network, referendumIndex);
-
   if (!referendumDetail) {
     console.log(`Referendum ${referendumIndex} detail not find`);
     return;
@@ -166,7 +164,6 @@ const main = async () => {
     network,
     space,
   );
-
   const signData = await signWithPolkadot(
     JSON.stringify(proposalParams),
     "polkadot",
