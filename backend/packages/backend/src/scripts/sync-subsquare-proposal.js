@@ -168,7 +168,6 @@ const main = async () => {
     JSON.stringify(proposalParams),
     "polkadot",
   );
-
   if (!signData) {
     console.log("sign data is null");
     return;
@@ -179,7 +178,6 @@ const main = async () => {
     data: proposalParams,
     address: signData.address,
   });
-
   if (res) {
     console.log(
       "Create success:",
