@@ -1,5 +1,5 @@
 const fetch = require("node-fetch");
-const { pick } = require("lodash");
+const { pick, isNil } = require("lodash");
 const { signWithPolkadot } = require("../utils/signature");
 
 const host = "https://test.opensquare.io";
@@ -140,23 +140,24 @@ const createProposal = async (body) => {
 };
 
 const main = async () => {
-  const [network, referendumIndex] = process.argv.splice(2);
+  const [network, referendumIndexStr] = process.argv.splice(2);
+  const referendumIndex = parseInt(referendumIndexStr, 10);
 
-  if (!network || !referendumIndex) {
-    console.log("network and referendumIndex is must");
+  if (!network || isNil(referendumIndex)) {
+    console.log("network or referendum index is required");
     return;
   }
 
   const space = await getSpaceDetail(spaceId);
   if (!space) {
-    console.error("Not find Space");
+    console.error(`Space ${spaceId} not found`);
     return;
   }
 
   const referendumDetail = await getReferendumDetail(network, referendumIndex);
 
   if (!referendumDetail) {
-    console.log("refrenum detail not find");
+    console.log(`Referendum ${referendumIndex} detail not find`);
     return;
   }
 
