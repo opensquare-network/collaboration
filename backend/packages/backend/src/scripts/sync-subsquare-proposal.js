@@ -166,7 +166,7 @@ const main = async () => {
   );
   const signData = await signWithPolkadot(
     JSON.stringify(proposalParams),
-    "polkadot",
+    network,
   );
   if (!signData) {
     console.log("sign data is null");
