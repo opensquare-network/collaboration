@@ -8,20 +8,8 @@ const {
   OPENSQUARE_HOST,
   SPACE_ID,
   SINGLE_CHOICE_TYPE,
-  CURRENCY_MAP,
+  getVotingProposalTitle,
 } = require("./common");
-
-const getTitle = (detail, network) => {
-  let track = "";
-  const trackName = detail.onchainData.trackInfo.name || "";
-  if (trackName) {
-    track = `[${trackName
-      .split("_")
-      .map((word) => word[0].toUpperCase())
-      .join("")}]`;
-  }
-  return `${track} ${CURRENCY_MAP[network]} #${detail.referendumIndex} - ${detail.title}`;
-};
 
 const generateProposalParams = (data, network, space) => {
   const source = `https://${network}.subsquare.io/referenda/${data.referendumIndex}`;
@@ -47,7 +35,7 @@ const generateProposalParams = (data, network, space) => {
       ]),
       strategies: space.weightStrategy,
     },
-    title: getTitle(data, network),
+    title: getVotingProposalTitle(data, network),
     content: `\n[${source}](${source})\n${data.contentSummary.summary}`,
     contentType: "markdown",
     choiceType: SINGLE_CHOICE_TYPE,
