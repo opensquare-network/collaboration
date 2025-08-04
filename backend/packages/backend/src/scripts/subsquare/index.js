@@ -7,7 +7,7 @@ const { getSpaceDetail, createProposal } = require("./space");
 const { OPENSQUARE_HOST, SPACE_ID } = require("./common");
 const { getProposalData } = require("./proposal");
 
-const main = async () => {
+(async () => {
   const args = minimist(process.argv.splice(2));
   const { network, id: referendumIndexStr } = args;
   const referendumIndex = parseInt(referendumIndexStr, 10);
@@ -55,6 +55,4 @@ const main = async () => {
   }
 
   process.exit(1);
-};
-
-main();
+})();
