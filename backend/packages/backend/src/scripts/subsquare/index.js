@@ -1,7 +1,7 @@
 require("dotenv").config();
 const fetch = require("node-fetch");
 const { pick, isNil } = require("lodash");
-const { signWithPolkadot } = require("../utils/signature");
+const { signWithPolkadot } = require("../../utils/signature");
 const minimist = require("minimist");
 
 const host = "https://voting.opensquare.io";
