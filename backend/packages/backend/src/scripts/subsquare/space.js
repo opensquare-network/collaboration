@@ -1,11 +1,7 @@
 const { OPENSQUARE_HOST, SPACE_ID } = require("./common");
 const fetch = require("node-fetch");
-/**
- *
- * @param {string} spaceId
- * @returns space detail
- */
-const getSpaceDetail = async (spaceId) => {
+
+async function getSpaceDetail(spaceId) {
   try {
     const response = await fetch(`${OPENSQUARE_HOST}/api/spaces/${spaceId}`, {
       method: "GET",
@@ -22,9 +18,9 @@ const getSpaceDetail = async (spaceId) => {
   } catch (error) {
     return null;
   }
-};
+}
 
-const createProposal = async (body) => {
+async function createProposal(body) {
   try {
     const response = await fetch(
       `${OPENSQUARE_HOST}/api/${SPACE_ID}/proposals`,
@@ -44,7 +40,7 @@ const createProposal = async (body) => {
   } catch (error) {
     return null;
   }
-};
+}
 
 module.exports = {
   getSpaceDetail,

@@ -6,7 +6,7 @@ const { isNil } = require("lodash");
  * @param {number} referendumIndex - referendum
  * @returns {Promise<Object>} referendum detail
  */
-const getReferendumDetailFromSubsquare = async (network, referendumIndex) => {
+async function getReferendumDetailFromSubsquare(network, referendumIndex) {
   if (isNil(referendumIndex)) {
     throw new Error(`Invalid referendum index: ${referendumIndex}`);
   }
@@ -29,7 +29,7 @@ const getReferendumDetailFromSubsquare = async (network, referendumIndex) => {
   } catch (error) {
     return null;
   }
-};
+}
 
 module.exports = {
   getReferendumDetailFromSubsquare,
