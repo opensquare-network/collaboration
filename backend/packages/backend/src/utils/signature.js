@@ -8,11 +8,6 @@ const {
 } = require("@polkadot/util-crypto");
 const { chainsDef } = require("../constants/chainsDef");
 
-const path = require("path");
-require("dotenv").config({
-  path: path.resolve(__dirname, "../../.env"), // Adjust based on actual path
-});
-
 /**
  * Generate sr25519 key pair from private key
  * @param {string|Uint8Array} privateKey - Private key (hex string or Uint8Array)
@@ -111,7 +106,6 @@ function getAddress(keypair, ss58Format = 0) {
  * Helper signing function - supports Polkadot/Kusama
  * @param {string|Uint8Array} message - Message to sign
  * @param {string} network - Network type ('polkadot' or 'kusama')
- * @param {string} mnemonicOrPrivateKey - Mnemonic or private key, optional, defaults to mnemonic constant
  * @returns {Promise<object>} Object containing signature result and address
  */
 async function signWithPolkadot(message, network = "polkadot") {
@@ -171,8 +165,6 @@ async function verifySignature(message, signature, address) {
 }
 
 module.exports = {
-  signMessage,
-  getAddress,
   signWithPolkadot,
   verifySignature,
 };

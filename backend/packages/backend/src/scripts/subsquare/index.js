@@ -1,54 +1,11 @@
 require("dotenv").config();
-const { pick, isNil } = require("lodash");
+const { isNil } = require("lodash");
 const { signWithPolkadot } = require("../../utils/signature");
 const minimist = require("minimist");
 const { getReferendumDetailFromSubsquare } = require("./subsquare");
 const { getSpaceDetail, createProposal } = require("./space");
-const {
-  OPENSQUARE_HOST,
-  SPACE_ID,
-  SINGLE_CHOICE_TYPE,
-  getVotingProposalTitle,
-} = require("./common");
-
-const generateProposalParams = (data, network, space) => {
-  const source = `https://${network}.subsquare.io/referenda/${data.referendumIndex}`;
-  const startDate = new Date();
-  startDate.setUTCHours(0, 0, 0, 0);
-
-  const endDate = new Date(startDate);
-  endDate.setUTCDate(endDate.getUTCDate() + 60);
-
-  return {
-    space: space.id,
-    networksConfig: {
-      ...pick(space, [
-        "type",
-        "symbol",
-        "decimals",
-        "networks",
-        "accessibility",
-        "whitelist",
-        "members",
-        "quorum",
-        "version",
-      ]),
-      strategies: space.weightStrategy,
-    },
-    title: getVotingProposalTitle(data, network),
-    content: `\n[${source}](${source})\n${data.contentSummary.summary}`,
-    contentType: "markdown",
-    choiceType: SINGLE_CHOICE_TYPE,
-    choices: ["Aye", "Nay", "Abstain"],
-    realProposer: null,
-    snapshotHeights: space.latestFinalizedHeights,
-    version: "5",
-    address: "1U4BVADQkTEZZgFqzHA8UrccFWmEWbFruCEK7U1cuZrPKcf",
-    startDate: startDate.getTime(),
-    endDate: endDate.getTime(),
-    proposerNetwork: network,
-  };
-};
+const { OPENSQUARE_HOST, SPACE_ID } = require("./common");
+const { getProposalData } = require("./proposal");
 
 const main = async () => {
   const args = minimist(process.argv.splice(2));
@@ -74,13 +31,9 @@ const main = async () => {
     return;
   }
 
-  const proposalParams = generateProposalParams(
-    referendumDetail,
-    network,
-    space,
-  );
+  const proposalData = getProposalData(referendumDetail, network, space);
   const signData = await signWithPolkadot(
-    JSON.stringify(proposalParams),
+    JSON.stringify(proposalData),
     network,
   );
   if (!signData) {
@@ -90,12 +43,12 @@ const main = async () => {
 
   const res = await createProposal({
     signature: signData.signature,
-    data: proposalParams,
+    data: proposalData,
     address: signData.address,
   });
   if (res) {
     console.log(
-      `Referendum ${referendumIndex} is imported. Title: ${proposalParams?.title}; link: ${OPENSQUARE_HOST}/space/${SPACE_ID}/proposal/${res.cid}`,
+      `Referendum ${referendumIndex} is imported. Title: ${proposalData?.title}; link: ${OPENSQUARE_HOST}/space/${SPACE_ID}/proposal/${res.cid}`,
     );
   } else {
     console.log("Create error");
