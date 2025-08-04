@@ -1,72 +1,15 @@
 require("dotenv").config();
-const fetch = require("node-fetch");
 const { pick, isNil } = require("lodash");
 const { signWithPolkadot } = require("../../utils/signature");
 const minimist = require("minimist");
-
-const host = "https://voting.opensquare.io";
-const spaceId = "tesub";
-
-const choiceType = "single"; // Single choice voting\
-const currencyMap = {
-  polkadot: "DOT",
-  kusama: "KSM",
-};
-
-/**
- *
- * @param {string} spaceId
- * @returns space detail
- */
-const getSpaceDetail = async (spaceId) => {
-  try {
-    const response = await fetch(`${host}/api/spaces/${spaceId}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      timeout: 30000,
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP ERROR: ${response.status} ${response.statusText}`);
-    }
-    return await response.json();
-  } catch (error) {
-    return null;
-  }
-};
-
-/**
- *
- * @param {string} network - ('polkadot' or 'kusama')
- * @param {number} referendumIndex - referendum
- * @returns {Promise<Object>} referendum detail
- */
-const getReferendumDetail = async (network, referendumIndex) => {
-  if (!referendumIndex) {
-    throw new Error("referendum error");
-  }
-
-  const url = `https://${network.toLowerCase()}-api.subsquare.io/gov2/referendums/${referendumIndex}`;
-  try {
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "User-Agent": "OpenSquare-Collaboration/1.0",
-      },
-      timeout: 30000,
-    });
-
-    if (!response.ok) {
-      throw Error(`HTTP ERROR: ${response.status} ${response.statusText}`);
-    }
-    return await response.json();
-  } catch (error) {
-    return null;
-  }
-};
+const { getReferendumDetailFromSubsquare } = require("./subsquare");
+const { getSpaceDetail, createProposal } = require("./space");
+const {
+  OPENSQUARE_HOST,
+  SPACE_ID,
+  SINGLE_CHOICE_TYPE,
+  CURRENCY_MAP,
+} = require("./common");
 
 const getTitle = (detail, network) => {
   let track = "";
@@ -77,12 +20,9 @@ const getTitle = (detail, network) => {
       .map((word) => word[0].toUpperCase())
       .join("")}]`;
   }
-  return `${track} ${currencyMap[network]} #${detail.referendumIndex} - ${detail.title}`;
+  return `${track} ${CURRENCY_MAP[network]} #${detail.referendumIndex} - ${detail.title}`;
 };
 
-/**
- * Structured parameters
- */
 const generateProposalParams = (data, network, space) => {
   const source = `https://${network}.subsquare.io/referenda/${data.referendumIndex}`;
   const startDate = new Date();
@@ -110,7 +50,7 @@ const generateProposalParams = (data, network, space) => {
     title: getTitle(data, network),
     content: `\n[${source}](${source})\n${data.contentSummary.summary}`,
     contentType: "markdown",
-    choiceType,
+    choiceType: SINGLE_CHOICE_TYPE,
     choices: ["Aye", "Nay", "Abstain"],
     realProposer: null,
     snapshotHeights: space.latestFinalizedHeights,
@@ -122,25 +62,6 @@ const generateProposalParams = (data, network, space) => {
   };
 };
 
-const createProposal = async (body) => {
-  try {
-    const response = await fetch(`${host}/api/${spaceId}/proposals`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      timeout: 30000,
-      body: JSON.stringify(body),
-    });
-    if (!response.ok) {
-      throw Error(`HTTP ERROR: ${response.status} ${response.statusText}`);
-    }
-    return await response.json();
-  } catch (error) {
-    return null;
-  }
-};
-
 const main = async () => {
   const args = minimist(process.argv.splice(2));
   const { network, id: referendumIndexStr } = args;
@@ -150,13 +71,16 @@ const main = async () => {
     return;
   }
 
-  const space = await getSpaceDetail(spaceId);
+  const space = await getSpaceDetail(SPACE_ID);
   if (!space) {
-    console.error(`Space ${spaceId} not found`);
+    console.error(`Space ${SPACE_ID} not found`);
     return;
   }
 
-  const referendumDetail = await getReferendumDetail(network, referendumIndex);
+  const referendumDetail = await getReferendumDetailFromSubsquare(
+    network,
+    referendumIndex,
+  );
   if (!referendumDetail) {
     console.log(`Referendum ${referendumIndex} not find`);
     return;
@@ -183,7 +107,7 @@ const main = async () => {
   });
   if (res) {
     console.log(
-      `Referendum ${referendumIndex} is imported. Title: ${proposalParams?.title}; link: ${host}/space/${spaceId}/proposal/${res.cid}`,
+      `Referendum ${referendumIndex} is imported. Title: ${proposalParams?.title}; link: ${OPENSQUARE_HOST}/space/${SPACE_ID}/proposal/${res.cid}`,
     );
   } else {
     console.log("Create error");
