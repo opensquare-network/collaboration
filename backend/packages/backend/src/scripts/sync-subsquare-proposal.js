@@ -183,8 +183,7 @@ const main = async () => {
   });
   if (res) {
     console.log(
-      "Create success:",
-      `${host}/space/${spaceId}/proposal/${res.cid}`,
+      `Referendum ${referendumIndex} is imported. Title: ${proposalParams?.title}; link: ${host}/space/${spaceId}/proposal/${res.cid}`,
     );
   } else {
     console.log("Create error");
