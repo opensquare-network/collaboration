@@ -13,15 +13,12 @@ require("dotenv").config({
   path: path.resolve(__dirname, "../../.env"), // Adjust based on actual path
 });
 
-const MNEMONIC = process.env.ADMIN_ADDRESS_MNEMONIC;
-const PRIVATE_KEY = process.env.ADMIN_ADDRESS_PRIVATE_KEY;
-
 /**
  * Generate sr25519 key pair from private key
  * @param {string|Uint8Array} privateKey - Private key (hex string or Uint8Array)
  * @returns {Promise<object>} Key pair
  */
-async function generateKeyPairFromPrivateKey(privateKey = PRIVATE_KEY) {
+async function generateKeyPairFromPrivateKey(privateKey) {
   await cryptoWaitReady();
 
   let privateKeyBytes;
@@ -54,24 +51,24 @@ async function generateKeyPairFromPrivateKey(privateKey = PRIVATE_KEY) {
  * @param {string} mnemonic - Mnemonic phrase
  * @returns {Promise<object>} Key pair
  */
-async function generateKeyPairFromMnemonic(mnemonic = MNEMONIC) {
+async function generateKeyPairFromMnemonic(mnemonic) {
   await cryptoWaitReady();
   const seed = mnemonicToMiniSecret(mnemonic);
-  const keypair = sr25519PairFromSeed(seed);
-  return keypair;
+  return sr25519PairFromSeed(seed);
 }
 
 /**
  * Automatically detect key type and generate key pair
- * Prioritize private key, if no private key then use mnemonic, if neither exists return null
- * @param {string} keyMaterial - Mnemonic or private key
+ * Prioritize mnemonic, if no private key then use private key, if neither exists return null
  * @returns {Promise<object|null>} Key pair or null
  */
 async function generateKeyPair() {
-  if (MNEMONIC) {
-    return await generateKeyPairFromMnemonic(MNEMONIC);
-  } else if (PRIVATE_KEY) {
-    return await generateKeyPairFromPrivateKey(PRIVATE_KEY);
+  const ENV_MNEMONIC = process.env.ADMIN_ADDRESS_MNEMONIC;
+  const ENV_PRIVATE_KEY = process.env.ADMIN_ADDRESS_PRIVATE_KEY;
+  if (ENV_MNEMONIC) {
+    return await generateKeyPairFromMnemonic(ENV_MNEMONIC);
+  } else if (ENV_PRIVATE_KEY) {
+    return await generateKeyPairFromPrivateKey(ENV_PRIVATE_KEY);
   }
   return null;
 }

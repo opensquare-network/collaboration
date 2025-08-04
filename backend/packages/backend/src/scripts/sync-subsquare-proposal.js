@@ -1,9 +1,11 @@
+require("dotenv").config();
 const fetch = require("node-fetch");
 const { pick, isNil } = require("lodash");
 const { signWithPolkadot } = require("../utils/signature");
+const minimist = require("minimist");
 
-const host = "https://test.opensquare.io";
-const spaceId = "quinn-collective";
+const host = "https://voting.opensquare.io";
+const spaceId = "tesub";
 
 const choiceType = "single"; // Single choice voting\
 const currencyMap = {
@@ -140,7 +142,8 @@ const createProposal = async (body) => {
 };
 
 const main = async () => {
-  const [network, referendumIndexStr] = process.argv.splice(2);
+  const args = minimist(process.argv.splice(2));
+  const { network, id: referendumIndexStr } = args;
   const referendumIndex = parseInt(referendumIndexStr, 10);
   if (!network || isNil(referendumIndex)) {
     console.log("network or referendum index is required");
@@ -155,7 +158,7 @@ const main = async () => {
 
   const referendumDetail = await getReferendumDetail(network, referendumIndex);
   if (!referendumDetail) {
-    console.log(`Referendum ${referendumIndex} detail not find`);
+    console.log(`Referendum ${referendumIndex} not find`);
     return;
   }
 
