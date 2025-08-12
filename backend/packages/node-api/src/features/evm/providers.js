@@ -22,6 +22,8 @@ const ethUrls = [
 
 const creditcoinEvmUrls = [`https://mainnet3.creditcoin.network`];
 
+const astarUrls = ["https://evm.astar.network/"];
+
 function createProvider(url = "", network) {
   try {
     if (url.startsWith("wss")) {
@@ -53,12 +55,19 @@ const creditcoinEvmNetwork = {
   chainId: creditcoinEvmChainId,
   name: evmChains.creditcoin_evm,
 };
+const astarEvmNetwork = {
+  chainId: 592,
+  name: evmChains.astar_evm,
+};
 
 function initProviders() {
   const movrProviders = movrUrls.map((url) => createProvider(url, movrNetwork));
   const glmrProviders = glmrUrls.map((url) => createProvider(url, glmrNetwork));
   const creditcoinEvmProviders = creditcoinEvmUrls.map((url) =>
     createProvider(url, creditcoinEvmNetwork),
+  );
+  const astarEvmProviders = astarUrls.map((url) =>
+    createProvider(url, astarEvmNetwork),
   );
 
   if (!process.env.INFURA_KEY) {
@@ -79,6 +88,7 @@ function initProviders() {
     [evmChains.moonbeam]: glmrProviders,
     [evmChains.ethereum]: ethProviders,
     [evmChains.creditcoin_evm]: creditcoinEvmProviders,
+    [evmChains.astar_evm]: astarEvmProviders,
   };
 }
 

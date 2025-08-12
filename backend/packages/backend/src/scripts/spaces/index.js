@@ -26,6 +26,7 @@ const { permanenceConfig } = require("./permanence");
 const { jamDaoConfig } = require("./jamdao");
 const { truthDaoConfig } = require("./truthdao");
 const { rococoConfig } = require("./rococo");
+const { astarConfig } = require("./astar");
 
 const spaces = [
   polkadotConfig,
@@ -54,6 +55,7 @@ const spaces = [
   stafiConfig,
   creditcoinConfig,
   creditcoinEnterpriseConfig,
+  astarConfig,
 ];
 
 const daoSpaces = [permanenceConfig, jamDaoConfig, truthDaoConfig];

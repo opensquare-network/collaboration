@@ -14,6 +14,8 @@ export const networks = Object.freeze({
   moonbeam: "moonbeam",
   moonriver: "moonriver",
   acala: "acala",
+  astar: "astar",
+  astarEvm: "astar_evm",
   turing: "turing",
   crust: "crust",
   crab: "crab",

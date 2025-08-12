@@ -13,6 +13,8 @@ const networks = Object.freeze({
   moonriver: "moonriver",
   moonbeam: "moonbeam",
   acala: "acala",
+  astar: "astar",
+  astar_evm: "astar_evm",
   crust: "crust",
   turing: "turing",
   darwinia: "darwinia",
@@ -40,6 +42,7 @@ const evmNetworks = [
   networks.moonriver,
   networks.ethereum,
   networks.creditcoin_evm,
+  networks.astar_evm,
 ];
 
 module.exports = {
