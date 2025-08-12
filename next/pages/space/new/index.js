@@ -2,8 +2,15 @@ import Seo from "@/components/seo";
 import Layout from "@/components/layout";
 import { ssrNextApi } from "services/nextApi";
 import SelectSpaceType from "@/components/newSpace/selectSpaceType";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { setAvailableNetworks } from "store/reducers/accountSlice";
 
 export default function NewSpacePage({ allNetworks }) {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(setAvailableNetworks(allNetworks || []));
+  }, [dispatch, allNetworks]);
   return (
     <>
       <Seo desc={"desc"} />
