@@ -11,12 +11,14 @@ export function getSpaceAssets(space) {
         const multiplier = asset?.multiplier ?? network?.multiplier;
         const networkName = network?.network ?? space?.network;
         const delegation = asset?.delegation;
+        const duplicateOf = asset?.duplicateOf;
         assets.push({
           network: networkName,
           symbol,
           assetName,
           multiplier,
           delegation,
+          duplicateOf,
         });
       }
     } else {
