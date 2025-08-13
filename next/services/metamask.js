@@ -10,14 +10,6 @@ import { useDispatch, useSelector } from "react-redux";
 
 export function useMetaMaskEventHandlers() {
   const dispatch = useDispatch();
-
-  if (
-    typeof window !== "undefined" &&
-    (!window.ethereum || !window.ethereum.isMetaMask)
-  ) {
-    return;
-  }
-
   const isEvm = useSelector(isEvmSelector);
   const { network: loginNetwork, address } =
     useSelector(loginAccountSelector) || {};
@@ -42,7 +34,11 @@ export function useMetaMaskEventHandlers() {
   );
 
   useEffect(() => {
-    if (!isEvm) {
+    if (
+      !isEvm ||
+      (typeof window !== "undefined" &&
+        (!window.ethereum || !window.ethereum?.isMetaMask))
+    ) {
       return;
     }
 
