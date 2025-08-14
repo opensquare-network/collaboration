@@ -11,6 +11,7 @@ import useSignApiData from "hooks/useSignApiData";
 import { extensionCancelled } from "frontedUtils/consts/extension";
 import { isAddress } from "@polkadot/util-crypto";
 import styled from "styled-components";
+import { useRouter } from "next/router";
 
 const CardWrapper = styled.div`
   display: flex;
@@ -35,6 +36,7 @@ export default function MemberManagement({ space }) {
 }
 
 const MemberCard = ({ space }) => {
+  const router = useRouter();
   const [members, setMembers] = useState(space.members || []);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -62,6 +64,7 @@ const MemberCard = ({ space }) => {
 
     if (result) {
       dispatch(newSuccessToast("Settings saved successfully!"));
+      router.replace(router.asPath);
     }
     if (error) {
       dispatch(newErrorToast(error.message));

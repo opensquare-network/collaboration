@@ -16,6 +16,7 @@ import Editor from "../editor";
 import { signProposalSettingsWith } from "frontedUtils/signData";
 import useSignApiData from "hooks/useSignApiData";
 import { validateProposalSettings } from "frontedUtils/validate";
+import { useRouter } from "next/router";
 
 function WhyProposalTemplate() {
   return (
@@ -65,6 +66,7 @@ function ContentField({ content, setContent }) {
 }
 
 export default function ProposalTemplate({ space, settings }) {
+  const router = useRouter();
   const dispatch = useDispatch();
   const account = useSelector(loginAccountSelector);
   const { proposalTemplate } = settings;
@@ -119,6 +121,7 @@ export default function ProposalTemplate({ space, settings }) {
       );
       if (result) {
         dispatch(newSuccessToast("Settings saved successfully!"));
+        router.replace(router.asPath);
       }
       if (error) {
         dispatch(newErrorToast(error.message));

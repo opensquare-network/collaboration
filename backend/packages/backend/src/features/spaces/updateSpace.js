@@ -38,7 +38,7 @@ async function updateSpace(ctx) {
   // Refresh space cache
   await reloadSpaces();
 
-  ctx.body = omit(result.value || {}, ["_id"]);
+  ctx.body = omit(result || {}, ["_id"]);
 }
 
 module.exports = {

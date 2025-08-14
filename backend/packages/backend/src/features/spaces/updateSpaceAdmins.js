@@ -17,13 +17,13 @@ async function updateSpaceAdmins(ctx) {
   const result = await spaceCol.findOneAndUpdate(
     { id: space },
     { $set: { admins } },
-    { upsert: true, returnDocument: "after" },
+    { returnDocument: "after" },
   );
 
   // Refresh space cache
   await reloadSpaces();
 
-  ctx.body = omit(result.value || {}, ["_id"]);
+  ctx.body = omit(result || {}, ["_id"]);
 }
 
 module.exports = { updateSpaceAdmins };
