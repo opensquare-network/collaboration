@@ -9,11 +9,11 @@ async function nextPostUid() {
     { returnDocument: "after", upsert: true },
   );
 
-  if (!result.value) {
+  if (!result) {
     throw new HttpError(500, "Cannot get next post uid");
   }
 
-  return result.value.value.toString();
+  return result.value.toString();
 }
 
 module.exports = {

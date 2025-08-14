@@ -16,8 +16,10 @@ import useSignApiData from "hooks/useSignApiData";
 import { extensionCancelled } from "../../frontedUtils/consts/extension";
 import nextApi from "../../services/nextApi";
 import encodeAddressByChain from "../../frontedUtils/chain/addr";
+import { useRouter } from "next/router";
 
 export default function SpaceProfile({ space }) {
+  const router = useRouter();
   const sourceLogo = getSpaceIconUri(space);
   const dispatch = useDispatch();
   const [imageFile, setImageFile] = useState(sourceLogo);
@@ -78,6 +80,7 @@ export default function SpaceProfile({ space }) {
 
       if (result) {
         dispatch(newSuccessToast("Settings saved successfully!"));
+        router.replace(router.asPath);
       }
       if (error) {
         dispatch(newErrorToast(error.message));
