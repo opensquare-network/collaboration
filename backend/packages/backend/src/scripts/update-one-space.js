@@ -30,11 +30,7 @@ async function main() {
     { upsert: true, returnDocument: "after" },
   );
 
-  if (!result.ok) {
-    return;
-  }
-
-  console.log(omit(result.value, ["_id"]));
+  console.log(omit(result, ["_id"]));
   console.log(`Space "${space.id}" updated successfully.`);
 }
 
