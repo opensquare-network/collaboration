@@ -163,11 +163,35 @@ export function encodeURIQuery(q) {
 }
 
 export function toApproximatelyFixed(value, fixed = 2) {
-  if (!value || isNaN(value)) return value;
+  if (!value) {
+    return value;
+  }
+
+  if (isNaN(value)) {
+    if (typeof value !== "string") {
+      return value;
+    }
+    const [intPart, decPart] = value.split(".");
+    if (!decPart) {
+      return value;
+    }
+    const fixedDecPart = Number("0." + decPart)
+      .toFixed(fixed)
+      .split(".")[1];
+    if (!fixedDecPart) {
+      return intPart;
+    }
+    return intPart + "." + fixedDecPart;
+  }
+
   const nValue = Number(value);
-  if (nValue === 0) return "0";
+  if (nValue === 0) {
+    return "0";
+  }
   const fixedValue = nValue.toFixed(fixed);
-  if (Number(fixedValue) === nValue) return "" + fixedValue;
+  if (Number(fixedValue) === nValue) {
+    return "" + fixedValue;
+  }
   return "≈ " + fixedValue;
 }
 

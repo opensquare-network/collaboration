@@ -135,8 +135,8 @@ function VoteBalance({ voteBalance, balanceDetail, proposal }) {
           ) : null
         }
       >
-        {`Available ${bigNumber2Locale(
-          toApproximatelyFixed(
+        {`Available ${toApproximatelyFixed(
+          bigNumber2Locale(
             fromAssetUnit(voteBalance, proposal?.networksConfig?.decimals),
           ),
         )} ${proposal.networksConfig?.symbol}`}
