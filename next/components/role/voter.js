@@ -58,13 +58,17 @@ export default function Voter({
 
   return (
     <Wrapper>
-      <Popup content={popup}>
-        <IdentityUser
-          address={address}
-          network={network}
-          networkIconSize={showNetwork ? 16 : 0}
-        />
-      </Popup>
+      {address ? (
+        <Popup content={popup}>
+          <IdentityUser
+            address={address}
+            network={network}
+            networkIconSize={showNetwork ? 16 : 0}
+          />
+        </Popup>
+      ) : (
+        <span>Anonymous voter</span>
+      )}
     </Wrapper>
   );
 }

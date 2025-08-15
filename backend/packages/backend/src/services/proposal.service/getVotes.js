@@ -1,3 +1,4 @@
+const omit = require("lodash.omit");
 const { getProposalCollection, getVoteCollection } = require("../../mongo");
 const { calcWeights, getProposalSpace } = require("./common");
 
@@ -22,9 +23,24 @@ async function getVotes(proposalCid, page, pageSize) {
     .toArray();
 
   const spaceService = await getProposalSpace(proposal);
+  const votesWithWeights = votes.map((v) =>
+    calcWeights(v, spaceService.decimals),
+  );
+
+  if (proposal.anonymous) {
+    const anonymousVotes = votesWithWeights.map((vote) => {
+      return omit(vote, ["voter", "address", "signature", "data", "pinHash"]);
+    });
+    return {
+      items: anonymousVotes,
+      total,
+      page,
+      pageSize,
+    };
+  }
 
   return {
-    items: votes.map((v) => calcWeights(v, spaceService.decimals)),
+    items: votesWithWeights,
     total,
     page,
     pageSize,
