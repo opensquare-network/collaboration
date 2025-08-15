@@ -1,27 +1,46 @@
 import { ssrNextApi } from "../../services/nextApi";
 
-export default function proposal() {
+export default function Proposal() {
   return null;
 }
 
 export async function getServerSideProps(context) {
-  const { id } = context.params;
+  try {
+    const { id } = context.params;
 
-  const { result: detail } = await ssrNextApi.fetch(`proposal/${id}`);
+    if (!id) {
+      return {
+        notFound: true,
+      };
+    }
 
-  if (!detail) {
+    const { result: detail } = await ssrNextApi.fetch(`proposal/${id}`);
+
+    if (!detail.space || !detail.cid) {
+      return {
+        notFound: true,
+      };
+    }
+
+    const { result: space } = await ssrNextApi.fetch(`spaces/${detail.space}`);
+
+    if (!space) {
+      return {
+        notFound: true,
+      };
+    }
+
     return {
       redirect: {
         permanent: true,
-        destination: "/404",
+        destination: `/space/${detail.space}/proposal/${detail.cid}`,
       },
     };
-  }
+  } catch (error) {
+    console.error("Error searching for proposal:", error);
 
-  return {
-    redirect: {
-      permanent: true,
-      destination: `/space/${detail.space}/proposal/${detail.cid}`,
-    },
-  };
+    return {
+      notFound: true,
+    };
+  }
 }
