@@ -129,7 +129,16 @@ export default function ProposalTemplate({ space, settings }) {
     } finally {
       setIsLoading(false);
     }
-  }, [dispatch, account, title, content, contentType, space, signApiData]);
+  }, [
+    dispatch,
+    account,
+    title,
+    content,
+    contentType,
+    space,
+    signApiData,
+    router,
+  ]);
 
   return (
     <div

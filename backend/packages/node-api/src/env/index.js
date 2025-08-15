@@ -14,6 +14,7 @@ const chainEndpointPrefixMap = {
   [chains.polkadex]: "PDEX",
   [chains.interlay]: "INTR",
   [chains.acala]: "ACA",
+  [chains.astar]: "ASTR",
   [chains.crust]: "CRU",
   [chains.darwinia]: "RING",
   [chains.crab]: "CRAB",

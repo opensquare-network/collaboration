@@ -44,35 +44,40 @@ const voteText = (n) => `${n} ${n === 1 ? "vote" : "votes"}`;
 export default function AssetList({ assets }) {
   return (
     <Wrapper>
-      {assets.map(
-        ({ network, symbol, assetName, multiplier = 1, delegation }, index) => (
-          <div key={index}>
-            <DetailsValue>
-              <AssetName>
-                <AssetIconContainer>
-                  <ChainIcon chainName={network} size={20} />
-                </AssetIconContainer>
-                <FlexColumn>
-                  <span>{assetName || symbol}</span>
-                  {delegation && <DelegationText>delegation</DelegationText>}
-                </FlexColumn>
-              </AssetName>
-              <Tooltip
-                content={`1 ${assetName || symbol} = ${voteText(multiplier)}`}
-              >
-                <div>
-                  <FlexColumn style={{ alignItems: "flex-end" }}>
-                    <span>{`x${multiplier}`}</span>
-                    {delegation && (
-                      <DelegationText>{delegation}</DelegationText>
-                    )}
+      {assets
+        .filter((item) => !item.duplicateOf)
+        .map(
+          (
+            { network, symbol, assetName, multiplier = 1, delegation },
+            index,
+          ) => (
+            <div key={index}>
+              <DetailsValue>
+                <AssetName>
+                  <AssetIconContainer>
+                    <ChainIcon chainName={network} size={20} />
+                  </AssetIconContainer>
+                  <FlexColumn>
+                    <span>{assetName || symbol}</span>
+                    {delegation && <DelegationText>delegation</DelegationText>}
                   </FlexColumn>
-                </div>
-              </Tooltip>
-            </DetailsValue>
-          </div>
-        ),
-      )}
+                </AssetName>
+                <Tooltip
+                  content={`1 ${assetName || symbol} = ${voteText(multiplier)}`}
+                >
+                  <div>
+                    <FlexColumn style={{ alignItems: "flex-end" }}>
+                      <span>{`x${multiplier}`}</span>
+                      {delegation && (
+                        <DelegationText>{delegation}</DelegationText>
+                      )}
+                    </FlexColumn>
+                  </div>
+                </Tooltip>
+              </DetailsValue>
+            </div>
+          ),
+        )}
     </Wrapper>
   );
 }

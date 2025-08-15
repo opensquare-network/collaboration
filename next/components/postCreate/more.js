@@ -116,14 +116,21 @@ function SnapshotHeight({ space }) {
       />
       <DateWrapper>
         <SnapshotHeightPicker space={space} />
-        {space.networks?.map((network) => (
-          <Snapshot className="snapshot" key={network.network}>
-            <NetworkName>{getChainDisplayName(network.network)}</NetworkName>
-            {snapshotHeights.find(
-              (snapshotHeight) => snapshotHeight.network === network.network,
-            )?.height || <TextGrey>-</TextGrey>}
-          </Snapshot>
-        ))}
+        {(space.networks || [])
+          .filter((network) => {
+            const assetsCount = (network.assets || []).filter(
+              (asset) => !asset.duplicateOf,
+            ).length;
+            return assetsCount > 0;
+          })
+          .map((network) => (
+            <Snapshot className="snapshot" key={network.network}>
+              <NetworkName>{getChainDisplayName(network.network)}</NetworkName>
+              {snapshotHeights.find(
+                (snapshotHeight) => snapshotHeight.network === network.network,
+              )?.height || <TextGrey>-</TextGrey>}
+            </Snapshot>
+          ))}
       </DateWrapper>
     </InnerWrapper>
   );

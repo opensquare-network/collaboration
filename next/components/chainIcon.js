@@ -7,6 +7,8 @@ export function ChainIcon({ chainName, size }) {
   let chain = camalCase(normalizeChainName(chainName));
   if (chainName === networks.creditcoinNative) {
     chain = networks.creditcoin;
+  } else if (chainName === networks.astarEvm) {
+    chain = networks.astar;
   }
 
   return (

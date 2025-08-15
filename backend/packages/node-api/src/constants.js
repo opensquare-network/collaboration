@@ -11,6 +11,8 @@ const chains = {
   kintsugi: "kintsugi",
   interlay: "interlay",
   acala: "acala",
+  astar: "astar",
+  astarEvm: "astar_evm",
   crust: "crust",
   darwinia: "darwinia",
   turing: "turing",
@@ -45,11 +47,14 @@ const evmChains = Object.freeze({
   moonbeam: "moonbeam",
   ethereum: "ethereum",
   creditcoin_evm: "creditcoin_evm",
+  astar_evm: "astar_evm",
 });
 
 const chainBlockTime = {
   polkadot: sixSecond,
   kusama: sixSecond,
+  astar: sixSecond,
+  astar_evm: sixSecond,
   karura: twelveSecond,
   khala: twelveSecond,
   phala: twelveSecond,

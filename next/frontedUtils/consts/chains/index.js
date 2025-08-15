@@ -11,6 +11,7 @@ import polkadot from "./polkadot";
 import kusama from "./kusama";
 import acala from "./acala";
 import altair from "./altair";
+import astar from "./astar";
 import bifrostKusama from "./bifrostKusama";
 import bifrostPolkadot from "./bifrostPolkadot";
 import centrifuge from "./centrifuge";
@@ -31,6 +32,7 @@ export const chainConfigsMap = {
   kusama,
   acala,
   altair,
+  astar,
   bifrost: bifrostKusama,
   "bifrost-polkadot": bifrostPolkadot,
   centrifuge,
@@ -71,16 +73,19 @@ export const evm = {
   moonriver: "moonriver",
   ethereum: "ethereum",
   creditcoin_evm: "creditcoin_evm",
+  astar_evm: "astar_evm",
 };
 export const evmChains = [
   evm.moonbeam,
   evm.moonriver,
   evm.ethereum,
   evm.creditcoin_evm,
+  evm.astar_evm,
 ];
 export const evmChainId = Object.freeze({
   [evm.moonbeam]: 1284,
   [evm.moonriver]: 1285,
   [evm.ethereum]: 1,
   [evm.creditcoin_evm]: 102030,
+  [evm.astar_evm]: 592,
 });
