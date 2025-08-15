@@ -29,6 +29,7 @@ async function createSocietyProposal({
   data,
   address,
   signature,
+  anonymous,
 }) {
   const spaceService = spaceServices[space];
   const weightStrategy = spaceService.weightStrategy;
@@ -63,6 +64,7 @@ async function createSocietyProposal({
     proposer,
     proposerNetwork,
     banner,
+    anonymous,
   });
 }
 
