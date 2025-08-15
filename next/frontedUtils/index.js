@@ -167,32 +167,26 @@ export function toApproximatelyFixed(value, fixed = 2) {
     return value;
   }
 
-  if (isNaN(value)) {
-    if (typeof value !== "string") {
-      return value;
-    }
-    const [intPart, decPart] = value.split(".");
-    if (!decPart) {
-      return value;
-    }
-    const fixedDecPart = Number("0." + decPart)
-      .toFixed(fixed)
-      .split(".")[1];
-    if (!fixedDecPart) {
-      return intPart;
-    }
-    return intPart + "." + fixedDecPart;
+  if (isNaN(value) && !isNumberWithComma(value)) {
+    return value;
   }
 
-  const nValue = Number(value);
-  if (nValue === 0) {
-    return "0";
+  const [intPart, decPart] = trimTailZero(value).split(".");
+  if (!decPart) {
+    return intPart;
   }
-  const fixedValue = nValue.toFixed(fixed);
-  if (Number(fixedValue) === nValue) {
-    return "" + fixedValue;
+  const fixedDecPart = trimTailZero(
+    Number("0." + decPart).toFixed(fixed),
+  ).split(".")[1];
+
+  let approximate = "";
+  if (fixedDecPart !== decPart) {
+    approximate = "≈ ";
   }
-  return "≈ " + fixedValue;
+  if (!fixedDecPart) {
+    return approximate + intPart;
+  }
+  return approximate + intPart + "." + fixedDecPart;
 }
 
 export function getEffectiveNumbers(n) {
@@ -249,4 +243,24 @@ export function isZero(value) {
 
 export function isUseReCaptcha() {
   return !!process.env.NEXT_PUBLIC_RECAPTCHA_SITEKEY;
+}
+
+export function trimTailZero(value) {
+  if (typeof value !== "string") {
+    value = String(value);
+  }
+  if (value.indexOf(".") === -1) {
+    return value;
+  }
+  return value
+    .replace(/(\.\d*?[1-9])0+$/g, "$1")
+    .replace(/\.0+$/, "")
+    .replace(/\.$/, "");
+}
+
+export function isNumberWithComma(str) {
+  if (typeof str !== "string") {
+    return false;
+  }
+  return /^\s*[+-]?(\d{1,3}(,\d{3})*)(\.\d+)?\s*$/.test(str);
 }
