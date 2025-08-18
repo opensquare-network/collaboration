@@ -1,8 +1,8 @@
-const omit = require("lodash.omit");
 const { HttpError } = require("../../exc");
 const { getVoteCollection, getProposalCollection } = require("../../mongo");
 const { normalizeAddress } = require("../../utils/address");
 const { calcWeights } = require("../../services/proposal.service/common");
+const { getAnonymousVote } = require("../../utils/anonymous");
 
 async function getUserVotesOfProposals(ctx) {
   const { network, address, proposal_cid: proposalCid } = ctx.query;
@@ -42,7 +42,7 @@ async function getUserVotesOfProposals(ctx) {
   ctx.body = votes.map((vote) => {
     const v = calcWeights(vote);
     if (anonymousProposals.has(vote.data.proposalCid)) {
-      return omit(v, ["voter", "address", "signature", "data", "pinHash"]);
+      return getAnonymousVote(v);
     }
     return v;
   });
