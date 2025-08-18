@@ -8,6 +8,7 @@ import statusReducer from "./statusSlice";
 import authoringReducer from "./authoringSlice";
 import notificationReducer from "./notificationSlice";
 import newSpaceReducer from "./newSpaceSlice";
+import newProposalReducer from "./newProposalSlice";
 
 export default combineReducers({
   account: accountReducer,
@@ -18,4 +19,5 @@ export default combineReducers({
   status: statusReducer,
   notification: notificationReducer,
   newSpace: newSpaceReducer,
+  newProposal: newProposalReducer,
 });

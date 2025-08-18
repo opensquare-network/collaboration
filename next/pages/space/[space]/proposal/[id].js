@@ -43,28 +43,33 @@ export default function Index({
   }, [dispatch, detail]);
 
   useEffect(() => {
-    if (loginAddress) {
-      nextApi
-        .fetch(`${space.id}/proposal/${detail?.cid}/votes/${loginAddress}`)
-        .then((result) => {
-          if (!isMounted) {
-            return;
-          }
-
-          if (result?.result) {
-            setSavedMyVote(result.result);
-          } else {
-            setSavedMyVote(null);
-          }
-        })
-        .catch(() => {
-          setSavedMyVote(null);
-        });
-    } else {
-      // logout
+    if (!loginAddress) {
       setSavedMyVote(null);
+      return;
     }
-  }, [loginAddress, detail?.cid, space, myVote, isMounted]);
+
+    if (detail?.anonymous) {
+      setSavedMyVote(null);
+      return;
+    }
+
+    nextApi
+      .fetch(`${space.id}/proposal/${detail?.cid}/votes/${loginAddress}`)
+      .then((result) => {
+        if (!isMounted) {
+          return;
+        }
+
+        if (result?.result) {
+          setSavedMyVote(result.result);
+        } else {
+          setSavedMyVote(null);
+        }
+      })
+      .catch(() => {
+        setSavedMyVote(null);
+      });
+  }, [loginAddress, detail?.cid, detail?.anonymous, space, myVote, isMounted]);
 
   if (!detail) {
     return <FourOFour />;
