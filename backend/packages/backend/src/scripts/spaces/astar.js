@@ -38,7 +38,6 @@ const astarConfig = {
   spaceIcon: "astar.svg",
   seoCoverFilename: "astar.jpg",
   admins: [],
-  allowAnonymousProposal: true,
 };
 
 module.exports = {
