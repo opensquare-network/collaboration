@@ -2,11 +2,12 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 // const { jamDaoConfig } = require("./spaces/jamdao");
-const { truthDaoConfig } = require("./spaces/truthdao");
+// const { truthDaoConfig } = require("./spaces/truthdao");
+const { astarConfig } = require("./spaces/astar");
 const { getSpaceCollection } = require("../mongo");
 
 (async () => {
-  const space = truthDaoConfig;
+  const space = astarConfig;
 
   const spaceCol = await getSpaceCollection();
   await spaceCol.findOneAndUpdate(
