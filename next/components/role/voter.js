@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import Popup from "@/components/popup";
 import { IdentityUser } from "@osn/common-ui";
-import makeBlockie from "ethereum-blockies-base64";
 import { networks } from "frontedUtils/consts/chains/networks";
+import SystemAvatarPlaceholder from "@osn/icons/src/opensquare/systemAvatarPlaceholder.svg";
 
 const Wrapper = styled.div`
   display: flex;
@@ -44,9 +44,9 @@ function AnonymousVoter() {
     <div className="flex gap-2 items-center">
       <img
         className="rounded-full w-[20px] h-[20px]"
-        src={makeBlockie("0x1111111111111111111111111111111111111111")}
+        src={SystemAvatarPlaceholder}
       />
-      <span>Anonymous</span>
+      <span>anonymous</span>
     </div>
   );
 }
