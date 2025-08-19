@@ -29,6 +29,7 @@ async function createProposal({
   data,
   address,
   signature,
+  anonymous,
 }) {
   const spaceService = spaceServices[space];
   if (spaceService.onlyAdminCanCreateProposals && !isAdmin(space, address)) {
@@ -77,6 +78,7 @@ async function createProposal({
     proposer,
     proposerNetwork,
     banner,
+    anonymous,
   });
 }
 
@@ -98,6 +100,7 @@ async function saveProposal({
   proposer,
   proposerNetwork,
   banner,
+  anonymous,
 }) {
   const { cid, pinHash } = await pinData({ data, address, signature });
 
@@ -134,6 +137,7 @@ async function saveProposal({
     // Version 2: support multi-network space
     // Version 3: support multi-assets network
     version: "3",
+    anonymous,
   });
 
   if (!result.insertedId) {

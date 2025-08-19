@@ -177,6 +177,19 @@ function checkProposalSpace(data) {
   }
 }
 
+function checkAnonymousProposal(data) {
+  const { space, anonymous } = data;
+
+  const spaceService = spaceServices[space];
+
+  if (anonymous && !spaceService.allowAnonymousProposal) {
+    throw new HttpError(
+      400,
+      "Anonymous proposals are not allowed in this space",
+    );
+  }
+}
+
 async function checkProposalOptions(data) {
   const { proposerNetwork } = data;
 
@@ -197,6 +210,8 @@ async function checkProposalOptions(data) {
   checkProposalDate(data);
 
   checkProposalChoices(data);
+
+  checkAnonymousProposal(data);
 }
 
 async function createProposal(ctx) {
@@ -215,6 +230,7 @@ async function createProposal(ctx) {
     realProposer,
     proposerNetwork,
     banner,
+    anonymous,
   } = data;
 
   await checkProposalOptions(data);
@@ -239,6 +255,7 @@ async function createProposal(ctx) {
       data,
       address,
       signature,
+      anonymous,
     });
     return;
   }
@@ -261,6 +278,7 @@ async function createProposal(ctx) {
       data,
       address,
       signature,
+      anonymous,
     });
     return;
   }
@@ -282,6 +300,7 @@ async function createProposal(ctx) {
     data,
     address,
     signature,
+    anonymous,
   });
 }
 

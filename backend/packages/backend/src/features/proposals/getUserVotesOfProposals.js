@@ -1,6 +1,7 @@
 const { HttpError } = require("../../exc");
-const { getVoteCollection } = require("../../mongo");
+const { getVoteCollection, getProposalCollection } = require("../../mongo");
 const { normalizeAddress } = require("../../utils/address");
+const { calcWeights } = require("../../services/proposal.service/common");
 
 async function getUserVotesOfProposals(ctx) {
   const { network, address, proposal_cid: proposalCid } = ctx.query;
@@ -20,8 +21,16 @@ async function getUserVotesOfProposals(ctx) {
   const proposalCids = proposalCid.split(",");
   const normalizedAddress = normalizeAddress(address);
 
+  const proposalCol = await getProposalCollection();
+  const proposals = await proposalCol
+    .find({ cid: { $in: proposalCids } })
+    .toArray();
+  const nonAnonymousProposals = new Set(
+    proposals.filter((p) => !p.anonymous).map((p) => p.cid),
+  );
+
   const q = {
-    "data.proposalCid": { $in: proposalCids },
+    "data.proposalCid": { $in: nonAnonymousProposals },
     voter: { $in: [address, normalizedAddress] },
     voterNetwork: network,
   };
@@ -29,7 +38,7 @@ async function getUserVotesOfProposals(ctx) {
   const voteCol = await getVoteCollection();
   const votes = await voteCol.find(q).toArray();
 
-  ctx.body = votes;
+  ctx.body = votes.map((vote) => calcWeights(vote));
 }
 
 module.exports = {

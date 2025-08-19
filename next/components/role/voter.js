@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Popup from "@/components/popup";
 import { IdentityUser } from "@osn/common-ui";
 import { networks } from "frontedUtils/consts/chains/networks";
+import SystemAvatarPlaceholder from "@osn/icons/src/opensquare/systemAvatarPlaceholder.svg";
 
 const Wrapper = styled.div`
   display: flex;
@@ -38,6 +39,18 @@ const Divider = styled.div`
   background-color: var(--fillBgTertiary);
 `;
 
+function AnonymousVoter() {
+  return (
+    <div className="flex gap-2 items-center">
+      <img
+        className="rounded-full w-[20px] h-[20px]"
+        src={SystemAvatarPlaceholder}
+      />
+      <span>Anonymous</span>
+    </div>
+  );
+}
+
 export default function Voter({
   address,
   network,
@@ -64,13 +77,17 @@ export default function Voter({
 
   return (
     <Wrapper>
-      <Popup content={popup}>
-        <IdentityUser
-          address={address}
-          network={normalizeNetwork}
-          networkIconSize={showNetwork ? 16 : 0}
-        />
-      </Popup>
+      {address ? (
+        <Popup content={popup}>
+          <IdentityUser
+            address={address}
+            network={normalizeNetwork}
+            networkIconSize={showNetwork ? 16 : 0}
+          />
+        </Popup>
+      ) : (
+        <AnonymousVoter />
+      )}
     </Wrapper>
   );
 }

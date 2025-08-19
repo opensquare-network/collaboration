@@ -1,5 +1,6 @@
 const { getProposalCollection, getVoteCollection } = require("../../mongo");
 const { calcWeights, getProposalSpace } = require("./common");
+const { getAnonymousVote } = require("../../utils/anonymous");
 
 async function getVotes(proposalCid, page, pageSize) {
   const proposalCol = await getProposalCollection();
@@ -22,9 +23,24 @@ async function getVotes(proposalCid, page, pageSize) {
     .toArray();
 
   const spaceService = await getProposalSpace(proposal);
+  const votesWithWeights = votes.map((v) =>
+    calcWeights(v, spaceService.decimals),
+  );
+
+  if (proposal.anonymous) {
+    const anonymousVotes = votesWithWeights.map((vote) =>
+      getAnonymousVote(vote),
+    );
+    return {
+      items: anonymousVotes,
+      total,
+      page,
+      pageSize,
+    };
+  }
 
   return {
-    items: votes.map((v) => calcWeights(v, spaceService.decimals)),
+    items: votesWithWeights,
     total,
     page,
     pageSize,

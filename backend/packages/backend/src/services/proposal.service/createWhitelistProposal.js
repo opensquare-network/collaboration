@@ -29,6 +29,7 @@ async function createWhitelistProposal({
   data,
   address,
   signature,
+  anonymous,
 }) {
   const spaceService = spaceServices[space];
   const weightStrategy = spaceService.weightStrategy;
@@ -60,6 +61,7 @@ async function createWhitelistProposal({
     proposer,
     proposerNetwork,
     banner,
+    anonymous,
   });
 }
 

@@ -271,7 +271,10 @@ function VoteButton({
 
   const useProxy = useSelector(useProxySelector);
 
-  const buttonText = useProxy ? "Proxy Vote" : "Vote";
+  let buttonText = useProxy ? "Proxy Vote" : "Vote";
+  if (proposal.anonymous) {
+    buttonText = "Anonymous " + buttonText;
+  }
 
   const whitelist = useMemo(() => {
     if (isCollectiveSpace(proposal?.networksConfig?.type)) {

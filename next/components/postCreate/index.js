@@ -46,6 +46,7 @@ import { signProposalWith } from "frontedUtils/signData";
 import useSignApiData from "hooks/useSignApiData";
 import { validateProposal } from "frontedUtils/validate";
 import { getSpaceNetwork } from "frontedUtils/space";
+import { allowAnonymousProposalSelector } from "store/reducers/newProposalSlice";
 
 const Wrapper = styled.div`
   display: flex;
@@ -87,6 +88,7 @@ export default function PostCreate({ space, settings }) {
   const loginAddress = useSelector(loginAddressSelector);
   const loginNetworkSnapshot = useSelector(loginNetworkSnapshotSelector);
   const signApiData = useSignApiData();
+  const allowAnonymousProposal = useSelector(allowAnonymousProposalSelector);
 
   const snapshotHeights = useSelector(snapshotHeightsSelector);
   const choiceTypeIndex = useSelector(choiceTypeIndexSelector);
@@ -224,6 +226,7 @@ export default function PostCreate({ space, settings }) {
       realProposer: useProxy ? proxyAddress : null,
       proposerNetwork: account.network,
       ...(isSetBanner && bannerUrl ? { banner: bannerUrl } : {}),
+      anonymous: allowAnonymousProposal,
     };
 
     return await signAndSendProposal(proposal);
