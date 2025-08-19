@@ -9,7 +9,7 @@ import {
 import { useEffect } from "react";
 
 const Wrapper = styled.div`
-  margin-top: 4px !important;
+  margin-top: 8px !important;
 `;
 
 export default function Anonymous() {

@@ -23,6 +23,7 @@ import { hasSocietyVoteStrategyOnly } from "frontedUtils/strategy";
 import dayjs from "dayjs";
 import { getChainDisplayName } from "frontedUtils/chain";
 import { hasWhitelist, isCollectiveSpace } from "frontedUtils/space";
+import Anonymous from "./anonymous";
 
 const Wrapper = styled.div`
   min-width: 302px;
@@ -191,7 +192,7 @@ function Period({ space }) {
   );
 }
 
-function ChoiceType() {
+function System({ space }) {
   const dispatch = useDispatch();
   const choiceTypeIndex = useSelector(choiceTypeIndexSelector);
 
@@ -206,11 +207,14 @@ function ChoiceType() {
   return (
     <InnerWrapper>
       <SideSectionTitle title="System" img="/imgs/icons/action.svg" />
-      <DropdownSelector
-        options={choiceTypes}
-        value={choiceTypeIndex}
-        onSelect={(value) => dispatch(setChoiceTypeIndex(value))}
-      />
+      <DateWrapper>
+        <DropdownSelector
+          options={choiceTypes}
+          value={choiceTypeIndex}
+          onSelect={(value) => dispatch(setChoiceTypeIndex(value))}
+        />
+        {space.allowAnonymousProposal && <Anonymous space={space} />}
+      </DateWrapper>
     </InnerWrapper>
   );
 }
@@ -218,7 +222,7 @@ function ChoiceType() {
 export default function More({ onPublish, space }) {
   return (
     <Wrapper>
-      <ChoiceType />
+      <System space={space} />
       <Period space={space} />
       <SnapshotHeight space={space} />
       <InnerWrapper>

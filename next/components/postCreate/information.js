@@ -24,7 +24,6 @@ import SocietyMemberHint from "./societyMemberHint";
 import WhitelistMemberHint from "./whitelistMemberHint";
 import { useEffect, useMemo, useState } from "react";
 import { isCollectiveSpace } from "frontedUtils/space";
-import Anonymous from "./anonymous";
 
 const Hint = styled.div`
   margin-top: 4px !important;
@@ -138,7 +137,6 @@ export default function Information({ space }) {
         </WhitelistMemberHint>
       )}
       {space.accessibility !== "whitelist" && <Proxy space={space} />}
-      {space.allowAnonymousProposal && <Anonymous space={space} />}
     </>
   );
 }

@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Popup from "@/components/popup";
 import { IdentityUser } from "@osn/common-ui";
+import makeBlockie from "ethereum-blockies-base64";
 
 const Wrapper = styled.div`
   display: flex;
@@ -37,6 +38,18 @@ const Divider = styled.div`
   background-color: var(--fillBgTertiary);
 `;
 
+function AnonymousVoter() {
+  return (
+    <div className="flex gap-2 items-center">
+      <img
+        className="rounded-full w-[20px] h-[20px]"
+        src={makeBlockie("0x1111111111111111111111111111111111111111")}
+      />
+      <span>Anonymous</span>
+    </div>
+  );
+}
+
 export default function Voter({
   address,
   network,
@@ -67,7 +80,7 @@ export default function Voter({
           />
         </Popup>
       ) : (
-        <span>Anonymous voter</span>
+        <AnonymousVoter address={address} network={network} />
       )}
     </Wrapper>
   );
