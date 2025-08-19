@@ -46,7 +46,7 @@ function AnonymousVoter() {
         className="rounded-full w-[20px] h-[20px]"
         src={SystemAvatarPlaceholder}
       />
-      <span>anonymous</span>
+      <span>Anonymous</span>
     </div>
   );
 }
