@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Popup from "@/components/popup";
 import { IdentityUser } from "@osn/common-ui";
+import { networks } from "frontedUtils/consts/chains/networks";
 
 const Wrapper = styled.div`
   display: flex;
@@ -44,11 +45,16 @@ export default function Voter({
   // eslint-disable-next-line
   isSafari = false,
 }) {
+  let normalizeNetwork = network;
+  if (network === networks.astarEvm) {
+    normalizeNetwork = networks.astar;
+  }
+
   const popup = (
     <PopupCard>
       <IdentityUser
         address={address}
-        network={network}
+        network={normalizeNetwork}
         networkIconSize={showNetwork ? 16 : 0}
       />
       <Divider />
@@ -61,7 +67,7 @@ export default function Voter({
       <Popup content={popup}>
         <IdentityUser
           address={address}
-          network={network}
+          network={normalizeNetwork}
           networkIconSize={showNetwork ? 16 : 0}
         />
       </Popup>
