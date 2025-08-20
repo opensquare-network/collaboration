@@ -25,9 +25,9 @@ async function getUserVotesOfProposals(ctx) {
   const proposals = await proposalCol
     .find({ cid: { $in: proposalCids } })
     .toArray();
-  const nonAnonymousProposals = new Set(
-    proposals.filter((p) => !p.anonymous).map((p) => p.cid),
-  );
+  const nonAnonymousProposals = proposals
+    .filter((p) => !p.anonymous)
+    .map((p) => p.cid);
 
   const q = {
     "data.proposalCid": { $in: nonAnonymousProposals },
