@@ -77,11 +77,12 @@ export default function Details({ space }) {
   const strategyCount = space.weightStrategy?.length || 0;
   const assets = getSpaceAssets(space);
   const whitelist = useMemo(() => {
+    if (!space) return null;
     if (isCollectiveSpace(space.type)) {
-      return space?.members;
+      return space.members;
     }
-    return space?.whitelist;
-  }, [space?.members, space.type, space?.whitelist]);
+    return space.whitelist;
+  }, [space]);
   const memberCount = whitelist?.length || 0;
 
   return (

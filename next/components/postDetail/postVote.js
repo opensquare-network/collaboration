@@ -164,16 +164,15 @@ function BalanceInfo({ proposal, balance, balanceDetail, delegation }) {
   const supportProxy = useSelector(canUseProxySelector);
   const snapshot = proposal.snapshotHeights[loginNetwork];
 
+  const networksConfig = proposal?.networksConfig;
   const whitelist = useMemo(() => {
-    if (isCollectiveSpace(proposal?.networksConfig?.type)) {
-      return proposal?.networksConfig?.members;
+    if (!networksConfig) return null;
+    if (isCollectiveSpace(networksConfig.type)) {
+      return networksConfig.members;
     }
-    return proposal?.networksConfig?.whitelist;
-  }, [
-    proposal?.networksConfig?.members,
-    proposal?.networksConfig?.type,
-    proposal?.networksConfig?.whitelist,
-  ]);
+    return networksConfig.whitelist;
+  }, [networksConfig]);
+
   let balanceInfo = null;
 
   if (hasBalanceStrategy(proposal?.weightStrategy)) {
@@ -276,16 +275,14 @@ function VoteButton({
     buttonText = "Anonymous " + buttonText;
   }
 
+  const networksConfig = proposal?.networksConfig;
   const whitelist = useMemo(() => {
-    if (isCollectiveSpace(proposal?.networksConfig?.type)) {
-      return proposal?.networksConfig?.members;
+    if (!networksConfig) return null;
+    if (isCollectiveSpace(networksConfig.type)) {
+      return networksConfig.members;
     }
-    return proposal?.networksConfig?.whitelist;
-  }, [
-    proposal?.networksConfig?.members,
-    proposal?.networksConfig?.type,
-    proposal?.networksConfig?.whitelist,
-  ]);
+    return networksConfig.whitelist;
+  }, [networksConfig]);
 
   if (isSocietyProposal) {
     return (

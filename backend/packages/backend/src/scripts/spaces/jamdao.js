@@ -1,4 +1,4 @@
-const { Accessibility } = require("../../consts/space");
+const { Accessibility, SpaceType } = require("../../consts/space");
 const { networks, strategies } = require("./consts");
 
 const config = {
@@ -7,7 +7,8 @@ const config = {
   symbol: "DOT",
   decimals: 10,
   accessibility: Accessibility.WHITELIST,
-  whitelist: [
+  type: SpaceType.CollectivesDao,
+  members: [
     // list addresses here to give them access to the space
     "121Rs6fKm8nguHnvPfG1Cq3ctFuNAVZGRmghwkJwHpKxKjbx", // JAM DUNA
     "143FppLAgb1KrvTRfkWKnozBeoZsZrhRr41gSBMyUDkUNT8z", // Gossamer

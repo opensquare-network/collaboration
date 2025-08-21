@@ -112,12 +112,13 @@ export default function Information({ space }) {
   const proxyBalanceLoading = useSelector(proxyBalanceLoadingSelector);
   const balanceLoading = useSelector(balanceLoadingSelector);
 
-  const whiteList = useMemo(() => {
-    if (isCollectiveSpace(space?.type)) {
-      return space?.members;
+  const whitelist = useMemo(() => {
+    if (!space) return null;
+    if (isCollectiveSpace(space.type)) {
+      return space.members;
     }
-    return space?.whitelist;
-  }, [space?.members, space?.type, space?.whitelist]);
+    return space.whitelist;
+  }, [space]);
 
   return (
     <>
@@ -132,7 +133,7 @@ export default function Information({ space }) {
       <InfoHint space={space} />
       {space.accessibility === "society" && <SocietyMemberHint space={space} />}
       {space.accessibility === "whitelist" && (
-        <WhitelistMemberHint whitelist={whiteList}>
+        <WhitelistMemberHint whitelist={whitelist}>
           Only members can create a proposal
         </WhitelistMemberHint>
       )}
