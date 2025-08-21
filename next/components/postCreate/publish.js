@@ -46,11 +46,12 @@ function Publish({ onPublish, space }) {
   const isSocietySpace = space.accessibility === "society";
   const isWhitelistSpace = space.accessibility === "whitelist";
   const whitelist = useMemo(() => {
+    if (!space) return null;
     if (isCollectiveSpace(space.type)) {
-      return space?.members;
+      return space.members;
     }
-    return space?.whitelist;
-  }, [space?.members, space.type, space?.whitelist]);
+    return space.whitelist;
+  }, [space]);
 
   if (!loginAddress) {
     return (

@@ -37,7 +37,9 @@ export default function MemberManagement({ space }) {
 
 const MemberCard = ({ space }) => {
   const router = useRouter();
-  const [members, setMembers] = useState(space.members || []);
+  const [members, setMembers] = useState(
+    space.members || space.whitelist || [],
+  );
 
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();

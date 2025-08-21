@@ -87,12 +87,13 @@ const AvatarIcons = styled.div`
 
 export default function ListInfo({ space }) {
   const [modalOpen, setModalOpen] = useState(false);
-  const memebers = useMemo(() => {
+  const members = useMemo(() => {
+    if (!space) return [];
     if (isCollectiveSpace(space.type)) {
       return space.members || [];
     }
     return space.whitelist || [];
-  }, [space.members, space.type, space.whitelist]);
+  }, [space]);
 
   const strategyCount = space.weightStrategy?.length || 0;
 
@@ -113,17 +114,17 @@ export default function ListInfo({ space }) {
         </div>
       </Flex>
       <Flex>
-        {memebers.length > 0 && (
+        {members.length > 0 && (
           <>
             <AboutItem>
               <SystemMembers className="w-6 h-6 mr-2 text-textTertiary" />
               <div>
                 <AboutName role="button" onClick={handleShowModal}>
-                  Members({memebers.length})
+                  Members({members.length})
                 </AboutName>
                 <AvatarIconsWrapper>
                   <AvatarIcons>
-                    {memebers?.slice(0, 5).map((address, index) => (
+                    {members.slice(0, 5).map((address, index) => (
                       <AvatarWithTooltip
                         key={index}
                         address={address}
@@ -133,7 +134,7 @@ export default function ListInfo({ space }) {
                       />
                     ))}
                   </AvatarIcons>
-                  {space.whitelist?.length > 5 && (
+                  {members.length > 5 && (
                     <span className="text-textTertiary ml-3">...</span>
                   )}
                 </AvatarIconsWrapper>

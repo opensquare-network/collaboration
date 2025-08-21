@@ -72,11 +72,12 @@ export default function PostInfo({ data, space }) {
   const assets = getSpaceAssets(data.networksConfig);
 
   const whitelist = useMemo(() => {
+    if (!space) return null;
     if (isCollectiveSpace(space.type)) {
-      return space?.members;
+      return space.members;
     }
-    return space?.whitelist;
-  }, [space?.members, space.type, space?.whitelist]);
+    return space.whitelist;
+  }, [space]);
 
   return (
     <Wrapper>
