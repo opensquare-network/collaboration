@@ -1,13 +1,12 @@
-import Layout from "components/layout";
-import Breadcrumb from "components/breadcrumb";
 import { ssrNextApi } from "services/nextApi";
 import { to404 } from "frontedUtils/serverSideUtil";
-import PostSettings from "components/postSettings";
 import { useDispatch } from "react-redux";
 import { setAvailableNetworks } from "store/reducers/accountSlice";
 import { useEffect } from "react";
 import { getSpaceNetwork } from "frontedUtils/space";
 import pick from "lodash-es/pick";
+import SettingLayout from "@/components/postSettings/settingLayout";
+import SpaceProfile from "@/components/postSettings/spaceProfile";
 
 export default function Settings({ space, settings }) {
   const dispatch = useDispatch();
@@ -20,18 +19,10 @@ export default function Settings({ space, settings }) {
       ),
     );
   }, [dispatch, space]);
-
   return (
-    <Layout bgHeight="183px" networks={getSpaceNetwork(space)}>
-      <Breadcrumb
-        routes={[
-          { name: "Home", link: "/" },
-          { name: space?.name, link: `/space/${space?.id}` },
-          { name: "Settings" },
-        ]}
-      />
-      <PostSettings space={space} settings={settings} />
-    </Layout>
+    <SettingLayout space={space} activeTab="space">
+      <SpaceProfile space={space} settings={settings} />
+    </SettingLayout>
   );
 }
 
