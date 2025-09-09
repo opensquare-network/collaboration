@@ -16,17 +16,17 @@ export default function SettingLayout({ space, activeTab = "", children }) {
     () =>
       [
         {
-          value: "space",
+          value: "profile",
           label: "Space Profile",
           icon: <SystemInfo className="[&_path]:fill-textTertiary" />,
         },
         {
-          value: "proposal-template",
+          value: "template",
           label: "Proposal Template",
           icon: <SystemNewPost className="[&_path]:fill-textTertiary" />,
         },
         isCollectiveSpace(space.type) && {
-          value: "member",
+          value: "members",
           label: "Member Management",
           icon: (
             <SystemMemberManagement className="[&_path]:fill-textTertiary" />

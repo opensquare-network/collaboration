@@ -20,7 +20,7 @@ export default function Settings({ space, settings }) {
     );
   }, [dispatch, space]);
   return (
-    <SettingLayout space={space} activeTab="space">
+    <SettingLayout space={space} activeTab="profile">
       <SpaceProfile space={space} settings={settings} />
     </SettingLayout>
   );

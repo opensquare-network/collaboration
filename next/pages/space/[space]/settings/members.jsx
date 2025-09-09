@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { getSpaceNetwork } from "frontedUtils/space";
 import pick from "lodash-es/pick";
 import SettingLayout from "@/components/postSettings/settingLayout";
-export { getServerSideProps } from "./space";
+export { getServerSideProps } from "./profile";
 import MemberManagement from "@/components/postSettings/memberManagement";
 
 export default function Settings({ space, settings }) {
@@ -19,7 +19,7 @@ export default function Settings({ space, settings }) {
     );
   }, [dispatch, space]);
   return (
-    <SettingLayout space={space} activeTab="member">
+    <SettingLayout space={space} activeTab="members">
       <MemberManagement space={space} settings={settings} />
     </SettingLayout>
   );

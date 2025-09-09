@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { getSpaceNetwork } from "frontedUtils/space";
 import pick from "lodash-es/pick";
 import SettingLayout from "@/components/postSettings/settingLayout";
-export { getServerSideProps } from "./space";
+export { getServerSideProps } from "./profile";
 import ProposalTemplate from "@/components/postSettings/proposalTemplate";
 
 export default function Settings({ space, settings }) {
@@ -19,7 +19,7 @@ export default function Settings({ space, settings }) {
     );
   }, [dispatch, space]);
   return (
-    <SettingLayout space={space} activeTab="proposal-template">
+    <SettingLayout space={space} activeTab="template">
       <ProposalTemplate space={space} settings={settings} />
     </SettingLayout>
   );
