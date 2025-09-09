@@ -3,6 +3,7 @@ const { getProposalCollection, getCommentCollection } = require("../../mongo");
 const { HttpError } = require("../../exc");
 const { ContentType } = require("../../constants");
 const { pinData } = require("./common");
+const { SpaceType } = require("../../consts/space");
 
 async function postComment(
   proposalCid,
@@ -19,12 +20,14 @@ async function postComment(
     throw new HttpError(400, "Proposal not found.");
   }
 
-  const snapshotNetworks = Object.keys(proposal.snapshotHeights);
-  if (!snapshotNetworks.includes(commenterNetwork)) {
-    throw new HttpError(
-      400,
-      "Commenter network is not supported by this proposal",
-    );
+  if (proposal.networksConfig.type !== SpaceType.CollectivesDao) {
+    const snapshotNetworks = Object.keys(proposal.snapshotHeights);
+    if (!snapshotNetworks.includes(commenterNetwork)) {
+      throw new HttpError(
+        400,
+        "Commenter network is not supported by this proposal",
+      );
+    }
   }
 
   const { cid, pinHash } = await pinData({ data, address, signature });
