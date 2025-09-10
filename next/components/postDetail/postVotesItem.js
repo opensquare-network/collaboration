@@ -30,6 +30,7 @@ const InfoWrapper = styled.div`
   }
   @media screen and (max-width: 800px) {
     gap: 8px;
+    align-items: start;
   }
 `;
 
@@ -69,6 +70,8 @@ const EqualWrapper = styled.div`
   @media screen and (max-width: 800px) {
     overflow: hidden;
     justify-content: flex-end;
+    width: auto;
+    padding: 0 6px;
   }
 `;
 
@@ -139,6 +142,7 @@ const VoterWrapper = styled.div`
 
   @media screen and (max-width: 800px) {
     overflow: hidden;
+    width: auto;
   }
 `;
 
