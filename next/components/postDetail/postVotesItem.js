@@ -30,6 +30,7 @@ const InfoWrapper = styled.div`
   }
   @media screen and (max-width: 800px) {
     gap: 8px;
+    align-items: start;
   }
 `;
 
@@ -46,11 +47,16 @@ const Content = styled.div`
 `;
 
 const BalanceWrapper = styled.div`
+  width: 33%;
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   white-space: nowrap;
   > :not(:first-child) {
     margin-left: 8px;
+  }
+  @media screen and (max-width: 800px) {
+    display: none;
   }
 `;
 
@@ -59,11 +65,13 @@ const EqualWrapper = styled.div`
   display: flex;
   overflow: visible;
   flex-wrap: wrap;
-  :last-child {
-    justify-content: flex-end;
-  }
+  justify-content: center;
+
   @media screen and (max-width: 800px) {
     overflow: hidden;
+    justify-content: flex-end;
+    width: auto;
+    padding: 0 6px;
   }
 `;
 
@@ -126,7 +134,17 @@ const MobileOnly = styled.div`
   }
 `;
 
-const VoterWrapper = styled(EqualWrapper)``;
+const VoterWrapper = styled.div`
+  width: 33%;
+  display: flex;
+  overflow: visible;
+  flex-wrap: wrap;
+
+  @media screen and (max-width: 800px) {
+    overflow: hidden;
+    width: auto;
+  }
+`;
 
 function getChoiceIndex(choices, userChoice) {
   if (userChoice.length > 10) {
@@ -162,7 +180,7 @@ export default function PostVotesItem({
           {isMyVote && <MyVoteTag>Mine</MyVoteTag>}
           {isDelegate && <DelegationTag>Delegation</DelegationTag>}
         </VoterWrapper>
-        <EqualWrapper className="center">
+        <EqualWrapper>
           <Vote>
             <Tooltip
               content={
@@ -195,31 +213,29 @@ export default function PostVotesItem({
             </MobileOnly>
           </Vote>
         </EqualWrapper>
-        <EqualWrapper>
-          <BalanceWrapper>
-            {hasBalanceStrategy(space.strategies) && (
-              <ValueDisplay
-                value={data.weights?.balanceOf}
-                space={space}
-                showAEM={true}
-                tooltipContent={
-                  !isZero(data.weights?.balanceOf) ? (
-                    <VoteBalanceDetail details={data.weights?.details} />
-                  ) : null
-                }
-              />
-            )}
-            {hasSocietyVoteStrategyOnly(space.strategies) && (
-              <span>{data.weights?.societyVote} VOTE</span>
-            )}
-            <IpfsSquare
-              href={
-                data?.pinHash &&
-                `${process.env.NEXT_PUBLIC_API_END_POINT}api/ipfs/files/${data.pinHash}`
+        <BalanceWrapper>
+          {hasBalanceStrategy(space.strategies) && (
+            <ValueDisplay
+              value={data.weights?.balanceOf}
+              space={space}
+              showAEM={true}
+              tooltipContent={
+                !isZero(data.weights?.balanceOf) ? (
+                  <VoteBalanceDetail details={data.weights?.details} />
+                ) : null
               }
             />
-          </BalanceWrapper>
-        </EqualWrapper>
+          )}
+          {hasSocietyVoteStrategyOnly(space.strategies) && (
+            <span>{data.weights?.societyVote} VOTE</span>
+          )}
+          <IpfsSquare
+            href={
+              data?.pinHash &&
+              `${process.env.NEXT_PUBLIC_API_END_POINT}api/ipfs/files/${data.pinHash}`
+            }
+          />
+        </BalanceWrapper>
       </InfoWrapper>
       <ContentWrapper>
         <ContentPreviewer data={data} />
