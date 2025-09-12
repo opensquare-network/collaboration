@@ -147,7 +147,7 @@ export const StatusItem = styled.div`
 export const Link = styled.a`
   padding-top: 20px;
   display: flex;
-  color: var(--textSecondary);
+  color: var(--textTertiary);
   display: flex;
   gap: 8px;
   svg {
@@ -155,7 +155,7 @@ export const Link = styled.a`
   }
   :hover {
     text-decoration: underline;
-    color: var(--textPrimary);
+    color: var(--textSecondary);
     svg {
       fill: var(--textSecondary);
     }
