@@ -36,11 +36,22 @@ const SiderWrapper = styled.div`
     margin-top: 20px;
   }
   @media screen and (max-width: 800px) {
+    display: none;
     flex-basis: auto;
     width: 100%;
     margin-left: 0;
     margin-top: 20px;
     max-width: none;
+  }
+`;
+
+const MobileOnly = styled.div`
+  display: none;
+  @media screen and (max-width: 800px) {
+    display: block;
+  }
+  > :not(:first-child) {
+    margin-top: 20px;
   }
 `;
 
@@ -58,6 +69,10 @@ export default function PostDetail({
     <Wrapper>
       <MainWrapper>
         <PostContent data={data} space={space} />
+        <MobileOnly>
+          <PostResults data={data} voteStatus={voteStatus} space={space} />
+          <PostInfo data={data} space={space} />
+        </MobileOnly>
         <PostVotes
           proposal={data}
           votes={votes}
@@ -65,7 +80,12 @@ export default function PostDetail({
           discussionPage={defaultPage?.discussionPage}
           isSafari={isSafari}
         />
-        <PostDiscussion proposal={data} comments={comments} space={space} votes={votes} />
+        <PostDiscussion
+          proposal={data}
+          comments={comments}
+          space={space}
+          votes={votes}
+        />
       </MainWrapper>
       <SiderWrapper>
         <PostInfo data={data} space={space} />
