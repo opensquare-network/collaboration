@@ -85,11 +85,5 @@ export default function OnePersonOneVoteResult({ proposal, voteStatus }) {
     });
   });
 
-  return (
-    <VoteCountOptionList
-      strategy="one-person-one-vote"
-      optionList={optionList}
-      total={total}
-    />
-  );
+  return <VoteCountOptionList optionList={optionList} total={total} />;
 }

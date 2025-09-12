@@ -1,97 +1,19 @@
 import ValueDisplay from "../valueDisplay";
 import Panel from "@/components/postDetail/panel";
 import SideSectionTitle from "@/components/sideBar/sideSectionTitle";
-import BalanceOfResult from "./strategyResult/balanceOfResult";
-import QuadraticBalanceOfResult from "./strategyResult/quadraticBalanceOfResult";
-import BiasedVotingResult from "./strategyResult/biasedVotingResult";
 import Divider from "../styled/divider";
 import { VoteItem } from "./strategyResult/common/styled";
-import QuorumBalanceOfResult from "./strategyResult/quorumBalanceOfResult";
-import QuorumQuadraticBalanceOfResult from "./strategyResult/quorumQuadraticBalanceOfResult";
-import OnePersonOneVoteResult from "./strategyResult/onePersonOneVoteResult";
 import {
   hasBalanceStrategy,
   hasSocietyVoteStrategyOnly,
 } from "frontedUtils/strategy";
-import QuorumSocietyVoteResult from "./strategyResult/quorumSocietyVoteResult";
 import isNil from "lodash.isnil";
 import LoadingField from "../loadingField";
+import StrategyResult from "./strategyResult";
 
 export function InnerPostResult({ data, voteStatus, space }) {
   const votedAmount = data?.votedWeights?.balanceOf || 0;
   const societyVotedAmount = data?.votedWeights?.societyVote || 0;
-
-  const results = data?.weightStrategy?.map((strategy) => {
-    if (strategy === "balance-of") {
-      return (
-        <BalanceOfResult
-          key={strategy}
-          proposal={data}
-          space={space}
-          voteStatus={voteStatus}
-        />
-      );
-    }
-
-    if (strategy === "quorum-balance-of") {
-      return (
-        <QuorumBalanceOfResult
-          key={strategy}
-          proposal={data}
-          space={space}
-          voteStatus={voteStatus}
-        />
-      );
-    }
-
-    if (strategy === "quadratic-balance-of") {
-      return (
-        <QuadraticBalanceOfResult
-          key={strategy}
-          proposal={data}
-          space={space}
-          voteStatus={voteStatus}
-        />
-      );
-    }
-
-    if (strategy === "quorum-quadratic-balance-of") {
-      return (
-        <QuorumQuadraticBalanceOfResult
-          key={strategy}
-          proposal={data}
-          space={space}
-          voteStatus={voteStatus}
-        />
-      );
-    }
-
-    if (strategy === "one-person-one-vote") {
-      return (
-        <OnePersonOneVoteResult
-          key={strategy}
-          proposal={data}
-          voteStatus={voteStatus}
-        />
-      );
-    }
-
-    if (strategy === "society") {
-      return (
-        <QuorumSocietyVoteResult
-          key={strategy}
-          proposal={data}
-          voteStatus={voteStatus}
-        />
-      );
-    }
-
-    return null;
-  });
-
-  const biasedVoting = (
-    <BiasedVotingResult proposal={data} space={space} voteStatus={voteStatus} />
-  );
 
   let voted = null;
   if (hasBalanceStrategy(data?.weightStrategy)) {
@@ -133,8 +55,7 @@ export function InnerPostResult({ data, voteStatus, space }) {
           </div>
         </VoteItem>
       </div>
-      {results}
-      {biasedVoting}
+      <StrategyResult data={data} voteStatus={voteStatus} space={space} />
     </>
   );
 }

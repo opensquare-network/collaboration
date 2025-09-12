@@ -15,10 +15,14 @@ import LoadingField from "@/components/loadingField";
 export default function VoteCountOptionList({ optionList, strategy, total }) {
   return (
     <>
-      <ResultHead>
-        <ResultName>{strategy}</ResultName>
-      </ResultHead>
-      <Divider />
+      {strategy && (
+        <>
+          <ResultHead>
+            <ResultName>{strategy}</ResultName>
+          </ResultHead>
+          <Divider />
+        </>
+      )}
       {optionList.map((vote, index) => {
         return (
           <div key={index}>

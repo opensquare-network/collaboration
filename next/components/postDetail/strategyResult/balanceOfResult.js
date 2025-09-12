@@ -69,7 +69,5 @@ export default function BalanceOfResult({ proposal, space, voteStatus }) {
     });
   });
 
-  return (
-    <OptionList strategy="balance-of" optionList={optionList} space={space} />
-  );
+  return <OptionList optionList={optionList} space={space} />;
 }

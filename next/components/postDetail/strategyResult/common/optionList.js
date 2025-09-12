@@ -17,10 +17,14 @@ export default function OptionList({ optionList, strategy, space }) {
 
   return (
     <>
-      <ResultHead>
-        <ResultName>{strategy}</ResultName>
-      </ResultHead>
-      <Divider />
+      {strategy && (
+        <>
+          <ResultHead>
+            <ResultName>{strategy}</ResultName>
+          </ResultHead>
+          <Divider />
+        </>
+      )}
       {optionList.map((vote, index) => {
         return (
           <div key={index}>

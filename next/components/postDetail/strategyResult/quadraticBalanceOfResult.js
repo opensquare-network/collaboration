@@ -76,11 +76,5 @@ export default function QuadraticBalanceOfResult({
     });
   });
 
-  return (
-    <OptionList
-      strategy="quadratic-balance-of"
-      optionList={optionList}
-      space={space}
-    />
-  );
+  return <OptionList optionList={optionList} space={space} />;
 }
