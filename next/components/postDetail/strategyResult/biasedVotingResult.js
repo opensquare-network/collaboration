@@ -1,19 +1,15 @@
 import BigNumber from "bignumber.js";
 import { ReactComponent as LinkSvg } from "public/imgs/icons/link.svg";
-import ExternalLink from "@osn/common-ui/es/ExternalLink";
 import BiasedVotingItem from "../biasedVotingItem";
 import {
   BiasedVotingWrapper,
   Divider,
-  ResultHead,
-  ResultName,
   ResultStatus,
   StatusItem,
   StatusResultHead,
   StatusResultName,
   StatusWrapper,
-  Subtitle,
-  SubtitleWrapper,
+  Link,
 } from "./common/styled";
 
 export default function BiasedVotingResult({ voteStatus, space, proposal }) {
@@ -25,17 +21,6 @@ export default function BiasedVotingResult({ voteStatus, space, proposal }) {
 
   return (
     <>
-      <ResultHead>
-        <SubtitleWrapper>
-          <ResultName>biased-voting</ResultName>
-          <Subtitle>
-            <ExternalLink href="https://wiki.polkadot.network/docs/learn-governance#tallying">
-              <LinkSvg />
-            </ExternalLink>
-          </Subtitle>
-        </SubtitleWrapper>
-      </ResultHead>
-      <Divider />
       <BiasedVotingWrapper>
         {(voteStatus || []).map((item, index) => (
           <div key={index}>
@@ -103,6 +88,13 @@ export default function BiasedVotingResult({ voteStatus, space, proposal }) {
             : "Failing"}
         </StatusItem>
       </StatusWrapper>
+      <Link
+        target="_block"
+        href="https://wiki.polkadot.network/docs/learn-governance#tallying"
+      >
+        <span>Check Wiki</span>
+        <LinkSvg />
+      </Link>
     </>
   );
 }

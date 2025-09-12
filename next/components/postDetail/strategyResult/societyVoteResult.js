@@ -89,11 +89,7 @@ export default function SocietyVoteResult({ proposal, voteStatus }) {
 
   return (
     <div>
-      <VoteCountOptionList
-        strategy="society"
-        optionList={optionList}
-        total={total}
-      />
+      <VoteCountOptionList optionList={optionList} total={total} />
       <Description>Require 2/3 majority for approval</Description>
     </div>
   );

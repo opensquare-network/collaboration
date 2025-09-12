@@ -114,6 +114,7 @@ export const FlexAround = styled.div`
 `;
 
 export const BiasedVotingWrapper = styled.div`
+  padding-top: 12px;
   > * {
     display: flex;
     align-items: center;
@@ -141,4 +142,22 @@ export const StatusItem = styled.div`
     p.positive ? "var(--textFeedbackSuccess)" : "var(--textFeedbackError)"};
   background: ${(p) =>
     p.positive ? "var(--accentGreen25a)" : "var(--accentRed25a)"};
+`;
+
+export const Link = styled.a`
+  padding-top: 20px;
+  display: flex;
+  color: var(--textSecondary);
+  display: flex;
+  gap: 8px;
+  svg {
+    fill: var(--textTertiary);
+  }
+  :hover {
+    text-decoration: underline;
+    color: var(--textPrimary);
+    svg {
+      fill: var(--textSecondary);
+    }
+  }
 `;
