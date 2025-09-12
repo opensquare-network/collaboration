@@ -22,7 +22,7 @@ const SelectWrapper = styled.div`
 `;
 
 export default function StrategyResult({ data, voteStatus, space }) {
-  const [index, setIndex] = useState("biased-voting");
+  const [index, setIndex] = useState(null);
   const { choiceTypes, componentMap } = useResultConfig(
     data,
     voteStatus,
@@ -30,13 +30,17 @@ export default function StrategyResult({ data, voteStatus, space }) {
   );
 
   useEffect(() => {
-    setIndex(choiceTypes[0].value);
+    setIndex(choiceTypes[0]?.value);
   }, [choiceTypes]);
 
   const { content, header } = useMemo(
     () => componentMap?.[index] || {},
     [componentMap, index],
   );
+
+  if (!choiceTypes.length) {
+    return null;
+  }
 
   return (
     <>
