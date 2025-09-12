@@ -92,7 +92,7 @@ export default function BiasedVotingResult({ voteStatus, space, proposal }) {
         target="_block"
         href="https://wiki.polkadot.network/docs/learn-governance#tallying"
       >
-        View Governance Details
+        <span>Check Wiki</span>
         <LinkSvg />
       </Link>
     </>

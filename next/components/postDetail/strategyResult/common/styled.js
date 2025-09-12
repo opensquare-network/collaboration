@@ -148,11 +148,14 @@ export const Link = styled.a`
   padding-top: 20px;
   display: flex;
   color: var(--textSecondary);
+  display: flex;
+  gap: 8px;
   svg {
     fill: var(--textTertiary);
   }
   :hover {
     text-decoration: underline;
+    color: var(--textPrimary);
     svg {
       fill: var(--textSecondary);
     }
