@@ -8,6 +8,12 @@ import OnePersonOneVoteResult from "./onePersonOneVoteResult";
 import Quorum from "./common/quorum";
 import SocietyVoteResult from "./societyVoteResult";
 import SocietyQuorum from "./common/societyQuorum";
+import {
+  ResultHead,
+  ResultName,
+  SubtitleWrapper,
+  Divider,
+} from "./common/styled";
 
 const ChoiceWrapper = styled.div`
   font-style: normal;
@@ -38,20 +44,31 @@ export default function StrategyResult({ data, voteStatus, space }) {
     [componentMap, index],
   );
 
-  if (!choiceTypes.length) {
+  if (!choiceTypes?.length) {
     return null;
   }
 
   return (
     <>
       {header}
-      <SelectWrapper>
-        <DropdownSelector
-          value={index}
-          onSelect={setIndex}
-          options={choiceTypes}
-        />
-      </SelectWrapper>
+      {choiceTypes.length === 1 ? (
+        <>
+          <ResultHead>
+            <SubtitleWrapper>
+              <ResultName>{choiceTypes[0].value}</ResultName>
+            </SubtitleWrapper>
+          </ResultHead>
+          <Divider />
+        </>
+      ) : (
+        <SelectWrapper>
+          <DropdownSelector
+            value={index}
+            onSelect={setIndex}
+            options={choiceTypes}
+          />
+        </SelectWrapper>
+      )}
       {content}
     </>
   );
