@@ -18,6 +18,10 @@ import { MarkdownPreviewer } from "@osn/previewer";
 import PostBanner from "@/components/postDetail/postBanner";
 import { isSameAddress } from "frontedUtils/address";
 import { isCollectiveSpace } from "frontedUtils/space";
+import { ArrowCaretLeft } from "@osn/icons/opensquare";
+import { useCallback, useEffect, useRef, useState } from "react";
+import debounce from "lodash.debounce";
+import { cn } from "@osn/common-ui";
 
 const Title = styled.div`
   ${p_semibold};
@@ -79,7 +83,7 @@ export default function PostContent({ data, space }) {
 
   return (
     <Panel>
-      <Title>{data?.title}</Title>
+      <TitleContent title={data?.title} />
       <InfoWrapper>
         <LeftWrapper>
           <Author
@@ -122,3 +126,43 @@ export default function PostContent({ data, space }) {
     </Panel>
   );
 }
+
+const TitleContent = ({ title }) => {
+  const [scrollY, setScrollY] = useState(0);
+  const debouncedScrollHandler = useRef(null);
+  const handleScroll = useCallback(() => {
+    setScrollY(window.scrollY);
+  }, []);
+
+  useEffect(() => {}, [handleScroll]);
+
+  useEffect(() => {
+    debouncedScrollHandler.current = debounce(handleScroll, 10);
+    window.addEventListener("scroll", debouncedScrollHandler.current);
+    return () => {
+      if (debouncedScrollHandler.current) {
+        debouncedScrollHandler.current.cancel();
+        window.removeEventListener("scroll", debouncedScrollHandler.current);
+      }
+    };
+  }, [handleScroll]);
+
+  return (
+    <>
+      <Title>{title}</Title>
+      <div
+        className={cn(
+          "fixed py-5  z-10 top-0 transform -translate-y-full left-0 w-full bg-fillBgPrimary border border-strokeBorderDefault shadow-shadowCardDefault",
+          scrollY > 180 && "translate-y-0",
+        )}
+      >
+        <div className="max-w-[1144px] mx-auto md:px-8 px-5 flex relative">
+          <ArrowCaretLeft className="w-8 h-8 p-1 md:ml-8 ml-5 rounded-full border shadow  absolute left-0 -translate-x-1/2 " />
+          <div className="px-8 font-[700] text-base md:font-[600] md:text-[20px]">
+            {title}
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
