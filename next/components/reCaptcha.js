@@ -40,7 +40,7 @@ export function ReCaptcha() {
   return (
     <HeadScript
       id="recaptcha-script"
-      src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITEKEY}`}
+      src={`https://www.recaptcha.net/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITEKEY}`}
       async
       defer
     />
