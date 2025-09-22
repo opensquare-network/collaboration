@@ -58,7 +58,7 @@
     "socket.io-client": "^4.6.1",
     "styled-components": "^5.3.1",
     "tailwind-styled-components": "^2.2.0",
-    "viem": "^2.26.3",
+    "viem": "^2.37.7",
     "wagmi": "^2.17.1"
   },
   "devDependencies": {

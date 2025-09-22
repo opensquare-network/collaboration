@@ -1,7 +1,5 @@
-import { WagmiProvider as Provider } from "wagmi";
-import { createConfig } from "wagmi";
+import { WagmiProvider as Provider, createConfig, http } from "wagmi";
 import { coinbaseWallet, injected } from "wagmi/connectors";
-import { http } from "wagmi";
 import { mainnet, creditCoin3Mainnet, moonriver, moonbeam } from "wagmi/chains";
 import { appName } from "frontedUtils/consts/app";
 

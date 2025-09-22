@@ -1658,7 +1658,7 @@ __metadata:
     styled-components: ^5.3.1
     tailwind-styled-components: ^2.2.0
     tailwindcss: ^3.4.1
-    viem: ^2.26.3
+    viem: ^2.37.7
     wagmi: ^2.17.1
   languageName: unknown
   linkType: soft
@@ -15654,7 +15654,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"viem@npm:>=2.29.0, viem@npm:^2.27.2, viem@npm:^2.31.7":
+"viem@npm:>=2.29.0, viem@npm:^2.27.2, viem@npm:^2.31.7, viem@npm:^2.37.7":
   version: 2.37.7
   resolution: "viem@npm:2.37.7"
   dependencies:
@@ -15675,7 +15675,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"viem@npm:^2.1.1, viem@npm:^2.26.3":
+"viem@npm:^2.1.1":
   version: 2.26.3
   resolution: "viem@npm:2.26.3"
   dependencies:
