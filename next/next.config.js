@@ -36,6 +36,7 @@ module.exports = {
 
     alias("react");
     alias("styled-components");
+
     function alias(module) {
       config.resolve.alias[module] = path.resolve(
         __dirname,
