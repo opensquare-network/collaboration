@@ -36,9 +36,6 @@ module.exports = {
 
     alias("react");
     alias("styled-components");
-    // Fix MetaMask SDK React Native dependency issue
-    config.resolve.alias["@react-native-async-storage/async-storage"] = false;
-
     function alias(module) {
       config.resolve.alias[module] = path.resolve(
         __dirname,
