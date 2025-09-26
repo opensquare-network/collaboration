@@ -15,8 +15,11 @@ import { MarkdownPreviewer } from "@osn/previewer";
 import ToggleCollapsed from "../toggleCollapsed";
 
 const Item = styled.div`
-  padding: 20px 0;
+  padding: 20px 32px;
   border-bottom: 1px solid var(--strokeBorderDefault);
+  @media screen and (max-width: 800px) {
+    padding: 20px;
+  }
 `;
 
 const InfoWrapper = styled.div`
