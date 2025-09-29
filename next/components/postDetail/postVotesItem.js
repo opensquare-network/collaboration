@@ -171,7 +171,7 @@ export default function PostVotesItem({
 }) {
   const spaceSupportMultiChain = space?.networks?.length > 1;
   return (
-    <Item>
+    <Item id={`vote_${data._id}`}>
       <InfoWrapper>
         <VoterWrapper>
           <Voter
