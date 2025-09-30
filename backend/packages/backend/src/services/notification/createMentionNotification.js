@@ -2,14 +2,9 @@ const { getNotificationCollection } = require("../../mongo");
 const { extractMentionUsers } = require("../../utils/comment");
 const { logger } = require("../../utils/logger");
 
-async function createMentionNotification(
-  type,
-  content,
-  contentType,
-  space,
-  proposalCid,
-) {
+async function createMentionNotification(type, content, contentType, data) {
   try {
+    const { space, proposalCid, title } = data;
     const memberPublicKeys = await extractMentionUsers(content, contentType);
 
     const createdAt = new Date().getTime();
@@ -20,7 +15,7 @@ async function createMentionNotification(
         owner: memberPublicKey,
         type,
         read: false,
-        data: { space, proposalCid, content, contentType },
+        data: { space, proposalCid, title, content, contentType },
         createdAt,
       })),
     );

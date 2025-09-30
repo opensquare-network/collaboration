@@ -530,8 +530,11 @@ async function vote(
     NotificationType.VoteMentionUser,
     remark,
     remarkType,
-    proposal.space,
-    proposalCid,
+    {
+      space: proposal.space,
+      proposalCid,
+      title: proposal.title,
+    },
   );
 
   return {

@@ -73,8 +73,11 @@ async function postComment(
     NotificationType.CommentMentionUser,
     content,
     contentType,
-    proposal.space,
-    proposalCid,
+    {
+      space: proposal.space,
+      proposalCid,
+      title: proposal.title,
+    },
   );
 
   return newCommentId;

@@ -50,8 +50,11 @@ async function addAppendant(
     NotificationType.AppendantMentionUser,
     content,
     contentType,
-    proposal.space,
-    proposalCid,
+    {
+      space: proposal.space,
+      proposalCid,
+      title: proposal.title,
+    },
   );
 
   return {
