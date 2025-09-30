@@ -1,9 +1,9 @@
-const { NotificationType } = require("../../constants");
 const { getNotificationCollection } = require("../../mongo");
 const { extractMentionUsers } = require("../../utils/comment");
 const { logger } = require("../../utils/logger");
 
 async function createMentionNotification(
+  type,
   content,
   contentType,
   space,
@@ -18,7 +18,7 @@ async function createMentionNotification(
     await notificationCol.insertMany(
       memberPublicKeys.map((memberPublicKey) => ({
         owner: memberPublicKey,
-        type: NotificationType.MentionUser,
+        type,
         read: false,
         data: { space, proposalCid, content, contentType },
         createdAt,
@@ -26,7 +26,7 @@ async function createMentionNotification(
     );
   } catch (error) {
     logger.error(
-      `Failed to create notification for notificationType: ${NotificationType.MentionUser}, error: ${error.message}`,
+      `Failed to create notification for notificationType: ${type}, error: ${error.message}`,
     );
   }
 }

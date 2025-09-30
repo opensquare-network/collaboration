@@ -1,3 +1,4 @@
+const { NotificationType } = require("../constants");
 const { HttpError } = require("../exc");
 const { getProposalCollection, getAppendantCollection } = require("../mongo");
 const { isSameAddress } = require("../utils/address");
@@ -46,6 +47,7 @@ async function addAppendant(
   });
 
   await createMentionNotification(
+    NotificationType.AppendantMentionUser,
     content,
     contentType,
     proposal.space,

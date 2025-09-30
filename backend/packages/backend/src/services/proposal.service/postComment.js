@@ -1,7 +1,7 @@
 const { safeHtml } = require("../../utils/post");
 const { getProposalCollection, getCommentCollection } = require("../../mongo");
 const { HttpError } = require("../../exc");
-const { ContentType } = require("../../constants");
+const { ContentType, NotificationType } = require("../../constants");
 const { pinData } = require("./common");
 const { SpaceType } = require("../../consts/space");
 const { createMentionNotification } = require("../notification");
@@ -70,6 +70,7 @@ async function postComment(
   );
 
   await createMentionNotification(
+    NotificationType.CommentMentionUser,
     content,
     contentType,
     proposal.space,
