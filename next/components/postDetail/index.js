@@ -4,8 +4,9 @@ import PostContent from "./postContent";
 import PostInfo from "./postInfo";
 import PostResults from "./postResults";
 import PostVotes from "@/components/postDetail/postVotes";
-import PostDiscussion from "@/components/postDetail/postDiscussion";
+import PostDiscussion from "./postDiscussion";
 import { useJumpToAnchor } from "hooks/notification/useAnchor";
+import { useSuggestions } from "./suggestions";
 
 const Wrapper = styled.div`
   display: flex;
@@ -66,11 +67,16 @@ export default function PostDetail({
   myVote,
   isSafari = false,
 }) {
+  const { loadSuggestions } = useSuggestions(comments, votes);
   useJumpToAnchor();
   return (
     <Wrapper>
       <MainWrapper>
-        <PostContent data={data} space={space} />
+        <PostContent
+          data={data}
+          space={space}
+          loadSuggestions={loadSuggestions}
+        />
         <MobileOnly>
           <PostResults data={data} voteStatus={voteStatus} space={space} />
           <PostInfo data={data} space={space} />
@@ -86,7 +92,7 @@ export default function PostDetail({
           proposal={data}
           comments={comments}
           space={space}
-          votes={votes}
+          loadSuggestions={loadSuggestions}
         />
       </MainWrapper>
       <SiderWrapper>
