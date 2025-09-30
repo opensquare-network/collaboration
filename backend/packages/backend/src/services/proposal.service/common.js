@@ -6,7 +6,10 @@ const { enhancedSqrtOfBalance } = require("../../utils");
 const { getProposalCollection } = require("../../mongo");
 const { HttpError } = require("../../exc");
 const { spaces: spaceServices } = require("../../spaces");
-const { createNotification } = require("../notification");
+const {
+  createNotification,
+  createCommentNotification,
+} = require("../notification");
 const { getSpaceMembers } = require("../spaceMember");
 const { logger } = require("../../utils/logger");
 
@@ -105,6 +108,22 @@ async function createSpaceNotifications(space, notificationType, data) {
   }
 }
 
+async function createCommentNotifications(
+  memberPublicKeys,
+  notificationType,
+  data,
+) {
+  for (const publicKey of memberPublicKeys) {
+    try {
+      await createCommentNotification(publicKey, notificationType, data);
+    } catch (e) {
+      logger.error(
+        `Failed to create notification for ${publicKey}, notificationType: ${notificationType}, error: ${e.message}`,
+      );
+    }
+  }
+}
+
 module.exports = {
   ProposalStatus,
   getProposalStatus,
@@ -113,4 +132,5 @@ module.exports = {
   getProposalSpace,
   getProposalSpaceByCid,
   createSpaceNotifications,
+  createCommentNotifications,
 };

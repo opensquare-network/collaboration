@@ -17,6 +17,7 @@ const NotificationType = Object.freeze({
   ProposalStarted: "proposalStarted",
   ProposalCloseToEnd: "proposalCloseToEnd",
   ProposalEnd: "proposalEnd",
+  MentionUser: "mentionedUser",
 });
 
 module.exports = {

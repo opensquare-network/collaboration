@@ -1,9 +1,10 @@
 const { safeHtml } = require("../../utils/post");
 const { getProposalCollection, getCommentCollection } = require("../../mongo");
 const { HttpError } = require("../../exc");
-const { ContentType } = require("../../constants");
-const { pinData } = require("./common");
+const { ContentType, NotificationType } = require("../../constants");
+const { pinData, createCommentNotifications } = require("./common");
 const { SpaceType } = require("../../consts/space");
+const { extractMentionUsers } = require("../../utils/comment");
 
 async function postComment(
   proposalCid,
@@ -52,6 +53,19 @@ async function postComment(
     pinHash,
   };
   const result = await commentCol.insertOne(newComment);
+
+  const memberPublicKeys = await extractMentionUsers(content, contentType);
+
+  await createCommentNotifications(
+    memberPublicKeys,
+    NotificationType.MentionUser,
+    {
+      commentCid: cid,
+      proposalCid,
+      content,
+      contentType,
+    },
+  );
 
   if (!result.insertedId) {
     throw new HttpError(500, "Failed to create comment");
