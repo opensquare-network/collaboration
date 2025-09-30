@@ -4,7 +4,7 @@ const { logger } = require("../../utils/logger");
 
 async function createMentionNotification(type, content, contentType, data) {
   try {
-    const { space, proposalCid, title } = data;
+    const { space, proposalCid, title, cid } = data;
     const memberPublicKeys = await extractMentionUsers(content, contentType);
 
     const createdAt = new Date().getTime();
@@ -15,7 +15,7 @@ async function createMentionNotification(type, content, contentType, data) {
         owner: memberPublicKey,
         type,
         read: false,
-        data: { space, proposalCid, title, content, contentType },
+        data: { space, proposalCid, title, content, contentType, cid },
         createdAt,
       })),
     );

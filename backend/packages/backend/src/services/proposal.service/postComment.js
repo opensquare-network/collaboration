@@ -77,6 +77,7 @@ async function postComment(
       space: proposal.space,
       proposalCid,
       title: proposal.title,
+      cid,
     },
   );
 

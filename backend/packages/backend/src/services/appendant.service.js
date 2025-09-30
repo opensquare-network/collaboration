@@ -54,6 +54,7 @@ async function addAppendant(
       space: proposal.space,
       proposalCid,
       title: proposal.title,
+      cid,
     },
   );
 
