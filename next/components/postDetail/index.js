@@ -5,6 +5,7 @@ import PostInfo from "./postInfo";
 import PostResults from "./postResults";
 import PostVotes from "@/components/postDetail/postVotes";
 import PostDiscussion from "@/components/postDetail/postDiscussion";
+import { useJumpToAnchor } from "hooks/notification/useAnchor";
 
 const Wrapper = styled.div`
   display: flex;
@@ -65,6 +66,7 @@ export default function PostDetail({
   myVote,
   isSafari = false,
 }) {
+  useJumpToAnchor();
   return (
     <Wrapper>
       <MainWrapper>

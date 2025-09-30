@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { p_14_medium } from "@osn/common-ui/es/styles/textStyles";
-import { Time, Flex, FlexBetween, Dot } from "@osn/common-ui";
+import { Time, Flex, Dot } from "@osn/common-ui";
 import {
   text_dark_minor,
   primary_turquoise_500,
@@ -9,7 +9,7 @@ import {
 import { ReactComponent as CheckIcon } from "@osn/common-ui/es/imgs/icons/check.svg";
 import Link from "next/link";
 import { MOBILE_SIZE } from "@osn/constants";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { OnlyDesktop, OnlyMobile } from "@osn/common-ui";
 import { useSpaceIconUri } from "frontedUtils/space";
 
@@ -45,22 +45,10 @@ const Head = styled(Flex)`
 
 const TitleWrapper = styled(Flex)`
   flex: 1;
-  max-width: 50%;
 
   @media screen and (max-width: ${MOBILE_SIZE}px) {
     max-width: 100%;
     display: block;
-  }
-`;
-
-const InfoWrapper = styled(FlexBetween)`
-  flex: 1;
-  max-width: 50%;
-  display: flex;
-
-  @media screen and (max-width: ${MOBILE_SIZE}px) {
-    max-width: 100%;
-    margin-top: 6px;
   }
 `;
 
@@ -91,15 +79,6 @@ const Title = styled.p`
 
   @media screen and (max-width: ${MOBILE_SIZE}px) {
     margin-top: 4px;
-  }
-`;
-
-const TimeWrapper = styled(Flex)`
-  flex: 1;
-  justify-content: flex-end;
-
-  @media screen and (max-width: ${MOBILE_SIZE}px) {
-    justify-content: flex-start;
   }
 `;
 
@@ -152,6 +131,9 @@ const EventTypeName = {
   proposalCloseToEnd: "Proposal Close to End",
   proposalEnd: "Proposal End",
   proposalTerminated: "Proposal Terminated",
+  commentMentionUser: "Comment Mentioned",
+  appendantMentionUser: "Appendant Mentioned",
+  voteMentionUser: "Vote Mentioned",
 };
 
 export default function NotificationItem({ data, onMarkAsRead = () => {} }) {
@@ -159,7 +141,7 @@ export default function NotificationItem({ data, onMarkAsRead = () => {} }) {
     type,
     createdAt,
     read: _read,
-    data: { space, title, proposalCid, spaceInfo } = {},
+    data: { space, title, proposalCid, spaceInfo, cid } = {},
   } = data;
 
   const [read, setRead] = useState(_read);
@@ -184,6 +166,19 @@ export default function NotificationItem({ data, onMarkAsRead = () => {} }) {
     </StatusWrapper>
   );
 
+  const href = useMemo(() => {
+    if (type === "commentMentionUser") {
+      return `/space/${space}/proposal/${proposalCid}#comment_${cid}`;
+    }
+    if (type === "voteMentionUser") {
+      return `/space/${space}/proposal/${proposalCid}#vote_${cid}`;
+    }
+    if (type === "appendantMentionUser") {
+      return `/space/${space}/proposal/${proposalCid}#appendant_${cid}`;
+    }
+    return `/space/${space}/proposal/${proposalCid}`;
+  }, [cid, proposalCid, space, type]);
+
   return (
     <NotificationItemWrapper>
       <Head>
@@ -204,19 +199,18 @@ export default function NotificationItem({ data, onMarkAsRead = () => {} }) {
             <Dot />
           </OnlyDesktop>
           <Title>
-            <Link href={`/space/${space}/proposal/${proposalCid}`} passHref>
+            <Link href={href} passHref>
               {title}
             </Link>
           </Title>
         </TitleWrapper>
 
-        <InfoWrapper>
-          <TimeWrapper>
+        <div className="flex gap-2 items-center">
+          <div>
             <Time time={createdAt} />
-          </TimeWrapper>
-
+          </div>
           <OnlyDesktop>{status}</OnlyDesktop>
-        </InfoWrapper>
+        </div>
       </Head>
     </NotificationItemWrapper>
   );

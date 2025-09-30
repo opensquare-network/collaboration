@@ -1,14 +1,12 @@
 import styled from "styled-components";
-
 import Author from "components/author";
 import {
   MarkdownPreviewer,
   renderMentionIdentityUserPlugin,
 } from "@osn/previewer";
 import { IpfsSquare, MentionIdentityUser } from "@osn/common-ui";
-
 import TimeDuration from "@/components/duration";
-import { useEffect, useState } from "react";
+import { useActiveAnchor } from "hooks/notification/useAnchor";
 
 const Item = styled.div`
   padding: 0 32px;
@@ -49,17 +47,8 @@ const InfoWrapper = styled.div`
   justify-content: space-between;
 `;
 
-export default function CommitItem({
-  item,
-  spaceSupportMultiChain,
-  space,
-  active,
-}) {
-  const [id, setId] = useState(`commit_${item.height}`);
-
-  useEffect(() => {
-    setId(`commit_${item.height}`);
-  }, [item.height]);
+export default function CommitItem({ item, spaceSupportMultiChain, space }) {
+  const { id, active } = useActiveAnchor(`comment_${item.cid}`);
 
   return (
     <Item id={id} className={active ? "bg-strokeBorderDefault" : ""}>

@@ -13,6 +13,7 @@ import {
 } from "frontedUtils/strategy";
 import { MarkdownPreviewer } from "@osn/previewer";
 import ToggleCollapsed from "../toggleCollapsed";
+import { useActiveAnchor } from "hooks/notification/useAnchor";
 
 const Item = styled.div`
   padding: 20px 32px;
@@ -170,8 +171,10 @@ export default function PostVotesItem({
   isSafari = false,
 }) {
   const spaceSupportMultiChain = space?.networks?.length > 1;
+  const { id, active } = useActiveAnchor(`vote_${data.cid}`);
+
   return (
-    <Item id={`vote_${data._id}`}>
+    <Item id={id} className={active ? "bg-strokeBorderDefault" : ""}>
       <InfoWrapper>
         <VoterWrapper>
           <Voter
