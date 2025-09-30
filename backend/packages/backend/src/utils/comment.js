@@ -61,7 +61,6 @@ async function extractMentionUsers(content, contentType) {
 
   const polkadotAddresses = [];
   const ethereumAddresses = [];
-  const usernames = [];
   for (const item of mentions) {
     if (isEthereumAddress(item)) {
       ethereumAddresses.push(item);
@@ -71,11 +70,11 @@ async function extractMentionUsers(content, contentType) {
       polkadotAddresses.push(item);
       continue;
     }
-    usernames.push(item);
   }
-  const polkadotPublicKeys = polkadotAddresses.map((item) => toPublicKey(item));
 
-  return polkadotPublicKeys;
+  return [...polkadotAddresses, ...ethereumAddresses].map((item) =>
+    toPublicKey(item),
+  );
 }
 
 module.exports = {

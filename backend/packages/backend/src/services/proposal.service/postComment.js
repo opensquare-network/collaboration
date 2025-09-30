@@ -1,10 +1,10 @@
 const { safeHtml } = require("../../utils/post");
 const { getProposalCollection, getCommentCollection } = require("../../mongo");
 const { HttpError } = require("../../exc");
-const { ContentType, NotificationType } = require("../../constants");
-const { pinData, createCommentNotifications } = require("./common");
+const { ContentType } = require("../../constants");
+const { pinData } = require("./common");
 const { SpaceType } = require("../../consts/space");
-const { extractMentionUsers } = require("../../utils/comment");
+const { createMentionNotification } = require("../notification");
 
 async function postComment(
   proposalCid,
@@ -69,18 +69,11 @@ async function postComment(
     },
   );
 
-  const memberPublicKeys = await extractMentionUsers(content, contentType);
-
-  await createCommentNotifications(
-    memberPublicKeys,
-    NotificationType.MentionUser,
-    {
-      commentCid: cid,
-      space: proposal.space,
-      proposalCid,
-      content,
-      contentType,
-    },
+  await createMentionNotification(
+    content,
+    contentType,
+    proposal.space,
+    proposalCid,
   );
 
   return newCommentId;
