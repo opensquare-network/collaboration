@@ -54,19 +54,6 @@ async function postComment(
   };
   const result = await commentCol.insertOne(newComment);
 
-  const memberPublicKeys = await extractMentionUsers(content, contentType);
-
-  await createCommentNotifications(
-    memberPublicKeys,
-    NotificationType.MentionUser,
-    {
-      commentCid: cid,
-      proposalCid,
-      content,
-      contentType,
-    },
-  );
-
   if (!result.insertedId) {
     throw new HttpError(500, "Failed to create comment");
   }
@@ -79,6 +66,20 @@ async function postComment(
       $set: {
         lastActivityAt: now,
       },
+    },
+  );
+
+  const memberPublicKeys = await extractMentionUsers(content, contentType);
+
+  await createCommentNotifications(
+    memberPublicKeys,
+    NotificationType.MentionUser,
+    {
+      commentCid: cid,
+      space: proposal.space,
+      proposalCid,
+      content,
+      contentType,
     },
   );
 
