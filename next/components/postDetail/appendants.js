@@ -80,7 +80,12 @@ const MarkdownPreviewWrapper = styled.div`
   margin-top: 4px;
 `;
 
-export default function Appendants({ proposal, appendants, editable }) {
+export default function Appendants({
+  loadSuggestions,
+  proposal,
+  appendants,
+  editable,
+}) {
   const dispatch = useDispatch();
   const router = useRouter();
   const account = useSelector(loginAccountSelector);
@@ -167,6 +172,7 @@ export default function Appendants({ proposal, appendants, editable }) {
       {editing && (
         <EditorWrapper>
           <Editor
+            loadSuggestions={loadSuggestions}
             content={content}
             setContent={setContent}
             onSubmit={onSubmit}

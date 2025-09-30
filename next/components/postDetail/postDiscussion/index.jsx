@@ -4,7 +4,6 @@ import { findNetworkConfig } from "services/util";
 import HeaderWithNumber from "@/components/postDetail/numberHeader";
 import AccordionPanel from "@/components/accordionPanel/panel";
 import NoData from "@osn/common-ui/es/NoData";
-import { useSuggestions } from "@/components/postDetail/suggestions";
 import CommitItem from "./commitItem";
 import CommitEditor from "./commitEditor";
 
@@ -30,13 +29,12 @@ export default function PostDiscussion({
   proposal,
   space,
   comments,
-  votes,
   votesPage = 1,
+  loadSuggestions,
 }) {
   const getNetwork = (comment) =>
     findNetworkConfig(proposal.networksConfig, comment.commenterNetwork);
   const spaceSupportMultiChain = space?.networks?.length > 1;
-  const { loadSuggestions } = useSuggestions(comments, votes);
 
   return (
     <AccordionPanel
