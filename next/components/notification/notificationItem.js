@@ -7,11 +7,14 @@ import {
   text_dark_accessory,
 } from "@osn/common-ui/es/styles/colors";
 import { ReactComponent as CheckIcon } from "@osn/common-ui/es/imgs/icons/check.svg";
-import Link from "next/link";
 import { MOBILE_SIZE } from "@osn/constants";
 import { useMemo, useState } from "react";
-import { OnlyDesktop, OnlyMobile } from "@osn/common-ui";
 import { useSpaceIconUri } from "frontedUtils/space";
+import {
+  MarkdownPreviewer,
+  renderMentionIdentityUserPlugin,
+} from "@osn/previewer";
+import IdentityOrAddr from "../identityOrAddr";
 
 const NotificationItemWrapper = styled.div`
   &:hover {
@@ -27,29 +30,11 @@ const NotificationItemWrapper = styled.div`
   }
 `;
 
-const Head = styled(Flex)`
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
+const Head = styled.div`
   padding: 24px;
-  gap: 24px;
-
   background: var(--fillBgPrimary);
   border: 1px solid var(--strokeBorderDefault);
   box-shadow: var(--shadowCardDefault);
-
-  @media screen and (max-width: ${MOBILE_SIZE}px) {
-    display: block;
-  }
-`;
-
-const TitleWrapper = styled(Flex)`
-  flex: 1;
-
-  @media screen and (max-width: ${MOBILE_SIZE}px) {
-    max-width: 100%;
-    display: block;
-  }
 `;
 
 const Type = styled.div`
@@ -61,32 +46,6 @@ const Type = styled.div`
       display: none;
     }
   }
-`;
-
-const Title = styled.p`
-  ${p_14_medium};
-  margin: 0;
-  cursor: pointer;
-  :hover {
-    text-decoration: underline;
-  }
-
-  @media screen and (min-width: ${MOBILE_SIZE - 1}px) {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-  }
-
-  @media screen and (max-width: ${MOBILE_SIZE}px) {
-    margin-top: 4px;
-  }
-`;
-
-const StatusWrapper = styled(Flex)`
-  flex: 1;
-  width: 18px;
-  height: 18px;
-  justify-content: flex-end;
 `;
 
 const MarkAsReadButton = styled.button`
@@ -125,6 +84,10 @@ const UnreadDot = styled.div`
   background-color: ${primary_turquoise_500};
 `;
 
+const MarkDown = styled(MarkdownPreviewer)`
+  ${p_14_medium};
+`;
+
 const EventTypeName = {
   newProposal: "New Proposal",
   proposalStarted: "Proposal Started",
@@ -141,7 +104,7 @@ export default function NotificationItem({ data, onMarkAsRead = () => {} }) {
     type,
     createdAt,
     read: _read,
-    data: { space, title, proposalCid, spaceInfo, cid } = {},
+    data: { space, title, proposalCid, spaceInfo, cid, content } = {},
   } = data;
 
   const [read, setRead] = useState(_read);
@@ -154,7 +117,7 @@ export default function NotificationItem({ data, onMarkAsRead = () => {} }) {
   const spaceIcon = useSpaceIconUri(spaceInfo);
 
   const status = (
-    <StatusWrapper>
+    <>
       {!read ? (
         <MarkAsReadButton onClick={() => handleMarkAsRead(data)}>
           <UnreadDot className="unread-dot" />
@@ -163,7 +126,7 @@ export default function NotificationItem({ data, onMarkAsRead = () => {} }) {
       ) : (
         <div />
       )}
-    </StatusWrapper>
+    </>
   );
 
   const href = useMemo(() => {
@@ -181,9 +144,9 @@ export default function NotificationItem({ data, onMarkAsRead = () => {} }) {
 
   return (
     <NotificationItemWrapper>
-      <Head>
-        <TitleWrapper>
-          <Flex>
+      <Head className="  space-y-2">
+        <Flex className="justify-between items-center">
+          <div className="flex">
             <img
               width="20px"
               height="20px"
@@ -193,23 +156,32 @@ export default function NotificationItem({ data, onMarkAsRead = () => {} }) {
             />
             <Dot />
             <Type>{EventTypeName[type]}</Type>
-            <OnlyMobile>{status}</OnlyMobile>
-          </Flex>
-          <OnlyDesktop>
-            <Dot />
-          </OnlyDesktop>
-          <Title>
-            <Link href={href} passHref>
-              {title}
-            </Link>
-          </Title>
-        </TitleWrapper>
+          </div>
+          {status}
+        </Flex>
+        {content && (
+          <a className="hover:underline" href={href}>
+            <MarkDown
+              content={content}
+              plugins={[renderMentionIdentityUserPlugin(<IdentityOrAddr />)]}
+              maxLines={2}
+              markedOptions={{
+                breaks: true,
+              }}
+            />
+          </a>
+        )}
 
-        <div className="flex gap-2 items-center">
+        <div className="flex md:flex-row flex-col gap-2 justify-between">
+          <a
+            href={`/space/${space}/proposal/${proposalCid}`}
+            className="hover:underline text-xs font-bold overflow-hidden line-clamp-1 "
+          >
+            {title}
+          </a>
           <div>
             <Time time={createdAt} />
           </div>
-          <OnlyDesktop>{status}</OnlyDesktop>
         </div>
       </Head>
     </NotificationItemWrapper>
