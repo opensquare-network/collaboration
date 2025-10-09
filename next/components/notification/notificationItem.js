@@ -29,16 +29,17 @@ export default function NotificationItem({ data, onMarkAsRead = () => {} }) {
   const { type, data: { space, proposalCid, cid, content } = {} } = data;
 
   const href = useMemo(() => {
+    let anchor = "";
     if (type === "commentMentionUser") {
-      return `/space/${space}/proposal/${proposalCid}#comment_${cid}`;
+      anchor = `comment_${cid}`;
     }
     if (type === "voteMentionUser") {
-      return `/space/${space}/proposal/${proposalCid}#vote_${cid}`;
+      anchor = `vote_${cid}`;
     }
     if (type === "appendantMentionUser") {
-      return `/space/${space}/proposal/${proposalCid}#appendant_${cid}`;
+      anchor = `appendant_${cid}`;
     }
-    return `/space/${space}/proposal/${proposalCid}`;
+    return `/space/${space}/proposal/${proposalCid}?anchor=${anchor}`;
   }, [cid, proposalCid, space, type]);
 
   return (
