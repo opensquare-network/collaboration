@@ -1,13 +1,7 @@
 import styled from "styled-components";
 import { p_14_medium } from "@osn/common-ui/es/styles/textStyles";
 import { Time, Flex, Dot } from "@osn/common-ui";
-import {
-  text_dark_minor,
-  primary_turquoise_500,
-  text_dark_accessory,
-} from "@osn/common-ui/es/styles/colors";
 import { ReactComponent as CheckIcon } from "@osn/common-ui/es/imgs/icons/check.svg";
-import { MOBILE_SIZE } from "@osn/constants";
 import { useMemo, useState } from "react";
 import { useSpaceIconUri } from "frontedUtils/space";
 import {
@@ -15,74 +9,6 @@ import {
   renderMentionIdentityUserPlugin,
 } from "@osn/previewer";
 import IdentityOrAddr from "../identityOrAddr";
-
-const NotificationItemWrapper = styled.div`
-  &:hover {
-    .unread-dot {
-      display: none;
-    }
-    .check-icon {
-      display: block;
-      path {
-        fill: ${text_dark_accessory};
-      }
-    }
-  }
-`;
-
-const Head = styled.div`
-  padding: 24px;
-  background: var(--fillBgPrimary);
-  border: 1px solid var(--strokeBorderDefault);
-  box-shadow: var(--shadowCardDefault);
-`;
-
-const Type = styled.div`
-  text-transform: capitalize;
-  color: ${text_dark_minor};
-
-  @media screen and (max-width: ${MOBILE_SIZE}px) {
-    &::after {
-      display: none;
-    }
-  }
-`;
-
-const MarkAsReadButton = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  width: 18px;
-  height: 18px;
-  padding: 0;
-  border: none;
-  background-color: transparent;
-
-  .check-icon {
-    display: none;
-  }
-
-  &:hover {
-    .unread-dot {
-      display: none;
-    }
-
-    .check-icon {
-      display: block;
-
-      path {
-        fill: ${text_dark_minor};
-      }
-    }
-  }
-`;
-
-const UnreadDot = styled.div`
-  width: 8px;
-  height: 8px;
-  background-color: ${primary_turquoise_500};
-`;
 
 const MarkDown = styled(MarkdownPreviewer)`
   ${p_14_medium};
@@ -100,34 +26,7 @@ const EventTypeName = {
 };
 
 export default function NotificationItem({ data, onMarkAsRead = () => {} }) {
-  const {
-    type,
-    createdAt,
-    read: _read,
-    data: { space, title, proposalCid, spaceInfo, cid, content } = {},
-  } = data;
-
-  const [read, setRead] = useState(_read);
-
-  function handleMarkAsRead(data) {
-    onMarkAsRead(data);
-    setRead(true);
-  }
-
-  const spaceIcon = useSpaceIconUri(spaceInfo);
-
-  const status = (
-    <>
-      {!read ? (
-        <MarkAsReadButton onClick={() => handleMarkAsRead(data)}>
-          <UnreadDot className="unread-dot" />
-          <CheckIcon className="check-icon" />
-        </MarkAsReadButton>
-      ) : (
-        <div />
-      )}
-    </>
-  );
+  const { type, data: { space, proposalCid, cid, content } = {} } = data;
 
   const href = useMemo(() => {
     if (type === "commentMentionUser") {
@@ -143,47 +42,76 @@ export default function NotificationItem({ data, onMarkAsRead = () => {} }) {
   }, [cid, proposalCid, space, type]);
 
   return (
-    <NotificationItemWrapper>
-      <Head className="  space-y-2">
-        <Flex className="justify-between items-center">
-          <div className="flex">
-            <img
-              width="20px"
-              height="20px"
-              className="ml-4px"
-              src={spaceIcon}
-              alt=""
-            />
-            <Dot />
-            <Type>{EventTypeName[type]}</Type>
-          </div>
-          {status}
-        </Flex>
-        {content && (
-          <a className="hover:underline" href={href}>
-            <MarkDown
-              content={content}
-              plugins={[renderMentionIdentityUserPlugin(<IdentityOrAddr />)]}
-              maxLines={2}
-              markedOptions={{
-                breaks: true,
-              }}
-            />
-          </a>
-        )}
+    <div className="group bg-fillBgPrimary p-6 border border-strokeBorderDefault shadow-shadowCardDefault">
+      <NotificationItemHeader data={data} onMarkAsRead={onMarkAsRead} />
+      {content && (
+        <a className="hover:underline" href={href}>
+          <MarkDown
+            content={content}
+            plugins={[renderMentionIdentityUserPlugin(<IdentityOrAddr />)]}
+            maxLines={2}
+            markedOptions={{
+              breaks: true,
+            }}
+          />
+        </a>
+      )}
+      <NotificationItemFooter data={data} />
+    </div>
+  );
+}
 
-        <div className="flex md:flex-row flex-col gap-2 justify-between">
-          <a
-            href={`/space/${space}/proposal/${proposalCid}`}
-            className="hover:underline text-xs font-bold overflow-hidden line-clamp-1 "
-          >
-            {title}
-          </a>
-          <div>
-            <Time time={createdAt} />
-          </div>
-        </div>
-      </Head>
-    </NotificationItemWrapper>
+function NotificationItemHeader({ onMarkAsRead, data }) {
+  const { type, read: _read, data: { spaceInfo } = {} } = data;
+  const [read, setRead] = useState(_read);
+
+  function handleMarkAsRead(data) {
+    onMarkAsRead(data);
+    setRead(true);
+  }
+
+  const spaceIcon = useSpaceIconUri(spaceInfo);
+
+  return (
+    <Flex className="justify-between items-center pb-3">
+      <div className="flex">
+        <img
+          width="20px"
+          height="20px"
+          className="ml-4px"
+          src={spaceIcon}
+          alt=""
+        />
+        <Dot />
+        <div className="text-textSecondary text-sm">{EventTypeName[type]}</div>
+      </div>
+      {!read ? (
+        <button
+          onClick={() => handleMarkAsRead(data)}
+          className=" w-5 h-5 flex justify-center items-center"
+        >
+          <div className="w-2 h-2 bg-textBrandSecondary max-sm:hidden group-hover:hidden " />
+          <CheckIcon className="w-4 sm:hidden group-hover:block" />
+        </button>
+      ) : null}
+    </Flex>
+  );
+}
+
+function NotificationItemFooter({ data }) {
+  const { createdAt, data: { space, title, proposalCid } = {} } = data;
+
+  return (
+    <div className="flex md:flex-row flex-col gap-2 justify-between border-t border-fillBgQuaternary pt-3 mt-3">
+      <a
+        href={`/space/${space}/proposal/${proposalCid}`}
+        className="hover:underline text-xs font-bold overflow-hidden line-clamp-1 "
+      >
+        {title}
+      </a>
+      <div className="text-end">
+        <Time className="text-xs" time={createdAt} />
+      </div>
+    </div>
   );
 }
