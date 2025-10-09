@@ -39,6 +39,8 @@ const Wrapper = styled.div`
 `;
 
 const ItemWrapper = styled.div`
+  padding-top: 4px;
+  padding-bottom: 4px;
   > :first-child {
     display: flex;
     align-items: center;
@@ -189,7 +191,12 @@ const AppendantItem = ({ item, index }) => {
   const { id, active } = useActiveAnchor(`appendant_${item.cid}`);
 
   return (
-    <ItemWrapper id={id} className={active ? "bg-strokeBorderDefault" : "----"}>
+    <ItemWrapper
+      id={id}
+      className={
+        active ? "bg-strokeBorderDefault -mx-5 px-5 md:px-8  md:-mx-8 pt-1" : ""
+      }
+    >
       <div>
         <StyledDividerWrapper>
           <div>{`#${index + 1}`}</div>
