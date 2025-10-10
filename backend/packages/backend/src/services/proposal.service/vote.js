@@ -23,6 +23,8 @@ const {
   hasOnePersonOneVoteStrategy,
 } = require("../../utils/strategy");
 const { isSameAddress, normalizeAddress } = require("../../utils/address");
+const { NotificationType } = require("../../constants");
+const { createMentionNotification } = require("../notification");
 
 async function getDelegatorBalances({ proposal, voter, voterNetwork }) {
   const snapshotHeight = proposal.snapshotHeights?.[voterNetwork];
@@ -389,6 +391,18 @@ async function saveVote({
       $set: {
         lastActivityAt: now,
       },
+    },
+  );
+
+  await createMentionNotification(
+    NotificationType.VoteMentionUser,
+    remark,
+    remarkType,
+    {
+      space: proposal.space,
+      proposalCid,
+      title: proposal.title,
+      cid,
     },
   );
 }

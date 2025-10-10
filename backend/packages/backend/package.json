@@ -16,6 +16,7 @@
     "@polkadot/util": "^13.0.2",
     "@polkadot/util-crypto": "^13.0.2",
     "bignumber.js": "^9.0.1",
+    "cheerio": "^1.1.2",
     "data-uri-to-buffer": "^4.0.1",
     "dotenv": "^10.0.0",
     "ethers": "5.8.0",
