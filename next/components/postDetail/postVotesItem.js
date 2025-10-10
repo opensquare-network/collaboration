@@ -4,14 +4,17 @@ import Ellipsis from "@/components/ellipsis";
 import { Flex, IpfsSquare } from "@osn/common-ui";
 import ValueDisplay from "@/components/valueDisplay";
 import Voter from "@/components/role/voter";
-import { Tooltip } from "@osn/common-ui";
+import { Tooltip, MentionIdentityUser } from "@osn/common-ui";
 import VoteBalanceDetail from "./VoteBalanceDetail";
 import { isZero } from "frontedUtils";
 import {
   hasBalanceStrategy,
   hasSocietyVoteStrategyOnly,
 } from "frontedUtils/strategy";
-import { MarkdownPreviewer } from "@osn/previewer";
+import {
+  MarkdownPreviewer,
+  renderMentionIdentityUserPlugin,
+} from "@osn/previewer";
 import ToggleCollapsed from "../toggleCollapsed";
 import { useActiveAnchor } from "hooks/notification/useAnchor";
 
@@ -258,7 +261,12 @@ function ContentPreviewer({ data }) {
     return (
       <ToggleCollapsed collapsedHeight={240}>
         <div className="pl-7 pt-2 proposal-vote-remark-markdown">
-          <MarkdownPreviewer content={data.remark} />
+          <MarkdownPreviewer
+            content={data.remark}
+            plugins={[
+              renderMentionIdentityUserPlugin(<MentionIdentityUser explore />),
+            ]}
+          />
         </div>
       </ToggleCollapsed>
     );

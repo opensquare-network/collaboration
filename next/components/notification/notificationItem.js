@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { p_14_medium } from "@osn/common-ui/es/styles/textStyles";
-import { Time, Flex, Dot } from "@osn/common-ui";
+import { Time, Flex, Dot, MentionIdentityUser } from "@osn/common-ui";
 import { ReactComponent as CheckIcon } from "@osn/common-ui/es/imgs/icons/check.svg";
 import { useMemo, useState } from "react";
 import { useSpaceIconUri } from "frontedUtils/space";
@@ -8,7 +8,6 @@ import {
   MarkdownPreviewer,
   renderMentionIdentityUserPlugin,
 } from "@osn/previewer";
-import IdentityOrAddr from "../identityOrAddr";
 
 const MarkDown = styled(MarkdownPreviewer)`
   ${p_14_medium};
@@ -49,7 +48,11 @@ export default function NotificationItem({ data, onMarkAsRead = () => {} }) {
         <a className="hover:underline" href={href}>
           <MarkDown
             content={content}
-            plugins={[renderMentionIdentityUserPlugin(<IdentityOrAddr />)]}
+            plugins={[
+              renderMentionIdentityUserPlugin(
+                <MentionIdentityUser className="px-0" explore />,
+              ),
+            ]}
             maxLines={2}
             markedOptions={{
               breaks: true,

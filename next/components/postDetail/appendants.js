@@ -9,6 +9,7 @@ import {
   FlexBetween,
   FlexCenter,
   IpfsSquare,
+  MentionIdentityUser,
 } from "@osn/common-ui";
 import {
   newErrorToast,
@@ -23,7 +24,10 @@ import {
 } from "@osn/common-ui/es/styles/textStyles";
 import { text_dark_accessory } from "@osn/common-ui/es/styles/colors";
 import nextApi from "services/nextApi";
-import { MarkdownPreviewer } from "@osn/previewer";
+import {
+  MarkdownPreviewer,
+  renderMentionIdentityUserPlugin,
+} from "@osn/previewer";
 import Editor from "../editor";
 import { signAppendantWith } from "frontedUtils/signData";
 import useSignApiData from "hooks/useSignApiData";
@@ -212,7 +216,12 @@ const AppendantItem = ({ item, index }) => {
       </div>
 
       <MarkdownPreviewWrapper>
-        <MarkdownPreviewer content={item.content} />
+        <MarkdownPreviewer
+          content={item.content}
+          plugins={[
+            renderMentionIdentityUserPlugin(<MentionIdentityUser explore />),
+          ]}
+        />
       </MarkdownPreviewWrapper>
     </ItemWrapper>
   );
