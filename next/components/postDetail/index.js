@@ -62,12 +62,12 @@ export default function PostDetail({
   space,
   votes,
   voteStatus,
-  comments,
+  commentData,
   defaultPage,
   myVote,
   isSafari = false,
 }) {
-  const { loadSuggestions } = useSuggestions(comments, votes);
+  const { loadSuggestions } = useSuggestions(commentData?.items, votes);
   useJumpToAnchor();
   return (
     <Wrapper>
@@ -90,7 +90,7 @@ export default function PostDetail({
         />
         <PostDiscussion
           proposal={data}
-          comments={comments}
+          commentData={commentData}
           space={space}
           loadSuggestions={loadSuggestions}
         />

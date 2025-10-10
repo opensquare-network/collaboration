@@ -7,13 +7,6 @@ import NoData from "@osn/common-ui/es/NoData";
 import CommitItem from "./commitItem";
 import CommitEditor from "./commitEditor";
 
-const PaginationWrapper = styled.div`
-  padding: 20px 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
 const NoCommentWrapper = styled.div`
   height: 104px;
   border-bottom: 1px solid var(--strokeBorderDefault);
@@ -28,43 +21,28 @@ const NoCommentWrapper = styled.div`
 export default function PostDiscussion({
   proposal,
   space,
-  comments,
-  votesPage = 1,
+  commentData,
   loadSuggestions,
 }) {
-  const getNetwork = (comment) =>
-    findNetworkConfig(proposal.networksConfig, comment.commenterNetwork);
-  const spaceSupportMultiChain = space?.networks?.length > 1;
-
   return (
     <AccordionPanel
-      head={<HeaderWithNumber title="Discussions" number={comments?.total} />}
+      head={
+        <HeaderWithNumber title="Discussions" number={commentData?.total} />
+      }
     >
-      {(comments?.items || []).map((item, index) => (
-        <CommitItem
-          key={index}
-          item={item}
-          spaceSupportMultiChain={spaceSupportMultiChain}
-          space={getNetwork(item)}
+      <Items commentData={commentData} proposal={proposal} space={space} />
+      <div className="py-5">
+        <Pagination
+          page={commentData?.page}
+          total={commentData?.total}
+          pageSize={commentData?.pageSize}
+          pageKey="discussion_page"
+          otherQueries={{
+            page: commentData?.page,
+          }}
         />
-      ))}
-      <div className="px-5 md:px-8">
-        {!comments?.items?.length > 0 && (
-          <NoCommentWrapper>
-            <NoData message="No current comments" />
-          </NoCommentWrapper>
-        )}
-        <PaginationWrapper>
-          <Pagination
-            page={comments?.page}
-            total={comments?.total}
-            pageSize={comments?.pageSize}
-            pageKey="discussion_page"
-            otherQueries={{
-              page: votesPage,
-            }}
-          />
-        </PaginationWrapper>
+      </div>
+      <div className="px-5">
         <CommitEditor
           proposal={proposal}
           space={space}
@@ -72,5 +50,32 @@ export default function PostDiscussion({
         />
       </div>
     </AccordionPanel>
+  );
+}
+
+function Items({ commentData, space, proposal }) {
+  if (!commentData?.items?.length > 0) {
+    return (
+      <NoCommentWrapper>
+        <NoData message="No current comment data" />
+      </NoCommentWrapper>
+    );
+  }
+
+  const getNetwork = (comment) =>
+    findNetworkConfig(proposal.networksConfig, comment.commenterNetwork);
+  const spaceSupportMultiChain = space?.networks?.length > 1;
+
+  return (
+    <>
+      {(commentData?.items || []).map((item, index) => (
+        <CommitItem
+          key={index}
+          item={item}
+          spaceSupportMultiChain={spaceSupportMultiChain}
+          space={getNetwork(item)}
+        />
+      ))}
+    </>
   );
 }

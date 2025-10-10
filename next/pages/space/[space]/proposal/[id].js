@@ -21,7 +21,7 @@ export default function Index({
   space,
   votes,
   voteStatus,
-  comments,
+  commentData,
   defaultPage,
   myVote,
   isSafari,
@@ -114,7 +114,7 @@ export default function Index({
           space={space}
           votes={votes}
           voteStatus={voteStatus}
-          comments={comments}
+          commentData={commentData}
           defaultPage={defaultPage}
           myVote={savedMyVote}
           isSafari={isSafari}
@@ -130,11 +130,21 @@ export async function getServerSideProps(context) {
     userAgent.includes("Safari") && !userAgent.includes("Chrome");
 
   const { id, space: spaceId } = context.params;
-  const { page, discussion_page: discussionPage } = context.query;
+  const { page, discussion_page: discussionPage, anchor = "" } = context.query;
 
-  const nPage = page === "last" ? "last" : parseInt(page) || 1;
-  const discusPage =
-    discussionPage === "last" ? "last" : parseInt(discussionPage) || 1;
+  const hasVoteAnchor = anchor.startsWith("vote");
+  const hasCommentAnchor = anchor.startsWith("comment");
+
+  const votePage = hasVoteAnchor
+    ? 1
+    : page === "last"
+    ? "last"
+    : parseInt(page) || 1;
+  const discusPage = hasCommentAnchor
+    ? 1
+    : discussionPage === "last"
+    ? "last"
+    : parseInt(discussionPage) || 1;
 
   const { result: detail } = await ssrNextApi.fetch(
     `${spaceId}/proposal/${id}`,
@@ -148,17 +158,17 @@ export async function getServerSideProps(context) {
     { result: space },
     { result: votes },
     { result: voteStatus },
-    { result: comments },
+    { result: commentData },
   ] = await Promise.all([
     ssrNextApi.fetch(`spaces/${spaceId}`),
     ssrNextApi.fetch(`${spaceId}/proposal/${detail?.cid}/votes`, {
-      page: nPage,
-      pageSize: 50,
+      page: votePage,
+      pageSize: hasVoteAnchor ? 200 : 50,
     }),
     ssrNextApi.fetch(`${spaceId}/proposal/${detail?.cid}/stats`),
     ssrNextApi.fetch(`${spaceId}/proposal/${detail?.cid}/comments`, {
       page: discusPage,
-      pageSize: 25,
+      pageSize: hasCommentAnchor ? 200 : 25,
     }),
   ]);
 
@@ -179,8 +189,8 @@ export async function getServerSideProps(context) {
       space: space ?? null,
       votes: votes ?? EmptyQuery,
       voteStatus: voteStatus ?? [],
-      comments: comments ?? EmptyQuery,
-      defaultPage: { page: nPage, discussionPage: discusPage },
+      commentData: commentData ?? EmptyQuery,
+      defaultPage: { page: votePage, discussionPage: discusPage },
       myVote: myVote ?? null,
       isSafari,
     },

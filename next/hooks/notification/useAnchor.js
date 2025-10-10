@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useMount } from "react-use";
 
@@ -17,19 +17,12 @@ function jumpToAnchor(anchorId) {
   });
 }
 
-export const useAnchor = () => {
-  const router = useRouter();
-  const anchorId = useMemo(() => {
-    return router.asPath.split("#")[1];
-  }, [router.asPath]);
-
-  return anchorId;
-};
-
 export const useJumpToAnchor = () => {
+  const router = useRouter();
+  const anchorId = router.query.anchor;
   const [isMounted, setIsMounted] = useState();
   useMount(() => setIsMounted(true));
-  const anchorId = useAnchor();
+
   useEffect(() => {
     if (anchorId && isMounted) {
       setTimeout(() => {
@@ -40,17 +33,11 @@ export const useJumpToAnchor = () => {
 };
 
 export const useActiveAnchor = (anchor) => {
-  const [id, setId] = useState("");
-  const anchorId = useAnchor();
-
-  useEffect(() => {
-    setTimeout(() => {
-      setId(anchor);
-    }, 200);
-  }, [anchor]);
+  const router = useRouter();
+  const anchorId = router.query.anchor;
 
   return {
-    id,
-    active: id === anchorId,
+    id: anchor,
+    active: anchor === anchorId,
   };
 };
