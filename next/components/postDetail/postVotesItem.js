@@ -4,19 +4,26 @@ import Ellipsis from "@/components/ellipsis";
 import { Flex, IpfsSquare } from "@osn/common-ui";
 import ValueDisplay from "@/components/valueDisplay";
 import Voter from "@/components/role/voter";
-import { Tooltip } from "@osn/common-ui";
+import { Tooltip, MentionIdentityUser } from "@osn/common-ui";
 import VoteBalanceDetail from "./VoteBalanceDetail";
 import { isZero } from "frontedUtils";
 import {
   hasBalanceStrategy,
   hasSocietyVoteStrategyOnly,
 } from "frontedUtils/strategy";
-import { MarkdownPreviewer } from "@osn/previewer";
+import {
+  MarkdownPreviewer,
+  renderMentionIdentityUserPlugin,
+} from "@osn/previewer";
 import ToggleCollapsed from "../toggleCollapsed";
+import { useActiveAnchor } from "hooks/notification/useAnchor";
 
 const Item = styled.div`
-  padding: 20px 0;
+  padding: 20px 32px;
   border-bottom: 1px solid var(--strokeBorderDefault);
+  @media screen and (max-width: 800px) {
+    padding: 20px;
+  }
 `;
 
 const InfoWrapper = styled.div`
@@ -167,8 +174,10 @@ export default function PostVotesItem({
   isSafari = false,
 }) {
   const spaceSupportMultiChain = space?.networks?.length > 1;
+  const { id, active } = useActiveAnchor(`vote_${data.cid}`);
+
   return (
-    <Item>
+    <Item id={id} className={active ? "bg-strokeBorderDefault" : ""}>
       <InfoWrapper>
         <VoterWrapper>
           <Voter
@@ -252,7 +261,12 @@ function ContentPreviewer({ data }) {
     return (
       <ToggleCollapsed collapsedHeight={240}>
         <div className="pl-7 pt-2 proposal-vote-remark-markdown">
-          <MarkdownPreviewer content={data.remark} />
+          <MarkdownPreviewer
+            content={data.remark}
+            plugins={[
+              renderMentionIdentityUserPlugin(<MentionIdentityUser explore />),
+            ]}
+          />
         </div>
       </ToggleCollapsed>
     );

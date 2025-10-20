@@ -15,7 +15,7 @@ export function useSuggestions(comments = [], votes = null) {
     }-${user.network}) `;
 
   const fetchIdentitySuggestions = useCallback(async () => {
-    const commentUsers = (comments?.items || []).map((comment) => ({
+    const commentUsers = (comments || []).map((comment) => ({
       address: comment.address,
       network: comment.commenterNetwork,
       source: "comment",

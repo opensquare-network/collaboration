@@ -5,6 +5,10 @@ import Fold from "@/components/accordionPanel/fold";
 
 const Header = styled.header`
   display: flex;
+  padding: 0 32px;
+  @media screen and (max-width: 800px) {
+    padding: 0 20px;
+  }
 
   ${(p) =>
     !p.secondary &&
@@ -21,17 +25,24 @@ const Items = styled.article`
   margin-top: 16px;
 `;
 
+const Card = styled(Panel)`
+  padding: 32px 0;
+  @media screen and (max-width: 800px) {
+    padding: 20px 0;
+  }
+`;
+
 function AccordionPanel({ head, children, secondary = false }) {
   const [fold, setFold] = useState(false);
 
   return (
-    <Panel>
+    <Card>
       <Header secondary={secondary}>
         {head}
         <Fold fold={fold} setFold={setFold} />
       </Header>
       <Items show={!fold}>{children}</Items>
-    </Panel>
+    </Card>
   );
 }
 

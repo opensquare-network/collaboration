@@ -9,6 +9,7 @@ import {
   FlexBetween,
   FlexCenter,
   IpfsSquare,
+  MentionIdentityUser,
 } from "@osn/common-ui";
 import {
   newErrorToast,
@@ -23,10 +24,14 @@ import {
 } from "@osn/common-ui/es/styles/textStyles";
 import { text_dark_accessory } from "@osn/common-ui/es/styles/colors";
 import nextApi from "services/nextApi";
-import { MarkdownPreviewer } from "@osn/previewer";
+import {
+  MarkdownPreviewer,
+  renderMentionIdentityUserPlugin,
+} from "@osn/previewer";
 import Editor from "../editor";
 import { signAppendantWith } from "frontedUtils/signData";
 import useSignApiData from "hooks/useSignApiData";
+import { useActiveAnchor } from "hooks/notification/useAnchor";
 
 const Wrapper = styled.div`
   > :first-child {
@@ -38,6 +43,8 @@ const Wrapper = styled.div`
 `;
 
 const ItemWrapper = styled.div`
+  padding-top: 4px;
+  padding-bottom: 4px;
   > :first-child {
     display: flex;
     align-items: center;
@@ -79,7 +86,12 @@ const MarkdownPreviewWrapper = styled.div`
   margin-top: 4px;
 `;
 
-export default function Appendants({ proposal, appendants, editable }) {
+export default function Appendants({
+  loadSuggestions,
+  proposal,
+  appendants,
+  editable,
+}) {
   const dispatch = useDispatch();
   const router = useRouter();
   const account = useSelector(loginAccountSelector);
@@ -161,29 +173,12 @@ export default function Appendants({ proposal, appendants, editable }) {
         )}
       </FlexBetween>
       {appendants?.map((item, index) => (
-        <ItemWrapper key={index}>
-          <div>
-            <StyledDividerWrapper>
-              <div>{`#${index + 1}`}</div>
-              <Time time={item.createdAt} />
-            </StyledDividerWrapper>
-            <IpfsSquare
-              href={
-                item.pinHash
-                  ? `${process.env.NEXT_PUBLIC_API_END_POINT}api/ipfs/files/${item.pinHash}`
-                  : null
-              }
-            />
-          </div>
-
-          <MarkdownPreviewWrapper>
-            <MarkdownPreviewer content={item.content} />
-          </MarkdownPreviewWrapper>
-        </ItemWrapper>
+        <AppendantItem key={index} item={item} index={index} />
       ))}
       {editing && (
         <EditorWrapper>
           <Editor
+            loadSuggestions={loadSuggestions}
             content={content}
             setContent={setContent}
             onSubmit={onSubmit}
@@ -195,3 +190,39 @@ export default function Appendants({ proposal, appendants, editable }) {
     </Wrapper>
   );
 }
+
+const AppendantItem = ({ item, index }) => {
+  const { id, active } = useActiveAnchor(`appendant_${item.cid}`);
+
+  return (
+    <ItemWrapper
+      id={id}
+      className={
+        active ? "bg-strokeBorderDefault -mx-5 px-5 md:px-8  md:-mx-8 pt-1" : ""
+      }
+    >
+      <div>
+        <StyledDividerWrapper>
+          <div>{`#${index + 1}`}</div>
+          <Time time={item.createdAt} />
+        </StyledDividerWrapper>
+        <IpfsSquare
+          href={
+            item.pinHash
+              ? `${process.env.NEXT_PUBLIC_API_END_POINT}api/ipfs/files/${item.pinHash}`
+              : null
+          }
+        />
+      </div>
+
+      <MarkdownPreviewWrapper>
+        <MarkdownPreviewer
+          content={item.content}
+          plugins={[
+            renderMentionIdentityUserPlugin(<MentionIdentityUser explore />),
+          ]}
+        />
+      </MarkdownPreviewWrapper>
+    </ItemWrapper>
+  );
+};

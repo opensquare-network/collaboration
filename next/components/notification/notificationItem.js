@@ -1,149 +1,16 @@
 import styled from "styled-components";
 import { p_14_medium } from "@osn/common-ui/es/styles/textStyles";
-import { Time, Flex, FlexBetween, Dot } from "@osn/common-ui";
-import {
-  text_dark_minor,
-  primary_turquoise_500,
-  text_dark_accessory,
-} from "@osn/common-ui/es/styles/colors";
+import { Time, Flex, Dot, MentionIdentityUser } from "@osn/common-ui";
 import { ReactComponent as CheckIcon } from "@osn/common-ui/es/imgs/icons/check.svg";
-import Link from "next/link";
-import { MOBILE_SIZE } from "@osn/constants";
-import { useState } from "react";
-import { OnlyDesktop, OnlyMobile } from "@osn/common-ui";
+import { useMemo, useState } from "react";
 import { useSpaceIconUri } from "frontedUtils/space";
+import {
+  MarkdownPreviewer,
+  renderMentionIdentityUserPlugin,
+} from "@osn/previewer";
 
-const NotificationItemWrapper = styled.div`
-  &:hover {
-    .unread-dot {
-      display: none;
-    }
-    .check-icon {
-      display: block;
-      path {
-        fill: ${text_dark_accessory};
-      }
-    }
-  }
-`;
-
-const Head = styled(Flex)`
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  padding: 24px;
-  gap: 24px;
-
-  background: var(--fillBgPrimary);
-  border: 1px solid var(--strokeBorderDefault);
-  box-shadow: var(--shadowCardDefault);
-
-  @media screen and (max-width: ${MOBILE_SIZE}px) {
-    display: block;
-  }
-`;
-
-const TitleWrapper = styled(Flex)`
-  flex: 1;
-  max-width: 50%;
-
-  @media screen and (max-width: ${MOBILE_SIZE}px) {
-    max-width: 100%;
-    display: block;
-  }
-`;
-
-const InfoWrapper = styled(FlexBetween)`
-  flex: 1;
-  max-width: 50%;
-  display: flex;
-
-  @media screen and (max-width: ${MOBILE_SIZE}px) {
-    max-width: 100%;
-    margin-top: 6px;
-  }
-`;
-
-const Type = styled.div`
-  text-transform: capitalize;
-  color: ${text_dark_minor};
-
-  @media screen and (max-width: ${MOBILE_SIZE}px) {
-    &::after {
-      display: none;
-    }
-  }
-`;
-
-const Title = styled.p`
+const MarkDown = styled(MarkdownPreviewer)`
   ${p_14_medium};
-  margin: 0;
-  cursor: pointer;
-  :hover {
-    text-decoration: underline;
-  }
-
-  @media screen and (min-width: ${MOBILE_SIZE - 1}px) {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-  }
-
-  @media screen and (max-width: ${MOBILE_SIZE}px) {
-    margin-top: 4px;
-  }
-`;
-
-const TimeWrapper = styled(Flex)`
-  flex: 1;
-  justify-content: flex-end;
-
-  @media screen and (max-width: ${MOBILE_SIZE}px) {
-    justify-content: flex-start;
-  }
-`;
-
-const StatusWrapper = styled(Flex)`
-  flex: 1;
-  width: 18px;
-  height: 18px;
-  justify-content: flex-end;
-`;
-
-const MarkAsReadButton = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  width: 18px;
-  height: 18px;
-  padding: 0;
-  border: none;
-  background-color: transparent;
-
-  .check-icon {
-    display: none;
-  }
-
-  &:hover {
-    .unread-dot {
-      display: none;
-    }
-
-    .check-icon {
-      display: block;
-
-      path {
-        fill: ${text_dark_minor};
-      }
-    }
-  }
-`;
-
-const UnreadDot = styled.div`
-  width: 8px;
-  height: 8px;
-  background-color: ${primary_turquoise_500};
 `;
 
 const EventTypeName = {
@@ -152,16 +19,54 @@ const EventTypeName = {
   proposalCloseToEnd: "Proposal Close to End",
   proposalEnd: "Proposal End",
   proposalTerminated: "Proposal Terminated",
+  commentMentionUser: "Comment Mentioned",
+  appendantMentionUser: "Appendant Mentioned",
+  voteMentionUser: "Vote Mentioned",
 };
 
 export default function NotificationItem({ data, onMarkAsRead = () => {} }) {
-  const {
-    type,
-    createdAt,
-    read: _read,
-    data: { space, title, proposalCid, spaceInfo } = {},
-  } = data;
+  const { type, data: { space, proposalCid, cid, content } = {} } = data;
 
+  const href = useMemo(() => {
+    let anchor = "";
+    if (type === "commentMentionUser") {
+      anchor = `comment_${cid}`;
+    }
+    if (type === "voteMentionUser") {
+      anchor = `vote_${cid}`;
+    }
+    if (type === "appendantMentionUser") {
+      anchor = `appendant_${cid}`;
+    }
+    return `/space/${space}/proposal/${proposalCid}?anchor=${anchor}`;
+  }, [cid, proposalCid, space, type]);
+
+  return (
+    <div className="group bg-fillBgPrimary p-6 border border-strokeBorderDefault shadow-shadowCardDefault">
+      <NotificationItemHeader data={data} onMarkAsRead={onMarkAsRead} />
+      {content && (
+        <a className="hover:underline" href={href}>
+          <MarkDown
+            content={content}
+            plugins={[
+              renderMentionIdentityUserPlugin(
+                <MentionIdentityUser className="px-0" explore />,
+              ),
+            ]}
+            maxLines={2}
+            markedOptions={{
+              breaks: true,
+            }}
+          />
+        </a>
+      )}
+      <NotificationItemFooter data={data} />
+    </div>
+  );
+}
+
+function NotificationItemHeader({ onMarkAsRead, data }) {
+  const { type, read: _read, data: { spaceInfo } = {} } = data;
   const [read, setRead] = useState(_read);
 
   function handleMarkAsRead(data) {
@@ -171,53 +76,46 @@ export default function NotificationItem({ data, onMarkAsRead = () => {} }) {
 
   const spaceIcon = useSpaceIconUri(spaceInfo);
 
-  const status = (
-    <StatusWrapper>
+  return (
+    <Flex className="justify-between items-center pb-3">
+      <div className="flex">
+        <img
+          width="20px"
+          height="20px"
+          className="ml-4px"
+          src={spaceIcon}
+          alt=""
+        />
+        <Dot />
+        <div className="text-textSecondary text-sm">{EventTypeName[type]}</div>
+      </div>
       {!read ? (
-        <MarkAsReadButton onClick={() => handleMarkAsRead(data)}>
-          <UnreadDot className="unread-dot" />
-          <CheckIcon className="check-icon" />
-        </MarkAsReadButton>
-      ) : (
-        <div />
-      )}
-    </StatusWrapper>
+        <button
+          onClick={() => handleMarkAsRead(data)}
+          className=" w-5 h-5 flex justify-center items-center"
+        >
+          <div className="w-2 h-2 bg-textBrandSecondary max-sm:hidden group-hover:hidden " />
+          <CheckIcon className="w-4 sm:hidden group-hover:block" />
+        </button>
+      ) : null}
+    </Flex>
   );
+}
+
+function NotificationItemFooter({ data }) {
+  const { createdAt, data: { space, title, proposalCid } = {} } = data;
 
   return (
-    <NotificationItemWrapper>
-      <Head>
-        <TitleWrapper>
-          <Flex>
-            <img
-              width="20px"
-              height="20px"
-              className="ml-4px"
-              src={spaceIcon}
-              alt=""
-            />
-            <Dot />
-            <Type>{EventTypeName[type]}</Type>
-            <OnlyMobile>{status}</OnlyMobile>
-          </Flex>
-          <OnlyDesktop>
-            <Dot />
-          </OnlyDesktop>
-          <Title>
-            <Link href={`/space/${space}/proposal/${proposalCid}`} passHref>
-              {title}
-            </Link>
-          </Title>
-        </TitleWrapper>
-
-        <InfoWrapper>
-          <TimeWrapper>
-            <Time time={createdAt} />
-          </TimeWrapper>
-
-          <OnlyDesktop>{status}</OnlyDesktop>
-        </InfoWrapper>
-      </Head>
-    </NotificationItemWrapper>
+    <div className="flex md:flex-row flex-col gap-2 justify-between border-t border-fillBgQuaternary pt-3 mt-3">
+      <a
+        href={`/space/${space}/proposal/${proposalCid}`}
+        className="hover:underline text-xs font-bold overflow-hidden line-clamp-1 "
+      >
+        {title}
+      </a>
+      <div className="text-end">
+        <Time className="text-xs" time={createdAt} />
+      </div>
+    </div>
   );
 }

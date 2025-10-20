@@ -61,7 +61,7 @@ const Content = styled.div`
   color: var(--textPrimary);
 `;
 
-export default function PostContent({ data, space }) {
+export default function PostContent({ data, space, loadSuggestions }) {
   const loginAddress = useSelector(loginAddressSelector);
   const isOwner = isSameAddress(loginAddress, data.proposor || data.address);
   const networkConfig = findNetworkConfig(
@@ -110,6 +110,7 @@ export default function PostContent({ data, space }) {
         <>
           <Divider />
           <Appendants
+            loadSuggestions={loadSuggestions}
             proposal={data}
             appendants={data.appendants}
             editable={isOwner && !proposalClosed}
@@ -118,7 +119,7 @@ export default function PostContent({ data, space }) {
       )}
       <Divider />
       <Share uid={data.postUid} />
-      <PostVote proposal={data} />
+      <PostVote proposal={data} loadSuggestions={loadSuggestions} />
     </Panel>
   );
 }
