@@ -367,13 +367,18 @@ function ProposalActions({
   );
 }
 
-function Remark({ proposal, remark, setRemark }) {
+function Remark({ proposal, remark, setRemark, loadSuggestions }) {
   if (
     isCollectiveSpace(proposal?.networksConfig?.type) ||
     hasWhitelist(proposal?.networksConfig)
   ) {
     return (
-      <Editor content={remark} setContent={setRemark} showButtons={false} />
+      <Editor
+        loadSuggestions={loadSuggestions}
+        content={remark}
+        setContent={setRemark}
+        showButtons={false}
+      />
     );
   }
 
@@ -432,7 +437,7 @@ function isProposalClosed(proposal) {
   );
 }
 
-export default function PostVote({ proposal }) {
+export default function PostVote({ proposal, loadSuggestions }) {
   const router = useRouter();
   const dispatch = useDispatch();
   const [choiceIndexes, setChoiceIndexes] = useState([]);
@@ -554,7 +559,12 @@ export default function PostVote({ proposal }) {
       {choiceIndexes.length > 0 && (
         <InnerWrapper>
           <Title>Remark</Title>
-          <Remark proposal={proposal} remark={remark} setRemark={setRemark} />
+          <Remark
+            loadSuggestions={loadSuggestions}
+            proposal={proposal}
+            remark={remark}
+            setRemark={setRemark}
+          />
         </InnerWrapper>
       )}
       {!proposalClosed && (

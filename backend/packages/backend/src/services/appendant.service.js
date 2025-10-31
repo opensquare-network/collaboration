@@ -1,6 +1,8 @@
+const { NotificationType } = require("../constants");
 const { HttpError } = require("../exc");
 const { getProposalCollection, getAppendantCollection } = require("../mongo");
 const { isSameAddress } = require("../utils/address");
+const { createMentionNotification } = require("./notification");
 const { pinData } = require("./proposal.service/common");
 
 async function addAppendant(
@@ -43,6 +45,18 @@ async function addAppendant(
     pinHash,
     createdAt: now,
   });
+
+  await createMentionNotification(
+    NotificationType.AppendantMentionUser,
+    content,
+    contentType,
+    {
+      space: proposal.space,
+      proposalCid,
+      title: proposal.title,
+      cid,
+    },
+  );
 
   return {
     cid,
