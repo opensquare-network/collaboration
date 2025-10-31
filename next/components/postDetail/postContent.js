@@ -161,14 +161,14 @@ const TitleContent = ({ title }) => {
       <Title ref={titleRef}>{title}</Title>
       <div
         className={cn(
-          "fixed py-5  z-10 top-0 transform -translate-y-full left-0 w-full bg-fillBgPrimary border border-strokeBorderDefault shadow-shadowCardDefault",
+          "fixed py-4  z-10 top-0 transform -translate-y-full left-0 w-full bg-fillBgPrimary border border-strokeBorderDefault shadow-shadowCardDefault",
           scrollY > offsetTop && "translate-y-0",
         )}
       >
         <div className="md:max-w-[1144px] mx-auto md:px-8 px-5 flex relative">
           <div className="w-full md:!w-[calc(100%-320px)] flex items-center">
             <ArrowCaretLeft className="w-8 h-8 p-1 md:ml-8 ml-5 rounded-full border shadow  absolute left-0 -translate-x-1/2 " />
-            <div className="pl-8 md:px-8 font-[700] text-base md:font-[600] md:text-[20px] whitespace-nowrap overflow-hidden text-ellipsis">
+            <div className="pl-8 md:px-8 font-[700] text-xs md:font-[600] md:text-base whitespace-nowrap overflow-hidden text-ellipsis">
               {title}
             </div>
           </div>
