@@ -129,6 +129,8 @@ export default function PostContent({ data, space, loadSuggestions }) {
 }
 
 const TitleContent = ({ title }) => {
+  const titleRef = useRef();
+  const [offsetTop, setOffsetTop] = useState(152);
   const [scrollY, setScrollY] = useState(0);
   const debouncedScrollHandler = useRef(null);
   const handleScroll = useCallback(() => {
@@ -138,8 +140,14 @@ const TitleContent = ({ title }) => {
   useEffect(() => {}, [handleScroll]);
 
   useEffect(() => {
+    if (!titleRef.current) {
+      return;
+    }
+    const { top, height } = titleRef.current.getBoundingClientRect();
+    setOffsetTop(top + height - 66);
     debouncedScrollHandler.current = debounce(handleScroll, 10);
     window.addEventListener("scroll", debouncedScrollHandler.current);
+
     return () => {
       if (debouncedScrollHandler.current) {
         debouncedScrollHandler.current.cancel();
@@ -150,17 +158,19 @@ const TitleContent = ({ title }) => {
 
   return (
     <>
-      <Title>{title}</Title>
+      <Title ref={titleRef}>{title}</Title>
       <div
         className={cn(
           "fixed py-5  z-10 top-0 transform -translate-y-full left-0 w-full bg-fillBgPrimary border border-strokeBorderDefault shadow-shadowCardDefault",
-          scrollY > 180 && "translate-y-0",
+          scrollY > offsetTop && "translate-y-0",
         )}
       >
-        <div className="max-w-[1144px] mx-auto md:px-8 px-5 flex relative">
-          <ArrowCaretLeft className="w-8 h-8 p-1 md:ml-8 ml-5 rounded-full border shadow  absolute left-0 -translate-x-1/2 " />
-          <div className="px-8 font-[700] text-base md:font-[600] md:text-[20px]">
-            {title}
+        <div className="md:max-w-[1144px] mx-auto md:px-8 px-5 flex relative">
+          <div className="w-full md:!w-[calc(100%-320px)] flex items-center">
+            <ArrowCaretLeft className="w-8 h-8 p-1 md:ml-8 ml-5 rounded-full border shadow  absolute left-0 -translate-x-1/2 " />
+            <div className="pl-8 md:px-8 font-[700] text-base md:font-[600] md:text-[20px] whitespace-nowrap overflow-hidden text-ellipsis">
+              {title}
+            </div>
           </div>
         </div>
       </div>
