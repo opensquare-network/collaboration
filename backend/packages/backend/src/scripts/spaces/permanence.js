@@ -1,11 +1,9 @@
 const { Accessibility, SpaceType } = require("../../consts/space");
-const { networks, strategies } = require("./consts");
+const { strategies } = require("./consts");
 
 const config = {
   id: "permanence",
   name: "Permanence DAO",
-  symbol: "DOT",
-  decimals: 10,
   accessibility: Accessibility.WHITELIST,
   type: SpaceType.CollectivesDao,
   members: [
@@ -22,18 +20,6 @@ const config = {
     "167YoKNriVtP4Nxk9F9GRV7HTKu5VnxaRq1pKMANAnmmTY9F", // José Rabasso
     "13znFMMjHyM2UvSewvaKMC2bLUcySRMzcM8BAMTzm1G2P5ju", // PERMANENCE DAO/GOV-PROXY
     "12KtA8mtfsK1CyQb4utLiwG3ao22z77w2cM2GqnaL2RiDCoJ", // Flez
-  ],
-  networks: [
-    {
-      network: networks.polkadot,
-      ss58Format: 0,
-      assets: [
-        {
-          symbol: "DOT",
-          decimals: 10,
-        },
-      ],
-    },
   ],
   weightStrategy: [strategies.onePersonOneVote],
   version: "4",

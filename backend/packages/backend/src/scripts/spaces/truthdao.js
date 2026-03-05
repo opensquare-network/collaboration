@@ -1,11 +1,9 @@
 const { Accessibility, SpaceType } = require("../../consts/space");
-const { networks, strategies } = require("./consts");
+const { strategies } = require("./consts");
 
 const config = {
   id: "truthdao",
   name: "Truth DAO",
-  symbol: "DOT",
-  decimals: 10,
   accessibility: Accessibility.WHITELIST,
   type: SpaceType.CollectivesDao,
   members: [
@@ -16,18 +14,7 @@ const config = {
     "16ap6fdqS2rqFsyYah35hX1FH6rPNWtLqqXZDQC9x6GW141C", // Lurpis
     "14pa3BAYZLPvZfRDjWEfZXZWBVU45E67HUQEUxNCrdXGoata", // Tiny/Mimir
     "14qwyVVvW4Tuhq4Fvt2AHZqhbCtGfVb8HUY2xM2PKrzKsmZT",
-  ],
-  networks: [
-    {
-      network: networks.polkadot,
-      ss58Format: 0,
-      assets: [
-        {
-          symbol: "DOT",
-          decimals: 10,
-        },
-      ],
-    },
+    "12ZBQqk7SD9qA7qPwpzAND6ZznXtgZuCMFWZr8xpdsVdbeva",
   ],
   weightStrategy: [strategies.onePersonOneVote],
   version: "4",
@@ -36,6 +23,7 @@ const config = {
   admins: [
     "15MFgTrCqjnLRPkDymuuhBMpzxQmcRyfFDETRiEtBRjpfLzE",
     "14gMJV95zwxUsFEZDSC8mtBVifS6SypKJkfBKANkMsLZdeVb", // Yongfeng
+    "12ZBQqk7SD9qA7qPwpzAND6ZznXtgZuCMFWZr8xpdsVdbeva",
   ],
 };
 
