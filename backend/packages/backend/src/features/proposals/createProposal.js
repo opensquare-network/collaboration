@@ -142,29 +142,19 @@ function checkNetworkConfig(data) {
   }
 
   const spaceService = spaceServices[space];
-
-  let spaceNetworksConfig = {};
-  if (spaceService.type === SpaceType.CollectivesDao) {
-    spaceNetworksConfig = {
-      ...pick(spaceService, ["type", "accessibility", "whitelist", "members"]),
-      strategies: spaceService.weightStrategy,
-      ...pick(spaceService, ["quorum", "version"]),
-    };
-  } else {
-    spaceNetworksConfig = {
-      ...pick(spaceService, [
-        "type",
-        "symbol",
-        "decimals",
-        "networks",
-        "accessibility",
-        "whitelist",
-        "members",
-      ]),
-      strategies: spaceService.weightStrategy,
-      ...pick(spaceService, ["quorum", "version"]),
-    };
-  }
+  const spaceNetworksConfig = {
+    ...pick(spaceService, [
+      "type",
+      "symbol",
+      "decimals",
+      "networks",
+      "accessibility",
+      "whitelist",
+      "members",
+    ]),
+    strategies: spaceService.weightStrategy,
+    ...pick(spaceService, ["quorum", "version"]),
+  };
 
   if (!isMatch(networksConfig, spaceNetworksConfig)) {
     throw new HttpError(400, {
