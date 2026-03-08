@@ -1,11 +1,9 @@
 const { Accessibility, SpaceType } = require("../../consts/space");
-const { networks, strategies } = require("./consts");
+const { strategies } = require("./consts");
 
 const config = {
   id: "jamdao",
   name: "JAM DAO",
-  symbol: "DOT",
-  decimals: 10,
   accessibility: Accessibility.WHITELIST,
   type: SpaceType.CollectivesDao,
   members: [
@@ -25,18 +23,6 @@ const config = {
     "15p3jWZaP4dHTkDTuKM5VXQL5XGfH9U5r6Ntu3UAv2K7vPb8", // Tessera
     "15R1pWegyu7AfMev8DBMT67qxYoJhA1v7BbA2nn7S2uJ5QDF", // JamBrains
     "15fGrDWmFoaApnZXEw1Zg45zuCqpkbMS9YPzczeU9dHseUUu", // Fluffy Labs
-  ],
-  networks: [
-    {
-      network: networks.polkadot,
-      ss58Format: 0,
-      assets: [
-        {
-          symbol: "DOT",
-          decimals: 10,
-        },
-      ],
-    },
   ],
   weightStrategy: [strategies.onePersonOneVote],
   version: "4",

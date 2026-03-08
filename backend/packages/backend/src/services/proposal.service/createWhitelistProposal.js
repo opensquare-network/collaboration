@@ -1,3 +1,4 @@
+const { SpaceType } = require("../../consts/space");
 const { HttpError } = require("../../exc");
 const { spaces: spaceServices } = require("../../spaces");
 const { isSameAddress } = require("../../utils/address");
@@ -34,7 +35,10 @@ async function createWhitelistProposal({
   const spaceService = spaceServices[space];
   const weightStrategy = spaceService.weightStrategy;
 
-  if (realProposer && realProposer !== address) {
+  if (realProposer && !isSameAddress(realProposer, address)) {
+    if (networksConfig?.type === SpaceType.CollectivesDao) {
+      throw new HttpError(400, "Proxy is not allowed in collectives DAO");
+    }
     const lastHeight = await getLatestHeight(proposerNetwork);
     await checkProxy(proposerNetwork, address, realProposer, lastHeight);
   }

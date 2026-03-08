@@ -3,9 +3,9 @@ const proposalService = require("../../services/proposal.service");
 const { ChoiceType } = require("../../constants");
 const isEmpty = require("lodash.isempty");
 const { spaces: spaceServices } = require("../../spaces");
-const { Accessibility } = require("../../consts/space");
+const { Accessibility, SpaceType } = require("../../consts/space");
 const { checkProposalContent } = require("./checkProposalContent");
-const isEqual = require("lodash.isequal");
+const isMatch = require("lodash.ismatch");
 const pick = require("lodash/pick");
 const { getLatestHeight } = require("../../services/chain.service");
 const { strategies } = require("../../consts/voting");
@@ -85,9 +85,10 @@ async function checkSnapshotHeights(data) {
   const { networksConfig, snapshotHeights } = data;
 
   if (
-    networksConfig.accessibility === Accessibility.WHITELIST &&
-    networksConfig.strategies?.length === 1 &&
-    networksConfig.strategies[0] === strategies.onePersonOneVote
+    networksConfig.type === SpaceType.CollectivesDao ||
+    (networksConfig.accessibility === Accessibility.WHITELIST &&
+      networksConfig.strategies?.length === 1 &&
+      networksConfig.strategies[0] === strategies.onePersonOneVote)
   ) {
     // We don't need snapshotHeights in this case
     return;
@@ -155,7 +156,7 @@ function checkNetworkConfig(data) {
     ...pick(spaceService, ["quorum", "version"]),
   };
 
-  if (!isEqual(networksConfig, spaceNetworksConfig)) {
+  if (!isMatch(networksConfig, spaceNetworksConfig)) {
     throw new HttpError(400, {
       networksConfig: [
         "The proposal networks config is not matching the space config",

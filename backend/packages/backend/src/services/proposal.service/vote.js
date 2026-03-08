@@ -16,7 +16,7 @@ const { adaptBalance } = require("../../utils/balance");
 const { getDemocracyDelegated } = require("../node.service/getDelegated");
 const { findDelegationStrategies } = require("../../utils/delegation");
 const { getSocietyMember } = require("../node.service/getSocietyMember");
-const { Accessibility } = require("../../consts/space");
+const { Accessibility, SpaceType } = require("../../consts/space");
 const {
   hasBalanceStrategy,
   hasSocietyStrategy,
@@ -144,6 +144,10 @@ async function addDelegatedVotes(
 async function checkProxy({ proposal, voterNetwork, address, realVoter }) {
   if (!realVoter || isSameAddress(realVoter, address)) {
     return;
+  }
+
+  if (proposal.networksConfig?.type === SpaceType.CollectivesDao) {
+    throw new HttpError(400, "Proxy is not allowed in collectives DAO");
   }
 
   const snapshotHeight = proposal.snapshotHeights?.[voterNetwork];
