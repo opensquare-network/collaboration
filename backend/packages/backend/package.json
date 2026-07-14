@@ -7,7 +7,7 @@
     "start": "NODE_ENV=production node src/index.js",
     "lint": "eslint .",
     "test": "jest src --runInBand",
-    "pin": "pm2 start ecosystem.config.js --only voting-pin-to-s3 --env production"
+    "saveToS3": "pm2 start ecosystem.config.js --only voting-save-to-s3 --env production"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1079.0",

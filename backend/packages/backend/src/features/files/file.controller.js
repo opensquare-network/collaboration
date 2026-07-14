@@ -1,5 +1,5 @@
 const { HttpError } = require("../../exc");
-const { pinFileToStorage } = require("../../services/s3.service/pin");
+const { saveFileToStorage } = require("../../services/s3.service/saveToS3");
 
 const Megabyte = 1024 * 1024;
 
@@ -31,7 +31,7 @@ async function uploadFile(ctx) {
   }
 
   try {
-    const hash = await pinFileToStorage(file);
+    const hash = await saveFileToStorage(file);
 
     ctx.body = {
       cid: hash,

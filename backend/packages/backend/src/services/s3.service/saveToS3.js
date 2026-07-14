@@ -2,23 +2,23 @@ const pick = require("lodash/pick");
 const Hash = require("ipfs-only-hash");
 const { uploadJsonToS3, uploadBufferToS3 } = require(".");
 
-async function pinJsonToStorage(json) {
+async function saveJsonToStorage(json) {
   const { cid } = await uploadJsonToS3(json);
   return cid;
 }
 
-async function pinFileToStorage(file) {
+async function saveFileToStorage(file) {
   const { cid } = await uploadBufferToS3(file);
   return cid;
 }
 
-async function pinJsonToStorageWithTimeout(json, timeout) {
+async function saveJsonToStorageWithTimeout(json, timeout) {
   const errorMsg = "Pin json to storage timeout";
   return await Promise.race([
     new Promise((_, reject) =>
       setTimeout(() => reject(new Error(errorMsg)), timeout),
     ),
-    pinJsonToStorage(json),
+    saveJsonToStorage(json),
   ]);
 }
 
@@ -29,7 +29,7 @@ async function getObjectBufAndCid(data) {
   return { buf, cid };
 }
 
-async function pinItemsToS3(col, items) {
+async function saveItemsToS3(col, items) {
   for (const item of items) {
     try {
       const toBePin = {
@@ -51,21 +51,21 @@ async function pinItemsToS3(col, items) {
   }
 }
 
-async function pinCollectionDataToS3(col) {
+async function saveCollectionDataToS3(col) {
   const items = await col.find({ pinHash: null }).toArray();
-  await pinItemsToS3(col, items);
+  await saveItemsToS3(col, items);
 }
 
-async function repinCollectionDataToS3(col) {
+async function resaveCollectionDataToS3(col) {
   const items = await col.find().toArray();
-  await pinItemsToS3(col, items);
+  await saveItemsToS3(col, items);
 }
 
 module.exports = {
-  pinFileToStorage,
-  pinJsonToStorage,
-  pinJsonToStorageWithTimeout,
+  saveFileToStorage,
+  saveJsonToStorage,
+  saveJsonToStorageWithTimeout,
   getObjectBufAndCid,
-  pinCollectionDataToS3,
-  repinCollectionDataToS3,
+  saveCollectionDataToS3,
+  resaveCollectionDataToS3,
 };
