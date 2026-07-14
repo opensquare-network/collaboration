@@ -7,7 +7,7 @@ import React from "react";
 import IdentityOrAddr from "./identityOrAddr";
 import useAvatarInfo from "hooks/useAvatar";
 import IpfsAvatar from "./ipfsAvatar";
-import { getCollectiveMenberIdentityLink } from "frontedUtils/space";
+import { getCollectiveMemberIdentityLink } from "frontedUtils/space";
 
 const Wrapper = styled.span`
   display: inline-flex;
@@ -61,7 +61,7 @@ export function AvatarWithTooltip({
         <IdentityOrAddr
           address={address}
           network={network}
-          href={isCollective ? getCollectiveMenberIdentityLink(address) : ""}
+          href={isCollective ? getCollectiveMemberIdentityLink(address) : ""}
         />
       }
     >

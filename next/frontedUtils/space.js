@@ -6,7 +6,7 @@ import getStorageLink from "frontedUtils/env/storageLink";
 export const isCollectiveSpace = (type) => type === "collectives-dao";
 export const hasWhitelist = (spaceConfig) => !!spaceConfig?.whitelist?.length;
 
-export const getCollectiveMenberIdentityLink = (
+export const getCollectiveMemberIdentityLink = (
   address,
   network = "polkadot",
 ) => {
