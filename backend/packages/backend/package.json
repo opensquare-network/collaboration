@@ -7,9 +7,10 @@
     "start": "NODE_ENV=production node src/index.js",
     "lint": "eslint .",
     "test": "jest src --runInBand",
-    "pin": "pm2 start ecosystem.config.js --only voting-pin-to-ipfs --env production"
+    "pin": "pm2 start ecosystem.config.js --only voting-pin-to-s3 --env production"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.1079.0",
     "@koa/cors": "^5.0.0",
     "@koa/multer": "^3.0.0",
     "@osn/ipfs": "^0.2.0",

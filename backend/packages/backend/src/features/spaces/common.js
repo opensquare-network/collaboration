@@ -1,7 +1,8 @@
 const { isAddress } = require("@polkadot/util-crypto");
 const { HttpError } = require("../../exc");
 const { getSpaceCollection } = require("../../mongo");
-const { ipfsAddBuffer } = require("../../services/ipfs.service/ipfs");
+const { uploadBufferToS3 } = require("../../services/s3.service");
+const { cidOfBuffer } = require("../../utils/cid");
 const { isSameAddress } = require("../../utils/address");
 
 const dataUriToBuffer = (dataUri) =>
@@ -11,8 +12,16 @@ async function pinLogo(logo) {
   let logoCid = null;
   if (logo) {
     const buf = await dataUriToBuffer(logo);
-    const added = await ipfsAddBuffer(buf);
-    logoCid = added.path;
+    const rawBuf = Buffer.from(buf);
+    logoCid = await cidOfBuffer(rawBuf);
+
+    await uploadBufferToS3(
+      {
+        buffer: rawBuf,
+        mimetype: buf.type,
+      },
+      logoCid,
+    );
   }
 
   return logoCid;

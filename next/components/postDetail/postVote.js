@@ -525,9 +525,7 @@ export default function PostVote({ proposal, loadSuggestions }) {
     }
 
     const toastId = newToastId();
-    dispatch(
-      newPendingToast(toastId, "Saving and uploading the vote to IPFS..."),
-    );
+    dispatch(newPendingToast(toastId, "Saving and uploading the vote..."));
     let result;
     try {
       result = await nextApi.post(`${proposal?.space}/votes`, signedData);

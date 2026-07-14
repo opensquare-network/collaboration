@@ -253,9 +253,7 @@ export default function PostCreate({ space, settings }) {
     }
 
     const toastId = newToastId();
-    dispatch(
-      newPendingToast(toastId, "Saving and uploading proposal to IPFS..."),
-    );
+    dispatch(newPendingToast(toastId, "Saving and uploading proposal..."));
     try {
       const { result, error } = await nextApi.post(
         `${proposal.space}/proposals`,

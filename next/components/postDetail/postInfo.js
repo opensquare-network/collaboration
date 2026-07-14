@@ -59,9 +59,9 @@ function Snapshot({ space, snapshotHeights }) {
 function PinHash({ pinHash }) {
   return (
     <InfoItem>
-      <div>IPFS</div>
+      <div>Storage</div>
       <ExternalLink
-        href={`${process.env.NEXT_PUBLIC_API_END_POINT}api/ipfs/files/${pinHash}`}
+        href={`${process.env.NEXT_PUBLIC_API_END_POINT}api/s3/files/${pinHash}`}
       >{`#${pinHash?.slice(0, 7)}`}</ExternalLink>
     </InfoItem>
   );

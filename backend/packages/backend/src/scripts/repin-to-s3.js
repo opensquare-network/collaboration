@@ -8,7 +8,7 @@ const {
   getCommentCollection,
   getAppendantCollection,
 } = require("../mongo");
-const { repinCollectionDataToIpfs } = require("../services/ipfs.service");
+const { repinCollectionDataToS3 } = require("../services/s3.service/pin");
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -18,10 +18,10 @@ async function startPin() {
   const voteCol = await getVoteCollection();
   const commentCol = await getCommentCollection();
   await Promise.all([
-    repinCollectionDataToIpfs(proposalCol),
-    repinCollectionDataToIpfs(appendantCol),
-    repinCollectionDataToIpfs(voteCol),
-    repinCollectionDataToIpfs(commentCol),
+    repinCollectionDataToS3(proposalCol),
+    repinCollectionDataToS3(appendantCol),
+    repinCollectionDataToS3(voteCol),
+    repinCollectionDataToS3(commentCol),
   ]);
 }
 

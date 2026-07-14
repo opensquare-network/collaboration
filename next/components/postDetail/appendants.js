@@ -134,9 +134,7 @@ export default function Appendants({
     }
 
     const toastId = newToastId();
-    dispatch(
-      newPendingToast(toastId, "Saving and uploading the appendant to IPFS..."),
-    );
+    dispatch(newPendingToast(toastId, "Saving and uploading the appendant..."));
     let result;
     try {
       result = await nextApi.post(`${proposal?.space}/appendants`, signedData);
@@ -209,7 +207,7 @@ const AppendantItem = ({ item, index }) => {
         <IpfsSquare
           href={
             item.pinHash
-              ? `${process.env.NEXT_PUBLIC_API_END_POINT}api/ipfs/files/${item.pinHash}`
+              ? `${process.env.NEXT_PUBLIC_API_END_POINT}api/s3/files/${item.pinHash}`
               : null
           }
         />

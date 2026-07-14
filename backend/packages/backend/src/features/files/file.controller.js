@@ -1,24 +1,23 @@
 const { HttpError } = require("../../exc");
-const { IPFS_ENDPOINT } = require("../../env");
-const { pinFileToIpfs } = require("../../services/ipfs.service/pin");
+const { pinFileToStorage } = require("../../services/s3.service/pin");
 
 const Megabyte = 1024 * 1024;
 
 const trimTailSlash = (url) =>
   url.endsWith("/") ? url.substr(0, url.length - 1) : url;
 
-async function getFile(ctx) {
-  const { hash } = ctx.params;
-  ctx.redirect(`${trimTailSlash(IPFS_ENDPOINT)}/${hash}`);
-}
-
-async function getIpfsEndpoint(ctx) {
+async function getS3Endpoint(ctx) {
   ctx.body = {
-    endpoint: trimTailSlash(IPFS_ENDPOINT),
+    endpoint: trimTailSlash(process.env.S3_PUBLIC_ENDPOINT),
   };
 }
 
-async function upload(ctx) {
+async function getS3File(ctx) {
+  const { cid } = ctx.params;
+  ctx.redirect(`${trimTailSlash(process.env.S3_PUBLIC_ENDPOINT)}/${cid}`);
+}
+
+async function uploadFile(ctx) {
   const file = ctx.request.file;
   if (!file) {
     throw new HttpError(400, "File is missing");
@@ -32,10 +31,11 @@ async function upload(ctx) {
   }
 
   try {
-    const hash = await pinFileToIpfs(file);
+    const hash = await pinFileToStorage(file);
+
     ctx.body = {
-      hash,
-      url: `${trimTailSlash(IPFS_ENDPOINT)}/${hash}`,
+      cid: hash,
+      url: `${trimTailSlash(process.env.S3_PUBLIC_ENDPOINT)}/${hash}`,
     };
   } catch (e) {
     throw new HttpError(500, e.message);
@@ -43,7 +43,7 @@ async function upload(ctx) {
 }
 
 module.exports = {
-  getFile,
-  getIpfsEndpoint,
-  upload,
+  getS3Endpoint,
+  getS3File,
+  uploadFile,
 };

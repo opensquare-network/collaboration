@@ -1,6 +1,7 @@
 import { isEthereumAddress } from "@polkadot/util-crypto";
 import { getDefaultLogoUri } from "hooks/useDefaultLogo";
 import { useMemo } from "react";
+import getStorageLink from "frontedUtils/env/storageLink";
 
 export const isCollectiveSpace = (type) => type === "collectives-dao";
 export const hasWhitelist = (spaceConfig) => !!spaceConfig?.whitelist?.length;
@@ -71,7 +72,7 @@ export function getSpaceIconUri(space) {
     return `/imgs/icons/space/${spaceIcon}`;
   }
 
-  return `${process.env.NEXT_PUBLIC_IPFS_ENDPOINT}${spaceIcon}`;
+  return getStorageLink(spaceIcon);
 }
 
 export function useSpaceIconUri(space) {
