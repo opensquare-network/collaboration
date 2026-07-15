@@ -147,10 +147,19 @@ export default function SpaceListItem({ name, space }) {
       </IconWrapper>
       <Divider />
       <ActiveWrapper>
-        {space.inactive ? <InactiveCircle /> : <ActiveCircle />}
-        <InternalLink href={`/space/${name}?tab=active`}>
-          {space.inactive ? "Inactive" : "Active"}
-        </InternalLink>
+        {space.inactive ? (
+          <>
+            <InactiveCircle />
+            <span>Inactive</span>
+          </>
+        ) : (
+          <>
+            <ActiveCircle />
+            <InternalLink href={`/space/${name}?tab=active`}>
+              Active
+            </InternalLink>
+          </>
+        )}
         <Count>
           <ActiveCount>{space.activeProposalsCount ?? 0}</ActiveCount>/
           {space.proposalsCount}
