@@ -241,7 +241,7 @@ export default function PostVotesItem({
           <IpfsSquare
             href={
               data?.pinHash &&
-              `${process.env.NEXT_PUBLIC_API_END_POINT}api/ipfs/files/${data.pinHash}`
+              `${process.env.NEXT_PUBLIC_API_END_POINT}api/s3/files/${data.pinHash}`
             }
           />
         </BalanceWrapper>

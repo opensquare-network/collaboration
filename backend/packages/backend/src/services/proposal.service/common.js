@@ -1,7 +1,7 @@
 const {
   getObjectBufAndCid,
-  pinJsonToIpfsWithTimeout,
-} = require("../ipfs.service");
+  saveJsonToStorageWithTimeout,
+} = require("../s3.service/saveToS3");
 const { enhancedSqrtOfBalance } = require("../../utils");
 const { getProposalCollection } = require("../../mongo");
 const { HttpError } = require("../../exc");
@@ -45,7 +45,7 @@ async function pinData(rawData) {
 
   let pinHash = null;
   try {
-    pinHash = await pinJsonToIpfsWithTimeout(toBePin, 3000);
+    pinHash = await saveJsonToStorageWithTimeout(toBePin, 3000);
   } catch (e) {
     console.error(e);
   }

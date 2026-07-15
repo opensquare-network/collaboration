@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Avatar from "./avatar";
 import { ChainIcon } from "components/chainIcon";
 import IdentityOrAddr from "@/components/identityOrAddr";
-import { getCollectiveMenberIdentityLink } from "frontedUtils/space";
+import { getCollectiveMemberIdentityLink } from "frontedUtils/space";
 
 const Wrapper = styled.div`
   display: flex;
@@ -39,7 +39,7 @@ export default function Author({
         address={address}
         noLink={noLink}
         href={
-          isCollective ? getCollectiveMenberIdentityLink(address, network) : ""
+          isCollective ? getCollectiveMemberIdentityLink(address, network) : ""
         }
       />
     </Wrapper>

@@ -67,7 +67,7 @@ export default function CommitItem({ item, spaceSupportMultiChain, space }) {
         <IpfsSquare
           href={
             item?.pinHash &&
-            `${process.env.NEXT_PUBLIC_API_END_POINT}api/ipfs/files/${item.pinHash}`
+            `${process.env.NEXT_PUBLIC_API_END_POINT}api/s3/files/${item.pinHash}`
           }
         />
       </InfoWrapper>

@@ -98,7 +98,7 @@ export default function Index({
         desc={desc}
         banner={
           detail?.banner &&
-          `${process.env.NEXT_PUBLIC_API_END_POINT}api/ipfs/files/${detail?.banner}`
+          `${process.env.NEXT_PUBLIC_API_END_POINT}api/s3/files/${detail?.banner}`
         }
       />
       <Layout bgHeight="183px" networks={getSpaceNetwork(space)}>
