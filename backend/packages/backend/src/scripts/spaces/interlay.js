@@ -1,5 +1,5 @@
 const { Accessibility } = require("../../consts/space");
-const { networks, strategies } = require("./consts");
+const { strategies } = require("./consts");
 
 const config = {
   id: "interlay",
@@ -10,7 +10,7 @@ const config = {
   accessibility: Accessibility.PUBLIC,
   networks: [
     {
-      network: networks.interlay,
+      network: "interlay",
       ss58Format: 2032,
       assets: [
         {

@@ -11,7 +11,7 @@ const config = {
   accessibility: Accessibility.PUBLIC,
   networks: [
     {
-      network: networks.crust,
+      network: "crust",
       ss58Format: 66,
       assets: [
         {

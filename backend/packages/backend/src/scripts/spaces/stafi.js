@@ -11,7 +11,7 @@ const config = {
   accessibility: Accessibility.PUBLIC,
   networks: [
     {
-      network: networks.stafi,
+      network: "stafi",
       ss58Format: 20,
       assets: [
         {

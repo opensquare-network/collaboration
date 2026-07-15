@@ -50,22 +50,6 @@ const tokens = {
     ...statemineAssetCommon,
     assetId: 567,
   },
-  kint: {
-    isChain: true,
-    chain: chains.kintsugi,
-    isNative: false,
-    isOrml: true,
-    moduleName: "tokens",
-    currencyId: { token: "KINT" },
-  },
-  intr: {
-    isChain: true,
-    chain: chains.interlay,
-    isNative: false,
-    isOrml: true,
-    moduleName: "tokens",
-    currencyId: { token: "INTR" },
-  },
 };
 
 module.exports = {

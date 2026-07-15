@@ -10,7 +10,7 @@ const config = {
   accessibility: Accessibility.PUBLIC,
   networks: [
     {
-      network: networks.kintsugi,
+      network: "kintsugi",
       ss58Format: 2092,
       assets: [
         {
