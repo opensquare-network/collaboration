@@ -31,7 +31,7 @@ const MyFieldWrapper = styled(FieldWrapper)`
   z-index: 20;
 `;
 
-const UN_SUPPORTED_CHAINS = [];
+const UN_SUPPORTED_CHAINS = ["crust", "zeitgeist"];
 
 export default function Asset({
   chainsDef,
