@@ -1,18 +1,10 @@
 const { getApis } = require("@osn/polkadot-api-container");
-const { chains } = require("../../constants");
 const { getBalanceFromOneApi } = require("./getBalanceFromOneApi");
-const { getKintBalanceFromOneApi } = require("./getKintBalanceFromOneApi");
 
-async function getBalanceFromApis(apis, account, blockHashOrHeight, chain) {
+async function getBalanceFromApis(apis, account, blockHashOrHeight) {
   const promises = [];
   for (const api of apis) {
-    if ([chains.kintsugi, chains.interlay].includes(chain)) {
-      promises.push(
-        getKintBalanceFromOneApi(api, account, blockHashOrHeight, chain),
-      );
-    } else {
-      promises.push(getBalanceFromOneApi(api, account, blockHashOrHeight));
-    }
+    promises.push(getBalanceFromOneApi(api, account, blockHashOrHeight));
   }
 
   return Promise.any(promises);

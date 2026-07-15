@@ -59,6 +59,9 @@ async function getSpaces() {
 
   const sortedSpaces = Object.values(result)
     .sort((a, b) => {
+      if (a.inactive !== b.inactive) {
+        return a.inactive ? 1 : -1;
+      }
       return b.proposalsCount - a.proposalsCount;
     })
     .filter((item) => item.offline !== true);

@@ -1,4 +1,4 @@
-const { evmChains, noProxyChains } = require("../../constants");
+const { evmChains } = require("../../constants");
 const { getApis, getBlockApi } = require("@osn/polkadot-api-container");
 const { u8aToHex } = require("@polkadot/util");
 const { decodeAddress } = require("@polkadot/util-crypto");
@@ -52,7 +52,7 @@ class ProxyController {
       ctx.throw(400, "No delegatee given");
     }
 
-    if ([...noProxyChains, ...Object.keys(evmChains)].includes(chain)) {
+    if (Object.keys(evmChains).includes(chain)) {
       ctx.body = { isProxy: false };
       return;
     }

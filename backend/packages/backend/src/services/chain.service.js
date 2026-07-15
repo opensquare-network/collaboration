@@ -24,6 +24,8 @@ async function getLatestHeight(networkName) {
     await updateChainHeight(networkName);
   }
 
+  console.log(latestHeights);
+
   return latestHeights[networkName]?.height;
 }
 
