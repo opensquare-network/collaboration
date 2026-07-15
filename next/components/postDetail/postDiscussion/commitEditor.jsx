@@ -55,9 +55,7 @@ export default function CommitEditor({ proposal, space, loadSuggestions }) {
     }
 
     const toastId = newToastId();
-    dispatch(
-      newPendingToast(toastId, "Saving and uploading comment to IPFS..."),
-    );
+    dispatch(newPendingToast(toastId, "Saving and uploading comment..."));
     let result;
     try {
       result = await nextApi.post(`${space.id}/comments`, signedData);

@@ -10,6 +10,15 @@ const cors = require("@koa/cors");
 const { reloadSpaces } = require("./spaces");
 const socketSetup = require("./socket");
 const spaceNotify = require("./scripts/space-notify");
+const { validateEnv } = require("./utils/requireEnv");
+
+validateEnv([
+  "S3_API",
+  "S3_ACCESS_KEY_ID",
+  "S3_SECRET_ACCESS_KEY",
+  "S3_BUCKET",
+  "S3_PUBLIC_ENDPOINT",
+]);
 
 const app = new Koa();
 

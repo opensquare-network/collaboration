@@ -100,7 +100,7 @@ export default function PostContent({ data, space, loadSuggestions }) {
       <PostBanner
         bannerUrl={
           data?.banner &&
-          `${process.env.NEXT_PUBLIC_API_END_POINT}api/ipfs/files/${data?.banner}`
+          `${process.env.NEXT_PUBLIC_API_END_POINT}api/s3/files/${data?.banner}`
         }
       />
       <Accordion

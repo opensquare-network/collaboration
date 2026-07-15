@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import getStorageLink from "frontedUtils/env/storageLink";
 
 const IpfsAvatarWrapper = styled.img`
   border-radius: 50%;
@@ -16,7 +17,7 @@ export default function IpfsAvatar({ avatarCid, size }) {
 
   return (
     <IpfsAvatarWrapper
-      src={`${process.env.NEXT_PUBLIC_IPFS_ENDPOINT}${avatarCid}`}
+      src={getStorageLink(avatarCid)}
       alt="avatar"
       size={size}
     />
