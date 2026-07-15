@@ -59,6 +59,13 @@ const ActiveCircle = styled.div`
   margin-right: 8px;
 `;
 
+const InactiveCircle = styled.div`
+  ${makeSquare(6)};
+  border-radius: 50%;
+  background-color: var(--textTertiary);
+  margin-right: 8px;
+`;
+
 const Count = styled.span`
   margin-left: auto;
 `;
@@ -140,8 +147,19 @@ export default function SpaceListItem({ name, space }) {
       </IconWrapper>
       <Divider />
       <ActiveWrapper>
-        <ActiveCircle />
-        <InternalLink href={`/space/${name}?tab=active`}>Active</InternalLink>
+        {space.inactive ? (
+          <>
+            <InactiveCircle />
+            <span>Inactive</span>
+          </>
+        ) : (
+          <>
+            <ActiveCircle />
+            <InternalLink href={`/space/${name}?tab=active`}>
+              Active
+            </InternalLink>
+          </>
+        )}
         <Count>
           <ActiveCount>{space.activeProposalsCount ?? 0}</ActiveCount>/
           {space.proposalsCount}

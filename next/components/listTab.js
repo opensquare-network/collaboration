@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import { loginAccountSelector } from "store/reducers/accountSlice";
 import { isAdmin } from "frontedUtils/admin";
 import { ReactComponent as SettingsSVG } from "../public/imgs/icons/setting.svg";
+import { ReactComponent as AddSVG } from "../public/imgs/icons/add.svg";
 
 const Wrapper = styled(FlexBetween)`
   align-items: flex-start;
@@ -57,6 +58,18 @@ const NewPostLink = styled(Flex)`
   cursor: pointer;
   ${p_16_semibold};
   color: var(--textBrandSecondary);
+  > .img-div {
+    display: inline-flex;
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+  }
+`;
+
+const NewPostLinkDisabled = styled(Flex)`
+  cursor: not-allowed;
+  ${p_16_semibold};
+  color: var(--textQuaternary);
   > .img-div {
     display: inline-flex;
     width: 24px;
@@ -155,14 +168,25 @@ export default function ListTab({
       <div className="flex items-center gap-[16px] ml-[32px]">
         {settings}
 
-        <a href={`/space/${spaceId}/create`}>
-          <NewPostLink>
-            <div className="img-div">
-              <img src="/imgs/icons/add.svg" alt="" />
-            </div>
-            New Proposal
-          </NewPostLink>
-        </a>
+        {space?.inactive ? (
+          <Tooltip content="This space is inactive">
+            <NewPostLinkDisabled>
+              <div className="img-div [&_svg_path]:fill-textQuaternary">
+                <AddSVG width={24} height={24} />
+              </div>
+              New Proposal
+            </NewPostLinkDisabled>
+          </Tooltip>
+        ) : (
+          <a href={`/space/${spaceId}/create`}>
+            <NewPostLink>
+              <div className="img-div">
+                <AddSVG width={24} height={24} />
+              </div>
+              New Proposal
+            </NewPostLink>
+          </a>
+        )}
       </div>
     </Wrapper>
   );
