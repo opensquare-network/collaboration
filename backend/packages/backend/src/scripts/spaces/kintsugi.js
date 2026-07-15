@@ -3,6 +3,7 @@ const { networks, strategies } = require("./consts");
 
 const config = {
   id: "kintsugi",
+  inactive: true,
   name: "Kintsugi",
   symbol: "KINT",
   decimals: 12,

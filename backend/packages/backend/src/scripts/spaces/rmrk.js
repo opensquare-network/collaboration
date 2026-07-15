@@ -56,6 +56,7 @@ const rmrkMovrConfig = {
 
 const config = {
   id: "rmrk",
+  inactive: true,
   name: "RMRK",
   symbol: "RMRK",
   decimals: 10,
@@ -80,6 +81,7 @@ const config = {
 
 const curationConfig = {
   id: "rmrk-curation",
+  inactive: true,
   name: "RMRK Curation",
   symbol: "RMRK",
   decimals: 10,

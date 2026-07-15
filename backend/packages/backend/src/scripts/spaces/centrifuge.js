@@ -3,6 +3,7 @@ const { networks, strategies } = require("./consts");
 
 const centrifugeConfig = {
   id: networks.centrifuge,
+  inactive: true,
   name: "Centrifuge",
   symbol: "CFG",
   decimals: 18,

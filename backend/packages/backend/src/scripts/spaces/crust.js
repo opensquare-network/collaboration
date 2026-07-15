@@ -4,6 +4,7 @@ const { Accessibility } = require("../../consts/space");
 
 const config = {
   id: "crust",
+  inactive: true,
   name: "Crust",
   symbol: "CRU",
   decimals: 12,

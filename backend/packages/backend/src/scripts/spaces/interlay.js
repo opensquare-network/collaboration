@@ -3,6 +3,7 @@ const { networks, strategies } = require("./consts");
 
 const config = {
   id: "interlay",
+  inactive: true,
   name: "Interlay",
   symbol: "INTR",
   decimals: 10,

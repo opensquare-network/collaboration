@@ -3,6 +3,7 @@ const { networks, strategies } = require("./consts");
 
 const ztgConfig = {
   id: "zeitgeist",
+  inactive: true,
   name: "Zeitgeist",
   symbol: "ZTG",
   decimals: 10,

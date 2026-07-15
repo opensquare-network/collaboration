@@ -3,6 +3,7 @@ const { networks, strategies } = require("./consts");
 
 const basiliskConfig = {
   id: "basilisk",
+  inactive: true,
   name: "Basilisk",
   symbol: "BSX",
   decimals: 12,
