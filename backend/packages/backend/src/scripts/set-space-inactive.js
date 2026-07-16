@@ -19,6 +19,7 @@ const spaceIds = [
   "polkadex",
   "khala",
   "phala",
+  "moon",
 ];
 
 async function main() {
