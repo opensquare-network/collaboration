@@ -1,15 +1,16 @@
 const { Accessibility } = require("../../consts/space");
-const { networks, strategies } = require("./consts");
+const { strategies } = require("./consts");
 
 const rococoConfig = {
   id: "rococo",
+  inactive: true,
   name: "Rococo",
   symbol: "ROC",
   decimals: 12,
   accessibility: Accessibility.PUBLIC,
   networks: [
     {
-      network: networks.rococo,
+      network: "rococo",
       ss58Format: 42,
       assets: [
         {

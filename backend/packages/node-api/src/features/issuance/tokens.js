@@ -32,11 +32,6 @@ const tokens = {
     chain: chains.acala,
     isNative: true,
   },
-  pha: {
-    isChain: true,
-    chain: chains.khala,
-    isNative: true,
-  },
   bnc: {
     isChain: true,
     chain: chains.bifrost,

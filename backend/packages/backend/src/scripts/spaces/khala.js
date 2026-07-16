@@ -1,15 +1,16 @@
 const { Accessibility } = require("../../consts/space");
-const { networks, strategies } = require("./consts");
+const { strategies } = require("./consts");
 
 const khalaConfig = {
   id: "khala",
+  inactive: true,
   name: "Khala",
   symbol: "PHA",
   decimals: 12,
   accessibility: Accessibility.PUBLIC,
   networks: [
     {
-      network: networks.khala,
+      network: "khala",
       ss58Format: 30,
       assets: [
         {
