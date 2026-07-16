@@ -47,22 +47,6 @@ const chainsDef = {
     symbol: "BNC",
     decimals: 12,
   },
-  moonriver: {
-    name: "Moonriver",
-    network: "moonriver",
-    ss58Format: 1285,
-    supportAssetTypes: [AssetTypes.EVM_ERC20],
-    symbol: "MOVR",
-    decimals: 18,
-  },
-  moonbeam: {
-    name: "Moonbeam",
-    network: "moonbeam",
-    ss58Format: 1284,
-    supportAssetTypes: [AssetTypes.EVM_ERC20],
-    symbol: "GLMR",
-    decimals: 18,
-  },
   ethereum: {
     name: "Ethereum",
     network: "ethereum",
@@ -89,20 +73,6 @@ const chainsDef = {
     network: "shiden",
     ss58Format: 5,
     symbol: "SDN",
-    decimals: 18,
-  },
-  centrifuge: {
-    name: "Centrifuge",
-    network: "centrifuge",
-    ss58Format: 36,
-    symbol: "CFG",
-    decimals: 18,
-  },
-  altair: {
-    name: "Altair",
-    network: "altair",
-    ss58Format: 136,
-    symbol: "AIR",
     decimals: 18,
   },
   hydradx: {

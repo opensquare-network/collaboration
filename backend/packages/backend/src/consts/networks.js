@@ -6,14 +6,11 @@ const networks = Object.freeze({
   karura: "karura",
   kusama: "kusama",
   polkadot: "polkadot",
-  moonriver: "moonriver",
-  moonbeam: "moonbeam",
   acala: "acala",
   astar: "astar",
   astar_evm: "astar_evm",
   darwinia: "darwinia",
   shiden: "shiden",
-  altair: "altair",
   hydradx: "hydradx",
   hydration: "hydration",
   ethereum: "ethereum",
@@ -23,8 +20,6 @@ const networks = Object.freeze({
 });
 
 const evmNetworks = [
-  networks.moonbeam,
-  networks.moonriver,
   networks.ethereum,
   networks.creditcoin_evm,
   networks.astar_evm,

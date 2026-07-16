@@ -6,7 +6,6 @@ const chainFeatureRouters = [
   require("./features/balance/routes"),
   require("./features/proxy/routes"),
   require("./features/chain/routes"),
-  require("./features/democracy/routes"),
 ];
 
 const tokenRoutes = require("./features/token/routes");

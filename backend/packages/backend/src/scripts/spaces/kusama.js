@@ -54,18 +54,6 @@ const config = {
         },
       ],
     },
-    {
-      network: networks.moonriver,
-      assets: [
-        {
-          type: "erc20",
-          contract: "0xFfFFfFff1FcaCBd218EDc0EbA20Fc2308C778080",
-          symbol: "KSM",
-          decimals: 12,
-          votingThreshold: "10000000000",
-        },
-      ],
-    },
   ],
   proposeThreshold: "10000000000",
   weightStrategy: [strategies.balanceOf, strategies.quadraticBalanceOf],

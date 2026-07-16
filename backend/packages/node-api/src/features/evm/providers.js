@@ -4,17 +4,6 @@ const { ethers } = require("ethers");
 
 let evmProviderMap;
 
-const movrUrls = [
-  "https://rpc.api.moonriver.moonbeam.network",
-  "https://moonriver-alpha.api.onfinality.io/public",
-  "wss://wss.api.moonriver.moonbeam.network",
-];
-
-const glmrUrls = [
-  "https://rpc.api.moonbeam.network",
-  "wss://wss.api.moonbeam.network",
-];
-
 const ethUrls = [
   `wss://mainnet.infura.io/ws/v3/${process.env.INFURA_KEY}`,
   `https://mainnet.infura.io/v3/${process.env.INFURA_KEY}`,
@@ -36,17 +25,7 @@ function createProvider(url = "", network) {
   }
 }
 
-const movrChainId = 1285;
-const glmrChainId = 1284;
 const creditcoinEvmChainId = 102030;
-const movrNetwork = {
-  chainId: movrChainId,
-  name: evmChains.moonriver,
-};
-const glmrNetwork = {
-  chainId: glmrChainId,
-  name: evmChains.moonbeam,
-};
 const ethNetwork = {
   chainId: 1,
   name: "homestead",
@@ -61,8 +40,6 @@ const astarEvmNetwork = {
 };
 
 function initProviders() {
-  const movrProviders = movrUrls.map((url) => createProvider(url, movrNetwork));
-  const glmrProviders = glmrUrls.map((url) => createProvider(url, glmrNetwork));
   const creditcoinEvmProviders = creditcoinEvmUrls.map((url) =>
     createProvider(url, creditcoinEvmNetwork),
   );
@@ -84,8 +61,6 @@ function initProviders() {
   const ethProviders = ethUrls.map((url) => createProvider(url, ethNetwork));
 
   evmProviderMap = {
-    [evmChains.moonriver]: movrProviders,
-    [evmChains.moonbeam]: glmrProviders,
     [evmChains.ethereum]: ethProviders,
     [evmChains.creditcoin_evm]: creditcoinEvmProviders,
     [evmChains.astar_evm]: astarEvmProviders,
