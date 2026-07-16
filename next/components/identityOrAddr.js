@@ -57,13 +57,7 @@ export default function IdentityOrAddr({
   const isLink = !noLink;
 
   let link = `https://${network}.${explorer}.io/account/${address}`;
-  if (evm.moonriver === network) {
-    link = `https://moonriver.moonscan.io/address/${address}`;
-  } else if (evm.moonbeam === network) {
-    link = `https://moonscan.io/address/${address}`;
-  } else if (
-    [networks.creditcoin, networks.creditcoinNative].includes(network)
-  ) {
+  if ([networks.creditcoin, networks.creditcoinNative].includes(network)) {
     link = `https://explorer.creditcoin.org/Account/RecentExtrinsics/${address}`;
   } else if (evm.creditcoin_evm === network) {
     link = `https://creditcoin.blockscout.com/address/${address}`;

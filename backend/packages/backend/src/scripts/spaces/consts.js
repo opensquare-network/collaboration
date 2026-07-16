@@ -21,10 +21,6 @@ const statemintCommonConfig = {
   ss58Format: 0,
 };
 
-const movrErc20CommonConfig = {
-  network: networks.moonriver,
-};
-
 const ethErc20CommonConfig = {
   network: networks.ethereum,
 };
@@ -36,6 +32,5 @@ module.exports = {
   statemintCommonConfig,
   networks,
   strategies,
-  movrErc20CommonConfig,
   ethErc20CommonConfig,
 };

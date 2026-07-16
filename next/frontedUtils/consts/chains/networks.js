@@ -11,8 +11,6 @@ export const networks = Object.freeze({
   kintsugi: "kintsugi",
   polkadex: "polkadex",
   interlay: "interlay",
-  moonbeam: "moonbeam",
-  moonriver: "moonriver",
   acala: "acala",
   astar: "astar",
   astarEvm: "astar_evm",

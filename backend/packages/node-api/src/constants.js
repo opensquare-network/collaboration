@@ -11,11 +11,8 @@ const chains = {
   astarEvm: "astar_evm",
   darwinia: "darwinia",
   shiden: "shiden",
-  altair: "altair",
   hydradx: "hydradx",
   hydration: "hydration",
-  moonbeam: "moonbeam",
-  moonriver: "moonriver",
   creditcoin: "creditcoin",
   creditcoinNative: "creditcoin_native",
 };
@@ -26,8 +23,6 @@ const twelveSecond = 12 * oneSecond;
 const thirteenSecond = 13 * oneSecond;
 
 const evmChains = Object.freeze({
-  moonriver: "moonriver",
-  moonbeam: "moonbeam",
   ethereum: "ethereum",
   creditcoin_evm: "creditcoin_evm",
   astar_evm: "astar_evm",
@@ -44,21 +39,16 @@ const chainBlockTime = {
   bifrost: twelveSecond,
   [chains.acala]: twelveSecond,
   [chains.darwinia]: sixSecond,
-  [chains.altair]: twelveSecond,
   [chains.shiden]: twelveSecond,
   [chains.hydradx]: twelveSecond,
   [chains.hydration]: twelveSecond,
-  [evmChains.moonriver]: twelveSecond,
-  [evmChains.moonbeam]: twelveSecond,
   [evmChains.ethereum]: thirteenSecond,
   [evmChains.creditcoin_evm]: twelveSecond,
 };
 
 const symbols = {
-  RMRK: "RMRK",
   KSM: "KSM",
   ARIS: "ARIS",
-  KINT: "KINT",
   KAR: "KAR",
   BNC: "BNC",
   LKSM: "LKSM",

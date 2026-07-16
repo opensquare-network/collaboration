@@ -12,11 +12,8 @@ const chainEndpointPrefixMap = {
   [chains.astar]: "ASTR",
   [chains.darwinia]: "RING",
   [chains.shiden]: "SDN",
-  [chains.altair]: "AIR",
   [chains.hydradx]: "HDX",
   [chains.hydration]: "HDX",
-  [chains.moonbeam]: "GLMR",
-  [chains.moonriver]: "MOVR",
   [chains.creditcoin]: "CTC",
   [chains.creditcoinNative]: "CTC_CC3",
 };

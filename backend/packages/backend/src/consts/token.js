@@ -1,6 +1,5 @@
 const { networks } = require("./networks");
 const tokens = Object.freeze({
-  RMRK: "RMRK",
   KSM: "KSM",
   DOT: "DOT",
   KAR: "KAR",
@@ -10,7 +9,6 @@ const tokens = Object.freeze({
 });
 
 const tokenParentChain = Object.freeze({
-  [tokens.RMRK]: networks.statemine,
   [tokens.KSM]: networks.kusama,
   [tokens.DOT]: networks.polkadot,
   [tokens.KAR]: networks.karura,
