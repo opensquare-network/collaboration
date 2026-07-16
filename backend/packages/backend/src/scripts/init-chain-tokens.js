@@ -8,17 +8,14 @@ const TokenType = {
 };
 
 const karuraTokens = [
-  { symbol: "RMRK", decimals: 10, type: TokenType.ORML },
   { symbol: "KSM", decimals: 12, type: TokenType.ORML },
   { symbol: "ARIS", decimals: 8, type: TokenType.ORML },
-  { symbol: "KINT", decimals: 12, type: TokenType.ORML },
   { symbol: "BNC", decimals: 12, type: TokenType.ORML },
   { symbol: "LKSM", decimals: 12, type: TokenType.ORML },
   { symbol: "taiKSM", decimals: 12, type: TokenType.ORML },
 ];
 
 const bifrostTokens = [
-  { symbol: "RMRK", decimals: 10, type: TokenType.ORML },
   { symbol: "KSM", decimals: 12, type: TokenType.ORML },
   { symbol: "KAR", decimals: 12, type: TokenType.ORML },
 ];

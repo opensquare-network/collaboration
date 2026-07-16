@@ -10,6 +10,13 @@ const chainNetworks = [
   "parallel",
   "darwinia",
   "litmus",
+  "interlay",
+  "kintsugi",
+  "centrifuge",
+  "basilisk",
+  "phala",
+  "moonbeam",
+  "moonriver",
 ];
 
 if (!Array.isArray(chainNetworks) || chainNetworks.length === 0) {

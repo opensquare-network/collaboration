@@ -18,10 +18,6 @@ const tokens = {
     chain: chains.polkadot,
     isNative: true,
   },
-  rmrk: {
-    ...statemineAssetCommon,
-    assetId: 8,
-  },
   kar: {
     isChain: true,
     chain: chains.karura,

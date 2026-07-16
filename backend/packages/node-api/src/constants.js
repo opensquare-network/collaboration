@@ -47,10 +47,8 @@ const chainBlockTime = {
 };
 
 const symbols = {
-  RMRK: "RMRK",
   KSM: "KSM",
   ARIS: "ARIS",
-  KINT: "KINT",
   KAR: "KAR",
   BNC: "BNC",
   LKSM: "LKSM",
