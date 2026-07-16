@@ -4,13 +4,14 @@ const { Accessibility } = require("../../consts/space");
 
 const config = {
   id: "stafi",
+  inactive: true,
   name: "StaFi",
   symbol: "VOTE",
   decimals: 18,
   accessibility: Accessibility.PUBLIC,
   networks: [
     {
-      network: networks.stafi,
+      network: "stafi",
       ss58Format: 20,
       assets: [
         {

@@ -3,13 +3,14 @@ const { networks, strategies } = require("./consts");
 
 const config = {
   id: "kintsugi",
+  inactive: true,
   name: "Kintsugi",
   symbol: "KINT",
   decimals: 12,
   accessibility: Accessibility.PUBLIC,
   networks: [
     {
-      network: networks.kintsugi,
+      network: "kintsugi",
       ss58Format: 2092,
       assets: [
         {

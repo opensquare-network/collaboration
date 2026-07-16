@@ -1,15 +1,16 @@
 const { Accessibility } = require("../../consts/space");
-const { networks, strategies } = require("./consts");
+const { strategies } = require("./consts");
 
 const centrifugeConfig = {
-  id: networks.centrifuge,
+  id: "centrifuge",
+  inactive: true,
   name: "Centrifuge",
   symbol: "CFG",
   decimals: 18,
   accessibility: Accessibility.PUBLIC,
   networks: [
     {
-      network: networks.centrifuge,
+      network: "centrifuge",
       ss58Format: 36,
       assets: [
         {

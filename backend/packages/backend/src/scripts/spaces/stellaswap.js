@@ -3,6 +3,7 @@ const { networks, strategies } = require("./consts");
 
 const stellaSwapConfig = {
   id: "stellaswap",
+  inactive: true,
   name: "StellaSwap",
   symbol: "xStella",
   decimals: 18,

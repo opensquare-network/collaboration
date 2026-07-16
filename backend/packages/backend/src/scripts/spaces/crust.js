@@ -4,13 +4,14 @@ const { Accessibility } = require("../../consts/space");
 
 const config = {
   id: "crust",
+  inactive: true,
   name: "Crust",
   symbol: "CRU",
   decimals: 12,
   accessibility: Accessibility.PUBLIC,
   networks: [
     {
-      network: networks.crust,
+      network: "crust",
       ss58Format: 66,
       assets: [
         {

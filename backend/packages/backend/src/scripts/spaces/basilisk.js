@@ -1,15 +1,16 @@
 const { Accessibility } = require("../../consts/space");
-const { networks, strategies } = require("./consts");
+const { strategies } = require("./consts");
 
 const basiliskConfig = {
   id: "basilisk",
+  inactive: true,
   name: "Basilisk",
   symbol: "BSX",
   decimals: 12,
   accessibility: Accessibility.PUBLIC,
   networks: [
     {
-      network: networks.basilisk,
+      network: "basilisk",
       ss58Format: 10041,
       assets: [
         {

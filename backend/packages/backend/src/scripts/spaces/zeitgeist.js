@@ -1,15 +1,16 @@
 const { Accessibility } = require("../../consts/space");
-const { networks, strategies } = require("./consts");
+const { strategies } = require("./consts");
 
 const ztgConfig = {
   id: "zeitgeist",
+  inactive: true,
   name: "Zeitgeist",
   symbol: "ZTG",
   decimals: 10,
   accessibility: Accessibility.PUBLIC,
   networks: [
     {
-      network: networks.zeitgeist,
+      network: "zeitgeist",
       ss58Format: 73,
       assets: [
         {

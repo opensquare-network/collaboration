@@ -1,6 +1,5 @@
 const Router = require("koa-router");
 const requireSignature = require("../../middleware/require-signature");
-const { getAverageTurnout } = require("./getAverageTurnout");
 const { saveProposalSettings } = require("./saveProposalSettings");
 const { getProposalSettings } = require("./getProposalSettings");
 const { createProposal } = require("./createProposal");
@@ -48,6 +47,5 @@ router.get(
   "/proposal/:proposalCid/voterbalance/:network/:address",
   getVoterBalance,
 );
-router.get("/proposals/average-turnout", getAverageTurnout);
 
 module.exports = router;
