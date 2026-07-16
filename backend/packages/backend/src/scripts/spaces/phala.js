@@ -3,13 +3,14 @@ const { networks, strategies } = require("./consts");
 
 const phalaConfig = {
   id: "phala",
+  inactive: true,
   name: "Phala",
   symbol: "PHA",
   decimals: 12,
   accessibility: Accessibility.PUBLIC,
   networks: [
     {
-      network: networks.phala,
+      network: "phala",
       ss58Format: 30,
       assets: [
         {
@@ -20,7 +21,7 @@ const phalaConfig = {
       ],
     },
     {
-      network: networks.khala,
+      network: "khala",
       ss58Format: 30,
       assets: [
         {

@@ -3,6 +3,7 @@ const { strategies } = require("./consts");
 
 const config = {
   id: "polkadex",
+  inactive: true,
   name: "Polkadex",
   symbol: "PDEX",
   decimals: 12,

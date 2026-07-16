@@ -13,6 +13,12 @@ const spaceIds = [
   "basilisk",
   "rmrk",
   "rmrk-curation",
+  "crab",
+  "turing",
+  "rococo",
+  "polkadex",
+  "khala",
+  "phala",
 ];
 
 async function main() {
